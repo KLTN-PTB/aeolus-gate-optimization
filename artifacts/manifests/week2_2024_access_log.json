@@ -1,0 +1,40 @@
+{
+  "log_version": "v1",
+  "scope": "Known Week-2 2024 raw/processed data accesses reconstructed from generated manifests.",
+  "policy_note": "New access-guard decisions are timestamped by project logging; this file preserves the manifest-backed historical record before persistent access-log output existed.",
+  "year": 2024,
+  "entries": [
+    {
+      "operation": "schema_audit_2024",
+      "purpose": "schema_audit",
+      "timestamp_utc": "2026-08-23T13:56:48.876248+00:00",
+      "allowed": true,
+      "reason": "Structural/data-quality audit only; no model-development decision.",
+      "evidence": "filesystem metadata for artifacts/manifests/schema_audit/schema_2024.json"
+    },
+    {
+      "operation": "airport_index_mapping_audit_2024",
+      "purpose": "schema_audit",
+      "timestamp_utc": "2026-08-23T14:02:06.069744+00:00",
+      "allowed": true,
+      "reason": "Streaming schema-only airport-code/index mapping audit.",
+      "evidence": "artifacts/manifests/airport_index_mapping_audit.json"
+    },
+    {
+      "operation": "materialize_canonical_holdout_2024",
+      "purpose": "canonicalize_holdout",
+      "timestamp_utc": "2026-08-23T15:06:34.504258+00:00",
+      "allowed": true,
+      "reason": "Sealed canonical/ATL partition materialization; no model fit, HPO, or performance access.",
+      "evidence": "artifacts/manifests/processed_data_manifest_v1.json"
+    },
+    {
+      "operation": "flight_chain_container_audit_2024",
+      "purpose": "schema_audit",
+      "timestamp_utc": "2026-08-23T15:43:02.641183+00:00",
+      "allowed": true,
+      "reason": "Archive/container structure only; tensor payload and model performance were not read.",
+      "evidence": "artifacts/manifests/flight_chain_structure_audit_v1.json"
+    }
+  ]
+}

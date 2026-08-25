@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Aeolus raw / generated datasets
+data/raw/**
+data/processed/**
+data/simulation/**
+
+# Generated artifacts/results
+# Large/generated artifacts
+artifacts/models/**
+artifacts/predictions/**
+artifacts/optuna_studies/**
+
+# Reproducibility manifests SHOULD be version controlled
+!artifacts/manifests/
+!artifacts/manifests/**
+results/**
+
+# Model / data artifacts
+*.joblib
+*.pkl
+*.pickle
+*.parquet
+
+# Logs
+*.log
+logs/

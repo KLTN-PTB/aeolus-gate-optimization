@@ -1,0 +1,70 @@
+project:
+  name: aeolus-gate-optimization
+  version: 0.1.0
+
+data:
+  years: "2016-2024"
+  hub: ATL
+  raw_tabular_path: data/raw/tabular
+  raw_chain_path: data/raw/chain
+  processed_path: data/processed
+
+prediction:
+  cutoff_hours_before_crs_dep: 2
+  classification_threshold_minutes: 15
+  regression_target: ARR_DELAY
+  signed_regression: true
+
+temporal:
+  development_years: "2016-2022"
+  model_selection_year: 2023
+  final_holdout_year: 2024
+  rolling_folds:
+    implementation_decision: expanding_window_v1
+    folds:
+      - id: fold_1
+        train_years: [2016, 2017, 2018]
+        validation_year: 2019
+      - id: fold_2
+        train_years: [2016, 2017, 2018, 2019]
+        validation_year: 2020
+      - id: fold_3
+        train_years: [2016, 2017, 2018, 2019, 2020]
+        validation_year: 2021
+      - id: fold_4
+        train_years: [2016, 2017, 2018, 2019, 2020, 2021]
+        validation_year: 2022
+
+flows:
+  inbound:
+    filter: DEST=ATL
+    role: machine_learning
+  outbound:
+    filter: ORIGIN=ATL
+    role: simulation
+
+flight_chain:
+  enabled_by_default: false
+  status: no_go
+  include_in_core: false
+  week6_ablation: false
+
+models:
+  core_methods:
+    - linear
+    - random_forest
+    - hist_gradient_boosting
+    - xgboost
+    - weighted_ensemble
+
+simulation:
+  synthetic_aircraft_only: true
+  default_contact_gates: 30
+  scenario_scales:
+    - 100
+    - 200
+    - 300
+
+reproducibility:
+  project_seed: 202601
+  seed_status: implementation_default_not_scientific_claim

@@ -1,0 +1,473 @@
+{
+  "airport_index": {
+    "DEST_INDEX": {
+      "cardinality": 312,
+      "exists": true
+    },
+    "ORIGIN_INDEX": {
+      "cardinality": 312,
+      "exists": true
+    }
+  },
+  "arr_delay": {
+    "available": true,
+    "distribution": {
+      "max": 2189.0,
+      "mean": 4.321907497159189,
+      "min": -238.0,
+      "population_std": 45.85393432665109
+    },
+    "finite_count": 5575872,
+    "gte_15": {
+      "count": 1028626,
+      "rate_among_finite": 0.18447805114608082
+    },
+    "invalid_or_nonfinite_count": 0,
+    "missing_count": 0
+  },
+  "audit_version": "0.1.0",
+  "categorical_cardinality": {
+    "DEST": 312,
+    "DEST_INDEX": 312,
+    "OP_CARRIER": 12,
+    "ORIGIN": 312,
+    "ORIGIN_INDEX": 312
+  },
+  "chunk_size": 250000,
+  "chunks_processed": 23,
+  "column_count": 34,
+  "column_order": [
+    "FL_DATE",
+    "OP_CARRIER",
+    "OP_CARRIER_FL_NUM",
+    "ORIGIN",
+    "DEST",
+    "CRS_DEP_TIME",
+    "DEP_TIME",
+    "DEP_DELAY",
+    "TAXI_OUT",
+    "WHEELS_OFF",
+    "WHEELS_ON",
+    "TAXI_IN",
+    "CRS_ARR_TIME",
+    "ARR_TIME",
+    "ARR_DELAY",
+    "CRS_ELAPSED_TIME",
+    "ACTUAL_ELAPSED_TIME",
+    "AIR_TIME",
+    "FLIGHTS",
+    "MONTH",
+    "DAY_OF_MONTH",
+    "DAY_OF_WEEK",
+    "ORIGIN_INDEX",
+    "DEST_INDEX",
+    "O_TEMP",
+    "O_PRCP",
+    "O_WSPD",
+    "D_TEMP",
+    "D_PRCP",
+    "D_WSPD",
+    "O_LATITUDE",
+    "O_LONGITUDE",
+    "D_LATITUDE",
+    "D_LONGITUDE"
+  ],
+  "columns": [
+    "FL_DATE",
+    "OP_CARRIER",
+    "OP_CARRIER_FL_NUM",
+    "ORIGIN",
+    "DEST",
+    "CRS_DEP_TIME",
+    "DEP_TIME",
+    "DEP_DELAY",
+    "TAXI_OUT",
+    "WHEELS_OFF",
+    "WHEELS_ON",
+    "TAXI_IN",
+    "CRS_ARR_TIME",
+    "ARR_TIME",
+    "ARR_DELAY",
+    "CRS_ELAPSED_TIME",
+    "ACTUAL_ELAPSED_TIME",
+    "AIR_TIME",
+    "FLIGHTS",
+    "MONTH",
+    "DAY_OF_MONTH",
+    "DAY_OF_WEEK",
+    "ORIGIN_INDEX",
+    "DEST_INDEX",
+    "O_TEMP",
+    "O_PRCP",
+    "O_WSPD",
+    "D_TEMP",
+    "D_PRCP",
+    "D_WSPD",
+    "O_LATITUDE",
+    "O_LONGITUDE",
+    "D_LATITUDE",
+    "D_LONGITUDE"
+  ],
+  "config_version": "0.1.0",
+  "dry_run_max_rows": null,
+  "duplicate_rows": {
+    "collision_caveat": "Two 64-bit hashes are used; collision risk is negligible but non-zero.",
+    "count": 0,
+    "indicator": false,
+    "strategy": "sqlite_pandas_dualhash128_streaming"
+  },
+  "execution_backend": "pandas_chunked",
+  "fl_date": {
+    "available": true,
+    "invalid_nonmissing_count": 0,
+    "max": "2017-12-31",
+    "min": "2017-01-01"
+  },
+  "generated_at_utc": "2026-08-23T13:25:24.953801+00:00",
+  "is_complete": true,
+  "missing": {
+    "ACTUAL_ELAPSED_TIME": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "AIR_TIME": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "ARR_DELAY": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "ARR_TIME": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "CRS_ARR_TIME": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "CRS_DEP_TIME": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "CRS_ELAPSED_TIME": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "DAY_OF_MONTH": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "DAY_OF_WEEK": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "DEP_DELAY": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "DEP_TIME": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "DEST": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "DEST_INDEX": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "D_LATITUDE": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "D_LONGITUDE": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "D_PRCP": {
+      "count": 1154,
+      "rate": 0.0002069631440606958
+    },
+    "D_TEMP": {
+      "count": 1154,
+      "rate": 0.0002069631440606958
+    },
+    "D_WSPD": {
+      "count": 1154,
+      "rate": 0.0002069631440606958
+    },
+    "FLIGHTS": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "FL_DATE": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "MONTH": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "OP_CARRIER": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "OP_CARRIER_FL_NUM": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "ORIGIN": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "ORIGIN_INDEX": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "O_LATITUDE": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "O_LONGITUDE": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "O_PRCP": {
+      "count": 980,
+      "rate": 0.00017575726272052157
+    },
+    "O_TEMP": {
+      "count": 980,
+      "rate": 0.00017575726272052157
+    },
+    "O_WSPD": {
+      "count": 980,
+      "rate": 0.00017575726272052157
+    },
+    "TAXI_IN": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "TAXI_OUT": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "WHEELS_OFF": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "WHEELS_ON": {
+      "count": 0,
+      "rate": 0.0
+    }
+  },
+  "numeric_quality": {
+    "ACTUAL_ELAPSED_TIME": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "AIR_TIME": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "ARR_DELAY": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "CRS_ELAPSED_TIME": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "DAY_OF_MONTH": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "DAY_OF_WEEK": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "DEP_DELAY": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "DEST_INDEX": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "D_LATITUDE": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "D_LONGITUDE": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "D_PRCP": {
+      "inf_count": 0,
+      "nan_count": 1154,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5574718
+    },
+    "D_TEMP": {
+      "inf_count": 0,
+      "nan_count": 1154,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5574718
+    },
+    "D_WSPD": {
+      "inf_count": 0,
+      "nan_count": 1154,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5574718
+    },
+    "FLIGHTS": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "MONTH": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "OP_CARRIER_FL_NUM": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "ORIGIN_INDEX": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "O_LATITUDE": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "O_LONGITUDE": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "O_PRCP": {
+      "inf_count": 0,
+      "nan_count": 980,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5574892
+    },
+    "O_TEMP": {
+      "inf_count": 0,
+      "nan_count": 980,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5574892
+    },
+    "O_WSPD": {
+      "inf_count": 0,
+      "nan_count": 980,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5574892
+    },
+    "TAXI_IN": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    },
+    "TAXI_OUT": {
+      "inf_count": 0,
+      "nan_count": 0,
+      "non_numeric_nonmissing_count": 0,
+      "nonmissing_numeric_count": 5575872
+    }
+  },
+  "observed_dtypes": {
+    "ACTUAL_ELAPSED_TIME": "float",
+    "AIR_TIME": "float",
+    "ARR_DELAY": "float",
+    "ARR_TIME": "string",
+    "CRS_ARR_TIME": "string",
+    "CRS_DEP_TIME": "string",
+    "CRS_ELAPSED_TIME": "float",
+    "DAY_OF_MONTH": "integer",
+    "DAY_OF_WEEK": "integer",
+    "DEP_DELAY": "float",
+    "DEP_TIME": "string",
+    "DEST": "string",
+    "DEST_INDEX": "integer",
+    "D_LATITUDE": "float",
+    "D_LONGITUDE": "float",
+    "D_PRCP": "float",
+    "D_TEMP": "float",
+    "D_WSPD": "float",
+    "FLIGHTS": "float",
+    "FL_DATE": "string",
+    "MONTH": "integer",
+    "OP_CARRIER": "string",
+    "OP_CARRIER_FL_NUM": "float",
+    "ORIGIN": "string",
+    "ORIGIN_INDEX": "integer",
+    "O_LATITUDE": "float",
+    "O_LONGITUDE": "float",
+    "O_PRCP": "float",
+    "O_TEMP": "float",
+    "O_WSPD": "float",
+    "TAXI_IN": "float",
+    "TAXI_OUT": "float",
+    "WHEELS_OFF": "string",
+    "WHEELS_ON": "string"
+  },
+  "resumed": false,
+  "row_count": 5575872,
+  "runtime_seconds": 252.669,
+  "schema_difference": {
+    "column_order_matches": true,
+    "dtype_differences": {},
+    "extra_in_observed": [],
+    "missing_from_observed": [],
+    "reference_provided": true
+  },
+  "source_signature": {
+    "file_size_bytes": 1549837485,
+    "modified_time_ns": 1787484841257974800,
+    "modified_time_utc": "2026-08-23T11:34:01.257975+00:00",
+    "source_relative_path": "data/raw/tabular/2017/flight_with_weather_2017.csv"
+  },
+  "weather_columns": [
+    "O_TEMP",
+    "O_PRCP",
+    "O_WSPD",
+    "D_TEMP",
+    "D_PRCP",
+    "D_WSPD"
+  ],
+  "year": 2017
+}
