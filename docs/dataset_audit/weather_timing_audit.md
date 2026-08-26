@@ -105,3 +105,23 @@ The absence of usable core weather is not a project failure; schedule-only remai
 - Original weather extraction/join code and its version.
 
 None of these unknowns may be resolved from value distributions or model performance.
+
+## V4 architecture addendum — 2026-08-26
+
+E002 remains unchanged: the six raw Aeolus Weather columns retain
+`INSUFFICIENT_EVIDENCE` and policy `DROP` for both Core Arrival and Auxiliary
+Departure predictors. This addendum does not promote those fields, call them
+forecasts, or authorize heuristic lags.
+
+V4 introduces a separate, auxiliary outbound Departure research branch:
+Schedule-only versus Schedule plus audited point-in-time Weather. That branch
+requires a separately sourced and versioned artifact such as
+`weather_point_in_time_v1`, governed by
+`point_in_time_weather_plan_v1.md`. Its current status is `AUDIT_REQUIRED` and
+disabled. It is not canonical Aeolus Weather and does not feed Core Arrival or
+the downstream gate optimizer.
+
+If the future source cannot prove
+`information_available_time <= CRS_DEP_TIME - 2 hours`, the auxiliary Weather
+experiment is blocked and recorded as a limitation; the core Arrival thesis
+continues.

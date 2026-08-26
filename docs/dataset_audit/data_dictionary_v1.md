@@ -2,7 +2,12 @@
 
 ## Status and contract
 
-V1 is evidence-based on the complete 2016–2024 schema audit, canonical schema v1, cross-year airport-index mapping audit, processed ATL partitions, and V3 prediction contract. It supersedes V0 for Week-2 leakage status but does not replace the canonical storage schema.
+V1 is evidence-based on the complete 2016–2024 schema audit, canonical schema
+v1, cross-year airport-index mapping audit, processed ATL partitions, and the
+historical V3 prediction contract used in Week 2. It supersedes V0 for Week-2
+leakage status but does not replace the canonical storage schema. The dated V4
+addendum below defines current task-specific interpretation without rewriting
+the evidence table.
 
 Core cutoff: `T_cutoff = CRS_DEP_TIME - 2 hours`. Statuses are `SAFE`, `TARGET`, `LEAKAGE`, `UNCERTAIN`, `INSUFFICIENT_EVIDENCE`, `IDENTIFIER_ONLY`, `DROP_CONSTANT`, and `CONDITIONAL`. For weather, `INSUFFICIENT_EVIDENCE` triggers the fail-closed core policy `DROP`; it does not assert that a specific future timestamp was used.
 
@@ -61,3 +66,47 @@ All canonical fields are present in 2016–2024 with compatible dtype/order. “
 - IDENTIFIER_ONLY: 3 processed traceability fields.
 
 No feature was promoted using target distribution, correlation, model importance, or 2024 performance.
+
+## V4 task-specific addendum — 2026-08-26
+
+The storage schema is unchanged. The current predictor/target interpretation is
+task-aware:
+
+| Field family | Core Arrival `DEST=ATL` | Auxiliary Departure `ORIGIN=ATL` |
+|---|---|---|
+| `ARR_DELAY`, `y_arr_cls`, `y_arr_reg` | TARGET | LEAKAGE / FUTURE_OUTCOME |
+| `DEP_DELAY`, `y_dep_cls` | LEAKAGE | TARGET |
+| Other actual-operation fields | LEAKAGE | LEAKAGE |
+| Six raw Aeolus Weather fields | `INSUFFICIENT_EVIDENCE`, DROP | `INSUFFICIENT_EVIDENCE`, DROP |
+| `DEST`, `DEST_INDEX`, `D_LATITUDE`, `D_LONGITUDE` | DROP_CONSTANT | `DEST` SAFE; index/coordinates CONDITIONAL |
+| `ORIGIN`, `ORIGIN_INDEX`, `O_LATITUDE`, `O_LONGITUDE` | `ORIGIN` SAFE; index/coordinates CONDITIONAL | DROP_CONSTANT |
+| Traceability identifiers | IDENTIFIER_ONLY | IDENTIFIER_ONLY |
+
+`y_cls` in the historical Week-2 table is superseded for new code by
+`y_arr_cls`; signed Arrival regression uses `y_arr_reg`; Departure uses
+`y_dep_cls`. `DEP_DELAY` becomes a target only for the auxiliary task and
+remains forbidden for Core Arrival.
+
+Core Arrival uses no Weather. External `weather_point_in_time_v1` is a separate
+future source, not a canonical Aeolus column family; it remains
+`AUDIT_REQUIRED` and disabled until an explicit audited contract is approved.
+Unknown fields and unknown tasks fail closed. No evidence or stored row was
+changed by this addendum.
+
+## Week 3A implementation addendum — 2026-08-26
+
+Core Arrival Week 3A implements the SAFE Schedule/Calendar/Carrier/Route
+information set with a stricter fail-closed feature contract. `FL_DATE` and
+`CRS_DEP_TIME` are source-only inputs for calendar/departure-clock features and
+the T-2h cutoff. Existing `MONTH`, `DAY_OF_MONTH`, and `DAY_OF_WEEK` values are
+checked against `FL_DATE`. `CRS_ELAPSED_TIME` is retained as the audited
+scheduled-duration predictor.
+
+Although `CRS_ARR_TIME` remains scheduled information, the canonical audit
+does not prove its overnight/date-rollover semantics. Week 3A therefore marks
+it `REVIEW_REQUIRED` for derived use and does not create a naive elapsed-time
+or overnight feature. `ORIGIN_INDEX` and origin coordinates also remain under
+review and are excluded; `ORIGIN` code supplies categorical route context.
+`FLIGHTS`, Weather, actual operations, identifiers, Departure outcomes, and
+inbound destination constants remain excluded. No status was promoted from a
+model result, 2023, or 2024.

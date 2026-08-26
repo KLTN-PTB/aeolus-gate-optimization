@@ -11,4 +11,9 @@ The logical canonical `string` type is materialized by the selected Pandas/PyArr
 | `OP_CARRIER_FL_NUM`, `DEP_DELAY`, `TAXI_OUT`, `TAXI_IN`, `ARR_DELAY`, `CRS_ELAPSED_TIME`, `ACTUAL_ELAPSED_TIME`, `AIR_TIME`, `FLIGHTS`, `O_TEMP`, `O_PRCP`, `O_WSPD`, `D_TEMP`, `D_PRCP`, `D_WSPD`, `O_LATITUDE`, `O_LONGITUDE`, `D_LATITUDE`, `D_LONGITUDE` | float64 | yes: numeric validation | numeric measurement/target candidate |
 | `MONTH`, `DAY_OF_MONTH`, `DAY_OF_WEEK`, `ORIGIN_INDEX`, `DEST_INDEX` | Int64 nullable | yes: nullable integer cast | calendar/index fields |
 
-`ARR_DELAY` remains a schema target field; final prediction-time safety is governed by the data dictionary/leakage audit. Actual-operation fields remain present because canonicalization does not perform model-driven exclusion.
+Under the historical Week-2 Arrival contract, `ARR_DELAY` was the schema target
+field. V4 does not change storage: `ARR_DELAY` is the Core Arrival target and
+`DEP_DELAY` is the Auxiliary Departure classification target. Each remains
+forbidden in the other task's predictors. Final prediction-time safety is
+governed by the task-aware data dictionary/leakage audit; canonicalization does
+not perform model-driven exclusion.

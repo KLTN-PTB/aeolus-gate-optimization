@@ -1,0 +1,73 @@
+policy_version: reconstructed_chain_feature_availability_v1
+source_artifact: schedule_chain_v1
+current_status: AUDIT_COMPLETE
+audit_result: NO_KEEP_SAFE_FEATURES
+audit_result_version: reconstructed_chain_feature_availability_audit_v1
+audit_result_path: artifacts/manifests/reconstructed_chain_feature_availability_audit_v1.json
+ml_enabled: false
+arr_b_enabled: false
+keep_safe_feature_count: 0
+diagnostic_materialization_allowed: true
+diagnostic_materialization_executed: false
+ml_materialization_allowed: false
+ml_branch_status: BLOCKED_PENDING_NEW_EVIDENCE
+closure_status: COMPLETED_WITH_BLOCKED_ML_BRANCH
+availability_gate_required: true
+prediction_cutoff_hours_before_target_crs_dep: 2
+
+substage_disposition:
+  "3B.0": COMPLETED_PASS
+  "3B.1": SKIPPED_NOT_REQUIRED_FOR_ML
+  "3B.2": COMPLETED_THROUGH_E006
+  "3B.3": SKIPPED_OPTIONAL_DIAGNOSTIC
+  "3B.4": COMPLETED_PASS
+
+materialization_decision:
+  status: SKIPPED_OPTIONAL_DIAGNOSTIC
+  reason: NO_KEEP_SAFE_FEATURES
+
+status_vocabulary:
+  - KEEP_SAFE
+  - REVIEW_REQUIRED
+  - BLOCKED_UNTIL_PROVEN
+  - DROP
+  - IDENTIFIER_ONLY
+
+groups:
+  target_or_position_local:
+    status: REVIEW_REQUIRED
+    features:
+      - chain_position
+      - legs_before_target
+      - is_first_chain_leg
+
+  past_context:
+    status: REVIEW_REQUIRED
+    features:
+      - minutes_from_chain_first_departure
+      - minutes_since_previous_scheduled_departure
+      - has_previous_chain_leg
+      - previous_leg_destination_matches_target_origin
+
+  future_or_full_chain:
+    status: BLOCKED_UNTIL_PROVEN
+    features:
+      - is_single_leg_chain
+      - chain_length
+      - legs_after_target
+      - is_last_chain_leg
+      - chain_length_gt_6
+      - minutes_to_chain_last_departure
+      - minutes_to_next_scheduled_departure
+      - has_next_chain_leg
+      - next_leg_origin_matches_target_destination
+      - chain_schedule_span_minutes
+      - chain_position_fraction
+
+  identifiers:
+    status: IDENTIFIER_ONLY
+    features:
+      - flight_key
+      - chain_id
+      - source_year
+      - source_row_number

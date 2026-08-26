@@ -117,3 +117,182 @@
 
 - `FLIGHTS` semantics and cancelled/diverted generation/representation remain unresolved and fail-closed where relevant.
 - Simulation, risk-buffer, gate-mix, objective, solver, SA, and robustness parameters remain TBD for their roadmap stages; none were selected in Week 2.
+
+## Research protocol amendment — V4 Dual Prediction Architecture
+
+- **Date:** 2026-08-26
+- **Type:** Research protocol amendment
+- **Version:** V4 / 4.0
+- **Reason:** Separate Core Arrival prediction from an Auxiliary Departure
+  point-in-time Weather study.
+- **Status:** Baseline/config/leakage/documentation migration only. No model was
+  trained, no feature engineering was performed, and no experiment result was
+  produced.
+
+### Amendment record
+
+- Core remains inbound `DEST=ATL` Arrival classification (`ARR_DELAY >= 15`)
+  plus signed `ARR_DELAY` regression, with no Weather.
+- Auxiliary is outbound `ORIGIN=ATL` Departure classification
+  (`DEP_DELAY >= 15`) with a future controlled Schedule-only versus Schedule +
+  audited point-in-time Weather comparison; Departure regression is out of
+  scope.
+- The six raw Aeolus Weather fields retain E002
+  `INSUFFICIENT_EVIDENCE`/`DROP`. External point-in-time Weather is a separate
+  disabled `AUDIT_REQUIRED` source plan.
+- Raw Flight Chain `.pt` retains E003 `FINAL — NO_GO`; reconstructed
+  `schedule_chain_v1` retains E005 `GO_FOR_ABLATION` and remains disabled by
+  default.
+- Only Core Arrival prediction feeds downstream simulation/optimization.
+- No model result was used to make this change. 2024 row-level data and target
+  distributions were not accessed or used for decision making.
+
+## Pre-Week-3 research protocol hardening — Chain feature availability
+
+- **Date:** 2026-08-26
+- **Type:** Pre-Week-3 research protocol hardening
+- **Reason:** Separate dataset-level reconstructed Chain validity from
+  feature-level point-in-time predictor admissibility.
+- **Model results used:** NO
+- **2023 results used:** NO
+- **2024 results used:** NO
+- **Data regenerated:** NO
+
+### Hardening record
+
+- Preserved `schedule_chain_v1` as `FULL_DATA_PASS / GO_FOR_ABLATION` without
+  changing membership, ordering, identifiers, or production artifacts.
+- Added D026 and a versioned fail-closed feature availability policy.
+- Target/position-local and past-context candidates start
+  `REVIEW_REQUIRED`; future/full-chain candidates start
+  `BLOCKED_UNTIL_PROVEN`; identifiers remain `IDENTIFIER_ONLY`.
+- ARR-B and reconstructed feature ML enablement remain disabled. No Week 3A,
+  3B, or 3C implementation, feature derivation, feature artifact generation,
+  model run, ablation, or row-level 2024 access occurred.
+
+## Week 3A — Core Arrival preprocessing
+
+- **Timestamp:** 2026-08-26 17:04 +07:00
+- **Protocol:** V4.0 Dual Prediction Architecture
+- **Status:** COMPLETED; preprocessing transformers only, no predictive model.
+- **Environment:** Python 3.11.15; scikit-learn 1.9.0.
+- **Source schema:** `canonical_schema_v1`.
+- **Temporal protocol:** `expanding_window_v1`; four folds within 2016–2022.
+- **Tests:** 193 passed at implementation closeout.
+- **Model trained:** NO.
+- **2023 fit:** NO.
+- **2024 row access:** NO.
+- **Weather:** excluded.
+- **Reconstructed Chain:** excluded from base matrix; ARR-B remains disabled.
+
+### Implementation record
+
+- Added exact `y_arr_cls = 1[ARR_DELAY >= 15]` and signed `y_arr_reg` label
+  construction. Missing targets are dropped and counted; no target imputation,
+  absolute-value conversion, or clipping is permitted.
+- Locked one common Schedule/Calendar/Carrier/Route information set. Weather,
+  Departure outcomes/predictions, realized operations, identifiers, `FLIGHTS`,
+  airport indices/conditional coordinates, and inbound ATL constants are not
+  predictors. Unknown raw fields fail closed.
+- Added linear and tree/boosting transformer families. Every median, missing
+  indicator, scale, category vocabulary, ordinal code, and non-target
+  flight-number frequency map is fitted on fold training rows only.
+- Versioned `feature_manifest_arrival_v1`,
+  `feature_pipeline_registry_arrival_v1`, and
+  `outlier_and_simulation_guard_v1`.
+
+### Bounded real-data validation
+
+- Reproducible command: `.\.venv\Scripts\python.exe scripts/smoke_week3a_preprocessing.py`.
+- Training-like scope: 1,024 projected inbound rows from 2016, read in batches
+  of 256.
+- Validation-like scope: 512 projected inbound rows from 2019, read in batches
+  of 256.
+- Projected columns: 14; approved predictors: 11.
+- `fit(train_2016)` then `transform(train_2016)` and
+  `transform(validation_2019)` succeeded for linear and tree families.
+- Fitted medians and categorical vocabularies were unchanged after validation
+  transform; identifier and target alignment passed; 732 negative signed
+  regression targets were preserved in the training-like batch.
+- No estimator, metric, feature-importance, model-selection, Chain, Weather,
+  2023, or 2024 operation was performed.
+
+## Week 3B.0 — Chain Feature Point-in-Time Availability Audit
+
+- **Timestamp:** 2026-08-26 17:48 +07:00
+- **Protocol:** V4.0 Dual Prediction Architecture; D026.
+- **Source artifact:** `schedule_chain_v1` (`FULL_DATA_PASS /
+  GO_FOR_ABLATION`).
+- **Candidate features audited:** 18.
+- **Final counts:** `KEEP_SAFE=0`, `REVIEW_REQUIRED=7`,
+  `BLOCKED_UNTIL_PROVEN=11`, `IDENTIFIER_ONLY=4`.
+- **Evidence used:** existing versioned project documentation/manifests and
+  reconstruction code semantics.
+- **External evidence used:** NO.
+- **Schedule publication/version/snapshot evidence found:** NO.
+- **Model results used:** NO.
+- **2023 performance used:** NO.
+- **2024 row access:** NO.
+- **Feature artifact generated:** NO.
+- **Reconstruction modified or rerun:** NO.
+
+### Audit outcome
+
+- E005 remains a dataset-level `GO_FOR_ABLATION`; E006 independently records
+  that no candidate is currently approved for ML use.
+- Seven local/past features remain `REVIEW_REQUIRED`.
+  `is_single_leg_chain` was tightened to `BLOCKED_UNTIL_PROVEN` because it
+  requires absence of both earlier and future members; ten other
+  future/full-chain features remain blocked.
+- Week 3B.1 may proceed diagnostic-only, and every non-approved output must
+  carry `ML_ADMISSIBLE=false`. ML materialization, ARR-B, and the Chain ML
+  branch remain disabled pending new primary/versioned availability evidence.
+
+## Week 3B closure after E006
+
+- **Timestamp:** 2026-08-26 18:03 +07:00
+- **Protocol:** V4.0 Dual Prediction Architecture; E005/D026/E006 preserved.
+- **Closure status:** `COMPLETED_WITH_BLOCKED_ML_BRANCH`.
+- **3B.0 availability audit:** PASS.
+- **KEEP_SAFE:** 0.
+- **3B.1 derivation:** `SKIPPED_NOT_REQUIRED_FOR_ML`.
+- **3B.2 feature statuses:** `COMPLETED_THROUGH_E006`.
+- **3B.3 materialization:** `SKIPPED_OPTIONAL_DIAGNOSTIC`.
+- **3B.4 ARR-B disabled gate:** PASS.
+- **Chain ML branch:** `BLOCKED_PENDING_NEW_EVIDENCE`.
+- **ARR-B enabled:** NO.
+- **Model trained:** NO.
+- **Feature artifact generated:** NO.
+- **2023 performance used:** NO.
+- **2024 row access:** NO.
+- **Reconstruction modified or rerun:** NO.
+- **Raw `.pt` opened:** NO.
+
+Diagnostic materialization remains permitted by policy only with
+`ML_ADMISSIBLE=false`, but it was not executed because it would not change the
+E006 admissibility result. Core Arrival remains unaffected.
+
+## Week 3C — Auxiliary Weather Contract Preparation
+
+- **Timestamp:** 2026-08-26 18:22 +07:00
+- **Protocol:** V4.0 Dual Prediction Architecture; D022–D024, E002, I004.
+- **Contract version:** `weather_point_in_time_contract_v1`.
+- **External Weather status:** `AUDIT_REQUIRED`; enabled = NO.
+- **Provider selected:** NO (`TBD`).
+- **Weather data downloaded:** NO.
+- **API called:** NO.
+- **Weather joined / feature matrix created:** NO / NO.
+- **Model trained:** NO.
+- **Raw Aeolus Weather promoted:** NO.
+- **2023 performance used:** NO.
+- **2024 row access:** NO.
+- **Core Arrival affected:** NO.
+- **Tests:** synthetic contract tests cover availability-before-cutoff,
+  post-cutoff publication/future issue rejection, timezone awareness,
+  semantic classes, source identity, raw-Weather/Arrival boundaries,
+  duplicate determinism, DEP row parity, and manifest W1–W15 consistency.
+
+Week 3C prepared the provider-agnostic provenance/schema/join decision
+template only. It did not establish `POINT_IN_TIME_WEATHER_PROVENANCE = PASS`.
+An unproven or failed critical gate keeps DEP-B
+`BLOCKED_NOT_CORE_FAILURE`; Core Arrival can proceed to Week 4.

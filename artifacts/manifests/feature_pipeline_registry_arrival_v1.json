@@ -1,0 +1,100 @@
+{
+  "registry_version": "feature_pipeline_registry_arrival_v1",
+  "created_at": "2026-08-26T17:04:26+07:00",
+  "task": "arrival_core",
+  "feature_contract_version": "arrival_feature_contract_v1",
+  "preprocessing_version": "arrival_preprocessing_v1",
+  "input_information_set": "COMMON_ACROSS_MODEL_FAMILIES",
+  "column_groups": {
+    "numeric": [
+      "CRS_ELAPSED_TIME",
+      "calendar_year",
+      "calendar_month",
+      "calendar_day_of_month",
+      "calendar_day_of_week",
+      "is_weekend",
+      "scheduled_departure_hour",
+      "scheduled_departure_minute"
+    ],
+    "categorical": [
+      "OP_CARRIER",
+      "ORIGIN"
+    ],
+    "high_cardinality": [
+      "OP_CARRIER_FL_NUM"
+    ]
+  },
+  "pipelines": {
+    "linear": {
+      "version": "arrival_linear_preprocessor_v1",
+      "input_columns": [
+        "CRS_ELAPSED_TIME",
+        "calendar_year",
+        "calendar_month",
+        "calendar_day_of_month",
+        "calendar_day_of_week",
+        "is_weekend",
+        "scheduled_departure_hour",
+        "scheduled_departure_minute",
+        "OP_CARRIER",
+        "ORIGIN",
+        "OP_CARRIER_FL_NUM"
+      ],
+      "numeric_transformer": "training-fold median imputer + missing indicators + StandardScaler",
+      "categorical_transformer": "training-fold constant sentinel imputer + OneHotEncoder(handle_unknown=ignore)",
+      "high_cardinality_transformer": "training-fold non-target frequency map; unknown=0",
+      "fit_scope": "EACH_FOLD_TRAIN_ROWS_ONLY",
+      "unknown_category_rule": "OHE ignore; frequency fallback 0",
+      "output_expectation": "sparse when OHE density is below ColumnTransformer threshold",
+      "estimator": null
+    },
+    "tree": {
+      "version": "arrival_tree_preprocessor_v1",
+      "input_columns": [
+        "CRS_ELAPSED_TIME",
+        "calendar_year",
+        "calendar_month",
+        "calendar_day_of_month",
+        "calendar_day_of_week",
+        "is_weekend",
+        "scheduled_departure_hour",
+        "scheduled_departure_minute",
+        "OP_CARRIER",
+        "ORIGIN",
+        "OP_CARRIER_FL_NUM"
+      ],
+      "numeric_transformer": "training-fold median imputer + missing indicators; no scaling",
+      "categorical_transformer": "training-fold sentinel imputer + OrdinalEncoder(unknown=-1); codes are labels, not metric quantities",
+      "high_cardinality_transformer": "training-fold non-target frequency map; unknown=0",
+      "fit_scope": "EACH_FOLD_TRAIN_ROWS_ONLY",
+      "unknown_category_rule": "ordinal -1; frequency fallback 0",
+      "output_expectation": "dense",
+      "estimator": null
+    },
+    "boosting_future_tree": {
+      "version": "arrival_boosting_preprocessor_v1",
+      "input_columns": [
+        "CRS_ELAPSED_TIME",
+        "calendar_year",
+        "calendar_month",
+        "calendar_day_of_month",
+        "calendar_day_of_week",
+        "is_weekend",
+        "scheduled_departure_hour",
+        "scheduled_departure_minute",
+        "OP_CARRIER",
+        "ORIGIN",
+        "OP_CARRIER_FL_NUM"
+      ],
+      "numeric_transformer": "training-fold median imputer + missing indicators; no scaling",
+      "categorical_transformer": "training-fold sentinel imputer + OrdinalEncoder(unknown=-1); codes are labels, not metric quantities",
+      "high_cardinality_transformer": "training-fold non-target frequency map; unknown=0",
+      "fit_scope": "EACH_FOLD_TRAIN_ROWS_ONLY",
+      "unknown_category_rule": "ordinal -1; frequency fallback 0",
+      "output_expectation": "dense",
+      "estimator": null
+    }
+  },
+  "target_encoding": false,
+  "model_training_performed": false
+}

@@ -11,9 +11,48 @@ data:
 
 prediction:
   cutoff_hours_before_crs_dep: 2
-  classification_threshold_minutes: 15
-  regression_target: ARR_DELAY
-  signed_regression: true
+
+  arrival_core:
+    role: core
+    flow: inbound
+    filter: DEST=ATL
+    classification:
+      target: ARR_DELAY
+      label_name: y_arr_cls
+      threshold_minutes: 15
+    regression:
+      enabled: true
+      target: ARR_DELAY
+      label_name: y_arr_reg
+      signed: true
+    weather:
+      allowed: false
+      aeolus_raw_policy: drop
+    reconstructed_chain:
+      artifact_version: schedule_chain_v1
+      allowed_for_ablation: true
+      enabled_by_default: false
+
+  departure_auxiliary:
+    role: auxiliary
+    flow: outbound
+    filter: ORIGIN=ATL
+    classification:
+      target: DEP_DELAY
+      label_name: y_dep_cls
+      threshold_minutes: 15
+    regression:
+      enabled: false
+    weather:
+      aeolus_raw_policy: drop
+      point_in_time_source:
+        artifact_version: weather_point_in_time_v1
+        contract_version: weather_point_in_time_contract_v1
+        contract_path: artifacts/manifests/weather_point_in_time_contract_v1.json
+        provider: TBD
+        status: audit_required
+        enabled: false
+        row_parity_required: true
 
 temporal:
   development_years: "2016-2022"
@@ -38,22 +77,27 @@ temporal:
 flows:
   inbound:
     filter: DEST=ATL
-    role: machine_learning
+    role: core_arrival_ml
   outbound:
     filter: ORIGIN=ATL
-    role: simulation
+    role:
+      - auxiliary_departure_ml
+      - synthetic_turn_simulation
 
 flight_chain:
-  enabled_by_default: false
-  status: no_go
-  include_in_core: false
-  week6_ablation: false
+  raw:
+    status: final_no_go
+    enabled_by_default: false
+    include_in_core: false
+    ablation: false
   reconstructed:
     version: schedule_chain_v1
     datetime_storage_amendment_version: canonical_datetime_storage_amendment_v1
     status: go_for_ablation
     enabled_by_default: false
     include_in_core: false
+    ablation: true
+    ablation_week: 6
     source: canonical_tabular
     output_path: data/processed/flight_chain_reconstructed_v1
     physical_aircraft_identity: false
@@ -68,6 +112,21 @@ flight_chain:
       - DEST
       - flight_key
     max_context_length: 6
+    feature_engineering:
+      policy_version: reconstructed_chain_feature_availability_v1
+      policy_path: configs/reconstructed_chain_feature_policy.yaml
+      audit_status: completed
+      audit_result_version: reconstructed_chain_feature_availability_audit_v1
+      audit_result_path: artifacts/manifests/reconstructed_chain_feature_availability_audit_v1.json
+      ml_enabled: false
+      arr_b_enabled: false
+      keep_safe_feature_count: 0
+      diagnostic_materialization_allowed: true
+      diagnostic_materialization_executed: false
+      ml_materialization_allowed: false
+      ml_branch_status: blocked_pending_new_evidence
+      closure_status: completed_with_blocked_ml_branch
+      availability_gate_required: true
 
 models:
   core_methods:
@@ -78,6 +137,8 @@ models:
     - weighted_ensemble
 
 simulation:
+  prediction_source_task: arrival_core
+  auxiliary_departure_prediction_allowed: false
   synthetic_aircraft_only: true
   default_contact_gates: 30
   scenario_scales:

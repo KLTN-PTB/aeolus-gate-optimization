@@ -1,0 +1,145 @@
+{
+  "manifest_version": "feature_manifest_arrival_v1",
+  "created_at": "2026-08-26T17:04:26+07:00",
+  "task": "arrival_core",
+  "hub": "ATL",
+  "flow": "inbound",
+  "target_filter": "DEST=ATL",
+  "prediction_cutoff": "CRS_DEP_TIME - 2 hours",
+  "labels": {
+    "y_arr_cls": "1[ARR_DELAY >= 15]",
+    "y_arr_reg": "signed ARR_DELAY",
+    "missing_target": "DROP_ROW_AND_REPORT_COUNT",
+    "target_imputation": false,
+    "ground_truth_clipping": false
+  },
+  "source_schema_version": "canonical_schema_v1",
+  "temporal_protocol_version": "expanding_window_v1",
+  "feature_contract_version": "arrival_feature_contract_v1",
+  "feature_families": [
+    "Schedule",
+    "Calendar",
+    "Carrier",
+    "Route"
+  ],
+  "raw_candidate_columns": [
+    "FL_DATE",
+    "OP_CARRIER",
+    "OP_CARRIER_FL_NUM",
+    "ORIGIN",
+    "CRS_DEP_TIME",
+    "CRS_ARR_TIME",
+    "CRS_ELAPSED_TIME",
+    "MONTH",
+    "DAY_OF_MONTH",
+    "DAY_OF_WEEK"
+  ],
+  "approved_source_columns": [
+    "FL_DATE",
+    "OP_CARRIER",
+    "OP_CARRIER_FL_NUM",
+    "ORIGIN",
+    "CRS_DEP_TIME",
+    "CRS_ELAPSED_TIME",
+    "MONTH",
+    "DAY_OF_MONTH",
+    "DAY_OF_WEEK"
+  ],
+  "source_only_columns": {
+    "FL_DATE": "calendar derivation and validation",
+    "CRS_DEP_TIME": "cutoff plus departure clock derivation",
+    "MONTH": "validation against FL_DATE",
+    "DAY_OF_MONTH": "validation against FL_DATE",
+    "DAY_OF_WEEK": "validation against FL_DATE"
+  },
+  "final_approved_predictor_columns": [
+    "CRS_ELAPSED_TIME",
+    "calendar_year",
+    "calendar_month",
+    "calendar_day_of_month",
+    "calendar_day_of_week",
+    "is_weekend",
+    "scheduled_departure_hour",
+    "scheduled_departure_minute",
+    "OP_CARRIER",
+    "ORIGIN",
+    "OP_CARRIER_FL_NUM"
+  ],
+  "derived_feature_names": [
+    "calendar_year",
+    "calendar_month",
+    "calendar_day_of_month",
+    "calendar_day_of_week",
+    "is_weekend",
+    "scheduled_departure_hour",
+    "scheduled_departure_minute"
+  ],
+  "dropped_columns": {
+    "ARR_DELAY": "TARGET_ONLY",
+    "y_arr_cls": "TARGET_ONLY",
+    "y_arr_reg": "TARGET_ONLY",
+    "DEP_DELAY": "DROP_LEAKAGE",
+    "y_dep_cls": "DROP_LEAKAGE",
+    "DEP_TIME": "DROP_LEAKAGE",
+    "TAXI_OUT": "DROP_LEAKAGE",
+    "WHEELS_OFF": "DROP_LEAKAGE",
+    "WHEELS_ON": "DROP_LEAKAGE",
+    "TAXI_IN": "DROP_LEAKAGE",
+    "ARR_TIME": "DROP_LEAKAGE",
+    "ACTUAL_ELAPSED_TIME": "DROP_LEAKAGE",
+    "AIR_TIME": "DROP_LEAKAGE",
+    "O_TEMP": "DROP_WEATHER",
+    "O_PRCP": "DROP_WEATHER",
+    "O_WSPD": "DROP_WEATHER",
+    "D_TEMP": "DROP_WEATHER",
+    "D_PRCP": "DROP_WEATHER",
+    "D_WSPD": "DROP_WEATHER",
+    "DEST": "DROP_CONSTANT",
+    "DEST_INDEX": "DROP_CONSTANT",
+    "D_LATITUDE": "DROP_CONSTANT",
+    "D_LONGITUDE": "DROP_CONSTANT",
+    "ORIGIN_INDEX": "REVIEW_REQUIRED",
+    "O_LATITUDE": "REVIEW_REQUIRED",
+    "O_LONGITUDE": "REVIEW_REQUIRED",
+    "CRS_ARR_TIME": "REVIEW_REQUIRED",
+    "FLIGHTS": "REVIEW_REQUIRED",
+    "flight_key": "DROP_IDENTIFIER",
+    "chain_id": "DROP_IDENTIFIER",
+    "source_year": "DROP_IDENTIFIER",
+    "source_row_number": "DROP_IDENTIFIER"
+  },
+  "identifier_only_columns": [
+    "flight_key",
+    "chain_id",
+    "source_year",
+    "source_row_number"
+  ],
+  "weather_policy": {
+    "arrival_allowed": false,
+    "aeolus_raw": "DROP",
+    "external": "NOT_ALLOWED"
+  },
+  "chain_policy": {
+    "source_artifact": "schedule_chain_v1",
+    "availability_policy": "reconstructed_chain_feature_availability_v1",
+    "included_in_base_matrix": false,
+    "arr_b_enabled": false
+  },
+  "flights_policy": "REVIEW_REQUIRED_BLOCKED",
+  "airport_index_policy": "DROP_INDICES_USE_ORIGIN_CODE_CATEGORICAL",
+  "scheduled_arrival_policy": "REVIEW_REQUIRED_NO_ROLLOVER_OR_DURATION_DERIVATION",
+  "fit_boundary": "EACH_FOLD_TRAIN_ROWS_ONLY",
+  "missing_policy_version": "arrival_missing_policy_v1",
+  "categorical_policy_version": "arrival_categorical_policy_v1",
+  "bounded_io": {
+    "year_partitioned": true,
+    "column_projected": true,
+    "batch_aware": true,
+    "week3a_allowed_years": "2016-2022"
+  },
+  "code_contract": [
+    "src/features/tabular_features.py",
+    "src/data/preprocessing.py"
+  ],
+  "config_version": "0.1.0"
+}

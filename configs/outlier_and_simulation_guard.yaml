@@ -1,0 +1,19 @@
+contract_version: outlier_and_simulation_guard_v1
+task: arrival_core
+
+ml_ground_truth:
+  target: ARR_DELAY
+  signed: true
+  absolute_value: false
+  clip_ground_truth: false
+  target_imputation: false
+
+model_stage_note:
+  robust_loss_may_be_considered_later: true
+  changes_target_semantics: false
+
+future_simulation_guard:
+  status: DEFERRED_TO_WEEK_7_PLUS
+  bounds_configured: false
+  changes_ml_ground_truth: false
+  note: Simulation bounds or guards require a separate versioned downstream contract.

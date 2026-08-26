@@ -52,3 +52,42 @@ An ATL→ATL movement may exist in both inbound and outbound partitions; this do
 ## Week-3 handoff
 
 Week 3 may build model-specific transformations only from the SAFE set plus separately approved CONDITIONAL fields. Encoders, imputers, frequency maps, and scalers must be fit within rolling temporal folds. The completed weather audit sets core policy to DROP all six raw weather fields; promotion is prohibited unless new versioned point-in-time provenance is audited first.
+
+## V4 task-aware addendum — 2026-08-26
+
+The Week-2 findings above remain historical evidence for the inbound Arrival
+task. Architecture V4 applies the same T-2h information boundary through two
+explicit task contracts:
+
+- `arrival_core`, `DEST=ATL`: `ARR_DELAY`, `y_arr_cls`, and `y_arr_reg` are
+  targets; `DEP_DELAY`, actual operations, raw Aeolus Weather, identifiers,
+  unresolved fields, and inbound ATL constants are forbidden. Arrival uses no
+  Weather and does not consume auxiliary Departure predictions.
+- `departure_auxiliary`, `ORIGIN=ATL`: `DEP_DELAY` and `y_dep_cls` are targets;
+  `ARR_DELAY`/Arrival labels are future outcomes, actual operations remain
+  forbidden, the same raw Aeolus Weather fields remain
+  `INSUFFICIENT_EVIDENCE`, and outbound ATL origin constants are dropped.
+  Destination airport index/coordinates require explicit categorical/entity
+  review and are never treated as continuous merely because their dtype is
+  integer/float.
+
+`src/data/leakage_rules.py` now fails closed by task and defaults to
+`arrival_core` for compatible callers. Unknown tasks, unknown fields, and
+unapproved external Weather fields fail closed. A future point-in-time Weather
+source remains disabled until a separate audited contract is added; this
+addendum itself grants no approval.
+
+## Week 3A enforcement addendum — 2026-08-26
+
+`feature_manifest_arrival_v1` and `src/features/tabular_features.py` implement
+the Core Arrival subset. Raw sources entering derivation are first checked by
+this normal `arrival_core` leakage contract; prepared `X` then contains only
+the versioned Schedule/Calendar/Carrier/Route columns. Unknown raw fields fail
+closed. Weather, `DEP_DELAY`/Departure labels, actual-operation fields,
+identifiers, `FLIGHTS`, conditional indices/coordinates, ATL destination
+constants, and Chain fields are absent from base `X`.
+
+All learned preprocessing state is scoped to the training rows of one locked
+expanding fold. Week 3A performed no 2023 fit, row-level 2024 access, feature
+selection by performance, or model training. D026 remains an independent gate
+for any future Chain extension; ARR-B is still disabled.
