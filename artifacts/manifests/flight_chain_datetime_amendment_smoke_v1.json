@@ -1,0 +1,164 @@
+{
+  "artifact": "reconstructed_schedule_flight_chain_datetime_amendment_smoke",
+  "created_at": "2026-08-25T18:32:51.834792+00:00",
+  "overall_status": "CANDIDATE_REQUIRES_REVIEW",
+  "amendment": {
+    "version": "canonical_datetime_storage_amendment_v1",
+    "previous_audit_decision": "AMENDMENT_REQUIRES_REVIEW",
+    "design_owner_decision": "AMENDMENT_SUPPORTED_WITH_AMBIGUOUS_MIDNIGHT_FAIL_CLOSED",
+    "semantic_chain_contract_changed": false,
+    "accepted_storage_representations_expanded": true,
+    "original_0000_2400_provenance": "NOT PROVEN",
+    "chain_id_version": "schedule_chain_v1",
+    "flight_key_version": "flight_key_v1"
+  },
+  "environment": {
+    "previous_python": "3.10.11",
+    "python": "3.11.15",
+    "pandas": "2.3.3",
+    "pyarrow": "25.0.1",
+    "sqlite": "3.50.4",
+    "venv_verified": true,
+    "candidate_first_migration": true,
+    "previous_environment_preserved": ".venv310_backup_20260826"
+  },
+  "tests": {
+    "baseline_passed": 98,
+    "amendment_targeted_red_failures": 12,
+    "amendment_targeted_green_passed": 12,
+    "final_total": 108,
+    "final_passed": 108,
+    "final_failed": 0,
+    "baseline_smoke_test": "PASS"
+  },
+  "smoke_contract": {
+    "year": 2016,
+    "max_rows": 250000,
+    "chunk_size": 100000,
+    "source_partition_rows": 5537987,
+    "full_year_executed": false
+  },
+  "smoke_a": {
+    "output_root": "data/processed/flight_chain_reconstructed_v1_smoke_b",
+    "source_rows": 250000,
+    "eligible_rows": 250000,
+    "mapped_rows": 250000,
+    "chain_count": 249755,
+    "inbound_target_count": 0,
+    "excluded_rows": 0,
+    "exclusion_reasons": {},
+    "ambiguous_chain_count": 0,
+    "ambiguous_timestamp_count": 0,
+    "ambiguous_member_count": 0,
+    "duplicate_schedule_signature_count": 0,
+    "fingerprints": {
+      "chain_groups": "76ed19d5a03cb5d4d8239278c202a33082d816f6b6e97e0d2bfd72ddc7d4086e",
+      "chain_members": "b13a22bc304cb8b84a1208da67b2cc436935236a582f070d1540538f761f6532",
+      "inbound_target_map": "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8",
+      "combined": "5020cb1b6bffe8283f2f4d1c260211de932e5e6aa1a0b0eb927d572dbccfcb03"
+    },
+    "resource_usage": {
+      "runtime_seconds": 168.12878499999897,
+      "rows_per_second": 1486.955371740785,
+      "peak_staging_bytes": 128246136,
+      "peak_sqlite_bytes": 105017344,
+      "output_bytes": 23228792,
+      "peak_python_allocation_bytes": 185874263,
+      "disk_free_before_bytes": 65707810816,
+      "disk_free_after_before_staging_cleanup_bytes": 65579524096,
+      "staging_removed_after_pass": true
+    }
+  },
+  "smoke_b": {
+    "output_root": "data/processed/flight_chain_reconstructed_v1_smoke_c",
+    "source_rows": 250000,
+    "eligible_rows": 250000,
+    "mapped_rows": 250000,
+    "chain_count": 249755,
+    "inbound_target_count": 0,
+    "excluded_rows": 0,
+    "exclusion_reasons": {},
+    "ambiguous_chain_count": 0,
+    "ambiguous_timestamp_count": 0,
+    "ambiguous_member_count": 0,
+    "duplicate_schedule_signature_count": 0,
+    "fingerprints": {
+      "chain_groups": "76ed19d5a03cb5d4d8239278c202a33082d816f6b6e97e0d2bfd72ddc7d4086e",
+      "chain_members": "b13a22bc304cb8b84a1208da67b2cc436935236a582f070d1540538f761f6532",
+      "inbound_target_map": "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8",
+      "combined": "5020cb1b6bffe8283f2f4d1c260211de932e5e6aa1a0b0eb927d572dbccfcb03"
+    },
+    "resource_usage": {
+      "runtime_seconds": 168.78383440000107,
+      "rows_per_second": 1481.1845037690316,
+      "peak_staging_bytes": 128246136,
+      "peak_sqlite_bytes": 105017344,
+      "output_bytes": 23228792,
+      "peak_python_allocation_bytes": 185874263,
+      "disk_free_before_bytes": 65684566016,
+      "disk_free_after_before_staging_cleanup_bytes": 65556279296,
+      "staging_removed_after_pass": true
+    }
+  },
+  "determinism": {
+    "counts_equal": true,
+    "exclusions_equal": true,
+    "ambiguity_counts_equal": true,
+    "duplicate_signature_counts_equal": true,
+    "chain_ids_equal": true,
+    "chain_positions_equal": true,
+    "direct_selected_member_rows_compared": 250000,
+    "direct_selected_member_columns": [
+      "flight_key",
+      "chain_id",
+      "chain_position"
+    ],
+    "all_logical_fingerprints_equal": true,
+    "result": "PASS"
+  },
+  "resource_review": {
+    "eligible_rows_basis": 250000,
+    "staging_bytes_per_eligible_row": 512.984544,
+    "sqlite_bytes_per_eligible_row": 420.069376,
+    "output_bytes_per_eligible_row": 92.915168,
+    "estimated_full_2016_peak_staging_bytes": 2840901736,
+    "estimated_full_2016_sqlite_bytes": 2326338743,
+    "estimated_full_2016_output_bytes": 514562992,
+    "estimated_full_2016_runtime_seconds": 3738.8907228694347,
+    "estimated_full_2016_runtime_minutes": 62.31484538115725,
+    "current_free_disk_bytes": 65661325312,
+    "free_to_estimated_staging_ratio": 23.112846348352893,
+    "conservative_margin_policy": "free disk minus 2 * (estimated peak staging + estimated output)",
+    "conservative_required_bytes": 6710929457,
+    "conservative_safety_margin_bytes": 58950395855,
+    "tracemalloc_caveat": "tracemalloc does not measure all native PyArrow allocations",
+    "resource_margin_acceptable": true
+  },
+  "bounded_prefix_observation": {
+    "distinct_destinations": 2,
+    "destination_counts": {
+      "DCA": 39294,
+      "LAX": 210706
+    },
+    "ATL_count": 0,
+    "limitation": "The real-data bounded prefix did not exercise inbound_target_map; synthetic tests cover that mapping."
+  },
+  "safety": {
+    "raw_file_count": 36,
+    "raw_inventory_blake2b_before": "c4071bfaad09e21d2d51cee64d01acf5a9b0fef5011f1122615ed379567a05c4",
+    "raw_inventory_blake2b_after": "c4071bfaad09e21d2d51cee64d01acf5a9b0fef5011f1122615ed379567a05c4",
+    "raw_path_size_mtime_unchanged": true,
+    "raw_pt_loaded": false,
+    "torch_load_present_in_reconstruction": false,
+    "weather_policy": "DROP",
+    "development_2024_blocked": true,
+    "stored_flight_key_changed": false,
+    "original_raw_chain_decision": "FINAL — NO_GO"
+  },
+  "authorization": {
+    "safe_to_run_full_2016_from_resource_review": true,
+    "full_2016_authorized_or_executed": false,
+    "safe_to_run_full_2016_2023": false,
+    "go_for_ablation_permitted": false
+  }
+}

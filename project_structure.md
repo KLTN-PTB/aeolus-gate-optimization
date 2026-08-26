@@ -1,5 +1,25 @@
 # Project structure
 
+The reconstructed schedule context is a versioned derived dataset at
+`data/processed/flight_chain_reconstructed_v1/`, partitioned by year into
+`chain_groups`, `chain_members`, and `inbound_target_map`. Its source universe
+is the full `tabular_by_year` partition; only the target map filters
+`DEST == ATL`. Per-year SQLite files are disposable staging under the selected
+derived output root and are deleted only after that year passes validation.
+They never reside under `data/raw`.
+
+Implementation entry points are
+`src/data/flight_chain_reconstruction.py` and
+`scripts/reconstruct_flight_chain.py`. A reconstructed `chain_id` means only
+same carrier, operating flight number, and service date. It must not be
+interpreted as physical aircraft identity or a same-aircraft rotation. The raw
+`.pt` archives remain read-only evidence with their independent Week-2
+`FINAL — NO_GO` decision.
+
+The production derived partitions for exactly 2016–2023 passed full-data and
+cross-year validation. Their separate status is `GO_FOR_ABLATION`; they remain
+disabled by default, excluded from core, and contain no `year=2024` partition.
+
 ```text
 Aeolus/
 ├── configs/
@@ -65,7 +85,7 @@ Aeolus/
 
 `data/raw/` là bất biến về nội dung: chỉ move/rename để chuẩn hóa đường dẫn; không rewrite, convert, normalize, delete hoặc tái serialize dữ liệu. `src/` là source code. `data/processed/`, `data/simulation/`, `artifacts/` và `results/` là generated artifacts và được ignore khỏi Git. Canonical storage contract hiện tại là `artifacts/manifests/canonical_schema_v1.json`; temporal contract là `artifacts/manifests/temporal_folds_manifest.json` và `split_manifest.json`.
 
-2023 được dành cho development; 2024 là final end-to-end holdout chỉ mở sau full-system freeze. Flight Chain đã nhận quyết định Week-2 `NO_GO`, vì vậy Tabular-only là core route cuối cùng; raw Chain vẫn read-only và các split `.pt` không phải temporal split chính.
+2023 được dành cho development; 2024 là final end-to-end holdout chỉ mở sau full-system freeze. Raw Flight Chain `.pt` vẫn `FINAL — NO_GO`; Reconstructed Schedule Flight Chain riêng biệt là `GO_FOR_ABLATION`, optional và không phải physical aircraft rotation. Các split `.pt` không phải temporal split chính.
 
 Thứ tự đọc roadmap:
 

@@ -1,0 +1,7 @@
+# Runtime contract: Python >=3.11
+# Resolved and verified on Python 3.11.15 (2026-08-26).
+numpy==2.2.6
+pandas==2.3.3
+pyarrow==25.0.1
+pytest==9.1.1
+PyYAML==6.0.3

@@ -1,0 +1,180 @@
+{
+  "artifact": "reconstructed_schedule_flight_chain",
+  "version": "v1",
+  "created_at": "2026-08-26T04:40:00+00:00",
+  "source": "canonical_tabular",
+  "source_root": "data/processed/tabular_by_year",
+  "output_root": "data/processed/flight_chain_reconstructed_v1",
+  "overall_status": "FULL_DATA_PASS",
+  "decision": "GO_FOR_ABLATION",
+  "contracts": {
+    "reconstruction_version": "schedule_chain_v1",
+    "datetime_storage_amendment_version": "canonical_datetime_storage_amendment_v1",
+    "flight_key_version": "flight_key_v1",
+    "stored_flight_key_reused": true,
+    "raw_chain_used_for_mapping": false,
+    "physical_aircraft_identity": false,
+    "schedule_only": true,
+    "weather_policy": "DROP",
+    "FLIGHTS_excluded": true,
+    "enabled_by_default": false,
+    "include_in_core": false,
+    "max_context_length": 6,
+    "full_membership_truncated": false,
+    "group_fields": ["source_year", "FL_DATE", "OP_CARRIER", "OP_CARRIER_FL_NUM"],
+    "order_field": "scheduled_departure_timestamp(FL_DATE, CRS_DEP_TIME)",
+    "tie_break_fields": ["ORIGIN", "DEST", "flight_key"]
+  },
+  "environment": {
+    "python": "3.11.15",
+    "pandas": "2.3.3",
+    "pyarrow": "25.0.1",
+    "sqlite": "3.50.4",
+    "venv_verified": true,
+    "chunk_size": 100000,
+    "max_rows": null
+  },
+  "years": [
+    {
+      "year": 2016, "status": "PASS", "source_rows": 5537987, "eligible_rows": 5537987, "mapped_rows": 5537987, "coverage": 1.0, "excluded_rows": 0, "exclusion_reasons": {}, "chain_count": 4153379, "inbound_atl_targets": 381166,
+      "chain_length": {"min": 1, "median": 1, "p95": 2, "max": 8, "chains_over_6": 3104},
+      "ambiguity": {"chains": 0, "timestamps": 0, "members": 0}, "duplicate_schedule_signatures": 0, "duplicate_signature_excess_rows": 0,
+      "flight_number_semantics": {"value_count": 5537987, "missing": 0, "non_numeric": 0, "non_finite": 0, "non_integral": 0, "min": 1.0, "max": 8402.0, "result": "PASS"},
+      "atl_validation": {"canonical_atl": 381166, "inbound_map": 381166, "atl_members": 381166, "mapping_errors": 0, "result": "PASS"},
+      "fingerprints": {"chain_groups": "3556297d22e835835afacee8c7db3f3182af046404f577b109373b1c3ef0732e", "chain_members": "32a6a1b0c1eb12f7740d5a8093e37d0ccd50ba6c48a5e424cbfde4a526ca02d3", "inbound_target_map": "e6bb70b139bd2d480a7b974876c5144e1994e45664c51467e3345197b977f09d", "combined": "14b41224aafc3e89ad4011ca157adc7eef0dbd4a0e4fafc530b64bdd3148ceaf"},
+      "resources": {"runtime_seconds": 3731.167580000001, "rows_per_second": 1484.2504072143547, "peak_staging_bytes": 2780627978, "peak_sqlite_bytes": 2321006592, "output_bytes": 459621386, "peak_python_allocation_bytes": 208393447, "staging_cleanup": "PASS"},
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage": "PASS", "raw": "PASS", "holdout_2024": "BLOCKED", "result": "PASS"}
+    },
+    {
+      "year": 2017, "status": "PASS", "source_rows": 5575872, "eligible_rows": 5575872, "mapped_rows": 5575872, "coverage": 1.0, "excluded_rows": 0, "exclusion_reasons": {}, "chain_count": 4213097, "inbound_atl_targets": 358263,
+      "chain_length": {"min": 1, "median": 1, "p95": 2, "max": 8, "chains_over_6": 3709},
+      "ambiguity": {"chains": 1, "timestamps": 1, "members": 2}, "duplicate_schedule_signatures": 0, "duplicate_signature_excess_rows": 0,
+      "flight_number_semantics": {"value_count": 5575872, "missing": 0, "non_numeric": 0, "non_finite": 0, "non_integral": 0, "min": 1.0, "max": 8402.0, "result": "PASS"},
+      "atl_validation": {"canonical_atl": 358263, "inbound_map": 358263, "atl_members": 358263, "mapping_errors": 0, "result": "PASS"},
+      "fingerprints": {"chain_groups": "b8172441195b889c601f8f9a3de0df7c040063ce2484d0bb3914ef2daea2be72", "chain_members": "692e88dfec266fafdf533a1f32161d248eacfe493ba09bcbf68d73f5ca023690", "inbound_target_map": "436111de46f58bd396a74088bb14cde2acb2724f5c3253e0b8ba17b54c539ffd", "combined": "8ddf8d47a08dace8e1573ea0f0bf6ff853848459a655afddaf6aaec76219567e"},
+      "resources": {"runtime_seconds": 3785.771728900003, "rows_per_second": 1472.849500521821, "peak_staging_bytes": 2799261830, "peak_sqlite_bytes": 2336264192, "output_bytes": 462997638, "peak_python_allocation_bytes": 212926171, "staging_cleanup": "PASS"},
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage": "PASS", "raw": "PASS", "holdout_2024": "BLOCKED", "result": "PASS"}
+    },
+    {
+      "year": 2018, "status": "PASS", "source_rows": 6986842, "eligible_rows": 6986842, "mapped_rows": 6986842, "coverage": 1.0, "excluded_rows": 0, "exclusion_reasons": {}, "chain_count": 5370758, "inbound_atl_targets": 386580,
+      "chain_length": {"min": 1, "median": 1, "p95": 2, "max": 8, "chains_over_6": 5611},
+      "ambiguity": {"chains": 2, "timestamps": 2, "members": 4}, "duplicate_schedule_signatures": 1, "duplicate_signature_excess_rows": 1,
+      "flight_number_semantics": {"value_count": 6986842, "missing": 0, "non_numeric": 0, "non_finite": 0, "non_integral": 0, "min": 1.0, "max": 7909.0, "result": "PASS"},
+      "atl_validation": {"canonical_atl": 386580, "inbound_map": 386580, "atl_members": 386580, "mapping_errors": 0, "result": "PASS"},
+      "fingerprints": {"chain_groups": "913ca816505acbbf4c27281979d24805fc003c3bec021b6d7bbbde8ee61ab343", "chain_members": "76a8d8e76989fe85e282234da2adef4c687eb7a7fd29b78b4118f59e7359319f", "inbound_target_map": "5dfa5852ac58fff3ffaf4a06bd3090d36713e4737a10a92be2a69b56df2e95e0", "combined": "9d5185bd3fc1c8ebf9d0314b45e8fac322dcfdf3514525a258cf1e3ae425401b"},
+      "resources": {"runtime_seconds": 4749.680383800001, "rows_per_second": 1471.0130862342673, "peak_staging_bytes": 3508682974, "peak_sqlite_bytes": 2928291840, "output_bytes": 580391134, "peak_python_allocation_bytes": 211581833, "staging_cleanup": "PASS"},
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage": "PASS", "raw": "PASS", "holdout_2024": "BLOCKED", "result": "PASS"}
+    },
+    {
+      "year": 2019, "status": "PASS", "source_rows": 7161827, "eligible_rows": 7161827, "mapped_rows": 7161827, "coverage": 1.0, "excluded_rows": 0, "exclusion_reasons": {}, "chain_count": 5522884, "inbound_atl_targets": 391075,
+      "chain_length": {"min": 1, "median": 1, "p95": 2, "max": 8, "chains_over_6": 4344},
+      "ambiguity": {"chains": 0, "timestamps": 0, "members": 0}, "duplicate_schedule_signatures": 0, "duplicate_signature_excess_rows": 0,
+      "flight_number_semantics": {"value_count": 7161827, "missing": 0, "non_numeric": 0, "non_finite": 0, "non_integral": 0, "min": 1.0, "max": 7933.0, "result": "PASS"},
+      "atl_validation": {"canonical_atl": 391075, "inbound_map": 391075, "atl_members": 391075, "mapping_errors": 0, "result": "PASS"},
+      "fingerprints": {"chain_groups": "f5596d78eebb65eb297fcea99d614f1575f8051c69d30302b82d86456670659e", "chain_members": "4a7056973b28ec3d6cd61ce5a5a92335ed1665aeeecbb15216d8ee6b841f5bf5", "inbound_target_map": "b046b1d4386c13ebd57d590738ee4e40d6b56520e476d5bfa9cf29ee4fb49302", "combined": "656f9580be3ca8ff3421f249aedda094af5aaa1ff87b429e9dccd761ca7ab7a5"},
+      "resources": {"runtime_seconds": 4865.2335036, "rows_per_second": 1472.041782722381, "peak_staging_bytes": 3597797460, "peak_sqlite_bytes": 3002527744, "output_bytes": 595269716, "peak_python_allocation_bytes": 216448591, "staging_cleanup": "PASS"},
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage": "PASS", "raw": "PASS", "holdout_2024": "BLOCKED", "result": "PASS"}
+    },
+    {
+      "year": 2020, "status": "PASS", "source_rows": 4312091, "eligible_rows": 4312091, "mapped_rows": 4312091, "coverage": 1.0, "excluded_rows": 0, "exclusion_reasons": {}, "chain_count": 3476881, "inbound_atl_targets": 242121,
+      "chain_length": {"min": 1, "median": 1, "p95": 2, "max": 8, "chains_over_6": 593},
+      "ambiguity": {"chains": 0, "timestamps": 0, "members": 0}, "duplicate_schedule_signatures": 0, "duplicate_signature_excess_rows": 0,
+      "flight_number_semantics": {"value_count": 4312091, "missing": 0, "non_numeric": 0, "non_finite": 0, "non_integral": 0, "min": 1.0, "max": 9888.0, "result": "PASS"},
+      "atl_validation": {"canonical_atl": 242121, "inbound_map": 242121, "atl_members": 242121, "mapping_errors": 0, "result": "PASS"},
+      "fingerprints": {"chain_groups": "818ef4765d6e0f99d870766b331c722f594700cfef54e32253cf4044008c83f9", "chain_members": "08a6ff034aa5f42644f75602b95b6a695bbf6c89a71191020a04149c7bf5e95b", "inbound_target_map": "6ca54fab55acf1c130084c3dc0cea0e8f350498dbe36bd581a686512dc5e5adc", "combined": "9cb6766b48697013df3514d1a7eddb11b02c5990aa6fa9ec38a19b2838e081dc"},
+      "resources": {"runtime_seconds": 2932.8775496000017, "rows_per_second": 1470.2594728471024, "peak_staging_bytes": 2174907184, "peak_sqlite_bytes": 1809125376, "output_bytes": 365781808, "peak_python_allocation_bytes": 206299513, "staging_cleanup": "PASS"},
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage": "PASS", "raw": "PASS", "holdout_2024": "BLOCKED", "result": "PASS"}
+    },
+    {
+      "year": 2021, "status": "PASS", "source_rows": 5755666, "eligible_rows": 5755666, "mapped_rows": 5755666, "coverage": 1.0, "excluded_rows": 0, "exclusion_reasons": {}, "chain_count": 4734600, "inbound_atl_targets": 309621,
+      "chain_length": {"min": 1, "median": 1, "p95": 2, "max": 8, "chains_over_6": 777},
+      "ambiguity": {"chains": 0, "timestamps": 0, "members": 0}, "duplicate_schedule_signatures": 0, "duplicate_signature_excess_rows": 0,
+      "flight_number_semantics": {"value_count": 5755666, "missing": 0, "non_numeric": 0, "non_finite": 0, "non_integral": 0, "min": 1.0, "max": 8808.0, "result": "PASS"},
+      "atl_validation": {"canonical_atl": 309621, "inbound_map": 309621, "atl_members": 309621, "mapping_errors": 0, "result": "PASS"},
+      "fingerprints": {"chain_groups": "bb5ca2b9d3284119338c90417c9779ce29a4c58428506f8bff100cac693de9a0", "chain_members": "6c7394a19b4a8d614f13362480460226a6cbcbf6f6cd6e664f753859a840db39", "inbound_target_map": "6c6f0d3b6b66b7495e5670821d51c947d0f47607134d7b5d1c5627f75cad8da6", "combined": "a51f823a52c041a7da311eb660ffbd9eb97ccab742fb005905ece9e05b79399c"},
+      "resources": {"runtime_seconds": 3927.0049457999994, "rows_per_second": 1465.6630382286087, "peak_staging_bytes": 2903814051, "peak_sqlite_bytes": 2413416448, "output_bytes": 490397603, "peak_python_allocation_bytes": 208434691, "staging_cleanup": "PASS"},
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage": "PASS", "raw": "PASS", "holdout_2024": "BLOCKED", "result": "PASS"}
+    },
+    {
+      "year": 2022, "status": "PASS", "source_rows": 6413416, "eligible_rows": 6413416, "mapped_rows": 6413416, "coverage": 1.0, "excluded_rows": 0, "exclusion_reasons": {}, "chain_count": 5192960, "inbound_atl_targets": 311701,
+      "chain_length": {"min": 1, "median": 1, "p95": 2, "max": 8, "chains_over_6": 885},
+      "ambiguity": {"chains": 0, "timestamps": 0, "members": 0}, "duplicate_schedule_signatures": 0, "duplicate_signature_excess_rows": 0,
+      "flight_number_semantics": {"value_count": 6413416, "missing": 0, "non_numeric": 0, "non_finite": 0, "non_integral": 0, "min": 1.0, "max": 9562.0, "result": "PASS"},
+      "atl_validation": {"canonical_atl": 311701, "inbound_map": 311701, "atl_members": 311701, "mapping_errors": 0, "result": "PASS"},
+      "fingerprints": {"chain_groups": "bcd8b156d85bb57a2dc37797832e4d5907ce63548c842ed58200ceba675bd543", "chain_members": "1280edf6e83d9f5a31a86e2978a6d1a491f7e8e9f89e5c3effe4834e9b4983e2", "inbound_target_map": "b39ffe7658b4840708e24ae4adf4d6be418e1c76e4c18c34883b0d717a464b89", "combined": "c862f86ef98e83f946abe872ab12a6e37164f1354d86e301deb6af9d67db8b59"},
+      "resources": {"runtime_seconds": 4377.261460300004, "rows_per_second": 1465.166305044169, "peak_staging_bytes": 3230814093, "peak_sqlite_bytes": 2688622592, "output_bytes": 542191501, "peak_python_allocation_bytes": 206381414, "staging_cleanup": "PASS"},
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage": "PASS", "raw": "PASS", "holdout_2024": "BLOCKED", "result": "PASS"}
+    },
+    {
+      "year": 2023, "status": "PASS", "source_rows": 6645461, "eligible_rows": 6645461, "mapped_rows": 6645461, "coverage": 1.0, "excluded_rows": 0, "exclusion_reasons": {}, "chain_count": 5339817, "inbound_atl_targets": 332741,
+      "chain_length": {"min": 1, "median": 1, "p95": 2, "max": 8, "chains_over_6": 241},
+      "ambiguity": {"chains": 0, "timestamps": 0, "members": 0}, "duplicate_schedule_signatures": 0, "duplicate_signature_excess_rows": 0,
+      "flight_number_semantics": {"value_count": 6645461, "missing": 0, "non_numeric": 0, "non_finite": 0, "non_integral": 0, "min": 1.0, "max": 9887.0, "result": "PASS"},
+      "atl_validation": {"canonical_atl": 332741, "inbound_map": 332741, "atl_members": 332741, "mapping_errors": 0, "result": "PASS"},
+      "fingerprints": {"chain_groups": "6721a7f6176cbd8d5858fa56244a1b60e8aad0ce1278f8ecb7ed1aa14c8ac4ec", "chain_members": "c0cf1ac0f4d39183d1c90fdc3533dd9cf6246f4ec09122b4747913f27542d71f", "inbound_target_map": "ead2fd4c415c283b547e3437647ecfb36962c38cfa895cd4c7a4d017c37988ac", "combined": "b0c58fa340a9f613bd7d4f25cb67b35c7002df57c60b0631e9c89e519e53770c"},
+      "resources": {"runtime_seconds": 4543.122625700002, "rows_per_second": 1462.7518443828205, "peak_staging_bytes": 3346357604, "peak_sqlite_bytes": 2786086912, "output_bytes": 560270692, "peak_python_allocation_bytes": 205565600, "staging_cleanup": "PASS"},
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage": "PASS", "raw": "PASS", "holdout_2024": "BLOCKED", "result": "PASS"}
+    }
+  ],
+  "aggregate_2016_2023": {
+    "years_present": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
+    "missing_years": [],
+    "unexpected_years": [],
+    "source_rows": 48389162,
+    "expected_source_rows": 48389162,
+    "eligible_rows": 48389162,
+    "mapped_rows": 48389162,
+    "coverage": 1.0,
+    "excluded_rows": 0,
+    "exclusion_reasons": {},
+    "chain_count": 38004376,
+    "inbound_atl_targets": 2713268,
+    "chains_over_6": 19264,
+    "ambiguous_chains": 3,
+    "ambiguous_timestamps": 3,
+    "ambiguous_members": 6,
+    "duplicate_schedule_signatures": 1,
+    "duplicate_signature_excess_rows": 1,
+    "output_bytes": 4056921478,
+    "total_runtime_seconds": 32912.11977770001,
+    "peak_staging_bytes_max": 3597797460,
+    "peak_sqlite_bytes_max": 3002527744,
+    "peak_python_allocation_bytes_max": 216448591,
+    "python_allocation_caveat": "tracemalloc does not measure all native PyArrow allocations"
+  },
+  "cross_year_validation": {
+    "parquet_schemas_consistent": true,
+    "reconstruction_version_consistent": true,
+    "datetime_storage_amendment_version_consistent": true,
+    "flight_key_version_consistent": true,
+    "physical_aircraft_identity_consistent_false": true,
+    "weather_policy_consistent_drop": true,
+    "raw_chain_used_for_mapping_consistent_false": true,
+    "year_2016_file_metadata_unchanged": true,
+    "year_2016_logical_fingerprints_recomputed_equal": true,
+    "year_2024_partition_present": false,
+    "result": "PASS"
+  },
+  "raw_integrity": {
+    "file_count_before": 36,
+    "file_count_after": 36,
+    "inventory_blake2b_before": "c4071bfaad09e21d2d51cee64d01acf5a9b0fef5011f1122615ed379567a05c4",
+    "inventory_blake2b_after": "c4071bfaad09e21d2d51cee64d01acf5a9b0fef5011f1122615ed379567a05c4",
+    "path_size_mtime_unchanged": true,
+    "raw_pt_loaded": false,
+    "raw_pt_labels_used": false,
+    "torch_load_present_in_reconstruction": false,
+    "changed_git_paths_under_data_raw": 0,
+    "result": "PASS"
+  },
+  "holdout": {
+    "development_2024_blocked": true,
+    "production_2024_partition_present": false,
+    "result": "PASS"
+  },
+  "final_verification": {
+    "pytest": "108 passed",
+    "smoke_test": "PASS",
+    "git_diff_check": "PASS"
+  }
+}

@@ -29,9 +29,40 @@ def test_base_config_models_and_flight_chain() -> None:
         "xgboost",
         "weighted_ensemble",
     ]
-    assert config["flight_chain"] == {
+    raw_chain = {
+        key: config["flight_chain"][key]
+        for key in (
+            "enabled_by_default",
+            "status",
+            "include_in_core",
+            "week6_ablation",
+        )
+    }
+    assert raw_chain == {
         "enabled_by_default": False,
         "status": "no_go",
         "include_in_core": False,
         "week6_ablation": False,
+    }
+    reconstructed = config["flight_chain"]["reconstructed"]
+    assert reconstructed == {
+        "version": "schedule_chain_v1",
+        "datetime_storage_amendment_version": (
+            "canonical_datetime_storage_amendment_v1"
+        ),
+        "status": "go_for_ablation",
+        "enabled_by_default": False,
+        "include_in_core": False,
+        "source": "canonical_tabular",
+        "output_path": "data/processed/flight_chain_reconstructed_v1",
+        "physical_aircraft_identity": False,
+        "group_fields": [
+            "source_year",
+            "FL_DATE",
+            "OP_CARRIER",
+            "OP_CARRIER_FL_NUM",
+        ],
+        "order_field": "CRS_DEP_TIME",
+        "tie_break_fields": ["ORIGIN", "DEST", "flight_key"],
+        "max_context_length": 6,
     }

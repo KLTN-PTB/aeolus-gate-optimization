@@ -4,7 +4,8 @@ This project is deliberately scoped to the claims supported by the V3 protocol. 
 
 - Future gate assignments and Aircraft Turns are synthetic constructs for controlled simulation; they are not real ATL gate operations or gate schedules.
 - The project does not use or reconstruct real `TAIL_NUM` or other real aircraft identity. Synthetic identifiers, if later created, do not establish physical aircraft rotation.
-- Flight Chain received a final Week-2 `NO_GO`: exact sample-to-Tabular mapping and T−2h safety are not evidenced, while 2024 also has an undocumented structural drift. Tabular-only is the core route; Chain remains limitation/future work.
+- The original Aeolus raw Flight Chain `.pt` received and retains `FINAL — NO_GO`: exact sample-to-Tabular mapping and T−2h safety are not evidenced, while 2024 also has undocumented structural drift.
+- The separate Reconstructed Schedule Flight Chain is approved only for later ablation. It groups carrier, operating flight number, and service date; it is not physical aircraft rotation and does not establish predictive improvement. Full membership was retained even when chain length exceeded six.
 - The Week-2 timing audit found insufficient point-in-time provenance for all six raw weather fields. The core pipeline therefore drops them from candidate `X` while retaining them in stored data; they cannot be promoted without new versioned T-2h evidence.
 - The 2016–2024 Tabular schemas were audited year by year and canonical schema v1 is versioned; this does not justify assuming future/raw revisions remain compatible without re-audit.
 - Canonical schema compatibility is a storage contract, not proof that every field is point-in-time safe or admissible as an ML predictor. `FLIGHTS` semantics remain unresolved and the field is blocked from candidate predictors.

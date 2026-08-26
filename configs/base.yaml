@@ -48,6 +48,26 @@ flight_chain:
   status: no_go
   include_in_core: false
   week6_ablation: false
+  reconstructed:
+    version: schedule_chain_v1
+    datetime_storage_amendment_version: canonical_datetime_storage_amendment_v1
+    status: go_for_ablation
+    enabled_by_default: false
+    include_in_core: false
+    source: canonical_tabular
+    output_path: data/processed/flight_chain_reconstructed_v1
+    physical_aircraft_identity: false
+    group_fields:
+      - source_year
+      - FL_DATE
+      - OP_CARRIER
+      - OP_CARRIER_FL_NUM
+    order_field: CRS_DEP_TIME
+    tie_break_fields:
+      - ORIGIN
+      - DEST
+      - flight_key
+    max_context_length: 6
 
 models:
   core_methods:

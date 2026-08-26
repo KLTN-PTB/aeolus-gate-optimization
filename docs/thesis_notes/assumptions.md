@@ -11,7 +11,8 @@ This register separates approved project decisions from implementation defaults,
 | Architecture | The project proceeds as Predict -> Simulate -> Optimize -> Evaluate, with Dashboard as the presentation layer. | D001 |
 | Scope and temporal protocol | Aeolus 2016–2024; rolling development is 2016–2022, 2023 is development/model selection and downstream development, and 2024 is sealed final end-to-end holdout until full-system freeze. | D002, D011, D020 |
 | Core data | Tabular is the mandatory core data source. | D003 |
-| Flight Chain | The evidence-based Week-2 outcome is `NO_GO`; Tabular-only is the final core route and no Chain ablation is scheduled. Raw Chain remains read-only. | D004, E003 |
+| Original raw Flight Chain | The evidence-based Week-2 outcome remains `FINAL — NO_GO`; raw `.pt` stays read-only and is excluded from core and ablation. | D004, E003 |
+| Reconstructed Schedule Flight Chain | The separate canonical-Tabular-derived `schedule_chain_v1` artifact is `GO_FOR_ABLATION`, disabled by default, and outside core. It represents schedule/service-number context only. | E005 |
 | Flight Network | Flight Network/GNN is outside the 12-week core scope. | D005 |
 | Hub and flows | ATL is the experimental hub; inbound `DEST=ATL` supports ML and outbound `ORIGIN=ATL` supports synthetic simulation. | D006, D007 |
 | Prediction boundary | The core information cut-off is `T = CRS_DEP_TIME - 2 hours`; any predictor must be available by that time. | D008 |
@@ -32,7 +33,8 @@ This register separates approved project decisions from implementation defaults,
 | Canonical schema | `canonical_schema_v1`, 34 ordered fields | E004 evidence-based storage contract from all nine annual audits; not a feature-safety claim. |
 | Airport index mapping | Cross-year code-to-index mappings are stable | E001 evidence result; predictor treatment remains conditional. |
 | Weather core policy | Drop all six raw weather fields from candidate `X` | E002 fail-closed result because T-2h provenance remains insufficient. |
-| Flight Chain | `NO_GO`; disabled, excluded from core, and no Week-6 ablation | E003 final evidence-based decision. |
+| Original raw Flight Chain | `FINAL — NO_GO`; disabled and excluded from core/ablation | E003 final evidence-based decision. |
+| Reconstructed Schedule Flight Chain | `GO_FOR_ABLATION`; optional development-only comparison, not a physical rotation | E005 full 2016–2023 evidence decision. |
 
 ## IMPLEMENTATION DEFAULTS
 

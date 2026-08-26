@@ -49,7 +49,12 @@ REQUIRED_FILES = (
     ".gitignore",
     "README.md",
     "project_structure.md",
+    "requirements.txt",
     "configs/base.yaml",
+    "src/data/flight_chain_reconstruction.py",
+    "src/data/canonical_schedule_datetime_audit.py",
+    "scripts/reconstruct_flight_chain.py",
+    "scripts/audit_canonical_schedule_datetime.py",
     "docs/roadmap/01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V3_DONG_BO.md",
     "docs/roadmap/02_Bo_cong_nghe_de_xuat_Aeolus_Gate_Optimization_V3_DONG_BO.md",
     "docs/roadmap/03_Chi_tiet_tung_tuan_Roadmap_Aeolus_Gate_Optimization_V3_DONG_BO.md",
@@ -65,6 +70,10 @@ REQUIRED_FILES = (
     "docs/dataset_audit/weather_timing_audit.md",
     "docs/dataset_audit/flight_chain_feasibility_v0.md",
     "docs/dataset_audit/flight_chain_feasibility_report.md",
+    "docs/dataset_audit/flight_chain_reconstruction_report.md",
+    "docs/dataset_audit/canonical_schedule_datetime_representation_audit.md",
+    "artifacts/manifests/flight_chain_reconstructed_smoke_manifest_v1.json",
+    "artifacts/manifests/canonical_schedule_datetime_representation_audit_v1.json",
     "artifacts/manifests/canonical_schema_v1.json",
     "artifacts/manifests/processed_data_manifest_v1.json",
     "artifacts/manifests/temporal_folds_manifest.json",
@@ -145,15 +154,34 @@ def validate_config(config: dict[str, Any]) -> None:
         "Final holdout must be 2024",
     )
     require(config["models"]["core_methods"] == EXPECTED_METHODS, "Core method list mismatch")
+    raw_chain = {
+        key: config["flight_chain"][key]
+        for key in (
+            "enabled_by_default",
+            "status",
+            "include_in_core",
+            "week6_ablation",
+        )
+    }
     require(
-        config["flight_chain"]
+        raw_chain
         == {
             "enabled_by_default": False,
             "status": "no_go",
             "include_in_core": False,
             "week6_ablation": False,
         },
-        "Flight Chain default state mismatch",
+        "Original raw Flight Chain state mismatch",
+    )
+    reconstructed = config["flight_chain"]["reconstructed"]
+    require(
+        reconstructed["version"] == "schedule_chain_v1"
+        and reconstructed["status"] == "go_for_ablation"
+        and reconstructed["enabled_by_default"] is False
+        and reconstructed["include_in_core"] is False
+        and reconstructed["source"] == "canonical_tabular"
+        and reconstructed["physical_aircraft_identity"] is False,
+        "Reconstructed schedule Flight Chain contract mismatch",
     )
 
 

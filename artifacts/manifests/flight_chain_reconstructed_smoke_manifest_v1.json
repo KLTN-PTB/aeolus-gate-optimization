@@ -1,0 +1,140 @@
+{
+  "artifact": "reconstructed_schedule_flight_chain_smoke_audit",
+  "version": "v1",
+  "created_at": "2026-08-26T00:35:17.4419383+07:00",
+  "source": "canonical_tabular",
+  "raw_chain_used_for_mapping": false,
+  "physical_aircraft_identity": false,
+  "reconstruction_version": "schedule_chain_v1",
+  "flight_key_version": "flight_key_v1",
+  "execution": {
+    "year": 2016,
+    "source_partition_rows": 5537987,
+    "max_rows": 250000,
+    "chunk_size": 100000,
+    "runtime": "repository_.venv",
+    "output_root": "data/processed/flight_chain_reconstructed_v1_smoke_a",
+    "second_determinism_smoke": "NOT_RUN_CONTRACT_MISMATCH",
+    "full_2016_2023": "NOT_RUN"
+  },
+  "dependencies": {
+    "python": "3.10.11",
+    "pandas": "2.3.3",
+    "pyarrow": "25.0.1",
+    "sqlite": "3.40.1"
+  },
+  "grouping_contract": {
+    "fields": [
+      "source_year",
+      "FL_DATE",
+      "OP_CARRIER",
+      "OP_CARRIER_FL_NUM"
+    ],
+    "chain_id_hash": "BLAKE2b-128",
+    "chain_position_base": 0
+  },
+  "ordering_contract": {
+    "primary": "scheduled_departure_timestamp(FL_DATE, CRS_DEP_TIME)",
+    "crs_dep_time_2400": "next calendar day at 00:00",
+    "tie_break_fields": [
+      "ORIGIN",
+      "DEST",
+      "flight_key"
+    ]
+  },
+  "canonical_semantics_evidence": {
+    "OP_CARRIER_FL_NUM": {
+      "documented_meaning": "scheduled operating carrier flight number",
+      "arrow_storage_type": "double",
+      "sample_rows_scanned": 250000,
+      "missing_count": 0,
+      "non_finite_count": 0,
+      "non_integral_count": 0,
+      "minimum": 1.0,
+      "maximum": 6884.0,
+      "status": "SUPPORTED_IN_BOUNDED_SAMPLE"
+    },
+    "FL_DATE": {
+      "locked_expected_representation": "ISO YYYY-MM-DD",
+      "observed_canonical_example": "2016-01-01 00:00:00",
+      "status": "CONTRACT_MISMATCH"
+    },
+    "CRS_DEP_TIME": {
+      "locked_expected_representation": "integral HHMM including 2400",
+      "observed_canonical_example": "2016-01-01 09:00:00",
+      "status": "CONTRACT_MISMATCH"
+    },
+    "evidence_files": [
+      "docs/dataset_audit/data_dictionary_v1.md",
+      "docs/dataset_audit/canonical_schema_v1.md",
+      "docs/dataset_audit/flight_chain_feasibility_report.md",
+      "artifacts/manifests/canonical_schema_v1.json"
+    ]
+  },
+  "smoke_metrics": {
+    "source_rows_read": 250000,
+    "eligible_source_rows": 0,
+    "mapped_rows": 0,
+    "excluded_rows": 250000,
+    "exclusion_reasons": {
+      "FL_DATE:invalid_date": 250000
+    },
+    "chain_count": 0,
+    "inbound_target_count": 0,
+    "ambiguous_order_count": 0,
+    "duplicate_schedule_signature_count": 0
+  },
+  "resource_usage": {
+    "runtime_seconds": 7.356025099999897,
+    "source_rows_per_second": 33985.74591595718,
+    "peak_staging_bytes": 16214,
+    "peak_sqlite_bytes": 12288,
+    "peak_python_allocation_bytes": 129429372,
+    "python_allocation_caveat": "tracemalloc excludes some native PyArrow allocations",
+    "output_bytes": 3926,
+    "disk_free_before_bytes": 65988186112,
+    "disk_free_after_bytes": 65988161536,
+    "representative_for_full_reconstruction": false,
+    "full_2016_extrapolation": "BLOCKED_ZERO_ELIGIBLE_ROWS"
+  },
+  "leakage_contract": {
+    "schedule_only": true,
+    "targets_present": [],
+    "actual_fields_present": [],
+    "weather_fields_present": [],
+    "FLIGHTS_present": false,
+    "raw_pt_labels_used": false,
+    "weather_policy": "DROP"
+  },
+  "raw_integrity": {
+    "raw_file_count": 36,
+    "path_sets_equal_to_baseline_manifests": true,
+    "size_mtime_mismatch_count": 0,
+    "raw_tabular_modified": false,
+    "raw_chain_modified": false
+  },
+  "validation": {
+    "membership_coverage": "NOT_EVALUABLE_ZERO_ELIGIBLE_ROWS",
+    "unique_canonical_mapping": "NOT_EVALUABLE_ZERO_MAPPED_ROWS",
+    "valid_chain_id": "NOT_EVALUABLE_ZERO_CHAINS",
+    "determinism_second_smoke": "NOT_RUN_CONTRACT_MISMATCH",
+    "leakage_schema": "PASS_SYNTHETIC",
+    "aircraft_semantics": "PASS",
+    "raw_immutability": "PASS",
+    "holdout_2024_isolation": "PASS",
+    "critical_gates": "FAIL_CONTRACT_MISMATCH"
+  },
+  "post_smoke_fail_closed_control": {
+    "behavior": "Any non-empty source batch with zero eligible members aborts the year, publishes no year output, and retains SQLite staging for diagnosis.",
+    "tests": [
+      "test_year_with_source_rows_but_no_eligible_members_fails_closed",
+      "test_flight_number_semantics_are_checked_before_other_normalization"
+    ],
+    "flight_number_validation_order": "before_other_field_normalization",
+    "status": "PASS"
+  },
+  "pipeline_reported_status_before_fail_closed_control": "PASS_WITH_EMPTY_OUTPUT_INVALIDATED_BY_AUDIT",
+  "smoke_status": "FAILED_CANONICAL_FORMAT_CONTRADICTION",
+  "recommendation": "CANDIDATE_REQUIRES_REVIEW",
+  "go_for_ablation_allowed": false
+}

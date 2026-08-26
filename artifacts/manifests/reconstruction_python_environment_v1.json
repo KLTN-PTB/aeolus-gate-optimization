@@ -1,0 +1,42 @@
+{
+  "artifact": "reconstruction_python_environment",
+  "created_at": "2026-08-25T18:23:45.188737+00:00",
+  "environment": ".venv",
+  "migration": {
+    "candidate_first_verified": true,
+    "previous_environment_preserved": ".venv310_backup_20260826",
+    "previous_python": "3.10.11"
+  },
+  "platform": "Windows 64-bit",
+  "python": "3.11.15",
+  "runtime_contract": "Python >=3.11",
+  "sqlite": "3.50.4",
+  "direct_dependencies": {
+    "PyYAML": "6.0.3",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "pyarrow": "25.0.1",
+    "pytest": "9.1.1"
+  },
+  "resolved_dependencies": {
+    "PyYAML": "6.0.3",
+    "colorama": "0.4.6",
+    "iniconfig": "2.3.0",
+    "numpy": "2.2.6",
+    "packaging": "26.3",
+    "pandas": "2.3.3",
+    "pluggy": "1.6.0",
+    "pyarrow": "25.0.1",
+    "pygments": "2.21.0",
+    "pytest": "9.1.1",
+    "python-dateutil": "2.9.0.post0",
+    "pytz": "2026.3.post1",
+    "six": "1.17.0",
+    "tzdata": "2026.3"
+  },
+  "verification": {
+    "candidate_full_test_result": "108 passed",
+    "candidate_promoted": true,
+    "requirements_pinned": true
+  }
+}

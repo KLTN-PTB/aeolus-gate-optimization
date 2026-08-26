@@ -1,0 +1,485 @@
+{
+  "artifact": "reconstructed_schedule_flight_chain_2017_2023_run_journal",
+  "version": "v1",
+  "status": "FULL_DATA_PASS",
+  "authorized_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023],
+  "preflight": {
+    "pytest": "108 passed",
+    "smoke_test": "PASS",
+    "git_diff_check": "PASS",
+    "environment": {
+      "python": "3.11.15",
+      "pandas": "2.3.3",
+      "pyarrow": "25.0.1",
+      "sqlite": "3.50.4"
+    },
+    "weather_policy": "DROP",
+    "flight_key_version": "flight_key_v1",
+    "development_2024_blocked": true,
+    "raw_file_count": 36,
+    "raw_inventory_blake2b": "c4071bfaad09e21d2d51cee64d01acf5a9b0fef5011f1122615ed379567a05c4",
+    "production_years": [2016],
+    "source_rows_by_year": {
+      "2016": 5537987,
+      "2017": 5575872,
+      "2018": 6986842,
+      "2019": 7161827,
+      "2020": 4312091,
+      "2021": 5755666,
+      "2022": 6413416,
+      "2023": 6645461
+    },
+    "source_rows_total_2016_2023": 48389162,
+    "free_disk_bytes": 65200103424,
+    "next_year_disk_safe": true
+  },
+  "immutable_2016_baseline": {
+    "row_counts": {
+      "chain_groups": 4153379,
+      "chain_members": 5537987,
+      "inbound_target_map": 381166
+    },
+    "fingerprints": {
+      "chain_groups": "3556297d22e835835afacee8c7db3f3182af046404f577b109373b1c3ef0732e",
+      "chain_members": "32a6a1b0c1eb12f7740d5a8093e37d0ccd50ba6c48a5e424cbfde4a526ca02d3",
+      "inbound_target_map": "e6bb70b139bd2d480a7b974876c5144e1994e45664c51467e3345197b977f09d",
+      "combined": "14b41224aafc3e89ad4011ca157adc7eef0dbd4a0e4fafc530b64bdd3148ceaf"
+    },
+    "partition_file_inventory": {
+      "data/processed/flight_chain_reconstructed_v1/chain_groups/year=2016/part-00000.parquet": {
+        "size": 96600138,
+        "mtime_ns": 1787687438249441700
+      },
+      "data/processed/flight_chain_reconstructed_v1/chain_members/year=2016/part-00000.parquet": {
+        "size": 349699779,
+        "mtime_ns": 1787687438560469100
+      },
+      "data/processed/flight_chain_reconstructed_v1/inbound_target_map/year=2016/part-00000.parquet": {
+        "size": 13321469,
+        "mtime_ns": 1787687438890180200
+      }
+    }
+  },
+  "years": {
+    "2017": {
+      "status": "PASS",
+      "source_partition_rows": 5575872,
+      "metrics": {
+        "source_rows": 5575872,
+        "eligible_source_rows": 5575872,
+        "excluded_rows": 0,
+        "exclusion_reasons": {},
+        "mapped_rows": 5575872,
+        "eligible_coverage": 1.0,
+        "chain_count": 4213097,
+        "inbound_target_count": 358263,
+        "chain_length_distribution": {"min": 1, "median": 1, "p95": 2, "max": 8},
+        "chains_over_max_context_length": 3709,
+        "ambiguous_chain_count": 1,
+        "ambiguous_timestamp_count": 1,
+        "ambiguous_member_count": 2,
+        "duplicate_schedule_signature_count": 0,
+        "duplicate_schedule_signature_excess_rows": 0,
+        "duplicate_flight_key_count": 0,
+        "invalid_chain_id_count": 0,
+        "multi_chain_membership_count": 0,
+        "unmapped_eligible_rows": 0
+      },
+      "flight_number_semantics": {
+        "value_count": 5575872,
+        "missing_count": 0,
+        "non_numeric_count": 0,
+        "non_finite_count": 0,
+        "non_integral_count": 0,
+        "min": 1.0,
+        "max": 8402.0,
+        "result": "PASS"
+      },
+      "atl_validation": {
+        "canonical_atl": 358263,
+        "inbound_target_map": 358263,
+        "atl_chain_members": 358263,
+        "duplicate_target_flight_key": 0,
+        "duplicate_atl_member_flight_key": 0,
+        "null_target_chain_id": 0,
+        "invalid_chain_position": 0,
+        "missing_target_member": 0,
+        "extra_atl_member": 0,
+        "target_member_mapping_mismatch": 0,
+        "missing_referenced_chain_group": 0,
+        "duplicate_referenced_chain_group": 0,
+        "target_group_chain_length_mismatch": 0,
+        "result": "PASS",
+        "examples": [
+          {"target_flight_key": "flight_key_v1_1dc8445ffb89a82d901b5ebe597264db", "chain_id": "schedule_chain_v1_bdf76de29c0de26ca6604f004bb6deec", "chain_position": 0, "chain_length": 2},
+          {"target_flight_key": "flight_key_v1_c28c2ab05655a92ca10967c59c8446bc", "chain_id": "schedule_chain_v1_52544f65c0c70fcc1dc7bd0688b7a6b0", "chain_position": 0, "chain_length": 2},
+          {"target_flight_key": "flight_key_v1_7b34e5a65c9b3afa6f188da83a8a00f8", "chain_id": "schedule_chain_v1_3a92bb02e489a0edf207477e3eed2b63", "chain_position": 0, "chain_length": 1}
+        ]
+      },
+      "fingerprints": {
+        "chain_groups": "b8172441195b889c601f8f9a3de0df7c040063ce2484d0bb3914ef2daea2be72",
+        "chain_members": "692e88dfec266fafdf533a1f32161d248eacfe493ba09bcbf68d73f5ca023690",
+        "inbound_target_map": "436111de46f58bd396a74088bb14cde2acb2724f5c3253e0b8ba17b54c539ffd",
+        "combined": "8ddf8d47a08dace8e1573ea0f0bf6ff853848459a655afddaf6aaec76219567e"
+      },
+      "critical_gates": {
+        "coverage": "PASS",
+        "flight_key": "PASS",
+        "chain_id": "PASS",
+        "multi_chain": "PASS",
+        "leakage_fields_found": [],
+        "raw_inventory": "PASS",
+        "development_2024": "BLOCKED",
+        "result": "PASS"
+      },
+      "resource_usage": {
+        "runtime_seconds": 3785.771728900003,
+        "rows_per_second": 1472.849500521821,
+        "peak_staging_bytes": 2799261830,
+        "peak_sqlite_bytes": 2336264192,
+        "output_bytes": 462997638,
+        "peak_python_allocation_bytes": 212926171,
+        "disk_free_before_bytes": 65200099328,
+        "disk_free_at_peak_before_cleanup_bytes": 62399754240,
+        "disk_free_after_cleanup_bytes": 64735715328,
+        "staging_cleanup": "PASS",
+        "python_allocation_caveat": "tracemalloc excludes some native PyArrow allocations"
+      },
+      "next_year_disk_gate": {
+        "next_year": 2018,
+        "required_bytes_conservative": 18175543292,
+        "free_bytes": 64735715328,
+        "result": "PASS"
+      }
+    },
+    "2018": {
+      "status": "PASS",
+      "source_partition_rows": 6986842,
+      "metrics": {
+        "source_rows": 6986842,
+        "eligible_source_rows": 6986842,
+        "excluded_rows": 0,
+        "exclusion_reasons": {},
+        "mapped_rows": 6986842,
+        "eligible_coverage": 1.0,
+        "chain_count": 5370758,
+        "inbound_target_count": 386580,
+        "chain_length_distribution": {"min": 1, "median": 1, "p95": 2, "max": 8},
+        "chains_over_max_context_length": 5611,
+        "ambiguous_chain_count": 2,
+        "ambiguous_timestamp_count": 2,
+        "ambiguous_member_count": 4,
+        "duplicate_schedule_signature_count": 1,
+        "duplicate_schedule_signature_excess_rows": 1,
+        "duplicate_flight_key_count": 0,
+        "invalid_chain_id_count": 0,
+        "multi_chain_membership_count": 0,
+        "unmapped_eligible_rows": 0
+      },
+      "flight_number_semantics": {
+        "value_count": 6986842,
+        "missing_count": 0,
+        "non_numeric_count": 0,
+        "non_finite_count": 0,
+        "non_integral_count": 0,
+        "min": 1.0,
+        "max": 7909.0,
+        "result": "PASS"
+      },
+      "atl_validation": {
+        "canonical_atl": 386580,
+        "inbound_target_map": 386580,
+        "atl_chain_members": 386580,
+        "duplicate_target_flight_key": 0,
+        "duplicate_atl_member_flight_key": 0,
+        "null_target_chain_id": 0,
+        "invalid_chain_position": 0,
+        "missing_target_member": 0,
+        "extra_atl_member": 0,
+        "target_member_mapping_mismatch": 0,
+        "missing_referenced_chain_group": 0,
+        "duplicate_referenced_chain_group": 0,
+        "target_group_chain_length_mismatch": 0,
+        "result": "PASS",
+        "examples": [
+          {"target_flight_key": "flight_key_v1_fdb498d28f52f85238f56174263b7172", "chain_id": "schedule_chain_v1_d88ab6daec61d189b26bf0a88ea76234", "chain_position": 1, "chain_length": 2},
+          {"target_flight_key": "flight_key_v1_39d750da3b259ca9ae941cf5deec47e5", "chain_id": "schedule_chain_v1_6ddb0fc374f9d75a95dd39e8f50aa3bd", "chain_position": 1, "chain_length": 2},
+          {"target_flight_key": "flight_key_v1_fe0b73223e337e3839ccd3de2453a733", "chain_id": "schedule_chain_v1_2176e90480a2d5d29db0be01a0425fc8", "chain_position": 1, "chain_length": 2}
+        ]
+      },
+      "fingerprints": {
+        "chain_groups": "913ca816505acbbf4c27281979d24805fc003c3bec021b6d7bbbde8ee61ab343",
+        "chain_members": "76a8d8e76989fe85e282234da2adef4c687eb7a7fd29b78b4118f59e7359319f",
+        "inbound_target_map": "5dfa5852ac58fff3ffaf4a06bd3090d36713e4737a10a92be2a69b56df2e95e0",
+        "combined": "9d5185bd3fc1c8ebf9d0314b45e8fac322dcfdf3514525a258cf1e3ae425401b"
+      },
+      "critical_gates": {
+        "coverage": "PASS",
+        "flight_key": "PASS",
+        "chain_id": "PASS",
+        "multi_chain": "PASS",
+        "leakage_fields_found": [],
+        "raw_inventory": "PASS",
+        "development_2024": "BLOCKED",
+        "result": "PASS"
+      },
+      "resource_usage": {
+        "runtime_seconds": 4749.680383800001,
+        "rows_per_second": 1471.0130862342673,
+        "peak_staging_bytes": 3508682974,
+        "peak_sqlite_bytes": 2928291840,
+        "output_bytes": 580391134,
+        "peak_python_allocation_bytes": 211581833,
+        "disk_free_before_bytes": 64735711232,
+        "disk_free_at_peak_before_cleanup_bytes": 61225250816,
+        "disk_free_after_cleanup_bytes": 64153595904,
+        "staging_cleanup": "PASS",
+        "python_allocation_caveat": "tracemalloc excludes some native PyArrow allocations"
+      },
+      "next_year_disk_gate": {
+        "next_year": 2019,
+        "required_bytes_conservative": 18382969402,
+        "free_bytes": 64153595904,
+        "result": "PASS"
+      }
+    },
+    "2019": {
+      "status": "PASS",
+      "source_partition_rows": 7161827,
+      "metrics": {
+        "source_rows": 7161827,
+        "eligible_source_rows": 7161827,
+        "excluded_rows": 0,
+        "exclusion_reasons": {},
+        "mapped_rows": 7161827,
+        "eligible_coverage": 1.0,
+        "chain_count": 5522884,
+        "inbound_target_count": 391075,
+        "chain_length_distribution": {"min": 1, "median": 1, "p95": 2, "max": 8},
+        "chains_over_max_context_length": 4344,
+        "ambiguous_chain_count": 0,
+        "ambiguous_timestamp_count": 0,
+        "ambiguous_member_count": 0,
+        "duplicate_schedule_signature_count": 0,
+        "duplicate_schedule_signature_excess_rows": 0,
+        "duplicate_flight_key_count": 0,
+        "invalid_chain_id_count": 0,
+        "multi_chain_membership_count": 0,
+        "unmapped_eligible_rows": 0
+      },
+      "flight_number_semantics": {"value_count": 7161827, "missing_count": 0, "non_numeric_count": 0, "non_finite_count": 0, "non_integral_count": 0, "min": 1.0, "max": 7933.0, "result": "PASS"},
+      "atl_validation": {
+        "canonical_atl": 391075,
+        "inbound_target_map": 391075,
+        "atl_chain_members": 391075,
+        "duplicate_target_flight_key": 0,
+        "duplicate_atl_member_flight_key": 0,
+        "null_target_chain_id": 0,
+        "invalid_chain_position": 0,
+        "missing_target_member": 0,
+        "extra_atl_member": 0,
+        "target_member_mapping_mismatch": 0,
+        "missing_referenced_chain_group": 0,
+        "duplicate_referenced_chain_group": 0,
+        "target_group_chain_length_mismatch": 0,
+        "result": "PASS",
+        "examples": [
+          {"target_flight_key": "flight_key_v1_45218eac0c89f7dc063fe12fcc471af9", "chain_id": "schedule_chain_v1_fb217863ba1906830bd0322fc8a09522", "chain_position": 0, "chain_length": 1},
+          {"target_flight_key": "flight_key_v1_2692c3301bc9f02d630ed6d10a362e52", "chain_id": "schedule_chain_v1_e4d02078301569d9778f98bec0b48c8d", "chain_position": 0, "chain_length": 1},
+          {"target_flight_key": "flight_key_v1_6bcb83af97cf2af280837450bad3da6a", "chain_id": "schedule_chain_v1_251f6663f518f151cc292749b370685f", "chain_position": 0, "chain_length": 1}
+        ]
+      },
+      "fingerprints": {
+        "chain_groups": "f5596d78eebb65eb297fcea99d614f1575f8051c69d30302b82d86456670659e",
+        "chain_members": "4a7056973b28ec3d6cd61ce5a5a92335ed1665aeeecbb15216d8ee6b841f5bf5",
+        "inbound_target_map": "b046b1d4386c13ebd57d590738ee4e40d6b56520e476d5bfa9cf29ee4fb49302",
+        "combined": "656f9580be3ca8ff3421f249aedda094af5aaa1ff87b429e9dccd761ca7ab7a5"
+      },
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage_fields_found": [], "raw_inventory": "PASS", "development_2024": "BLOCKED", "result": "PASS"},
+      "resource_usage": {
+        "runtime_seconds": 4865.2335036,
+        "rows_per_second": 1472.041782722381,
+        "peak_staging_bytes": 3597797460,
+        "peak_sqlite_bytes": 3002527744,
+        "output_bytes": 595269716,
+        "peak_python_allocation_bytes": 216448591,
+        "disk_free_before_bytes": 64153591808,
+        "disk_free_at_peak_before_cleanup_bytes": 60554543104,
+        "disk_free_after_cleanup_bytes": 63557074944,
+        "staging_cleanup": "PASS",
+        "python_allocation_caveat": "tracemalloc excludes some native PyArrow allocations"
+      },
+      "next_year_disk_gate": {"next_year": 2020, "required_bytes_conservative": 15049238757, "free_bytes": 63557074944, "result": "PASS"}
+    },
+    "2020": {
+      "status": "PASS",
+      "source_partition_rows": 4312091,
+      "metrics": {
+        "source_rows": 4312091, "eligible_source_rows": 4312091, "excluded_rows": 0, "exclusion_reasons": {}, "mapped_rows": 4312091, "eligible_coverage": 1.0,
+        "chain_count": 3476881, "inbound_target_count": 242121,
+        "chain_length_distribution": {"min": 1, "median": 1, "p95": 2, "max": 8},
+        "chains_over_max_context_length": 593, "ambiguous_chain_count": 0, "ambiguous_timestamp_count": 0, "ambiguous_member_count": 0,
+        "duplicate_schedule_signature_count": 0, "duplicate_schedule_signature_excess_rows": 0,
+        "duplicate_flight_key_count": 0, "invalid_chain_id_count": 0, "multi_chain_membership_count": 0, "unmapped_eligible_rows": 0
+      },
+      "flight_number_semantics": {"value_count": 4312091, "missing_count": 0, "non_numeric_count": 0, "non_finite_count": 0, "non_integral_count": 0, "min": 1.0, "max": 9888.0, "result": "PASS"},
+      "atl_validation": {
+        "canonical_atl": 242121, "inbound_target_map": 242121, "atl_chain_members": 242121,
+        "duplicate_target_flight_key": 0, "duplicate_atl_member_flight_key": 0, "null_target_chain_id": 0, "invalid_chain_position": 0,
+        "missing_target_member": 0, "extra_atl_member": 0, "target_member_mapping_mismatch": 0, "missing_referenced_chain_group": 0,
+        "duplicate_referenced_chain_group": 0, "target_group_chain_length_mismatch": 0, "result": "PASS",
+        "examples": [
+          {"target_flight_key": "flight_key_v1_2f529f883cd406661fd7c5da55ce76b2", "chain_id": "schedule_chain_v1_d7201913f4b2e1fd60e8a637c4a30ccc", "chain_position": 0, "chain_length": 1},
+          {"target_flight_key": "flight_key_v1_e40d21f627f35a3f20f3dc96f2940aa0", "chain_id": "schedule_chain_v1_ab6ca07d38839fa986e9e8e182e5d70e", "chain_position": 0, "chain_length": 1},
+          {"target_flight_key": "flight_key_v1_8ddaecf1d3ed39cfb74d183fa6237a1b", "chain_id": "schedule_chain_v1_45ec2c6bdbc0e8729d9cbf6c981c4240", "chain_position": 0, "chain_length": 1}
+        ]
+      },
+      "fingerprints": {
+        "chain_groups": "818ef4765d6e0f99d870766b331c722f594700cfef54e32253cf4044008c83f9",
+        "chain_members": "08a6ff034aa5f42644f75602b95b6a695bbf6c89a71191020a04149c7bf5e95b",
+        "inbound_target_map": "6ca54fab55acf1c130084c3dc0cea0e8f350498dbe36bd581a686512dc5e5adc",
+        "combined": "9cb6766b48697013df3514d1a7eddb11b02c5990aa6fa9ec38a19b2838e081dc"
+      },
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage_fields_found": [], "raw_inventory": "PASS", "development_2024": "BLOCKED", "result": "PASS"},
+      "resource_usage": {
+        "runtime_seconds": 2932.8775496000017, "rows_per_second": 1470.2594728471024, "peak_staging_bytes": 2174907184, "peak_sqlite_bytes": 1809125376,
+        "output_bytes": 365781808, "peak_python_allocation_bytes": 206299513, "disk_free_before_bytes": 63557070848,
+        "disk_free_at_peak_before_cleanup_bytes": 61380915200, "disk_free_after_cleanup_bytes": 63190102016,
+        "staging_cleanup": "PASS", "python_allocation_caveat": "tracemalloc excludes some native PyArrow allocations"
+      },
+      "next_year_disk_gate": {"next_year": 2021, "required_bytes_conservative": 16782490094, "free_bytes": 63190102016, "result": "PASS"}
+    },
+    "2021": {
+      "status": "PASS",
+      "source_partition_rows": 5755666,
+      "metrics": {
+        "source_rows": 5755666, "eligible_source_rows": 5755666, "excluded_rows": 0, "exclusion_reasons": {}, "mapped_rows": 5755666, "eligible_coverage": 1.0,
+        "chain_count": 4734600, "inbound_target_count": 309621, "chain_length_distribution": {"min": 1, "median": 1, "p95": 2, "max": 8},
+        "chains_over_max_context_length": 777, "ambiguous_chain_count": 0, "ambiguous_timestamp_count": 0, "ambiguous_member_count": 0,
+        "duplicate_schedule_signature_count": 0, "duplicate_schedule_signature_excess_rows": 0,
+        "duplicate_flight_key_count": 0, "invalid_chain_id_count": 0, "multi_chain_membership_count": 0, "unmapped_eligible_rows": 0
+      },
+      "flight_number_semantics": {"value_count": 5755666, "missing_count": 0, "non_numeric_count": 0, "non_finite_count": 0, "non_integral_count": 0, "min": 1.0, "max": 8808.0, "result": "PASS"},
+      "atl_validation": {
+        "canonical_atl": 309621, "inbound_target_map": 309621, "atl_chain_members": 309621,
+        "duplicate_target_flight_key": 0, "duplicate_atl_member_flight_key": 0, "null_target_chain_id": 0, "invalid_chain_position": 0,
+        "missing_target_member": 0, "extra_atl_member": 0, "target_member_mapping_mismatch": 0, "missing_referenced_chain_group": 0,
+        "duplicate_referenced_chain_group": 0, "target_group_chain_length_mismatch": 0, "result": "PASS",
+        "examples": [
+          {"target_flight_key": "flight_key_v1_3681c28f1bc36877bd2d4b09588f28dd", "chain_id": "schedule_chain_v1_792509440050c8b9fac455df7c796a4a", "chain_position": 1, "chain_length": 2},
+          {"target_flight_key": "flight_key_v1_52504e0e3d8627cda411ee05d568830c", "chain_id": "schedule_chain_v1_9cc225fe23b753b03ece6b451cb9756f", "chain_position": 0, "chain_length": 1},
+          {"target_flight_key": "flight_key_v1_2bd0998464d9228ffd72ddbf04935083", "chain_id": "schedule_chain_v1_37f545ae323739d599c2f9e32c84c537", "chain_position": 1, "chain_length": 2}
+        ]
+      },
+      "fingerprints": {
+        "chain_groups": "bb5ca2b9d3284119338c90417c9779ce29a4c58428506f8bff100cac693de9a0",
+        "chain_members": "6c7394a19b4a8d614f13362480460226a6cbcbf6f6cd6e664f753859a840db39",
+        "inbound_target_map": "6c6f0d3b6b66b7495e5670821d51c947d0f47607134d7b5d1c5627f75cad8da6",
+        "combined": "a51f823a52c041a7da311eb660ffbd9eb97ccab742fb005905ece9e05b79399c"
+      },
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage_fields_found": [], "raw_inventory": "PASS", "development_2024": "BLOCKED", "result": "PASS"},
+      "resource_usage": {
+        "runtime_seconds": 3927.0049457999994, "rows_per_second": 1465.6630382286087, "peak_staging_bytes": 2903814051, "peak_sqlite_bytes": 2413416448,
+        "output_bytes": 490397603, "peak_python_allocation_bytes": 208434691, "disk_free_before_bytes": 63190097920,
+        "disk_free_at_peak_before_cleanup_bytes": 60285411328, "disk_free_after_cleanup_bytes": 62698840064,
+        "staging_cleanup": "PASS", "python_allocation_caveat": "tracemalloc excludes some native PyArrow allocations"
+      },
+      "next_year_disk_gate": {"next_year": 2022, "required_bytes_conservative": 17564195465, "free_bytes": 62698840064, "result": "PASS"}
+    },
+    "2022": {
+      "status": "PASS",
+      "source_partition_rows": 6413416,
+      "metrics": {
+        "source_rows": 6413416, "eligible_source_rows": 6413416, "excluded_rows": 0, "exclusion_reasons": {}, "mapped_rows": 6413416, "eligible_coverage": 1.0,
+        "chain_count": 5192960, "inbound_target_count": 311701, "chain_length_distribution": {"min": 1, "median": 1, "p95": 2, "max": 8},
+        "chains_over_max_context_length": 885, "ambiguous_chain_count": 0, "ambiguous_timestamp_count": 0, "ambiguous_member_count": 0,
+        "duplicate_schedule_signature_count": 0, "duplicate_schedule_signature_excess_rows": 0,
+        "duplicate_flight_key_count": 0, "invalid_chain_id_count": 0, "multi_chain_membership_count": 0, "unmapped_eligible_rows": 0
+      },
+      "flight_number_semantics": {"value_count": 6413416, "missing_count": 0, "non_numeric_count": 0, "non_finite_count": 0, "non_integral_count": 0, "min": 1.0, "max": 9562.0, "result": "PASS"},
+      "atl_validation": {
+        "canonical_atl": 311701, "inbound_target_map": 311701, "atl_chain_members": 311701,
+        "duplicate_target_flight_key": 0, "duplicate_atl_member_flight_key": 0, "null_target_chain_id": 0, "invalid_chain_position": 0,
+        "missing_target_member": 0, "extra_atl_member": 0, "target_member_mapping_mismatch": 0, "missing_referenced_chain_group": 0,
+        "duplicate_referenced_chain_group": 0, "target_group_chain_length_mismatch": 0, "result": "PASS",
+        "examples": [
+          {"target_flight_key": "flight_key_v1_68908d3ab8242757925def92502f0c8e", "chain_id": "schedule_chain_v1_b355dc80aec774de721b3fbc3c1346f5", "chain_position": 0, "chain_length": 1},
+          {"target_flight_key": "flight_key_v1_abb987a0ffcfa4314c3078d0768f5170", "chain_id": "schedule_chain_v1_a19d1c699f25faeed2310b00a7cbf94d", "chain_position": 0, "chain_length": 1},
+          {"target_flight_key": "flight_key_v1_48df2b0465d8a0830a810e0500e148dc", "chain_id": "schedule_chain_v1_80d38a1b0d4b7431957e5728d895c780", "chain_position": 0, "chain_length": 1}
+        ]
+      },
+      "fingerprints": {
+        "chain_groups": "bcd8b156d85bb57a2dc37797832e4d5907ce63548c842ed58200ceba675bd543",
+        "chain_members": "1280edf6e83d9f5a31a86e2978a6d1a491f7e8e9f89e5c3effe4834e9b4983e2",
+        "inbound_target_map": "b39ffe7658b4840708e24ae4adf4d6be418e1c76e4c18c34883b0d717a464b89",
+        "combined": "c862f86ef98e83f946abe872ab12a6e37164f1354d86e301deb6af9d67db8b59"
+      },
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage_fields_found": [], "raw_inventory": "PASS", "development_2024": "BLOCKED", "result": "PASS"},
+      "resource_usage": {
+        "runtime_seconds": 4377.261460300004, "rows_per_second": 1465.166305044169, "peak_staging_bytes": 3230814093, "peak_sqlite_bytes": 2688622592,
+        "output_bytes": 542191501, "peak_python_allocation_bytes": 206381414, "disk_free_before_bytes": 62698840064,
+        "disk_free_at_peak_before_cleanup_bytes": 59466735616, "disk_free_after_cleanup_bytes": 62155415552,
+        "staging_cleanup": "PASS", "python_allocation_caveat": "tracemalloc excludes some native PyArrow allocations"
+      },
+      "next_year_disk_gate": {"next_year": 2023, "required_bytes_conservative": 17819034825, "free_bytes": 62155415552, "result": "PASS"}
+    },
+    "2023": {
+      "status": "PASS",
+      "source_partition_rows": 6645461,
+      "metrics": {
+        "source_rows": 6645461, "eligible_source_rows": 6645461, "excluded_rows": 0, "exclusion_reasons": {}, "mapped_rows": 6645461, "eligible_coverage": 1.0,
+        "chain_count": 5339817, "inbound_target_count": 332741, "chain_length_distribution": {"min": 1, "median": 1, "p95": 2, "max": 8},
+        "chains_over_max_context_length": 241, "ambiguous_chain_count": 0, "ambiguous_timestamp_count": 0, "ambiguous_member_count": 0,
+        "duplicate_schedule_signature_count": 0, "duplicate_schedule_signature_excess_rows": 0,
+        "duplicate_flight_key_count": 0, "invalid_chain_id_count": 0, "multi_chain_membership_count": 0, "unmapped_eligible_rows": 0
+      },
+      "flight_number_semantics": {"value_count": 6645461, "missing_count": 0, "non_numeric_count": 0, "non_finite_count": 0, "non_integral_count": 0, "min": 1.0, "max": 9887.0, "result": "PASS"},
+      "atl_validation": {
+        "canonical_atl": 332741, "inbound_target_map": 332741, "atl_chain_members": 332741,
+        "duplicate_target_flight_key": 0, "duplicate_atl_member_flight_key": 0, "null_target_chain_id": 0, "invalid_chain_position": 0,
+        "missing_target_member": 0, "extra_atl_member": 0, "target_member_mapping_mismatch": 0, "missing_referenced_chain_group": 0,
+        "duplicate_referenced_chain_group": 0, "target_group_chain_length_mismatch": 0, "result": "PASS",
+        "examples": [
+          {"target_flight_key": "flight_key_v1_605bb2598bbcc5a9273fcfabe7ca21a1", "chain_id": "schedule_chain_v1_38bb191afa0013012d281ef4e0ceab70", "chain_position": 1, "chain_length": 2},
+          {"target_flight_key": "flight_key_v1_8c2d9ca5998abfb74b722357dec3f97d", "chain_id": "schedule_chain_v1_2b27fbc842145eba8c67e0d311f24892", "chain_position": 1, "chain_length": 2},
+          {"target_flight_key": "flight_key_v1_3f502237150f53b8dd3fb2174463cdda", "chain_id": "schedule_chain_v1_c7133c2fcdb85bdee9846facf331130c", "chain_position": 0, "chain_length": 1}
+        ]
+      },
+      "fingerprints": {
+        "chain_groups": "6721a7f6176cbd8d5858fa56244a1b60e8aad0ce1278f8ecb7ed1aa14c8ac4ec",
+        "chain_members": "c0cf1ac0f4d39183d1c90fdc3533dd9cf6246f4ec09122b4747913f27542d71f",
+        "inbound_target_map": "ead2fd4c415c283b547e3437647ecfb36962c38cfa895cd4c7a4d017c37988ac",
+        "combined": "b0c58fa340a9f613bd7d4f25cb67b35c7002df57c60b0631e9c89e519e53770c"
+      },
+      "critical_gates": {"coverage": "PASS", "flight_key": "PASS", "chain_id": "PASS", "multi_chain": "PASS", "leakage_fields_found": [], "raw_inventory": "PASS", "development_2024": "BLOCKED", "result": "PASS"},
+      "resource_usage": {
+        "runtime_seconds": 4543.122625700002, "rows_per_second": 1462.7518443828205, "peak_staging_bytes": 3346357604, "peak_sqlite_bytes": 2786086912,
+        "output_bytes": 560270692, "peak_python_allocation_bytes": 205565600, "disk_free_before_bytes": 62155411456,
+        "disk_free_at_peak_before_cleanup_bytes": 58807689216, "disk_free_after_cleanup_bytes": 61593731072,
+        "staging_cleanup": "PASS", "python_allocation_caveat": "tracemalloc excludes some native PyArrow allocations"
+      }
+    }
+  },
+  "aggregate_2016_2023": {
+    "source_rows": 48389162,
+    "eligible_rows": 48389162,
+    "mapped_rows": 48389162,
+    "coverage": 1.0,
+    "excluded_rows": 0,
+    "chain_count": 38004376,
+    "inbound_target_count": 2713268,
+    "chains_over_max_context_length": 19264,
+    "ambiguous_chain_count": 3,
+    "ambiguous_timestamp_count": 3,
+    "ambiguous_member_count": 6,
+    "duplicate_schedule_signature_count": 1,
+    "duplicate_schedule_signature_excess_rows": 1,
+    "output_bytes": 4056921478,
+    "runtime_seconds": 32912.11977770001,
+    "years_present": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
+    "year_2016_logical_fingerprints_unchanged": true,
+    "raw_inventory_unchanged": true,
+    "development_2024_blocked": true,
+    "result": "PASS"
+  }
+}
