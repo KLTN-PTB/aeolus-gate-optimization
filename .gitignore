@@ -8,6 +8,8 @@ __pycache__/
 
 # Virtual environments
 .venv/
+.venv311_candidate/
+.venv310_backup_20260826/
 venv/
 env/
 
@@ -39,6 +41,9 @@ artifacts/optuna_studies/**
 # Reproducibility manifests SHOULD be version controlled
 !artifacts/manifests/
 !artifacts/manifests/**
+# Ignore temporary schema audit working directories
+artifacts/manifests/schema_audit/.temporary/
+
 results/**
 
 # Model / data artifacts
@@ -50,3 +55,4 @@ results/**
 # Logs
 *.log
 logs/
+
