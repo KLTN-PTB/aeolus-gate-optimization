@@ -1,0 +1,52 @@
+baseline_version: arrival_hist_gradient_boosting_baseline_v1
+experiment_contract_version: arrival_week4_experiment_v1
+task: arrival_core
+method_id: hist_gradient_boosting
+feature_manifest_version: feature_manifest_arrival_v1
+preprocessing_version: arrival_preprocessing_v1
+classification:
+  estimator: HistGradientBoostingClassifier
+  loss: log_loss
+  learning_rate: 0.05
+  max_iter: 200
+  max_leaf_nodes: 31
+  max_depth: 8
+  min_samples_leaf: 50
+  l2_regularization: 1.0
+  max_features: 1.0
+  max_bins: 255
+  categorical_features: null
+  early_stopping: false
+  warm_start: false
+  class_weight_policy: balanced_from_training_fold_only
+  random_state_source: configs/base.yaml:reproducibility.project_seed
+regression:
+  estimator: HistGradientBoostingRegressor
+  loss: squared_error
+  learning_rate: 0.05
+  max_iter: 200
+  max_leaf_nodes: 31
+  max_depth: 8
+  min_samples_leaf: 50
+  l2_regularization: 1.0
+  max_features: 1.0
+  max_bins: 255
+  categorical_features: null
+  early_stopping: false
+  warm_start: false
+  random_state_source: configs/base.yaml:reproducibility.project_seed
+resource_policy:
+  target_memory_gib: 16
+  production_training_rows: full_eligible_fold_rows
+  production_sampling_allowed: false
+  early_stopping_policy: disabled_no_internal_validation_split
+  rationale: >
+    Fixed capacity-bound baseline: capped boosting iterations, bounded tree
+    complexity and leaf support, plus no internal validation split. No parameter
+    was selected from production validation metrics.
+threshold_policy:
+  fixed_probability_threshold: 0.5
+  validation_optimization_allowed: false
+hpo:
+  allowed: false
+  rationale: Fixed deterministic Week-4 baseline; HGB tuning is out of scope for this prompt.

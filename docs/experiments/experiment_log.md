@@ -296,3 +296,38 @@ Week 3C prepared the provider-agnostic provenance/schema/join decision
 template only. It did not establish `POINT_IN_TIME_WEATHER_PROVENANCE = PASS`.
 An unproven or failed critical gate keeps DEP-B
 `BLOCKED_NOT_CORE_FAILURE`; Core Arrival can proceed to Week 4.
+
+
+## Week 4 — Core Arrival baseline rolling evidence
+
+- **Timestamp:** 2026-09-14T17:55:20.668246+07:00
+- **Protocol:** V4.0 Core Arrival; `arrival_week4_experiment_v1`.
+- **Status:** Linear, Random Forest, and HistGradientBoosting locked rolling runs consolidated.
+- **Folds:** 2016–2018 → 2019; 2016–2019 → 2020; 2016–2020 → 2021; 2016–2021 → 2022.
+- **Evidence:** Exact OOF `flight_key`, classification-label, and signed regression-label parity passed for all four folds (1,254,518 OOF rows per method); full eligible rows were used.
+- **Boundaries:** No Weather, Chain, Departure auxiliary input, realized operations, row-level 2023, or row-level 2024.
+- **Selection status:** No champion selection, retuning, post-hoc calibration, ensemble, or final-holdout evaluation.
+- **Artifacts:** `week4_core_arrival_baselines.md` and `week4_core_arrival_baselines_summary_v1.json`.
+
+## Week 4 final acceptance audit
+
+- **Timestamp:** 2026-09-14 18:07 +07:00
+- **Protocol:** V4.0 Core Arrival; independent W4-09 acceptance audit.
+- **Week 4 status:** `PASS / COMPLETED`.
+- **Critical gates:** 9/9 PASS for three methods, temporal protocol, leakage,
+  preprocessing isolation, metrics/resources, OOF integrity, reproducibility,
+  tests, and documentation.
+- **Artifact validation:** Re-read all 12 production OOF Parquet files;
+  verified exact schema/metadata, finite outputs, probability bounds,
+  per-fold and cross-fold uniqueness, and exact cross-method row/target parity.
+  Per-fold and pooled metrics recomputed from OOF matched production manifests
+  to absolute tolerance `1e-12`. Config/manifest SHA-256 records remain current.
+- **Tests:** Week-4 targeted suite `20 passed`; full suite `242 passed`;
+  framework, Linear, Random Forest, and HistGradientBoosting smokes PASS;
+  compile/import and explicit 2024 development-denial checks PASS.
+- **Temporal access:** Week 4 row-level 2023 access = NO; row-level 2024 access
+  = NO. The system-freeze manifest remains absent and 2024 remains sealed.
+- **Excluded work:** No XGBoost, Optuna/HPO, ensemble, Weather experiment,
+  Chain ablation, 2023 selection, 2024 evaluation, commit, or push was run.
+- **Next roadmap stage:** Week 5 XGBoost plus fixed-budget Optuna; Week 5 is
+  not started or marked complete by this audit.

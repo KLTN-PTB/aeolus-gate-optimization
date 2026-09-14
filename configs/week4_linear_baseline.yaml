@@ -1,0 +1,27 @@
+baseline_version: arrival_linear_baseline_v1
+experiment_contract_version: arrival_week4_experiment_v1
+task: arrival_core
+method_id: linear
+feature_manifest_version: feature_manifest_arrival_v1
+preprocessing_version: arrival_preprocessing_v1
+classification:
+  estimator: LogisticRegression
+  solver: saga
+  C: 1.0
+  max_iter: 300
+  tol: 0.001
+  fit_intercept: true
+  class_weight_policy: balanced_from_training_fold_only
+  random_state_source: configs/base.yaml:reproducibility.project_seed
+regression:
+  estimator: Ridge
+  alpha: 1.0
+  solver: lsqr
+  tol: 0.001
+  fit_intercept: true
+threshold_policy:
+  fixed_probability_threshold: 0.5
+  validation_optimization_allowed: false
+hpo:
+  allowed: false
+  rationale: Conservative fixed regularization baseline; C, alpha, and threshold are locked before production validation.

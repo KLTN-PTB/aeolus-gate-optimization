@@ -1,0 +1,47 @@
+baseline_version: arrival_random_forest_baseline_v1
+experiment_contract_version: arrival_week4_experiment_v1
+task: arrival_core
+method_id: random_forest
+feature_manifest_version: feature_manifest_arrival_v1
+preprocessing_version: arrival_preprocessing_v1
+classification:
+  estimator: RandomForestClassifier
+  n_estimators: 96
+  criterion: gini
+  max_depth: 14
+  min_samples_split: 40
+  min_samples_leaf: 20
+  max_features: sqrt
+  bootstrap: true
+  max_samples: null
+  n_jobs: 1
+  class_weight_policy: balanced_from_training_fold_only
+  random_state_source: configs/base.yaml:reproducibility.project_seed
+regression:
+  estimator: RandomForestRegressor
+  n_estimators: 96
+  criterion: squared_error
+  max_depth: 14
+  min_samples_split: 40
+  min_samples_leaf: 20
+  max_features: sqrt
+  bootstrap: true
+  max_samples: null
+  n_jobs: 1
+  random_state_source: configs/base.yaml:reproducibility.project_seed
+resource_policy:
+  target_memory_gib: 16
+  execution_parallelism: 1
+  production_training_rows: full_eligible_fold_rows
+  production_sampling_allowed: false
+  max_samples_policy: null_means_full_bootstrap_draw_size
+  rationale: >
+    Fixed capacity-bound baseline: shallow-enough trees, minimum leaf support,
+    feature subsampling, and single-process execution cap concurrent forest
+    memory. No parameter was selected from validation metrics.
+threshold_policy:
+  fixed_probability_threshold: 0.5
+  validation_optimization_allowed: false
+hpo:
+  allowed: false
+  rationale: Fixed deterministic Week-4 baseline; RF tuning is out of scope for this prompt.
