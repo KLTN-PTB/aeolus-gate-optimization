@@ -1,0 +1,126 @@
+{
+  "baseline_version": "arrival_hist_gradient_boosting_baseline_v1",
+  "capacity_preflight": {
+    "disk_free_bytes": 91660042240,
+    "disk_safety_floor_bytes": 10737418240,
+    "disk_total_bytes": 322121494528,
+    "memory": {
+      "process_rss_bytes": 172601344,
+      "system_available_bytes": 4764569600,
+      "system_total_bytes": 16866873344,
+      "system_used_percent": 71.8
+    },
+    "memory_safety_floor_bytes": 536870912
+  },
+  "classifier": "HistGradientBoostingClassifier",
+  "config_and_manifest_sha256": {
+    "base_config": "3d93727982f72b3955c4e8d382eb8996aa18c730d40ba7ee325db0edba77f838",
+    "feature_manifest": "cb352a56d194e9f39ee9477fdbc5da7929ba03b5ba089100cbd88b01dec09e85",
+    "feature_pipeline_registry": "13090afdcb4ce003f31c361b08fc03828ce772d6dc2ab51a1381cadeef3e4054",
+    "hist_gradient_boosting_baseline_config": "56fe0259813481d502e02bc366c51687fd9f4315e9c7de0f576bdebb1f725319",
+    "linear_run_manifest": "f974b6c63296f5cae2f688f70c344956d305ffc176484b6d08955f450103f866",
+    "processed_data_manifest": "8e0856fea4697c8e42e79d31beb0eac85207ae5ca6c404806f38d06f852d2933",
+    "reconstructed_chain_audit": "8e701992742e5d94625fc48a929e2a7caa503fb084a13dbf13054bf5d501882e",
+    "temporal_folds_manifest": "8c5bfbd400e0f0c8591ff0bdcf37759e7e4eaead00697f5e5d92c2a9fcea0f31"
+  },
+  "created_at_utc": "2026-09-14T10:41:58.827139+00:00",
+  "excluded_row_years": [
+    2023,
+    2024
+  ],
+  "folds": [
+    {
+      "fold_id": "fold_1",
+      "train_years": [
+        2016,
+        2017,
+        2018
+      ],
+      "validation_year": 2019
+    },
+    {
+      "fold_id": "fold_2",
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "validation_year": 2020
+    },
+    {
+      "fold_id": "fold_3",
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "validation_year": 2021
+    },
+    {
+      "fold_id": "fold_4",
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "validation_year": 2022
+    }
+  ],
+  "full_data_required": true,
+  "io_batch_size": 65536,
+  "method": "hist_gradient_boosting",
+  "no_sampling_or_truncation": true,
+  "planned_oof_artifacts": [
+    "artifacts\\predictions\\arrival_hist_gradient_boosting_rolling_run_v1_fold_1.parquet",
+    "artifacts\\predictions\\arrival_hist_gradient_boosting_rolling_run_v1_fold_2.parquet",
+    "artifacts\\predictions\\arrival_hist_gradient_boosting_rolling_run_v1_fold_3.parquet",
+    "artifacts\\predictions\\arrival_hist_gradient_boosting_rolling_run_v1_fold_4.parquet"
+  ],
+  "project_config_version": "0.1.0",
+  "project_root": "D:\\Study\\Code\\Python\\Aelous",
+  "protocol": {
+    "chain_predictors": "blocked",
+    "no_departure_delay_or_actual_operations": true,
+    "no_weather": true,
+    "prediction_cutoff": "CRS_DEP_TIME - 2h",
+    "random_split": false,
+    "target": "DEST=ATL; y_arr_cls=1[ARR_DELAY>=15]; y_arr_reg=ARR_DELAY signed"
+  },
+  "python": "3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]",
+  "reference_linear_validation_fingerprints": {
+    "fold_1": "93a8af05982106063279a6ddd667c24b",
+    "fold_2": "8463b87a85525b66c6383cf63010e307",
+    "fold_3": "4645cdb4a659d6c86ac8e0bcd4477760",
+    "fold_4": "f3f843d9e92e691cb41ee1ddb2444f19"
+  },
+  "regressor": "HistGradientBoostingRegressor",
+  "resource_policy": {
+    "early_stopping": false,
+    "l2_regularization": 1.0,
+    "learning_rate": 0.05,
+    "max_depth": 8,
+    "max_iter": 200,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 50,
+    "production_sampling_allowed": false
+  },
+  "row_level_2024_access": "DENIED_BY_GUARD",
+  "run_version": "arrival_hist_gradient_boosting_rolling_run_v1",
+  "seed": 202601,
+  "source_manifest_row_counts_2016_2022": {
+    "2016": 381166,
+    "2017": 358263,
+    "2018": 386580,
+    "2019": 391075,
+    "2020": 242121,
+    "2021": 309621,
+    "2022": 311701
+  },
+  "status": "PREPARED"
+}
