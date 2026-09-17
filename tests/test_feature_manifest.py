@@ -99,9 +99,11 @@ def test_outlier_guard_preserves_ml_truth_and_defers_simulation_bounds() -> None
     assert guard["future_simulation_guard"]["changes_ml_ground_truth"] is False
 
 
-def test_requirements_pin_only_activated_week3a_dependency() -> None:
+def test_requirements_pin_only_activated_dependencies_through_week5_protocol() -> None:
     requirements = (ROOT / "requirements.txt").read_text(encoding="utf-8")
 
     assert "scikit-learn==1.9.0" in requirements
-    for future_dependency in ["xgboost", "optuna", "shap", "ortools", "streamlit", "plotly"]:
+    assert "xgboost==3.2.0" in requirements
+    assert "optuna==5.0.0" in requirements
+    for future_dependency in ["shap", "ortools", "streamlit", "plotly"]:
         assert future_dependency not in requirements.lower()
