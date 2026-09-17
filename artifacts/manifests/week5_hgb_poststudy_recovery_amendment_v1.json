@@ -1,0 +1,39 @@
+{
+  "adopt_existing_completed_classification": true,
+  "amendment_id": "week5_hgb_poststudy_recovery_amendment_v1",
+  "amendment_type": "NON_STATISTICAL_EXECUTION_RECOVERY",
+  "classification_complete_trials": 10,
+  "classification_evidence_hashes": {
+    "guard_journal_sha256": "1b04ec9606ef2b8a2dfbc06f302258743ea88f1af215f3a6f7891e5f70e0b230",
+    "heartbeat_sha256": "207669331cf5650e4820f47d3fbfc69c9d14aa1e17c4ab782b6b7c3f872ccdc4",
+    "sqlite_sha256": "663f6c81d55ed53b46900c67ebd8fec066d3789612deecb61fc1cd3f2cce12f4"
+  },
+  "classification_hpo_complete": true,
+  "classification_new_trials": 0,
+  "classification_optimize_called_again": false,
+  "classification_rerun": false,
+  "classification_resume": false,
+  "classification_study_status": "VALID_COMPLETE_PRODUCTION_STUDY",
+  "created_at_utc": "2026-09-17T09:30:28.142829+00:00",
+  "fixed_source_hashes": {
+    "hgb_runner_sha256": "5d905aa5f26baabfc64ae669ed316c1f98445f75fcd1e300081e982ca5cda525",
+    "recovery_runner_sha256": "83c6e6f3ec4dde20bad4ef5651e41d524a5087f3bc21015c37bc4487f0ebf4d8"
+  },
+  "incident_type": "POST_STUDY_ARTIFACT_MATERIALIZATION_FAILURE",
+  "model_results_changed": false,
+  "pre_recovery_source_hashes": {
+    "hgb_estimator_factory_sha256": "8e13bf3dddb260d9799345e0871a83698c66941bc037fe982284ed2d3189ffec",
+    "hgb_runner_sha256": "a272b4d820fb62fff7817462d6906d583401f7200d25f31e12e5cbc847b51bf2",
+    "protocol_config_sha256": "bcb6263f8a030fc149d72f409a912b17f1b4db20c638eb50a396c959726b973a",
+    "protocol_manifest_sha256": "b7eed99fd42f5e6c907cb9fc57e0c48c8e53f1806134f91741a7042cd1e740a6"
+  },
+  "protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "protocol_version": "week5_hpo_protocol_v1_1",
+  "regression_started_before_failure": false,
+  "regression_status_before_recovery": "NOT_STARTED",
+  "root_cause": "OPTUNA_SQLITE_SCHEMA_ASSUMPTION",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false,
+  "schema_version": "1.0.0",
+  "statistical_protocol_changed": false
+}

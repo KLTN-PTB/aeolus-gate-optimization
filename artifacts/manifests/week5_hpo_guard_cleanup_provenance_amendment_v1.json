@@ -1,0 +1,99 @@
+{
+  "amendment_id": "week5_hpo_guard_cleanup_provenance_amendment_v1",
+  "amendment_type": "NON_STATISTICAL_PROVENANCE_AMENDMENT",
+  "created_at": "2026-09-17T14:33:16.4581769+07:00",
+  "parent_execution_amendment": {
+    "path": "artifacts/manifests/week5_hpo_execution_amendment_v1.json",
+    "sha256": "2c799ffcd2eada742a0473205d5fa4d64f41e310412758817804215f2048353b"
+  },
+  "protocol": {
+    "version": "week5_hpo_protocol_v1_1",
+    "hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+    "manifest_path": "artifacts/manifests/week5_hpo_protocol_v1_1.json",
+    "manifest_sha256": "b7eed99fd42f5e6c907cb9fc57e0c48c8e53f1806134f91741a7042cd1e740a6",
+    "config_path": "configs/week5_hpo_v1_1.yaml",
+    "config_sha256": "bcb6263f8a030fc149d72f409a912b17f1b4db20c638eb50a396c959726b973a"
+  },
+  "production_evidence": {
+    "classification_result_manifest": "artifacts/manifests/week5_hpo_protocol_v1_1__random_forest_classification_result_v1.json",
+    "classification_result_manifest_sha256": "2eb072c1aa6691d30c3576b138230a226942f972738f0e05c21d1252ed4589a1",
+    "regression_result_manifest": "artifacts/manifests/week5_hpo_protocol_v1_1__random_forest_regression_result_v1.json",
+    "regression_result_manifest_sha256": "2192444e3495a6080752619001b88bd733e7c42b109ff5924f06418f18cce85d",
+    "source_summary": "artifacts/manifests/week5_random_forest_hpo_v1_1_summary_v3.json",
+    "source_summary_sha256": "f63a9db63a6bac77310cff1f1a7f08d611c42b05315b54b635a47c8fdda21ed2",
+    "classification_complete_trials": 10,
+    "regression_complete_trials": 10
+  },
+  "statistical_protocol_changed": false,
+  "model_results_changed": false,
+  "hpo_rerun": false,
+  "new_trials_created": false,
+  "historical_cleanup_facts": {
+    "sleep_guard_activation_explicitly_persisted": true,
+    "suspend_detection_explicitly_persisted": true,
+    "environment_validity_explicitly_persisted": true,
+    "guard_cleanup_implemented_in_finally": true,
+    "runner_clean_exit": true,
+    "explicit_persisted_cleanup_success_event": false,
+    "cleanup_success_return_value_persisted": false
+  },
+  "historical_cleanup_provenance": "INFERRED_ONLY",
+  "explicit_cleanup_event_available": false,
+  "historical_limitation": "Cleanup-success return value was not persisted during the RF production run.",
+  "post_exit_power_request_audit": {
+    "audit_timestamp": "2026-09-17T14:33:16.4581769+07:00",
+    "rf_process_active": false,
+    "process_query_result": [],
+    "powercfg_command": "powercfg /requests",
+    "powercfg_exit_code": 1,
+    "powercfg_complete_output": "This command requires administrator privileges and must be executed from an elevated command prompt.",
+    "powercfg_result": "INCONCLUSIVE_NON_ELEVATED_SESSION",
+    "elevation_requested": false,
+    "fallback_read_only_api": "CallNtPowerInformation(SystemExecutionState)",
+    "fallback_api_ntstatus": 0,
+    "system_execution_state": 0,
+    "es_system_required_active": false,
+    "es_display_required_active": false,
+    "es_user_present_active": false,
+    "attributable_rf_request_active": false,
+    "abnormal_lingering_execution_guard_detected": false,
+    "cleanup_postcondition": "VERIFIED_CLEAR"
+  },
+  "cleanup_postcondition": "VERIFIED_CLEAR",
+  "cleanup_acceptance": "ACCEPTED_VIA_NON_STATISTICAL_AMENDMENT",
+  "future_cleanup_telemetry": {
+    "implementation": "src/models/week5_hpo_execution.py#windows_hpo_execution_guard",
+    "runner_reference": "scripts/run_week5_random_forest_hpo_v1_1.py#run_with_windows_guard",
+    "events": [
+      "GUARD_ACTIVATION_ATTEMPT",
+      "GUARD_ACTIVATION_SUCCESS",
+      "GUARD_ACTIVATION_FAILURE",
+      "GUARD_CLEANUP_ATTEMPT",
+      "GUARD_CLEANUP_SUCCESS",
+      "GUARD_CLEANUP_FAILURE"
+    ],
+    "cleanup_return_value_captured": true,
+    "applies_to_future_production_runs_only": true,
+    "historical_heartbeats_modified": false
+  },
+  "external_implementation_rationale": [
+    {
+      "title": "SetThreadExecutionState function",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate"
+    },
+    {
+      "title": "System Sleep Criteria",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/power/system-sleep-criteria"
+    },
+    {
+      "title": "CallNtPowerInformation function",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/powerbase/nf-powerbase-callntpowerinformation"
+    },
+    {
+      "title": "Powercfg command-line options",
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options"
+    }
+  ],
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false
+}

@@ -1,0 +1,181 @@
+{
+  "baseline_immutable_sha256": {
+    "artifacts\\manifests\\arrival_hist_gradient_boosting_rolling_run_v1.json": "186d0db8cbbff4f074ff6e77fe6503e009de3a7ac237f79fe817145e06ad46b7",
+    "artifacts\\manifests\\arrival_linear_rolling_run_v1.json": "f974b6c63296f5cae2f688f70c344956d305ffc176484b6d08955f450103f866",
+    "artifacts\\manifests\\arrival_random_forest_rolling_run_v1.json": "953b5592b9f1ba4597127aeff989861050685a383dadddd322d9a50e04b89cca",
+    "artifacts\\manifests\\arrival_xgboost_rolling_run_v1.json": "07fb2fee458492f2fa30fcbe521a3a40c08a385c28fe7324bb29603ed561fe05",
+    "artifacts\\predictions\\arrival_linear_rolling_run_v1_fold_1.parquet": "14cb8bbe93d3142099dd35cfc29d015f6adefa8997cd0baddb28702bdd585a42",
+    "artifacts\\predictions\\arrival_linear_rolling_run_v1_fold_2.parquet": "b8801e39b6d336f3f0d831553236dfb294dd39817d4172cd2c25d2c709db64de",
+    "artifacts\\predictions\\arrival_linear_rolling_run_v1_fold_3.parquet": "7ce236af38ca50b749ec2a67534b790d8653323ac3f298241b90090dc2862ff1",
+    "artifacts\\predictions\\arrival_linear_rolling_run_v1_fold_4.parquet": "ccf1ffe98cf55a342ca3ebf6abac15a69218d6af8a0c0294e47872c33f19b6c8"
+  },
+  "champion_selected": false,
+  "created_at_utc": "2026-09-17T11:18:24.050895+00:00",
+  "current_method": "xgboost",
+  "folds": [
+    {
+      "fold_id": "fold_1",
+      "train_years": [
+        2016,
+        2017,
+        2018
+      ],
+      "validation_year": 2019
+    },
+    {
+      "fold_id": "fold_2",
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "validation_year": 2020
+    },
+    {
+      "fold_id": "fold_3",
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "validation_year": 2021
+    },
+    {
+      "fold_id": "fold_4",
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "validation_year": 2022
+    }
+  ],
+  "hpo_rerun": false,
+  "linear_anchor_manifest": "artifacts\\manifests\\arrival_linear_rolling_run_v1.json",
+  "linear_anchor_oof_sha256": {
+    "fold_1": "14cb8bbe93d3142099dd35cfc29d015f6adefa8997cd0baddb28702bdd585a42",
+    "fold_2": "b8801e39b6d336f3f0d831553236dfb294dd39817d4172cd2c25d2c709db64de",
+    "fold_3": "7ce236af38ca50b749ec2a67534b790d8653323ac3f298241b90090dc2862ff1",
+    "fold_4": "ccf1ffe98cf55a342ca3ebf6abac15a69218d6af8a0c0294e47872c33f19b6c8"
+  },
+  "linear_anchor_sha256": "f974b6c63296f5cae2f688f70c344956d305ffc176484b6d08955f450103f866",
+  "methods": {
+    "hist_gradient_boosting": {
+      "classification_params": {
+        "l2_regularization": 1.0,
+        "learning_rate": 0.05589991383688294,
+        "max_depth": 6,
+        "max_features": 0.6,
+        "max_iter": 150,
+        "max_leaf_nodes": 39,
+        "min_samples_leaf": 20
+      },
+      "planned_oof_artifacts": [
+        "artifacts\\predictions\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1_fold_1.parquet",
+        "artifacts\\predictions\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1_fold_2.parquet",
+        "artifacts\\predictions\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1_fold_3.parquet",
+        "artifacts\\predictions\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1_fold_4.parquet"
+      ],
+      "regression_params": {
+        "l2_regularization": 4.0,
+        "learning_rate": 0.07954536476970449,
+        "max_depth": 4,
+        "max_features": 0.6,
+        "max_iter": 250,
+        "max_leaf_nodes": 55,
+        "min_samples_leaf": 60
+      },
+      "run_version": "arrival_hist_gradient_boosting_tuned_rolling_run_v1_1",
+      "source_hpo": {
+        "classification_result": "artifacts\\manifests\\week5_hpo_protocol_v1_1__hist_gradient_boosting_classification_result_v1.json",
+        "classification_result_sha256": "aa1c91aa7adec6875300642d07796e9c1e40ccafc083c0a029c318057cc89951",
+        "regression_result": "artifacts\\manifests\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression_result_v1.json",
+        "regression_result_sha256": "358b6ccb42d8e15214a3fd0bf669420575d3885b630020c4d9ead7ca63a4206e",
+        "summary": "artifacts\\manifests\\week5_hist_gradient_boosting_hpo_v1_1_summary_v1.json",
+        "summary_sha256": "ba5d7c74e5a2ad1cb88f082c73021644cc737617ae9b275c443d5e4a66f272df"
+      }
+    },
+    "random_forest": {
+      "classification_params": {
+        "max_depth": 6,
+        "max_features": "log2",
+        "max_samples": 0.6,
+        "min_samples_leaf": 40,
+        "min_samples_split": 20,
+        "n_estimators": 160
+      },
+      "planned_oof_artifacts": [
+        "artifacts\\predictions\\arrival_random_forest_tuned_rolling_run_v1_1_fold_1.parquet",
+        "artifacts\\predictions\\arrival_random_forest_tuned_rolling_run_v1_1_fold_2.parquet",
+        "artifacts\\predictions\\arrival_random_forest_tuned_rolling_run_v1_1_fold_3.parquet",
+        "artifacts\\predictions\\arrival_random_forest_tuned_rolling_run_v1_1_fold_4.parquet"
+      ],
+      "regression_params": {
+        "max_depth": 10,
+        "max_features": "sqrt",
+        "max_samples": 0.6,
+        "min_samples_leaf": 30,
+        "min_samples_split": 20,
+        "n_estimators": 192
+      },
+      "run_version": "arrival_random_forest_tuned_rolling_run_v1_1",
+      "source_hpo": {
+        "classification_result": "artifacts\\manifests\\week5_hpo_protocol_v1_1__random_forest_classification_result_v1.json",
+        "classification_result_sha256": "2eb072c1aa6691d30c3576b138230a226942f972738f0e05c21d1252ed4589a1",
+        "regression_result": "artifacts\\manifests\\week5_hpo_protocol_v1_1__random_forest_regression_result_v1.json",
+        "regression_result_sha256": "2192444e3495a6080752619001b88bd733e7c42b109ff5924f06418f18cce85d",
+        "summary": "artifacts\\manifests\\week5_random_forest_hpo_v1_1_summary_v4.json",
+        "summary_sha256": "54247aa8111dd7a73c8b636eb299da84ad442f818b3f447ecc5019c4efba77b0"
+      }
+    },
+    "xgboost": {
+      "classification_params": {
+        "colsample_bytree": 0.6,
+        "learning_rate": 0.03230824360421075,
+        "max_depth": 6,
+        "min_child_weight": 7.0,
+        "n_estimators": 150,
+        "reg_alpha": 4.5,
+        "reg_lambda": 0.30338019740385763,
+        "subsample": 0.9
+      },
+      "planned_oof_artifacts": [
+        "artifacts\\predictions\\arrival_xgboost_tuned_rolling_run_v1_1_fold_1.parquet",
+        "artifacts\\predictions\\arrival_xgboost_tuned_rolling_run_v1_1_fold_2.parquet",
+        "artifacts\\predictions\\arrival_xgboost_tuned_rolling_run_v1_1_fold_3.parquet",
+        "artifacts\\predictions\\arrival_xgboost_tuned_rolling_run_v1_1_fold_4.parquet"
+      ],
+      "regression_params": {
+        "colsample_bytree": 0.6,
+        "learning_rate": 0.062477640978226154,
+        "max_depth": 4,
+        "min_child_weight": 6.0,
+        "n_estimators": 200,
+        "reg_alpha": 1.0,
+        "reg_lambda": 0.39186667315961216,
+        "subsample": 0.7
+      },
+      "run_version": "arrival_xgboost_tuned_rolling_run_v1_1",
+      "source_hpo": {
+        "classification_result": "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_classification_result_v1.json",
+        "classification_result_sha256": "1da21cff50447c741efdc4de644dc1bce88f203af11b00895cebeeb64a621680",
+        "regression_result": "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json",
+        "regression_result_sha256": "eb82039e078ff99e7b4bce9960bf6365377f99723b8ab10204bb0a6760faf20e",
+        "summary": "artifacts\\manifests\\week5_xgboost_hpo_v1_1_summary_v1.json",
+        "summary_sha256": "cc9dfc6fe8218565533473c68098b4682749e11f4fb8d906e15f44776cefc4e8"
+      }
+    }
+  },
+  "protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "protocol_version": "week5_hpo_protocol_v1_1",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false,
+  "seed": 202601,
+  "status": "PREPARED"
+}

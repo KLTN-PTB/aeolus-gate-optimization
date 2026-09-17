@@ -1,0 +1,66 @@
+{
+  "arr_b_enabled": false,
+  "chain_used": false,
+  "created_at_utc": "2026-09-17T11:05:01.464904+00:00",
+  "departure_prediction_used": false,
+  "environment_valid": true,
+  "guard_cleanup_explicit": "PASS",
+  "method": "xgboost",
+  "new_training_performed": true,
+  "optuna_parallelism": 1,
+  "production_hpo": true,
+  "protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "protocol_version": "week5_hpo_protocol_v1_1",
+  "pruner": "NopPruner",
+  "result_manifests": "PASS",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false,
+  "sampler": "TPESampler",
+  "schema_version": "1.0.0",
+  "seed": 202601,
+  "status": "COMPLETED",
+  "studies": {
+    "xgboost_classification": {
+      "best_objective": 0.19561574977614776,
+      "best_params": {
+        "colsample_bytree": 0.6,
+        "learning_rate": 0.03230824360421075,
+        "max_depth": 6,
+        "min_child_weight": 7.0,
+        "n_estimators": 150,
+        "reg_alpha": 4.5,
+        "reg_lambda": 0.30338019740385763,
+        "subsample": 0.9
+      },
+      "best_trial": 1,
+      "complete_trials": 10,
+      "heartbeat": "D:\\Study\\Code\\Python\\Aelous\\artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__xgboost_classification.execution.jsonl",
+      "result_manifest": "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_classification_result_v1.json",
+      "result_manifest_sha256": "1da21cff50447c741efdc4de644dc1bce88f203af11b00895cebeeb64a621680"
+    },
+    "xgboost_regression": {
+      "best_objective": 19.19011236521375,
+      "best_params": {
+        "colsample_bytree": 0.6,
+        "learning_rate": 0.062477640978226154,
+        "max_depth": 4,
+        "min_child_weight": 6.0,
+        "n_estimators": 200,
+        "reg_alpha": 1.0,
+        "reg_lambda": 0.39186667315961216,
+        "subsample": 0.7
+      },
+      "best_trial": 6,
+      "complete_trials": 10,
+      "heartbeat": "D:\\Study\\Code\\Python\\Aelous\\artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__xgboost_regression.execution.jsonl",
+      "result_manifest": "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json",
+      "result_manifest_sha256": "eb82039e078ff99e7b4bce9960bf6365377f99723b8ab10204bb0a6760faf20e"
+    }
+  },
+  "summary_version": "week5_xgboost_hpo_v1_1_summary_v1",
+  "suspend_detected": false,
+  "timeout_seconds_per_study": 14400,
+  "weather_used": false,
+  "xgboost_n_jobs": 1,
+  "xgboost_version": "3.2.0"
+}

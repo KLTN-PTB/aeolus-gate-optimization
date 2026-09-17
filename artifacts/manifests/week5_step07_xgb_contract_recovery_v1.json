@@ -1,0 +1,32 @@
+{
+  "created_at_utc": "2026-09-17T11:55:12.131256+00:00",
+  "fix_type": "VERSIONED_WEEK5_EXPERIMENT_SPEC",
+  "hgb_rerun": false,
+  "historical_failure": "Step 07 initially failed before XGBoost tuned OOF materialization because the Week-4 ExperimentSpec rejected method_id='xgboost'.",
+  "hpo_rerun": false,
+  "incident_id": "week5_step07_xgb_contract_recovery_v1",
+  "prior_failed_preflight": "artifacts\\manifests\\arrival_xgboost_tuned_rolling_run_v1_1_preflight.json",
+  "protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "protocol_version": "week5_hpo_protocol_v1_1",
+  "recovery_preflight": "artifacts\\manifests\\arrival_xgboost_tuned_rolling_run_v1_1_preflight_v2.json",
+  "rf_hgb_immutable_sha256": {
+    "artifacts\\manifests\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1.json": "ca6695a3e85e95bdb521877685718e4775c5c1f3bbeb4f1490d46715a7c0a011",
+    "artifacts\\manifests\\arrival_random_forest_tuned_rolling_run_v1_1.json": "f827e4c6f9748107b4aa5dfc6099220f890f8e82c547865d61ce4901db95f592",
+    "artifacts\\predictions\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1_fold_1.parquet": "6ecc2c1cc25a2e1014a727a5367dfe089bcb410df3a246a89ace036126012a82",
+    "artifacts\\predictions\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1_fold_2.parquet": "1e4b927f01dd61a53b6b9aa005b31cd0c86dfa1d1d51af4248cf0b0cd3b396df",
+    "artifacts\\predictions\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1_fold_3.parquet": "d5c8cdbc7c6ea1ccab98324c5bd68fbdb740c9b5925ee7e20b25995f8c4bb16c",
+    "artifacts\\predictions\\arrival_hist_gradient_boosting_tuned_rolling_run_v1_1_fold_4.parquet": "1b4fef9bed224f20d2e7a098f02a5f1082ddaaf977bda6b0d2f2fc9c1c2beb5a",
+    "artifacts\\predictions\\arrival_random_forest_tuned_rolling_run_v1_1_fold_1.parquet": "87eead37808a8839be2c4c4fd463a8de71066e299be83d93c14e68b794f0fd24",
+    "artifacts\\predictions\\arrival_random_forest_tuned_rolling_run_v1_1_fold_2.parquet": "6e44df24c020d90b7e599803994449248bf7614d2a521025eb5ee643578bd836",
+    "artifacts\\predictions\\arrival_random_forest_tuned_rolling_run_v1_1_fold_3.parquet": "a594be3af157f1ed0a85126607480cb0d326ad31b24f0fe76d48ee2694fe5d4e",
+    "artifacts\\predictions\\arrival_random_forest_tuned_rolling_run_v1_1_fold_4.parquet": "2e1462495cc27b6bd93eabc810076eaa91f169675584a8dfe0f20fa67cc97f09"
+  },
+  "rf_hgb_tuned_artifacts_preserved": true,
+  "rf_rerun": false,
+  "root_cause": "WEEK4_METHOD_CONTRACT_REUSED_FOR_WEEK5_XGBOOST",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false,
+  "status": "RECOVERED",
+  "week4_contract_preserved": true,
+  "xgboost_materialized_from_prompt06_frozen_params": true
+}

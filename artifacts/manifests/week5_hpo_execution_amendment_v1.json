@@ -1,0 +1,51 @@
+{
+  "amendment_id": "week5_hpo_execution_amendment_v1",
+  "amendment_type": "EXECUTION_RELIABILITY_AMENDMENT",
+  "created_at": "2026-09-17T01:12:34+07:00",
+  "parent_protocol": "week5_hpo_protocol_v1",
+  "parent_protocol_hash": "b00ddf190776a12032b1e6b5b284beff8b48204017fe4c397140ac7a4da6844a",
+  "new_protocol": "week5_hpo_protocol_v1_1",
+  "new_protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "statistical_protocol_changed": false,
+  "execution_protocol_changed": true,
+  "root_cause": "ENVIRONMENTAL_WALL_CLOCK_INTERRUPTION",
+  "original_attempt": "BLOCKED_INCOMPLETE",
+  "original_rf_classification_complete_trials": 3,
+  "original_v1_storage": "artifacts/optuna_studies/week5_hpo_protocol_v1__random_forest_classification.sqlite3",
+  "system_sleep_duration_seconds_approximate": 14824,
+  "hpo_implementation_failure": false,
+  "model_failure": false,
+  "v1_resume_allowed": false,
+  "v1_delete_allowed": false,
+  "v1_overwrite_allowed": false,
+  "v1_trials_carry_forward": false,
+  "v1_best_params_enqueued": false,
+  "fresh_studies_required": true,
+  "sleep_prevention_policy": {
+    "platform": "windows",
+    "mechanism": "SetThreadExecutionState",
+    "entry_flags": "ES_CONTINUOUS | ES_SYSTEM_REQUIRED",
+    "cleanup_flags": "ES_CONTINUOUS",
+    "entry_failure_behavior": "FAIL_CLOSED",
+    "non_windows_production_behavior": "FAIL_CLOSED"
+  },
+  "suspend_detection_policy": {
+    "heartbeat_interval_seconds": 30,
+    "suspend_gap_threshold_seconds": 120,
+    "primary_active_time_source": "QueryUnbiasedInterruptTime",
+    "formula": "wall_delta_seconds - unbiased_active_delta_seconds",
+    "state_on_detection": "ENVIRONMENTAL_EXECUTION_INVALID",
+    "automatic_resume_allowed": false
+  },
+  "timeout_semantics": {
+    "timeout_seconds_per_study": 14400,
+    "meaning": "ONE_STUDY_OPTIMIZE_INVOCATION_WIDE_WALL_CLOCK_SAFETY_CEILING",
+    "running_trial_may_finish": true,
+    "schedule_after_elapsed_timeout": false,
+    "timeout_reset_after_interruption": false
+  },
+  "new_study_naming_policy": "week5_hpo_protocol_v1_1__{study_id}",
+  "new_storage_policy": "artifacts/optuna_studies/week5_hpo_protocol_v1_1__{study_id}.sqlite3",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false
+}

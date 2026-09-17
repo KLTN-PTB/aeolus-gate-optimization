@@ -1,0 +1,265 @@
+{
+  "actual_trial_states": {
+    "COMPLETE": 10,
+    "FAIL": 0,
+    "PRUNED": 0,
+    "RUNNING": 0,
+    "WAITING": 0
+  },
+  "arr_b_enabled": false,
+  "best_objective": 19.19011236521375,
+  "best_params": {
+    "colsample_bytree": 0.6,
+    "learning_rate": 0.062477640978226154,
+    "max_depth": 4,
+    "min_child_weight": 6.0,
+    "n_estimators": 200,
+    "reg_alpha": 1.0,
+    "reg_lambda": 0.39186667315961216,
+    "subsample": 0.7
+  },
+  "best_trial": 6,
+  "best_trial_per_fold_metrics": [
+    {
+      "mae": 21.476867032111098,
+      "r2": 0.011299691241290155,
+      "rmse": 45.14621722328501
+    },
+    {
+      "mae": 17.936434253791663,
+      "r2": -0.04367836619120968,
+      "rmse": 37.277018558117994
+    },
+    {
+      "mae": 16.975502088590652,
+      "r2": -0.0008644224022869018,
+      "rmse": 42.10766829913145
+    },
+    {
+      "mae": 20.371646086361586,
+      "r2": 0.005178199031063424,
+      "rmse": 51.26765989888651
+    }
+  ],
+  "best_trial_per_fold_objective": [
+    21.476867032111098,
+    17.936434253791663,
+    16.975502088590652,
+    20.371646086361586
+  ],
+  "chain_used": false,
+  "created_at_utc": "2026-09-17T11:05:01.462899+00:00",
+  "dep_delay_predictor_used": false,
+  "departure_prediction_used": false,
+  "direction": "MINIMIZE",
+  "environment_valid": true,
+  "expected_complete_trials": 10,
+  "feature_manifest_reference": "feature_manifest_arrival_v1",
+  "fold_protocol_reference": "configs/week5_hpo_v1_1.yaml#folds",
+  "guard_activation_evidence": {
+    "event": {
+      "event": "GUARD_ACTIVATION_SUCCESS",
+      "protocol_version": "week5_hpo_protocol_v1_1",
+      "requested_flags": 2147483649,
+      "set_thread_execution_state_return_value": 2147483648,
+      "study_id": "xgboost_regression",
+      "success": true,
+      "timestamp_utc": "2026-09-17T10:33:41.613660+00:00"
+    },
+    "status": "EXPLICIT_PASS"
+  },
+  "guard_cleanup_evidence": {
+    "event": {
+      "event": "GUARD_CLEANUP_SUCCESS",
+      "protocol_version": "week5_hpo_protocol_v1_1",
+      "requested_flags": 2147483648,
+      "set_thread_execution_state_return_value": 2147483649,
+      "study_id": "xgboost_regression",
+      "success": true,
+      "timestamp_utc": "2026-09-17T11:05:01.381969+00:00"
+    },
+    "status": "EXPLICIT_PASS"
+  },
+  "guard_journal_path": "artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__xgboost_regression.guard.jsonl",
+  "guard_journal_sha256": "85661abc46bdd2d9aa89750d1c44ea148a237fef256c2a183455a6896f37a507",
+  "heartbeat_path": "D:\\Study\\Code\\Python\\Aelous\\artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__xgboost_regression.execution.jsonl",
+  "heartbeat_records": 63,
+  "heartbeat_sha256": "2864b01de49a8d5cd2f4cd94ffa450e22cb27652e2a0865ab3219c5778aea159",
+  "initial_trial_count": 0,
+  "last_heartbeat": "2026-09-17T11:04:45.040537+00:00",
+  "n_jobs": {
+    "optuna": 1,
+    "xgboost": 1
+  },
+  "new_hpo_performed": true,
+  "new_training_performed": true,
+  "objective_match": true,
+  "objective_name": "mean_mae_across_locked_folds",
+  "optuna_parallelism": 1,
+  "prediction_method": null,
+  "preprocessing_reference": "arrival_preprocessing_v1",
+  "production_hpo": true,
+  "protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "protocol_version": "week5_hpo_protocol_v1_1",
+  "pruner": "NopPruner",
+  "pruner_provenance": [
+    "configs/week5_hpo_v1_1.yaml#randomness",
+    "artifacts/manifests/week5_hpo_protocol_v1_1.json#randomness",
+    "src/models/week5_hpo_protocol.py#build_optuna_components",
+    "scripts/run_week5_xgboost_hpo_v1_1.py#create_fresh_study"
+  ],
+  "recomputed_objective": 19.19011236521375,
+  "result_manifest_version": "week5_xgboost_hpo_result_v1",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false,
+  "runtime_resources": {
+    "peak_rss_bytes": 1193115648,
+    "samples": [
+      {
+        "process_rss_bytes": 1072283648,
+        "system_available_bytes": 5323517952,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 68.4
+      },
+      {
+        "process_rss_bytes": 1193115648,
+        "system_available_bytes": 5440696320,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 67.7
+      },
+      {
+        "process_rss_bytes": 1020702720,
+        "system_available_bytes": 5732343808,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 66.0
+      },
+      {
+        "process_rss_bytes": 933703680,
+        "system_available_bytes": 6010458112,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 64.4
+      },
+      {
+        "process_rss_bytes": 938782720,
+        "system_available_bytes": 5502947328,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 67.4
+      },
+      {
+        "process_rss_bytes": 1095925760,
+        "system_available_bytes": 5510365184,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 67.3
+      },
+      {
+        "process_rss_bytes": 1064554496,
+        "system_available_bytes": 5733019648,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 66.0
+      },
+      {
+        "process_rss_bytes": 1017335808,
+        "system_available_bytes": 5795225600,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 65.6
+      },
+      {
+        "process_rss_bytes": 1006030848,
+        "system_available_bytes": 6471524352,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 61.6
+      },
+      {
+        "process_rss_bytes": 1071628288,
+        "system_available_bytes": 6466871296,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 61.7
+      },
+      {
+        "process_rss_bytes": 1082413056,
+        "system_available_bytes": 6222786560,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 63.1
+      },
+      {
+        "process_rss_bytes": 1082413056,
+        "system_available_bytes": 6223208448,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 63.1
+      }
+    ]
+  },
+  "runtime_seconds": 1879.7666709999994,
+  "sampler": "TPESampler",
+  "sampler_provenance": [
+    "configs/week5_hpo_v1_1.yaml#randomness",
+    "src/models/week5_hpo_protocol.py#build_optuna_components",
+    "scripts/run_week5_xgboost_hpo_v1_1.py#create_fresh_study"
+  ],
+  "schema_version": "1.0.0",
+  "search_space": {
+    "colsample_bytree": {
+      "high": 1.0,
+      "low": 0.6,
+      "step": 0.1,
+      "type": "float"
+    },
+    "learning_rate": {
+      "high": 0.2,
+      "log": true,
+      "low": 0.03,
+      "type": "float"
+    },
+    "max_depth": {
+      "high": 8,
+      "low": 3,
+      "step": 1,
+      "type": "int"
+    },
+    "min_child_weight": {
+      "high": 12.0,
+      "low": 1.0,
+      "step": 1.0,
+      "type": "float"
+    },
+    "n_estimators": {
+      "high": 400,
+      "low": 100,
+      "step": 50,
+      "type": "int"
+    },
+    "reg_alpha": {
+      "high": 5.0,
+      "low": 0.0,
+      "step": 0.5,
+      "type": "float"
+    },
+    "reg_lambda": {
+      "high": 10.0,
+      "log": true,
+      "low": 0.1,
+      "type": "float"
+    },
+    "subsample": {
+      "high": 1.0,
+      "low": 0.6,
+      "step": 0.1,
+      "type": "float"
+    }
+  },
+  "search_space_reference": "configs/week5_hpo_v1_1.yaml#studies.xgboost_regression",
+  "seed": 202601,
+  "signed_regression_target": true,
+  "status": "COMPLETED",
+  "storage_path": "artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__xgboost_regression.sqlite3",
+  "storage_sha256": "a90d8c5b4cd0fadce2e4dde3c316f7973b463a3f9b060fd74c735ce6456186f4",
+  "study_end": "2026-09-17T18:05:01.304684",
+  "study_id": "xgboost_regression",
+  "study_name": "week5_hpo_protocol_v1_1__xgboost_regression",
+  "study_start": "2026-09-17T17:33:41.769415",
+  "suspend_detected": false,
+  "suspend_status": "NOT_DETECTED",
+  "timeout_seconds_per_study": 14400,
+  "weather_used": false,
+  "xgboost_version": "3.2.0"
+}

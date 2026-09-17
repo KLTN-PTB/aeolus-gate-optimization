@@ -1,0 +1,261 @@
+{
+  "actual_trial_states": {
+    "COMPLETE": 10,
+    "FAIL": 0,
+    "PRUNED": 0,
+    "RUNNING": 0,
+    "WAITING": 0
+  },
+  "arr_b_enabled": false,
+  "best_objective": 19.25819001384582,
+  "best_params": {
+    "l2_regularization": 4.0,
+    "learning_rate": 0.07954536476970449,
+    "max_depth": 4,
+    "max_features": 0.6,
+    "max_iter": 250,
+    "max_leaf_nodes": 55,
+    "min_samples_leaf": 60
+  },
+  "best_trial": 3,
+  "best_trial_per_fold_metrics": [
+    {
+      "mae": 21.637149334450072,
+      "r2": 0.005364590749594389,
+      "rmse": 45.28151930557853
+    },
+    {
+      "mae": 17.925032353362255,
+      "r2": -0.04714490888594436,
+      "rmse": 37.33887442120287
+    },
+    {
+      "mae": 17.024329194618566,
+      "r2": -0.00513357616256882,
+      "rmse": 42.19737716465359
+    },
+    {
+      "mae": 20.44624917295239,
+      "r2": 0.004360199783431495,
+      "rmse": 51.288733165474156
+    }
+  ],
+  "best_trial_per_fold_objective": [
+    21.637149334450072,
+    17.925032353362255,
+    17.024329194618566,
+    20.44624917295239
+  ],
+  "chain_used": false,
+  "classification_new_trials": null,
+  "classification_rerun": null,
+  "created_at_utc": "2026-09-17T09:46:12.900446+00:00",
+  "dep_delay_predictor_used": false,
+  "departure_prediction_used": false,
+  "direction": "MINIMIZE",
+  "environment_valid": true,
+  "expected_complete_trials": 10,
+  "feature_manifest_reference": "feature_manifest_arrival_v1",
+  "fold_protocol_reference": "configs/week5_hpo_v1_1.yaml#folds",
+  "generated_from_existing_completed_study": false,
+  "guard_activation_evidence": {
+    "event": {
+      "event": "GUARD_ACTIVATION_SUCCESS",
+      "protocol_version": "week5_hpo_protocol_v1_1",
+      "requested_flags": 2147483649,
+      "set_thread_execution_state_return_value": 2147483648,
+      "study_id": "hist_gradient_boosting_regression",
+      "success": true,
+      "timestamp_utc": "2026-09-17T09:30:28.336094+00:00"
+    },
+    "status": "EXPLICIT_PASS"
+  },
+  "guard_cleanup_evidence": {
+    "event": {
+      "event": "GUARD_CLEANUP_SUCCESS",
+      "protocol_version": "week5_hpo_protocol_v1_1",
+      "requested_flags": 2147483648,
+      "set_thread_execution_state_return_value": 2147483649,
+      "study_id": "hist_gradient_boosting_regression",
+      "success": true,
+      "timestamp_utc": "2026-09-17T09:46:12.813343+00:00"
+    },
+    "status": "EXPLICIT_PASS"
+  },
+  "guard_journal_path": "artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression.guard.jsonl",
+  "guard_journal_sha256": "4ea1fda5a9dbb1980874600f72258a610c734669762b9855063ac9174d1abf6e",
+  "heartbeat_path": "D:\\Study\\Code\\Python\\Aelous\\artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression.execution.jsonl",
+  "heartbeat_records": 32,
+  "heartbeat_sha256": "3bc8d5331425538da3b86bf22c9ebbb4c32b22e9206839a0d349cffa4035abd3",
+  "initial_trial_count": 0,
+  "last_heartbeat": "2026-09-17T09:46:04.790954+00:00",
+  "n_jobs": {
+    "estimator": "UNSUPPORTED_PARAMETER_NOT_SET",
+    "optuna": 1
+  },
+  "new_hpo_performed": true,
+  "new_training_performed": true,
+  "objective_match": true,
+  "objective_name": "mean_mae_across_locked_folds",
+  "optuna_parallelism": 1,
+  "prediction_method": null,
+  "preprocessing_reference": "arrival_preprocessing_v1",
+  "production_hpo": true,
+  "protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "protocol_version": "week5_hpo_protocol_v1_1",
+  "pruner": "NopPruner",
+  "pruner_provenance": [
+    "configs/week5_hpo_v1_1.yaml#randomness",
+    "artifacts/manifests/week5_hpo_protocol_v1_1.json#randomness",
+    "src/models/week5_hpo_protocol.py#build_optuna_components",
+    "scripts/run_week5_hist_gradient_boosting_hpo_v1_1.py#create_fresh_study"
+  ],
+  "recomputed_objective": 19.25819001384582,
+  "recovery_amendment_id": "week5_hgb_poststudy_recovery_amendment_v1",
+  "result_manifest_version": "week5_hgb_hpo_result_v1",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false,
+  "runtime_resources": {
+    "peak_rss_bytes": 1330249728,
+    "samples": [
+      {
+        "process_rss_bytes": 213344256,
+        "system_available_bytes": 5818986496,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 65.5
+      },
+      {
+        "process_rss_bytes": 951762944,
+        "system_available_bytes": 5218992128,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 69.1
+      },
+      {
+        "process_rss_bytes": 1064841216,
+        "system_available_bytes": 5355360256,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 68.2
+      },
+      {
+        "process_rss_bytes": 1103503360,
+        "system_available_bytes": 5811904512,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 65.5
+      },
+      {
+        "process_rss_bytes": 1144643584,
+        "system_available_bytes": 5796093952,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 65.6
+      },
+      {
+        "process_rss_bytes": 1180884992,
+        "system_available_bytes": 5678755840,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 66.3
+      },
+      {
+        "process_rss_bytes": 1199345664,
+        "system_available_bytes": 5665968128,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 66.4
+      },
+      {
+        "process_rss_bytes": 1291173888,
+        "system_available_bytes": 5313437696,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 68.5
+      },
+      {
+        "process_rss_bytes": 1330249728,
+        "system_available_bytes": 5422157824,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 67.9
+      },
+      {
+        "process_rss_bytes": 1322524672,
+        "system_available_bytes": 5422235648,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 67.9
+      },
+      {
+        "process_rss_bytes": 1278787584,
+        "system_available_bytes": 5463846912,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 67.6
+      },
+      {
+        "process_rss_bytes": 1277739008,
+        "system_available_bytes": 5465178112,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 67.6
+      }
+    ]
+  },
+  "runtime_seconds": 944.4745195999994,
+  "sampler": "TPESampler",
+  "sampler_provenance": [
+    "configs/week5_hpo_v1_1.yaml#randomness",
+    "src/models/week5_hpo_protocol.py#build_optuna_components",
+    "scripts/run_week5_hist_gradient_boosting_hpo_v1_1.py#create_fresh_study"
+  ],
+  "schema_version": "1.0.0",
+  "search_space": {
+    "l2_regularization": {
+      "high": 5.0,
+      "low": 0.0,
+      "step": 0.5,
+      "type": "float"
+    },
+    "learning_rate": {
+      "high": 0.15,
+      "log": true,
+      "low": 0.03,
+      "type": "float"
+    },
+    "max_depth": {
+      "high": 12,
+      "low": 4,
+      "step": 2,
+      "type": "int"
+    },
+    "max_features": {
+      "high": 1.0,
+      "low": 0.5,
+      "step": 0.1,
+      "type": "float"
+    },
+    "max_iter": {
+      "high": 300,
+      "low": 100,
+      "step": 50,
+      "type": "int"
+    },
+    "max_leaf_nodes": {
+      "high": 63,
+      "low": 15,
+      "step": 8,
+      "type": "int"
+    },
+    "min_samples_leaf": {
+      "high": 100,
+      "low": 20,
+      "step": 20,
+      "type": "int"
+    }
+  },
+  "search_space_reference": "configs/week5_hpo_v1_1.yaml#studies.hist_gradient_boosting_regression",
+  "seed": 202601,
+  "signed_regression_target": true,
+  "status": "COMPLETED",
+  "storage_path": "artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression.sqlite3",
+  "storage_sha256": "46990b0361d12a98ff4cafc73329ea6e70ad994d5e8eb3c6e3cd49680391d1b5",
+  "study_end": "2026-09-17T16:46:12.732859",
+  "study_id": "hist_gradient_boosting_regression",
+  "study_name": "week5_hpo_protocol_v1_1__hist_gradient_boosting_regression",
+  "study_start": "2026-09-17T16:30:28.596583",
+  "suspend_detected": false,
+  "suspend_status": "NOT_DETECTED",
+  "timeout_seconds_per_study": 14400,
+  "weather_used": false
+}

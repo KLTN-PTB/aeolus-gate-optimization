@@ -1,0 +1,102 @@
+{
+  "amendment_id": "week5_hpo_execution_amendment_v1",
+  "amendment_manifest_sha256": "2c799ffcd2eada742a0473205d5fa4d64f41e310412758817804215f2048353b",
+  "classification_guard_status": "PASS",
+  "classification_heartbeat": "artifacts/optuna_studies/week5_hpo_protocol_v1_1__random_forest_classification.execution.jsonl",
+  "classification_result_manifest": "artifacts/manifests/week5_hpo_protocol_v1_1__random_forest_classification_result_v1.json",
+  "classification_result_manifest_sha256": "7757267deb6dc796adcadc2c721c905ab2db1f08242ebc5850fe8de8c99fec8e",
+  "environment_valid": true,
+  "execution_protocol_changed": true,
+  "fresh_studies": true,
+  "generated_from_existing_production_run": true,
+  "guard_cleanup_provenance": {
+    "classification": "INFERRED_ONLY",
+    "regression": "INFERRED_ONLY"
+  },
+  "n_jobs": {
+    "optuna": 1,
+    "random_forest": 1
+  },
+  "new_hpo_performed": false,
+  "new_training_performed": false,
+  "protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "protocol_manifest_sha256": "b7eed99fd42f5e6c907cb9fc57e0c48c8e53f1806134f91741a7042cd1e740a6",
+  "protocol_version": "week5_hpo_protocol_v1_1",
+  "provenance_complete": false,
+  "pruner": "NopPruner",
+  "pruner_evidence_source": [
+    "configs/week5_hpo_v1_1.yaml#randomness",
+    "artifacts/manifests/week5_hpo_protocol_v1_1.json#randomness",
+    "src/models/week5_hpo_protocol.py#build_optuna_components",
+    "scripts/run_week5_random_forest_hpo_v1_1.py#create_fresh_study"
+  ],
+  "pruner_runtime_log_evidence": "NOT_FOUND",
+  "regression_guard_status": "PASS",
+  "regression_heartbeat": "artifacts/optuna_studies/week5_hpo_protocol_v1_1__random_forest_regression.execution.jsonl",
+  "regression_result_manifest": "artifacts/manifests/week5_hpo_protocol_v1_1__random_forest_regression_result_v1.json",
+  "regression_result_manifest_sha256": "b9ad468c05e5c3b4ebd4a4db9404b944a13fdb42c852fa3fb4464100e502e2da",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false,
+  "runner_source": "scripts/run_week5_random_forest_hpo_v1_1.py",
+  "runner_source_sha256": "53f65477b0bf8f7c58bb915e040fd8623cd2b055213b71fb359128cdfd5ebb4e",
+  "sampler": "TPESampler",
+  "sampler_evidence_source": [
+    "configs/week5_hpo_v1_1.yaml#randomness",
+    "src/models/week5_hpo_protocol.py#build_optuna_components",
+    "scripts/run_week5_random_forest_hpo_v1_1.py#create_fresh_study"
+  ],
+  "schema_version": "1.0.0",
+  "seed": 202601,
+  "source_summary": "artifacts/manifests/week5_random_forest_hpo_v1_1_summary.json",
+  "source_summary_sha256": "c28b989299278029c8effbd688b37237242e93cf7e4399d458ba423ed39bf91f",
+  "sqlite_pruner_metadata": "NOT_PERSISTED_NOT_AUTHORITATIVE",
+  "statistical_protocol_changed": false,
+  "studies": {
+    "classification": {
+      "best_objective": 0.18856511611502808,
+      "best_params": {
+        "max_depth": 6,
+        "max_features": "log2",
+        "max_samples": 0.6,
+        "min_samples_leaf": 40,
+        "min_samples_split": 20,
+        "n_estimators": 160
+      },
+      "best_trial": 9,
+      "complete_trials": 10,
+      "resource_evidence": {
+        "process_rss_bytes": 1324363776,
+        "system_available_bytes": 7567675392,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 55.1
+      },
+      "runtime_seconds": 8912.328131,
+      "study_id": "random_forest_classification"
+    },
+    "regression": {
+      "best_objective": 19.25971111931776,
+      "best_params": {
+        "max_depth": 10,
+        "max_features": "sqrt",
+        "max_samples": 0.6,
+        "min_samples_leaf": 30,
+        "min_samples_split": 20,
+        "n_estimators": 192
+      },
+      "best_trial": 3,
+      "complete_trials": 10,
+      "resource_evidence": {
+        "process_rss_bytes": 1361375232,
+        "system_available_bytes": 7269675008,
+        "system_total_bytes": 16866873344,
+        "system_used_percent": 56.9
+      },
+      "runtime_seconds": 7871.844073,
+      "study_id": "random_forest_regression"
+    }
+  },
+  "summary_version": "week5_random_forest_hpo_v1_1_summary_v2",
+  "suspend_detected": false,
+  "timeout_seconds_per_study": 14400,
+  "v1_trials_carried_forward": false
+}

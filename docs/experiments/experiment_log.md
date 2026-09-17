@@ -331,3 +331,123 @@ An unproven or failed critical gate keeps DEP-B
   Chain ablation, 2023 selection, 2024 evaluation, commit, or push was run.
 - **Next roadmap stage:** Week 5 XGBoost plus fixed-budget Optuna; Week 5 is
   not started or marked complete by this audit.
+
+## Week 5 — HPO execution reliability amendment
+
+- **Timestamp:** 2026-09-17 01:12 +07:00
+- **Protocol parent:** `week5_hpo_protocol_v1`.
+- **Amendment:** `week5_hpo_execution_amendment_v1`.
+- **New protocol:** `week5_hpo_protocol_v1_1`.
+- **Type:** execution reliability amendment.
+- **Statistical protocol changed:** NO.
+- **Execution protocol changed:** YES.
+- **Original RF classification attempt:** `BLOCKED_INCOMPLETE`, 3/10 COMPLETE.
+- **Root cause:** `ENVIRONMENTAL_WALL_CLOCK_INTERRUPTION`.
+- **Windows sleep observed:** approximately 14,824 seconds.
+- **HPO implementation failure:** NO.
+- **Model failure:** NO.
+- **v1 study resumed:** NO.
+- **v1 trials carried forward:** NO.
+- **2023 row-level access:** NO.
+- **2024 row-level access:** NO.
+- **Production v1.1 HPO run performed during amendment implementation:** NO.
+- **Targeted amendment/Week-5 verification:** 70 passed.
+- **Full regression suite:** 312 passed.
+- **Compile/import/protocol preflight:** PASS.
+
+The amendment adds a Windows `SetThreadExecutionState` sleep-prevention guard,
+an append-only heartbeat using `QueryUnbiasedInterruptTime`, and deterministic
+suspend-gap invalidation at 120 seconds. Every v1.1 study must use fresh
+storage and may not import or enqueue v1 trial results. The existing
+14,400-second one-`study.optimize` invocation-wide wall-clock ceiling remains
+unchanged; it is not converted to active time and is not reset after an
+interruption. Verification covers protocol parity and hash, guard cleanup,
+clock and suspension behavior, heartbeat journaling, invalidation, fresh-study
+enforcement, temporal guards, preflight safety, and backward compatibility.
+
+## Week 5 — RF HPO guard-cleanup provenance resolution
+
+- **Timestamp:** 2026-09-17 14:33 +07:00.
+- **Resolution:** `week5_hpo_guard_cleanup_provenance_amendment_v1`.
+- **Type:** `NON_STATISTICAL_PROVENANCE_AMENDMENT`.
+- **Protocol:** `week5_hpo_protocol_v1_1`; statistical protocol changed = NO.
+- **RF production HPO rerun:** NO; new trials = 0.
+- **Production evidence:** Classification 10/10 COMPLETE; Regression 10/10 COMPLETE.
+- **Historical cleanup event:** NOT AVAILABLE; original status remains `INFERRED_ONLY`.
+- **Historical evidence:** Guard activation, suspend state, and environment validity
+  were persisted. The guard cleanup lived in `finally` and the runner exited
+  cleanly, but the final `SetThreadExecutionState(ES_CONTINUOUS)` return value
+  was not persisted.
+- **Post-exit process audit:** no RF v1.1 runner process active.
+- **Post-exit power audit:** `powercfg /requests` was attempted read-only but the
+  non-elevated session was denied. A read-only
+  `CallNtPowerInformation(SystemExecutionState)` query returned NTSTATUS 0 and
+  aggregate execution state 0, with no active `ES_SYSTEM_REQUIRED`,
+  `ES_DISPLAY_REQUIRED`, or `ES_USER_PRESENT` bit.
+- **Cleanup postcondition:** `VERIFIED_CLEAR`; this verifies the current desired
+  state and does not create historical cleanup-success evidence.
+- **Cleanup acceptance:** `ACCEPTED_VIA_NON_STATISTICAL_AMENDMENT`.
+- **Historical Prompt 04F / 04G decisions:** remain FAIL as originally recorded;
+  they are not rewritten by this amendment.
+- **2023 row-level access:** NO.
+- **2024 row-level access:** NO.
+
+Future production HPO guard journals now persist activation attempt/success or
+failure and cleanup attempt/success or failure, including the requested flags
+and raw Win32 return value. Existing RF heartbeat journals were not modified.
+Microsoft documents that `ES_CONTINUOUS | ES_SYSTEM_REQUIRED` establishes the
+continuous execution requirement and `SetThreadExecutionState(ES_CONTINUOUS)`
+clears it; Windows uses tracked execution requests in its sleep decision. See
+[SetThreadExecutionState](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate),
+[System Sleep Criteria](https://learn.microsoft.com/en-us/windows/win32/power/system-sleep-criteria),
+[CallNtPowerInformation](https://learn.microsoft.com/en-us/windows/win32/api/powerbase/nf-powerbase-callntpowerinformation),
+and [powercfg options](https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options).
+
+## Week 5 - Step 07 XGBoost tuned-OOF contract recovery
+
+- **Timestamp:** 2026-09-17 18:55 +07:00.
+- **Initial Step 07 result:** Failed before XGBoost tuned OOF materialization
+  because the historical Week-4 `ExperimentSpec` rejected
+  `method_id="xgboost"`.
+- **Root cause:** `WEEK4_METHOD_CONTRACT_REUSED_FOR_WEEK5_XGBOOST`.
+- **Resolution:** Added a versioned, fail-closed Week-5 experiment contract;
+  the historical Week-4 XGBoost rejection remains unchanged.
+- **Preserved evidence:** Completed RF and HistGradientBoosting tuned OOF
+  artifacts were not rerun or modified.
+- **HPO:** No HPO was rerun and no Optuna trial was created.
+- **XGBoost recovery:** Tuned classification and regression OOF were
+  materialized across the four locked folds from frozen Prompt-06
+  best-parameter evidence.
+- **Temporal access:** Row-level 2023 = NO; row-level 2024 = NO.
+- **Excluded work:** No champion selection, ensemble fitting, SHAP, or Week-6
+  action was performed.
+
+## Week 5 - Final acceptance and closeout
+
+- **Timestamp:** 2026-09-17 19:10 +07:00.
+- **Final status:** `PASS`; Week 5 is complete and ready for the controlled
+  Week-6 stage, which was not started by this closeout.
+- **Protocol:** `week5_hpo_protocol_v1_1`, SHA-256
+  `b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5`;
+  statistical contract unchanged.
+- **RF incident:** The original protocol-v1 RF Classification attempt remains
+  `BLOCKED_INCOMPLETE` after an environmental wall-clock interruption. The
+  execution and cleanup-provenance amendments remain authoritative history;
+  historical Prompt 04F/04G failures were not rewritten.
+- **Production HPO:** RF, HistGradientBoosting, and XGBoost Classification and
+  Regression all reached 10 COMPLETE trials in six fresh v1.1 studies.
+- **Development OOF:** Preserved Week-4 Linear/Ridge plus tuned RF, HGB, and
+  XGBoost share four folds, 1,254,518 rows, and exact `flight_key`,
+  `y_arr_cls`, and signed `y_arr_reg` parity.
+- **Temporal boundary:** HPO used 2016-2022 only; 2023 selection was not run;
+  row-level 2024 remained sealed.
+- **Feature boundary:** No Weather, predicted Departure, DEP_DELAY, realized
+  operational outcome, or Chain predictor was used. ARR-B remains disabled.
+- **Auxiliary Weather:** Not run in Week 5; point-in-time provenance remains
+  `AUDIT_REQUIRED`.
+- **Week-6 boundary:** Weighted Ensemble, 2023 five-method comparison, SHAP,
+  ARR ablation, DEP Weather ablation, and champion selection remain not
+  started.
+- **Authoritative deliverables:**
+  `week5_core_arrival_xgboost_optuna_summary_v1.json` and
+  `week5_core_arrival_xgboost_optuna.md`.
