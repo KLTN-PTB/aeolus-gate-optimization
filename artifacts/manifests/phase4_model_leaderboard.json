@@ -1,0 +1,247 @@
+{
+  "manifest_version": "phase4_model_leaderboard_v1",
+  "created_at": "2026-09-20T14:49:28+0700",
+  "dataset": "Core Arrival DEST=ATL Fold 4",
+  "validation_year": 2022,
+  "validation_samples": 40000,
+  "best_threshold": 0.2,
+  "leaderboard": [
+    {
+      "Model": "XGBoost_Baseline_MSE",
+      "Overall_MAE": 23.25,
+      "Overall_RMSE": 51.12,
+      "Severe_MAE": 148.82,
+      "Shrinkage_Ratio": 0.0307,
+      "Collapse_Warning": "YES",
+      "Checkpoint_Path": "artifacts/models/refactored/best_xgboost_baseline_mse.json"
+    },
+    {
+      "Model": "XGBoost_Huber_Weighted",
+      "Overall_MAE": 20.42,
+      "Overall_RMSE": 51.8,
+      "Severe_MAE": 159.39,
+      "Shrinkage_Ratio": -0.0383,
+      "Collapse_Warning": "YES",
+      "Checkpoint_Path": "artifacts/models/refactored/best_xgboost_huber_weighted.json"
+    },
+    {
+      "Model": "HistGradientBoosting_Absolute_Weighted",
+      "Overall_MAE": 20.37,
+      "Overall_RMSE": 52.19,
+      "Severe_MAE": 161.41,
+      "Shrinkage_Ratio": -0.0515,
+      "Collapse_Warning": "YES",
+      "Checkpoint_Path": "artifacts/models/refactored/best_hgb_absolute_weighted.joblib"
+    },
+    {
+      "Model": "XGBoost_Quantile_075_Weighted",
+      "Overall_MAE": 23.56,
+      "Overall_RMSE": 50.75,
+      "Severe_MAE": 146.19,
+      "Shrinkage_Ratio": 0.0476,
+      "Collapse_Warning": "YES",
+      "Checkpoint_Path": "artifacts/models/refactored/best_xgboost_quantile_075_weighted.json"
+    },
+    {
+      "Model": "Hurdle_Hard_Gated_th_0.20",
+      "Overall_MAE": 32.14,
+      "Overall_RMSE": 53.11,
+      "Severe_MAE": 133.26,
+      "Shrinkage_Ratio": 0.1319,
+      "Collapse_Warning": "YES",
+      "Checkpoint_Path": "artifacts/models/refactored/best_hurdle_delay_predictor.joblib"
+    }
+  ],
+  "detailed_metrics": {
+    "XGBoost_Baseline_MSE": {
+      "overall": {
+        "count": 40000,
+        "mae": 23.24554288618221,
+        "rmse": 51.11901654504314,
+        "mean_bias": -0.9212476433548028,
+        "mean_true": 2.29545,
+        "mean_pred": 1.374202356645197
+      },
+      "early_on_time": {
+        "count": 33688,
+        "mae": 14.381094631085462,
+        "rmse": 18.12795982379513,
+        "mean_bias": 12.053653022309305,
+        "mean_true": -11.145452386606507,
+        "mean_pred": 0.9082006357027983
+      },
+      "moderate_delay": {
+        "count": 4076,
+        "mae": 27.625202215620078,
+        "rmse": 30.972957042813118,
+        "mean_bias": -27.035960127422,
+        "mean_true": 30.43449460255152,
+        "mean_pred": 3.39853447512952
+      },
+      "severe_delay": {
+        "count": 2236,
+        "mae": 148.81532883918337,
+        "rmse": 200.1176979517011,
+        "mean_bias": -148.79910343040066,
+        "mean_true": 153.5040250447227,
+        "mean_pred": 4.704921614322045
+      },
+      "shrinkage_ratio": 0.03065015144033707,
+      "prediction_collapse_warning": true,
+      "warning_message": "Prediction collapse warning: shrinkage ratio on severe delay (>= 60 min) is 0.0307 (< 0.30). The model severely underpredicts extreme delays.",
+      "checkpoint": "artifacts/models/refactored/best_xgboost_baseline_mse.json"
+    },
+    "XGBoost_Huber_Weighted": {
+      "overall": {
+        "count": 40000,
+        "mae": 20.417612622180734,
+        "rmse": 51.8031307865898,
+        "mean_bias": -9.743178314485808,
+        "mean_true": 2.29545,
+        "mean_pred": -7.447728314485809
+      },
+      "early_on_time": {
+        "count": 33688,
+        "mae": 9.209497155694232,
+        "rmse": 11.406241777177375,
+        "mean_bias": 3.4649677073963936,
+        "mean_true": -11.145452386606507,
+        "mean_pred": -7.680484679210113
+      },
+      "moderate_delay": {
+        "count": 4076,
+        "mae": 36.815175745982216,
+        "rmse": 39.00873017022053,
+        "mean_bias": -36.815175745982216,
+        "mean_true": 30.43449460255152,
+        "mean_pred": -6.380681143430694
+      },
+      "severe_delay": {
+        "count": 2236,
+        "mae": 159.39012002038396,
+        "rmse": 208.02043650339456,
+        "mean_bias": -159.39012002038396,
+        "mean_true": 153.5040250447227,
+        "mean_pred": -5.886094975661239
+      },
+      "shrinkage_ratio": -0.03834489013526747,
+      "prediction_collapse_warning": true,
+      "warning_message": "Prediction collapse warning: shrinkage ratio on severe delay (>= 60 min) is -0.0383 (< 0.30). The model severely underpredicts extreme delays.",
+      "checkpoint": "artifacts/models/refactored/best_xgboost_huber_weighted.json"
+    },
+    "HistGradientBoosting_Absolute_Weighted": {
+      "overall": {
+        "count": 40000,
+        "mae": 20.372735011711264,
+        "rmse": 52.194280090442916,
+        "mean_bias": -11.32967612898932,
+        "mean_true": 2.29545,
+        "mean_pred": -9.034226128989319
+      },
+      "early_on_time": {
+        "count": 33688,
+        "mae": 8.799017546369031,
+        "rmse": 10.960124737173928,
+        "mean_bias": 1.9384069166111848,
+        "mean_true": -11.145452386606507,
+        "mean_pred": -9.207045469995322
+      },
+      "moderate_delay": {
+        "count": 4076,
+        "mae": 38.66166261472081,
+        "rmse": 40.69929274627734,
+        "mean_bias": -38.66166261472081,
+        "mean_true": 30.43449460255152,
+        "mean_pred": -8.227168012169292
+      },
+      "severe_delay": {
+        "count": 2236,
+        "mae": 161.40570686438662,
+        "rmse": 209.5349521152449,
+        "mean_bias": -161.40570686438662,
+        "mean_true": 153.5040250447227,
+        "mean_pred": -7.901681819663874
+      },
+      "shrinkage_ratio": -0.051475404748258256,
+      "prediction_collapse_warning": true,
+      "warning_message": "Prediction collapse warning: shrinkage ratio on severe delay (>= 60 min) is -0.0515 (< 0.30). The model severely underpredicts extreme delays.",
+      "checkpoint": "artifacts/models/refactored/best_hgb_absolute_weighted.joblib"
+    },
+    "XGBoost_Quantile_075_Weighted": {
+      "overall": {
+        "count": 40000,
+        "mae": 23.55535838884061,
+        "rmse": 50.752759682501754,
+        "mean_bias": 0.8800959197224293,
+        "mean_true": 2.29545,
+        "mean_pred": 3.1755459197224294
+      },
+      "early_on_time": {
+        "count": 33688,
+        "mae": 15.242685533192354,
+        "rmse": 18.593961980591224,
+        "mean_bias": 13.701918742301814,
+        "mean_true": -11.145452386606507,
+        "mean_pred": 2.556466355695308
+      },
+      "moderate_delay": {
+        "count": 4076,
+        "mae": 24.98463164124622,
+        "rmse": 28.502040111684,
+        "mean_bias": -24.41241782631146,
+        "mean_true": 30.43449460255152,
+        "mean_pred": 6.022076776240058
+      },
+      "severe_delay": {
+        "count": 2236,
+        "mae": 146.19024451776423,
+        "rmse": 198.4683803379242,
+        "mean_bias": -146.19024451776423,
+        "mean_true": 153.5040250447227,
+        "mean_pred": 7.31378052695848
+      },
+      "shrinkage_ratio": 0.04764552932620264,
+      "prediction_collapse_warning": true,
+      "warning_message": "Prediction collapse warning: shrinkage ratio on severe delay (>= 60 min) is 0.0476 (< 0.30). The model severely underpredicts extreme delays.",
+      "checkpoint": "artifacts/models/refactored/best_xgboost_quantile_075_weighted.json"
+    },
+    "Hurdle_Hard_Gated_th_0.20": {
+      "overall": {
+        "count": 40000,
+        "mae": 32.137233866238596,
+        "rmse": 53.1115717964036,
+        "mean_bias": 14.389424400925636,
+        "mean_true": 2.29545,
+        "mean_pred": 16.684874400925636
+      },
+      "early_on_time": {
+        "count": 33688,
+        "mae": 27.62123080461729,
+        "rmse": 30.591279052814933,
+        "mean_bias": 27.29600585789387,
+        "mean_true": -11.145452386606507,
+        "mean_pred": 16.150553471287367
+      },
+      "moderate_delay": {
+        "count": 4076,
+        "mae": 13.986039792941527,
+        "rmse": 18.128289179338935,
+        "mean_bias": -11.283767467158114,
+        "mean_true": 30.43449460255152,
+        "mean_pred": 19.150727135393407
+      },
+      "severe_delay": {
+        "count": 2236,
+        "mae": 133.26396829497622,
+        "rmse": 189.11327828690239,
+        "mean_bias": -133.26396829497622,
+        "mean_true": 153.5040250447227,
+        "mean_pred": 20.240056749746497
+      },
+      "shrinkage_ratio": 0.1318535897925129,
+      "prediction_collapse_warning": true,
+      "warning_message": "Prediction collapse warning: shrinkage ratio on severe delay (>= 60 min) is 0.1319 (< 0.30). The model severely underpredicts extreme delays.",
+      "checkpoint": "artifacts/models/refactored/best_hurdle_delay_predictor.joblib"
+    }
+  }
+}

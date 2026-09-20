@@ -1,0 +1,164 @@
+protocol_version: week6_robust_models_v1
+status: ACTIVE_DEVELOPMENT
+config_version: 0.1.0
+
+loss_reformulation_rationale:
+  problem: >-
+    L2 / MSE loss penalizes extreme errors quadratically, which causes prediction
+    collapse toward the median/mean (near 0) when trained on severe delay tails
+    (Skewness ~9.7, Kurtosis ~161). Consequently, baseline models severely
+    underpredict flights delayed >= 60 minutes.
+  solution: >-
+    Adopt robust loss formulations (Pseudo-Huber, Quantile, and Absolute Error)
+    that treat extreme errors with linear or bounded penalties, preserving
+    predictive sensitivity for operational disruption in downstream gate assignment.
+
+task_contract:
+  task: arrival_core
+  flow: inbound
+  population: DEST=ATL
+  classification_target: "y_arr_cls = 1[ARR_DELAY >= 15]"
+  regression_target: "y_arr_reg = signed ARR_DELAY minutes"
+  prediction_cutoff: "CRS_DEP_TIME - 2 hours"
+  feature_manifest_version: feature_manifest_arrival_v2
+  preprocessing_version: arrival_preprocessing_v2
+
+scope_guards:
+  weather_allowed: false
+  departure_target_allowed: false
+  predicted_departure_delay_allowed: false
+  actual_operational_outcomes_allowed: false
+  calendar_year_allowed: false
+  safe_chain_features_allowed: true
+  holdout_2024_sealed: true
+
+folds:
+  - id: fold_1
+    train_years: [2016, 2017, 2018]
+    validation_year: 2019
+  - id: fold_2
+    train_years: [2016, 2017, 2018, 2019]
+    validation_year: 2020
+  - id: fold_3
+    train_years: [2016, 2017, 2018, 2019, 2020]
+    validation_year: 2021
+  - id: fold_4
+    train_years: [2016, 2017, 2018, 2019, 2020, 2021]
+    validation_year: 2022
+
+models:
+  xgboost_pseudohuber_regression:
+    model_family: boosting
+    method_id: xgboost
+    task_type: regression
+    description: "Robust XGBoost regressor using smooth Pseudo-Huber loss with delta slope = 15.0"
+    fixed_parameters:
+      objective: "reg:pseudohubererror"
+      huber_slope: 15.0
+      eval_metric: "mphe"
+      tree_method: "hist"
+      device: "cpu"
+      max_bin: 256
+      n_jobs: 1
+      n_estimators: 128
+      learning_rate: 0.05
+      max_depth: 6
+      min_child_weight: 20.0
+      subsample: 0.8
+      colsample_bytree: 0.8
+      reg_alpha: 0.0
+      reg_lambda: 2.0
+      random_state: 202601
+
+  xgboost_quantile_regression_experimental:
+    model_family: boosting
+    method_id: xgboost
+    task_type: regression
+    description: "Experimental XGBoost pinball loss regressor estimating 75th percentile (upper bound)"
+    fixed_parameters:
+      objective: "reg:quantileerror"
+      quantile_alpha: 0.75
+      eval_metric: "mae"
+      tree_method: "hist"
+      device: "cpu"
+      max_bin: 256
+      n_jobs: 1
+      n_estimators: 128
+      learning_rate: 0.05
+      max_depth: 6
+      min_child_weight: 20.0
+      subsample: 0.8
+      colsample_bytree: 0.8
+      reg_alpha: 0.0
+      reg_lambda: 2.0
+      random_state: 202601
+
+  hist_gradient_boosting_robust_regression:
+    model_family: boosting
+    method_id: hist_gradient_boosting
+    task_type: regression
+    description: "Robust HistGradientBoosting regressor using L1 absolute error (Huber median proxy)"
+    fixed_parameters:
+      loss: "absolute_error"
+      learning_rate: 0.05
+      max_iter: 150
+      max_leaf_nodes: 31
+      min_samples_leaf: 20
+      l2_regularization: 0.0
+      early_stopping: false
+      random_state: 202601
+
+  hist_gradient_boosting_quantile_regression_experimental:
+    model_family: boosting
+    method_id: hist_gradient_boosting
+    task_type: regression
+    description: "HistGradientBoosting quantile regressor estimating 75th percentile delay"
+    fixed_parameters:
+      loss: "quantile"
+      quantile: 0.75
+      learning_rate: 0.05
+      max_iter: 150
+      max_leaf_nodes: 31
+      min_samples_leaf: 20
+      l2_regularization: 0.0
+      early_stopping: false
+      random_state: 202601
+
+  two_stage_hurdle_regression:
+    model_family: composite_hurdle
+    method_id: hurdle_classifier_regressor
+    task_type: dual_regression
+    description: "Hierarchical gate model: binary delay gate (P >= 0.5) triggers conditional robust regressor"
+    parameters:
+      delay_threshold: 15.0
+      gate_probability_threshold: 0.5
+      default_on_time_value: -7.0
+      stage1_classifier:
+        estimator: XGBClassifier
+        scale_pos_weight: 4.7
+      stage2_regressor:
+        estimator: XGBRegressor
+        objective: "reg:pseudohubererror"
+        huber_slope: 15.0
+
+evaluation_protocol:
+  framework_version: "arrival_stratified_evaluation_v1"
+  metric_function: "src.models.metrics.compute_stratified_regression_metrics"
+  strata:
+    early_on_time:
+      condition: "y_true < 15.0"
+      metrics: [mae, rmse, mean_bias]
+    moderate_delay:
+      condition: "15.0 <= y_true < 60.0"
+      metrics: [mae, rmse, mean_bias]
+    severe_delay:
+      condition: "y_true >= 60.0"
+      metrics: [mae, rmse, mean_bias]
+    overall:
+      condition: "all samples"
+      metrics: [mae, rmse, mean_bias]
+  prediction_shrinkage_monitoring:
+    formula: "mean(y_pred[y_true >= 60]) / mean(y_true[y_true >= 60])"
+    collapse_threshold: 0.30
+    alert_on_collapse: true
+    collapse_warning_action: "TRIGGER_USER_WARNING_AND_FLAG"

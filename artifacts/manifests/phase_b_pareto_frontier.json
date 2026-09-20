@@ -1,0 +1,156 @@
+{
+  "description": "Pareto frontier comparing Baseline MSE + offset vs Quantile Family vs Hurdle Architectures",
+  "mse_offset_frontier": [
+    {
+      "type": "MSE + Offset",
+      "parameter": "+0m",
+      "overall_mae": 20.912670608094725,
+      "severe_mae": 152.28508067817745,
+      "shrinkage": 0.016702907038700535
+    },
+    {
+      "type": "MSE + Offset",
+      "parameter": "+5m",
+      "overall_mae": 22.951615593805315,
+      "severe_mae": 147.28508066951375,
+      "shrinkage": 0.04898765516655842
+    },
+    {
+      "type": "MSE + Offset",
+      "parameter": "+10m",
+      "overall_mae": 25.706551953697204,
+      "severe_mae": 142.28508066106937,
+      "shrinkage": 0.08127240329300016
+    },
+    {
+      "type": "MSE + Offset",
+      "parameter": "+15m",
+      "overall_mae": 28.946432783412934,
+      "severe_mae": 137.28508065819472,
+      "shrinkage": 0.1135571513834787
+    },
+    {
+      "type": "MSE + Offset",
+      "parameter": "+20m",
+      "overall_mae": 32.508680037117,
+      "severe_mae": 132.29070243174274,
+      "shrinkage": 0.14584189940435105
+    },
+    {
+      "type": "MSE + Offset",
+      "parameter": "+25m",
+      "overall_mae": 36.29971872253418,
+      "severe_mae": 127.29823822533177,
+      "shrinkage": 0.1781266474855488
+    },
+    {
+      "type": "MSE + Offset",
+      "parameter": "+30m",
+      "overall_mae": 40.25960902828216,
+      "severe_mae": 122.3057740261075,
+      "shrinkage": 0.21041139552034238
+    }
+  ],
+  "quantile_frontier": [
+    {
+      "type": "Quantile Regressor",
+      "parameter": "q50",
+      "overall_mae": 19.580942770348972,
+      "severe_mae": 162.9046056737173,
+      "shrinkage": -0.05186683078618525
+    },
+    {
+      "type": "Quantile Regressor",
+      "parameter": "q60",
+      "overall_mae": 19.58123967154069,
+      "severe_mae": 158.7496089083048,
+      "shrinkage": -0.025038226023990695
+    },
+    {
+      "type": "Quantile Regressor",
+      "parameter": "q70",
+      "overall_mae": 20.472512468433102,
+      "severe_mae": 153.24662860952873,
+      "shrinkage": 0.010494240494150636
+    },
+    {
+      "type": "Quantile Regressor",
+      "parameter": "q75",
+      "overall_mae": 21.521380784401057,
+      "severe_mae": 149.4337957496918,
+      "shrinkage": 0.035113510158183016
+    },
+    {
+      "type": "Quantile Regressor",
+      "parameter": "q80",
+      "overall_mae": 23.292347610391225,
+      "severe_mae": 144.225283895535,
+      "shrinkage": 0.06874460876639205
+    },
+    {
+      "type": "Quantile Regressor",
+      "parameter": "q85",
+      "overall_mae": 26.606576212178318,
+      "severe_mae": 136.7657308350061,
+      "shrinkage": 0.11729218457558047
+    },
+    {
+      "type": "Quantile Regressor",
+      "parameter": "q90",
+      "overall_mae": 33.622720228315295,
+      "severe_mae": 124.15801739173898,
+      "shrinkage": 0.20023769487186852
+    },
+    {
+      "type": "Quantile Regressor",
+      "parameter": "q95",
+      "overall_mae": 53.63315669088602,
+      "severe_mae": 101.74338765960037,
+      "shrinkage": 0.3884909570285289
+    }
+  ],
+  "hurdle_frontier": [
+    {
+      "type": "Hurdle Model",
+      "parameter": "Soft-Gated (Expected)",
+      "overall_mae": 20.00738078190094,
+      "severe_mae": 155.88139588230354,
+      "shrinkage": -0.006518319031782594
+    },
+    {
+      "type": "Hurdle Model",
+      "parameter": "Hard-Gated (p>=0.10)",
+      "overall_mae": 37.04646643707275,
+      "severe_mae": 123.35384151714587,
+      "shrinkage": 0.20495348203368707
+    },
+    {
+      "type": "Hurdle Model",
+      "parameter": "Hard-Gated (p>=0.20)",
+      "overall_mae": 23.36121047576904,
+      "severe_mae": 144.1910139858588,
+      "shrinkage": 0.06997023873110715
+    },
+    {
+      "type": "Hurdle Model",
+      "parameter": "Hard-Gated (p>=0.30)",
+      "overall_mae": 20.504585740470887,
+      "severe_mae": 159.6248431604611,
+      "shrinkage": -0.030248343431493987
+    },
+    {
+      "type": "Hurdle Model",
+      "parameter": "Hard-Gated (p>=0.40)",
+      "overall_mae": 20.118880968170167,
+      "severe_mae": 165.17476303916993,
+      "shrinkage": -0.06648458238559041
+    },
+    {
+      "type": "Hurdle Model",
+      "parameter": "Hard-Gated (p>=0.50)",
+      "overall_mae": 20.110592354278566,
+      "severe_mae": 165.60238880022362,
+      "shrinkage": -0.06924574037852625
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "Config 1: XGBoost MSE (Unweighted)": {
+    "point_regression": {
+      "mae": 20.912670608094725,
+      "rmse": 51.087344178408586,
+      "r2": 0.005478503832753168,
+      "mean_bias": -3.8268794797054864
+    },
+    "severe_conditioned": {
+      "count": 1327,
+      "severe_mae": 152.28508067817745,
+      "severe_rmse": 209.15953491078287,
+      "severe_bias": -152.28508067817745,
+      "shrinkage_ratio": 0.016702907038700535,
+      "collapse_warning": true
+    },
+    "tail_risk_ranking": {
+      "pr_auc_severe": 0.09362807959891488,
+      "roc_auc_severe": 0.6423349428350118,
+      "prevalence_severe": 0.05308
+    },
+    "classification_gate": {},
+    "quantile_coverage": {},
+    "skill_score_vs_carrier_hour": -6.083314774563586
+  },
+  "Config 2: XGBoost MSE + Temporal Weights": {
+    "point_regression": {
+      "mae": 21.011439207952098,
+      "rmse": 51.04477089078396,
+      "r2": 0.0071353685021122715,
+      "mean_bias": -3.4872718217895926
+    },
+    "severe_conditioned": {
+      "count": 1327,
+      "severe_mae": 151.87734427572295,
+      "severe_rmse": 208.86620070140782,
+      "severe_bias": -151.85181243505718,
+      "shrinkage_ratio": 0.019500498254040374,
+      "collapse_warning": true
+    },
+    "tail_risk_ranking": {
+      "pr_auc_severe": 0.09327456783219652,
+      "roc_auc_severe": 0.6448749033514314,
+      "prevalence_severe": 0.05308
+    },
+    "classification_gate": {},
+    "quantile_coverage": {},
+    "skill_score_vs_carrier_hour": -6.584336411869773
+  },
+  "Config 3: XGBoost Pseudo-Huber (Unweighted)": {
+    "point_regression": {
+      "mae": 19.51840437834088,
+      "rmse": 52.13700193975873,
+      "r2": -0.03580888186282438,
+      "mean_bias": -10.939416526770405
+    },
+    "severe_conditioned": {
+      "count": 1327,
+      "severe_mae": 161.28241624111433,
+      "severe_rmse": 215.49221257331575,
+      "severe_bias": -161.28241624111433,
+      "shrinkage_ratio": -0.041392435354882795,
+      "collapse_warning": true
+    },
+    "tail_risk_ranking": {
+      "pr_auc_severe": 0.09236781170928482,
+      "roc_auc_severe": 0.6029350828168689,
+      "prevalence_severe": 0.05308
+    },
+    "classification_gate": {},
+    "quantile_coverage": {},
+    "skill_score_vs_carrier_hour": 0.9893535661919972
+  },
+  "Config 4: XGBoost Pseudo-Huber + Temporal Weights": {
+    "point_regression": {
+      "mae": 19.495646666911142,
+      "rmse": 52.048621113608995,
+      "r2": -0.03230012421208994,
+      "mean_bias": -10.708780570143116
+    },
+    "severe_conditioned": {
+      "count": 1327,
+      "severe_mae": 160.78949495123388,
+      "severe_rmse": 215.15287567799936,
+      "severe_bias": -160.78949495123388,
+      "shrinkage_ratio": -0.038209667422267654,
+      "collapse_warning": true
+    },
+    "tail_risk_ranking": {
+      "pr_auc_severe": 0.09577566314336322,
+      "roc_auc_severe": 0.6120924600953502,
+      "prevalence_severe": 0.05308
+    },
+    "classification_gate": {},
+    "quantile_coverage": {},
+    "skill_score_vs_carrier_hour": 1.1047961851856192
+  },
+  "Config 5: Soft-Gated Hurdle (Calibrated + Weights)": {
+    "point_regression": {
+      "mae": 20.00738078190094,
+      "rmse": 51.356810813828986,
+      "r2": -0.005040623368504971,
+      "mean_bias": -7.0953723996559495
+    },
+    "severe_conditioned": {
+      "count": 1327,
+      "severe_mae": 155.88139588230354,
+      "severe_rmse": 211.68924196565166,
+      "severe_bias": -155.88139588230354,
+      "shrinkage_ratio": -0.006518319031782594,
+      "collapse_warning": true
+    },
+    "tail_risk_ranking": {
+      "pr_auc_severe": 0.10284927726425241,
+      "roc_auc_severe": 0.6545829415105098,
+      "prevalence_severe": 0.05308
+    },
+    "classification_gate": {},
+    "quantile_coverage": {},
+    "skill_score_vs_carrier_hour": -1.491067930817458
+  },
+  "Config 6a: Quantile Direct (alpha=0.75 + Weights)": {
+    "point_regression": {
+      "mae": 21.521380784401057,
+      "rmse": 50.79138855115155,
+      "r2": 0.016967912009953956,
+      "mean_bias": -1.4473969817168266
+    },
+    "severe_conditioned": {
+      "count": 1327,
+      "severe_mae": 149.4337957496918,
+      "severe_rmse": 207.15506300400148,
+      "severe_bias": -149.4337957496918,
+      "shrinkage_ratio": 0.035113510158183016,
+      "collapse_warning": true
+    },
+    "tail_risk_ranking": {
+      "pr_auc_severe": 0.1015499590577137,
+      "roc_auc_severe": 0.6440616053869618,
+      "prevalence_severe": 0.05308
+    },
+    "classification_gate": {},
+    "quantile_coverage": {},
+    "skill_score_vs_carrier_hour": -9.171107550995972
+  },
+  "Config 6b: Quantile Direct (alpha=0.90 + Weights)": {
+    "point_regression": {
+      "mae": 33.622720228315295,
+      "rmse": 54.79795735506656,
+      "r2": -0.14423772618032404,
+      "mean_bias": 18.35816257306516
+    },
+    "severe_conditioned": {
+      "count": 1327,
+      "severe_mae": 124.15801739173898,
+      "severe_rmse": 191.12558230938464,
+      "severe_bias": -123.86070093323885,
+      "shrinkage_ratio": 0.20023769487186852,
+      "collapse_warning": true
+    },
+    "tail_risk_ranking": {
+      "pr_auc_severe": 0.10225534917533993,
+      "roc_auc_severe": 0.6556792655113055,
+      "prevalence_severe": 0.05308
+    },
+    "classification_gate": {},
+    "quantile_coverage": {},
+    "skill_score_vs_carrier_hour": -70.55734680662175
+  }
+}

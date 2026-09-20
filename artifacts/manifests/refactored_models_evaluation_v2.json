@@ -1,0 +1,214 @@
+{
+  "evaluation_version": "refactored_models_evaluation_v2",
+  "created_at": "2026-09-20T14:43:49+0700",
+  "protocol_version": "arrival_feature_contract_v2",
+  "phase": "phase_3_temporal_weighting_and_hurdle_completion",
+  "fold_evaluated": "fold_4",
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "validation_year": 2022,
+  "results": {
+    "XGBoost_Baseline_MSE": {
+      "Overall": {
+        "MAE": 23.25,
+        "RMSE": 51.12,
+        "Bias": -0.92
+      },
+      "Early/On-time (<15m)": {
+        "MAE": 14.38,
+        "RMSE": 18.13,
+        "Bias": 12.05
+      },
+      "Moderate (15-59m)": {
+        "MAE": 27.63,
+        "RMSE": 30.97,
+        "Bias": -27.04
+      },
+      "Severe (>=60m)": {
+        "MAE": 148.82,
+        "RMSE": 200.12,
+        "Bias": -148.8,
+        "Mean_True": 153.5,
+        "Mean_Pred": 4.7,
+        "Shrinkage_Ratio": 0.0307,
+        "Collapse_Warning": true
+      },
+      "Shrinkage_Ratio": 0.0307,
+      "Collapse_Warning": true
+    },
+    "XGBoost_Refactored_Huber": {
+      "Overall": {
+        "MAE": 20.42,
+        "RMSE": 51.86,
+        "Bias": -9.92
+      },
+      "Early/On-time (<15m)": {
+        "MAE": 9.16,
+        "RMSE": 11.34,
+        "Bias": 3.32
+      },
+      "Moderate (15-59m)": {
+        "MAE": 37.11,
+        "RMSE": 39.27,
+        "Bias": -37.11
+      },
+      "Severe (>=60m)": {
+        "MAE": 159.73,
+        "RMSE": 208.24,
+        "Bias": -159.73,
+        "Mean_True": 153.5,
+        "Mean_Pred": -6.23,
+        "Shrinkage_Ratio": -0.0406,
+        "Collapse_Warning": true
+      },
+      "Shrinkage_Ratio": -0.0406,
+      "Collapse_Warning": true
+    },
+    "XGBoost_Huber_Weighted": {
+      "Overall": {
+        "MAE": 20.42,
+        "RMSE": 51.8,
+        "Bias": -9.74
+      },
+      "Early/On-time (<15m)": {
+        "MAE": 9.21,
+        "RMSE": 11.41,
+        "Bias": 3.46
+      },
+      "Moderate (15-59m)": {
+        "MAE": 36.82,
+        "RMSE": 39.01,
+        "Bias": -36.82
+      },
+      "Severe (>=60m)": {
+        "MAE": 159.39,
+        "RMSE": 208.02,
+        "Bias": -159.39,
+        "Mean_True": 153.5,
+        "Mean_Pred": -5.89,
+        "Shrinkage_Ratio": -0.0383,
+        "Collapse_Warning": true
+      },
+      "Shrinkage_Ratio": -0.0383,
+      "Collapse_Warning": true
+    },
+    "HistGradientBoosting_Absolute_Weighted": {
+      "Overall": {
+        "MAE": 20.37,
+        "RMSE": 52.19,
+        "Bias": -11.33
+      },
+      "Early/On-time (<15m)": {
+        "MAE": 8.8,
+        "RMSE": 10.96,
+        "Bias": 1.94
+      },
+      "Moderate (15-59m)": {
+        "MAE": 38.66,
+        "RMSE": 40.7,
+        "Bias": -38.66
+      },
+      "Severe (>=60m)": {
+        "MAE": 161.41,
+        "RMSE": 209.53,
+        "Bias": -161.41,
+        "Mean_True": 153.5,
+        "Mean_Pred": -7.9,
+        "Shrinkage_Ratio": -0.0515,
+        "Collapse_Warning": true
+      },
+      "Shrinkage_Ratio": -0.0515,
+      "Collapse_Warning": true
+    },
+    "XGBoost_Quantile_075_Weighted": {
+      "Overall": {
+        "MAE": 23.56,
+        "RMSE": 50.75,
+        "Bias": 0.88
+      },
+      "Early/On-time (<15m)": {
+        "MAE": 15.24,
+        "RMSE": 18.59,
+        "Bias": 13.7
+      },
+      "Moderate (15-59m)": {
+        "MAE": 24.98,
+        "RMSE": 28.5,
+        "Bias": -24.41
+      },
+      "Severe (>=60m)": {
+        "MAE": 146.19,
+        "RMSE": 198.47,
+        "Bias": -146.19,
+        "Mean_True": 153.5,
+        "Mean_Pred": 7.31,
+        "Shrinkage_Ratio": 0.0476,
+        "Collapse_Warning": true
+      },
+      "Shrinkage_Ratio": 0.0476,
+      "Collapse_Warning": true
+    },
+    "Hurdle_Soft_Gated_Weighted": {
+      "Overall": {
+        "MAE": 22.72,
+        "RMSE": 50.82,
+        "Bias": -1.27
+      },
+      "Early/On-time (<15m)": {
+        "MAE": 13.85,
+        "RMSE": 17.21,
+        "Bias": 11.59
+      },
+      "Moderate (15-59m)": {
+        "MAE": 26.95,
+        "RMSE": 30.24,
+        "Bias": -26.79
+      },
+      "Severe (>=60m)": {
+        "MAE": 148.6,
+        "RMSE": 200.19,
+        "Bias": -148.6,
+        "Mean_True": 153.5,
+        "Mean_Pred": 4.91,
+        "Shrinkage_Ratio": 0.032,
+        "Collapse_Warning": true
+      },
+      "Shrinkage_Ratio": 0.032,
+      "Collapse_Warning": true
+    },
+    "Hurdle_Hard_Gated_Weighted": {
+      "Overall": {
+        "MAE": 29.5,
+        "RMSE": 52.94,
+        "Bias": 8.91
+      },
+      "Early/On-time (<15m)": {
+        "MAE": 23.84,
+        "RMSE": 28.37,
+        "Bias": 21.44
+      },
+      "Moderate (15-59m)": {
+        "MAE": 17.36,
+        "RMSE": 22.97,
+        "Bias": -14.68
+      },
+      "Severe (>=60m)": {
+        "MAE": 136.91,
+        "RMSE": 192.49,
+        "Bias": -136.91,
+        "Mean_True": 153.5,
+        "Mean_Pred": 16.6,
+        "Shrinkage_Ratio": 0.1081,
+        "Collapse_Warning": true
+      },
+      "Shrinkage_Ratio": 0.1081,
+      "Collapse_Warning": true
+    }
+  }
+}

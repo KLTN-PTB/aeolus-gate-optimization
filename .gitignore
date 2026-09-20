@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *.pyc
 .pytest_cache/
+.pytest_tmp*/
 .mypy_cache/
 .ruff_cache/
 
@@ -28,9 +29,8 @@ env/
 Thumbs.db
 
 # Aeolus raw / generated datasets
-data/raw/**
-data/processed/**
-data/simulation/**
+/data/
+
 
 # Generated artifacts/results
 # Large/generated artifacts

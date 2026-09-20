@@ -1,0 +1,42 @@
+{
+  "manifest_version": "feature_manifest_arrival_v2",
+  "created_at": "2026-09-20T14:25:00+07:00",
+  "task": "arrival_core",
+  "hub": "ATL",
+  "flow": "inbound",
+  "target_filter": "DEST=ATL",
+  "prediction_cutoff": "CRS_DEP_TIME - 2 hours",
+  "labels": {
+    "y_arr_cls": "1[ARR_DELAY >= 15]",
+    "y_arr_reg": "signed ARR_DELAY",
+    "missing_target": "DROP_ROW_AND_REPORT_COUNT",
+    "target_imputation": false,
+    "ground_truth_clipping": false
+  },
+  "source_schema_version": "canonical_schema_v1",
+  "temporal_protocol_version": "expanding_window_v1",
+  "feature_contract_version": "arrival_feature_contract_v2",
+  "refactoring_rationale": "Eliminated calendar_year (PSI=8.75) to mitigate severe temporal covariate shift across rolling folds. Added safe flight chain representations.",
+  "final_approved_predictor_columns": [
+    "CRS_ELAPSED_TIME",
+    "calendar_month",
+    "calendar_day_of_month",
+    "calendar_day_of_week",
+    "is_weekend",
+    "scheduled_departure_hour",
+    "scheduled_departure_minute",
+    "OP_CARRIER",
+    "ORIGIN",
+    "OP_CARRIER_FL_NUM"
+  ],
+  "dropped_columns": {
+    "calendar_year": "DROP_COVARIATE_SHIFT",
+    "ARR_DELAY": "TARGET_ONLY",
+    "y_arr_cls": "TARGET_ONLY",
+    "y_arr_reg": "TARGET_ONLY",
+    "DEP_DELAY": "DROP_LEAKAGE",
+    "O_TEMP": "DROP_WEATHER",
+    "flight_key": "DROP_IDENTIFIER",
+    "DEST": "DROP_CONSTANT"
+  }
+}\n

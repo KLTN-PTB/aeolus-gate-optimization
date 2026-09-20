@@ -1,0 +1,154 @@
+{
+  "uncalibrated": {
+    "brier_score": 0.12736888229846954,
+    "ece": 0.030702794030904763,
+    "bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 10598,
+        "mean_predicted_probability": 0.07552647590637207,
+        "observed_positive_rate": 0.09473485563313833
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 11129,
+        "mean_predicted_probability": 0.1360374391078949,
+        "observed_positive_rate": 0.16802947254919579
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 2547,
+        "mean_predicted_probability": 0.2379632294178009,
+        "observed_positive_rate": 0.30074597565763644
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 623,
+        "mean_predicted_probability": 0.34007641673088074,
+        "observed_positive_rate": 0.4044943820224719
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 102,
+        "mean_predicted_probability": 0.42727354168891907,
+        "observed_positive_rate": 0.5
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 1,
+        "mean_predicted_probability": 0.5019564628601074,
+        "observed_positive_rate": 0.0
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 0,
+        "mean_predicted_probability": null,
+        "observed_positive_rate": null
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 0,
+        "mean_predicted_probability": null,
+        "observed_positive_rate": null
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 0,
+        "mean_predicted_probability": null,
+        "observed_positive_rate": null
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 0,
+        "mean_predicted_probability": null,
+        "observed_positive_rate": null
+      }
+    ]
+  },
+  "calibrated": {
+    "brier_score": 0.12777275337199162,
+    "ece": 0.03455037666421383,
+    "bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 11097,
+        "mean_predicted_probability": 0.06670948734497398,
+        "observed_positive_rate": 0.09921600432549338
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 10045,
+        "mean_predicted_probability": 0.13411443540636375,
+        "observed_positive_rate": 0.1619711299153808
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 3045,
+        "mean_predicted_probability": 0.23031580520087275,
+        "observed_positive_rate": 0.290311986863711
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 715,
+        "mean_predicted_probability": 0.3520784260509731,
+        "observed_positive_rate": 0.3986013986013986
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 69,
+        "mean_predicted_probability": 0.47349999175555463,
+        "observed_positive_rate": 0.5072463768115942
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 20,
+        "mean_predicted_probability": 0.5266651004552841,
+        "observed_positive_rate": 0.4
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 9,
+        "mean_predicted_probability": 0.6000000238418579,
+        "observed_positive_rate": 0.3333333333333333
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 0,
+        "mean_predicted_probability": null,
+        "observed_positive_rate": null
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 0,
+        "mean_predicted_probability": null,
+        "observed_positive_rate": null
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 0,
+        "mean_predicted_probability": null,
+        "observed_positive_rate": null
+      }
+    ]
+  }
+}
