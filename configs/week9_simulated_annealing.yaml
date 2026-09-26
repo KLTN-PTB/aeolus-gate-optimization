@@ -1,0 +1,14 @@
+contract_version: week9_simulated_annealing_v1
+task: gate_optimization_simulated_annealing
+
+sa_params:
+  t0: 100.0
+  alpha: 0.95
+  iterations: 2000
+  seed: 42
+
+weights:
+  w1_reassignment: 1.0
+  w2_delay_risk: 1.0
+  w3_workload_variance: 0.5
+  w4_remote_gate: 1.0

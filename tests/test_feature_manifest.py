@@ -103,5 +103,7 @@ def test_requirements_pin_only_activated_week3a_dependency() -> None:
     requirements = (ROOT / "requirements.txt").read_text(encoding="utf-8")
 
     assert "scikit-learn==1.9.0" in requirements
-    for future_dependency in ["xgboost", "optuna", "shap", "ortools", "streamlit", "plotly"]:
+    assert "ortools" in requirements.lower()
+    for future_dependency in ["xgboost", "optuna", "shap", "streamlit", "plotly"]:
         assert future_dependency not in requirements.lower()
+
