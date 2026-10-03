@@ -1,7 +1,7 @@
 """Unit tests for Refactored Architecture V2 (Protocol V2).
 
 Verifies:
-1. Feature contract V2: calendar_year is eliminated, 10 approved predictors.
+1. Feature contract V2: calendar_year is eliminated, exact arrival clock is included.
 2. Safe chain feature contract representations.
 3. Refactored preprocessors transform data into expected shapes.
 4. TwoStageHurdleRegressor fits and predicts valid delay ranges.
@@ -36,7 +36,7 @@ def test_refactored_feature_contract_eliminates_calendar_year() -> None:
     """Verifies calendar_year is dropped to eradicate Covariate Shift."""
     assert "calendar_year" not in NUMERIC_FEATURE_COLUMNS_V2
     assert "calendar_year" not in APPROVED_PREDICTOR_COLUMNS_V2
-    assert len(APPROVED_PREDICTOR_COLUMNS_V2) == 10
+    assert len(APPROVED_PREDICTOR_COLUMNS_V2) == 12
     assert FEATURE_CONTRACT_VERSION_V2 == "arrival_feature_contract_v2"
 
 
@@ -45,6 +45,7 @@ def test_refactored_feature_preparation() -> None:
     raw_mock = pd.DataFrame({
         "FL_DATE": ["2022-05-10 00:00:00", "2022-05-11 00:00:00"],
         "CRS_DEP_TIME": ["2022-05-10 14:30:00", "2022-05-11 09:15:00"],
+        "CRS_ARR_TIME": ["2022-05-10 16:30:00", "2022-05-11 10:50:00"],
         "CRS_ELAPSED_TIME": [120.0, 95.0],
         "MONTH": [5, 5],
         "DAY_OF_MONTH": [10, 11],
@@ -60,6 +61,8 @@ def test_refactored_feature_preparation() -> None:
     assert prep.feature_contract_version == "arrival_feature_contract_v2"
     assert "calendar_year" not in prep.X.columns
     assert list(prep.X.columns) == list(APPROVED_PREDICTOR_COLUMNS_V2)
+    assert prep.X["scheduled_arrival_hour"].tolist() == [16, 10]
+    assert prep.X["scheduled_arrival_minute"].tolist() == [30, 50]
     assert prep.y_arr_cls.tolist() == [1, 0]
     assert prep.y_arr_reg.tolist() == [25.0, -10.0]
 
@@ -74,6 +77,8 @@ def test_refactored_preprocessor_transformers() -> None:
         "is_weekend": [0, 0, 0],
         "scheduled_departure_hour": [14, 9, 18],
         "scheduled_departure_minute": [30, 15, 45],
+        "scheduled_arrival_hour": [16, 10, 20],
+        "scheduled_arrival_minute": [30, 50, 15],
         "OP_CARRIER": ["DL", "WN", "AA"],
         "ORIGIN": ["MCO", "LGA", "DFW"],
         "OP_CARRIER_FL_NUM": ["1234", "5678", "9999"],

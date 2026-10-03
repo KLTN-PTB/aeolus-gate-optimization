@@ -127,6 +127,29 @@ def test_naive_delay_baselines_alternative_columns() -> None:
     assert preds[1] == 8.0
 
 
+def test_naive_delay_baseline_prefers_exact_scheduled_arrival_hour() -> None:
+    X_train = pd.DataFrame(
+        {
+            "OP_CARRIER": ["AA", "AA", "AA"],
+            "scheduled_arrival_hour": [8, 8, 10],
+            "scheduled_departure_hour": [7, 7, 9],
+            "CRS_ELAPSED_TIME": [60.0, 60.0, 60.0],
+        }
+    )
+    baseline = NaiveDelayBaselines().fit(X_train, np.array([10.0, 20.0, 30.0]))
+
+    X_apply = pd.DataFrame(
+        {
+            "OP_CARRIER": ["AA"],
+            "scheduled_arrival_hour": [8],
+            "scheduled_departure_hour": [12],
+            "CRS_ELAPSED_TIME": [60.0],
+        }
+    )
+
+    assert baseline.predict_carrier_hour_median(X_apply).tolist() == [15.0]
+
+
 def test_skill_score_calculation() -> None:
     """Test skill score percentage calculation relative to baseline."""
     # 20% improvement

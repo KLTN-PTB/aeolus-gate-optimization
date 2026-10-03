@@ -84,7 +84,11 @@ def test_hpo_and_final_holdout_access_are_fail_closed() -> None:
     with pytest.raises(DataAccessDenied, match="sealed from development"):
         assert_data_access_allowed(2024, "development")
     with pytest.raises(DataAccessDenied, match="freeze manifest"):
-        assert_data_access_allowed(2024, "final_evaluation")
+        assert_data_access_allowed(
+            2024,
+            "final_evaluation",
+            freeze_manifest_path=Path("artifacts/manifests/nonexistent_freeze_manifest.json"),
+        )
 
 
 def test_2024_access_log_is_manifest_backed_and_metadata_only() -> None:
