@@ -17,6 +17,8 @@ Evaluates Fold 4 (Train: 2016-2021, Val: 2022) with monthly stratified sampling:
 from __future__ import annotations
 
 import gc
+import argparse
+import hashlib
 import json
 import os
 import sys
@@ -37,34 +39,69 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.data.refactored_preprocessing import build_refactored_tree_preprocessor
+from src.data.preprocessing import build_tree_preprocessor, build_v1_1_tree_preprocessor
 from src.data.stratified_loader import (
     get_month_distribution_report,
     load_stratified_fold_data,
 )
 from src.models.baselines import NaiveDelayBaselines, compute_skill_score
+from src.features.refactored_features import compute_carrier_arrhour_median
 from src.models.metrics import evaluate_all
 from src.models.refactored_models import (
     build_refactored_hgb_bundle,
     build_refactored_xgboost_bundle,
 )
+from xgboost import XGBRegressor
 
 BENCHMARK_SEEDS = [42, 43, 44, 45, 46]
 TRAIN_YEARS = [2016, 2017, 2018, 2019, 2020, 2021]
 VAL_YEAR = 2022
 SAMPLE_TRAIN_PER_YEAR = 25000  # 150,000 train rows total across 6 years
 SAMPLE_VAL = 25000
+HPO_XGB_RESULT = ROOT / "artifacts" / "manifests" / "week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json"
+V1_MANIFEST = ROOT / "artifacts" / "manifests" / "feature_manifest_arrival_v1.json"
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _load_tuned_xgb_params() -> dict[str, Any]:
+    with HPO_XGB_RESULT.open("r", encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    params = manifest.get("best_params")
+    if not isinstance(params, dict):
+        raise ValueError("Frozen XGBoost HPO result has no best_params mapping")
+    return dict(params)
+
+
+def _variant_config(variant: str) -> tuple[bool, bool, int]:
+    if variant == "v1":
+        return False, False, 30
+    if variant == "v1.1":
+        return False, False, 30
+    if variant == "v1.2a":
+        return True, False, 30
+    if variant == "v1.2b":
+        return True, True, 30
+    raise ValueError(f"Unsupported Phase A benchmark variant: {variant}")
 
 
 def run_benchmark_for_seed(
     seed: int,
     *,
+    variant: str = "v1.1",
     sample_train_per_year: int = SAMPLE_TRAIN_PER_YEAR,
     sample_val: int = SAMPLE_VAL,
 ) -> dict[str, Any]:
     """Execute benchmark for a single seed."""
     print(f"\n{'=' * 80}")
-    print(f"[*] RUNNING BENCHMARK - SEED {seed}")
+    use_target_encoding, smoothing, smoothing_k = _variant_config(variant)
+    print(f"[*] RUNNING BENCHMARK - SEED {seed} ({variant})")
     print(f"{'=' * 80}")
 
     # 1. Load monthly stratified data
@@ -85,6 +122,7 @@ def run_benchmark_for_seed(
         sample_val=sample_val,
         project_root=ROOT,
         random_state=seed,
+        feature_set="v1" if variant == "v1" else "v1.1",
     )
     load_duration = time.time() - t0
     print(f"[*] Data loaded in {load_duration:.2f}s: Train {X_train.shape}, Val {X_val.shape}")
@@ -101,6 +139,39 @@ def run_benchmark_for_seed(
             print(f"[!] WARNING: Month {int(row['Month'])} has percentage {pct:.2f}%, slightly outside nominal bounds.")
 
     y_val_true = y_val_reg.to_numpy(dtype=np.float64)
+
+    # Target-derived features are fit independently inside this fold/seed.
+    # The apply frame's target, if present, is ignored by the helper.
+    target_encoding_features: tuple[str, ...] = ()
+    if use_target_encoding:
+        train_for_encoding = X_train.copy()
+        train_for_encoding["y_arr_reg"] = y_train_reg.to_numpy(dtype=np.float64)
+        train_median, train_count = compute_carrier_arrhour_median(
+            train_for_encoding,
+            X_train,
+            k=smoothing_k,
+            smoothing=smoothing,
+        )
+        val_median, val_count = compute_carrier_arrhour_median(
+            train_for_encoding,
+            X_val,
+            k=smoothing_k,
+            smoothing=smoothing,
+        )
+        X_train = X_train.copy()
+        X_val = X_val.copy()
+        X_train["carrier_arrhour_train_median"] = train_median.to_numpy()
+        X_train["carrier_arrhour_train_count"] = train_count.to_numpy()
+        X_val["carrier_arrhour_train_median"] = val_median.to_numpy()
+        X_val["carrier_arrhour_train_count"] = val_count.to_numpy()
+        target_encoding_features = (
+            "carrier_arrhour_train_median",
+            "carrier_arrhour_train_count",
+        )
+        print(
+            "[*] Target encoding fitted on this seed's train side: "
+            f"smoothing={smoothing} k={smoothing_k}"
+        )
 
     # 3. Fit Naive Baselines
     print("\n[*] Evaluating Naive Baselines...")
@@ -123,15 +194,30 @@ def run_benchmark_for_seed(
 
     # 4. Fit Machine Learning Baselines (Preprocessed)
     print("\n[*] Preprocessing tabular features for Tree models...")
-    tree_prep = build_refactored_tree_preprocessor()
+    if variant == "v1":
+        tree_prep = build_tree_preprocessor()
+    else:
+        tree_prep = build_v1_1_tree_preprocessor(
+            extra_numeric_features=target_encoding_features
+        )
     X_tr_enc = tree_prep.fit_transform(X_train)
     X_val_enc = tree_prep.transform(X_val)
 
     # Model 1: XGBoost Baseline MSE
     print("[*] Training XGBoost Baseline MSE (reg:squarederror)...")
-    xgb_bundle = build_refactored_xgboost_bundle(objective="reg:squarederror", seed=seed, n_jobs=4)
-    xgb_bundle.regressor.fit(X_tr_enc, y_train_reg.to_numpy(dtype=np.float64))
-    pred_xgb = xgb_bundle.regressor.predict(X_val_enc)
+    tuned_params = _load_tuned_xgb_params()
+    xgb_regressor = XGBRegressor(
+        **tuned_params,
+        objective="reg:squarederror",
+        eval_metric="rmse",
+        tree_method="hist",
+        device="cpu",
+        max_bin=256,
+        random_state=seed,
+        n_jobs=1,
+    )
+    xgb_regressor.fit(X_tr_enc, y_train_reg.to_numpy(dtype=np.float64))
+    pred_xgb = xgb_regressor.predict(X_val_enc)
     eval_xgb = evaluate_all(y_val_true, pred_xgb)
     skill_xgb = compute_skill_score(eval_xgb["point_regression"]["mae"], mae_carrier_hour)
     print(f"    XGBoost MSE: MAE={eval_xgb['point_regression']['mae']:.2f}, RMSE={eval_xgb['point_regression']['rmse']:.2f}, Skill Score={skill_xgb:+.2f}%")
@@ -201,8 +287,30 @@ def run_benchmark_for_seed(
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Run the Day 1 Phase A gap-closure benchmark")
+    parser.add_argument(
+        "--variant",
+        choices=("v1", "v1.1", "v1.2a", "v1.2b"),
+        default="v1.1",
+    )
+    parser.add_argument("--report-path", type=Path, default=None)
+    args = parser.parse_args()
+    variant = str(args.variant)
+    report_path = (
+        ROOT / "artifacts" / "manifests" / f"phase_a_benchmark_report_{variant.replace('.', '_')}.json"
+        if args.report_path is None
+        else (args.report_path if args.report_path.is_absolute() else ROOT / args.report_path)
+    )
+    feature_manifest_path = ROOT / "artifacts" / "manifests" / {
+        "v1": "feature_manifest_arrival_v1.json",
+        "v1.1": "feature_manifest_arrival_v1_1.json",
+        "v1.2a": "feature_manifest_arrival_v1_2.json",
+        "v1.2b": "feature_manifest_arrival_v1_2.json",
+    }[variant]
+    use_target_encoding, smoothing, smoothing_k = _variant_config(variant)
+
     print("=" * 88)
-    print("      AEOLUS GATE OPTIMIZATION: PHASE A BENCHMARK & DECISION GATE A")
+    print(f"      AEOLUS GATE OPTIMIZATION: PHASE A {variant.upper()} GAP CLOSURE")
     print("      Fold 4: Train 2016-2021 (Monthly Stratified), Val 2022 (Monthly Stratified)")
     print(f"      Seeds: {BENCHMARK_SEEDS}")
     print("=" * 88)
@@ -211,7 +319,7 @@ def main() -> None:
     start_time = time.time()
 
     for seed in BENCHMARK_SEEDS:
-        res = run_benchmark_for_seed(seed)
+        res = run_benchmark_for_seed(seed, variant=variant)
         all_seed_results.append(res)
 
     total_time = time.time() - start_time
@@ -282,15 +390,38 @@ def main() -> None:
     # Save to artifacts manifest
     manifest_dir = ROOT / "artifacts" / "manifests"
     manifest_dir.mkdir(parents=True, exist_ok=True)
-    report_path = manifest_dir / "phase_a_benchmark_report.json"
+    if not feature_manifest_path.is_file():
+        raise FileNotFoundError(
+            f"Feature manifest must be created before running {variant}: {feature_manifest_path}"
+        )
 
     report_data = {
-        "benchmark_version": "phase_a_v1",
+        "benchmark_version": f"phase_a_{variant}",
+        "created_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "fold": "Fold 4 (Train 2016-2021, Val 2022)",
         "sampling_method": "Stratified Sampling by Month (12 calendar months)",
         "sample_train_per_year": SAMPLE_TRAIN_PER_YEAR,
         "sample_val": SAMPLE_VAL,
         "seeds": BENCHMARK_SEEDS,
+        "feature_set": variant,
+        "feature_manifest": str(feature_manifest_path.relative_to(ROOT)),
+        "feature_manifest_sha256": _sha256(feature_manifest_path),
+        "parent_manifest": str(V1_MANIFEST.relative_to(ROOT)),
+        "parent_manifest_sha256": _sha256(V1_MANIFEST),
+        "hpo_result_manifest": str(HPO_XGB_RESULT.relative_to(ROOT)),
+        "hpo_result_manifest_sha256": _sha256(HPO_XGB_RESULT),
+        "xgboost": {
+            "objective": "reg:squarederror",
+            "best_params_source": str(HPO_XGB_RESULT.relative_to(ROOT)),
+            "best_params": _load_tuned_xgb_params(),
+        },
+        "target_encoding": {
+            "enabled": use_target_encoding,
+            "smoothing": smoothing,
+            "k": smoothing_k,
+            "fit_scope": "each_seed_fold_train_rows_only",
+            "validation_targets_used_for_feature": False,
+        },
         "execution_time_seconds": round(total_time, 2),
         "summary": summary,
         "per_seed_results": all_seed_results,
@@ -307,7 +438,7 @@ def main() -> None:
         },
     }
 
-    with open(report_path, "w", encoding="utf-8") as f:
+    with report_path.open("w", encoding="utf-8") as f:
         json.dump(report_data, f, indent=2)
 
     print(f"\n[+] Full benchmark report saved to {report_path}")
