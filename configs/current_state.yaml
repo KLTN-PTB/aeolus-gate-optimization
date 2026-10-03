@@ -1,0 +1,127 @@
+# Machine-readable Current State Registry for Aeolus Gate Optimization
+# Governed by V4 Synchronized Protocol and Fail-Closed Architecture
+
+architecture_protocol_version: "V4_CORE_ARRIVAL_WEEK5_HPO_TUNED_OOF"
+generated_at: "2026-09-30T19:22:00+07:00"
+
+arrival_task:
+  name: "Core Arrival"
+  population: "inbound DEST=ATL"
+  cutoff: "CRS_DEP_TIME - 2h"
+  classification:
+    target: "y_arr_cls = 1[ARR_DELAY >= 15]"
+    metric: "PR-AUC (Primary) / ROC-AUC / Brier"
+  regression:
+    target: "y_arr_reg = ARR_DELAY (signed minutes)"
+    rules: "No absolute value, no clipping, no target imputation"
+    metric: "MAE (Primary) / RMSE / R2 / Severe Delay MAE"
+  weather: "NO_WEATHER (DROP_FROM_PREDICTORS)"
+  chain: "BLOCKED_UNTIL_PROVEN (Decision E006, ARR-B disabled)"
+  feeds_downstream_optimizer: true
+
+departure_auxiliary_task:
+  name: "Auxiliary Departure"
+  population: "outbound ORIGIN=ATL"
+  cutoff: "CRS_DEP_TIME - 2h"
+  classification:
+    target: "y_dep_cls = 1[DEP_DELAY >= 15]"
+  weather: "AUDIT_REQUIRED (external point-in-time Weather only)"
+  role: "Secondary research only; strictly isolated"
+  feeds_downstream_optimizer: false
+
+cutoff: "CRS_DEP_TIME - 2h"
+
+temporal_roles:
+  fold_1:
+    train_years: [2016, 2017, 2018]
+    val_year: 2019
+    role: "rolling_development"
+  fold_2:
+    train_years: [2016, 2017, 2018, 2019]
+    val_year: 2020
+    role: "rolling_development"
+  fold_3:
+    train_years: [2016, 2017, 2018, 2019, 2020]
+    val_year: 2021
+    role: "rolling_development"
+  fold_4:
+    train_years: [2016, 2017, 2018, 2019, 2020, 2021]
+    val_year: 2022
+    role: "rolling_development"
+  development_selection_year: 2023
+  development_selection_role: "model_selection_and_evaluation_only_no_training"
+  development_selection_policy: "configs/academic_model_selection.yaml"
+  final_holdout_year: 2024
+  final_holdout_role: "final_evaluation_only_sealed_pre_freeze_post_holdout_now"
+
+current_core_method_cap: 5
+current_core_models:
+  - "arrival_linear_baseline_v1"
+  - "arrival_random_forest_baseline_v1"
+  - "arrival_hist_gradient_boosting_baseline_v1"
+  - "arrival_xgboost_baseline_v1"
+  - "arrival_weighted_ensemble_v1"
+
+current_core_tuned_variants:
+  - "arrival_random_forest_tuned_v1_1"
+  - "arrival_hist_gradient_boosting_tuned_v1_1"
+  - "arrival_xgboost_tuned_v1_1"
+
+probabilistic_research_candidates:
+  - "P1_empirical"
+  - "P2_xgb_gaussian_oof"
+  - "P3_ngboost_normal"
+  - "P4_ngboost_student_t"
+  - "P5_quantile_regression"
+
+legacy_models:
+  - model_id: "b5_ngboost_student_t"
+    status: "legacy_frozen"
+    family: "ngboost"
+    probabilistic: true
+    system_id: "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula"
+    note: "Frozen in Stage 10 on 2016-2022; evaluated on 2024 in Stage 11; preserved for benchmark comparison; not default V4 core champion."
+
+downstream_policy:
+  evaluator: "src/optimization/evaluation.py"
+  hard_constraints:
+    zero_contact_gate_conflicts: true
+    min_separation_buffer_minutes: 15.0
+    independent_verification_required: true
+  solvers_benchmarked:
+    - "Greedy Earliest-Flight-First Baseline"
+    - "Google OR-Tools CP-SAT"
+    - "Simulated Annealing Metaheuristic"
+  input_source: "Core Arrival predictions (DEST=ATL) only; Auxiliary Departure strictly excluded"
+
+weather_status:
+  raw_aeolus_weather: "DROP_FROM_PREDICTORS (unproven publication timestamps at T-2h)"
+  external_weather_contract: "AUDIT_REQUIRED (W1-W15 contract defined, enabled=false)"
+
+chain_status:
+  raw_flight_chain_pt: "FINAL_NO_GO (read-only, prohibited from core)"
+  reconstructed_schedule_chain_v1: "EVIDENCE_CONFIRMED_FAIL_CLOSED (Decision E006; 11 future/full-chain features BLOCKED_UNTIL_PROVEN, 7 REVIEW_REQUIRED)"
+  arr_b_branch: "DISABLED"
+
+holdout_status:
+  state: "POST_HOLDOUT_STABILIZED"
+  historical_evaluation_completed: true
+  historical_access_timestamp: "2026-09-27T18:23:46.416794+00:00"
+  untouched_holdout: false
+  re_tuning_or_re_selection_prohibited: true
+  row_level_2024_access_policy: "FAIL_CLOSED (only schema audit or authorized final evaluation allowed)"
+
+test_baseline:
+  test_framework: "pytest"
+  total_tests_passing: 698
+  test_suites_passing: 6
+  failure_count: 0
+
+seed_registry:
+  config_file: "configs/seed_registry.yaml"
+  registered_seeds: [202601, 202602, 202603]
+  policy: "evaluation_only_with_predetermined_deployment_seed"
+  predetermined_deployment_seed: 202601
+  status: "LOCKED_IMMUTABLE"
+
+next_phase: "Phase I / End-to-end multi-solver optimization benchmarking with calibrated V4 Core Arrival models"

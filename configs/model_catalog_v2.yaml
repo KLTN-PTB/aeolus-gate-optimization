@@ -1,0 +1,348 @@
+# Authoritative Model Catalog v2 for Aeolus Gate Optimization
+# Governed by V4 Synchronized Protocol, 5-Core Method Cap, and Fail-Closed Architecture
+# Document Reference: docs/roadmap/01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V4_DONG_BO.md
+
+catalog_version: "2.0.0"
+catalog_date: "2026-10-02"
+protocol: "AEOLUS_V4_SYNCHRONIZED_PROTOCOL"
+core_method_cap: 5
+
+system_identities:
+  AEOLUS_V4_CORE_ARRIVAL:
+    system_id: "SYS_V4_CORE_ARRIVAL"
+    description: "Authoritative V4 Core Arrival ML prediction system targeting inbound DEST=ATL at T-2h"
+    governing_roadmap: "01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V4_DONG_BO.md"
+    core_methods_count: 5
+    manifest_path: "artifacts/manifests/model_registry_manifest_v2.json"
+    status: "CURRENT_ACTIVE"
+
+  AEOLUS_LEGACY_PROBABILISTIC_B5:
+    system_id: "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula"
+    description: "Historical frozen probabilistic comparator system from Stage 10 (NGBoost Student-T + Gaussian Copula)"
+    governing_roadmap: "Aeolus_Probabilistic_Core_Arrival_Protocol.md"
+    manifest_path: "artifacts/manifests/system_freeze_manifest.json"
+    status: "LEGACY_FROZEN"
+
+  AEOLUS_PROBABILISTIC_RESEARCH:
+    system_id: "SYS_PROBABILISTIC_RESEARCH_MARGINAL_POOL"
+    description: "Academic marginal probabilistic benchmark candidate pool (P1-P5)"
+    governing_roadmap: "configs/academic_model_selection.yaml"
+    manifest_path: "artifacts/manifests/academic_model_selection_v1.json"
+    status: "RESEARCH_CANDIDATE"
+
+  AEOLUS_DOWNSTREAM_OPTIMIZATION:
+    system_id: "SYS_DOWNSTREAM_GATE_ASSIGNMENT"
+    description: "Downstream gate assignment optimization engine (Greedy, CP-SAT, Simulated Annealing)"
+    governing_roadmap: "src/optimization/"
+    input_admissibility: "Core Arrival predictions only; Auxiliary Departure strictly forbidden"
+    status: "CURRENT_ACTIVE"
+
+models:
+  # ===========================================================================
+  # A. CORE_POINT (Exactly 5 Canonical Method Families — Core Method Cap = 5)
+  # ===========================================================================
+  arrival_linear_baseline_v1:
+    model_id: "arrival_linear_baseline_v1"
+    family: "linear"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "current_core"
+    category: "CORE_POINT"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "core_point_linear_baseline"
+    distribution_capability: "point_only"
+    source_path: "src/models/linear_models.py"
+    implementation_class: "RidgeArrivalModel"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  arrival_random_forest_baseline_v1:
+    model_id: "arrival_random_forest_baseline_v1"
+    family: "random_forest"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "current_core"
+    category: "CORE_POINT"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "core_point_tree_baseline"
+    distribution_capability: "point_only"
+    source_path: "src/models/random_forest_models.py"
+    implementation_class: "RandomForestArrivalModel"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  arrival_hist_gradient_boosting_baseline_v1:
+    model_id: "arrival_hist_gradient_boosting_baseline_v1"
+    family: "hist_gradient_boosting"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "current_core"
+    category: "CORE_POINT"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "core_point_hgb_baseline"
+    distribution_capability: "point_only"
+    source_path: "src/models/hist_gradient_boosting_models.py"
+    implementation_class: "HistGradientBoostingArrivalModel"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  arrival_xgboost_baseline_v1:
+    model_id: "arrival_xgboost_baseline_v1"
+    family: "xgboost"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "current_core"
+    category: "CORE_POINT"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "core_point_xgboost_baseline"
+    distribution_capability: "point_only"
+    source_path: "src/models/week5_xgboost.py"
+    implementation_class: "XGBoostArrivalModel"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  arrival_weighted_ensemble_v1:
+    model_id: "arrival_weighted_ensemble_v1"
+    family: "weighted_ensemble"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "current_core"
+    category: "CORE_POINT"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "core_point_ensemble"
+    distribution_capability: "point_only"
+    source_path: "src/evaluation/model_selection.py"
+    implementation_class: "InverseVarianceWeightedEnsemble"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  # ===========================================================================
+  # B. TUNED_VARIANT (Week 5 Optuna HPO Variants under Base Core Families)
+  # ===========================================================================
+  arrival_random_forest_tuned_v1_1:
+    model_id: "arrival_random_forest_tuned_v1_1"
+    family: "random_forest"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "current_core"
+    category: "TUNED_VARIANT"
+    variant_of: "arrival_random_forest_baseline_v1"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "tuned_variant"
+    distribution_capability: "point_only"
+    source_path: "src/models/week5_random_forest_hpo.py"
+    implementation_class: "RandomForestArrivalModel"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  arrival_hist_gradient_boosting_tuned_v1_1:
+    model_id: "arrival_hist_gradient_boosting_tuned_v1_1"
+    family: "hist_gradient_boosting"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "current_core"
+    category: "TUNED_VARIANT"
+    variant_of: "arrival_hist_gradient_boosting_baseline_v1"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "tuned_variant"
+    distribution_capability: "point_only"
+    source_path: "src/models/week5_hist_gradient_boosting_hpo.py"
+    implementation_class: "HistGradientBoostingArrivalModel"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  arrival_xgboost_tuned_v1_1:
+    model_id: "arrival_xgboost_tuned_v1_1"
+    family: "xgboost"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "current_core"
+    category: "TUNED_VARIANT"
+    variant_of: "arrival_xgboost_baseline_v1"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "tuned_variant"
+    distribution_capability: "point_only"
+    source_path: "src/models/week5_xgboost_hpo.py"
+    implementation_class: "XGBoostArrivalModel"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  # ===========================================================================
+  # C. PROBABILISTIC_CANDIDATE (Academic Research Distributional Models P1–P5)
+  # ===========================================================================
+  P1_empirical:
+    model_id: "P1_empirical"
+    family: "empirical_carrier_hour"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "research_candidate"
+    category: "PROBABILISTIC_CANDIDATE"
+    downstream_eligible: false
+    development_period: "2016-2022"
+    selection_role: "probabilistic_candidate_p1"
+    distribution_capability: "empirical_distribution"
+    source_path: "src/models/probabilistic/candidate_interfaces.py"
+    implementation_class: "P1EmpiricalCandidate"
+    seed_policy: "screening_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  P2_xgb_gaussian_oof:
+    model_id: "P2_xgb_gaussian_oof"
+    family: "xgb_gaussian_oof"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "research_candidate"
+    category: "PROBABILISTIC_CANDIDATE"
+    downstream_eligible: false
+    development_period: "2016-2022"
+    selection_role: "probabilistic_candidate_p2"
+    distribution_capability: "fixed_sigma_gaussian"
+    source_path: "src/models/probabilistic/candidate_interfaces.py"
+    implementation_class: "P2XGBoostGaussianCandidate"
+    seed_policy: "screening_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  P3_ngboost_normal:
+    model_id: "P3_ngboost_normal"
+    family: "ngboost_normal"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "research_candidate"
+    category: "PROBABILISTIC_CANDIDATE"
+    downstream_eligible: false
+    development_period: "2016-2022"
+    selection_role: "probabilistic_candidate_p3"
+    distribution_capability: "heteroscedastic_gaussian"
+    source_path: "src/models/probabilistic/candidate_interfaces.py"
+    implementation_class: "P3NGBoostNormalCandidate"
+    seed_policy: "screening_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  P4_ngboost_student_t:
+    model_id: "P4_ngboost_student_t"
+    family: "ngboost_student_t"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "research_candidate"
+    category: "PROBABILISTIC_CANDIDATE"
+    downstream_eligible: false
+    development_period: "2016-2022"
+    selection_role: "probabilistic_candidate_p4_heavy_tail"
+    distribution_capability: "heteroscedastic_student_t"
+    source_path: "src/models/probabilistic/candidate_interfaces.py"
+    implementation_class: "P4NGBoostStudentTCandidate"
+    seed_policy: "screening_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  P5_quantile_regression:
+    model_id: "P5_quantile_regression"
+    family: "quantile_regression"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "research_candidate"
+    category: "PROBABILISTIC_CANDIDATE"
+    downstream_eligible: false
+    development_period: "2016-2022"
+    selection_role: "probabilistic_candidate_p5_quantile"
+    distribution_capability: "multi_pinball_quantiles"
+    source_path: "src/models/probabilistic/candidate_interfaces.py"
+    implementation_class: "P5QuantileRegressionCandidate"
+    seed_policy: "screening_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  # ===========================================================================
+  # D. LEGACY_FROZEN (Stage 10 Historical Frozen Benchmark Comparator)
+  # ===========================================================================
+  b5_ngboost_student_t:
+    model_id: "b5_ngboost_student_t"
+    family: "ngboost"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "legacy_frozen"
+    category: "LEGACY_FROZEN"
+    downstream_eligible: true
+    development_period: "2016-2022"
+    selection_role: "historical_probabilistic_comparator"
+    distribution_capability: "heteroscedastic_student_t"
+    source_path: "src/models/probabilistic/baselines.py"
+    implementation_class: "B5NGBoostStudentT"
+    seed_policy: "predetermined_deployment_seed_202601"
+    feature_set: "probabilistic_11_schedule_calendar_carrier_route"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  # ===========================================================================
+  # E. AUXILIARY_DEPARTURE (Research Only — NEVER Downstream Eligible)
+  # ===========================================================================
+  departure_auxiliary_baseline_v1:
+    model_id: "departure_auxiliary_baseline_v1"
+    family: "linear"
+    task: "auxiliary_departure"
+    target: "departure_delay_binary_15"
+    status: "research_candidate"
+    category: "AUXILIARY_DEPARTURE"
+    downstream_eligible: false
+    development_period: "2016-2022"
+    selection_role: "auxiliary_departure_classification"
+    distribution_capability: "binary_classification_probability"
+    source_path: "src/models/linear_models.py"
+    implementation_class: "LogisticRegressionDepartureModel"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "departure_schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false
+
+  # ===========================================================================
+  # F. RESEARCH_ABLATION (Specialized Ablation / Experimental)
+  # ===========================================================================
+  arrival_hurdle_predictor_two_stage:
+    model_id: "arrival_hurdle_predictor_two_stage"
+    family: "two_stage_hurdle"
+    task: "core_arrival"
+    target: "arrival_delay_signed"
+    status: "research_candidate"
+    category: "RESEARCH_CANDIDATE"
+    downstream_eligible: false
+    development_period: "2016-2022"
+    selection_role: "hurdle_ablation_candidate"
+    distribution_capability: "point_and_classification_probability"
+    source_path: "src/models/hurdle_inference.py"
+    implementation_class: "HurdlePredictor"
+    seed_policy: "fixed_seed_202601"
+    feature_set: "schedule_calendar_carrier_route_v1"
+    weather_included: false
+    departure_delay_predictor_included: false

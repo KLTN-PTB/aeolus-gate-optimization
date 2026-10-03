@@ -9,6 +9,7 @@ Key improvements over V1:
 from __future__ import annotations
 
 from dataclasses import dataclass
+import logging
 from typing import Final, Iterable
 
 import numpy as np
@@ -21,10 +22,12 @@ from src.features.tabular_features import (
     CATEGORICAL_FEATURE_COLUMNS,
     HIGH_CARDINALITY_FEATURE_COLUMNS,
     IDENTIFIER_COLUMNS,
-    RAW_SAFE_SOURCE_COLUMNS,
+    RAW_SAFE_SOURCE_COLUMNS_V1_1,
+    SCHEDULED_ARRIVAL_FEATURE_COLUMNS,
     _categorical,
     _flight_number,
     _numeric_without_silent_coercion,
+    _parse_scheduled_arrival_clock,
     _parse_schedule_sources,
     _validate_calendar_source,
     build_arrival_labels,
@@ -42,6 +45,7 @@ NUMERIC_FEATURE_COLUMNS_V2: Final = (
     "is_weekend",
     "scheduled_departure_hour",
     "scheduled_departure_minute",
+    *SCHEDULED_ARRIVAL_FEATURE_COLUMNS,
 )
 
 APPROVED_PREDICTOR_COLUMNS_V2: Final = (
@@ -56,6 +60,122 @@ SAFE_CHAIN_FEATURE_COLUMNS: Final = (
     "imputed_prior_arrival_delay",
     "turnaround_tight",
 )
+
+LOGGER = logging.getLogger(__name__)
+
+
+def compute_carrier_arrhour_median(
+    train_df: pd.DataFrame,
+    apply_df: pd.DataFrame,
+    k: int = 30,
+    smoothing: bool = True,
+) -> tuple[pd.Series, pd.Series]:
+    """Compute train-side carrier/arrival-hour target encoding.
+
+    The mapping is built exclusively from ``train_df`` and applied to
+    ``apply_df``.  ``apply_df`` labels, when present, are deliberately ignored.
+    Fallbacks are exact cell -> carrier -> global median.  Smoothing applies
+    only to an observed cell and follows the locked weighted-median formula
+    used by the Day 1 design note.
+    """
+    if not isinstance(train_df, pd.DataFrame) or not isinstance(apply_df, pd.DataFrame):
+        raise TypeError("train_df and apply_df must be pandas DataFrames")
+    if k < 0:
+        raise ValueError("k must be non-negative")
+    required = {"OP_CARRIER", "scheduled_arrival_hour"}
+    missing_train = required.difference(train_df.columns)
+    missing_apply = required.difference(apply_df.columns)
+    if missing_train or missing_apply:
+        raise KeyError(
+            "target encoding requires safe keys; "
+            f"missing_train={sorted(missing_train)} missing_apply={sorted(missing_apply)}"
+        )
+
+    target_column = next(
+        (name for name in ("y_arr_reg", "ARR_DELAY") if name in train_df.columns),
+        None,
+    )
+    if target_column is None:
+        raise KeyError("train_df must contain y_arr_reg or ARR_DELAY")
+
+    train_carrier = train_df["OP_CARRIER"].astype("string")
+    train_hour = pd.to_numeric(train_df["scheduled_arrival_hour"], errors="coerce")
+    train_target = pd.to_numeric(train_df[target_column], errors="coerce")
+    valid_train = (
+        train_carrier.notna()
+        & train_hour.notna()
+        & np.isfinite(train_hour)
+        & (train_hour == np.floor(train_hour))
+        & train_target.notna()
+        & np.isfinite(train_target)
+    )
+    if not bool(valid_train.any()):
+        raise ValueError("train_df has no finite rows for carrier/hour target encoding")
+
+    train_keys = pd.DataFrame(
+        {
+            "carrier": train_carrier.loc[valid_train].astype(str),
+            "hour": train_hour.loc[valid_train].astype(int),
+            "target": train_target.loc[valid_train].astype(float),
+        }
+    )
+    cell_group = train_keys.groupby(["carrier", "hour"])["target"]
+    cell_medians = cell_group.median().to_dict()
+    cell_counts = cell_group.size().to_dict()
+    carrier_medians = train_keys.groupby("carrier")["target"].median().to_dict()
+    global_median = float(train_keys["target"].median())
+
+    apply_carrier = apply_df["OP_CARRIER"].astype("string")
+    apply_hour = pd.to_numeric(apply_df["scheduled_arrival_hour"], errors="coerce")
+    values = np.empty(len(apply_df), dtype=np.float64)
+    counts = np.zeros(len(apply_df), dtype=np.int64)
+    level_counts = {"cell": 0, "carrier": 0, "global": 0}
+
+    for position, (carrier_value, hour_value) in enumerate(
+        zip(apply_carrier.tolist(), apply_hour.tolist())
+    ):
+        if pd.notna(carrier_value) and pd.notna(hour_value) and np.isfinite(hour_value):
+            carrier_key = str(carrier_value)
+            hour_key = int(hour_value)
+            cell_key = (carrier_key, hour_key)
+        else:
+            carrier_key = None
+            cell_key = None
+
+        if cell_key is not None and cell_key in cell_medians:
+            cell_median = float(cell_medians[cell_key])
+            cell_count = int(cell_counts[cell_key])
+            counts[position] = cell_count
+            level_counts["cell"] += 1
+            if smoothing and carrier_key is not None and k > 0:
+                carrier_median = float(carrier_medians[carrier_key])
+                values[position] = (
+                    cell_count * cell_median + k * carrier_median
+                ) / (cell_count + k)
+            else:
+                values[position] = cell_median
+        elif carrier_key is not None and carrier_key in carrier_medians:
+            values[position] = float(carrier_medians[carrier_key])
+            level_counts["carrier"] += 1
+        else:
+            values[position] = global_median
+            level_counts["global"] += 1
+
+    result_values = pd.Series(
+        values, index=apply_df.index, name="carrier_arrhour_train_median"
+    )
+    result_counts = pd.Series(
+        counts, index=apply_df.index, name="carrier_arrhour_train_count", dtype="int64"
+    )
+    if result_values.isna().any() or result_counts.isna().any():
+        raise ValueError("target encoding produced NaN values after fallback")
+    LOGGER.info(
+        "carrier_arrhour_train_median fallback counts: cell=%d carrier=%d global=%d",
+        level_counts["cell"],
+        level_counts["carrier"],
+        level_counts["global"],
+    )
+    return result_values, result_counts
 
 
 @dataclass(frozen=True)
@@ -81,7 +201,7 @@ def prepare_arrival_features_v2(
     Drops `calendar_year` from predictors to prevent split-on-year overfitting.
     Optionally joins safe, auditable chain status without imputing 0 blindly.
     """
-    required = set(RAW_SAFE_SOURCE_COLUMNS) | {"DEST", "ARR_DELAY"}
+    required = set(RAW_SAFE_SOURCE_COLUMNS_V1_1) | {"DEST", "ARR_DELAY"}
     missing = required.difference(frame.columns)
     if missing:
         raise ArrivalFeatureContractViolation(
@@ -114,6 +234,9 @@ def prepare_arrival_features_v2(
     X["is_weekend"] = calendar_day_of_week.isin([6, 7]).astype("int8")
     X["scheduled_departure_hour"] = departure.dt.hour.astype("int8")
     X["scheduled_departure_minute"] = departure.dt.minute.astype("int8")
+    arrival_hour, arrival_minute = _parse_scheduled_arrival_clock(eligible)
+    X["scheduled_arrival_hour"] = arrival_hour
+    X["scheduled_arrival_minute"] = arrival_minute
     X["OP_CARRIER"] = _categorical(eligible["OP_CARRIER"], field="OP_CARRIER")
     X["ORIGIN"] = _categorical(eligible["ORIGIN"], field="ORIGIN")
     X["OP_CARRIER_FL_NUM"] = _flight_number(eligible["OP_CARRIER_FL_NUM"])

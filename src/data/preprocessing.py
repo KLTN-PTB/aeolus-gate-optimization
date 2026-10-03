@@ -22,13 +22,16 @@ from sklearn.utils.validation import check_is_fitted
 
 from src.data.access_guard import assert_data_access_allowed
 from src.data.load_aeolus import resolve_project_root
-from src.data.temporal_protocol import ROLLING_DEVELOPMENT_YEARS
+from src.data.temporal_protocol import MODEL_SELECTION_YEAR, ROLLING_DEVELOPMENT_YEARS
 from src.features.tabular_features import (
     APPROVED_PREDICTOR_COLUMNS,
+    APPROVED_PREDICTOR_COLUMNS_V1_1,
     ARRIVAL_PROJECTED_SOURCE_COLUMNS,
+    ARRIVAL_PROJECTED_SOURCE_COLUMNS_V1_1,
     CATEGORICAL_FEATURE_COLUMNS,
     HIGH_CARDINALITY_FEATURE_COLUMNS,
     NUMERIC_FEATURE_COLUMNS,
+    NUMERIC_FEATURE_COLUMNS_V1_1,
 )
 
 
@@ -207,6 +210,33 @@ def build_tree_preprocessor() -> ColumnTransformer:
     )
 
 
+def build_v1_1_tree_preprocessor(
+    *, extra_numeric_features: tuple[str, ...] = ()
+) -> ColumnTransformer:
+    """Build the V1.1 dense tree preprocessor with optional train-only features."""
+    numeric_columns = [*NUMERIC_FEATURE_COLUMNS_V1_1, *extra_numeric_features]
+    if len(numeric_columns) != len(set(numeric_columns)):
+        raise ValueError("V1.1 numeric feature list contains duplicate columns")
+    return ColumnTransformer(
+        [
+            ("numeric", _numeric_pipeline(scale=False), numeric_columns),
+            (
+                "categorical",
+                _categorical_pipeline(one_hot=False),
+                list(CATEGORICAL_FEATURE_COLUMNS),
+            ),
+            (
+                "high_cardinality",
+                _high_cardinality_pipeline(),
+                list(HIGH_CARDINALITY_FEATURE_COLUMNS),
+            ),
+        ],
+        remainder="drop",
+        sparse_threshold=0.0,
+        verbose_feature_names_out=True,
+    )
+
+
 def build_boosting_preprocessor() -> ColumnTransformer:
     """Build the future-tree preprocessing family without a model estimator."""
     return build_tree_preprocessor()
@@ -226,7 +256,9 @@ def audit_training_categorical_cardinality(
     }
 
 
-def _assert_week3a_year(year: int) -> None:
+def _assert_week3a_year(year: int, *, allow_selection_year: bool = False) -> None:
+    if allow_selection_year and year == MODEL_SELECTION_YEAR:
+        return
     if year not in ROLLING_DEVELOPMENT_YEARS:
         raise Week3ATemporalBoundaryError(
             "Week 3A row-level preprocessing reads are restricted to 2016-2022"
@@ -268,22 +300,29 @@ def iter_arrival_development_batches(
     *,
     project_root: Path | None = None,
     batch_size: int = 4096,
+    include_scheduled_arrival_time: bool = False,
+    allow_selection_year: bool = False,
 ) -> Iterator[pd.DataFrame]:
     """Yield projected inbound batches for one rolling-development year."""
-    _assert_week3a_year(year)
+    _assert_week3a_year(year, allow_selection_year=allow_selection_year)
     if batch_size <= 0:
         raise ValueError("batch_size must be positive")
     assert_data_access_allowed(year, "development")
     root = resolve_project_root(project_root)
     partition = root / "data" / "processed" / "inbound_atl" / f"year={year}"
     dataset = ds.dataset(partition, format="parquet")
-    missing = set(ARRIVAL_PROJECTED_SOURCE_COLUMNS).difference(dataset.schema.names)
+    projected_columns = (
+        ARRIVAL_PROJECTED_SOURCE_COLUMNS_V1_1
+        if include_scheduled_arrival_time
+        else ARRIVAL_PROJECTED_SOURCE_COLUMNS
+    )
+    missing = set(projected_columns).difference(dataset.schema.names)
     if missing:
         raise ValueError(
             f"Inbound partition is missing projected columns: {sorted(missing)}"
         )
     scanner = dataset.scanner(
-        columns=list(ARRIVAL_PROJECTED_SOURCE_COLUMNS),
+        columns=list(projected_columns),
         batch_size=batch_size,
         use_threads=False,
         batch_readahead=1,

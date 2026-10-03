@@ -22,6 +22,10 @@ from src.features.refactored_features import (
     PreparedArrivalFeaturesV2,
     prepare_arrival_features_v2,
 )
+from src.features.tabular_features import (
+    prepare_arrival_features,
+    prepare_arrival_features_v1_1,
+)
 
 
 def load_stratified_year_data(
@@ -31,6 +35,7 @@ def load_stratified_year_data(
     project_root: Path | None = None,
     random_state: int = 42,
     batch_size: int = 16384,
+    feature_set: str = "v2",
 ) -> pd.DataFrame:
     """Load stratified samples uniformly distributed across 12 calendar months.
 
@@ -44,12 +49,20 @@ def load_stratified_year_data(
     Returns:
         pd.DataFrame containing target_samples stratified across all 12 months.
     """
+    if feature_set not in {"v1", "v2", "v1.1"}:
+        raise ValueError(f"Unsupported feature_set: {feature_set}")
     assert_data_access_allowed(year, "development")
     root = resolve_project_root(project_root)
 
     print(f"[*] Scanning all inbound batches for year {year} across 12 months...")
     raw_batches: list[pd.DataFrame] = []
-    for batch in iter_arrival_development_batches(year, project_root=root, batch_size=batch_size):
+    for batch in iter_arrival_development_batches(
+        year,
+        project_root=root,
+        batch_size=batch_size,
+        include_scheduled_arrival_time=feature_set in {"v2", "v1.1"},
+        allow_selection_year=(year == 2023),
+    ):
         raw_batches.append(batch)
 
     if not raw_batches:
@@ -127,6 +140,7 @@ def load_stratified_fold_data(
     sample_val: int = 40000,
     project_root: Path | None = None,
     random_state: int = 42,
+    feature_set: str = "v2",
 ) -> tuple[pd.DataFrame, pd.Series, pd.Series, np.ndarray, pd.DataFrame, pd.Series, pd.Series, pd.Series]:
     """Load and prepare features with monthly stratified sampling.
 
@@ -134,7 +148,14 @@ def load_stratified_fold_data(
         (X_train, y_train_cls, y_train_reg, train_years_vec,
          X_val, y_val_cls, y_val_reg, val_flight_keys)
     """
+    if feature_set not in {"v1", "v2", "v1.1"}:
+        raise ValueError(f"Unsupported feature_set: {feature_set}")
     root = resolve_project_root(project_root)
+    prepare_features = {
+        "v1": prepare_arrival_features,
+        "v2": prepare_arrival_features_v2,
+        "v1.1": prepare_arrival_features_v1_1,
+    }[feature_set]
 
     train_x_list: list[pd.DataFrame] = []
     train_cls_list: list[pd.Series] = []
@@ -148,8 +169,9 @@ def load_stratified_fold_data(
             target_samples=sample_train_per_year,
             project_root=root,
             random_state=random_state + yr,
+            feature_set=feature_set,
         )
-        prep = prepare_arrival_features_v2(raw_yr)
+        prep = prepare_features(raw_yr)
         train_x_list.append(prep.X)
         train_cls_list.append(prep.y_arr_cls)
         train_reg_list.append(prep.y_arr_reg)
@@ -168,8 +190,9 @@ def load_stratified_fold_data(
         target_samples=sample_val,
         project_root=root,
         random_state=random_state + val_year,
+        feature_set=feature_set,
     )
-    val_prep = prepare_arrival_features_v2(raw_val)
+    val_prep = prepare_features(raw_val)
     X_val = val_prep.X
     y_val_cls = val_prep.y_arr_cls
     y_val_reg = val_prep.y_arr_reg

@@ -1,0 +1,74 @@
+protocol_name: "monte_carlo_protocol_v2"
+version: "2.0.0"
+governance:
+  roadmap_source: "docs/roadmap/01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V4_DONG_BO.md"
+  protocol_source: "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md"
+  task: "Task R9 - Monte Carlo / Common Random Numbers / Convergence Audit & Repair"
+
+preregistered_mc_counts:
+  - 100
+  - 250
+  - 500
+  - 1000
+  - 2500
+
+truncation_policy:
+  allow_truncation: false
+  enforce_exact_n: true
+  min_scenario_capping_allowed: false
+  prohibited_patterns:
+    - "min(N, 100)"
+    - "min(n_scen, 100)"
+    - "[:100]"
+
+crn_policy:
+  latent_distribution: "uniform"
+  latent_bounds: [0.001, 0.999]
+  predetermined_deployment_seed: 202601
+  screening_seeds:
+    - 202601
+    - 202602
+    - 202603
+  uniqueness_audit_required: true
+  variance_audit_required: true
+  matrix_hash_audit_required: true
+
+crn_variance_reduction_protocol:
+  status_policy: "REQUIRE_OUTER_REPLICATIONS"
+  min_outer_replications: 2
+  uncomputed_status: "NOT_ESTABLISHED"
+  formula: "1.0 - Var_CRN(Delta) / Var_Independent(Delta)"
+  prohibited_unsubstantiated_claims:
+    - "CRN reduces variance by 82.4%"
+    - "CRN guaranteed 82.4% variance reduction"
+
+convergence_protocol:
+  standard_error_formula: "s / sqrt(N)"
+  confidence_interval_level: 0.95
+  z_critical: 1.95996
+  relative_change_threshold: 0.02
+  precision_target_se: null
+  precision_target_status_if_null: "NOT_PREREGISTERED"
+  prohibited_claims:
+    - "N=500 is optimal"
+
+p5_distribution_policy:
+  model_id: "P5_quantile_regression"
+  capability: "FINITE_QUANTILES_ONLY"
+  stochastic_sampling_allowed: false
+  allowed_mode: "forecast_only"
+  prohibited_actions:
+    - "invented asymmetric Laplace transformation"
+    - "fabricated continuous density adapter"
+
+failure_accounting:
+  silent_dropping_allowed: false
+  retained_failure_types:
+    - "SUCCESS"
+    - "TIMEOUT"
+    - "INFEASIBLE"
+    - "SOLVER_FAILURE"
+    - "SAMPLING_FAILURE"
+    - "INVALID_DISTRIBUTION"
+    - "NUMERICAL_ERROR"
+  denominator_accounting: "all_requested_realizations"

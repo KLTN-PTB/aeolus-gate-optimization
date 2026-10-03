@@ -49,11 +49,12 @@ class NaiveDelayBaselines(BaseEstimator, RegressorMixin):
         else:
             raise KeyError("Neither 'OP_CARRIER' nor 'OP_UNIQUE_CARRIER' found in input DataFrame.")
 
-        # Identify scheduled arrival hour
-        if "CRS_ARR_HOUR" in X.columns:
-            hour = X["CRS_ARR_HOUR"].astype(int)
-        elif "scheduled_arrival_hour" in X.columns:
+        # Identify scheduled arrival hour.  Prefer the exact clock derived
+        # from CRS_ARR_TIME; never inspect ARR_TIME (actual arrival).
+        if "scheduled_arrival_hour" in X.columns:
             hour = X["scheduled_arrival_hour"].astype(int)
+        elif "CRS_ARR_HOUR" in X.columns:
+            hour = X["CRS_ARR_HOUR"].astype(int)
         elif "scheduled_departure_hour" in X.columns and "CRS_ELAPSED_TIME" in X.columns:
             # Approximate scheduled arrival hour = (dep_hour + elapsed_minutes // 60) % 24
             dep_hour = X["scheduled_departure_hour"].astype(int)
