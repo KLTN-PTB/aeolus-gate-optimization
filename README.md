@@ -1,163 +1,156 @@
-# Aeolus Gate Optimization
+# Aeolus Probabilistic Core Arrival & Gate Optimization — V4
 
-Baseline hiện hành: **Research Protocol V4.0 — Dual Prediction Architecture**
-(26/08/2026).
+[![Certification Status](https://img.shields.io/badge/Certification-CERTIFIED__WITH__LIMITATIONS-blue.svg)](docs/audit/FINAL_EVIDENCE_CERTIFICATION_V5.md)
+[![Regression Tests](https://img.shields.io/badge/Tests-180%2F180%20PASSED-success.svg)](tests/)
+[![Python Version](https://img.shields.io/badge/Python-3.11.15-informational.svg)](configs/seed_registry.yaml)
+[![Architecture Protocol](https://img.shields.io/badge/Protocol-V4.0%20Dual%20Prediction-orange.svg)](docs/decisions/decision_dual_prediction_architecture_v4.md)
+[![Branch](https://img.shields.io/badge/Branch-v4--final--forensic--certification-brightgreen.svg)](https://github.com/KLTN-PTB/aeolus-gate-optimization/tree/v4-final-forensic-certification)
 
-Trạng thái thực thi: **Week 3 = COMPLETED**. Week 3A Core Arrival preprocessing
-đã hoàn tất; Week 3B là `COMPLETED_WITH_BLOCKED_ML_BRANCH`; Week 3C Weather
-contract preparation đã hoàn tất. E006 không approve Chain predictor nào,
-nhưng Core Arrival hiện `READY_FOR_WEEK_4 = YES`.
+> **Official Release State**: The Aeolus research program has achieved **Phase R37 Final Forensic Certification V5** with status **`CERTIFIED_WITH_LIMITATIONS`**. All empirical claims across 13 scientific domains and 13 claim boundaries have been audited against raw on-disk artifacts and validated by a 180-test regression harness.
 
-```text
-Predict -> Simulate -> Optimize -> Evaluate
-                                      |
-                                      v
-                                  Dashboard
-```
+---
 
-Dashboard là presentation layer; không thay thế bước Evaluate.
+## 1. Executive Summary & Research Workflow
 
-## Kiến trúc V4
+Aeolus investigates whether machine-learned flight arrival delay forecasts—evaluated under point, quantile, and parametric continuous probabilistic representations—can measurably improve airport flight-to-gate assignment schedules relative to conventional heuristic dispatch.
 
-### Core — Arrival Delay, no Weather
-
-- Flow: inbound `DEST=ATL`.
-- Cut-off: `T_prediction = CRS_DEP_TIME - 2 hours`.
-- Classification: `y_arr_cls = 1[ARR_DELAY >= 15]`.
-- Regression: `y_arr_reg = ARR_DELAY` theo signed minutes; không `abs`, không
-  clip ground truth để cải thiện metric.
-- Candidate input: Schedule, Calendar, Carrier, Route và contextual feature đã
-  chứng minh point-in-time safe.
-- Weather: **không được dùng**. Core Arrival cũng không nhận `DEP_DELAY`,
-  `P(departure_delay)`, actual timestamps/durations hoặc outcome thực tế.
-
-Chỉ prediction của Core Arrival đi vào downstream:
+The research framework operates strictly under the **Predict $\to$ Simulate $\to$ Optimize $\to$ Evaluate** operational loop:
 
 ```text
-Arrival Prediction -> Synthetic Aircraft Turn -> Gate Simulation
-  -> Greedy -> CP-SAT -> CP-SAT + SA -> Monte Carlo
+[BTS Inbound Traffic DEST=ATL] (T - 2h cutoff)
+           │
+           ▼
+┌────────────────────────────────────────────────────────┐
+│               PREDICTION ARCHITECTURE                  │
+│  • Point Regression: Ridge, HistGB, XGBoost, Ensemble  │
+│  • Probabilistic Quantiles: P5 (9-Quantile Multi-LGBM) │
+│  • Parametric Continuous: P4 (Student-T NGBoost)       │
+└────────────────────────────────────────────────────────┘
+           │ (Scalar delay forecast or generative draws)
+           ▼
+┌────────────────────────────────────────────────────────┐
+│            SYNTHETIC TURN SIMULATION (ATL)             │
+│  • Turn synthesis, buffer violations & conflict check  │
+│  • Downstream operational scenarios (30-70 flights)    │
+└────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌────────────────────────────────────────────────────────┐
+│            GATE ASSIGNMENT OPTIMIZATION                │
+│  • Deterministic Greedy (1.1 ms baseline)              │
+│  • Google OR-Tools CP-SAT (Branch-and-Bound, T=2.0s)   │
+│  • Simulated Annealing (Stochastic Local Search, 2.0s) │
+│  • Hybrid CP-SAT + SA (Sequential Composition, 2.0s)   │
+└────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌────────────────────────────────────────────────────────┐
+│       FORENSIC RECONCILIATION & CERTIFICATION          │
+│  • 13 Claim Boundaries audited & locked                │
+│  • 180 regression tests (100% PASS)                    │
+│  • Final Status: CERTIFIED_WITH_LIMITATIONS            │
+└────────────────────────────────────────────────────────┘
 ```
 
-### Auxiliary — Departure Delay Weather study
+---
 
-- Flow: outbound `ORIGIN=ATL`.
-- Cùng cut-off T-2h.
-- Classification: `y_dep_cls = 1[DEP_DELAY >= 15]`.
-- Không có Departure regression trong baseline V4.
-- Planned controlled experiment: DEP-A Schedule-only so với DEP-B Schedule +
-  audited point-in-time Weather, ưu tiên cùng XGBoost Classifier/config/seed/
-  budget/metrics.
-- Auxiliary Departure là research-only và **không feed optimizer**.
+## 2. Certified Core Experimental Results
 
-External Weather hiện có provider `TBD`, status `AUDIT_REQUIRED`,
-`enabled=false`. Week 3C đã khóa contract W1–W15, availability-first join và
-DEP-A/DEP-B row parity; không có Weather dataset/API/join nào được tạo.
+### 2.1. Arrival Delay Prediction (Post-Holdout Calendar Year 2024)
+Evaluated post-freeze under strict `POST_HOLDOUT` governance on $N = 5,000$ commercial passenger flights arriving at Atlanta Hartsfield-Jackson (`DEST = 'ATL'`), with feature cutoff at $t_{\text{cutoff}} = \text{CRS\_DEP\_TIME} - 2\text{ hours}$:
 
-## Weather evidence boundary
+| Model ID | Formal Role | MAE (min) | Exact CRPS (min) | Quantile CRPS Approx (min) | Pinball Loss (min) | Exact NLL |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`arrival_linear_baseline_v1` (Ridge)** | Point Co-Champion (Dev 2023) | **22.9125** | — | — | — | — |
+| **`arrival_xgboost_baseline_v1`** | Point Benchmark | 24.3643 | — | — | — | — |
+| **`arrival_weighted_ensemble_v1`** | Point Co-Champion (Dev 2023) | 23.3175 | — | — | — | — |
+| **`P5_quantile_regression`** | Probabilistic Champion (9 quantiles) | 21.6881 | — | **16.7724** | **6.8211** | N/A |
+| **`P4_ngboost_student_t`** | Parametric Continuous Density | 23.2359 | **17.6532** | — | — | **4.6307** |
+| **`oracle_actual`** | Acausal Theoretical Bound | 0.0000 | 0.0000 | 0.0000 | 0.0000 | — |
 
-Sáu raw Aeolus fields `O_TEMP`, `O_PRCP`, `O_WSPD`, `D_TEMP`, `D_PRCP`,
-`D_WSPD` giữ nguyên E002:
+*Forensic Clarifications*:
+- **P4 Student-T**: Lineage audited in Phase R33. Implements analytical continuous Student-T CRPS (Jordan et al., 2019) and exact continuous NLL. Empirical calibration is disclaimed (`NOT_SEPARATELY_CERTIFIED`).
+- **P5 Quantile**: Audited in Phase R34. Strictly a 9-quantile estimator (`[0.025, 0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95, 0.975]`). The $16.77$ min holdout metric ($16.85$ min dev) is `CRPS_QUANTILE_APPROXIMATION` (pinball loss is $6.82$ min). Continuous density/sampling is `NOT_AVAILABLE`.
+- **Decoupled Roles**: Point regression and weighted ensemble tied on 2023 dev within the 0.10-min band ($|\Delta| = 0.00045$ min) but did not tie on 2024 holdout ($|\Delta| = 0.405$ min). No single overall champion is asserted.
 
-```text
-INSUFFICIENT_EVIDENCE
-DROP_FROM_PREDICTORS
+---
+
+### 2.2. Downstream Gate Assignment Solvers (2024 Seasonal Scenarios)
+Evaluated across 28 synthetic operational cases ($4\text{ scenarios} \times 7\text{ models} = 112\text{ runs}$) under an identical wall-clock ceiling $T_{\text{total}} = 2.0$ seconds:
+
+| Solver | Budget Type | Configured Limit | Mean Actual Runtime | Hard Feasibility | Realized Conflicts | Mean Cost Objective | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`DeterministicGreedy`** | `WALL_CLOCK` | 2.0 s | **0.0011 s (1.1 ms)** | 100% (28/28) | 0 | 7181.45 | FEASIBLE |
+| **`CPSat`** | `WALL_CLOCK` | 2.0 s | **0.4438 s** | 100% (28/28) | 0 | **7167.17** | **OPTIMAL (28/28)** |
+| **`SimulatedAnnealing`** | `WALL_CLOCK` | 2.0 s | 2.0009 s | 100% (28/28) | 0 | 7167.88 | FEASIBLE |
+| **`HybridCPSatSA`** | `SPLIT_WALL_CLOCK` | 2.0 s (1.0+1.0) | 1.4531 s | 100% (28/28) | 0 | **7167.17** | FEASIBLE |
+
+*Solver Fairness Semantics (R35 Audit)*:
+- **`WALL_CLOCK_EQUALITY = PROVEN`**: All four solvers operate within the uniform 2.0s envelope.
+- **`COMPUTATIONAL_WORK_EQUALITY = NOT_PROVEN`**: Computational operations are fundamentally disparate ($O(N \log M)$ heuristics vs. branch-and-bound search vs. stochastic local moves).
+- **Hybrid Zero Marginal Gain**: In 100% of cases ($28/28$), $\Delta_i = \text{Hybrid} - \text{CP-SAT} = 0.0000$ because CP-SAT achieves proven global optimality within its 1.0s sub-budget, leaving monotonic SA unable to find any strictly better feasible solution.
+
+---
+
+## 3. Strict Epistemological Boundaries & Disclaimers
+
+In accordance with Phase R36 and R37 certification standards, the following 8 claims are **BLOCKED** and strictly disclaimed:
+
+1. **No Single Overall Champion**: Point, quantile, and continuous models serve distinct mathematical roles; asserting an overall benchmark winner is prohibited.
+2. **No Oracle Equivalence**: Predictive models do not match the post-hoc realized delay Oracle bound.
+3. **No Real Airfield Operations**: Evaluations are conducted in a synthetic simulation environment; no claims of live deployment at Atlanta (ATL) or airline cost savings are made.
+4. **No Actual Delay Reductions**: Algorithms optimize schedule buffer assignments; they do not alter physical flight movements.
+5. **Contained Reproducibility Only**: Bit-for-bit repeatability is certified strictly within Python 3.11.15 on Windows AMD64 with the pinned virtual environment; universal cross-platform bit identity is disclaimed.
+6. **No 82.4% CRN Variance Reduction**: Theoretical Common Random Numbers variance reduction is marked unestablished on the gate assignment objective.
+7. **No Mathematical Optimal Sample Size**: Monte Carlo $N = 500$ is an operational budget choice, not a proven asymptotic optimum.
+8. **No Universal Ineffectiveness of SA**: Simulated Annealing's $\Delta = 0.0$ applies to the audited cases where CP-SAT achieved global optimality; heuristics remain valuable for open or large-scale instances.
+
+---
+
+## 4. Quickstart: Reproducing Certified Verification Gates
+
+### Prerequisites
+- Python `3.11.15` (Windows AMD64)
+- Git 2.40+
+
+### Setup & Test Execution
+```powershell
+# 1. Clone repository and checkout certified branch
+git clone https://github.com/KLTN-PTB/aeolus-gate-optimization.git
+cd aeolus-gate-optimization
+git checkout v4-final-forensic-certification
+
+# 2. Activate virtual environment
+.\.venv\Scripts\Activate.ps1
+
+# 3. Execute full 180-test forensic regression suite (Runtime: ~5.0 seconds)
+python -m pytest tests/test_r25_point_selection_consistency.py `
+                 tests/test_r26_solver_equal_compute.py `
+                 tests/test_r27_certification_hardening.py `
+                 tests/test_r28_probabilistic_audit.py `
+                 tests/test_r29_execution_provenance.py `
+                 tests/test_r30_final_reconciliation.py `
+                 tests/test_r31_final_certification.py `
+                 tests/test_r33_p4_metric_lineage.py `
+                 tests/test_r34_p5_mathematical_audit.py `
+                 tests/test_r35_solver_repro.py `
+                 tests/test_r36_final_reconciliation.py `
+                 tests/test_r37_final_certification.py -q
 ```
+**Expected Outcome**: `180 passed in 4.93s` (100% clean pass rate).
 
-Chúng không phải documented forecasts và không được tạo heuristic lag. Một
-source mới như `weather_point_in_time_v1` phải được version riêng dưới
-conceptual `data/external/weather/` và chỉ được enable khi chứng minh
-`information_available_time <= prediction_cutoff`. Nếu audit không PASS,
-auxiliary Weather experiment bị block nhưng Core Arrival tiếp tục.
+---
 
-Contract reviewed hiện hành là `weather_point_in_time_contract_v1`. Nó phân
-biệt forecast, observation, reanalysis/model-analysis/model-fill; yêu cầu
-`issue_time`, `publication_time`, `available_time`, `valid_time`, UTC/location/
-variable provenance và không coi valid time là availability proof. Đây là
-template cho future provider audit, không phải Weather provenance PASS.
+## 5. Authoritative Documentation Roadmap
 
-## Flight Chain boundary
+For detailed investigations, consult the specialized documentation directory:
 
-Hai artifact độc lập tuyệt đối:
-
-- Original Aeolus raw Flight Chain `.pt`: **`FINAL_NO_GO`**, read-only, không
-  dùng core/ablation, không reverse-engineer, không infer aircraft identity.
-- Reconstructed Schedule Flight Chain `schedule_chain_v1`:
-  **`FULL_DATA_PASS` / `GO_FOR_ABLATION`**, derived từ canonical Tabular,
-  disabled by default và outside core. Nó chỉ là schedule/service-number
-  context, không phải `TAIL_NUM` hay physical aircraft rotation.
-
-Production reconstruction 2016–2023 đã PASS với 48,389,162 mapped rows, 100%
-coverage và independent inbound-ATL validation. Artifact nằm tại
-`data/processed/flight_chain_reconstructed_v1/` và không được regenerate trong
-baseline migration. Full membership, kể cả chain dài hơn 6, đã được giữ;
-`max_context_length=6` chỉ là future transformer metadata.
-
-**`GO_FOR_ABLATION` là quyết định ở dataset level. Feature-level point-in-time
-admissibility vẫn có gate riêng.** Audit E006 đã hoàn tất và không tìm thấy
-schedule publication/version/snapshot evidence tại T-2h: `KEEP_SAFE = []`, 7
-local/past candidates giữ `REVIEW_REQUIRED`, `is_single_leg_chain` cùng 10
-future/full-chain candidates là `BLOCKED_UNTIL_PROVEN`, và identifiers giữ
-`IDENTIFIER_ONLY`. ARR-B vẫn disabled.
-
-Week 3B đã đóng fail-closed: 3B.0 PASS; 3B.1
-`SKIPPED_NOT_REQUIRED_FOR_ML`; 3B.2 completed through E006; 3B.3
-`SKIPPED_OPTIONAL_DIAGNOSTIC`; 3B.4 PASS. Không có
-`reconstructed_chain_features_v1` hay feature code được tạo. Diagnostic vẫn là
-một capability được phép với `ML_ADMISSIBLE=false`, nhưng không được thực thi
-vì không thay đổi admissibility. Identifiers `flight_key`, `chain_id`,
-`source_year`, `source_row_number` chỉ dùng cho join/trace/audit. ARR-B và Chain
-ML bị block pending new evidence; Core Arrival Tabular-only không bị ảnh hưởng.
-
-## Temporal safety
-
-- 2016–2022: expanding-window rolling development.
-- 2023: model selection, controlled ablation và downstream development.
-- 2024: **SEALED FINAL HOLDOUT**, chỉ mở sau full-system freeze; không dùng cho
-  feature/model/HPO/config decisions.
-
-Access guard hiện tại tiếp tục chặn development access tới 2024.
-
-## Week 3A Core Arrival preprocessing
-
-Week 3A cung cấp exact `y_arr_cls`/signed `y_arr_reg`, common raw information
-set Schedule/Calendar/Carrier/Route, fold-train-only linear và tree/boosting
-transformers, bounded year/column/batch reads, cùng versioned feature/pipeline
-manifests. `FLIGHTS`, airport indices, Weather, Departure/actual outcomes,
-identifiers và ATL destination constants không vào `X`; unknown fields fail
-closed. `CRS_ARR_TIME` cũng không được dùng để đoán overnight rollover hay
-derive duration; pipeline dùng audited scheduled `CRS_ELAPSED_TIME`.
-
-Không model estimator nào được train. Week 3A không fit 2023, không truy cập
-row-level 2024 và không đọc reconstructed Chain để feature-engineer. ARR-B vẫn
-disabled.
-
-## Data and environment
-
-- Python runtime: `>=3.11`; verified repository `.venv`: Python 3.11.15.
-- Week 3A ML preprocessing dependency: scikit-learn 1.9.0.
-- Raw Aeolus: `data/raw/tabular/<year>/` và `data/raw/chain/<year>/`, immutable
-  và không commit.
-- External point-in-time Weather trong tương lai phải tách khỏi raw Aeolus;
-  baseline hiện tại không tạo/download dữ liệu này.
-- Direct baseline dependencies được pin tối thiểu trong `requirements.txt`.
-  Future ML/optimization/dashboard packages chỉ được thêm khi code tương ứng
-  thực sự được triển khai.
-
-## Tài liệu authoritative
-
-Đọc theo thứ tự:
-
-1. `docs/decisions/decision_registry.md`
-2. `docs/decisions/decision_dual_prediction_architecture_v4.md`
-3. ba file `docs/roadmap/*_V4_DONG_BO.md`
-4. `docs/dataset_audit/leakage_audit.md`
-5. `docs/dataset_audit/weather_timing_audit.md`
-6. `docs/dataset_audit/point_in_time_weather_plan_v1.md`
-7. `docs/dataset_audit/weather_point_in_time_contract_v1.md`
-8. `docs/dataset_audit/reconstructed_chain_feature_availability_plan_v1.md`
-9. `docs/dataset_audit/reconstructed_chain_feature_availability_audit_v1.md`
-10. `project_structure.md`
-
-Ba roadmap V3 được giữ nguyên làm historical protocol. Week 1–2 evidence và
-production artifacts vẫn giữ nguyên; amendment V4 được chốt sau Week 2 và
-không dựa trên model result hay 2024.
+- 📜 **Master Documentation Index**: [`docs/README.md`](docs/README.md)
+- 🏛️ **Final Certification Manifest (V5)**: [`docs/audit/FINAL_EVIDENCE_CERTIFICATION_V5.md`](docs/audit/FINAL_EVIDENCE_CERTIFICATION_V5.md)
+- ⚖️ **Final Evidence Reconciliation (V2)**: [`docs/audit/FINAL_EVIDENCE_RECONCILIATION_V2.md`](docs/audit/FINAL_EVIDENCE_RECONCILIATION_V2.md)
+- 🔍 **Targeted Audits**:
+  - P4 Metric Lineage: [`docs/audit/R33_P4_METRIC_LINEAGE.md`](docs/audit/R33_P4_METRIC_LINEAGE.md)
+  - P5 Quantile & Math: [`docs/audit/R34_P5_MATHEMATICAL_AUDIT.md`](docs/audit/R34_P5_MATHEMATICAL_AUDIT.md)
+  - Solver & Environment: [`docs/audit/R35_SOLVER_REPRODUCIBILITY_AUDIT.md`](docs/audit/R35_SOLVER_REPRODUCIBILITY_AUDIT.md)
+- 📐 **System State & Architectural Invariants**: [`docs/CURRENT_STATE.md`](docs/CURRENT_STATE.md)
+- 🗺️ **Repository Directory Layout**: [`project_structure.md`](project_structure.md)
