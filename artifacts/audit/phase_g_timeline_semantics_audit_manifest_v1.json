@@ -1,0 +1,143 @@
+{
+  "manifest_version": "phase_g_timeline_semantics_audit_manifest_v1",
+  "phase": "PHASE_G_STEP_6",
+  "status": "PASS",
+  "timestamp_utc": "2026-09-28T17:37:43.763024+00:00",
+  "protocol_reference": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md - Section 19",
+  "operational_timeline_pipeline": "scheduled_arrival -> sampled_delay -> simulated_arrival -> gate_in -> turnaround/dwell -> gate_out -> gate_release",
+  "timeline_semantics_specifications": {
+    "min_turnaround": {
+      "name": "min_turnaround_min",
+      "default_value": 45,
+      "semantics": "Physical minimum operational time required at gate to deplane, service, and board.",
+      "formula": "D_min = A_sim + min_turnaround_min"
+    },
+    "scheduled_dwell": {
+      "name": "default_dwell_min",
+      "default_value": 60,
+      "semantics": "Scheduled timetable turnaround duration (D_sched - A_sched) when uncoupled.",
+      "formula": "D_sched = A_sched + default_dwell_min (or explicit scheduled departure)"
+    },
+    "buffer": {
+      "name": "separation_buffer_min",
+      "default_value": 15,
+      "semantics": "Safety buffer required after pushback before next aircraft can occupy gate.",
+      "formula": "gate_release = gate_out + separation_buffer_min"
+    },
+    "gate_in_formula": "gate_in = A_sim = round(A_sched + sampled_delay_min)",
+    "gate_out_formula": "gate_out = D_sim = max(D_sched, A_sim + min_turnaround_min)",
+    "gate_release_formula": "gate_release = gate_out + separation_buffer_min",
+    "gate_occupancy_interval": "[gate_in, gate_release) half-open interval",
+    "zero_double_counting_proof": "Turnaround and dwell are combined via max(D_sched, D_min) and never added together. Buffer is added exactly once to simulated departure for gate release."
+  },
+  "hand_checkable_verifications": {
+    "delay_zero": {
+      "inputs": {
+        "A_sched": 100,
+        "delay": 0,
+        "turn": 45,
+        "dwell": 60,
+        "buffer": 15
+      },
+      "outputs": {
+        "gate_in": 100,
+        "gate_out": 160,
+        "gate_release": 175,
+        "physical_dwell": 60,
+        "turnaround_slack": 15,
+        "occupancy_duration": 75
+      },
+      "status": "PASS"
+    },
+    "delay_ten": {
+      "inputs": {
+        "A_sched": 100,
+        "delay": 10,
+        "turn": 45,
+        "dwell": 60,
+        "buffer": 15
+      },
+      "outputs": {
+        "gate_in": 110,
+        "gate_out": 160,
+        "gate_release": 175,
+        "physical_dwell": 50,
+        "turnaround_slack": 5,
+        "occupancy_duration": 65
+      },
+      "status": "PASS"
+    },
+    "delay_exceeding_slack": {
+      "inputs": {
+        "A_sched": 100,
+        "delay": 25,
+        "turn": 45,
+        "dwell": 60,
+        "buffer": 15
+      },
+      "outputs": {
+        "gate_in": 125,
+        "gate_out": 170,
+        "gate_release": 185,
+        "physical_dwell": 45,
+        "turnaround_slack": 0,
+        "occupancy_duration": 60
+      },
+      "status": "PASS"
+    },
+    "scheduled_dwell_less_than_min_turnaround": {
+      "inputs": {
+        "A_sched": 200,
+        "delay": 0,
+        "turn": 45,
+        "dwell": 30,
+        "buffer": 15
+      },
+      "outputs": {
+        "scheduled_departure": 230,
+        "gate_out": 245,
+        "gate_release": 260,
+        "turnaround_overridden": true
+      },
+      "status": "PASS"
+    },
+    "scheduled_dwell_greater_than_min_turnaround": {
+      "inputs": {
+        "A_sched": 300,
+        "delay": 40,
+        "turn": 45,
+        "dwell": 90,
+        "buffer": 15
+      },
+      "outputs": {
+        "gate_in": 340,
+        "gate_out": 390,
+        "gate_release": 405,
+        "delay_absorbed": true
+      },
+      "status": "PASS"
+    },
+    "buffer_comparison": {
+      "buffer_0_overlap": false,
+      "buffer_15_overlap": true,
+      "overlap_duration_min": 15.0,
+      "status": "PASS"
+    },
+    "back_to_back_boundary": {
+      "exact_boundary_overlap": false,
+      "encroachment_1m_overlap": true,
+      "encroachment_overlap_duration_min": 1.0,
+      "status": "PASS"
+    }
+  },
+  "interval_logic_parity_certified": {
+    "aircraft_turn": "occupancy_interval = (simulated_arrival_min, gate_release_min)",
+    "domain_flight_window": "FlightTimeWindow [start_min, end_min)",
+    "overlap_formula": "max(s1, s2) < min(e1, e2)",
+    "overlap_duration_formula": "max(0, min(e1, e2) - max(s1, s2))",
+    "conflict_detector_parity": true,
+    "cp_sat_solver_parity": true,
+    "independent_verifier_parity": true
+  },
+  "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+}

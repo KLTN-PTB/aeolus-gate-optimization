@@ -1,0 +1,182 @@
+{
+  "status": "PASS",
+  "manifest_version": "r20_data_provenance_v1",
+  "task_id": "R20_PROVENANCE_AND_FREEZE_AUDIT",
+  "created_at_utc": "2026-10-02T10:24:13.433941+00:00",
+  "raw_datasets": {
+    "tabular_root": "data/raw/tabular",
+    "chain_root": "data/raw/chain",
+    "years_covered": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "immutability_status": "IMMUTABLE_READ_ONLY",
+    "verification": "Raw BTS records unmodified; zero in-place mutations."
+  },
+  "processed_datasets": {
+    "primary_target_dataset": "data/processed/inbound_atl",
+    "filter_invariant": "DEST == 'ATL'",
+    "cutoff_invariant": "CRS_DEP_TIME - 2 hours",
+    "leakage_invariants": [
+      "Weather predictors strictly excluded",
+      "Predicted departure delays strictly excluded",
+      "Actual operational outcomes strictly excluded"
+    ],
+    "partitions": {
+      "year=2016": {
+        "year": 2016,
+        "role": "ROLLING_DEVELOPMENT_TRAIN_OR_VAL",
+        "file_count": 2,
+        "total_bytes": 19589616,
+        "sample_file_sha256": "ef0b67bdf906b1c04aa682d50f4a4ae6bf8acd4dbdec882da43a4fdc86ce7195",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2016"
+      },
+      "year=2017": {
+        "year": 2017,
+        "role": "ROLLING_DEVELOPMENT_TRAIN_OR_VAL",
+        "file_count": 2,
+        "total_bytes": 18653632,
+        "sample_file_sha256": "705d979202056c61fe698aa4f753a8ca497dbb49c0ee6c6e3ccc69e475d8aaf2",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2017"
+      },
+      "year=2018": {
+        "year": 2018,
+        "role": "ROLLING_DEVELOPMENT_TRAIN_OR_VAL",
+        "file_count": 2,
+        "total_bytes": 20038480,
+        "sample_file_sha256": "cafb7e2c388587c11523fd8b35de8fcfd5bc1d87b4cd41e1e149078bcc09a338",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2018"
+      },
+      "year=2019": {
+        "year": 2019,
+        "role": "ROLLING_DEVELOPMENT_TRAIN_OR_VAL",
+        "file_count": 2,
+        "total_bytes": 19965012,
+        "sample_file_sha256": "13dfa0e37805f8574f3a098913ea669656f99b67c740faea4cf1cb053e474804",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2019"
+      },
+      "year=2020": {
+        "year": 2020,
+        "role": "ROLLING_DEVELOPMENT_TRAIN_OR_VAL",
+        "file_count": 2,
+        "total_bytes": 13019852,
+        "sample_file_sha256": "dc2e58dae168c010c3db68070570ede21f4f850f2fbd2b83aab9f4bcbdd11e7f",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2020"
+      },
+      "year=2021": {
+        "year": 2021,
+        "role": "ROLLING_DEVELOPMENT_TRAIN_OR_VAL",
+        "file_count": 3,
+        "total_bytes": 16138219,
+        "sample_file_sha256": "762d5ac975dd7dd10b3b209564d2c4efa9da6cd7455a32c87b7e55db1630fbdb",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2021"
+      },
+      "year=2022": {
+        "year": 2022,
+        "role": "ROLLING_DEVELOPMENT_TRAIN_OR_VAL",
+        "file_count": 2,
+        "total_bytes": 16432843,
+        "sample_file_sha256": "79f24873ff2d8924b3512efc0b9aad24a9166331488625cbac6a1b003f81fa3e",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2022"
+      },
+      "year=2023": {
+        "year": 2023,
+        "role": "CONTROLLED_MODEL_SELECTION",
+        "file_count": 3,
+        "total_bytes": 17713216,
+        "sample_file_sha256": "0bbae192536e100dcb455d87757c24cf0bf9ea2b460d2c15da9953bf47b878fb",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2023"
+      },
+      "year=2024": {
+        "year": 2024,
+        "role": "POST_HOLDOUT_SEALED",
+        "file_count": 2,
+        "total_bytes": 16319223,
+        "sample_file_sha256": "f723dbd022d2f94498837acc41dd652e2056a9ef29c07c8f167daa541ab75fa0",
+        "path": "D:\\Study\\Code\\Python\\Aelous\\data\\processed\\inbound_atl\\year=2024"
+      }
+    }
+  },
+  "temporal_split_lineage": {
+    "rolling_folds_2016_2022": {
+      "fold_1": {
+        "train_years": [
+          2016,
+          2017,
+          2018
+        ],
+        "val_year": 2019,
+        "train_rows": 10500,
+        "val_rows": 4000
+      },
+      "fold_2": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019
+        ],
+        "val_year": 2020,
+        "train_rows": 14000,
+        "val_rows": 4000
+      },
+      "fold_3": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "val_year": 2021,
+        "train_rows": 17500,
+        "val_rows": 4000
+      },
+      "fold_4": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021
+        ],
+        "val_year": 2022,
+        "train_rows": 21000,
+        "val_rows": 4000
+      }
+    },
+    "academic_selection_2023": {
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022
+      ],
+      "evaluation_year": 2023,
+      "train_rows": 24500,
+      "val_rows": 4000,
+      "stratification": "Monthly-stratified random sample per year (seed 202601)"
+    },
+    "post_holdout_2024": {
+      "evaluation_year": 2024,
+      "evaluated_instances": 5000,
+      "access_rule": "POST_HOLDOUT_STRICT_SEAL"
+    }
+  },
+  "transformation_pipeline": {
+    "preprocessor_class": "Sklearn ColumnTransformer (StandardScaler + OneHotEncoder/Ordinal)",
+    "fit_scope": "Fit strictly on training window; zero validation or holdout leakage",
+    "feature_set": "PROBABILISTIC_PREDICTOR_COLUMNS (11 approved features)"
+  }
+}

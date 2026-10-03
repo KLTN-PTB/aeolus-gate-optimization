@@ -1,0 +1,32 @@
+{
+  "stage_id": "STAGE_9_GATE_SIMULATION",
+  "audit_status": "POST_SELECTION_REUSE",
+  "days_evaluated": 25,
+  "flights_evaluated": 529,
+  "were_days_preregistered_before_stage8": false,
+  "were_days_excluded_from_stage8": false,
+  "overlap_with_stage8_data_percent": 100.0,
+  "data_reuse_verdict": "CIRCULAR_DOWNSTREAM_REUSE_OF_SELECTION_DATA",
+  "ground_truth_type": "SYNTHETIC_SIMULATION_UNDER_HISTORICAL_DELAYS",
+  "claim_semantics_valid": false,
+  "simulation_config_matches_freeze_manifest": false,
+  "config_discrepancies": [
+    "Reassignment penalty mismatch: Freeze manifest records 10.0, but script executed with 1.0.",
+    "Overflow penalty mismatch: Freeze manifest records 1000.0, but script executed with 100.0."
+  ],
+  "audit_findings": [
+    "CRITICAL: The 25 operational days (529 flights) evaluated in Stage 9 overlap 100% with the 2023 selection data used in Stage 8. They were NOT held out or pre-registered as an independent test set.",
+    "Downstream utility on 2023 is a post-selection re-use of the development selection partition, meaning Stage 9 downstream results cannot be claimed as independent out-of-sample confirmation.",
+    "CRITICAL: 'historical_ground_truth' does NOT represent actual airport gate occupancy or real-world gate assignments. It is an artificial simulation using an assumed 45m turnaround, 60m dwell, 30 contact gates, and a greedy nominal schedule applied to observed arrival delays.",
+    "Reassignment penalty mismatch: Freeze manifest records 10.0, but script executed with 1.0.",
+    "Overflow penalty mismatch: Freeze manifest records 1000.0, but script executed with 100.0."
+  ],
+  "provenance_chain": {
+    "stage8_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/selected_system_manifest_v1.json",
+    "stage9_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/probabilistic_stage9_gate_simulation_v1.json",
+    "evaluation_year": 2023,
+    "sample_val": 5000,
+    "seed": 202601,
+    "overlap_days_count": 25
+  }
+}

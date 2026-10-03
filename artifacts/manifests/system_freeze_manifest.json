@@ -1,0 +1,116 @@
+{
+  "freeze_status": "FROZEN",
+  "final_holdout_year": 2024,
+  "frozen_at": "2026-10-01T17:11:57.916729+00:00",
+  "stage": "PHASE_10_FULL_SYSTEM_FREEZE",
+  "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+  "working_tree_state": "DIRTY",
+  "working_tree_note": "Working tree contains untracked Phase 8-10 evaluation artifacts and test suites. No commit performed as per freeze protocol.",
+  "runtime_environment": {
+    "python_version": "3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "system": "Windows",
+    "machine": "AMD64",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.17.1",
+      "pandas": "2.3.3",
+      "scikit_learn": "1.9.0",
+      "xgboost": "3.2.0",
+      "ortools": "9.15.6755",
+      "pytest": "9.1.1",
+      "joblib": "1.5.3"
+    }
+  },
+  "holdout_governance": {
+    "holdout_year": 2024,
+    "holdout_status": "SEALED_AND_PROTECTED",
+    "data_access_denied_enforced": true,
+    "zero_2024_training_verified": true,
+    "zero_2024_hpo_verified": true,
+    "zero_2024_selection_verified": true
+  },
+  "frozen_system": {
+    "system_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+    "selected_point_regression_model": "arrival_linear_baseline_v1",
+    "selected_point_regression_comparator": "arrival_weighted_ensemble_v1",
+    "selected_probabilistic_model": "P5_quantile_regression",
+    "historical_probabilistic_comparator": "P4_ngboost_student_t",
+    "nominal_schedule_baseline": "schedule_only",
+    "non_deployable_reference": "oracle_actual"
+  },
+  "config_hashes": {
+    "configs/academic_model_selection.yaml": "4289b046873c0bcdc596321aee8d3bb0ce3632c570e0e61fa2539345f09fdbcf",
+    "configs/current_state.yaml": "c8113bc6108ea0cc6ec7c783857b5a05a0eda1638e4e8e47a9acecf8f3fc69b4",
+    "configs/seed_registry.yaml": "798ecc5abfebb1fb11e0ab6db76962f5e9f78bf516d2f5e64edded6d895f0ff9",
+    "src/optimization/config.py": "0630b8febc47312a107810e81297a19eff9def35e2c19f6c55f79ab64d4b97f0"
+  },
+  "feature_hashes": {
+    "src/features/tabular_features.py": "33d2e08b37058032764cd6968021542aeca3aa68268bf9525bf878e217234418",
+    "src/features/refactored_features.py": "2e280c5942e5afe42c94fc147eae3eff0e52cf0897b2cdd76a816daccd72f465",
+    "feature_contract_version": "arrival_feature_contract_v1",
+    "approved_predictors_count": 11
+  },
+  "model_code_hashes": {
+    "src/models/interfaces.py": "d9c9aece0085d4318557a9b47a2c0c6f659c9cea941efeb9d8e4bdfd303971ca",
+    "src/models/registry.py": "0a07a9237fdfa9bc1aaccf5fdfd4eab0b2e82acb90b2ecd49450c6c99174df30",
+    "src/contracts/distribution.py": "3a874c1dd7bbd1648b6fa16b485517b93cfb3e44d1cf404b1623aefef37d7c7a",
+    "src/evaluation/downstream_comparison.py": "4990ad7cae864db8ab80006c79617417fde1080cc4f502e89df0edefa23efe57",
+    "src/evaluation/monte_carlo_comparison.py": "5092a95589f73497b50a392a90a4518bbc65db14f35f5c9a8677f9bd82bd758f"
+  },
+  "benchmark_manifest_hashes": {
+    "academic_model_selection_v1.json": "0bfe4d80b41c0297f8ea015b8bb1e510cd47192a03e612df12a777cb05e7e7c6",
+    "downstream_comparison_manifest": "c04ce15247900affa12b30312886696abe924f41870c5d317796ee7532f9f873",
+    "monte_carlo_comparison_manifest": "492ed5294dccfac6ea326f320e3b0147d8d2dec261af7f5f4776738f3a5771dd",
+    "stability_manifest": "8630dc2000bb57e1b5e3c703f14126df3bf04a260af449863a5a8b54a4ca2d4f",
+    "paired_comparison_manifest": "626ab9538a1ccb55a5a4efcd9a70acdc29e292212f0ab8440a001f3553a2dddf",
+    "scenario_manifest": "0f7d8b719ad7e7a02bd816147a2d4fe421bf2c0d5b8ff98f7c47b1f987ebfa57"
+  },
+  "seed_registry": {
+    "predetermined_deployment_seed": 202601,
+    "screening_seeds": [
+      202601,
+      202602,
+      202603
+    ]
+  },
+  "solver_configuration": {
+    "solvers": [
+      "DeterministicGreedyGateSolver",
+      "CPSatGateSolver",
+      "SimulatedAnnealingGateSolver"
+    ],
+    "greedy_allocation_policy": "interval_scheduling_best_fit",
+    "cpsat_search_workers": 1,
+    "cpsat_time_limit_seconds": 5.0,
+    "sa_t0": 100.0,
+    "sa_tmin": 0.01,
+    "sa_cooling_rate": 0.95,
+    "sa_iterations": 500
+  },
+  "gate_optimization_weights": {
+    "reassignment_weight": 10.0,
+    "overflow_weight": 200.0,
+    "delay_weight": 1.0,
+    "conflict_weight": 1000.0,
+    "risk_weight": 2.0
+  },
+  "monte_carlo_protocol": {
+    "preregistered_counts": [
+      100,
+      250,
+      500,
+      1000,
+      2500
+    ],
+    "common_random_numbers": true,
+    "zero_truncation_enforced": true
+  },
+  "immutability_declaration": {
+    "raw_data_modification_prohibited": true,
+    "historical_pass_artifacts_modification_prohibited": true,
+    "post_freeze_hpo_prohibited": true,
+    "post_freeze_retraining_prohibited": true,
+    "holdout_2024_sealed_status": "STRICT_FAIL_CLOSED"
+  }
+}

@@ -1,0 +1,309 @@
+{
+  "created_at_utc": "2026-10-01T20:59:13.763721+00:00",
+  "final_holdout_year": 2024,
+  "freeze_categories": {
+    "A_data_contracts": {
+      "description": "Data access guards, leakage rules, and temporal protocol v2",
+      "file_count": 5,
+      "files": {
+        "artifacts\\manifests\\temporal_protocol_v2.json": "cfe6dccb55e807429236f4e689c0d889ac01c42bb9f536a048658046fe304594",
+        "src\\contracts\\__init__.py": "77f77d2fb467efda742db035fccc4c8e7567cd4ae382c43253116028b1dc0bd9",
+        "src\\contracts\\distribution.py": "3a874c1dd7bbd1648b6fa16b485517b93cfb3e44d1cf404b1623aefef37d7c7a",
+        "src\\data\\access_guard.py": "c4a387696e86deedc6dd95c32f683a69734bb30f8a27d8cc09a45b080776b806",
+        "src\\data\\leakage_rules.py": "a52e264199e953c51a1393842b847c85f907b161363c3915b9ae7658bf40b929"
+      }
+    },
+    "B_feature_code": {
+      "description": "Tabular feature extraction, preflight cutoffs, and feature manifest v2",
+      "file_count": 3,
+      "files": {
+        "artifacts\\manifests\\feature_manifest_arrival_v2.json": "1457c6e65c16a10be42ac6cfc3ed3f24419b328fec00bb19481683b24565978a",
+        "src\\features\\refactored_features.py": "2e280c5942e5afe42c94fc147eae3eff0e52cf0897b2cdd76a816daccd72f465",
+        "src\\features\\tabular_features.py": "33d2e08b37058032764cd6968021542aeca3aa68268bf9525bf878e217234418"
+      }
+    },
+    "C_preprocessing": {
+      "description": "Linear and tree preprocessors, stratified development loaders",
+      "file_count": 2,
+      "files": {
+        "src\\data\\preprocessing.py": "b1c417750b5c9067c58fc1933e097bf8d4cd795266ed1168f680079d83594d2b",
+        "src\\data\\stratified_loader.py": "cfb308b8c3fd8e7de0081821bd544fc4738e9a60497627e4020198c3980b4514"
+      }
+    },
+    "D_model_code": {
+      "description": "Point and probabilistic model implementations and interfaces",
+      "file_count": 11,
+      "files": {
+        "src\\models\\baselines.py": "1f36d39204d32797d914c0110ae001f6da9cf8a6775ae2d328788b1157158223",
+        "src\\models\\interfaces.py": "d9c9aece0085d4318557a9b47a2c0c6f659c9cea941efeb9d8e4bdfd303971ca",
+        "src\\models\\probabilistic\\__init__.py": "9400b959df37d2cb654a79987233ddccddc5b66dcb9062584c9d1044e0dcc6e7",
+        "src\\models\\probabilistic\\baselines.py": "8c068ae2061a2423a87f35a20847661b92411a4fa239a310b57157dc5d4ddab0",
+        "src\\models\\probabilistic\\candidate_interfaces.py": "2229dbec3d4b19a7642a183a33173df6aa4c78190baf237551481ec82cccf3ed",
+        "src\\models\\probabilistic\\contracts.py": "f80a75aa9ee707af0f7ff385c85d8dba7b8d527947867342493e2f2a6b3c59cd",
+        "src\\models\\probabilistic\\correctness_validator.py": "4ff64f1aa5f51a350fc6e7fa8aab5626720630063f49c8e0eac7ddb88859d9b9",
+        "src\\models\\probabilistic\\evaluation_engine.py": "2d44c91dfa2e820f652bc5f9ea277db83ffa559f0f94b51b3e4aec681ec848e4",
+        "src\\models\\probabilistic\\student_t_correctness.py": "5924b22486cafee4d73ab7d133290172ca738d0913afbc6d51fe52e8844d038c",
+        "src\\models\\probabilistic\\system_candidate.py": "e09a757686f7dda83c5c1fd02655fba28525b6142148d2bf408134bafd5ab9a7",
+        "src\\models\\registry.py": "0a07a9237fdfa9bc1aaccf5fdfd4eab0b2e82acb90b2ecd49450c6c99174df30"
+      }
+    },
+    "E_distribution_contract": {
+      "description": "PredictiveDistribution capability-aware contract and manifest v2",
+      "file_count": 2,
+      "files": {
+        "artifacts\\manifests\\distribution_contract_v2.json": "93937cb4fec6055c3836b06e4fa40d6a3455296e2a5f8bf4988295d61cd92a42",
+        "src\\contracts\\distribution.py": "3a874c1dd7bbd1648b6fa16b485517b93cfb3e44d1cf404b1623aefef37d7c7a"
+      }
+    },
+    "F_metrics": {
+      "description": "Point and probabilistic forecasting evaluation metrics and capability configuration",
+      "file_count": 4,
+      "files": {
+        "artifacts\\manifests\\probabilistic_metric_contract_v2.json": "2714f8f3b9103f3ea41f21c7f60f6e3a792066942039a7a39f8b067db0181380",
+        "configs\\probabilistic_metric_capabilities_v2.yaml": "2b8a69cbec8302ad81920222686f9b2e81083b17177f476bc9669931ddf1bb63",
+        "src\\evaluation\\forecast_metrics.py": "719b57d95bb02ec010a189d3e49547d4744140467e4cdefdecb99e6085ce7b77",
+        "src\\models\\metrics.py": "a83749872fb96980593af1cc47abb440215884c88780c5ff3262f08dd0536fd7"
+      }
+    },
+    "G_statistical_inference": {
+      "description": "Paired statistical comparison engine and multiplicity correction protocol v2",
+      "file_count": 2,
+      "files": {
+        "artifacts\\manifests\\statistical_comparison_protocol_v2.json": "250501372d1da6122cd2467544b3252fc238f19644bbe5516e7eaaf854fa05d3",
+        "src\\evaluation\\paired_comparison.py": "70e8422805a6eeb5c4fed12dacc16df551bc4b1d6359f910e2c3f2fcc68d0a81"
+      }
+    },
+    "H_model_selection": {
+      "description": "Controlled 2023 model selection logic, policies, and manifests",
+      "file_count": 4,
+      "files": {
+        "artifacts\\manifests\\academic_model_selection_v2.json": "3f9d9ea3c6eb66cf039d4bc99331296a089553549b61d9d05cba973c3c2ae165",
+        "configs\\academic_model_selection.yaml": "4289b046873c0bcdc596321aee8d3bb0ce3632c570e0e61fa2539345f09fdbcf",
+        "configs\\model_selection_protocol_v2.yaml": "425cdc64ea2a20e016ec619dd677198cb68e8282640e3923bd52ad0d91c9bd61",
+        "src\\evaluation\\model_selection.py": "38981b63da5bdd2cd0819b2d8835a5cd137c6d3d4e6a7e3ae459fac6314f80fb"
+      }
+    },
+    "I_synthetic_turn_generation": {
+      "description": "Synthetic turn synthesis and aircraft turn ground truth generator",
+      "file_count": 2,
+      "files": {
+        "src\\simulation\\aircraft_turn.py": "d5d1675d1b87702258b39410b37e8355de1c0b5df1fc9fc38b3f638d0f405ccd",
+        "src\\simulation\\turn_synthesis.py": "2212d0940160c7e388acfaa97e59d4c91d7de4957ad57a1176c918d4df9ccad6"
+      }
+    },
+    "J_gate_generation": {
+      "description": "Simulated airport gate topology and gate generation simulator",
+      "file_count": 1,
+      "files": {
+        "src\\simulation\\gate_simulator.py": "43fe12087d3e116b78dd37c11cb6ddc782f5e5f6ca6985ee4eeefaa43bfdf147"
+      }
+    },
+    "K_verifier": {
+      "description": "Independent conflict detector and gate assignment verifier",
+      "file_count": 2,
+      "files": {
+        "src\\optimization\\evaluation.py": "e6fc5569677beaa9de32c198a8d05029ec8572c7aaa2c206227f2903d9ef1adb",
+        "src\\simulation\\conflict_detector.py": "0f89003443301a23fd315468e015541f12a6e8f04f28a0a701dd9456f43eb735"
+      }
+    },
+    "L_optimization": {
+      "description": "Downstream optimization domain dataclasses and configuration",
+      "file_count": 2,
+      "files": {
+        "src\\optimization\\config.py": "0630b8febc47312a107810e81297a19eff9def35e2c19f6c55f79ab64d4b97f0",
+        "src\\optimization\\domain.py": "678d841262ee26415789f8a00c86a42374205ada7c420b9a7f2cd6ed808c92d3"
+      }
+    },
+    "M_cpsat_solver": {
+      "description": "Google OR-Tools CP-SAT and Deterministic Greedy solver implementations",
+      "file_count": 2,
+      "files": {
+        "src\\optimization\\solvers\\cp_sat_solver.py": "668216f37881b5c3a663e21bb5e321d206abfaee98b50f0dff30c1eff4ffcda3",
+        "src\\optimization\\solvers\\greedy_solver.py": "bb26fdcd7121317447a543f29e2a5211674a8dfafaffee8e0efa0cebfebff686"
+      }
+    },
+    "N_sa_solver": {
+      "description": "Simulated Annealing gate optimizer and neighborhood search operators",
+      "file_count": 5,
+      "files": {
+        "src\\optimization\\sa\\__init__.py": "09b44d5fcd5cb2224740ef99dfbc03145d497ff19ad593a07007e25b845859f8",
+        "src\\optimization\\sa\\annealer.py": "0619806e87c77935f84fde55bcb6835d019e9c0a283ac9272f98e61a180c0b16",
+        "src\\optimization\\sa\\neighborhood.py": "7a77a8641ccadcef129bf989f6d41cf6ed37246ae9ec54e04475f3d75b820650",
+        "src\\optimization\\sa\\objective.py": "08a028dbfe7a6414185249cf022028f2d24e5a39cc286d4583bba5719f68c8a9",
+        "src\\optimization\\sa\\state.py": "d0ac9fa82019a9b0600bdf90eccf9096bae2fdc700ff96a67f143a91999e13ec"
+      }
+    },
+    "O_monte_carlo": {
+      "description": "Monte Carlo convergence engine, CRN generation, and failure accounting",
+      "file_count": 4,
+      "files": {
+        "artifacts\\manifests\\monte_carlo_protocol_v2.json": "052fcffaac1834f34f60b09ddd182df4a244ad6577de82d79995a75fd0da669e",
+        "configs\\monte_carlo_protocol_v2.yaml": "85a1a360dc6dc59bcea0eb957462a9730258e47239a60e6801529f4d453a3dfc",
+        "src\\evaluation\\mc_convergence.py": "d8c9b301a36df58a9be2c2220ab04cad075d98cab1c02adad15736f966e73721",
+        "src\\evaluation\\monte_carlo_comparison_v2.py": "f40f46623f998c6649aa76d24372f6f32d410614ee9d7319eeed746c4142b787"
+      }
+    },
+    "P_scenario_manifests": {
+      "description": "Downstream and Monte Carlo scenario specification manifests",
+      "file_count": 3,
+      "files": {
+        "artifacts\\downstream_model_comparison\\evaluations.json": "f2e8dcaa3848eaafb5d3dc80f4843d19e34667f93b26bf097aa5c2832635e26e",
+        "artifacts\\downstream_model_comparison\\manifest.sha256": "c04ce15247900affa12b30312886696abe924f41870c5d317796ee7532f9f873",
+        "artifacts\\monte_carlo_model_comparison\\scenario_manifest.json": "0f7d8b719ad7e7a02bd816147a2d4fe421bf2c0d5b8ff98f7c47b1f987ebfa57"
+      }
+    },
+    "Q_solver_budget": {
+      "description": "Equal compute solver time budget and protocol specifications",
+      "file_count": 2,
+      "files": {
+        "artifacts\\manifests\\downstream_protocol_v2.json": "c32ab6bf526cc87a1c1fe950e3bcaf755a9ed9ad6de4eeccd7be5805a35886ce",
+        "src\\optimization\\config.py": "0630b8febc47312a107810e81297a19eff9def35e2c19f6c55f79ab64d4b97f0"
+      }
+    },
+    "R_mc_budget": {
+      "description": "Registered Monte Carlo counts (100, 250, 500, 1000, 2500) and zero truncation policy",
+      "file_count": 2,
+      "files": {
+        "artifacts\\manifests\\monte_carlo_protocol_v2.json": "052fcffaac1834f34f60b09ddd182df4a244ad6577de82d79995a75fd0da669e",
+        "configs\\monte_carlo_protocol_v2.yaml": "85a1a360dc6dc59bcea0eb957462a9730258e47239a60e6801529f4d453a3dfc"
+      }
+    },
+    "S_seeds": {
+      "description": "Seed registry and seed manifest governance",
+      "file_count": 2,
+      "files": {
+        "artifacts\\manifests\\seed_manifest_v1.json": "b796e738f1291d9d1b6036292cef1aef04051e8ca4a8567bfb1a7e81f72055fc",
+        "configs\\seed_registry.yaml": "798ecc5abfebb1fb11e0ab6db76962f5e9f78bf516d2f5e64edded6d895f0ff9"
+      }
+    },
+    "T_model_registry": {
+      "description": "Model catalog and model registry manifest v2",
+      "file_count": 2,
+      "files": {
+        "artifacts\\manifests\\model_registry_manifest_v2.json": "fb85b21ea5fa2fcf83bef316c9efb96c3f242a7aec2c2ea76663609b0c7f16f3",
+        "configs\\model_catalog_v2.yaml": "782a59f639d9c1a1b4626e9920ebd8469ac9edf04121fa164f5952778421be8f"
+      }
+    },
+    "U_selection_manifest": {
+      "description": "Authoritative 2023 academic model selection manifest v2 and SHA256 sidecar",
+      "file_count": 2,
+      "files": {
+        "artifacts\\manifests\\academic_model_selection_v2.json": "3f9d9ea3c6eb66cf039d4bc99331296a089553549b61d9d05cba973c3c2ae165",
+        "artifacts\\manifests\\academic_model_selection_v2.sha256": "7d47c2d3071216075cfd5739668dc949748ce92becb377b1aaa6ddeb64d54841"
+      }
+    },
+    "V_evaluation_runners": {
+      "description": "Common benchmark runners and CLI entry points",
+      "file_count": 9,
+      "files": {
+        "scripts\\run_academic_point_benchmark_v2.py": "4cfaaa26ecb2c12b785670a6060c738c1b18014417d329359dbca2fb36d62618",
+        "scripts\\run_downstream_model_comparison.py": "bedeb195e984074f066bb81eb279d518e172577fd373d7222cb83b6c1850b0da",
+        "scripts\\run_monte_carlo_comparison.py": "7345623373249cc5efa7c4ff5f30782e5e06f641e3497a7c99376bf1fb6fb4e8",
+        "scripts\\run_paired_comparison.py": "cb4abf0193ba1ea13655747b340ba65cf814102bce5ffe32d6c8dc8893c066fb",
+        "scripts\\run_probabilistic_benchmark.py": "00a0577949d0ad95401720a2697908a8d7fe1795f1a44e1536b0924e7f0ec0ca",
+        "src\\evaluation\\downstream_comparison_v2.py": "a258616b25f29a79b3922171c9ce670e3a0b87315471ae3ea0f77a4397d64da7",
+        "src\\evaluation\\model_benchmark_runner.py": "6fd556570082c16ac4480a7cca8bc4d0551f3ab541c9d68337cfaf259bb62454",
+        "src\\evaluation\\monte_carlo_comparison_v2.py": "f40f46623f998c6649aa76d24372f6f32d410614ee9d7319eeed746c4142b787",
+        "src\\pipeline\\probabilistic_benchmark_runner.py": "831eb7e994f1fa172220dafa3b0e0a1b70edc9222f26b440c6e072e65e171397"
+      }
+    },
+    "W_final_guard": {
+      "description": "Fail-closed final evaluation guard v2 for 2024 post-holdout access",
+      "file_count": 1,
+      "files": {
+        "src\\evaluation\\final_evaluation_guard_v2.py": "a04e7d75f982bb7fa5594c78ccc219817b62f74967a8407e93a5a48254ffd527"
+      }
+    }
+  },
+  "freeze_status": "FROZEN_V2",
+  "holdout_policy": "SEALED_POST_HOLDOUT_STRICT_EVALUATION_ONLY",
+  "invariants_guaranteed": {
+    "capabilities_matrix_strictly_enforced": true,
+    "downstream_claim_boundary": "SYNTHETIC_SIMULATED_RESEARCH_ONLY",
+    "historical_freeze_v1_preserved": true,
+    "no_2024_access_during_development": true,
+    "no_post_hoc_tuning": true
+  },
+  "manifest_version": "system_freeze_manifest_v2",
+  "model_selection": {
+    "joint_system_selection_status": "BLOCKED",
+    "role_a_point_champion": {
+      "parsimony_status": "POST_HOC",
+      "rule": "lowest_mae_within_0_10_band",
+      "selected_model": "arrival_linear_baseline_v1",
+      "tie_with": "arrival_weighted_ensemble_v1"
+    },
+    "role_b_probabilistic_forecast_champion": {
+      "metric_value": 16.8477,
+      "primary_metric": "crps",
+      "selected_model": "P5_quantile_regression",
+      "status": "APPROVED_FORECAST_ONLY"
+    },
+    "role_c_downstream_candidate": {
+      "capability": "CONTINUOUS_PARAMETRIC_DENSITY_AND_SAMPLER",
+      "selected_candidate": "P4_ngboost_student_t",
+      "status": "APPROVED_DOWNSTREAM_ELIGIBLE"
+    }
+  },
+  "monte_carlo_configuration": {
+    "crn_variance_reduction_status": "NOT_ESTABLISHED",
+    "precision_target_status": "NOT_PREREGISTERED",
+    "preregistered_counts": [
+      100,
+      250,
+      500,
+      1000,
+      2500
+    ],
+    "silent_truncation_prohibited": true
+  },
+  "protocol_name": "AEOLUS_V4_SYSTEM_FREEZE_PROTOCOL_V2",
+  "scope_summary": {
+    "categories_evaluated": [
+      "A_data_contracts",
+      "B_feature_code",
+      "C_preprocessing",
+      "D_model_code",
+      "E_distribution_contract",
+      "F_metrics",
+      "G_statistical_inference",
+      "H_model_selection",
+      "I_synthetic_turn_generation",
+      "J_gate_generation",
+      "K_verifier",
+      "L_optimization",
+      "M_cpsat_solver",
+      "N_sa_solver",
+      "O_monte_carlo",
+      "P_scenario_manifests",
+      "Q_solver_budget",
+      "R_mc_budget",
+      "S_seeds",
+      "T_model_registry",
+      "U_selection_manifest",
+      "V_evaluation_runners",
+      "W_final_guard"
+    ],
+    "total_categories": 23,
+    "total_unique_files_frozen": 68
+  },
+  "seed_registry": {
+    "data_sampling_seed": 202601,
+    "predetermined_deployment_seed": 202601,
+    "registered_seeds": [
+      202601,
+      202602,
+      202603
+    ],
+    "screening_seed": 202601
+  },
+  "solver_configuration": {
+    "budget_seconds_per_scenario": 5.0,
+    "equal_compute_enforced": true,
+    "solvers": [
+      "DeterministicGreedyGateSolver",
+      "CPSatGateSolver",
+      "SimulatedAnnealingGateSolver"
+    ]
+  }
+}

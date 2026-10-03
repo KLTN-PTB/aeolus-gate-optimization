@@ -1,0 +1,53 @@
+{
+  "contract_name": "AEOLUS_V4_SOLVER_EQUAL_TOTAL_COMPUTE_CONTRACT",
+  "task_id": "R26_SOLVER_EQUAL_COMPUTE_RE_CERTIFICATION",
+  "created_at_utc": "2026-10-02T12:06:43.071809+00:00",
+  "total_wall_clock_budget_seconds": 2.0,
+  "solver_specifications": {
+    "DeterministicGreedy": {
+      "budget_type": "WALL_CLOCK_TIME_MAX",
+      "budget_seconds": 2.0,
+      "execution_policy": "Deterministic 1-pass construction; completes immediately without artificial wait",
+      "initialization": "Cold start"
+    },
+    "CPSat": {
+      "budget_type": "WALL_CLOCK_TIME_MAX",
+      "budget_seconds": 2.0,
+      "execution_policy": "Google OR-Tools CP-SAT single worker deterministic search with max_time_in_seconds = 2.0",
+      "initialization": "Cold start"
+    },
+    "SimulatedAnnealing": {
+      "budget_type": "WALL_CLOCK_TIME_MAX",
+      "budget_seconds": 2.0,
+      "execution_policy": "Continuous cooling loop running for wall-clock time limit = 2.0s",
+      "initialization": "Deterministic greedy feasible initial solution",
+      "monotonicity_rule": "best_objective_so_far is non-increasing across all iterations"
+    },
+    "HybridCPSatSA": {
+      "budget_type": "SPLIT_WALL_CLOCK_TOTAL",
+      "total_budget_seconds": 2.0,
+      "cp_sat_budget_seconds": 1.0,
+      "sa_budget_seconds": 1.0,
+      "sum_equality_constraint": "cp_sat_budget_seconds + sa_budget_seconds == total_budget_seconds",
+      "execution_policy": "CP-SAT runs up to 1.0s to obtain incumbent; SA refines incumbent for remaining 1.0s",
+      "initialization": "CP-SAT incumbent solution",
+      "monotonicity_rule": "best_objective_so_far is non-increasing from CP-SAT incumbent"
+    }
+  },
+  "objective_configuration": {
+    "reassignment_weight": 10.0,
+    "overflow_weight": 200.0,
+    "delay_weight": 1.0,
+    "conflict_weight": 1000.0,
+    "risk_weight": 2.0,
+    "evaluator": "src.optimization.evaluation.evaluate_gate_assignment",
+    "independent_verifier": "src.optimization.domain.verify_hard_constraints_independently"
+  },
+  "historical_claim_invalidation": {
+    "historical_claim": "Hybrid CP-SAT + SA is superior to standalone CP-SAT under time-limited benchmark",
+    "audit_finding": "Phase F benchmark granted CP-SAT 5.0s and then added 300 SA iterations to Hybrid, giving Hybrid unequal compute.",
+    "status": "PREVIOUS_EVIDENCE_NOT_CERTIFIED",
+    "action": "Invalidated historical claim. Certified strictly under R26 equal total compute (2.0s) contract."
+  },
+  "verdict": "CERTIFIED_EQUAL_TOTAL_COMPUTE_CONTRACT"
+}

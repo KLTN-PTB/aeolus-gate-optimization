@@ -1,0 +1,97 @@
+{
+  "manifest_version": "arrival_nn_representation_v1",
+  "created_at_utc": "2026-09-27T08:55:00Z",
+  "feature_manifest_version": "feature_manifest_arrival_v1",
+  "feature_manifest_sha256": "cb352a56d194e9f39ee9477fdbc5da7929ba03b5ba089100cbd88b01dec09e85",
+  "approved_predictors_count": 11,
+  "approved_predictors": [
+    "CRS_ELAPSED_TIME",
+    "calendar_year",
+    "calendar_month",
+    "calendar_day_of_month",
+    "calendar_day_of_week",
+    "is_weekend",
+    "scheduled_departure_hour",
+    "scheduled_departure_minute",
+    "OP_CARRIER",
+    "ORIGIN",
+    "OP_CARRIER_FL_NUM"
+  ],
+  "representation_structure": {
+    "cyclic_features": {
+      "time_of_day": {
+        "source_columns": [
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ],
+        "formula": "t = 60 * scheduled_departure_hour + scheduled_departure_minute",
+        "period": 1440.0,
+        "encoded_columns": [
+          "sin_time_of_day",
+          "cos_time_of_day"
+        ],
+        "sin_formula": "sin(2 * pi * t / 1440.0)",
+        "cos_formula": "cos(2 * pi * t / 1440.0)"
+      },
+      "calendar_month": {
+        "source_columns": [
+          "calendar_month"
+        ],
+        "period": 12.0,
+        "encoded_columns": [
+          "sin_calendar_month",
+          "cos_calendar_month"
+        ],
+        "sin_formula": "sin(2 * pi * (calendar_month - 1) / 12.0)",
+        "cos_formula": "cos(2 * pi * (calendar_month - 1) / 12.0)"
+      },
+      "calendar_day_of_week": {
+        "source_columns": [
+          "calendar_day_of_week"
+        ],
+        "period": 7.0,
+        "encoded_columns": [
+          "sin_calendar_day_of_week",
+          "cos_calendar_day_of_week"
+        ],
+        "sin_formula": "sin(2 * pi * (calendar_day_of_week - 1) / 7.0)",
+        "cos_formula": "cos(2 * pi * (calendar_day_of_week - 1) / 7.0)"
+      }
+    },
+    "scaled_numeric_features": {
+      "source_columns": [
+        "CRS_ELAPSED_TIME",
+        "calendar_year",
+        "calendar_day_of_month",
+        "is_weekend"
+      ],
+      "imputation": "SimpleImputer(strategy='median', fit on fold-train only)",
+      "scaling": "StandardScaler(fit on fold-train only)",
+      "encoded_columns": [
+        "CRS_ELAPSED_TIME_scaled",
+        "calendar_year_scaled",
+        "calendar_day_of_month_scaled",
+        "is_weekend_scaled"
+      ]
+    },
+    "categorical_embedding_features": {
+      "source_columns": [
+        "OP_CARRIER",
+        "ORIGIN",
+        "OP_CARRIER_FL_NUM"
+      ],
+      "vocabulary_policy": "fold-train unique categories sorted deterministically",
+      "indexing": "0 to K - 1",
+      "dedicated_unknown_index": "K (non-negative integer, vocabulary_size = K + 1)",
+      "sentinel_policy": "NO negative indices (-1, -2) and NO tree-frequency zero sentinels",
+      "semantic_meaning": {
+        "OP_CARRIER": "operating carrier code",
+        "ORIGIN": "scheduled departure airport",
+        "OP_CARRIER_FL_NUM": "service/schedule identity (NOT physical aircraft or tail entity)"
+      }
+    }
+  },
+  "total_continuous_features": 10,
+  "total_categorical_embedding_features": 3,
+  "fit_scope": "EACH_FOLD_TRAINING_ROWS_ONLY"
+}

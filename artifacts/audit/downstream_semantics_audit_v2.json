@@ -1,0 +1,74 @@
+{
+  "audit_name": "downstream_semantics_audit_v2",
+  "audit_date": "2026-10-02T03:15:00Z",
+  "auditor_role": "Principal Optimization and Operations Research Engineer",
+  "target_subsystem": "src/optimization/ and src/evaluation/downstream_comparison.py",
+  "historical_findings_summary": {
+    "total_issues_identified": 6,
+    "issues": [
+      {
+        "issue_id": "DOWNSTREAM_FLAW_01_CONFLATED_DECISION_AND_REPORTING_COSTS",
+        "severity": "HIGH_METHODOLOGICAL_ERROR",
+        "description": "Historical CP-SAT solver implementation included constant delay and turnaround buffer risk terms into the decision variable coefficients x[f, g]. Because each flight must be assigned to exactly one gate (sum_g x[f, g] == 1), adding an exogenous flight-level constant across all gates added large values to the integer scaling without changing the optimal decision, leading to integer scaling distortion.",
+        "legacy_code_location": "src/optimization/solvers/cp_sat_solver.py (lines 181-190)",
+        "repaired_in_v2": true,
+        "repair_description": "CP-SAT decision model now optimizes strictly decision costs (reassignment + remote overflow stand penalty). Exogenous delay and turnaround risk costs are separated as reporting metrics and evaluated in the common evaluator evaluate_gate_assignment()."
+      },
+      {
+        "issue_id": "DOWNSTREAM_FLAW_02_OPTIMIZER_SELF_CERTIFICATION",
+        "severity": "CRITICAL_METHODOLOGICAL_ERROR",
+        "description": "Historical evaluation function directly accepted solver status strings (e.g. status='FEASIBLE') as proof of feasibility without independent outside constraint verification.",
+        "legacy_code_location": "src/optimization/evaluation.py",
+        "repaired_in_v2": true,
+        "repair_description": "evaluate_gate_assignment() now delegates feasibility certification entirely to verify_hard_constraints_independently(). OptimizationResult.feasible is True if and only if all hard constraints pass and unassigned_count == 0."
+      },
+      {
+        "issue_id": "DOWNSTREAM_FLAW_03_SINGLE_CONFLICT_COUNTER_AMBIGUITY",
+        "severity": "HIGH_SCIENTIFIC_RISK",
+        "description": "Historical evaluation tracked a single 'conflicts' counter that conflated planned hard constraint violations with realized post-hoc overlaps arising from stochastic operational arrival delays.",
+        "legacy_code_location": "src/evaluation/downstream_comparison.py",
+        "repaired_in_v2": true,
+        "repair_description": "Separated into explicit machine-readable fields: hard_constraint_violations_count (planned violations), planned_conflict_count, and realized_post_hoc_conflicts_count (post-hoc conflicts under actual operational delays)."
+      },
+      {
+        "issue_id": "DOWNSTREAM_FLAW_04_REMOTE_STAND_MERGED_WITH_UNASSIGNED",
+        "severity": "HIGH_METHODOLOGICAL_ERROR",
+        "description": "Historical code occasionally treated overflow remote apron assignments and unassigned flights interchangeably, obscuring whether an assignment was a valid remote parking plan or a complete assignment failure.",
+        "legacy_code_location": "src/optimization/domain.py",
+        "repaired_in_v2": true,
+        "repair_description": "Created explicit GateAssignmentState Enum (CONTACT_GATE, REMOTE_STAND, UNASSIGNED). Remote stands have infinite capacity and incur overflow penalty; unassigned flights are strictly infeasible and incur 2x overflow penalty."
+      },
+      {
+        "issue_id": "DOWNSTREAM_FLAW_05_SOLVER_HIERARCHY_AND_COMPUTE_ASYMMETRY",
+        "severity": "HIGH_SCIENTIFIC_RISK",
+        "description": "Simulated Annealing was historically treated as an equal peer to CP-SAT and benchmarked with unbounded or unequal runtime budgets, occasionally leading to unsupported claims of SA superiority.",
+        "legacy_code_location": "src/evaluation/downstream_comparison.py",
+        "repaired_in_v2": true,
+        "repair_description": "Established strict solver hierarchy: DeterministicGreedy baseline, CP-SAT exact solver (budget T), and SA refinement (T/2 CP-SAT incumbent + T/2 SA refinement, total compute <= T). SA refinement can never be claimed as superior to an optimal CP-SAT."
+      },
+      {
+        "issue_id": "DOWNSTREAM_FLAW_06_UNSUPPORTED_REAL_WORLD_GATE_CLAIMS",
+        "severity": "CRITICAL_SCIENTIFIC_RISK",
+        "description": "Historical documentation contained narrative claims implying 'real-world gate conflict reduction' or 'actual airport operational savings' despite BTS dataset having zero physical gate assignment ground truth.",
+        "legacy_code_location": "Historical V4 documents and summary logs",
+        "repaired_in_v2": true,
+        "repair_description": "Instituted Hard V4 Claim Boundary: all downstream evaluation is defined strictly as synthetic gate assignments and simulated operational scenarios. All narrative claim strings updated across docstrings and manifests."
+      }
+    ]
+  },
+  "repaired_engine_validation": {
+    "module": "src/optimization/ and src/evaluation/downstream_comparison.py",
+    "protocol_manifest": "artifacts/manifests/downstream_protocol_v2.json",
+    "tests_suite": "tests/downstream/test_downstream_semantics_v2.py",
+    "status": "VERIFIED_PASS",
+    "acceptance_criteria_verification": {
+      "hard_claim_boundary_enforced": "PASS - Strictly synthetic gate assignment terminology, zero real-world claims",
+      "information_regimes_strictly_separated": "PASS - Schedule-only, Core Arrival, Oracle reference strictly separated; departure and weather forbidden",
+      "three_states_distinct": "PASS - CONTACT_GATE, REMOTE_STAND, UNASSIGNED strictly separated and verified by sum invariant",
+      "independent_verifier_enforced": "PASS - verify_hard_constraints_independently() certifies feasibility, optimizer cannot self-certify",
+      "cost_separation_verified": "PASS - decision_cost separated from reporting_cost; CP-SAT optimizes decision costs only",
+      "cp_sat_status_verified": "PASS - Reports OPTIMAL only when raw solver status == cp_model.OPTIMAL and verifier passes; gap and best_bound recorded",
+      "equal_compute_hierarchy_verified": "PASS - CP-SAT budget T, SA refinement T/2 + T/2 <= T under equal compute"
+    }
+  }
+}

@@ -1,0 +1,398 @@
+{
+  "manifest_version": "probabilistic_stage2_representation_ablation_v1",
+  "created_at_utc": "2026-09-27T09:27:48.078601+00:00",
+  "protocol_manifest": "artifacts/manifests/probabilistic_protocol_v1.json",
+  "seed": 202601,
+  "sample_train_per_year": 5000,
+  "sample_val": 5000,
+  "total_wall_seconds": 145.1783571243286,
+  "candidates_evaluated": [
+    "R0_low_card_one_hot",
+    "R1_frequency_map",
+    "R2_embedding"
+  ],
+  "folds": [
+    "fold_1",
+    "fold_2",
+    "fold_3",
+    "fold_4"
+  ],
+  "validation_years": [
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "per_fold_results": {
+    "fold_1": {
+      "R0_low_card_one_hot": {
+        "best_epoch": 7,
+        "best_inner_mae": 18.905568975882233,
+        "outer_metrics": {
+          "mae": 17.85344145425856,
+          "rmse": 40.00155574919267,
+          "medae": 9.389385640621185,
+          "r2": -0.01675943401642921,
+          "pearson_r": 0.1007788468587542
+        },
+        "train_time_sec": 7.668376684188843,
+        "provenance_stats": {
+          "train_flight_category_count": 3606,
+          "val_flight_category_count": 2117,
+          "unseen_flight_category_count": 527,
+          "unseen_flight_rate": 0.1962,
+          "rare_count_le_1": 1226,
+          "rare_count_le_5": 2735,
+          "rare_count_le_10": 3229,
+          "embedding_vocabulary_size": 3607,
+          "unknown_index": 3606,
+          "unknown_index_usage_count": 981,
+          "unknown_index_usage_rate": 0.1962
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R0_low_card_one_hot_predictions_fold_1.parquet"
+      },
+      "R1_frequency_map": {
+        "best_epoch": 7,
+        "best_inner_mae": 18.92098632642031,
+        "outer_metrics": {
+          "mae": 17.938983878032865,
+          "rmse": 39.922389844053946,
+          "medae": 9.681437015533447,
+          "r2": -0.01273893886093691,
+          "pearson_r": 0.09946738996800074
+        },
+        "train_time_sec": 6.163367748260498,
+        "provenance_stats": {
+          "train_flight_category_count": 3606,
+          "val_flight_category_count": 2117,
+          "unseen_flight_category_count": 527,
+          "unseen_flight_rate": 0.1962,
+          "rare_count_le_1": 1226,
+          "rare_count_le_5": 2735,
+          "rare_count_le_10": 3229,
+          "embedding_vocabulary_size": 3607,
+          "unknown_index": 3606,
+          "unknown_index_usage_count": 981,
+          "unknown_index_usage_rate": 0.1962
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R1_frequency_map_predictions_fold_1.parquet"
+      },
+      "R2_embedding": {
+        "best_epoch": 4,
+        "best_inner_mae": 18.9662051904425,
+        "outer_metrics": {
+          "mae": 17.933210120628775,
+          "rmse": 40.00060810927399,
+          "medae": 9.63632583618164,
+          "r2": -0.016711260369361325,
+          "pearson_r": 0.09557477621390516
+        },
+        "train_time_sec": 5.5533692836761475,
+        "provenance_stats": {
+          "train_flight_category_count": 3606,
+          "val_flight_category_count": 2117,
+          "unseen_flight_category_count": 527,
+          "unseen_flight_rate": 0.1962,
+          "rare_count_le_1": 1226,
+          "rare_count_le_5": 2735,
+          "rare_count_le_10": 3229,
+          "embedding_vocabulary_size": 3607,
+          "unknown_index": 3606,
+          "unknown_index_usage_count": 981,
+          "unknown_index_usage_rate": 0.1962
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R2_embedding_predictions_fold_1.parquet"
+      }
+    },
+    "fold_2": {
+      "R0_low_card_one_hot": {
+        "best_epoch": 1,
+        "best_inner_mae": 17.814961358970404,
+        "outer_metrics": {
+          "mae": 13.341657017078996,
+          "rmse": 30.703748721039258,
+          "medae": 7.934290885925293,
+          "r2": -0.010071426690074547,
+          "pearson_r": -0.03516676548282839
+        },
+        "train_time_sec": 6.721652269363403,
+        "provenance_stats": {
+          "train_flight_category_count": 4133,
+          "val_flight_category_count": 2075,
+          "unseen_flight_category_count": 415,
+          "unseen_flight_rate": 0.1722,
+          "rare_count_le_1": 1168,
+          "rare_count_le_5": 2992,
+          "rare_count_le_10": 3576,
+          "embedding_vocabulary_size": 4134,
+          "unknown_index": 4133,
+          "unknown_index_usage_count": 861,
+          "unknown_index_usage_rate": 0.1722
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R0_low_card_one_hot_predictions_fold_2.parquet"
+      },
+      "R1_frequency_map": {
+        "best_epoch": 1,
+        "best_inner_mae": 17.80390514881015,
+        "outer_metrics": {
+          "mae": 13.210096288800239,
+          "rmse": 30.701788807997062,
+          "medae": 7.750930070877075,
+          "r2": -0.009942478984234615,
+          "pearson_r": -0.043959213153820995
+        },
+        "train_time_sec": 7.091752767562866,
+        "provenance_stats": {
+          "train_flight_category_count": 4133,
+          "val_flight_category_count": 2075,
+          "unseen_flight_category_count": 415,
+          "unseen_flight_rate": 0.1722,
+          "rare_count_le_1": 1168,
+          "rare_count_le_5": 2992,
+          "rare_count_le_10": 3576,
+          "embedding_vocabulary_size": 4134,
+          "unknown_index": 4133,
+          "unknown_index_usage_count": 861,
+          "unknown_index_usage_rate": 0.1722
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R1_frequency_map_predictions_fold_2.parquet"
+      },
+      "R2_embedding": {
+        "best_epoch": 5,
+        "best_inner_mae": 17.918116947539897,
+        "outer_metrics": {
+          "mae": 13.503379171076418,
+          "rmse": 30.781651128336566,
+          "medae": 8.109572410583496,
+          "r2": -0.015203491821068837,
+          "pearson_r": -0.037638734818051654
+        },
+        "train_time_sec": 10.005167245864868,
+        "provenance_stats": {
+          "train_flight_category_count": 4133,
+          "val_flight_category_count": 2075,
+          "unseen_flight_category_count": 415,
+          "unseen_flight_rate": 0.1722,
+          "rare_count_le_1": 1168,
+          "rare_count_le_5": 2992,
+          "rare_count_le_10": 3576,
+          "embedding_vocabulary_size": 4134,
+          "unknown_index": 4133,
+          "unknown_index_usage_count": 861,
+          "unknown_index_usage_rate": 0.1722
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R2_embedding_predictions_fold_2.parquet"
+      }
+    },
+    "fold_3": {
+      "R0_low_card_one_hot": {
+        "best_epoch": 17,
+        "best_inner_mae": 13.007557456428557,
+        "outer_metrics": {
+          "mae": 16.485457581567765,
+          "rmse": 41.901306842048584,
+          "medae": 7.697406768798828,
+          "r2": -0.07862756100210855,
+          "pearson_r": 0.008574524319502431
+        },
+        "train_time_sec": 18.304765701293945,
+        "provenance_stats": {
+          "train_flight_category_count": 4548,
+          "val_flight_category_count": 1874,
+          "unseen_flight_category_count": 268,
+          "unseen_flight_rate": 0.0992,
+          "rare_count_le_1": 1069,
+          "rare_count_le_5": 3064,
+          "rare_count_le_10": 3841,
+          "embedding_vocabulary_size": 4549,
+          "unknown_index": 4548,
+          "unknown_index_usage_count": 496,
+          "unknown_index_usage_rate": 0.0992
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R0_low_card_one_hot_predictions_fold_3.parquet"
+      },
+      "R1_frequency_map": {
+        "best_epoch": 12,
+        "best_inner_mae": 13.050716263603046,
+        "outer_metrics": {
+          "mae": 16.251116994953154,
+          "rmse": 41.57815022172926,
+          "medae": 7.7456254959106445,
+          "r2": -0.062054258777871185,
+          "pearson_r": 0.032233661989015915
+        },
+        "train_time_sec": 14.832942247390747,
+        "provenance_stats": {
+          "train_flight_category_count": 4548,
+          "val_flight_category_count": 1874,
+          "unseen_flight_category_count": 268,
+          "unseen_flight_rate": 0.0992,
+          "rare_count_le_1": 1069,
+          "rare_count_le_5": 3064,
+          "rare_count_le_10": 3841,
+          "embedding_vocabulary_size": 4549,
+          "unknown_index": 4548,
+          "unknown_index_usage_count": 496,
+          "unknown_index_usage_rate": 0.0992
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R1_frequency_map_predictions_fold_3.parquet"
+      },
+      "R2_embedding": {
+        "best_epoch": 1,
+        "best_inner_mae": 13.372606334745884,
+        "outer_metrics": {
+          "mae": 16.03073844472766,
+          "rmse": 40.9267491843071,
+          "medae": 8.151333212852478,
+          "r2": -0.02903673025034692,
+          "pearson_r": 0.032360536514845745
+        },
+        "train_time_sec": 9.162932634353638,
+        "provenance_stats": {
+          "train_flight_category_count": 4548,
+          "val_flight_category_count": 1874,
+          "unseen_flight_category_count": 268,
+          "unseen_flight_rate": 0.0992,
+          "rare_count_le_1": 1069,
+          "rare_count_le_5": 3064,
+          "rare_count_le_10": 3841,
+          "embedding_vocabulary_size": 4549,
+          "unknown_index": 4548,
+          "unknown_index_usage_count": 496,
+          "unknown_index_usage_rate": 0.0992
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R2_embedding_predictions_fold_3.parquet"
+      }
+    },
+    "fold_4": {
+      "R0_low_card_one_hot": {
+        "best_epoch": 3,
+        "best_inner_mae": 15.926401528716088,
+        "outer_metrics": {
+          "mae": 19.4874497582078,
+          "rmse": 50.433831101598116,
+          "medae": 8.44421911239624,
+          "r2": -0.06330324977149537,
+          "pearson_r": 0.04240998564538284
+        },
+        "train_time_sec": 13.241631031036377,
+        "provenance_stats": {
+          "train_flight_category_count": 4816,
+          "val_flight_category_count": 1692,
+          "unseen_flight_category_count": 125,
+          "unseen_flight_rate": 0.0522,
+          "rare_count_le_1": 1014,
+          "rare_count_le_5": 2949,
+          "rare_count_le_10": 3910,
+          "embedding_vocabulary_size": 4817,
+          "unknown_index": 4816,
+          "unknown_index_usage_count": 261,
+          "unknown_index_usage_rate": 0.0522
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R0_low_card_one_hot_predictions_fold_4.parquet"
+      },
+      "R1_frequency_map": {
+        "best_epoch": 3,
+        "best_inner_mae": 15.926544906663894,
+        "outer_metrics": {
+          "mae": 19.529936801862718,
+          "rmse": 50.48287110675633,
+          "medae": 8.55856728553772,
+          "r2": -0.06537208917402593,
+          "pearson_r": 0.03287647240460942
+        },
+        "train_time_sec": 12.787714004516602,
+        "provenance_stats": {
+          "train_flight_category_count": 4816,
+          "val_flight_category_count": 1692,
+          "unseen_flight_category_count": 125,
+          "unseen_flight_rate": 0.0522,
+          "rare_count_le_1": 1014,
+          "rare_count_le_5": 2949,
+          "rare_count_le_10": 3910,
+          "embedding_vocabulary_size": 4817,
+          "unknown_index": 4816,
+          "unknown_index_usage_count": 261,
+          "unknown_index_usage_rate": 0.0522
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R1_frequency_map_predictions_fold_4.parquet"
+      },
+      "R2_embedding": {
+        "best_epoch": 3,
+        "best_inner_mae": 15.935468616306782,
+        "outer_metrics": {
+          "mae": 19.563947427558897,
+          "rmse": 50.59472372887119,
+          "medae": 8.481379508972168,
+          "r2": -0.07009831305835124,
+          "pearson_r": 0.05030795441923207
+        },
+        "train_time_sec": 13.444627523422241,
+        "provenance_stats": {
+          "train_flight_category_count": 4816,
+          "val_flight_category_count": 1692,
+          "unseen_flight_category_count": 125,
+          "unseen_flight_rate": 0.0522,
+          "rare_count_le_1": 1014,
+          "rare_count_le_5": 2949,
+          "rare_count_le_10": 3910,
+          "embedding_vocabulary_size": 4817,
+          "unknown_index": 4816,
+          "unknown_index_usage_count": 261,
+          "unknown_index_usage_rate": 0.0522
+        },
+        "predictions_artifact": "artifacts/probabilistic/representation_ablation/R2_embedding_predictions_fold_4.parquet"
+      }
+    }
+  },
+  "pooled_development_metrics": {
+    "R0_low_card_one_hot": {
+      "pooled_mae": 16.79200145277828,
+      "pooled_rmse": 41.358600926943,
+      "pooled_medae": 8.358624458312988,
+      "pooled_r2": -0.04117279434262433,
+      "pooled_pearson_r": 0.023809966363117347
+    },
+    "R1_frequency_map": {
+      "pooled_mae": 16.732533490912243,
+      "pooled_rmse": 41.27244812799918,
+      "pooled_medae": 8.40251088142395,
+      "pooled_r2": -0.03683964366355208,
+      "pooled_pearson_r": 0.029476137574539325
+    },
+    "R2_embedding": {
+      "pooled_mae": 16.757818790997938,
+      "pooled_rmse": 41.177613952529846,
+      "pooled_medae": 8.546518325805664,
+      "pooled_r2": -0.032080300795321426,
+      "pooled_pearson_r": 0.011335237096043945
+    }
+  },
+  "attribution_comparison": {
+    "baseline_representation": "R1_frequency_map",
+    "r1_frequency_map_mae": 16.732533490912243,
+    "r2_embedding_mae": 16.757818790997938,
+    "r2_minus_r1_mae_delta": 0.025285300085695184,
+    "r2_relative_improvement_pct": -0.15111459420910833,
+    "r0_low_card_one_hot_mae": 16.79200145277828,
+    "r0_minus_r1_mae_delta": 0.0594679618660372,
+    "attribution_conclusion": "R1 (frequency-map) matches or outperforms R2 (embedding)"
+  },
+  "experimental_control": {
+    "model_architecture": "MLP (50 -> 128 -> LayerNorm -> Dropout(0.1) -> 64 -> 1)",
+    "hidden_dims": [
+      128,
+      64
+    ],
+    "optimizer": "AdamW(lr=0.001, weight_decay=0.0001)",
+    "loss": "SmoothL1Loss(beta=1.0)",
+    "batch_size": 256,
+    "early_stopping_procedure": "Two-phase inner/outer (best_epoch from inner_val, retrained fresh on outer_train)",
+    "numeric_representation": "10 cyclic and standardized continuous features",
+    "carrier_origin_representation": "OP_CARRIER(dim 8) + ORIGIN(dim 16) embeddings"
+  },
+  "holdout_guards": {
+    "2023_accessed": false,
+    "2024_accessed": false
+  }
+}

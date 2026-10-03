@@ -1,0 +1,78 @@
+{
+  "audit_name": "r25_claim_numeric_reconciliation",
+  "task_id": "R25_CLAIM_NUMERIC_RECONCILIATION",
+  "created_at_utc": "2026-10-02T11:51:15.662520+00:00",
+  "trace_lineage": [
+    {
+      "step": 1,
+      "stage": "Development Metric Generation",
+      "source": "src/data/stratified_loader.py + scikit-learn Ridge & XGBoost",
+      "output_data": "Point metrics computed on 2023 validation fold (sample=1500)",
+      "values": {
+        "linear_mae": 24.6181333149954,
+        "ensemble_mae": 24.617684454376416
+      }
+    },
+    {
+      "step": 2,
+      "stage": "Model Selection Execution",
+      "script": "scripts/run_academic_model_selection.py",
+      "manifest": "artifacts/manifests/academic_model_selection_v3.json",
+      "selection_rule": "tie(year=2023) = abs(diff) <= 0.10 min",
+      "result": "TIED_WITHIN_EFFECT_SIZE_THRESHOLD (diff = 0.00045 min)"
+    },
+    {
+      "step": 3,
+      "stage": "Pre-Execution System Freeze",
+      "script": "scripts/build_system_freeze_v3.py",
+      "manifest": "artifacts/manifests/system_freeze_manifest_v3.json",
+      "result": "79 files frozen; 2024 access sealed and protected"
+    },
+    {
+      "step": 4,
+      "stage": "Post-Holdout Evaluation",
+      "script": "scripts/run_post_holdout_evaluation_v2.py",
+      "metrics_file": "artifacts/post_holdout_v3/marginal_forecast_metrics_2024_v3.json",
+      "manifest": "artifacts/post_holdout_v3/post_holdout_evaluation_manifest_v3.json",
+      "values": {
+        "linear_mae": 22.9125,
+        "ensemble_mae": 23.3175
+      },
+      "evaluation_diff": "0.4050 min > 0.10 min -> NOT TIED"
+    },
+    {
+      "step": 5,
+      "stage": "Claim Boundary & Certification Manifest",
+      "manifest": "artifacts/manifests/final_evidence_certification_v3.json",
+      "audit": "artifacts/audit/final_claim_boundary_audit_v3.json",
+      "status_correction": "Explicitly distinguish 2023 tied status from 2024 non-tied evaluation; enforce NO_SINGLE_OVERALL_CHAMPION"
+    }
+  ],
+  "reconciled_claims": [
+    {
+      "claim_id": "CLAIM_02_POINT_CHAMPION_SELECTION",
+      "historical_inconsistency": "Reporting TIED_WITHIN_0.10_MIN_INDIFFERENCE_BAND as a blanket status covering both 2023 and 2024, when 2024 difference is 0.405 min (> 0.10 min).",
+      "reconciled_finding": "Ridge and Weighted Ensemble tie within the 0.10 min indifference band on 2023 development selection (|diff| = 0.00045 min <= 0.10 min). On 2024 post-holdout, difference is 0.4050 min (> 0.10 min) and models do NOT tie. No universal point champion is claimed.",
+      "allowed_wording": "Ridge regression and the 50/50 Weighted Ensemble tie within the 0.10 min indifference band on the 2023 model selection slice. On 2024 post-holdout, the difference is 0.405 min (> 0.10 min) and models are not tied; no single overall point champion is asserted.",
+      "prohibited_wording": "Ridge dominates all models unconditionally, Ridge is statistically significantly superior to Weighted Ensemble, Both models tied overall across all years, Single overall point champion",
+      "status": "SUPPORTED_WITH_LIMITATION"
+    },
+    {
+      "claim_id": "CLAIM_05_SINGLE_OVERALL_CHAMPION",
+      "historical_inconsistency": "Attempting to declare a single overall best model across point prediction, probabilistic forecasting, and downstream simulation.",
+      "reconciled_finding": "Model selection is decoupled into distinct operational roles based on mathematical capabilities; single overall champion selection is fail-closed blocked.",
+      "allowed_wording": "Model selection is decoupled into distinct operational roles based on verified mathematical capabilities; single overall champion selection is blocked.",
+      "prohibited_wording": "Overall best model, Universal champion, Single winner of the benchmark",
+      "status": "BLOCKED"
+    },
+    {
+      "claim_id": "CLAIM_01_TEMPORAL_POST_HOLDOUT",
+      "historical_inconsistency": "Describing 2024 as untouched, pristine, or never seen.",
+      "reconciled_finding": "2024 is strictly evaluated post-freeze under POST_HOLDOUT protocol governance with zero parameter or threshold adaptation.",
+      "allowed_wording": "2024 is evaluated strictly post-freeze under POST_HOLDOUT protocol governance with zero parameter, hyperparameter, or threshold adaptation.",
+      "prohibited_wording": "untouched holdout, never-before-seen dataset, blind test, pristine holdout",
+      "status": "CORRECTED"
+    }
+  ],
+  "verdict": "RECONCILED_CONSISTENT"
+}

@@ -1,0 +1,1348 @@
+{
+  "benchmark_version": "phase_a_day3_lightgbm_diagnostics_v1",
+  "created_at_utc": "2026-09-20T19:10:07Z",
+  "diagnostic": "l1_ordinal",
+  "purpose": "LightGBM L1 ordinal V1.1",
+  "config": {
+    "model": "LightGBM LGBMRegressor",
+    "feature_set": "v1.1",
+    "feature_manifest": "artifacts\\manifests\\feature_manifest_arrival_v1_1.json",
+    "mode": "ordinal",
+    "objective": "regression_l1",
+    "metric": "mae",
+    "categorical_features": [],
+    "native_categorical": false,
+    "preprocessor": "build_v1_1_tree_preprocessor",
+    "params": {
+      "objective": "regression_l1",
+      "metric": "mae",
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "n_estimators": 500,
+      "min_data_in_leaf": 20,
+      "n_jobs": 1,
+      "verbosity": -1,
+      "force_col_wise": true,
+      "random_state": "per_seed"
+    },
+    "fit_params": {},
+    "forbidden_feature_families_used": {
+      "actual_operation": false,
+      "weather": false,
+      "flight_chain": false,
+      "dest": false
+    }
+  },
+  "protocol": {
+    "sample_train_per_year": 25000,
+    "sample_val": 25000,
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "folds": {
+      "fold_1": {
+        "train_years": [
+          2016,
+          2017,
+          2018
+        ],
+        "validation_year": 2019
+      },
+      "fold_2": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019
+        ],
+        "validation_year": 2020
+      },
+      "fold_3": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "validation_year": 2021
+      },
+      "fold_4": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021
+        ],
+        "validation_year": 2022
+      }
+    },
+    "allowed_row_level_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "blocked_row_level_years": [
+      2023,
+      2024
+    ],
+    "row_level_2023_accessed": false,
+    "row_level_2024_accessed": false
+  },
+  "input_hashes": {
+    "feature_manifest": {
+      "artifacts\\manifests\\feature_manifest_arrival_v1_1.json": "80b453ae3fcf755699fddb05d82fc942790f8c59bd3b4da294a56dc47fd77523"
+    },
+    "b2_per_fold_artifact": {
+      "artifacts\\manifests\\phase_a_benchmark_mae_per_fold.json": "5407dbea9d1978587e1239ed3e0b24b3897ae0a850bf24caa9f591ea968f6e2e"
+    },
+    "default_native_l1_artifact": {
+      "artifacts\\manifests\\phase_a_benchmark_lightgbm_v1_1_per_fold.json": "445f7ce5a2cbe98c3b3320446a7b075461c52910a9697805b7c9f4693273c9b2"
+    },
+    "default_lightgbm_runner": {
+      "scripts\\run_phase_a_benchmark_lightgbm.py": "7a0e49cce08de2288663a361dfc93ab6be2037a5388b3b913f0c983ac062abb2"
+    },
+    "hpo_result_reference": {
+      "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json": "eb82039e078ff99e7b4bce9960bf6365377f99723b8ab10204bb0a6760faf20e"
+    },
+    "hpo_protocol_reference": {
+      "configs\\week5_hpo_v1_1.yaml": "bcb6263f8a030fc149d72f409a912b17f1b4db20c638eb50a396c959726b973a"
+    }
+  },
+  "fold_summary": {
+    "fold_1": {
+      "validation_year": 2019,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "baseline": {
+        "mae": {
+          "mean": 18.188036,
+          "std": 0.22616147732096203
+        },
+        "rmse": {
+          "mean": 45.388949328606316,
+          "std": 1.3951074672609862
+        },
+        "r2": {
+          "mean": -0.032222493022211654,
+          "std": 0.0035312042566977013
+        },
+        "severe_mae": {
+          "mean": 152.46673443246704,
+          "std": 2.670749119029632
+        },
+        "shrinkage_ratio": {
+          "mean": -0.04406563375351412,
+          "std": 0.0019560599936627537
+        }
+      },
+      "model": {
+        "mae": {
+          "mean": 18.197468351991,
+          "std": 0.2502843451550171
+        },
+        "rmse": {
+          "mean": 45.142122678448445,
+          "std": 1.4066374866090756
+        },
+        "r2": {
+          "mean": -0.020995529329441265,
+          "std": 0.001527149311962114
+        },
+        "severe_mae": {
+          "mean": 151.3816715817763,
+          "std": 2.467752484998691
+        },
+        "shrinkage_ratio": {
+          "mean": -0.03672788517183335,
+          "std": 0.0017630963948293032
+        },
+        "skill_score_vs_carrier_hour": {
+          "mean": -0.050563733008670564,
+          "std": 0.28738457222566877
+        }
+      },
+      "per_seed": [
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 42,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 75000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 18.4326,
+            "rmse": 46.81602161653636,
+            "r2": -0.03211645078882053,
+            "severe_mae": 156.1477853492334,
+            "shrinkage_ratio": -0.04539000216699551,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 18.525238786330704,
+            "rmse": 46.557713415458004,
+            "r2": -0.020758431116843834,
+            "severe_mae": 154.76798477695993,
+            "shrinkage_ratio": -0.03615240894713098,
+            "pr_auc_severe": 0.06902868464033388,
+            "skill_score_vs_carrier_hour": -0.5025812220234904
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 43,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 75000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 18.36856,
+            "rmse": 45.65826234100461,
+            "r2": -0.03627193363290249,
+            "severe_mae": 154.6589765100671,
+            "shrinkage_ratio": -0.04491016267074761,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 18.362789970899478,
+            "rmse": 45.346780434381174,
+            "r2": -0.022181211193934125,
+            "severe_mae": 153.32977130342877,
+            "shrinkage_ratio": -0.03592975907548089,
+            "pr_auc_severe": 0.06709098460317424,
+            "skill_score_vs_carrier_hour": 0.031412528257634964
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 44,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 75000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 18.13568,
+            "rmse": 43.66799880919665,
+            "r2": -0.03401747251983189,
+            "severe_mae": 149.10143097643098,
+            "shrinkage_ratio": -0.04617751633060467,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 18.064278368066155,
+            "rmse": 43.4229590164837,
+            "r2": -0.02244540440833509,
+            "severe_mae": 148.22259439107202,
+            "shrinkage_ratio": -0.04001111624906125,
+            "pr_auc_severe": 0.07193314519950336,
+            "skill_score_vs_carrier_hour": 0.3937080491817513
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 45,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 75000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 17.7882,
+            "rmse": 43.87470205027038,
+            "r2": -0.03297624222825224,
+            "severe_mae": 150.0214861235452,
+            "shrinkage_ratio": -0.04315834687284068,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 17.79849420179913,
+            "rmse": 43.62841882536799,
+            "r2": -0.021411915662918224,
+            "severe_mae": 149.1021583853747,
+            "shrinkage_ratio": -0.03676589984165668,
+            "pr_auc_severe": 0.07024898694808003,
+            "skill_score_vs_carrier_hour": -0.05787095827081146
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 46,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 75000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 18.21514,
+            "rmse": 46.92776182602362,
+            "r2": -0.02573036594125111,
+            "severe_mae": 152.40399320305863,
+            "shrinkage_ratio": -0.04069214072638214,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 18.236540432859513,
+            "rmse": 46.75474170055136,
+            "r2": -0.01818068426517505,
+            "severe_mae": 151.48584905204604,
+            "shrinkage_ratio": -0.03478024174583693,
+            "pr_auc_severe": 0.07371043961273441,
+            "skill_score_vs_carrier_hour": -0.11748706218843719
+          }
+        }
+      ]
+    },
+    "fold_2": {
+      "validation_year": 2020,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "baseline": {
+        "mae": {
+          "mean": 13.655556,
+          "std": 0.2097580886259216
+        },
+        "rmse": {
+          "mean": 35.53027760719685,
+          "std": 1.9899002878351981
+        },
+        "r2": {
+          "mean": -0.01872355830539325,
+          "std": 0.002673711432118478
+        },
+        "severe_mae": {
+          "mean": 163.12794888942958,
+          "std": 6.066374868043092
+        },
+        "shrinkage_ratio": {
+          "mean": -0.053267472444720666,
+          "std": 0.0018046171438994266
+        }
+      },
+      "model": {
+        "mae": {
+          "mean": 13.676390062665186,
+          "std": 0.218284661601981
+        },
+        "rmse": {
+          "mean": 35.437386156229,
+          "std": 1.988026919725074
+        },
+        "r2": {
+          "mean": -0.013394081060839369,
+          "std": 0.0018718534640922106
+        },
+        "severe_mae": {
+          "mean": 162.79828078664676,
+          "std": 6.037582886682681
+        },
+        "shrinkage_ratio": {
+          "mean": -0.05115218675101796,
+          "std": 0.0019974836510475123
+        },
+        "skill_score_vs_carrier_hour": {
+          "mean": -0.1517552945669376,
+          "std": 0.14346656269350705
+        }
+      },
+      "per_seed": [
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 42,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 100000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 13.44704,
+            "rmse": 33.993463195149744,
+            "r2": -0.01689410741936115,
+            "severe_mae": 162.51270417422867,
+            "shrinkage_ratio": -0.054332980101259865,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 13.463418513602162,
+            "rmse": 33.91280529098184,
+            "r2": -0.012074166598907698,
+            "severe_mae": 162.15113595109085,
+            "shrinkage_ratio": -0.05198723547687589,
+            "pr_auc_severe": 0.022667785252977177,
+            "skill_score_vs_carrier_hour": -0.12180014041873743
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 43,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 100000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 13.52324,
+            "rmse": 34.517749636962144,
+            "r2": -0.018261891315979772,
+            "severe_mae": 157.42151675485007,
+            "shrinkage_ratio": -0.05490946910603697,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 13.555783590749368,
+            "rmse": 34.47836371890839,
+            "r2": -0.015939474637712614,
+            "severe_mae": 157.25699266330193,
+            "shrinkage_ratio": -0.053806964025105035,
+            "pr_auc_severe": 0.022288118498555137,
+            "skill_score_vs_carrier_hour": -0.24064936176069196
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 44,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 100000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 13.63426,
+            "rmse": 35.60189784267126,
+            "r2": -0.022230082914711735,
+            "severe_mae": 163.13008849557522,
+            "shrinkage_ratio": -0.05261084081408894,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 13.618998339338473,
+            "rmse": 35.44609713987065,
+            "r2": -0.013302711635486908,
+            "severe_mae": 162.8694073357431,
+            "shrinkage_ratio": -0.05097438434745924,
+            "pr_auc_severe": 0.023393536933548596,
+            "skill_score_vs_carrier_hour": 0.11193611286219873
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 45,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 100000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 13.621,
+            "rmse": 34.186812077173855,
+            "r2": -0.021210149329554673,
+            "severe_mae": 158.19159663865545,
+            "shrinkage_ratio": -0.05446886693105688,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 13.649821241662929,
+            "rmse": 34.08113202060977,
+            "r2": -0.014906271697134876,
+            "severe_mae": 157.71993247925937,
+            "shrinkage_ratio": -0.05132486192511168,
+            "pr_auc_severe": 0.025125078496958376,
+            "skill_score_vs_carrier_hour": -0.2115941682910849
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 46,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 100000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 14.05224,
+            "rmse": 39.35146528402723,
+            "r2": -0.015021560547358925,
+            "severe_mae": 174.3838383838384,
+            "shrinkage_ratio": -0.05001520527116067,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 14.093928627973005,
+            "rmse": 39.26853261077435,
+            "r2": -0.010747780734954748,
+            "severe_mae": 173.99393550383851,
+            "shrinkage_ratio": -0.047667487980537965,
+            "pr_auc_severe": 0.02411917732747777,
+            "skill_score_vs_carrier_hour": -0.2966689152263724
+          }
+        }
+      ]
+    },
+    "fold_3": {
+      "validation_year": 2021,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "baseline": {
+        "mae": {
+          "mean": 15.842984000000001,
+          "std": 0.12918513251918773
+        },
+        "rmse": {
+          "mean": 42.365585151166066,
+          "std": 1.5154995213780558
+        },
+        "r2": {
+          "mean": -0.02166803902922476,
+          "std": 0.0024858094589835854
+        },
+        "severe_mae": {
+          "mean": 158.4909777667778,
+          "std": 4.163925933354337
+        },
+        "shrinkage_ratio": {
+          "mean": -0.05682248094145572,
+          "std": 0.0018239430069845997
+        }
+      },
+      "model": {
+        "mae": {
+          "mean": 15.971188298267162,
+          "std": 0.16017392596832838
+        },
+        "rmse": {
+          "mean": 42.81412126502058,
+          "std": 1.5331174200287525
+        },
+        "r2": {
+          "mean": -0.04341223415507121,
+          "std": 0.0020267484348410617
+        },
+        "severe_mae": {
+          "mean": 161.03889779300863,
+          "std": 4.332921564964537
+        },
+        "shrinkage_ratio": {
+          "mean": -0.07379283853883033,
+          "std": 0.0009882872442972036
+        },
+        "skill_score_vs_carrier_hour": {
+          "mean": -0.8077039168149724,
+          "std": 0.20896979716348663
+        }
+      },
+      "per_seed": [
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 42,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 125000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 15.62422,
+            "rmse": 39.90580847445645,
+            "r2": -0.02310068604542659,
+            "severe_mae": 154.49477351916377,
+            "shrinkage_ratio": -0.0577374183955025,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 15.695522062730168,
+            "rmse": 40.34322778579375,
+            "r2": -0.04565262702065431,
+            "severe_mae": 156.96388062388843,
+            "shrinkage_ratio": -0.07464198361284616,
+            "pr_auc_severe": 0.04031581673081418,
+            "skill_score_vs_carrier_hour": -0.45635598276374534
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 43,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 125000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 15.92374,
+            "rmse": 41.49166771774786,
+            "r2": -0.025438036914500195,
+            "severe_mae": 154.02265193370167,
+            "shrinkage_ratio": -0.05998768079572933,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 16.06555758708428,
+            "rmse": 41.88502689925546,
+            "r2": -0.044973405330428706,
+            "severe_mae": 156.2448517121687,
+            "shrinkage_ratio": -0.075280914355011,
+            "pr_auc_severe": 0.040028649992716395,
+            "skill_score_vs_carrier_hour": -0.8906047642342818
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 44,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 125000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 15.76594,
+            "rmse": 44.275612135802255,
+            "r2": -0.018868478744999972,
+            "severe_mae": 165.54112808460636,
+            "shrinkage_ratio": -0.05507332125043064,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 15.887244897247156,
+            "rmse": 44.72863898285661,
+            "r2": -0.039825215978677386,
+            "severe_mae": 168.31530675309514,
+            "shrinkage_ratio": -0.07275449773733156,
+            "pr_auc_severe": 0.03648773599548228,
+            "skill_score_vs_carrier_hour": -0.7694111308755192
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 45,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 125000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 15.94888,
+            "rmse": 43.01479326929283,
+            "r2": -0.021863983067580417,
+            "severe_mae": 159.0385474860335,
+            "shrinkage_ratio": -0.05568823193479244,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 16.079743132910718,
+            "rmse": 43.47018063837476,
+            "r2": -0.043614974204746915,
+            "severe_mae": 161.65083067437038,
+            "shrinkage_ratio": -0.07302840929431269,
+            "pr_auc_severe": 0.03942363275512734,
+            "skill_score_vs_carrier_hour": -0.8205161297264452
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 46,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 125000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 15.95214,
+            "rmse": 43.14004415853095,
+            "r2": -0.019069010373616635,
+            "severe_mae": 159.35778781038374,
+            "shrinkage_ratio": -0.055625752330823695,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 16.12787381136348,
+            "rmse": 43.64353201882233,
+            "r2": -0.04299494824084871,
+            "severe_mae": 162.0196192015205,
+            "shrinkage_ratio": -0.07325838769465028,
+            "pr_auc_severe": 0.0389106856218238,
+            "skill_score_vs_carrier_hour": -1.1016315764748708
+          }
+        }
+      ]
+    },
+    "fold_4": {
+      "validation_year": 2022,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "baseline": {
+        "mae": {
+          "mean": 19.836584,
+          "std": 0.24778364349569168
+        },
+        "rmse": {
+          "mean": 52.98265514972817,
+          "std": 1.5894015493208196
+        },
+        "r2": {
+          "mean": -0.05102126031838181,
+          "std": 0.0009663434578872743
+        },
+        "severe_mae": {
+          "mean": 161.6984355680811,
+          "std": 4.631579351128684
+        },
+        "shrinkage_ratio": {
+          "mean": -0.05283882638282985,
+          "std": 0.0009938790654445344
+        }
+      },
+      "model": {
+        "mae": {
+          "mean": 19.82662294355043,
+          "std": 0.2299427385436954
+        },
+        "rmse": {
+          "mean": 53.19063997421595,
+          "std": 1.5435403126965295
+        },
+        "r2": {
+          "mean": -0.059351846234526384,
+          "std": 0.0021352661419472936
+        },
+        "severe_mae": {
+          "mean": 162.7208740441532,
+          "std": 4.460643162775909
+        },
+        "shrinkage_ratio": {
+          "mean": -0.05953414866930444,
+          "std": 0.0022035581869215117
+        },
+        "skill_score_vs_carrier_hour": {
+          "mean": 0.04909849870809779,
+          "std": 0.09507363884668724
+        }
+      },
+      "per_seed": [
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 42,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 150000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 19.6917,
+            "rmse": 52.51211450703542,
+            "r2": -0.05076726672249987,
+            "severe_mae": 162.97475508666165,
+            "shrinkage_ratio": -0.05231978201104543,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 19.70442097612018,
+            "rmse": 52.72085215868541,
+            "r2": -0.05913754948938821,
+            "severe_mae": 163.89894529999793,
+            "shrinkage_ratio": -0.05828723165266409,
+            "pr_auc_severe": 0.07447617023250719,
+            "skill_score_vs_carrier_hour": -0.0646007003975102
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 43,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 150000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 20.2,
+            "rmse": 54.3312414730236,
+            "r2": -0.05158249199575615,
+            "severe_mae": 162.8421625544267,
+            "shrinkage_ratio": -0.05212162415603901,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 20.16398175153067,
+            "rmse": 54.533381093702566,
+            "r2": -0.05942188264981474,
+            "severe_mae": 163.90531797204608,
+            "shrinkage_ratio": -0.05899066094092043,
+            "pr_auc_severe": 0.0757271389441332,
+            "skill_score_vs_carrier_hour": 0.17830816073924893
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 44,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 150000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 19.51092,
+            "rmse": 50.586085438586764,
+            "r2": -0.051836012125517916,
+            "severe_mae": 155.57923697725604,
+            "shrinkage_ratio": -0.054698418856344216,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 19.518770153560958,
+            "rmse": 50.84735397012933,
+            "r2": -0.06272917872065809,
+            "severe_mae": 156.8100053378435,
+            "shrinkage_ratio": -0.0630420093579466,
+            "pr_auc_severe": 0.07597588544518676,
+            "skill_score_vs_carrier_hour": -0.040234666335359215
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 45,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 150000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 19.74502,
+            "rmse": 52.38280185328005,
+            "r2": -0.04923626507009571,
+            "severe_mae": 158.06923076923076,
+            "shrinkage_ratio": -0.053028565293144425,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 19.737777687941037,
+            "rmse": 52.637978549007954,
+            "r2": -0.05948362745947233,
+            "severe_mae": 159.2290203933488,
+            "shrinkage_ratio": -0.06075487355683113,
+            "pr_auc_severe": 0.07305699193086639,
+            "skill_score_vs_carrier_hour": 0.03667918320144903
+          }
+        },
+        {
+          "config_name": "l1_ordinal",
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 46,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "train_rows": 150000,
+          "validation_rows": 25000,
+          "matrix": {
+            "mode": "ordinal",
+            "preprocessor": "build_v1_1_tree_preprocessor",
+            "categorical_features": [],
+            "native_categorical": false
+          },
+          "baseline": {
+            "mae": 20.03528,
+            "rmse": 55.10103247671499,
+            "r2": -0.05168426567803941,
+            "severe_mae": 169.0267924528302,
+            "shrinkage_ratio": -0.052025741597576156,
+            "skill_score_vs_carrier_hour": 0.0
+          },
+          "model": {
+            "mae": 20.008164148599306,
+            "rmse": 55.21363409955448,
+            "r2": -0.055986992853298556,
+            "severe_mae": 169.76108121752958,
+            "shrinkage_ratio": -0.05659596783815998,
+            "pr_auc_severe": 0.06863270333705589,
+            "skill_score_vs_carrier_hour": 0.13534051633266042
+          }
+        }
+      ]
+    }
+  },
+  "comparison_to_b2": {
+    "fold_1": {
+      "validation_year": 2019,
+      "reference": {
+        "skill_mean": 0.4739864757229717,
+        "mae_mean": 18.101858861444647
+      },
+      "diagnostic_model": {
+        "skill_mean": -0.050563733008670564,
+        "mae_mean": 18.197468351991
+      },
+      "delta_diagnostic_minus_reference": {
+        "skill_pp": -0.5245502087316423,
+        "mae": 0.0956094905463516
+      }
+    },
+    "fold_2": {
+      "validation_year": 2020,
+      "reference": {
+        "skill_mean": 1.2443612075586175,
+        "mae_mean": 13.485775577719277
+      },
+      "diagnostic_model": {
+        "skill_mean": -0.1517552945669376,
+        "mae_mean": 13.676390062665186
+      },
+      "delta_diagnostic_minus_reference": {
+        "skill_pp": -1.396116502125555,
+        "mae": 0.19061448494590927
+      }
+    },
+    "fold_3": {
+      "validation_year": 2021,
+      "reference": {
+        "skill_mean": 0.16983434964552568,
+        "mae_mean": 15.816083201504707
+      },
+      "diagnostic_model": {
+        "skill_mean": -0.8077039168149724,
+        "mae_mean": 15.971188298267162
+      },
+      "delta_diagnostic_minus_reference": {
+        "skill_pp": -0.9775382664604981,
+        "mae": 0.15510509676245476
+      }
+    },
+    "fold_4": {
+      "validation_year": 2022,
+      "reference": {
+        "skill_mean": -0.2519280802513224,
+        "mae_mean": 19.886445896088997
+      },
+      "diagnostic_model": {
+        "skill_mean": 0.04909849870809779,
+        "mae_mean": 19.82662294355043
+      },
+      "delta_diagnostic_minus_reference": {
+        "skill_pp": 0.3010265789594202,
+        "mae": -0.05982295253856762
+      }
+    }
+  },
+  "comparison_to_default_native_l1": {
+    "fold_1": {
+      "validation_year": 2019,
+      "reference": {
+        "skill_mean": -0.3168945248991717,
+        "mae_mean": 18.245469628152694
+      },
+      "diagnostic_model": {
+        "skill_mean": -0.050563733008670564,
+        "mae_mean": 18.197468351991
+      },
+      "delta_diagnostic_minus_reference": {
+        "skill_pp": 0.26633079189050113,
+        "mae": -0.04800127616169547
+      }
+    },
+    "fold_2": {
+      "validation_year": 2020,
+      "reference": {
+        "skill_mean": -1.3040157236585115,
+        "mae_mean": 13.833789554816358
+      },
+      "diagnostic_model": {
+        "skill_mean": -0.1517552945669376,
+        "mae_mean": 13.676390062665186
+      },
+      "delta_diagnostic_minus_reference": {
+        "skill_pp": 1.152260429091574,
+        "mae": -0.15739949215117122
+      }
+    },
+    "fold_3": {
+      "validation_year": 2021,
+      "reference": {
+        "skill_mean": -0.9959155380996254,
+        "mae_mean": 16.000821255652063
+      },
+      "diagnostic_model": {
+        "skill_mean": -0.8077039168149724,
+        "mae_mean": 15.971188298267162
+      },
+      "delta_diagnostic_minus_reference": {
+        "skill_pp": 0.18821162128465296,
+        "mae": -0.02963295738490146
+      }
+    },
+    "fold_4": {
+      "validation_year": 2022,
+      "reference": {
+        "skill_mean": -0.8291894569194769,
+        "mae_mean": 20.000512583338384
+      },
+      "diagnostic_model": {
+        "skill_mean": 0.04909849870809779,
+        "mae_mean": 19.82662294355043
+      },
+      "delta_diagnostic_minus_reference": {
+        "skill_pp": 0.8782879556275747,
+        "mae": -0.17388963978795502
+      }
+    }
+  },
+  "macro_4_fold_vs_b2": {
+    "diagnostic_skill_mean": -0.2402311114206207,
+    "reference_skill_mean": 0.4090634881689481,
+    "delta_skill_pp": -0.6492945995895688,
+    "diagnostic_mae_mean": 16.917917414118445,
+    "reference_mae_mean": 16.822540884189408,
+    "delta_mae": 0.09537652992903745
+  },
+  "macro_4_fold_vs_default_native_l1": {
+    "diagnostic_skill_mean": -0.2402311114206207,
+    "reference_skill_mean": -0.8615038108941964,
+    "delta_skill_pp": 0.6212726994735757,
+    "diagnostic_mae_mean": 16.917917414118445,
+    "reference_mae_mean": 17.020148255489875,
+    "delta_mae": -0.1022308413714299
+  },
+  "trend_2019_to_2022": [
+    {
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "diagnostic_skill_mean": -0.050563733008670564,
+      "b2_skill_mean": 0.4739864757229717,
+      "default_native_l1_skill_mean": -0.3168945248991717,
+      "diagnostic_mae_mean": 18.197468351991
+    },
+    {
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "diagnostic_skill_mean": -0.1517552945669376,
+      "b2_skill_mean": 1.2443612075586175,
+      "default_native_l1_skill_mean": -1.3040157236585115,
+      "diagnostic_mae_mean": 13.676390062665186
+    },
+    {
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "diagnostic_skill_mean": -0.8077039168149724,
+      "b2_skill_mean": 0.16983434964552568,
+      "default_native_l1_skill_mean": -0.9959155380996254,
+      "diagnostic_mae_mean": 15.971188298267162
+    },
+    {
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "diagnostic_skill_mean": 0.04909849870809779,
+      "b2_skill_mean": -0.2519280802513224,
+      "default_native_l1_skill_mean": -0.8291894569194769,
+      "diagnostic_mae_mean": 19.82662294355043
+    }
+  ],
+  "interpretation": {
+    "thresholds": {
+      "near_equal_abs_skill_pp": 0.1,
+      "clear_difference_abs_skill_pp": 0.3,
+      "comparison_basis": "both Fold 4 and macro must meet a threshold for a strong label"
+    },
+    "vs_default_native_l1": {
+      "fold4_delta_skill_pp": 0.8782879556275747,
+      "macro_delta_skill_pp": 0.6212726994735757,
+      "conclusion": "native_categorical_harmful"
+    },
+    "vs_b2": {
+      "fold4_delta_skill_pp": 0.3010265789594202,
+      "macro_delta_skill_pp": -0.6492945995895688,
+      "conclusion": "lightgbm_difference_from_b2_is_mixed_or_small"
+    },
+    "capacity_diagnostic": null
+  },
+  "execution_time_seconds": 266.66,
+  "runner_sha256": "7f44ee3f2107d574c305befb551d76d924296fa741b18d7e2a6f8f83e4192bb2"
+}

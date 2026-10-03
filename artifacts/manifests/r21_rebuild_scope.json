@@ -1,0 +1,139 @@
+{
+  "manifest_version": "r21_rebuild_scope_v3",
+  "task_id": "R21_TARGETED_DEVELOPMENT_REBUILD_V3",
+  "created_at_utc": "2026-10-02T10:45:00Z",
+  "dependencies": {
+    "R13_FORENSIC_R10_EXECUTION_AUDIT": "PASS",
+    "R14_DOWNSTREAM_SEMANTICS_AUDIT": "PASS",
+    "R15_DOWNSTREAM_EVALUATION_AUDIT": "PASS",
+    "R16_STATISTICAL_INFERENCE_AUDIT": "PASS",
+    "R17_DOWNSTREAM_SEMANTICS_DECISION": "PASS",
+    "R18_STATISTICAL_INFERENCE_REPAIR": "PASS",
+    "R19_PROBABILISTIC_AUDIT": "PASS",
+    "R20_PROVENANCE_AND_FREEZE_AUDIT": "PASS"
+  },
+  "temporal_scope": {
+    "development_period": "2016-2022",
+    "selection_and_downstream_development_period": "2023",
+    "holdout_period": "2024",
+    "holdout_status": "STRICTLY_SEALED_IN_R21",
+    "row_level_2024_access_permitted": false
+  },
+  "rebuild_triggers": {
+    "artifact_reuse_without_execution": "MUST_REBUILD",
+    "semantic_code_change": "MUST_REBUILD",
+    "metric_implementation_change": "MUST_REBUILD",
+    "statistical_implementation_change": "MUST_REBUILD",
+    "downstream_semantics_change": "MUST_REBUILD",
+    "model_selection_logic_change": "MUST_REBUILD",
+    "candidate_universe_change": "MUST_REBUILD",
+    "provenance_verified_and_hash_unchanged": "VALID_TO_REUSE"
+  },
+  "experiments": [
+    {
+      "experiment_id": "core_point_benchmark_folds_1_to_4",
+      "name": "Phase 2 Core Point Benchmark (2016-2022 Rolling Folds)",
+      "classification": "VALID_TO_REUSE",
+      "rationale": "OOF predictions for 5 core models across folds 1-4 were verified newly computed in R13 forensic audit; hashes verified in R20 freeze audit. Lineage is clean and uncorrupted.",
+      "input_paths": [
+        "artifacts/model_benchmark_v2/core_point/core_point_benchmark_v2/oof/"
+      ],
+      "target_artifact": "artifacts/manifests/core_point_benchmark_v2.json"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_folds_1_to_4",
+      "name": "Phase 3 Core Probabilistic Benchmark (P1-P5 Rolling Folds)",
+      "classification": "VALID_TO_REUSE",
+      "rationale": "OOF predictions for P1-P5 were verified computed in R13 and capability-separated in R19. No unsupported continuous metrics are evaluated for P5.",
+      "input_paths": [
+        "artifacts/probabilistic_benchmark/core_probabilistic_benchmark_v2/"
+      ],
+      "target_artifact": "artifacts/manifests/probabilistic_stage6_forecast_evaluation_v1.json"
+    },
+    {
+      "experiment_id": "paired_statistical_comparison_folds_1_to_4",
+      "name": "Phase 5 Paired Statistical Comparison Across All Model Pairs",
+      "classification": "VALID_TO_REUSE",
+      "rationale": "Repaired in R18 with Holm-Bonferroni step-down FWER control and day-cluster bootstrap on FL_DATE. All 48 comparison families verified; zero None in adjusted_p for valid hypothesis tests.",
+      "input_paths": [
+        "artifacts/r18_paired_statistics_v2.json",
+        "artifacts/r18_statistical_inference_audit.json"
+      ],
+      "target_artifact": "artifacts/paired_comparison/paired_comparison_summary.json"
+    },
+    {
+      "experiment_id": "academic_model_selection_2023",
+      "name": "Phase 7 Academic Model Selection on 2023 Development Set",
+      "classification": "MUST_REBUILD",
+      "rationale": "R10 forensic audit established that R10 reused stale selection artifacts. Furthermore, R19/R20 reconciled selection protocol to mandate 3 distinct operational roles (Role A Point, Role B Probabilistic Forecast, Role C Downstream Candidates) rather than claiming a single overall champion.",
+      "trigger": "artifact_reuse_and_selection_logic_change",
+      "target_artifact": "artifacts/manifests/academic_model_selection_v3.json"
+    },
+    {
+      "experiment_id": "downstream_operational_comparison_2023",
+      "name": "Phase 8 Downstream Gate Assignment Model Comparison on 2023 Scenarios",
+      "classification": "MUST_REBUILD",
+      "rationale": "R10 reused stale downstream artifacts. R14/R17 identified downstream semantics issues: scalar median/mean reduction without uncertainty distributions, conflated REMOTE vs UNASSIGNED vs CONTACT gates, and missing CP-SAT gap tracking. Must run locked SCALAR_FORECAST_IMPACT pipeline across 7 candidates x 4 scenarios x 3 solvers = 84 runs.",
+      "trigger": "downstream_semantics_and_candidate_universe_change",
+      "target_artifact": "artifacts/downstream_model_comparison_v3/"
+    },
+    {
+      "experiment_id": "monte_carlo_convergence_2023",
+      "name": "Phase 9 Fair Monte Carlo Model Comparison and Convergence on 2023",
+      "classification": "MUST_REBUILD",
+      "rationale": "R10 reused stale MC artifacts. Historical claims of 82.4% variance reduction and N=500 optimality were unsubstantiated or based on truncated N. Must evaluate exact N in (100, 250, 500, 1000, 2500) under Common Random Numbers (CRN), track O(1/sqrt(N)) SE, and record reduction as NOT_ESTABLISHED.",
+      "trigger": "mc_protocol_repair_and_unsubstantiated_claims",
+      "target_artifact": "artifacts/monte_carlo_model_comparison_v2/"
+    },
+    {
+      "experiment_id": "stability_evaluation_2016_2022",
+      "name": "Phase 6 Temporal Stability Evaluation (2016-2022 Rolling Folds)",
+      "classification": "VALID_TO_REUSE",
+      "rationale": "Derived directly from verified fold 1-4 OOF predictions. Bitwise hashes verified in R20 freeze manifest.",
+      "input_paths": [
+        "artifacts/probabilistic_benchmark/core_probabilistic_benchmark_v2/"
+      ],
+      "target_artifact": "artifacts/manifests/probabilistic_stage5_stability_v1.json"
+    },
+    {
+      "experiment_id": "holdout_evaluation_2024",
+      "name": "Phase 11 Locked 2024 Post-Holdout Evaluation",
+      "classification": "BLOCKED",
+      "rationale": "Strictly forbidden during development evidence rebuild. Sealed under temporal governance until R23.",
+      "trigger": "temporal_governance_holdout_protection",
+      "target_artifact": "artifacts/post_holdout_v3/"
+    },
+    {
+      "experiment_id": "legacy_unsupported_probabilistic_metrics",
+      "name": "P5 Quantile Regression Continuous Metrics (NLL, PIT, Sampling)",
+      "classification": "INVALIDATED",
+      "rationale": "P5 quantile regression does not construct a valid continuous density or random sampler. Evaluation of continuous NLL, PIT, or naive sampling is mathematically unsupported.",
+      "trigger": "capability_contract_violation",
+      "target_artifact": "artifacts/r19_probabilistic_capability_matrix.json"
+    },
+    {
+      "experiment_id": "historical_stage8_single_winner_claim",
+      "name": "Single Overall Champion Claim (Student-T + Copula)",
+      "classification": "INVALIDATED",
+      "rationale": "Decoupled in R19/R20. Forecast excellence and downstream utility are separate operational layers. Replaced with 3 distinct operational roles.",
+      "trigger": "overstated_claim_invalidation",
+      "target_artifact": "artifacts/r20_claim_reconciliation.json"
+    },
+    {
+      "experiment_id": "historical_real_world_gate_operation_claims",
+      "name": "Real-World Airfield Gate Improvement and Real Delay Reduction Claims",
+      "classification": "INVALIDATED",
+      "rationale": "BTS Form 41 data contains zero gate numbers. All gate assignments and conflicts are evaluated strictly within a synthetic turn simulation environment.",
+      "trigger": "real_world_claim_ban",
+      "target_artifact": "artifacts/r17_downstream_semantics_decision.json"
+    }
+  ],
+  "classification_counts": {
+    "VALID_TO_REUSE": 4,
+    "MUST_REBUILD": 3,
+    "INVALIDATED": 3,
+    "BLOCKED": 1,
+    "TOTAL_EXPERIMENT_AREAS": 11
+  },
+  "scope_decision": "PROCEED_WITH_TARGETED_REBUILD_OF_MUST_REBUILD_ONLY"
+}

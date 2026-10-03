@@ -1,0 +1,77 @@
+{
+  "manifest_version": "phase_h_holdout_fold_guard_correction_manifest_v1",
+  "step": "STEP_4_HOLDOUT_FOLD_GUARD_CORRECTION",
+  "status": "PASS",
+  "post_holdout_status": "POST_HOLDOUT_STABILIZED",
+  "protocol_reference": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md",
+  "audit_finding": {
+    "flaw_identified": "A naive universal shortcut 'max(train_year) <= 2021' conflated the outer training fold of the rolling cross-validation split (Fold 4 train years 2016-2021) with universal training rules. It falsely blocked the explicitly authorized final pre-holdout training on 2016-2022 (Stage 10 Full System Freeze), while conversely being too permissive for earlier folds (e.g. allowing 2019 or 2020 to leak into Fold 1 training).",
+    "solution_implemented": "Refactored guards to validate dataset ROLE + allowed year range + operation type, enforcing exact boundaries per fold, authorizing 2016-2022 for final pre-holdout training, rejecting 2024 across training/calibration/selection, and rejecting future years (> 2024)."
+  },
+  "exact_fold_rules": {
+    "fold_1": {
+      "role": "fold_1_train",
+      "train_years": [2016, 2017, 2018],
+      "max_train_year": 2018,
+      "validation_year": 2019,
+      "rule": "train <= 2018, val = 2019"
+    },
+    "fold_2": {
+      "role": "fold_2_train",
+      "train_years": [2016, 2017, 2018, 2019],
+      "max_train_year": 2019,
+      "validation_year": 2020,
+      "rule": "train <= 2019, val = 2020"
+    },
+    "fold_3": {
+      "role": "fold_3_train",
+      "train_years": [2016, 2017, 2018, 2019, 2020],
+      "max_train_year": 2020,
+      "validation_year": 2021,
+      "rule": "train <= 2020, val = 2021"
+    },
+    "fold_4": {
+      "role": "fold_4_train",
+      "train_years": [2016, 2017, 2018, 2019, 2020, 2021],
+      "max_train_year": 2021,
+      "validation_year": 2022,
+      "rule": "train <= 2021, val = 2022"
+    }
+  },
+  "final_pre_holdout_training_authorization": {
+    "role": "final_pre_holdout_train",
+    "status": "EXPLICITLY_AUTHORIZED",
+    "allowed_years": [2016, 2017, 2018, 2019, 2020, 2021, 2022],
+    "max_train_year": 2022,
+    "authority": [
+      "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md - Section 2.2 (2016-2022 rolling development)",
+      "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md - Section 21 (Stage 10 Full System Freeze before opening 2024)",
+      "artifacts/manifests/full_system_freeze_manifest_v1.json (item_03 fit_scope, item_06 training_years [2016..2022])",
+      "scripts/run_probabilistic_stage10_system_freeze.py (lines 94-100)"
+    ],
+    "forbidden_in_training": [2023, 2024]
+  },
+  "year_roles_and_permissions": {
+    "2016_2022": "ROLLING_DEVELOPMENT (training allowed per fold rules or final pre-holdout)",
+    "2023": "DEVELOPMENT_MODEL_SELECTION (selection/evaluation only, training/calibration/HPO strictly forbidden)",
+    "2024": "FINAL_HOLDOUT (previously opened, evaluation only, training/calibration/selection/tuning strictly forbidden)",
+    "2025_plus": "UNAUTHORIZED_FUTURE_YEARS (strictly fail-closed across all operations)"
+  },
+  "verification_suite": {
+    "test_file": "tests/test_holdout_and_fold_guards.py",
+    "tests_count": 10,
+    "status": "100% PASS",
+    "verified_cases": [
+      "each_canonical_fold_valid_under_role_guard",
+      "fold_leakage_beyond_fold_boundary_fails",
+      "final_pre_holdout_training_authorized_through_2022",
+      "unauthorized_future_year_fails",
+      "any_training_containing_2024_fails",
+      "2024_calibration_fails",
+      "2024_selection_fails",
+      "2023_training_and_calibration_fails_but_selection_passes",
+      "assert_dataset_role_and_years_raises_temporal_protocol_violation",
+      "protocol_compliance_guard_full_suite"
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "audit_name": "r26_solver_budget_reconciliation",
+  "task_id": "R26_SOLVER_EQUAL_COMPUTE_RE_CERTIFICATION",
+  "created_at_utc": "2026-10-02T12:06:43.076208+00:00",
+  "total_cases_evaluated": 28,
+  "total_runs_evaluated": 112,
+  "total_budget_seconds": 2.0,
+  "solver_budget_summary": {
+    "DeterministicGreedy": {
+      "total_runs": 28,
+      "budget_seconds": 2.0,
+      "mean_runtime_seconds": 0.0011,
+      "max_runtime_seconds": 0.0025,
+      "min_runtime_seconds": 0.0005,
+      "mean_objective": 7181.45,
+      "hard_feasibility_rate": 1.0,
+      "total_conflicts": 0,
+      "budget_overruns_count": 0
+    },
+    "CPSat": {
+      "total_runs": 28,
+      "budget_seconds": 2.0,
+      "mean_runtime_seconds": 0.4438,
+      "max_runtime_seconds": 1.0133,
+      "min_runtime_seconds": 0.0694,
+      "mean_objective": 7167.17,
+      "hard_feasibility_rate": 1.0,
+      "total_conflicts": 0,
+      "budget_overruns_count": 0
+    },
+    "SimulatedAnnealing": {
+      "total_runs": 28,
+      "budget_seconds": 2.0,
+      "mean_runtime_seconds": 2.0009,
+      "max_runtime_seconds": 2.0019,
+      "min_runtime_seconds": 2.0004,
+      "mean_objective": 7167.88,
+      "hard_feasibility_rate": 1.0,
+      "total_conflicts": 0,
+      "budget_overruns_count": 0
+    },
+    "HybridCPSatSA": {
+      "total_runs": 28,
+      "budget_seconds": 2.0,
+      "mean_runtime_seconds": 1.4531,
+      "max_runtime_seconds": 1.9619,
+      "min_runtime_seconds": 1.0666,
+      "mean_objective": 7167.17,
+      "hard_feasibility_rate": 1.0,
+      "total_conflicts": 0,
+      "budget_overruns_count": 0
+    }
+  },
+  "hybrid_budget_decomposition": {
+    "total_budget": 2.0,
+    "cp_sat_budget": 1.0,
+    "sa_budget": 1.0,
+    "sum_constraint_satisfied": true,
+    "mean_total_runtime_seconds": 1.4531,
+    "max_total_runtime_seconds": 1.9619,
+    "budget_overrun_status": "ZERO_OVERRUNS"
+  },
+  "sa_monotonicity_audit": {
+    "standalone_sa_runs": 28,
+    "hybrid_sa_runs": 28,
+    "total_sa_runs": 56,
+    "all_traces_monotonic": true,
+    "interpretation": "Monotonicity of best-so-far solution confirms that SA never degrades its initial solution; it does NOT imply that SA outperforms CP-SAT."
+  },
+  "equal_compute_compliance": {
+    "same_total_budget_contract": true,
+    "hybrid_budget_sum_equality": true,
+    "no_budget_overruns": true,
+    "same_cases_evaluated": true,
+    "same_constraints_enforced": true,
+    "same_objective_weights": true,
+    "same_seed_policy": true
+  },
+  "audit_verdict": "PASS"
+}

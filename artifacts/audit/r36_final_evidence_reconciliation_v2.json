@@ -1,0 +1,114 @@
+{
+  "audit_name": "r36_final_evidence_reconciliation_v2",
+  "task_id": "R36_FINAL_EVIDENCE_RECONCILIATION_V2",
+  "created_at_utc": "2026-10-03T09:57:35.242618+00:00",
+  "protocol": "AEOLUS_V4_R36_PRE_CERTIFICATION_INTEGRATION",
+  "pre_certification_gate_verification": {
+    "r33_status": "PASS",
+    "r33_summary": "P4 metric lineage discrepancy resolved: holdout CRPS=17.6532, NLL=4.6307; dev CRPS=18.484, NLL=4.5805. R32 numbers (17.15/4.032) resolved as narrative report typo.",
+    "r34_status": "PASS",
+    "r34_summary": "P5 9-quantile configuration locked as FINAL_CERTIFIED. 16.85 classified strictly as CRPS_QUANTILE_APPROXIMATION (pinball loss is 6.88). Continuous density/NLL/PIT marked NOT_AVAILABLE.",
+    "r35_status": "PASS",
+    "r35_summary": "Solver wall-clock equality PROVEN (T=2.0s ceiling); computational work equality NOT_PROVEN. CP-SAT proven OPTIMAL on all 28 audited cases. Hybrid zero marginal gain PROVEN (Delta=0 in 28/28 cases). Environment reconciled as Python 3.11.15.",
+    "gate_verdict": "PASS"
+  },
+  "p4_final_state": {
+    "authoritative_p4_holdout_crps": 17.6532,
+    "authoritative_p4_holdout_nll": 4.6307,
+    "authoritative_p4_dev_crps": 18.484,
+    "authoritative_p4_dev_nll": 4.5805,
+    "calibration_status": "NOT_SEPARATELY_CERTIFIED",
+    "density_type": "PARAMETRIC_CONTINUOUS_DENSITY",
+    "distribution": "Student-T",
+    "continuous_sampling": "SUPPORTED",
+    "r32_discrepancy_verdict": "RESOLVED_AS_REPORT_NARRATIVE_TYPO"
+  },
+  "p5_final_state": {
+    "configuration_status": "FINAL_CERTIFIED",
+    "quantile_count": 9,
+    "quantile_levels": [
+      0.025,
+      0.05,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      0.95,
+      0.975
+    ],
+    "legacy_5_quantile_status": "SUPERSEDED_LEGACY",
+    "metric_16_85_classification": "CRPS_QUANTILE_APPROXIMATION",
+    "pinball_loss_dev": 6.8781,
+    "pinball_loss_holdout": 6.8211,
+    "crps_quantile_approx_holdout": 16.7724,
+    "continuous_density": "NOT_AVAILABLE",
+    "continuous_nll": "NOT_SUPPORTED",
+    "continuous_pit": "NOT_SUPPORTED",
+    "continuous_sampling": "NOT_SUPPORTED"
+  },
+  "point_models_state": {
+    "dev_2023_status": "TIED_WITHIN_0.10_MIN_BAND",
+    "dev_2023_difference_min": 0.00045,
+    "holdout_2024_status": "NOT_TIED_DIFFERENCE_EXCEEDS_0.10_MIN",
+    "holdout_2024_difference_min": 0.405,
+    "single_overall_champion": "PROHIBITED"
+  },
+  "solver_state": {
+    "wall_clock_equality": "PROVEN",
+    "computational_work_equality": "NOT_PROVEN",
+    "r26_scope": "28_CASES_112_RUNS_2024_SEASONAL",
+    "r21_downstream_scope": "28_CASES_84_RUNS_2023_DEV",
+    "r26_certifies_r21": false,
+    "cp_sat_optimality": "PROVEN_ON_ALL_28_AUDITED_CASES",
+    "hybrid_marginal_gain": "ZERO_MARGINAL_GAIN_ON_AUDITED_CASES",
+    "prohibited_solver_claims": [
+      "equal computational work",
+      "equal CPU work",
+      "fair compute in all computational senses",
+      "SA never improves",
+      "Hybrid universally equivalent to CP-SAT"
+    ]
+  },
+  "execution_accounting": {
+    "fresh_execution_runs": 124,
+    "reused_frozen_evidence_units": 100,
+    "statistical_inference_families": 48,
+    "total_tracked_units": 224,
+    "unit_semantics": "124 fresh execution runs + 100 reused/frozen evidence units (including 48 statistical inference families) = 224 tracked units"
+  },
+  "hash_integrity": {
+    "critical_artifacts_verified": 31,
+    "total_critical_artifacts": 31,
+    "hash_match_rate": 1.0,
+    "boundary": "Byte-level integrity verification. Checksums confirm tamper-evidence and immutability; original scientific validity relies on verified execution traces."
+  },
+  "reproducibility_state": {
+    "level": "CONTAINED_SPECIFICATION_REPRODUCIBILITY",
+    "specification": "Python 3.11.15 on Windows 10 AMD64 with exact pinned virtual environment closure (.venv) and pre-registered deterministic seeds (202601, 202602, 202603)",
+    "prohibited_claims": [
+      "100% universal reproducibility",
+      "cross-platform bit identity",
+      "guaranteed replication across arbitrary environments"
+    ]
+  },
+  "domains_summary": {
+    "total_domains": 13,
+    "pass_count": 10,
+    "limited_count": 3,
+    "blocked_count": 0
+  },
+  "claims_summary": {
+    "total_claims": 13,
+    "corrected_count": 5,
+    "supported_with_limitation_count": 3,
+    "blocked_count": 1,
+    "not_supported_count": 3,
+    "historical_only_count": 1
+  },
+  "overclaim_scan": {
+    "banned_assertions_detected": 0,
+    "scan_verdict": "PASS"
+  },
+  "final_verdict": "PASS"
+}

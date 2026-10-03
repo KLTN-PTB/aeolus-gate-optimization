@@ -1,0 +1,141 @@
+{
+  "audit_name": "r36_final_claim_matrix_v2",
+  "task_id": "R36_FINAL_EVIDENCE_RECONCILIATION_V2",
+  "created_at_utc": "2026-10-03T09:57:35.209655+00:00",
+  "protocol": "AEOLUS_V4_R36_PRE_CERTIFICATION_INTEGRATION",
+  "total_claims": 13,
+  "zero_duplicate_claims": true,
+  "zero_unclassified_claims": true,
+  "claims": [
+    {
+      "claim_id": "CLAIM_01_TEMPORAL_POST_HOLDOUT",
+      "exact_wording": "2024 is evaluated strictly post-freeze under POST_HOLDOUT protocol governance with zero parameter, hyperparameter, or threshold adaptation.",
+      "status": "CORRECTED",
+      "evidence_path": "artifacts/post_holdout_v3/post_holdout_evaluation_manifest_v3.json",
+      "evidence_hash": "b9d7a7cf51b8f5691d7b37e6ce73ceb92113358247469f1cb750ff2a407c4f23",
+      "scope": "BTS ATL Inbound flights during calendar year 2024 evaluated strictly post-freeze.",
+      "limitations": "Initial exploratory scripts touched 2024 prior to system freeze; holdout cannot be claimed as pristine, untouched, or blind.",
+      "forbidden_interpretation": "untouched holdout, never-before-seen dataset, blind test, pristine holdout"
+    },
+    {
+      "claim_id": "CLAIM_02_POINT_CHAMPION_SELECTION",
+      "exact_wording": "Ridge regression and the 50/50 Weighted Ensemble tie within the pre-registered 0.10 min indifference band on the 2023 model selection slice (|diff| = 0.00045 min). On 2024 post-holdout, the difference is 0.405 min (> 0.10 min) and models are not tied; no single overall point champion is asserted across all datasets.",
+      "status": "SUPPORTED_WITH_LIMITATION",
+      "evidence_path": "artifacts/manifests/academic_model_selection_v3.json",
+      "evidence_hash": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+      "scope": "Point delay prediction evaluated on 2023 development selection and 2024 post-holdout.",
+      "limitations": "Tie is strictly confined to 2023 selection slice under pre-registered threshold; does not hold on holdout.",
+      "forbidden_interpretation": "Single overall point champion, Ridge unconditionally dominates all models, Ridge is statistically significantly superior to Weighted Ensemble, Both models tied overall across all years"
+    },
+    {
+      "claim_id": "CLAIM_03_PROBABILISTIC_P5_CRPS",
+      "exact_wording": "P5 Quantile Regression achieves champion CRPS quantile approximation (16.85 min dev, 16.77 min holdout) and mean pinball loss (6.88 min dev, 6.82 min holdout) using a 9-quantile estimator; continuous density, exact continuous NLL, continuous PIT calibration, and continuous sampling are NOT_AVAILABLE.",
+      "status": "CORRECTED",
+      "evidence_path": "artifacts/audit/r34_p5_capability_forensics.json",
+      "evidence_hash": "43ecd3340b3a927113725563ccddaa9fbd18fa0e01b2ff200fdea3a711be8227",
+      "scope": "Non-parametric conditional quantile forecasting evaluated across 9 pre-registered quantile levels [0.025, 0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95, 0.975].",
+      "limitations": "P5 does not estimate a continuous distribution or density; CRPS is a discrete trapezoidal pinball integral approximation; cannot compute continuous NLL, continuous PIT, or generate continuous random samples.",
+      "forbidden_interpretation": "P5 provides a full continuous predictive density, P5 continuous PIT calibration, P5 exact NLL, P5 exact continuous CRPS, P5 continuous sampling"
+    },
+    {
+      "claim_id": "CLAIM_04_PROBABILISTIC_P4_STUDENT_T",
+      "exact_wording": "P4 NGBoost Student-T provides parametric continuous density, exact continuous CRPS (18.484 min dev, 17.6532 min holdout), and exact continuous NLL (4.5805 dev, 4.6307 holdout), uniquely enabling continuous Monte Carlo sampling; empirical calibration is NOT_SEPARATELY_CERTIFIED.",
+      "status": "SUPPORTED_WITH_LIMITATION",
+      "evidence_path": "artifacts/audit/r33_p4_metric_lineage.json",
+      "evidence_hash": "b7c021bf0ff1e6a184a6bf883ccea85a4ad8f455ebf3092bf5fc1a15ac641780",
+      "scope": "Parametric 3-parameter (mu, sigma, df) Student-T density forecasting on core arrival delay.",
+      "limitations": "Continuous calibration is not independently certified; tail intervals may exhibit miscoverage.",
+      "forbidden_interpretation": "P4 is strictly dominated by P5 across all criteria, P4 is an empirically certified calibrated distribution, P4 uncalibrated tail claims without qualification"
+    },
+    {
+      "claim_id": "CLAIM_05_SINGLE_OVERALL_CHAMPION",
+      "exact_wording": "Model selection is decoupled into distinct operational roles based on verified mathematical capabilities (Point Prediction: Ridge/Ensemble tie; Probabilistic Forecasting: P5 Quantile; Downstream Simulation: P4 Student-T); single overall champion selection is blocked.",
+      "status": "BLOCKED",
+      "evidence_path": "artifacts/manifests/academic_model_selection_v3.json",
+      "evidence_hash": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+      "scope": "Multi-criteria model selection across point, probabilistic, and downstream simulation tasks.",
+      "limitations": "Mathematical capabilities across point accuracy, quantile sharpness, and continuous density are mutually non-interchangeable.",
+      "forbidden_interpretation": "Overall best model, Universal champion, Single winner of the benchmark"
+    },
+    {
+      "claim_id": "CLAIM_06_CRN_VARIANCE_REDUCTION",
+      "exact_wording": "Common Random Numbers (CRN) with synchronized pseudorandom streams are implemented and verified, but variance reduction on gate assignment objective is marked NOT_ESTABLISHED.",
+      "status": "NOT_SUPPORTED",
+      "evidence_path": "artifacts/monte_carlo_model_comparison_v2/crn_variance_reduction.json",
+      "evidence_hash": "93b5bb22b10cf1c0f4f9f705e4d2bfb26d85913e2f5ffea8f46e339b362fa7d1",
+      "scope": "Monte Carlo simulation of downstream gate assignment cost across 5 sample sizes.",
+      "limitations": "Empirical variance of paired differences failed to demonstrate consistent variance reduction over independent streams; historical 82.4% reduction claim was invalidated.",
+      "forbidden_interpretation": "CRN achieves 82.4% variance reduction, CRN variance reduction statistically proven"
+    },
+    {
+      "claim_id": "CLAIM_07_MC_N500_OPTIMALITY",
+      "exact_wording": "Monte Carlo sample size N=500 is an operational choice balancing runtime and variance, not a mathematically optimal sample size.",
+      "status": "NOT_SUPPORTED",
+      "evidence_path": "artifacts/monte_carlo_model_comparison_v2/convergence_estimates.json",
+      "evidence_hash": "4ce0445d47e4522a3d3c8c7d3dbdf0562e84ec9cbf9167da51cf943db62f6b3e",
+      "scope": "Convergence evaluation across sample counts N in {100, 250, 500, 1000, 2500}.",
+      "limitations": "Standard error continues to decrease monotonically as 1/sqrt(N); N=500 does not represent an inflection point or optimal sample size.",
+      "forbidden_interpretation": "N=500 is mathematically optimal, N=500 guarantees asymptotic convergence"
+    },
+    {
+      "claim_id": "CLAIM_08_REAL_WORLD_GATE_OPERATIONS",
+      "exact_wording": "Evaluated strictly in a simulated synthetic research environment on synthesized flight schedules, gates, and turnarounds; no claims of real airfield operations or actual delay reductions are made.",
+      "status": "CORRECTED",
+      "evidence_path": "artifacts/audit/r26_solver_equal_compute_results.parquet",
+      "evidence_hash": "e12e3794ce1c40212ff93e17cf6d3cf88bf0a01216ddb77dca71d2b8c56fa9e1",
+      "scope": "Mathematical formulation of gate assignment under synthetic turn synthesis and operational constraints.",
+      "limitations": "Synthetic flight turns and gate topologies do not reflect live airport operations, ramp control, or real airfield constraints.",
+      "forbidden_interpretation": "Real airfield deployment at ATL, Operational savings for Delta Air Lines, Actual delay reduction in live operations"
+    },
+    {
+      "claim_id": "CLAIM_09_ORACLE_EQUIVALENCE",
+      "exact_wording": "The Oracle model uses realized post-hoc delay and serves strictly as an acausal, non-deployable theoretical reference bound; predictive models do not achieve equivalence to the Oracle.",
+      "status": "CORRECTED",
+      "evidence_path": "artifacts/post_holdout_v3/downstream_operational_evaluations_v3.parquet",
+      "evidence_hash": "8fa3347b74f3889f0203f4f691b0f15c7e39a3f9d5015b671e5c0e7040410408",
+      "scope": "Downstream operational gate assignment benchmarks.",
+      "limitations": "Oracle uses acausal data unavailable at preflight decision cutoff (CRS_DEP_TIME - 2h); gap between ML models and Oracle is strictly non-zero.",
+      "forbidden_interpretation": "Equivalent to Oracle, Predictive equivalence to Oracle, Matches Oracle performance"
+    },
+    {
+      "claim_id": "CLAIM_10_DOWNSTREAM_SEMANTICS",
+      "exact_wording": "Downstream simulation honors strict SCALAR_FORECAST_IMPACT semantics where models pass point/median/mean scalar forecasts to gate allocation solvers; full uncertainty propagation is not performed.",
+      "status": "SUPPORTED_WITH_LIMITATION",
+      "evidence_path": "artifacts/audit/r26_solver_compute_contract.json",
+      "evidence_hash": "aeb9346fa04cfd6bcf4bfb8bce1ff03b5da3f787e9e8020fb41fbebf5472855f",
+      "scope": "Coupling between arrival prediction models and downstream gate assignment solvers.",
+      "limitations": "Gate assignment solver receives a scalar predicted arrival timestamp; does not directly ingest predictive distributions or variance.",
+      "forbidden_interpretation": "Full uncertainty-aware downstream optimization, End-to-end probabilistic dispatch"
+    },
+    {
+      "claim_id": "CLAIM_11_STATISTICAL_SIGNIFICANCE",
+      "exact_wording": "Statistical significance inference is valid across outer development cross-validation folds (2016-2022); single-slice evaluations on 2023 and 2024 are point estimates without cross-year hypothesis testing.",
+      "status": "CORRECTED",
+      "evidence_path": "artifacts/audit/r18_paired_statistics_v2.json",
+      "evidence_hash": "c8e1e779836371cb20f269a239b56f8f5339f40889c25608d0554c30c9213192",
+      "scope": "Model comparison statistical inference across temporal splits.",
+      "limitations": "N=1 single-year test slices do not support paired t-test or Wilcoxon p-values without cross-year replication.",
+      "forbidden_interpretation": "Statistically significant on holdout year, Universal statistical superiority"
+    },
+    {
+      "claim_id": "CLAIM_12_AUXILIARY_DEPARTURE_DELAY",
+      "exact_wording": "Auxiliary departure delay prediction is a quarantined exploratory benchmark that does not feed into core arrival prediction or gate assignment.",
+      "status": "NOT_SUPPORTED",
+      "evidence_path": "artifacts/manifests/academic_model_selection_v3.json",
+      "evidence_hash": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+      "scope": "Auxiliary task exploring departure delay modeling.",
+      "limitations": "Quarantined by architectural boundary; strictly zero interaction with arrival delay or gate allocation.",
+      "forbidden_interpretation": "Joint arrival-departure optimization, Departure delay feeds arrival gate solver"
+    },
+    {
+      "claim_id": "CLAIM_13_REPRODUCIBILITY_STANDARDS",
+      "exact_wording": "The research evidence package is Certified With Limitations under contained specification, cryptographic freeze manifests, deterministic seeds where applicable, and explicit failure accounting.",
+      "status": "HISTORICAL_ONLY",
+      "evidence_path": "artifacts/audit/r35_reproducibility_environment_audit.json",
+      "evidence_hash": "b74e3e50fdcbe6ca0d55fd0e9633a977990bc511120ac0604b355b209957255b",
+      "scope": "Reproducibility verification of the research codebase and artifacts.",
+      "limitations": "Reproducibility is verified strictly within the contained Python 3.11.15 Windows AMD64 environment; cross-platform bit identity is not guaranteed.",
+      "forbidden_interpretation": "100% reproducible, Meets top-tier ML/OR standards, Error-free research, Scientifically proven perfection, Universally bit-for-bit reproducible"
+    }
+  ]
+}

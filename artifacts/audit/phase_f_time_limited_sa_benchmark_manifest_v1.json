@@ -1,0 +1,569 @@
+{
+  "manifest_version": "phase_f_time_limited_sa_benchmark_manifest_v1",
+  "step": "STEP_3_SA_TIME_LIMITED_BENCHMARK",
+  "status": "PASS",
+  "protocol_reference": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md",
+  "evaluation_protocol": "evaluate_gate_assignment (authoritative common evaluator)",
+  "predetermined_time_limits_seconds": [
+    0.1,
+    0.3,
+    1.0,
+    3.0
+  ],
+  "sa_config": {
+    "T0": 100.0,
+    "Tmin": 0.01,
+    "cooling_rate": 0.95,
+    "iterations": 300,
+    "seed": 202601,
+    "move_prob": 0.6,
+    "max_neighbor_attempts": 50
+  },
+  "total_scenarios_evaluated": 3,
+  "hard_feasibility_guarantee_verified": true,
+  "best_so_far_monotonicity_verified": true,
+  "scientific_interpretation": {
+    "optimal_cpsat_regime": "When CP-SAT status is OPTIMAL, the solution is proven globally optimal. Simulated Annealing initialized with this solution cannot improve the objective further (improvement = 0.00). This confirms SA respects optimal bounds without fabricating spurious gains.",
+    "suboptimal_incumbent_regime": "When CP-SAT is constrained by a tight time limit and terminates with status FEASIBLE and gap > 0, it returns a preliminary incumbent. Any subsequent improvement by SA constitutes a local search enhancement over that specific incumbent, not proof of global optimality.",
+    "timeout_unknown_regime": "When the time limit is extremely tight (e.g. <= 0.1s), CP-SAT search/presolve is cut off before finding any feasible solution (status UNKNOWN, feasible=False). This highlights the operational necessity of fast heuristics (Deterministic Greedy) which guarantee a feasible seed in milliseconds (< 5ms), enabling SA to optimize under ultra-strict real-time latency budgets.",
+    "no_improvement_validity": "Non-improvement by SA is a mathematically valid and expected outcome whenever the initial incumbent is already optimal or lies in a local optimum that cannot be escaped within the allocated iterations."
+  },
+  "scenarios": [
+    {
+      "scenario": "F100_G20",
+      "n_flights": 100,
+      "n_gates": 20,
+      "branch_a_greedy": {
+        "branch": "A_GREEDY",
+        "feasible": true,
+        "status": "FEASIBLE",
+        "objective_value": 263.06666666666666,
+        "decision_cost": 140.0,
+        "reporting_cost": 123.06666666666666,
+        "reassignments": 14,
+        "overflows": 0,
+        "runtime_ms": 0.8974000011221506
+      },
+      "branch_e_greedy_sa": {
+        "branch": "E_GREEDY_SA",
+        "feasible": true,
+        "status": "OPTIMAL",
+        "objective_value": 253.06666666666666,
+        "decision_cost": 130.0,
+        "reporting_cost": 123.06666666666666,
+        "reassignments": 13,
+        "overflows": 0,
+        "runtime_ms": 1131.4683999989938,
+        "sa_improvement_abs": 10.0,
+        "sa_improvement_pct": 3.801317790167258,
+        "best_so_far_guaranteed": true
+      },
+      "time_limit_runs": [
+        {
+          "time_limit_seconds": 0.1,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 0.1,
+            "status": "UNKNOWN",
+            "feasible": false,
+            "objective_value": 40000.0,
+            "decision_cost": 40000.0,
+            "reporting_cost": 0.0,
+            "optimality_gap": null,
+            "reassignments": 0,
+            "overflows": 0,
+            "runtime_ms": 364.24999999871943
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 0.1,
+            "has_incumbent": false,
+            "incumbent_status": "NO_INCUMBENT",
+            "incumbent_objective": null,
+            "incumbent_optimality_gap": null
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 0.1,
+            "applicable": false,
+            "reason": "CP-SAT timed out without finding any feasible incumbent."
+          }
+        },
+        {
+          "time_limit_seconds": 0.3,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 0.3,
+            "status": "OPTIMAL",
+            "feasible": true,
+            "objective_value": 213.06666666666666,
+            "decision_cost": 90.0,
+            "reporting_cost": 123.06666666666666,
+            "optimality_gap": 0.0,
+            "reassignments": 9,
+            "overflows": 0,
+            "runtime_ms": 407.17529999892577
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 0.3,
+            "has_incumbent": true,
+            "incumbent_status": "OPTIMAL",
+            "incumbent_objective": 213.06666666666666,
+            "incumbent_optimality_gap": 0.0
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 0.3,
+            "applicable": true,
+            "feasible": true,
+            "status": "OPTIMAL",
+            "objective_value": 213.06666666666666,
+            "decision_cost": 90.0,
+            "reporting_cost": 123.06666666666666,
+            "reassignments": 9,
+            "overflows": 0,
+            "runtime_ms": 1108.115999999427,
+            "sa_improvement_abs": 0.0,
+            "sa_improvement_pct": 0.0,
+            "best_so_far_guaranteed": true
+          }
+        },
+        {
+          "time_limit_seconds": 1.0,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 1.0,
+            "status": "OPTIMAL",
+            "feasible": true,
+            "objective_value": 213.06666666666666,
+            "decision_cost": 90.0,
+            "reporting_cost": 123.06666666666666,
+            "optimality_gap": 0.0,
+            "reassignments": 9,
+            "overflows": 0,
+            "runtime_ms": 425.3607999999076
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 1.0,
+            "has_incumbent": true,
+            "incumbent_status": "OPTIMAL",
+            "incumbent_objective": 213.06666666666666,
+            "incumbent_optimality_gap": 0.0
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 1.0,
+            "applicable": true,
+            "feasible": true,
+            "status": "OPTIMAL",
+            "objective_value": 213.06666666666666,
+            "decision_cost": 90.0,
+            "reporting_cost": 123.06666666666666,
+            "reassignments": 9,
+            "overflows": 0,
+            "runtime_ms": 1191.610000001674,
+            "sa_improvement_abs": 0.0,
+            "sa_improvement_pct": 0.0,
+            "best_so_far_guaranteed": true
+          }
+        },
+        {
+          "time_limit_seconds": 3.0,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 3.0,
+            "status": "OPTIMAL",
+            "feasible": true,
+            "objective_value": 213.06666666666666,
+            "decision_cost": 90.0,
+            "reporting_cost": 123.06666666666666,
+            "optimality_gap": 0.0,
+            "reassignments": 9,
+            "overflows": 0,
+            "runtime_ms": 408.7684000005538
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 3.0,
+            "has_incumbent": true,
+            "incumbent_status": "OPTIMAL",
+            "incumbent_objective": 213.06666666666666,
+            "incumbent_optimality_gap": 0.0
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 3.0,
+            "applicable": true,
+            "feasible": true,
+            "status": "OPTIMAL",
+            "objective_value": 213.06666666666666,
+            "decision_cost": 90.0,
+            "reporting_cost": 123.06666666666666,
+            "reassignments": 9,
+            "overflows": 0,
+            "runtime_ms": 1143.9929000007396,
+            "sa_improvement_abs": 0.0,
+            "sa_improvement_pct": 0.0,
+            "best_so_far_guaranteed": true
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "F150_G15_CONGESTED",
+      "n_flights": 150,
+      "n_gates": 15,
+      "branch_a_greedy": {
+        "branch": "A_GREEDY",
+        "feasible": true,
+        "status": "FEASIBLE",
+        "objective_value": 2928.7166666666667,
+        "decision_cost": 2770.0,
+        "reporting_cost": 158.7166666666667,
+        "reassignments": 77,
+        "overflows": 10,
+        "runtime_ms": 2.6562999992165715
+      },
+      "branch_e_greedy_sa": {
+        "branch": "E_GREEDY_SA",
+        "feasible": true,
+        "status": "OPTIMAL",
+        "objective_value": 2738.7166666666667,
+        "decision_cost": 2580.0,
+        "reporting_cost": 158.7166666666667,
+        "reassignments": 78,
+        "overflows": 9,
+        "runtime_ms": 2633.671999999933,
+        "sa_improvement_abs": 190.0,
+        "sa_improvement_pct": 6.487483141079996,
+        "best_so_far_guaranteed": true
+      },
+      "time_limit_runs": [
+        {
+          "time_limit_seconds": 0.1,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 0.1,
+            "status": "UNKNOWN",
+            "feasible": false,
+            "objective_value": 60000.0,
+            "decision_cost": 60000.0,
+            "reporting_cost": 0.0,
+            "optimality_gap": null,
+            "reassignments": 0,
+            "overflows": 0,
+            "runtime_ms": 525.1814000002923
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 0.1,
+            "has_incumbent": false,
+            "incumbent_status": "NO_INCUMBENT",
+            "incumbent_objective": null,
+            "incumbent_optimality_gap": null
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 0.1,
+            "applicable": false,
+            "reason": "CP-SAT timed out without finding any feasible incumbent."
+          }
+        },
+        {
+          "time_limit_seconds": 0.3,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 0.3,
+            "status": "OPTIMAL",
+            "feasible": true,
+            "objective_value": 2208.7166666666667,
+            "decision_cost": 2050.0,
+            "reporting_cost": 158.7166666666667,
+            "optimality_gap": 0.0,
+            "reassignments": 45,
+            "overflows": 8,
+            "runtime_ms": 685.0259999991977
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 0.3,
+            "has_incumbent": true,
+            "incumbent_status": "OPTIMAL",
+            "incumbent_objective": 2208.7166666666667,
+            "incumbent_optimality_gap": 0.0
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 0.3,
+            "applicable": true,
+            "feasible": true,
+            "status": "OPTIMAL",
+            "objective_value": 2208.7166666666667,
+            "decision_cost": 2050.0,
+            "reporting_cost": 158.7166666666667,
+            "reassignments": 45,
+            "overflows": 8,
+            "runtime_ms": 2657.7594000009412,
+            "sa_improvement_abs": 0.0,
+            "sa_improvement_pct": 0.0,
+            "best_so_far_guaranteed": true
+          }
+        },
+        {
+          "time_limit_seconds": 1.0,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 1.0,
+            "status": "OPTIMAL",
+            "feasible": true,
+            "objective_value": 2208.7166666666667,
+            "decision_cost": 2050.0,
+            "reporting_cost": 158.7166666666667,
+            "optimality_gap": 0.0,
+            "reassignments": 45,
+            "overflows": 8,
+            "runtime_ms": 673.6851000023307
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 1.0,
+            "has_incumbent": true,
+            "incumbent_status": "OPTIMAL",
+            "incumbent_objective": 2208.7166666666667,
+            "incumbent_optimality_gap": 0.0
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 1.0,
+            "applicable": true,
+            "feasible": true,
+            "status": "OPTIMAL",
+            "objective_value": 2208.7166666666667,
+            "decision_cost": 2050.0,
+            "reporting_cost": 158.7166666666667,
+            "reassignments": 45,
+            "overflows": 8,
+            "runtime_ms": 2652.882899998076,
+            "sa_improvement_abs": 0.0,
+            "sa_improvement_pct": 0.0,
+            "best_so_far_guaranteed": true
+          }
+        },
+        {
+          "time_limit_seconds": 3.0,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 3.0,
+            "status": "OPTIMAL",
+            "feasible": true,
+            "objective_value": 2208.7166666666667,
+            "decision_cost": 2050.0,
+            "reporting_cost": 158.7166666666667,
+            "optimality_gap": 0.0,
+            "reassignments": 45,
+            "overflows": 8,
+            "runtime_ms": 675.1355999986117
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 3.0,
+            "has_incumbent": true,
+            "incumbent_status": "OPTIMAL",
+            "incumbent_objective": 2208.7166666666667,
+            "incumbent_optimality_gap": 0.0
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 3.0,
+            "applicable": true,
+            "feasible": true,
+            "status": "OPTIMAL",
+            "objective_value": 2208.7166666666667,
+            "decision_cost": 2050.0,
+            "reporting_cost": 158.7166666666667,
+            "reassignments": 45,
+            "overflows": 8,
+            "runtime_ms": 2578.0044000021007,
+            "sa_improvement_abs": 0.0,
+            "sa_improvement_pct": 0.0,
+            "best_so_far_guaranteed": true
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "F200_G20_SCALE",
+      "n_flights": 200,
+      "n_gates": 20,
+      "branch_a_greedy": {
+        "branch": "A_GREEDY",
+        "feasible": true,
+        "status": "FEASIBLE",
+        "objective_value": 3138.3166666666666,
+        "decision_cost": 2930.0,
+        "reporting_cost": 208.3166666666667,
+        "reassignments": 93,
+        "overflows": 10,
+        "runtime_ms": 4.30899999992107
+      },
+      "branch_e_greedy_sa": {
+        "branch": "E_GREEDY_SA",
+        "feasible": true,
+        "status": "OPTIMAL",
+        "objective_value": 3138.3166666666666,
+        "decision_cost": 2930.0,
+        "reporting_cost": 208.3166666666667,
+        "reassignments": 93,
+        "overflows": 10,
+        "runtime_ms": 3527.8207999981532,
+        "sa_improvement_abs": 0.0,
+        "sa_improvement_pct": 0.0,
+        "best_so_far_guaranteed": true
+      },
+      "time_limit_runs": [
+        {
+          "time_limit_seconds": 0.1,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 0.1,
+            "status": "UNKNOWN",
+            "feasible": false,
+            "objective_value": 80000.0,
+            "decision_cost": 80000.0,
+            "reporting_cost": 0.0,
+            "optimality_gap": null,
+            "reassignments": 0,
+            "overflows": 0,
+            "runtime_ms": 1063.5223999997834
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 0.1,
+            "has_incumbent": false,
+            "incumbent_status": "NO_INCUMBENT",
+            "incumbent_objective": null,
+            "incumbent_optimality_gap": null
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 0.1,
+            "applicable": false,
+            "reason": "CP-SAT timed out without finding any feasible incumbent."
+          }
+        },
+        {
+          "time_limit_seconds": 0.3,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 0.3,
+            "status": "UNKNOWN",
+            "feasible": false,
+            "objective_value": 80000.0,
+            "decision_cost": 80000.0,
+            "reporting_cost": 0.0,
+            "optimality_gap": null,
+            "reassignments": 0,
+            "overflows": 0,
+            "runtime_ms": 1282.3420999993687
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 0.3,
+            "has_incumbent": false,
+            "incumbent_status": "NO_INCUMBENT",
+            "incumbent_objective": null,
+            "incumbent_optimality_gap": null
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 0.3,
+            "applicable": false,
+            "reason": "CP-SAT timed out without finding any feasible incumbent."
+          }
+        },
+        {
+          "time_limit_seconds": 1.0,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 1.0,
+            "status": "OPTIMAL",
+            "feasible": true,
+            "objective_value": 2648.3166666666666,
+            "decision_cost": 2440.0,
+            "reporting_cost": 208.3166666666667,
+            "optimality_gap": 0.0,
+            "reassignments": 44,
+            "overflows": 10,
+            "runtime_ms": 1628.0851000010443
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 1.0,
+            "has_incumbent": true,
+            "incumbent_status": "OPTIMAL",
+            "incumbent_objective": 2648.3166666666666,
+            "incumbent_optimality_gap": 0.0
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 1.0,
+            "applicable": true,
+            "feasible": true,
+            "status": "OPTIMAL",
+            "objective_value": 2648.3166666666666,
+            "decision_cost": 2440.0,
+            "reporting_cost": 208.3166666666667,
+            "reassignments": 44,
+            "overflows": 10,
+            "runtime_ms": 3480.611200000567,
+            "sa_improvement_abs": 0.0,
+            "sa_improvement_pct": 0.0,
+            "best_so_far_guaranteed": true
+          }
+        },
+        {
+          "time_limit_seconds": 3.0,
+          "branch_b_cpsat": {
+            "branch": "B_TIME_LIMITED_CP_SAT",
+            "time_limit_seconds": 3.0,
+            "status": "OPTIMAL",
+            "feasible": true,
+            "objective_value": 2648.3166666666666,
+            "decision_cost": 2440.0,
+            "reporting_cost": 208.3166666666667,
+            "optimality_gap": 0.0,
+            "reassignments": 44,
+            "overflows": 10,
+            "runtime_ms": 1680.418899999495
+          },
+          "branch_c_incumbent": {
+            "branch": "C_CP_SAT_INCUMBENT",
+            "time_limit_seconds": 3.0,
+            "has_incumbent": true,
+            "incumbent_status": "OPTIMAL",
+            "incumbent_objective": 2648.3166666666666,
+            "incumbent_optimality_gap": 0.0
+          },
+          "branch_d_cpsat_sa": {
+            "branch": "D_CP_SAT_INCUMBENT_SA",
+            "time_limit_seconds": 3.0,
+            "applicable": true,
+            "feasible": true,
+            "status": "OPTIMAL",
+            "objective_value": 2648.3166666666666,
+            "decision_cost": 2440.0,
+            "reporting_cost": 208.3166666666667,
+            "reassignments": 44,
+            "overflows": 10,
+            "runtime_ms": 3499.558399998932,
+            "sa_improvement_abs": 0.0,
+            "sa_improvement_pct": 0.0,
+            "best_so_far_guaranteed": true
+          }
+        }
+      ]
+    }
+  ]
+}

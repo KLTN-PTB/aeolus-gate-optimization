@@ -1,0 +1,171 @@
+{
+  "protocol_name": "statistical_comparison_protocol_v2",
+  "version": "2.0.0",
+  "created_at_utc": "2026-10-02T00:00:00Z",
+  "status": "APPROVED",
+  "objective": "Enforce rigorous distinction between pointwise observation error comparison and nonlinear aggregate metric comparison across model benchmarks.",
+  "units_of_inference": {
+    "forecast_pointwise": {
+      "unit": "flight",
+      "description": "Individual flight operational prediction. Paired difference d_i = |e_A_i| - |e_B_i| is algebraically well-defined at the observation level.",
+      "applicable_metrics": [
+        "mae",
+        "crps_pinball",
+        "log_score",
+        "brier_pointwise",
+        "interval_width"
+      ],
+      "valid_tests": ["paired_t_test", "wilcoxon_signed_rank", "paired_bootstrap_test"]
+    },
+    "aggregate_forecast": {
+      "unit": "fold_population",
+      "description": "Entire evaluation population / fold. Nonlinear aggregate metrics (RMSE, R^2, PR-AUC, coverage error) are ratios/integrals that CANNOT be decomposed into additive observation-level deltas. Requires paired aggregate bootstrap.",
+      "applicable_metrics": [
+        "rmse",
+        "r2",
+        "pr_auc",
+        "coverage_error"
+      ],
+      "valid_tests": ["paired_bootstrap_test"]
+    },
+    "downstream": {
+      "unit": "scenario_x_seed",
+      "description": "Downstream optimization evaluation under matched synthetic arrival scenarios, gates, and objective seeds."
+    },
+    "monte_carlo": {
+      "unit": "outer_replication",
+      "description": "Monte Carlo outer simulation replication. Individual draws within scenario are NOT independent experiments."
+    }
+  },
+  "metrics_specification": {
+    "mae": {
+      "metric_name": "delta_mae",
+      "type": "pointwise",
+      "higher_is_better": false,
+      "effect_size": "mean_delta",
+      "unit_of_inference": "flight",
+      "difference_formula": "d_i = |y_i - y_hat_A_i| - |y_i - y_hat_B_i|",
+      "test_method": "paired_t_test",
+      "bootstrap_method": "iid_percentile"
+    },
+    "rmse": {
+      "metric_name": "delta_rmse",
+      "type": "aggregate",
+      "higher_is_better": false,
+      "effect_size": "delta_rmse",
+      "unit_of_inference": "fold_population",
+      "difference_formula": "Delta_RMSE = sqrt(mean(e_A^2)) - sqrt(mean(e_B^2))",
+      "semantic_restriction": "Strictly prohibits rowwise subtraction (which yields Delta_MSE, not Delta_RMSE). Requires paired aggregate bootstrap.",
+      "test_method": "paired_bootstrap_test",
+      "bootstrap_method": "iid_percentile"
+    },
+    "r2": {
+      "metric_name": "delta_r2",
+      "type": "aggregate",
+      "higher_is_better": true,
+      "effect_size": "delta_r2",
+      "unit_of_inference": "fold_population",
+      "difference_formula": "Delta_R2 = R2(Model A) - R2(Model B)",
+      "semantic_restriction": "Strictly prohibits rowwise pseudo-observation formulas (1 - se_i * n / SS_tot). Requires paired aggregate bootstrap.",
+      "test_method": "paired_bootstrap_test",
+      "bootstrap_method": "iid_percentile"
+    },
+    "pr_auc": {
+      "metric_name": "delta_pr_auc",
+      "type": "aggregate",
+      "higher_is_better": true,
+      "effect_size": "delta_pr_auc",
+      "unit_of_inference": "fold_population",
+      "difference_formula": "Delta_PR_AUC = average_precision(y, p_A) - average_precision(y, p_B)",
+      "semantic_restriction": "Rank-based non-linear curve integration. Fails closed to NOT_AVAILABLE if single class.",
+      "test_method": "paired_bootstrap_test",
+      "bootstrap_method": "iid_percentile"
+    },
+    "brier": {
+      "metric_name": "delta_brier",
+      "type": "pointwise",
+      "higher_is_better": false,
+      "effect_size": "mean_delta",
+      "unit_of_inference": "flight",
+      "difference_formula": "d_i = (p_A_i - y_i)^2 - (p_B_i - y_i)^2",
+      "test_method": "paired_t_test",
+      "bootstrap_method": "iid_percentile"
+    },
+    "crps": {
+      "metric_name": "delta_crps",
+      "type": "pointwise",
+      "higher_is_better": false,
+      "effect_size": "mean_delta",
+      "unit_of_inference": "flight",
+      "difference_formula": "d_i = crps_pinball_trapezoid(y_i, q_A_i) - crps_pinball_trapezoid(y_i, q_B_i)",
+      "test_method": "paired_t_test",
+      "bootstrap_method": "iid_percentile"
+    }
+  },
+  "dependence_handling": {
+    "rationale": "Flight delays exhibit temporal clustering, shared airspace congestion waves, and airport-wide weather shocks. Resampling schemes must be pre-registered without cherry-picking block lengths post-hoc.",
+    "supported_schemes": {
+      "iid_percentile": {
+        "description": "Standard uniform resampling with replacement across individual flights.",
+        "block_length": null,
+        "use_case": "Baseline cross-sectional evaluation."
+      },
+      "day_cluster_percentile": {
+        "description": "Cluster bootstrap resampling unique operational dates with replacement, retaining all flights within resampled days.",
+        "block_length": 1,
+        "why_this_unit": "Accounts for intra-day temporal correlation, shared ATC congestion waves, and airport-wide weather shocks across flights."
+      },
+      "fixed_block_percentile": {
+        "description": "Resamples contiguous blocks of fixed integer length L with replacement.",
+        "block_length": "sqrt(n) or pre-registered L",
+        "why_this_unit": "Preserves contiguous temporal sequence dependence."
+      },
+      "stationary_block_percentile": {
+        "description": "Politis & Romano (1994) stationary bootstrap with geometrically distributed block lengths having mean L and circular index wrap-around.",
+        "block_length": "mean length L",
+        "why_this_unit": "Guarantees stationary bootstrap distribution while capturing serial autocorrelation."
+      }
+    }
+  },
+  "multiplicity_correction": {
+    "default_method": "holm",
+    "rationale": "Holm-Bonferroni step-down procedure controls Family-Wise Error Rate (FWER) under arbitrary dependence without over-conservatism of single-step Bonferroni.",
+    "family_definitions": {
+      "point_regression": "10 pairs per fold (5 core models: Linear, RF, HGB, XGB, Ensemble)",
+      "point_classification": "10 pairs per fold",
+      "probabilistic": "10 pairs per fold (5 probabilistic candidates: P1 - P5)"
+    },
+    "supported_methods": [
+      "holm",
+      "bonferroni",
+      "benjamini_hochberg"
+    ]
+  },
+  "canonical_output_schema": [
+    "model_a",
+    "model_b",
+    "metric",
+    "unit_of_inference",
+    "n_units",
+    "effect_size",
+    "ci_low",
+    "ci_high",
+    "raw_p",
+    "adjusted_p",
+    "test_method",
+    "bootstrap_method",
+    "block_length",
+    "bootstrap_replicates",
+    "seed"
+  ],
+  "validation_invariants": {
+    "exact_pairing_enforced": true,
+    "fail_closed_on_missing_rows": true,
+    "fail_closed_on_duplicate_keys": true,
+    "fail_closed_on_target_mismatch": true,
+    "fail_closed_on_metadata_mismatch": true,
+    "prohibit_silent_inner_join": true,
+    "prohibit_fabricated_p_values": true,
+    "finite_bootstrap_p_value_floor": "2 / (B + 1)"
+  }
+}

@@ -1,0 +1,26 @@
+================================================================================
+REGRESSION TEST BASELINE
+Executed: 2026-10-02T01:21:40+07:00
+================================================================================
+
+Command:
+  .venv\Scripts\python.exe -m pytest tests/ -k "not integration and not slow"
+
+Results Summary:
+  Exit Code:   0
+  Total Tests: 860
+  Passed:      858
+  Deselected:  2
+  Failed:      0
+  Skipped:     0
+  Errors:      0
+  Warnings:    1 (tests/test_phase3_pipeline.py - Prediction collapse warning on severe delay)
+  Duration:    54.99 seconds
+
+Safety Confirmation:
+  - ZERO row-level 2024 data accessed during execution.
+  - Tests covering 2024 verify fail-closed DataAccessDenied guard and mock objects.
+
+CRITICAL METHODOLOGICAL NOTE:
+  - Test pass KHÔNG đồng nghĩa với việc phương pháp luận (methodology) là đúng.
+  - Test pass chỉ chứng nhận tính toàn vẹn kỹ thuật (engineering stability) của code hiện tại.

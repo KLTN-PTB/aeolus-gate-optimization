@@ -1,0 +1,89 @@
+{
+  "audit_name": "r28_dependency_closure",
+  "task_id": "R28_PROBABILISTIC_METRIC_CALIBRATION_DEPENDENCY_AUDIT",
+  "created_at_utc": "2026-10-03T08:14:29.618954+00:00",
+  "total_certified_dependencies": 10,
+  "dependencies": [
+    {
+      "package": "numpy",
+      "version": "2.2.6",
+      "usage_location": "All distribution adapters, array vectorization, random draws",
+      "phase": "All (Core Math)",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "pandas",
+      "version": "2.3.3",
+      "usage_location": "Data frames, batch streaming, tabular feature indexing",
+      "phase": "All (Core Data)",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "scipy",
+      "version": "1.17.1",
+      "usage_location": "scipy.stats.t, scipy.stats.norm, scipy.special.ndtr (Student-T/Normal CDF & PPF)",
+      "phase": "Phase 4 / Stage 1 / R28 (Probabilistic Distribution Contracts)",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "scikit-learn",
+      "version": "1.9.0",
+      "usage_location": "Ridge regression, preprocessing transformers, KFold cross-validation",
+      "phase": "Point baselines / Feature pipelines",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "xgboost",
+      "version": "3.2.0",
+      "usage_location": "XGBRegressor, B2 residual uncertainty Gaussian baseline",
+      "phase": "Point benchmark / Probabilistic B2",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "lightgbm",
+      "version": "4.7.0",
+      "usage_location": "B4 multi-pinball quantile regression candidate (P5)",
+      "phase": "Probabilistic P5",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "ngboost",
+      "version": "0.5.11",
+      "usage_location": "B3 NGBoost Normal, B5 NGBoost Student-T regressor (P3, P4)",
+      "phase": "Probabilistic P3, P4",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "ortools",
+      "version": "9.15.6755",
+      "usage_location": "Google OR-Tools CP-SAT gate solver",
+      "phase": "Downstream optimization",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "pyarrow",
+      "version": "25.0.1",
+      "usage_location": "Parquet partitioned dataset scanning, scenario flight extraction",
+      "phase": "Data ingest & Evaluation serialization",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    },
+    {
+      "package": "pytest",
+      "version": "9.1.1",
+      "usage_location": "Certification test suite, unit verification",
+      "phase": "Audit & Verification",
+      "required": true,
+      "environment_source": "virtual_env_active"
+    }
+  ],
+  "closure_rule": "Only packages with verified direct imports in src/ and tests/ are included in the certified dependency closure. Versions reflect the active frozen environment."
+}

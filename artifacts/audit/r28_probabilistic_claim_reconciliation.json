@@ -1,0 +1,33 @@
+{
+  "audit_name": "r28_probabilistic_claim_reconciliation",
+  "task_id": "R28_PROBABILISTIC_METRIC_CALIBRATION_DEPENDENCY_AUDIT",
+  "created_at_utc": "2026-10-02T12:27:13.961979+00:00",
+  "reconciled_claims": [
+    {
+      "claim_id": "CLAIM_03_PROBABILISTIC_P5_CRPS",
+      "role": "Forecast Champion (Quantile Loss)",
+      "certified_capability": "NON_PARAMETRIC_QUANTILE_FORECASTING_ONLY",
+      "continuous_density": "NOT_AVAILABLE",
+      "continuous_nll": "NOT_AVAILABLE",
+      "sampling": "NOT_SUPPORTED",
+      "status": "CORRECTED",
+      "governance": "P5 strictly evaluated on pinball loss and discrete quantile CRPS. No ad-hoc CDF synthesis."
+    },
+    {
+      "claim_id": "CLAIM_04_PROBABILISTIC_P4_STUDENT_T",
+      "role": "Downstream Simulation Candidate",
+      "certified_capability": "PARAMETRIC_CONTINUOUS_DENSITY_ENABLED",
+      "continuous_density": "VERIFIED_IMPLEMENTED",
+      "continuous_nll": "VERIFIED_IMPLEMENTED",
+      "sampling": "VERIFIED_IMPLEMENTED",
+      "calibration_status": "NOT_SEPARATELY_CERTIFIED",
+      "status": "SUPPORTED_WITH_LIMITATION",
+      "governance": "Parametric continuous density certified for downstream simulation; empirical calibration not separately certified."
+    }
+  ],
+  "dependency_structure_audit": {
+    "inference_time_assumption": "Conditional independence of arrival delays given feature set X at CRS_DEP_TIME - 2h.",
+    "downstream_operational_dependence": "Realized turnaround times, gate buffer separations, and flight interactions are evaluated downstream in the synthetic turn simulation, not inside the marginal arrival distribution.",
+    "copula_status": "No inter-flight copula is asserted as deployable operational evidence."
+  }
+}

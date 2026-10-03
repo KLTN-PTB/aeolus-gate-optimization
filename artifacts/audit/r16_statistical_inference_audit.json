@@ -1,0 +1,130 @@
+{
+  "manifest_version": "r16_statistical_inference_audit_v1",
+  "created_at_utc": "2026-10-02T09:14:55.047299+00:00",
+  "task_id": "R16_STATISTICAL_INFERENCE_AUDIT",
+  "metric_inference_matrix": {
+    "mae": {
+      "unit": "flight",
+      "type": "pointwise",
+      "test": "paired_t_test",
+      "bootstrap": "iid_percentile"
+    },
+    "rmse": {
+      "unit": "fold_population",
+      "type": "aggregate",
+      "test": "paired_bootstrap_test",
+      "bootstrap": "iid_percentile"
+    },
+    "r2": {
+      "unit": "fold_population",
+      "type": "aggregate",
+      "test": "paired_bootstrap_test",
+      "bootstrap": "iid_percentile"
+    },
+    "pr_auc": {
+      "unit": "fold_population",
+      "type": "aggregate",
+      "test": "paired_bootstrap_test",
+      "bootstrap": "iid_percentile"
+    },
+    "brier": {
+      "unit": "flight",
+      "type": "pointwise",
+      "test": "paired_t_test",
+      "bootstrap": "iid_percentile"
+    },
+    "crps": {
+      "unit": "flight",
+      "type": "pointwise",
+      "test": "paired_t_test",
+      "bootstrap": "iid_percentile"
+    },
+    "nll": {
+      "unit": "flight",
+      "type": "pointwise",
+      "test": "paired_t_test",
+      "bootstrap": "iid_percentile"
+    },
+    "downstream_objective": {
+      "unit": "scenario_x_seed",
+      "type": "scenario_matched",
+      "test": "paired_t_test"
+    },
+    "monte_carlo_estimates": {
+      "unit": "outer_replication",
+      "type": "outer_replication_sample",
+      "test": "paired_replications"
+    }
+  },
+  "bootstrap_audit": {
+    "implemented_methods": [
+      "iid_percentile",
+      "day_cluster_percentile",
+      "fixed_block_percentile",
+      "stationary_block_percentile"
+    ],
+    "method_used_in_benchmark": "iid_percentile (with 2000 replicates)",
+    "stationary_block_availability": "Implemented in paired_comparison.py, available for time-series serial correlation preservation."
+  },
+  "multiplicity_audit": {
+    "correction_method": "holm",
+    "implementation_status": "Implemented in apply_multiplicity_correction() in paired_comparison.py.",
+    "runner_gap_identified": "scripts/run_paired_comparison.py called compare_model_pair() directly but did not invoke apply_multiplicity_correction() across comparison families, resulting in adjusted_p = None in paired_comparison_summary.json.",
+    "correction_required": "run_paired_comparison.py must execute apply_multiplicity_correction(records, method='holm') before writing summary artifacts."
+  },
+  "ridge_vs_ensemble_exact_audit": {
+    "selection_year_2023_finding": {
+      "linear_mae": 23.29361334405417,
+      "ensemble_mae": 23.29361334405416,
+      "delta": 1e-14,
+      "reason": "Ensemble convex optimization on 2023 placed 100% weight on Linear, yielding identical predictions down to 14 decimal places."
+    },
+    "rolling_development_folds_finding": {
+      "fold_1": {
+        "linear_mae": 22.1137,
+        "ensemble_mae": 21.0283,
+        "delta_mae": 1.0854,
+        "raw_p": 0.0,
+        "ci_95": [
+          0.8944,
+          1.278
+        ],
+        "winner": "Ensemble (p < 0.001)"
+      },
+      "fold_2": {
+        "linear_mae": 19.0866,
+        "ensemble_mae": 17.8494,
+        "delta_mae": 1.2372,
+        "raw_p": 0.0,
+        "ci_95": [
+          1.0387,
+          1.4438
+        ],
+        "winner": "Ensemble (p < 0.001)"
+      },
+      "fold_3": {
+        "linear_mae": 17.7958,
+        "ensemble_mae": 17.4882,
+        "delta_mae": 0.3076,
+        "raw_p": 0.000125,
+        "ci_95": [
+          0.1566,
+          0.4601
+        ],
+        "winner": "Ensemble (p < 0.001)"
+      },
+      "fold_4": {
+        "linear_mae": 21.9721,
+        "ensemble_mae": 22.1141,
+        "delta_mae": -0.1421,
+        "raw_p": 0.087614,
+        "ci_95": [
+          -0.3043,
+          0.0221
+        ],
+        "winner": "Tie / Linear non-significant (p = 0.088)"
+      }
+    },
+    "scientific_takeaway": "The claim 'Ridge and Ensemble are identical at MAE = 23.2936' applies ONLY to the single 2023 development evaluation set where weights collapsed to Linear. Across the multi-year expanding development folds (2016-2022), Ensemble statistically significantly outperformed Ridge by 0.31m to 1.24m on 3 out of 4 folds."
+  }
+}

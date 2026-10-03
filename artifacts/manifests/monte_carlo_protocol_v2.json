@@ -1,0 +1,94 @@
+{
+  "protocol_name": "monte_carlo_protocol_v2",
+  "version": "2.0.0",
+  "created_at_utc": "2026-10-02T03:35:00Z",
+  "governance": {
+    "roadmap_source": "docs/roadmap/01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V4_DONG_BO.md",
+    "protocol_source": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md",
+    "task": "Task R9 - Monte Carlo / Common Random Numbers / Convergence Audit & Repair"
+  },
+  "preregistered_mc_counts": [100, 250, 500, 1000, 2500],
+  "truncation_audit": {
+    "requested_vs_actual_equality_enforced": true,
+    "silent_truncation_prohibited": true,
+    "prohibited_code_patterns": [
+      "min(N, 100)",
+      "min(n_scen, 100)",
+      "[:100]"
+    ],
+    "fail_closed_error": "TruncationViolationError"
+  },
+  "crn_governance": {
+    "latent_shock_generation": "Common Random Numbers (CRN) uniform U in (0, 1)^(N x K)",
+    "predetermined_deployment_seed": 202601,
+    "intra_loop_rng_reset_prohibited": true,
+    "uniqueness_requirement": "100% distinct rows for stochastic models",
+    "positive_variance_requirement": "per_flight_variance > 0.0 across all flights for stochastic models",
+    "sha256_audit_tracking": true
+  },
+  "crn_variance_reduction_policy": {
+    "status": "NOT_ESTABLISHED",
+    "policy_rule": "Variance reduction claims require explicit paired outer replications under CRN vs Independent sampling.",
+    "formula": "1.0 - (Var_CRN(Delta) / Var_Independent(Delta))",
+    "min_outer_replications_required": 2,
+    "prohibited_narrative_claims": [
+      "CRN reduces variance by 82.4%",
+      "CRN variance reduction of 82.4% established"
+    ]
+  },
+  "convergence_specification": {
+    "metrics_computed": [
+      "sample_mean",
+      "running_mean",
+      "median",
+      "p95",
+      "variance",
+      "standard_deviation",
+      "mc_standard_error",
+      "ci_95_bounds",
+      "delta_from_previous_n",
+      "relative_change_between_consecutive_n"
+    ],
+    "se_formula": "s / sqrt(N)",
+    "ci_95_formula": "[mean - 1.95996 * SE, mean + 1.95996 * SE]",
+    "relative_change_convergence_threshold": 0.02,
+    "precision_target_status": "NOT_PREREGISTERED",
+    "n500_optimality_claim_status": "UNSUPPORTED_POST_HOC_REASONING",
+    "n500_rule": "N=500 cannot be claimed as 'optimal' solely based on SE < 0.3 without a pre-registered precision target defined before viewing results."
+  },
+  "p5_distribution_governance": {
+    "model_id": "P5_quantile_regression",
+    "distribution_capability": "FINITE_QUANTILES_ONLY",
+    "supported_operations": [
+      "quantile",
+      "median",
+      "pinball_loss",
+      "winkler_score",
+      "coverage"
+    ],
+    "unsupported_operations": [
+      "exact_cdf",
+      "exact_pdf",
+      "exact_nll",
+      "continuous_density_sampling"
+    ],
+    "stochastic_sampling_mode": "FORECAST_ONLY_MEDIAN_REPLICATION",
+    "prohibited_actions": [
+      "invented asymmetric Laplace transformation",
+      "arbitrary spread scaling (e.g. 1.2x / 1.8x)"
+    ]
+  },
+  "failure_accounting": {
+    "retained_failure_classes": [
+      "SUCCESS",
+      "TIMEOUT",
+      "INFEASIBLE",
+      "SOLVER_FAILURE",
+      "SAMPLING_FAILURE",
+      "INVALID_DISTRIBUTION",
+      "NUMERICAL_ERROR"
+    ],
+    "denominator_policy": "EXACT_REQUESTED_N",
+    "silent_drop_prohibited": true
+  }
+}

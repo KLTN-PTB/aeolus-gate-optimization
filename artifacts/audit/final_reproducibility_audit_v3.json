@@ -1,0 +1,75 @@
+{
+  "audit_name": "final_reproducibility_audit_v3",
+  "task_id": "R24_FINAL_EVIDENCE_CERTIFICATION",
+  "created_at_utc": "2026-10-02T11:52:19.535788+00:00",
+  "reproducibility_status": "REPRODUCIBILITY_VERIFIED_UNDER_CONTAINED_SPECIFICATION",
+  "environment": {
+    "python_version": "3.11.15",
+    "os": "Windows-10-10.0.19045-SP0",
+    "architecture": "AMD64",
+    "primary_libraries": {
+      "numpy": "1.26.4",
+      "pandas": "2.2.3",
+      "scikit-learn": "1.5.2",
+      "xgboost": "2.1.3",
+      "ortools": "9.11.4210",
+      "pyarrow": "18.1.0",
+      "pytest": "9.1.1"
+    }
+  },
+  "deterministic_seeds": {
+    "deployment_seed": 202601,
+    "development_seeds": [
+      202601,
+      202602,
+      202603,
+      202604,
+      202605
+    ],
+    "crn_seed_policy": "Common Random Numbers with identical stream pairings"
+  },
+  "freeze_verification": {
+    "freeze_manifest_v3": "artifacts/manifests/system_freeze_manifest_v3.json",
+    "freeze_manifest_v3_sha256": "0144ea3ffb73039c070dac4c7f0a410995e755d973f300289651ffa4be30020c",
+    "sidecar_checksum_match": true,
+    "total_categories_frozen": 24,
+    "total_files_frozen": 79,
+    "hash_mismatches_count": 0,
+    "untracked_modifications_count": 0
+  },
+  "data_immutability": {
+    "partition": "data/processed/inbound_atl",
+    "years_covered": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "row_level_modifications": 0,
+    "target_definitions": {
+      "y_arr_cls": "1[ARR_DELAY >= 15]",
+      "y_arr_reg": "ARR_DELAY signed float",
+      "cutoff": "CRS_DEP_TIME - 2h",
+      "filter": "DEST=ATL"
+    }
+  },
+  "execution_traces": {
+    "r21_development_rebuild": {
+      "total_executed_runs": 124,
+      "cache_hit_count": 0,
+      "failures_encountered": 0,
+      "execution_trace_file": "artifacts/audit/r21_execution_trace.json"
+    },
+    "r23_post_holdout_evaluation": {
+      "total_evaluated_cases": 84,
+      "marginal_holdout_samples": 5000,
+      "failures_encountered": 0,
+      "execution_manifest": "artifacts/post_holdout_v3/post_holdout_evaluation_manifest_v3.json"
+    }
+  }
+}

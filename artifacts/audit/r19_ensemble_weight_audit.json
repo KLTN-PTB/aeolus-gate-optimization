@@ -1,0 +1,222 @@
+[
+  {
+    "fold": "fold_1",
+    "validation_year": 2019,
+    "train_years": [
+      2016,
+      2017,
+      2018
+    ],
+    "weights": {
+      "classification": {
+        "arrival_linear_baseline_v1": 0.25,
+        "arrival_random_forest_baseline_v1": 0.25,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.25,
+        "arrival_xgboost_baseline_v1": 0.25
+      },
+      "regression": {
+        "arrival_linear_baseline_v1": 0.25,
+        "arrival_random_forest_baseline_v1": 0.25,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.25,
+        "arrival_xgboost_baseline_v1": 0.25
+      }
+    },
+    "weight_constraints": {
+      "non_negative": true,
+      "sum_to_one": true,
+      "bounds": [
+        0.0,
+        1.0
+      ]
+    },
+    "objective": "INITIAL_UNIFORM_PRIOR",
+    "loss_type": "none (cold start, zero historical fold OOF exists)",
+    "n_samples": 4000,
+    "effective_model_behavior": "Deterministic uniform mean ensemble across 4 base models",
+    "degeneracy_detected": false,
+    "collapse_category": "NONE",
+    "regression_mae": 21.0283,
+    "best_base_mae": 21.7248,
+    "ensemble_gain_vs_linear": 1.0854
+  },
+  {
+    "fold": "fold_2",
+    "validation_year": 2020,
+    "train_years": [
+      2016,
+      2017,
+      2018,
+      2019
+    ],
+    "weights": {
+      "classification": {
+        "arrival_linear_baseline_v1": 0.0,
+        "arrival_random_forest_baseline_v1": 0.0064,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.0,
+        "arrival_xgboost_baseline_v1": 0.9936
+      },
+      "regression": {
+        "arrival_linear_baseline_v1": 0.0,
+        "arrival_random_forest_baseline_v1": 0.0,
+        "arrival_hist_gradient_boosting_baseline_v1": 1.0,
+        "arrival_xgboost_baseline_v1": 0.0
+      }
+    },
+    "weight_constraints": {
+      "non_negative": true,
+      "sum_to_one": true,
+      "bounds": [
+        0.0,
+        1.0
+      ]
+    },
+    "objective": "SLSQP_CONVEX_OPTIMIZATION",
+    "loss_type": "cls: brier_loss (L2), reg: mae (L1)",
+    "n_samples": 4000,
+    "training_population": "Fold 1 OOF predictions (2019 validation set)",
+    "effective_model_behavior": "Regression collapsed 100% to HistGradientBoosting; classification 99.36% XGBoost",
+    "degeneracy_detected": true,
+    "collapse_category": "SIMPLEX_VERTEX_OPTIMAL",
+    "regression_mae": 17.8494,
+    "hgb_mae": 17.8494,
+    "linear_mae": 19.0866,
+    "ensemble_gain_vs_linear": 1.2372
+  },
+  {
+    "fold": "fold_3",
+    "validation_year": 2021,
+    "train_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020
+    ],
+    "weights": {
+      "classification": {
+        "arrival_linear_baseline_v1": 0.0,
+        "arrival_random_forest_baseline_v1": 0.0465,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.0,
+        "arrival_xgboost_baseline_v1": 0.9535
+      },
+      "regression": {
+        "arrival_linear_baseline_v1": 0.0,
+        "arrival_random_forest_baseline_v1": 0.0,
+        "arrival_hist_gradient_boosting_baseline_v1": 1.0,
+        "arrival_xgboost_baseline_v1": 0.0
+      }
+    },
+    "weight_constraints": {
+      "non_negative": true,
+      "sum_to_one": true,
+      "bounds": [
+        0.0,
+        1.0
+      ]
+    },
+    "objective": "SLSQP_CONVEX_OPTIMIZATION",
+    "loss_type": "cls: brier_loss (L2), reg: mae (L1)",
+    "n_samples": 8000,
+    "training_population": "Fold 1 + Fold 2 OOF predictions (2019-2020 validation sets)",
+    "effective_model_behavior": "Regression collapsed 100% to HistGradientBoosting; classification 95.35% XGBoost + 4.65% RF",
+    "degeneracy_detected": true,
+    "collapse_category": "SIMPLEX_VERTEX_OPTIMAL",
+    "regression_mae": 17.4882,
+    "hgb_mae": 17.4882,
+    "linear_mae": 17.7958,
+    "ensemble_gain_vs_linear": 0.3076
+  },
+  {
+    "fold": "fold_4",
+    "validation_year": 2022,
+    "train_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "weights": {
+      "classification": {
+        "arrival_linear_baseline_v1": 0.0,
+        "arrival_random_forest_baseline_v1": 0.0,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.0,
+        "arrival_xgboost_baseline_v1": 1.0
+      },
+      "regression": {
+        "arrival_linear_baseline_v1": 0.0,
+        "arrival_random_forest_baseline_v1": 0.0,
+        "arrival_hist_gradient_boosting_baseline_v1": 1.0,
+        "arrival_xgboost_baseline_v1": 0.0
+      }
+    },
+    "weight_constraints": {
+      "non_negative": true,
+      "sum_to_one": true,
+      "bounds": [
+        0.0,
+        1.0
+      ]
+    },
+    "objective": "SLSQP_CONVEX_OPTIMIZATION",
+    "loss_type": "cls: brier_loss (L2), reg: mae (L1)",
+    "n_samples": 12000,
+    "training_population": "Fold 1 + Fold 2 + Fold 3 OOF predictions (2019-2021 validation sets)",
+    "effective_model_behavior": "Regression collapsed 100% to HistGradientBoosting; classification collapsed 100% to XGBoost",
+    "degeneracy_detected": true,
+    "collapse_category": "SIMPLEX_VERTEX_OPTIMAL",
+    "regression_mae": 22.1141,
+    "hgb_mae": 22.1141,
+    "linear_mae": 21.9721,
+    "ensemble_gain_vs_linear": -0.142
+  },
+  {
+    "fold": "evaluation_2023",
+    "validation_year": 2023,
+    "train_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "weights": {
+      "classification": {
+        "arrival_linear_baseline_v1": 0.0,
+        "arrival_random_forest_baseline_v1": 0.158,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.0,
+        "arrival_xgboost_baseline_v1": 0.842
+      },
+      "regression": {
+        "arrival_linear_baseline_v1": 1.0,
+        "arrival_random_forest_baseline_v1": 0.0,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.0,
+        "arrival_xgboost_baseline_v1": 0.0
+      }
+    },
+    "weight_constraints": {
+      "non_negative": true,
+      "sum_to_one": true,
+      "bounds": [
+        0.0,
+        1.0
+      ]
+    },
+    "objective": "SLSQP_CONVEX_OPTIMIZATION",
+    "loss_type": "cls: brier_loss (L2), reg: mae (L1)",
+    "n_samples": 4000,
+    "training_population": "2023 development evaluation set predictions",
+    "effective_model_behavior": "Regression collapsed 100% to Linear Baseline; classification is interior blend (84.2% XGB + 15.8% RF)",
+    "degeneracy_detected": true,
+    "collapse_category": "SIMPLEX_VERTEX_OPTIMAL",
+    "regression_mae": 23.29361334405416,
+    "linear_mae": 23.29361334405417,
+    "delta_mae_to_linear": 1e-14,
+    "ensemble_classification_pr_auc": 0.31475,
+    "linear_classification_pr_auc": 0.29046,
+    "classification_gain_vs_linear": 0.02429
+  }
+]

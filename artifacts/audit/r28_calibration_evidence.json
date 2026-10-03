@@ -1,0 +1,31 @@
+{
+  "audit_name": "r28_calibration_evidence",
+  "task_id": "R28_PROBABILISTIC_METRIC_CALIBRATION_DEPENDENCY_AUDIT",
+  "created_at_utc": "2026-10-03T08:14:29.617831+00:00",
+  "target_model": "P4_ngboost_student_t",
+  "audit_scope": "Search for direct empirical calibration evidence for continuous Student-T density",
+  "artifacts_checked": [
+    "artifacts/manifests/phase_b_calibration_report.json",
+    "artifacts/figures/gate_calibration_curve.png",
+    "artifacts/probabilistic_benchmark/core_probabilistic_benchmark_v2/",
+    "artifacts/post_holdout_v3/marginal_forecast_metrics_2024_v3.json"
+  ],
+  "findings": {
+    "pit_uniformity_hypothesis_test_present": false,
+    "nominal_vs_empirical_coverage_table_present": false,
+    "reliability_diagram_for_continuous_intervals_present": false,
+    "phase_b_calibration_scope": "Binary classification Platt scaling for ARR_DELAY >= 15 min; does not evaluate Student-T continuous density.",
+    "direct_empirical_calibration_evidence_status": "ABSENT"
+  },
+  "epistemological_guardrail": "A predictive distribution is NOT proven calibrated merely because NLL is finite (4.58 dev, 4.63 holdout), CRPS is competitive (18.48 dev, 17.65 holdout), or maximum likelihood estimation succeeded. Direct calibration requires empirical coverage verification or formal PIT uniformity tests.",
+  "calibration_verdict": "NOT_SEPARATELY_CERTIFIED",
+  "claim_boundary_amendment": {
+    "historical_phrase": "P4 provides calibrated parametric continuous density",
+    "amended_certified_phrase": "P4 NGBoost Student-T provides a parametric continuous predictive density; empirical calibration is not separately certified.",
+    "prohibited_affirmations": [
+      "P4 is an empirically certified calibrated distribution",
+      "P4 guarantees calibrated tail bounds",
+      "P4 calibration is scientifically proven"
+    ]
+  }
+}

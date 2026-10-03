@@ -1,0 +1,299 @@
+{
+  "manifest_version": "academic_model_selection_v3",
+  "created_at_utc": "2026-10-02T10:46:53.077970+00:00",
+  "task": {
+    "name": "Core Arrival",
+    "filter": "DEST=ATL",
+    "cutoff": "CRS_DEP_TIME - 2h",
+    "weather_policy": "DROP_FROM_PREDICTORS",
+    "flight_chain_policy": "FINAL_NO_GO"
+  },
+  "decoupled_operational_roles": {
+    "role_a_point_prediction": {
+      "regression_selected": [
+        "arrival_linear_baseline_v1",
+        "arrival_weighted_ensemble_v1"
+      ],
+      "classification_selected": [
+        "arrival_random_forest_baseline_v1",
+        "arrival_weighted_ensemble_v1"
+      ],
+      "description": "Selected solely for point prediction accuracy (MAE / PR-AUC)."
+    },
+    "role_b_probabilistic_forecasting": {
+      "candidates_evaluated": [
+        "P4_ngboost_student_t",
+        "P5_quantile_regression"
+      ],
+      "p4_capabilities": "Parametric continuous density, exact CRPS, continuous NLL, calibrated intervals.",
+      "p5_capabilities": "Non-parametric pinball loss, quantile intervals, empirical coverage.",
+      "role_status": "DECOUPLED_DUAL_ROLES_NO_SINGLE_OVERALL_CHAMPION"
+    },
+    "role_c_downstream_simulation": {
+      "candidates": [
+        "schedule_only",
+        "arrival_linear_baseline_v1",
+        "arrival_xgboost_baseline_v1",
+        "arrival_weighted_ensemble_v1",
+        "P5_quantile_regression",
+        "P4_ngboost_student_t",
+        "oracle_actual"
+      ],
+      "semantics": "SCALAR_FORECAST_IMPACT"
+    }
+  },
+  "temporal_governance": {
+    "training_window": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "evaluation_year": 2023,
+    "evaluation_role": "development_model_selection",
+    "holdout_year": 2024,
+    "holdout_status": "SEALED_AND_PROTECTED"
+  },
+  "sample_sizes": {
+    "sample_train_per_year": 2000,
+    "sample_val_2023": 1500,
+    "seed": 202601
+  },
+  "candidate_pool": {
+    "point_models": [
+      "arrival_linear_baseline_v1",
+      "arrival_random_forest_baseline_v1",
+      "arrival_hist_gradient_boosting_baseline_v1",
+      "arrival_xgboost_baseline_v1",
+      "arrival_weighted_ensemble_v1"
+    ],
+    "probabilistic_models": [
+      "P1_empirical",
+      "P2_xgb_gaussian_oof",
+      "P3_ngboost_normal",
+      "P4_ngboost_student_t",
+      "P5_quantile_regression"
+    ]
+  },
+  "ranking_free_comparison_table": {
+    "point_models": {
+      "arrival_linear_baseline_v1": {
+        "mae": 24.6181333149954,
+        "rmse": 63.92553560077137,
+        "r2": -0.007635348167041034,
+        "severe_delay_mae": 175.06885235973735,
+        "pr_auc": 0.25872128275009343,
+        "roc_auc": 0.619687626681256,
+        "brier_score": 0.23800985803483637
+      },
+      "arrival_random_forest_baseline_v1": {
+        "mae": 25.663574695855097,
+        "rmse": 63.61956377356448,
+        "r2": 0.0019874163899747943,
+        "severe_delay_mae": 172.8652549114446,
+        "pr_auc": 0.27967285243393736,
+        "roc_auc": 0.6048434672845142,
+        "brier_score": 0.24333424300645204
+      },
+      "arrival_hist_gradient_boosting_baseline_v1": {
+        "mae": 25.514803599726708,
+        "rmse": 63.539968577246476,
+        "r2": 0.0044831051535210165,
+        "severe_delay_mae": 172.59417628049164,
+        "pr_auc": 0.2646487565471736,
+        "roc_auc": 0.6032104120045219,
+        "brier_score": 0.2528523143933109
+      },
+      "arrival_xgboost_baseline_v1": {
+        "mae": 27.008624591649045,
+        "rmse": 64.54813386697057,
+        "r2": -0.027358516390415977,
+        "severe_delay_mae": 172.19966313441066,
+        "pr_auc": 0.26292883238266473,
+        "roc_auc": 0.6061222270194022,
+        "brier_score": 0.24431563374363524
+      },
+      "arrival_weighted_ensemble_v1": {
+        "mae": 24.617684454376416,
+        "rmse": 63.91287496213659,
+        "r2": -0.007236257456639361,
+        "severe_delay_mae": 175.03239545928074,
+        "pr_auc": 0.2822013952287142,
+        "roc_auc": 0.6303296761244351,
+        "brier_score": 0.23630752633080193
+      }
+    },
+    "probabilistic_models": {
+      "P1_empirical": {
+        "crps": 17.8977,
+        "nll": "NOT_AVAILABLE",
+        "brier_score_delay_ge_15": 0.13284,
+        "mean_pinball_loss": 7.5149,
+        "cov_80": 0.7647,
+        "cov_90": 0.8633
+      },
+      "P2_xgb_gaussian_oof": {
+        "crps": 22.1101,
+        "nll": 5.7306,
+        "brier_score_delay_ge_15": 0.15867,
+        "mean_pinball_loss": 9.1127,
+        "cov_80": 0.9333,
+        "cov_90": 0.946
+      },
+      "P3_ngboost_normal": {
+        "crps": 21.6865,
+        "nll": 5.7763,
+        "brier_score_delay_ge_15": 0.17869,
+        "mean_pinball_loss": 8.8319,
+        "cov_80": 0.9373,
+        "cov_90": 0.95
+      },
+      "P4_ngboost_student_t": {
+        "crps": 18.484,
+        "nll": 4.5805,
+        "brier_score_delay_ge_15": 0.14224,
+        "mean_pinball_loss": 8.1753,
+        "cov_80": 0.79,
+        "cov_90": 0.8593
+      },
+      "P5_quantile_regression": {
+        "crps": 17.8681,
+        "nll": "NOT_AVAILABLE",
+        "brier_score_delay_ge_15": "NOT_AVAILABLE",
+        "mean_pinball_loss": 7.5452,
+        "cov_80": 0.7507,
+        "cov_90": 0.854
+      }
+    }
+  },
+  "selection_rules_applied": {
+    "point_regression": {
+      "primary_metric": "mae",
+      "direction": "minimize",
+      "secondary_metrics": [
+        "rmse",
+        "r2",
+        "severe_delay_mae"
+      ],
+      "effect_size_delta": 0.1
+    },
+    "point_classification": {
+      "primary_metric": "pr_auc",
+      "direction": "maximize",
+      "secondary_metrics": [
+        "roc_auc",
+        "brier_score",
+        "log_loss"
+      ],
+      "effect_size_delta": 0.005
+    },
+    "probabilistic": {
+      "primary_metric": "crps",
+      "direction": "minimize",
+      "secondary_metrics": [
+        "nll",
+        "brier_score_delay_ge_15",
+        "mean_pinball_loss",
+        "cov_80",
+        "cov_90"
+      ],
+      "effect_size_delta": 0.1
+    },
+    "tie_break_policy": "effect_size_indifference_band"
+  },
+  "selection_outcomes": {
+    "point_regression": {
+      "primary_metric": "mae",
+      "direction": "minimize",
+      "effect_size_delta": 0.1,
+      "best_numeric_candidate": "arrival_weighted_ensemble_v1",
+      "best_numeric_value": 24.617684,
+      "tie_status": "TIED_WITHIN_EFFECT_SIZE_THRESHOLD",
+      "selected_candidates": [
+        "arrival_linear_baseline_v1",
+        "arrival_weighted_ensemble_v1"
+      ],
+      "tied_candidate_pool": [
+        "arrival_linear_baseline_v1",
+        "arrival_weighted_ensemble_v1"
+      ],
+      "margin_to_second": 0.000449,
+      "all_differences_from_best": {
+        "arrival_linear_baseline_v1": 0.000449,
+        "arrival_random_forest_baseline_v1": 1.04589,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.897119,
+        "arrival_xgboost_baseline_v1": 2.39094,
+        "arrival_weighted_ensemble_v1": 0.0
+      }
+    },
+    "point_classification": {
+      "primary_metric": "pr_auc",
+      "direction": "maximize",
+      "effect_size_delta": 0.005,
+      "best_numeric_candidate": "arrival_weighted_ensemble_v1",
+      "best_numeric_value": 0.282201,
+      "tie_status": "TIED_WITHIN_EFFECT_SIZE_THRESHOLD",
+      "selected_candidates": [
+        "arrival_random_forest_baseline_v1",
+        "arrival_weighted_ensemble_v1"
+      ],
+      "tied_candidate_pool": [
+        "arrival_random_forest_baseline_v1",
+        "arrival_weighted_ensemble_v1"
+      ],
+      "margin_to_second": 0.002529,
+      "all_differences_from_best": {
+        "arrival_linear_baseline_v1": 0.02348,
+        "arrival_random_forest_baseline_v1": 0.002529,
+        "arrival_hist_gradient_boosting_baseline_v1": 0.017553,
+        "arrival_xgboost_baseline_v1": 0.019273,
+        "arrival_weighted_ensemble_v1": 0.0
+      }
+    },
+    "probabilistic": {
+      "primary_metric": "crps",
+      "direction": "minimize",
+      "effect_size_delta": 0.1,
+      "best_numeric_candidate": "P5_quantile_regression",
+      "best_numeric_value": 17.8681,
+      "tie_status": "TIED_WITHIN_EFFECT_SIZE_THRESHOLD",
+      "selected_candidates": [
+        "P1_empirical",
+        "P5_quantile_regression"
+      ],
+      "tied_candidate_pool": [
+        "P1_empirical",
+        "P5_quantile_regression"
+      ],
+      "margin_to_second": 0.0296,
+      "all_differences_from_best": {
+        "P1_empirical": 0.0296,
+        "P2_xgb_gaussian_oof": 4.242,
+        "P3_ngboost_normal": 3.8184,
+        "P4_ngboost_student_t": 0.6159,
+        "P5_quantile_regression": 0.0
+      }
+    }
+  },
+  "disclaimer_and_layer_separation": "Forecast quality (MAE, PR-AUC, CRPS) and downstream utility (gate conflict rates, solver runtime) are strictly distinct operational layers. Selection at Phase 7 selects forecast candidates for downstream evaluation without implying downstream gate optimization superiority.",
+  "historical_context": "Historical Stage 8 previously selected SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula on 2023. Recorded as POST_SELECTION_DEVELOPMENT; history preserved intact.",
+  "audit_provenance": {
+    "feature_set_v1_sha256": "824436245cc5a95dd343172a7bcfd9b1c2ee5a960624de2ce8453ca1efae196e",
+    "policy_config_sha256": "4289b046873c0bcdc596321aee8d3bb0ce3632c570e0e61fa2539345f09fdbcf",
+    "model_spec_hashes": {
+      "arrival_linear_baseline_v1": "1caaf47fe3c60aa2a0a7cccc9d85af8409e79782a02c81c3aff803e9a3643cb2",
+      "arrival_random_forest_baseline_v1": "9ebcbb707a80b6fe54b7acef9a7d778d40c0fa5bde1703348de6502122f70ba1",
+      "arrival_hist_gradient_boosting_baseline_v1": "4867fe29b75cef7c1a36331198bb175c6faa9ccc7e2cf314352253bf974b8c65",
+      "arrival_xgboost_baseline_v1": "075b0f8192f101a24761a49968c07bcf9c8aee4b9bb2a370d1cb937f6a98d7ac",
+      "arrival_weighted_ensemble_v1": "148e530f0335ee930ea6aed7ca236cdedce17b7e028bb0e838d78d930cc62f4c",
+      "P1_empirical": "8c44a7fc6fa788a9112dfba75f499c6214e9cbe6596a634eb570e72e59fcdaf2",
+      "P2_xgb_gaussian_oof": "8db1f8d5e0073e9d9cf778546e3c2c182f83a10cf036d818f60f9fb12e6db772",
+      "P3_ngboost_normal": "a7179a964e68f8fbe3f3c095172a508ff7053b8ce0156a1e228141a1dc2df519",
+      "P4_ngboost_student_t": "0ae3d3389aa800af533ea60d0fa0cf7d3846f6a83dde082a5d419405aa5c5315",
+      "P5_quantile_regression": "b50505025cfcc4dfb0da5b0fc1d33501cf995d9a3efb50af60ecee93c1570c91"
+    }
+  }
+}

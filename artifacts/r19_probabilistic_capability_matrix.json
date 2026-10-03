@@ -1,0 +1,436 @@
+{
+  "status": "PASS",
+  "manifest_version": "r19_probabilistic_capability_matrix_v1",
+  "task_id": "R19_PROBABILISTIC_AUDIT",
+  "created_at_utc": "2026-10-02T10:09:36.778667+00:00",
+  "contract_reference": "AEOLUS_V4_PROBABILISTIC_METRIC_CONTRACT_V2",
+  "pre_registered_quantiles": [
+    0.025,
+    0.05,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9,
+    0.95,
+    0.975
+  ],
+  "pre_registered_intervals": {
+    "50": [
+      0.25,
+      0.75
+    ],
+    "80": [
+      0.1,
+      0.9
+    ],
+    "90": [
+      0.05,
+      0.95
+    ],
+    "95": [
+      0.025,
+      0.975
+    ]
+  },
+  "candidates": {
+    "P1_empirical": {
+      "candidate_id": "P1_empirical",
+      "family": "empirical",
+      "distribution_type": "non_parametric_empirical",
+      "operational_role": "EMPIRICAL_RESIDUAL_BASELINE",
+      "support": "finite_sample_pool",
+      "parameters": [
+        "sample_pool"
+      ],
+      "capabilities": {
+        "point_location": {
+          "supported": true,
+          "method": "sample_mean_of_hierarchical_pool"
+        },
+        "point_median": {
+          "supported": true,
+          "method": "sample_median_of_hierarchical_pool"
+        },
+        "quantiles": {
+          "supported": true,
+          "method": "empirical_quantile_with_linear_interpolation"
+        },
+        "full_cdf": {
+          "supported": true,
+          "method": "empirical_step_function"
+        },
+        "event_probability": {
+          "supported": true,
+          "method": "empirical_frequency_delay_ge_15"
+        },
+        "sampling": {
+          "supported": true,
+          "method": "bootstrap_sampling_with_replacement"
+        },
+        "log_likelihood_nll": {
+          "supported": false,
+          "reason": "Discrete empirical step function has zero density almost everywhere; continuous likelihood is undefined."
+        },
+        "exact_crps": {
+          "supported": false,
+          "reason": "Non-parametric empirical distribution lacks closed-form analytical continuous CRPS."
+        },
+        "approximate_crps": {
+          "supported": true,
+          "method": "trapezoidal_pinball_integration_9q",
+          "metric_name": "crps_quantile_approximation"
+        },
+        "pit": {
+          "supported": false,
+          "reason": "Step CDF produces discrete atomic PIT distributions; continuous Uniform(0,1) KS test is formally invalid."
+        },
+        "interval_coverage": {
+          "supported": true,
+          "method": "empirical_quantile_interval_counting"
+        },
+        "interval_width": {
+          "supported": true,
+          "method": "difference_between_upper_and_lower_quantiles"
+        }
+      }
+    },
+    "P2_xgb_gaussian_oof": {
+      "candidate_id": "P2_xgb_gaussian_oof",
+      "family": "xgb_gaussian_oof",
+      "distribution_type": "parametric_gaussian_homoscedastic",
+      "operational_role": "HOMOSCEDASTIC_PARAMETRIC_BASELINE",
+      "support": "real_line_R",
+      "parameters": [
+        "mu",
+        "sigma"
+      ],
+      "capabilities": {
+        "point_location": {
+          "supported": true,
+          "method": "xgboost_point_prediction_mu"
+        },
+        "point_median": {
+          "supported": true,
+          "method": "symmetric_gaussian_median_mu"
+        },
+        "quantiles": {
+          "supported": true,
+          "method": "analytical_gaussian_ppf"
+        },
+        "full_cdf": {
+          "supported": true,
+          "method": "analytical_gaussian_cdf"
+        },
+        "event_probability": {
+          "supported": true,
+          "method": "1_minus_gaussian_cdf_at_threshold"
+        },
+        "sampling": {
+          "supported": true,
+          "method": "pseudorandom_gaussian_generator"
+        },
+        "log_likelihood_nll": {
+          "supported": true,
+          "method": "analytical_gaussian_negative_log_likelihood"
+        },
+        "exact_crps": {
+          "supported": true,
+          "method": "analytical_closed_form_gaussian_crps"
+        },
+        "approximate_crps": {
+          "supported": true,
+          "method": "trapezoidal_pinball_integration_9q"
+        },
+        "pit": {
+          "supported": true,
+          "method": "probability_integral_transform_via_standard_normal_cdf"
+        },
+        "interval_coverage": {
+          "supported": true,
+          "method": "analytical_gaussian_interval_counting"
+        },
+        "interval_width": {
+          "supported": true,
+          "method": "analytical_gaussian_width"
+        }
+      }
+    },
+    "P3_ngboost_normal": {
+      "candidate_id": "P3_ngboost_normal",
+      "family": "ngboost_normal",
+      "distribution_type": "parametric_gaussian_heteroscedastic",
+      "operational_role": "HETEROSCEDASTIC_PARAMETRIC_GAUSSIAN",
+      "support": "real_line_R",
+      "parameters": [
+        "mu",
+        "sigma"
+      ],
+      "capabilities": {
+        "point_location": {
+          "supported": true,
+          "method": "ngboost_conditional_location_mu"
+        },
+        "point_median": {
+          "supported": true,
+          "method": "symmetric_gaussian_median_mu"
+        },
+        "quantiles": {
+          "supported": true,
+          "method": "analytical_gaussian_ppf"
+        },
+        "full_cdf": {
+          "supported": true,
+          "method": "analytical_gaussian_cdf"
+        },
+        "event_probability": {
+          "supported": true,
+          "method": "1_minus_gaussian_cdf_at_threshold"
+        },
+        "sampling": {
+          "supported": true,
+          "method": "pseudorandom_gaussian_generator"
+        },
+        "log_likelihood_nll": {
+          "supported": true,
+          "method": "analytical_gaussian_negative_log_likelihood"
+        },
+        "exact_crps": {
+          "supported": true,
+          "method": "analytical_closed_form_gaussian_crps"
+        },
+        "approximate_crps": {
+          "supported": true,
+          "method": "trapezoidal_pinball_integration_9q"
+        },
+        "pit": {
+          "supported": true,
+          "method": "probability_integral_transform_via_standard_normal_cdf"
+        },
+        "interval_coverage": {
+          "supported": true,
+          "method": "analytical_gaussian_interval_counting"
+        },
+        "interval_width": {
+          "supported": true,
+          "method": "analytical_gaussian_width"
+        }
+      }
+    },
+    "P4_ngboost_student_t": {
+      "candidate_id": "P4_ngboost_student_t",
+      "family": "ngboost_student_t",
+      "distribution_type": "parametric_student_t_heteroscedastic",
+      "operational_role": "HETEROSCEDASTIC_HEAVY_TAIL_RESEARCH_CANDIDATE",
+      "support": "real_line_R",
+      "parameters": [
+        "mu",
+        "sigma",
+        "df"
+      ],
+      "numerical_safety_constraints": {
+        "sigma_min": 0.1,
+        "df_min": 2.1,
+        "finite_variance_guarantee": "Strictly enforced df > 2.0 ensures Var[Y|X] = sigma^2 * df / (df - 2) < inf"
+      },
+      "capabilities": {
+        "point_location": {
+          "supported": true,
+          "method": "conditional_expectation_mu",
+          "notes": "Finite conditional mean exists for df > 1.0 (enforced df >= 2.1)."
+        },
+        "point_median": {
+          "supported": true,
+          "method": "symmetric_student_t_median_mu"
+        },
+        "point_scale": {
+          "supported": true,
+          "method": "conditional_scale_parameter_sigma"
+        },
+        "degrees_of_freedom": {
+          "supported": true,
+          "method": "conditional_shape_parameter_df"
+        },
+        "quantiles": {
+          "supported": true,
+          "method": "scipy_student_t_ppf"
+        },
+        "full_cdf": {
+          "supported": true,
+          "method": "scipy_student_t_cdf"
+        },
+        "event_probability": {
+          "supported": true,
+          "method": "1_minus_student_t_cdf_at_threshold"
+        },
+        "sampling": {
+          "supported": true,
+          "method": "scipy_standard_t_draws"
+        },
+        "log_likelihood_nll": {
+          "supported": true,
+          "method": "analytical_student_t_negative_log_likelihood"
+        },
+        "exact_crps": {
+          "supported": false,
+          "reason": "Analytical closed-form CRPS integral for non-standardized Student-T is not implemented in core library."
+        },
+        "approximate_crps": {
+          "supported": true,
+          "method": "trapezoidal_pinball_integration_9q",
+          "metric_name": "crps_quantile_approximation"
+        },
+        "pit": {
+          "supported": true,
+          "method": "probability_integral_transform_via_student_t_cdf"
+        },
+        "interval_coverage": {
+          "supported": true,
+          "method": "scipy_student_t_quantile_interval_counting"
+        },
+        "interval_width": {
+          "supported": true,
+          "method": "scipy_student_t_interval_width"
+        }
+      }
+    },
+    "P5_quantile_regression": {
+      "candidate_id": "P5_quantile_regression",
+      "family": "quantile_regression",
+      "distribution_type": "non_parametric_quantile_grid",
+      "operational_role": "QUANTILE_FORECAST_ONLY",
+      "support": "pre_registered_quantile_grid",
+      "parameters": [
+        "quantiles"
+      ],
+      "capabilities": {
+        "point_location": {
+          "supported": false,
+          "reason": "Quantile regression estimates quantiles directly; conditional expectation requires arbitrary unconstrained tail extrapolation."
+        },
+        "point_median": {
+          "supported": true,
+          "method": "direct_q_0_50_pinball_loss_head"
+        },
+        "quantiles": {
+          "supported": true,
+          "method": "pinball_loss_direct_regression_with_monotone_rearrangement"
+        },
+        "full_cdf": {
+          "supported": false,
+          "reason": "Continuous cumulative distribution function cannot be mathematically synthesized from finite discrete quantiles; ad-hoc Laplace heuristics are strictly prohibited."
+        },
+        "event_probability": {
+          "supported": false,
+          "reason": "Threshold event probability P(Y >= 15) is unavailable without continuous CDF or dedicated classification head."
+        },
+        "sampling": {
+          "supported": false,
+          "reason": "Generative sampling requires continuous inverse CDF."
+        },
+        "log_likelihood_nll": {
+          "supported": false,
+          "reason": "Quantile regression models do not estimate a probability density function f(y); likelihood is mathematically undefined."
+        },
+        "exact_crps": {
+          "supported": false,
+          "reason": "Non-parametric models lack continuous density representation for exact integral evaluation."
+        },
+        "approximate_crps": {
+          "supported": true,
+          "method": "trapezoidal_pinball_integration_over_grid",
+          "metric_name": "crps_quantile_approximation",
+          "integration_grid": [
+            0.025,
+            0.05,
+            0.1,
+            0.25,
+            0.5,
+            0.75,
+            0.9,
+            0.95,
+            0.975
+          ]
+        },
+        "pit": {
+          "supported": false,
+          "reason": "Probability Integral Transform u = F(y) requires a valid continuous CDF. Evaluating PIT on P5 is mathematically invalid."
+        },
+        "interval_coverage": {
+          "supported": true,
+          "method": "empirical_grid_coverage_counting"
+        },
+        "interval_width": {
+          "supported": true,
+          "method": "grid_interval_width"
+        }
+      }
+    }
+  },
+  "metric_comparability_rules": {
+    "nll": {
+      "rule": "LEGITIMATE_CONTINUOUS_DENSITY_ONLY",
+      "eligible_candidates": [
+        "P2_xgb_gaussian_oof",
+        "P3_ngboost_normal",
+        "P4_ngboost_student_t"
+      ],
+      "ineligible_candidates": [
+        "P1_empirical",
+        "P5_quantile_regression"
+      ],
+      "governance": "P1 and P5 MUST report 'NOT_AVAILABLE' / 'NOT_SUPPORTED'. They must never be ranked or compared on NLL."
+    },
+    "pit": {
+      "rule": "LEGITIMATE_CONTINUOUS_CDF_ONLY",
+      "eligible_candidates": [
+        "P2_xgb_gaussian_oof",
+        "P3_ngboost_normal",
+        "P4_ngboost_student_t"
+      ],
+      "ineligible_candidates": [
+        "P1_empirical",
+        "P5_quantile_regression"
+      ],
+      "governance": "Evaluating PIT uniformity via KS test requires continuous monotonic CDF. Discrete step CDF (P1) and discrete quantiles (P5) are rejected fail-closed."
+    },
+    "exact_crps": {
+      "rule": "CLOSED_FORM_ANALYTICAL_EVALUATION_ONLY",
+      "eligible_candidates": [
+        "P2_xgb_gaussian_oof",
+        "P3_ngboost_normal"
+      ],
+      "ineligible_candidates": [
+        "P1_empirical",
+        "P4_ngboost_student_t",
+        "P5_quantile_regression"
+      ],
+      "governance": "Exact closed-form CRPS is only evaluated for Gaussian distributions. Cannot be compared as identical metric against trapezoidal multi-pinball approximations."
+    },
+    "crps_quantile_approximation": {
+      "rule": "TRAPEZOIDAL_PINBALL_INTEGRATION_OVER_GRID",
+      "eligible_candidates": [
+        "P1_empirical",
+        "P2_xgb_gaussian_oof",
+        "P3_ngboost_normal",
+        "P4_ngboost_student_t",
+        "P5_quantile_regression"
+      ],
+      "ineligible_candidates": [],
+      "governance": "Permits fair cross-candidate evaluation across all 5 models, but MUST be explicitly labeled as 'crps_quantile_approximation' rather than exact continuous CRPS."
+    },
+    "mean_pinball_loss": {
+      "rule": "DIRECT_AVERAGE_OVER_PINBALL_GRID",
+      "eligible_candidates": [
+        "P1_empirical",
+        "P2_xgb_gaussian_oof",
+        "P3_ngboost_normal",
+        "P4_ngboost_student_t",
+        "P5_quantile_regression"
+      ],
+      "ineligible_candidates": [],
+      "governance": "Direct unweighted average of check losses over the 9 quantiles. Mathematically distinct from CRPS approximation (which applies 2 * delta_alpha trapezoidal weights)."
+    }
+  },
+  "scientific_summary": "P4 (NGBoost Student-T) and P5 (Quantile Regression) possess fundamentally asymmetric mathematical capabilities. P4 is a continuous parametric distribution model suitable for likelihood evaluation (NLL), PIT calibration, and stochastic downstream sampling. P5 is a non-parametric quantile estimator producing discrete distribution slices; it achieves lower marginal quantile loss (Pinball/approximate CRPS) but is strictly incapable of generative sampling, density evaluation (NLL), or continuous PIT without unprincipled heuristic fabrications. Therefore, they cannot be ranked under a single overall 'winner' banner and serve distinct, non-competing architectural roles."
+}

@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "manifest_version": "r20_2024_provenance_audit_v1",
+  "task_id": "R20_PROVENANCE_AND_FREEZE_AUDIT",
+  "created_at_utc": "2026-10-02T10:24:13.435234+00:00",
+  "dataset_2024_access": true,
+  "historical_access": true,
+  "development_use": false,
+  "tuning_use": false,
+  "final_eval_use": true,
+  "classification": "POST_HOLDOUT",
+  "evidence": [
+    "2024 was opened post-freeze at 2026-09-27T18:23:46.416794+00:00 during historical Stage 11 execution.",
+    "Model weights evaluated in Stage 11 were loaded directly from frozen checkpoint artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib without refitting or retuning on 2024.",
+    "Audited all model training scripts (run_academic_point_benchmark.py, run_development_end_to_end_benchmark.py, run_probabilistic_benchmark.py): max training year is strictly <= 2022.",
+    "Audited Optuna HPO and hyperparameter tuning: objective function evaluations strictly ingested 2016-2022 development folds; zero 2024 rows were ever passed to Optuna.",
+    "Audited decision threshold selection: classification threshold 0.50 was pre-registered; zero threshold search was performed on 2024.",
+    "Audited ensemble weight fitting: weights were fit strictly on historical rolling folds 1-3 or 2023 selection data; zero 2024 rows ingested.",
+    "Audited probabilistic calibration: calibration parameters were fit strictly on training partitions; zero 2024 calibration updates occurred.",
+    "Audited Tasks R13-R20: strictly zero row-level reads were performed on data/processed/inbound_atl/year=2024 or data/raw/*/2024.",
+    "2024 is formally classified as POST_HOLDOUT under temporal_protocol_v2.json and final_evaluation_guard_v2.py; any attempt to label it 'untouched' or 'unseen' fails closed."
+  ],
+  "safety_guarantees": {
+    "zero_tuning_leakage": true,
+    "zero_hpo_leakage": true,
+    "zero_weight_leakage": true,
+    "zero_threshold_leakage": true,
+    "immutable_weights_verified": true
+  }
+}

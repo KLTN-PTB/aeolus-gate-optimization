@@ -1,0 +1,80 @@
+{
+  "manifest_version": "phase_c_dependence_hardening_manifest_v1",
+  "phase": "PHASE_C",
+  "status": "PASS",
+  "protocol_reference": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md",
+  "variable_daily_flight_counts_certified": {
+    "tested_counts": [
+      1,
+      5,
+      23,
+      77,
+      150,
+      420
+    ],
+    "models_tested": [
+      "DEP_D0_independent",
+      "DEP_D1_scenario_block",
+      "DEP_D2_gaussian_copula"
+    ],
+    "no_fixed_dimensions_confirmed": true
+  },
+  "d0_independent_certified": {
+    "family": "independent",
+    "cross_flight_coupling_max_abs_corr": 0.008925456703892026,
+    "zero_coupling_confirmed": true
+  },
+  "d1_scenario_block_certified": {
+    "family": "scenario_block",
+    "pre_cutoff_covariates_only": true,
+    "zero_realized_outcomes_confirmed": true,
+    "day_factor_weight": 0.2,
+    "block_factor_weight": 0.25,
+    "idiosyncratic_weight": 0.9473647660748208
+  },
+  "d2_gaussian_copula_certified": {
+    "family": "gaussian_copula",
+    "temporal_length_scale_minutes": 120.0,
+    "time_difference_units": "minutes",
+    "carrier_correlation": 0.15,
+    "unit_diagonal_enforced": true,
+    "symmetry_enforced": true,
+    "raw_and_corrected_separate": true
+  },
+  "psd_validation_and_projection_certified": {
+    "min_eigenvalue_floor": 1e-06,
+    "distortion_metrics_reported": [
+      "frobenius_distortion",
+      "max_absolute_distortion",
+      "relative_frobenius_distortion"
+    ],
+    "separate_raw_matrix_preserved": true,
+    "diagnostic_structure": {
+      "matrix_dimension": 3,
+      "raw_min_eigenvalue": -0.5283168744823962,
+      "raw_negative_eigenvalue_count": 1,
+      "raw_subthreshold_eigenvalue_count": 1,
+      "raw_is_psd": false,
+      "raw_symmetry_error": 0.0,
+      "corrected_min_eigenvalue": 1.4066471247582417e-06,
+      "frobenius_distortion": 0.8036376486983088,
+      "max_absolute_distortion": 0.8,
+      "relative_frobenius_distortion": 0.29433130121792916,
+      "was_correction_applied": true
+    }
+  },
+  "randomized_pit_sensitivity_certified": {
+    "pre_defined_seeds": [
+      202601,
+      202602,
+      202603,
+      202604,
+      202605
+    ],
+    "n_samples": 30,
+    "mean_std_across_seeds": 0.017190497565321906,
+    "max_std_across_seeds": 0.027846744591509,
+    "is_repeatable": true,
+    "is_sensitivity_stable": true
+  }
+}

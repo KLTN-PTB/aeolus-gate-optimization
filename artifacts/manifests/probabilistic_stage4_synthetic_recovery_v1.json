@@ -1,0 +1,167 @@
+{
+  "manifest_version": "probabilistic_stage4_synthetic_recovery_v1",
+  "created_at_utc": "2026-09-27T09:58:06+00:00",
+  "stage": "STAGE_4_MDN_DISTRIBUTIONAL_CORRECTNESS",
+  "ground_truth_mixture": {
+    "pi": [
+      0.6,
+      0.3,
+      0.1
+    ],
+    "mu": [
+      -2.0,
+      18.0,
+      55.0
+    ],
+    "sigma": [
+      5.0,
+      12.0,
+      24.0
+    ],
+    "discrete": true,
+    "sigma_floor": 1.0
+  },
+  "synthetic_training_samples": 20000,
+  "seeds_evaluated": [
+    202601,
+    202602,
+    202603
+  ],
+  "seed_results": {
+    "seed_202601": {
+      "seed": 202601,
+      "fit_time_sec": 7.3389668464660645,
+      "final_loss": 4.036389303207398,
+      "fitted_parameters": {
+        "pi": [
+          0.5881468057632446,
+          0.34810298681259155,
+          0.06375020742416382
+        ],
+        "mu": [
+          -1.9318474531173706,
+          19.29401969909668,
+          67.02498626708984
+        ],
+        "sigma": [
+          4.954766750335693,
+          13.525997161865234,
+          16.345630645751953
+        ]
+      },
+      "metrics": {
+        "kolmogorov_smirnov_stat": 0.007640061603531034,
+        "wasserstein_1_distance": 0.32356318282105173,
+        "mean_absolute_quantile_error": 0.2222222222222222,
+        "max_absolute_quantile_error": 1.0,
+        "crps_absolute_error": 0.006500147019055547,
+        "per_quantile_errors": {
+          "0.025": 0.0,
+          "0.05": 0.0,
+          "0.1": 0.0,
+          "0.25": 0.0,
+          "0.5": 0.0,
+          "0.75": 1.0,
+          "0.9": 0.0,
+          "0.95": 0.0,
+          "0.975": 1.0
+        }
+      },
+      "passed": true
+    },
+    "seed_202602": {
+      "seed": 202602,
+      "fit_time_sec": 6.498863935470581,
+      "final_loss": 4.037516403198242,
+      "fitted_parameters": {
+        "pi": [
+          0.5912902575466877,
+          0.34178201637350086,
+          0.06692772607981139
+        ],
+        "mu": [
+          -1.9452751874923706,
+          19.283689498901367,
+          67.02027130126953
+        ],
+        "sigma": [
+          4.943413257598877,
+          13.536620140075684,
+          16.359790802001953
+        ]
+      },
+      "metrics": {
+        "kolmogorov_smirnov_stat": 0.008232611295688863,
+        "wasserstein_1_distance": 0.33947976472984925,
+        "mean_absolute_quantile_error": 0.4444444444444444,
+        "max_absolute_quantile_error": 2.0,
+        "crps_absolute_error": 0.006533604225140266,
+        "per_quantile_errors": {
+          "0.025": 0.0,
+          "0.05": 0.0,
+          "0.1": 0.0,
+          "0.25": 0.0,
+          "0.5": 0.0,
+          "0.75": 1.0,
+          "0.9": 0.0,
+          "0.95": 2.0,
+          "0.975": 1.0
+        }
+      },
+      "passed": true
+    },
+    "seed_202603": {
+      "seed": 202603,
+      "fit_time_sec": 7.495778560638428,
+      "final_loss": 4.037808668613434,
+      "fitted_parameters": {
+        "pi": [
+          0.5990979209340644,
+          0.3358438686097533,
+          0.06505821045618229
+        ],
+        "mu": [
+          -1.9573695659637451,
+          19.259679794311523,
+          67.03726196289062
+        ],
+        "sigma": [
+          4.963047504425049,
+          13.525541305541992,
+          16.336929321289062
+        ]
+      },
+      "metrics": {
+        "kolmogorov_smirnov_stat": 0.004671905710624924,
+        "wasserstein_1_distance": 0.2220834672023263,
+        "mean_absolute_quantile_error": 0.3333333333333333,
+        "max_absolute_quantile_error": 1.0,
+        "crps_absolute_error": 0.0008523701109837134,
+        "per_quantile_errors": {
+          "0.025": 0.0,
+          "0.05": 0.0,
+          "0.1": 0.0,
+          "0.25": 0.0,
+          "0.5": 0.0,
+          "0.75": 1.0,
+          "0.9": 0.0,
+          "0.95": 1.0,
+          "0.975": 1.0
+        }
+      },
+      "passed": true
+    }
+  },
+  "permutation_invariance_checks": {
+    "permutations_tested": 6,
+    "all_passed": true,
+    "max_difference_observed": 3.3306690738754696e-16
+  },
+  "degeneracy_checks": {
+    "dead_component_finite": true,
+    "extreme_tail_finite": true,
+    "sigma_floor_enforced": true
+  },
+  "stage_status": "PASS",
+  "total_wall_seconds": 21.364466667175293
+}

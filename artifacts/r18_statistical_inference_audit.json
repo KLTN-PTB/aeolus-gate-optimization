@@ -1,0 +1,1015 @@
+{
+  "status": "PASS",
+  "manifest_version": "r18_statistical_inference_audit_v2",
+  "task_id": "R18_STATISTICAL_INFERENCE_REPAIR",
+  "created_at_utc": "2026-10-02T09:55:09.272589+00:00",
+  "correction": {
+    "method": "holm_bonferroni",
+    "implemented": true,
+    "called_by_runner": true,
+    "validated": true
+  },
+  "dependence": {
+    "unit": "day_cluster",
+    "block_key": "FL_DATE",
+    "bootstrap_method": "day_cluster_percentile",
+    "bootstrap_B": 2000,
+    "seed": 202601
+  },
+  "metrics": {
+    "delta_mae": {
+      "type": "pointwise_error_aggregate",
+      "primary_unit": "day_cluster",
+      "primary_test": "day_cluster_bootstrap",
+      "secondary_unit": "flight",
+      "secondary_test": "paired_t_test",
+      "recomputation": "Recomputes daily cluster means and global MAE across resampled operational days"
+    },
+    "delta_rmse": {
+      "type": "nonlinear_aggregate",
+      "primary_unit": "fold_population",
+      "primary_test": "paired_bootstrap_test",
+      "recomputation": "Recomputes global RMSE(A) and RMSE(B) across resampled day clusters; delta = RMSE(A) - RMSE(B)"
+    },
+    "delta_r2": {
+      "type": "nonlinear_aggregate",
+      "primary_unit": "fold_population",
+      "primary_test": "paired_bootstrap_test",
+      "recomputation": "Recomputes global SST, SSE(A), SSE(B), R2(A), R2(B) across resampled day clusters; delta = R2(A) - R2(B)"
+    },
+    "delta_pr_auc": {
+      "type": "nonlinear_aggregate",
+      "primary_unit": "fold_population",
+      "primary_test": "paired_bootstrap_test",
+      "recomputation": "Recomputes global PR-AUC(A) and PR-AUC(B) across resampled day clusters; delta = PR-AUC(A) - PR-AUC(B)"
+    },
+    "delta_brier": {
+      "type": "pointwise_error_aggregate",
+      "primary_unit": "day_cluster",
+      "primary_test": "day_cluster_bootstrap",
+      "secondary_unit": "flight",
+      "secondary_test": "paired_t_test",
+      "recomputation": "Recomputes global mean Brier score across resampled day clusters"
+    },
+    "delta_crps_quantile_approximation": {
+      "type": "pointwise_approximation_aggregate",
+      "primary_unit": "day_cluster",
+      "primary_test": "day_cluster_bootstrap",
+      "secondary_unit": "flight",
+      "secondary_test": "paired_t_test",
+      "recomputation": "Recomputes multi-pinball trapezoidal approximation across resampled day clusters"
+    }
+  },
+  "comparison_families": [
+    {
+      "family_id": "point_regression__fold_1__delta_mae",
+      "metric": "delta_mae",
+      "fold_id": "fold_1",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_1__delta_rmse",
+      "metric": "delta_rmse",
+      "fold_id": "fold_1",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_1__delta_r2",
+      "metric": "delta_r2",
+      "fold_id": "fold_1",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_1__delta_brier",
+      "metric": "delta_brier",
+      "fold_id": "fold_1",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_1__delta_log_score",
+      "metric": "delta_log_score",
+      "fold_id": "fold_1",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_1__delta_pr_auc",
+      "metric": "delta_pr_auc",
+      "fold_id": "fold_1",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_2__delta_mae",
+      "metric": "delta_mae",
+      "fold_id": "fold_2",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_2__delta_rmse",
+      "metric": "delta_rmse",
+      "fold_id": "fold_2",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_2__delta_r2",
+      "metric": "delta_r2",
+      "fold_id": "fold_2",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_2__delta_brier",
+      "metric": "delta_brier",
+      "fold_id": "fold_2",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_2__delta_log_score",
+      "metric": "delta_log_score",
+      "fold_id": "fold_2",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_2__delta_pr_auc",
+      "metric": "delta_pr_auc",
+      "fold_id": "fold_2",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_3__delta_mae",
+      "metric": "delta_mae",
+      "fold_id": "fold_3",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_3__delta_rmse",
+      "metric": "delta_rmse",
+      "fold_id": "fold_3",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_3__delta_r2",
+      "metric": "delta_r2",
+      "fold_id": "fold_3",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_3__delta_brier",
+      "metric": "delta_brier",
+      "fold_id": "fold_3",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_3__delta_log_score",
+      "metric": "delta_log_score",
+      "fold_id": "fold_3",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_3__delta_pr_auc",
+      "metric": "delta_pr_auc",
+      "fold_id": "fold_3",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_4__delta_mae",
+      "metric": "delta_mae",
+      "fold_id": "fold_4",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_4__delta_rmse",
+      "metric": "delta_rmse",
+      "fold_id": "fold_4",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_regression__fold_4__delta_r2",
+      "metric": "delta_r2",
+      "fold_id": "fold_4",
+      "comparison_family": "point_regression",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_4__delta_brier",
+      "metric": "delta_brier",
+      "fold_id": "fold_4",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_4__delta_log_score",
+      "metric": "delta_log_score",
+      "fold_id": "fold_4",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "point_classification__fold_4__delta_pr_auc",
+      "metric": "delta_pr_auc",
+      "fold_id": "fold_4",
+      "comparison_family": "point_classification",
+      "comparisons": [
+        "arrival_linear_baseline_v1__vs__arrival_random_forest_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_linear_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_hist_gradient_boosting_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_random_forest_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_xgboost_baseline_v1",
+        "arrival_hist_gradient_boosting_baseline_v1__vs__arrival_weighted_ensemble_v1",
+        "arrival_xgboost_baseline_v1__vs__arrival_weighted_ensemble_v1"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_1__delta_crps",
+      "metric": "delta_crps",
+      "fold_id": "fold_1",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_1__delta_coverage_error_80",
+      "metric": "delta_coverage_error_80",
+      "fold_id": "fold_1",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_1__delta_interval_width_80",
+      "metric": "delta_interval_width_80",
+      "fold_id": "fold_1",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_1__delta_coverage_error_90",
+      "metric": "delta_coverage_error_90",
+      "fold_id": "fold_1",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_1__delta_interval_width_90",
+      "metric": "delta_interval_width_90",
+      "fold_id": "fold_1",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_1__delta_brier_delay_15",
+      "metric": "delta_brier_delay_15",
+      "fold_id": "fold_1",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 6
+    },
+    {
+      "family_id": "probabilistic__fold_2__delta_crps",
+      "metric": "delta_crps",
+      "fold_id": "fold_2",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_2__delta_coverage_error_80",
+      "metric": "delta_coverage_error_80",
+      "fold_id": "fold_2",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_2__delta_interval_width_80",
+      "metric": "delta_interval_width_80",
+      "fold_id": "fold_2",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_2__delta_coverage_error_90",
+      "metric": "delta_coverage_error_90",
+      "fold_id": "fold_2",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_2__delta_interval_width_90",
+      "metric": "delta_interval_width_90",
+      "fold_id": "fold_2",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_2__delta_brier_delay_15",
+      "metric": "delta_brier_delay_15",
+      "fold_id": "fold_2",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 6
+    },
+    {
+      "family_id": "probabilistic__fold_3__delta_crps",
+      "metric": "delta_crps",
+      "fold_id": "fold_3",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_3__delta_coverage_error_80",
+      "metric": "delta_coverage_error_80",
+      "fold_id": "fold_3",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_3__delta_interval_width_80",
+      "metric": "delta_interval_width_80",
+      "fold_id": "fold_3",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_3__delta_coverage_error_90",
+      "metric": "delta_coverage_error_90",
+      "fold_id": "fold_3",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_3__delta_interval_width_90",
+      "metric": "delta_interval_width_90",
+      "fold_id": "fold_3",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_3__delta_brier_delay_15",
+      "metric": "delta_brier_delay_15",
+      "fold_id": "fold_3",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 6
+    },
+    {
+      "family_id": "probabilistic__fold_4__delta_crps",
+      "metric": "delta_crps",
+      "fold_id": "fold_4",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_4__delta_coverage_error_80",
+      "metric": "delta_coverage_error_80",
+      "fold_id": "fold_4",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_4__delta_interval_width_80",
+      "metric": "delta_interval_width_80",
+      "fold_id": "fold_4",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_4__delta_coverage_error_90",
+      "metric": "delta_coverage_error_90",
+      "fold_id": "fold_4",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_4__delta_interval_width_90",
+      "metric": "delta_interval_width_90",
+      "fold_id": "fold_4",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P1_empirical__vs__P5_quantile_regression",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P5_quantile_regression",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P5_quantile_regression",
+        "P4_ngboost_student_t__vs__P5_quantile_regression"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 10
+    },
+    {
+      "family_id": "probabilistic__fold_4__delta_brier_delay_15",
+      "metric": "delta_brier_delay_15",
+      "fold_id": "fold_4",
+      "comparison_family": "probabilistic",
+      "comparisons": [
+        "P1_empirical__vs__P2_xgb_gaussian_oof",
+        "P1_empirical__vs__P3_ngboost_normal",
+        "P1_empirical__vs__P4_ngboost_student_t",
+        "P2_xgb_gaussian_oof__vs__P3_ngboost_normal",
+        "P2_xgb_gaussian_oof__vs__P4_ngboost_student_t",
+        "P3_ngboost_normal__vs__P4_ngboost_student_t"
+      ],
+      "correction": "holm_bonferroni",
+      "n_tests": 6
+    }
+  ],
+  "limitations": [
+    "Flight-level paired t-test assumes exchangeability across individual flights, which does not hold under intraday common shock delays; maintained strictly as secondary descriptive evidence.",
+    "Primary inference relies on day-cluster bootstrap over FL_DATE, which preserves intraday correlation across flights on the same operational day.",
+    "Nonlinear aggregate metrics (RMSE, R2, PR-AUC) recompute metrics globally on resampled units rather than mechanical rowwise difference subtraction.",
+    "CRPS quantile approximation (multi-pinball trapezoid) is a discrete approximation to the CRPS integral and is strictly distinguished from exact continuous CRPS."
+  ]
+}

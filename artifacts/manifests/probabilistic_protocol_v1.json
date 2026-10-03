@@ -1,0 +1,153 @@
+{
+  "manifest_version": "probabilistic_core_arrival_v1",
+  "created_at_utc": "2026-09-27T08:55:00Z",
+  "protocol_document": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md",
+  "protocol_document_sha256": "7de741ad6e150c544f85f9ec05049e09ba55e1896c6ffdfb1a46fa54c56cdace",
+  "task": "arrival_core",
+  "hub": "ATL",
+  "flow": "inbound",
+  "target_filter": "DEST=ATL",
+  "prediction_cutoff": "CRS_DEP_TIME - 2 hours",
+  "target_semantics_audit": {
+    "status": "AUDITED_PASS",
+    "target_column": "ARR_DELAY",
+    "inspected_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "total_inspected_rows": 2380528,
+    "storage_dtype": "float64",
+    "fractional_value_count": 0,
+    "fractional_value_frequency": 0.0,
+    "min_delay_minutes": -202.0,
+    "max_delay_minutes": 2108.0,
+    "value_granularity_minutes": 1.0,
+    "source_semantics": "BTS TranStats airline on-time performance reporting: integer minutes difference between actual gate arrival (ARR_TIME) and scheduled gate arrival (CRS_ARR_TIME)",
+    "decision_record": "integer_quantized_1min",
+    "primary_likelihood_specification": "discretized_gaussian_mixture",
+    "secondary_likelihood_specification": "continuous_gaussian_mixture",
+    "quantization_interval": "[y - 0.5, y + 0.5]"
+  },
+  "temporal_protocol": {
+    "expanding_window_version": "expanding_window_v1",
+    "temporal_manifest": "artifacts/manifests/temporal_folds_manifest.json",
+    "temporal_manifest_sha256": "8c5bfbd400e0f0c8591ff0bdcf37759e7e4eaead00697f5e5d92c2a9fcea0f31",
+    "rolling_development_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "model_selection_year": 2023,
+    "final_holdout_year": 2024,
+    "outer_folds": [
+      {
+        "fold_id": "fold_1",
+        "train_years": [
+          2016,
+          2017,
+          2018
+        ],
+        "validation_year": 2019
+      },
+      {
+        "fold_id": "fold_2",
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019
+        ],
+        "validation_year": 2020
+      },
+      {
+        "fold_id": "fold_3",
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "validation_year": 2021
+      },
+      {
+        "fold_id": "fold_4",
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021
+        ],
+        "validation_year": 2022
+      }
+    ],
+    "inner_folds_for_early_stopping": [
+      {
+        "fold_id": "fold_1",
+        "inner_train_years": [
+          2016,
+          2017
+        ],
+        "inner_val_year": 2018
+      },
+      {
+        "fold_id": "fold_2",
+        "inner_train_years": [
+          2016,
+          2017,
+          2018
+        ],
+        "inner_val_year": 2019
+      },
+      {
+        "fold_id": "fold_3",
+        "inner_train_years": [
+          2016,
+          2017,
+          2018,
+          2019
+        ],
+        "inner_val_year": 2020
+      },
+      {
+        "fold_id": "fold_4",
+        "inner_train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "inner_val_year": 2021
+      }
+    ]
+  },
+  "early_stopping_procedure": {
+    "step_1": "Fit inner preprocessor (scaler/vocabs) strictly on inner_train.",
+    "step_2": "Train candidate neural net on inner_train; select best_epoch from inner_val loss.",
+    "step_3": "Discard inner model weights completely (do NOT reuse).",
+    "step_4": "Fit fresh outer preprocessor on full outer_train.",
+    "step_5": "Train fresh model on full outer_train for exactly best_epoch epochs (no validation callback).",
+    "step_6": "Transform outer_val; evaluate out-of-fold predictions with zero feedback into training."
+  },
+  "non_negotiable_safety_rules": [
+    "2024 access is sealed FINAL_HOLDOUT and prohibited before explicit final holdout stage.",
+    "2023 is DEVELOPMENT_MODEL_SELECTION and prohibited during development.",
+    "Weather features are strictly prohibited in Core Arrival.",
+    "DEP_DELAY and actual-operation fields are strictly prohibited from Core Arrival predictors.",
+    "No in-sample residual uncertainty estimation; OOF/cross-fitted residuals only.",
+    "OP_CARRIER_FL_NUM is treated as service/schedule identity, not tail/aircraft identity.",
+    "No random splitting; expanding window only."
+  ]
+}

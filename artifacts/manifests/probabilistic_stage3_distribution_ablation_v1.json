@@ -1,0 +1,1768 @@
+{
+  "manifest_version": "probabilistic_stage3_distribution_ablation_v1",
+  "created_at_utc": "2026-09-27T09:49:20.666146+00:00",
+  "protocol_manifest": "artifacts/manifests/probabilistic_protocol_v1.json",
+  "seed": 202601,
+  "sample_train_per_year": 5000,
+  "sample_val": 5000,
+  "total_wall_seconds": 446.13198614120483,
+  "folds": [
+    "fold_1",
+    "fold_2",
+    "fold_3",
+    "fold_4"
+  ],
+  "validation_years": [
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "core_ladder_evaluated": [
+    "D1_k1_fixed_sigma",
+    "D2_k1_heteroscedastic",
+    "D3_k3_mixture"
+  ],
+  "calendar_year_ablation_modes": [
+    "with_year",
+    "no_year"
+  ],
+  "per_fold_results": {
+    "fold_1": {
+      "D1_k1_fixed_sigma__with_year": {
+        "candidate": "D1_k1_fixed_sigma",
+        "k_components": 1,
+        "include_calendar_year": true,
+        "best_epoch": 20,
+        "best_inner_nll": 45.386104583740234,
+        "metrics": {
+          "nll_discretized": 27.44499254515549,
+          "nll_continuous": 27.493320525830637,
+          "crps": 18.567259221036355,
+          "mae": 21.247612227819115
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 5.65300989151001,
+          "std": 0.0,
+          "q10": 5.65300989151001,
+          "q50": 5.65300989151001,
+          "q90": 5.65300989151001
+        },
+        "pinball_loss": {
+          "pinball_q_025": 5.171745,
+          "pinball_q_050": 6.14733,
+          "pinball_q_100": 7.43468,
+          "pinball_q_250": 9.50465,
+          "pinball_q_500": 10.6531,
+          "pinball_q_750": 10.073,
+          "pinball_q_900": 8.81586,
+          "pinball_q_950": 8.085560000000001,
+          "pinball_q_975": 7.549714999999999
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.4958,
+          "cov_q_050": 0.5438,
+          "cov_q_100": 0.6002,
+          "cov_q_250": 0.684,
+          "cov_q_500": 0.7552,
+          "cov_q_750": 0.7974,
+          "cov_q_900": 0.8276,
+          "cov_q_950": 0.8428,
+          "cov_q_975": 0.8534,
+          "interval_cov_50": 0.1354,
+          "interval_width_50": 7.5554,
+          "interval_cov_80": 0.2558,
+          "interval_width_80": 14.5514,
+          "interval_cov_90": 0.3266,
+          "interval_width_90": 18.6418,
+          "interval_cov_95": 0.393,
+          "interval_width_95": 22.2024
+        },
+        "train_time_sec": 15.14171051979065,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D1_k1_fixed_sigma__with_year_fold_1.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D1_k1_fixed_sigma__with_year_fold_1.parquet"
+      },
+      "D1_k1_fixed_sigma__no_year": {
+        "candidate": "D1_k1_fixed_sigma",
+        "k_components": 1,
+        "include_calendar_year": false,
+        "best_epoch": 20,
+        "best_inner_nll": 45.79595947265625,
+        "metrics": {
+          "nll_discretized": 27.22030763368951,
+          "nll_continuous": 27.26765687981602,
+          "crps": 17.32803706460832,
+          "mae": 19.86334848807752
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 5.659045219421387,
+          "std": 0.0,
+          "q10": 5.659045219421387,
+          "q50": 5.659045219421387,
+          "q90": 5.659045219421387
+        },
+        "pinball_loss": {
+          "pinball_q_025": 3.942305,
+          "pinball_q_050": 4.85607,
+          "pinball_q_100": 6.08134,
+          "pinball_q_250": 8.277,
+          "pinball_q_500": 9.9267,
+          "pinball_q_750": 9.97115,
+          "pinball_q_900": 9.05344,
+          "pinball_q_950": 8.41903,
+          "pinball_q_975": 7.93213
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.3786,
+          "cov_q_050": 0.4358,
+          "cov_q_100": 0.5022,
+          "cov_q_250": 0.597,
+          "cov_q_500": 0.6824,
+          "cov_q_750": 0.746,
+          "cov_q_900": 0.792,
+          "cov_q_950": 0.8152,
+          "cov_q_975": 0.832,
+          "interval_cov_50": 0.175,
+          "interval_width_50": 7.6366,
+          "interval_cov_80": 0.3244,
+          "interval_width_80": 14.5018,
+          "interval_cov_90": 0.412,
+          "interval_width_90": 18.618,
+          "interval_cov_95": 0.485,
+          "interval_width_95": 22.1774
+        },
+        "train_time_sec": 13.413922309875488,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D1_k1_fixed_sigma__no_year_fold_1.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D1_k1_fixed_sigma__no_year_fold_1.parquet"
+      },
+      "D2_k1_heteroscedastic__with_year": {
+        "candidate": "D2_k1_heteroscedastic",
+        "k_components": 1,
+        "include_calendar_year": true,
+        "best_epoch": 5,
+        "best_inner_nll": 5.3390326499938965,
+        "metrics": {
+          "nll_discretized": 5.122835317628262,
+          "nll_continuous": 5.122846000921614,
+          "crps": 17.639698811982104,
+          "mae": 20.170301545751094
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 43.59526722850799,
+          "std": 9.455622519763148,
+          "q10": 31.40589256286621,
+          "q50": 43.53966522216797,
+          "q90": 55.79065628051758
+        },
+        "pinball_loss": {
+          "pinball_q_025": 2.131695,
+          "pinball_q_050": 3.5754900000000007,
+          "pinball_q_100": 5.56754,
+          "pinball_q_250": 7.5367,
+          "pinball_q_500": 10.112,
+          "pinball_q_750": 12.9371,
+          "pinball_q_900": 9.38304,
+          "pinball_q_950": 6.669350000000003,
+          "pinball_q_975": 4.750135000000002
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0002,
+          "cov_q_050": 0.0004,
+          "cov_q_100": 0.0016,
+          "cov_q_250": 0.0514,
+          "cov_q_500": 0.7374,
+          "cov_q_750": 0.9126,
+          "cov_q_900": 0.949,
+          "cov_q_950": 0.9622,
+          "cov_q_975": 0.9686,
+          "interval_cov_50": 0.8696,
+          "interval_width_50": 58.8064,
+          "interval_cov_80": 0.9478,
+          "interval_width_80": 111.7438,
+          "interval_cov_90": 0.9618,
+          "interval_width_90": 143.4168,
+          "interval_cov_95": 0.9684,
+          "interval_width_95": 170.8892
+        },
+        "train_time_sec": 7.455705642700195,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D2_k1_heteroscedastic__with_year_fold_1.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D2_k1_heteroscedastic__with_year_fold_1.parquet"
+      },
+      "D2_k1_heteroscedastic__no_year": {
+        "candidate": "D2_k1_heteroscedastic",
+        "k_components": 1,
+        "include_calendar_year": false,
+        "best_epoch": 5,
+        "best_inner_nll": 5.3327531814575195,
+        "metrics": {
+          "nll_discretized": 5.137551738895902,
+          "nll_continuous": 5.137570534402492,
+          "crps": 17.463763726383135,
+          "mae": 20.195289454916118
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 42.20183250675201,
+          "std": 9.992245645943177,
+          "q10": 29.395198249816893,
+          "q50": 42.20936965942383,
+          "q90": 55.192472076416024
+        },
+        "pinball_loss": {
+          "pinball_q_025": 2.06317,
+          "pinball_q_050": 3.4606600000000007,
+          "pinball_q_100": 5.3906600000000005,
+          "pinball_q_250": 7.35605,
+          "pinball_q_500": 10.1289,
+          "pinball_q_750": 12.7869,
+          "pinball_q_900": 9.301179999999999,
+          "pinball_q_950": 6.6471700000000045,
+          "pinball_q_975": 4.779190000000002
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0002,
+          "cov_q_050": 0.0008,
+          "cov_q_100": 0.0032,
+          "cov_q_250": 0.0684,
+          "cov_q_500": 0.7388,
+          "cov_q_750": 0.9102,
+          "cov_q_900": 0.9466,
+          "cov_q_950": 0.961,
+          "cov_q_975": 0.9672,
+          "interval_cov_50": 0.8546,
+          "interval_width_50": 56.9262,
+          "interval_cov_80": 0.9438,
+          "interval_width_80": 108.1624,
+          "interval_cov_90": 0.9602,
+          "interval_width_90": 138.8326,
+          "interval_cov_95": 0.967,
+          "interval_width_95": 165.4304
+        },
+        "train_time_sec": 6.945492506027222,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D2_k1_heteroscedastic__no_year_fold_1.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D2_k1_heteroscedastic__no_year_fold_1.parquet"
+      },
+      "D3_k3_mixture__with_year": {
+        "candidate": "D3_k3_mixture",
+        "k_components": 3,
+        "include_calendar_year": true,
+        "best_epoch": 14,
+        "best_inner_nll": 4.443629741668701,
+        "metrics": {
+          "nll_discretized": 4.41721026057509,
+          "nll_continuous": 4.41719724682522,
+          "crps": 15.574952426508103,
+          "mae": 28.135174364632544
+        },
+        "component_stats": {
+          "k_components": 3,
+          "component_weights": [
+            0.7275368842482567,
+            3.775512816389496e-09,
+            0.2724631110444665
+          ],
+          "min_component_weight": 3.775512816389496e-09,
+          "component_entropy": 0.5559328720966265,
+          "effective_component_count": 1.6265260871861766
+        },
+        "sigma_stats": {
+          "mean": 36.45425823790232,
+          "std": 44.64199224840172,
+          "q10": 1.007754123210907,
+          "q50": 11.763504028320312,
+          "q90": 109.11988525390625
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.30457,
+          "pinball_q_050": 1.7723100000000003,
+          "pinball_q_100": 2.84534,
+          "pinball_q_250": 5.67495,
+          "pinball_q_500": 9.0784,
+          "pinball_q_750": 11.04725,
+          "pinball_q_900": 11.731099999999998,
+          "pinball_q_950": 8.973320000000006,
+          "pinball_q_975": 5.791060000000005
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.003,
+          "cov_q_050": 0.02,
+          "cov_q_100": 0.0722,
+          "cov_q_250": 0.2976,
+          "cov_q_500": 0.6234,
+          "cov_q_750": 0.8486,
+          "cov_q_900": 0.969,
+          "cov_q_950": 0.987,
+          "cov_q_975": 0.9908,
+          "interval_cov_50": 0.582,
+          "interval_width_50": 32.8424,
+          "interval_cov_80": 0.911,
+          "interval_width_80": 119.0304,
+          "interval_cov_90": 0.9698,
+          "interval_width_90": 187.7206,
+          "interval_cov_95": 0.988,
+          "interval_width_95": 249.0812
+        },
+        "train_time_sec": 11.583190202713013,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D3_k3_mixture__with_year_fold_1.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D3_k3_mixture__with_year_fold_1.parquet"
+      },
+      "D3_k3_mixture__no_year": {
+        "candidate": "D3_k3_mixture",
+        "k_components": 3,
+        "include_calendar_year": false,
+        "best_epoch": 12,
+        "best_inner_nll": 4.370914936065674,
+        "metrics": {
+          "nll_discretized": 4.389861509422924,
+          "nll_continuous": 4.389948649613651,
+          "crps": 14.216439399542113,
+          "mae": 18.718755932524598
+        },
+        "component_stats": {
+          "k_components": 3,
+          "component_weights": [
+            0.9211249086976051,
+            1.1230158714673941e-09,
+            0.0788750905085355
+          ],
+          "min_component_weight": 1.1230158714673941e-09,
+          "component_entropy": 0.2583026110576716,
+          "effective_component_count": 1.1744782164060388
+        },
+        "sigma_stats": {
+          "mean": 43.465308471298215,
+          "std": 44.49268075648766,
+          "q10": 9.40215368270874,
+          "q50": 15.536351203918457,
+          "q90": 114.51724014282227
+        },
+        "pinball_loss": {
+          "pinball_q_025": 0.8900150000000001,
+          "pinball_q_050": 1.57396,
+          "pinball_q_100": 2.7637,
+          "pinball_q_250": 5.6441,
+          "pinball_q_500": 8.8494,
+          "pinball_q_750": 9.96745,
+          "pinball_q_900": 8.75088,
+          "pinball_q_950": 6.857390000000002,
+          "pinball_q_975": 4.804855000000002
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0174,
+          "cov_q_050": 0.0402,
+          "cov_q_100": 0.094,
+          "cov_q_250": 0.2606,
+          "cov_q_500": 0.5142,
+          "cov_q_750": 0.7126,
+          "cov_q_900": 0.8344,
+          "cov_q_950": 0.9092,
+          "cov_q_975": 0.966,
+          "interval_cov_50": 0.4802,
+          "interval_width_50": 15.5958,
+          "interval_cov_80": 0.76,
+          "interval_width_80": 37.0898,
+          "interval_cov_90": 0.8762,
+          "interval_width_90": 69.575,
+          "interval_cov_95": 0.9528,
+          "interval_width_95": 127.1228
+        },
+        "train_time_sec": 11.31901741027832,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D3_k3_mixture__no_year_fold_1.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D3_k3_mixture__no_year_fold_1.parquet"
+      }
+    },
+    "fold_2": {
+      "D1_k1_fixed_sigma__with_year": {
+        "candidate": "D1_k1_fixed_sigma",
+        "k_components": 1,
+        "include_calendar_year": true,
+        "best_epoch": 20,
+        "best_inner_nll": 27.461559295654297,
+        "metrics": {
+          "nll_discretized": 17.0908242830552,
+          "nll_continuous": 17.116127015882505,
+          "crps": 14.228991351784865,
+          "mae": 16.773668006806076
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 6.027517318725586,
+          "std": 0.0,
+          "q10": 6.027517318725586,
+          "q50": 6.027517318725586,
+          "q90": 6.027517318725586
+        },
+        "pinball_loss": {
+          "pinball_q_025": 4.38821,
+          "pinball_q_050": 5.226629999999999,
+          "pinball_q_100": 6.28312,
+          "pinball_q_250": 7.8503,
+          "pinball_q_500": 8.3855,
+          "pinball_q_750": 7.28375,
+          "pinball_q_900": 5.736659999999999,
+          "pinball_q_950": 4.950330000000001,
+          "pinball_q_975": 4.430990000000001
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.3886,
+          "cov_q_050": 0.4528,
+          "cov_q_100": 0.5226,
+          "cov_q_250": 0.6496,
+          "cov_q_500": 0.7596,
+          "cov_q_750": 0.834,
+          "cov_q_900": 0.8776,
+          "cov_q_950": 0.896,
+          "cov_q_975": 0.9068,
+          "interval_cov_50": 0.2184,
+          "interval_width_50": 8.141,
+          "interval_cov_80": 0.387,
+          "interval_width_80": 15.4398,
+          "interval_cov_90": 0.4794,
+          "interval_width_90": 19.8192,
+          "interval_cov_95": 0.5526,
+          "interval_width_95": 23.616
+        },
+        "train_time_sec": 19.685279607772827,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D1_k1_fixed_sigma__with_year_fold_2.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D1_k1_fixed_sigma__with_year_fold_2.parquet"
+      },
+      "D1_k1_fixed_sigma__no_year": {
+        "candidate": "D1_k1_fixed_sigma",
+        "k_components": 1,
+        "include_calendar_year": false,
+        "best_epoch": 20,
+        "best_inner_nll": 27.27779769897461,
+        "metrics": {
+          "nll_discretized": 17.48701661823351,
+          "nll_continuous": 17.51336854685082,
+          "crps": 14.92071911166636,
+          "mae": 17.54745517861545
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 6.01174259185791,
+          "std": 0.0,
+          "q10": 6.01174259185791,
+          "q50": 6.01174259185791,
+          "q90": 6.01174259185791
+        },
+        "pinball_loss": {
+          "pinball_q_025": 4.943569999999999,
+          "pinball_q_050": 5.819089999999999,
+          "pinball_q_100": 6.90958,
+          "pinball_q_250": 8.43255,
+          "pinball_q_500": 8.7706,
+          "pinball_q_750": 7.4312,
+          "pinball_q_900": 5.7352799999999995,
+          "pinball_q_950": 4.89773,
+          "pinball_q_975": 4.355335
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.4274,
+          "cov_q_050": 0.4938,
+          "cov_q_100": 0.5682,
+          "cov_q_250": 0.685,
+          "cov_q_500": 0.7838,
+          "cov_q_750": 0.846,
+          "cov_q_900": 0.8836,
+          "cov_q_950": 0.901,
+          "cov_q_975": 0.9108,
+          "interval_cov_50": 0.1918,
+          "interval_width_50": 8.1086,
+          "interval_cov_80": 0.346,
+          "interval_width_80": 15.4106,
+          "interval_cov_90": 0.4464,
+          "interval_width_90": 19.7804,
+          "interval_cov_95": 0.5172,
+          "interval_width_95": 23.5722
+        },
+        "train_time_sec": 21.27888822555542,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D1_k1_fixed_sigma__no_year_fold_2.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D1_k1_fixed_sigma__no_year_fold_2.parquet"
+      },
+      "D2_k1_heteroscedastic__with_year": {
+        "candidate": "D2_k1_heteroscedastic",
+        "k_components": 1,
+        "include_calendar_year": true,
+        "best_epoch": 6,
+        "best_inner_nll": 5.1105146408081055,
+        "metrics": {
+          "nll_discretized": 4.88091551547205,
+          "nll_continuous": 4.880905080636358,
+          "crps": 14.684859717629468,
+          "mae": 17.154428410638868
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 40.337378196907046,
+          "std": 9.80696145073376,
+          "q10": 28.307818984985353,
+          "q50": 39.76996994018555,
+          "q90": 53.2448600769043
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.8069,
+          "pinball_q_050": 2.9821800000000005,
+          "pinball_q_100": 4.50884,
+          "pinball_q_250": 5.57625,
+          "pinball_q_500": 8.613,
+          "pinball_q_750": 11.41555,
+          "pinball_q_900": 7.917699999999998,
+          "pinball_q_950": 5.389480000000003,
+          "pinball_q_975": 3.644095000000002
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0006,
+          "cov_q_050": 0.0022,
+          "cov_q_100": 0.0052,
+          "cov_q_250": 0.0908,
+          "cov_q_500": 0.8424,
+          "cov_q_750": 0.9564,
+          "cov_q_900": 0.9756,
+          "cov_q_950": 0.98,
+          "cov_q_975": 0.983,
+          "interval_cov_50": 0.8786,
+          "interval_width_50": 54.432,
+          "interval_cov_80": 0.972,
+          "interval_width_80": 103.3874,
+          "interval_cov_90": 0.978,
+          "interval_width_90": 132.6972,
+          "interval_cov_95": 0.9826,
+          "interval_width_95": 158.1198
+        },
+        "train_time_sec": 11.13176679611206,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D2_k1_heteroscedastic__with_year_fold_2.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D2_k1_heteroscedastic__with_year_fold_2.parquet"
+      },
+      "D2_k1_heteroscedastic__no_year": {
+        "candidate": "D2_k1_heteroscedastic",
+        "k_components": 1,
+        "include_calendar_year": false,
+        "best_epoch": 8,
+        "best_inner_nll": 5.116806507110596,
+        "metrics": {
+          "nll_discretized": 4.8644589959794695,
+          "nll_continuous": 4.864487955425658,
+          "crps": 14.051469251518121,
+          "mae": 16.226480865387618
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 37.243629796886445,
+          "std": 12.065251146879726,
+          "q10": 21.786148834228516,
+          "q50": 36.83799362182617,
+          "q90": 52.772106933593754
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.7100650000000002,
+          "pinball_q_050": 2.8286500000000006,
+          "pinball_q_100": 4.31592,
+          "pinball_q_250": 5.5968,
+          "pinball_q_500": 8.1089,
+          "pinball_q_750": 10.711,
+          "pinball_q_900": 7.520199999999998,
+          "pinball_q_950": 5.198360000000003,
+          "pinball_q_975": 3.5890750000000016
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0034,
+          "cov_q_050": 0.0066,
+          "cov_q_100": 0.015,
+          "cov_q_250": 0.1144,
+          "cov_q_500": 0.8166,
+          "cov_q_750": 0.949,
+          "cov_q_900": 0.9712,
+          "cov_q_950": 0.9778,
+          "cov_q_975": 0.9806,
+          "interval_cov_50": 0.8484,
+          "interval_width_50": 50.2376,
+          "interval_cov_80": 0.958,
+          "interval_width_80": 95.4712,
+          "interval_cov_90": 0.9724,
+          "interval_width_90": 122.5162,
+          "interval_cov_95": 0.9772,
+          "interval_width_95": 145.9976
+        },
+        "train_time_sec": 12.693649530410767,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D2_k1_heteroscedastic__no_year_fold_2.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D2_k1_heteroscedastic__no_year_fold_2.parquet"
+      },
+      "D3_k3_mixture__with_year": {
+        "candidate": "D3_k3_mixture",
+        "k_components": 3,
+        "include_calendar_year": true,
+        "best_epoch": 19,
+        "best_inner_nll": 4.359602928161621,
+        "metrics": {
+          "nll_discretized": 4.116790367663294,
+          "nll_continuous": 4.116841963487338,
+          "crps": 10.895156313308066,
+          "mae": 18.233740452832212
+        },
+        "component_stats": {
+          "k_components": 3,
+          "component_weights": [
+            0.7276897588133812,
+            0.22619614067226648,
+            0.046114101078547534
+          ],
+          "min_component_weight": 0.046114101078547534,
+          "component_entropy": 0.6823947700078413,
+          "effective_component_count": 1.7081769023394384
+        },
+        "sigma_stats": {
+          "mean": 46.49901877123515,
+          "std": 45.44809241170842,
+          "q10": 8.163812828063966,
+          "q50": 22.335810661315918,
+          "q90": 118.28419647216798
+        },
+        "pinball_loss": {
+          "pinball_q_025": 0.753175,
+          "pinball_q_050": 1.34743,
+          "pinball_q_100": 2.36058,
+          "pinball_q_250": 4.62345,
+          "pinball_q_500": 6.813,
+          "pinball_q_750": 7.3338,
+          "pinball_q_900": 6.277759999999999,
+          "pinball_q_950": 5.0268200000000025,
+          "pinball_q_975": 4.0456350000000025
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0486,
+          "cov_q_050": 0.0966,
+          "cov_q_100": 0.1828,
+          "cov_q_250": 0.3854,
+          "cov_q_500": 0.661,
+          "cov_q_750": 0.8618,
+          "cov_q_900": 0.9524,
+          "cov_q_950": 0.973,
+          "cov_q_975": 0.9856,
+          "interval_cov_50": 0.512,
+          "interval_width_50": 18.869,
+          "interval_cov_80": 0.7972,
+          "interval_width_80": 47.4374,
+          "interval_cov_90": 0.891,
+          "interval_width_90": 75.569,
+          "interval_cov_95": 0.946,
+          "interval_width_95": 133.0164
+        },
+        "train_time_sec": 21.036836862564087,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D3_k3_mixture__with_year_fold_2.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D3_k3_mixture__with_year_fold_2.parquet"
+      },
+      "D3_k3_mixture__no_year": {
+        "candidate": "D3_k3_mixture",
+        "k_components": 3,
+        "include_calendar_year": false,
+        "best_epoch": 19,
+        "best_inner_nll": 4.358543395996094,
+        "metrics": {
+          "nll_discretized": 4.125413208371406,
+          "nll_continuous": 4.125411605031828,
+          "crps": 10.512949423770584,
+          "mae": 15.095549386007022
+        },
+        "component_stats": {
+          "k_components": 3,
+          "component_weights": [
+            0.9394370754301548,
+            0.0005023916210933998,
+            0.06006053503174335
+          ],
+          "min_component_weight": 0.0005023916210933998,
+          "component_entropy": 0.2100976589947431,
+          "effective_component_count": 1.1333810751235103
+        },
+        "sigma_stats": {
+          "mean": 47.98297325499853,
+          "std": 39.31062598762073,
+          "q10": 10.68892297744751,
+          "q50": 35.10333442687988,
+          "q90": 111.69391860961915
+        },
+        "pinball_loss": {
+          "pinball_q_025": 0.7585700000000001,
+          "pinball_q_050": 1.32481,
+          "pinball_q_100": 2.28786,
+          "pinball_q_250": 4.5094,
+          "pinball_q_500": 6.7067,
+          "pinball_q_750": 6.99715,
+          "pinball_q_900": 5.75738,
+          "pinball_q_950": 4.7970000000000015,
+          "pinball_q_975": 3.792640000000001
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0208,
+          "cov_q_050": 0.051,
+          "cov_q_100": 0.1186,
+          "cov_q_250": 0.332,
+          "cov_q_500": 0.6472,
+          "cov_q_750": 0.8444,
+          "cov_q_900": 0.9186,
+          "cov_q_950": 0.9494,
+          "cov_q_975": 0.971,
+          "interval_cov_50": 0.5482,
+          "interval_width_50": 17.9078,
+          "interval_cov_80": 0.8214,
+          "interval_width_80": 37.1744,
+          "interval_cov_90": 0.9104,
+          "interval_width_90": 57.3962,
+          "interval_cov_95": 0.9552,
+          "interval_width_95": 95.9444
+        },
+        "train_time_sec": 20.42173719406128,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D3_k3_mixture__no_year_fold_2.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D3_k3_mixture__no_year_fold_2.parquet"
+      }
+    },
+    "fold_3": {
+      "D1_k1_fixed_sigma__with_year": {
+        "candidate": "D1_k1_fixed_sigma",
+        "k_components": 1,
+        "include_calendar_year": true,
+        "best_epoch": 18,
+        "best_inner_nll": 16.882526397705078,
+        "metrics": {
+          "nll_discretized": 24.995878832700996,
+          "nll_continuous": 25.028498665957105,
+          "crps": 14.2780383968484,
+          "mae": 16.63365706592351
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 6.184531211853027,
+          "std": 0.0,
+          "q10": 6.184531211853027,
+          "q50": 6.184531211853027,
+          "q90": 6.184531211853027
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.25803,
+          "pinball_q_050": 1.9581300000000004,
+          "pinball_q_100": 3.0987400000000003,
+          "pinball_q_250": 5.61695,
+          "pinball_q_500": 8.3178,
+          "pinball_q_750": 9.46705,
+          "pinball_q_900": 9.119860000000001,
+          "pinball_q_950": 8.6069,
+          "pinball_q_975": 8.135135
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.1438,
+          "cov_q_050": 0.1894,
+          "cov_q_100": 0.2546,
+          "cov_q_250": 0.3826,
+          "cov_q_500": 0.5206,
+          "cov_q_750": 0.6364,
+          "cov_q_900": 0.715,
+          "cov_q_950": 0.757,
+          "cov_q_975": 0.7846,
+          "interval_cov_50": 0.2902,
+          "interval_width_50": 8.3368,
+          "interval_cov_80": 0.489,
+          "interval_width_80": 15.852,
+          "interval_cov_90": 0.5896,
+          "interval_width_90": 20.3406,
+          "interval_cov_95": 0.6576,
+          "interval_width_95": 24.2386
+        },
+        "train_time_sec": 23.9203097820282,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D1_k1_fixed_sigma__with_year_fold_3.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D1_k1_fixed_sigma__with_year_fold_3.parquet"
+      },
+      "D1_k1_fixed_sigma__no_year": {
+        "candidate": "D1_k1_fixed_sigma",
+        "k_components": 1,
+        "include_calendar_year": false,
+        "best_epoch": 19,
+        "best_inner_nll": 17.316808700561523,
+        "metrics": {
+          "nll_discretized": 23.462152789097143,
+          "nll_continuous": 23.49184076013568,
+          "crps": 15.722066617177008,
+          "mae": 18.4365160252125
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 6.299177646636963,
+          "std": 0.0,
+          "q10": 6.299177646636963,
+          "q50": 6.299177646636963,
+          "q90": 6.299177646636963
+        },
+        "pinball_loss": {
+          "pinball_q_025": 3.2562,
+          "pinball_q_050": 4.19902,
+          "pinball_q_100": 5.47928,
+          "pinball_q_250": 7.69745,
+          "pinball_q_500": 9.2186,
+          "pinball_q_750": 8.9982,
+          "pinball_q_900": 7.8806,
+          "pinball_q_950": 7.1830300000000005,
+          "pinball_q_975": 6.671295
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.363,
+          "cov_q_050": 0.4238,
+          "cov_q_100": 0.5008,
+          "cov_q_250": 0.6144,
+          "cov_q_500": 0.716,
+          "cov_q_750": 0.7842,
+          "cov_q_900": 0.8328,
+          "cov_q_950": 0.853,
+          "cov_q_975": 0.8684,
+          "interval_cov_50": 0.197,
+          "interval_width_50": 8.489,
+          "interval_cov_80": 0.3632,
+          "interval_width_80": 16.1428,
+          "interval_cov_90": 0.459,
+          "interval_width_90": 20.721,
+          "interval_cov_95": 0.5374,
+          "interval_width_95": 24.6918
+        },
+        "train_time_sec": 24.99414587020874,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D1_k1_fixed_sigma__no_year_fold_3.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D1_k1_fixed_sigma__no_year_fold_3.parquet"
+      },
+      "D2_k1_heteroscedastic__with_year": {
+        "candidate": "D2_k1_heteroscedastic",
+        "k_components": 1,
+        "include_calendar_year": true,
+        "best_epoch": 8,
+        "best_inner_nll": 4.860140800476074,
+        "metrics": {
+          "nll_discretized": 5.415160619998112,
+          "nll_continuous": 5.415620674273782,
+          "crps": 14.677045692163182,
+          "mae": 18.049847093462944
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 27.590640360355376,
+          "std": 10.56455581730686,
+          "q10": 14.8726411819458,
+          "q50": 26.744461059570312,
+          "q90": 41.47332305908204
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.403145,
+          "pinball_q_050": 2.35673,
+          "pinball_q_100": 3.7336,
+          "pinball_q_250": 5.7754,
+          "pinball_q_500": 8.9974,
+          "pinball_q_750": 10.52465,
+          "pinball_q_900": 7.995679999999999,
+          "pinball_q_950": 6.131610000000003,
+          "pinball_q_975": 4.793715000000001
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.013,
+          "cov_q_050": 0.0204,
+          "cov_q_100": 0.0452,
+          "cov_q_250": 0.2018,
+          "cov_q_500": 0.727,
+          "cov_q_750": 0.8882,
+          "cov_q_900": 0.9298,
+          "cov_q_950": 0.9446,
+          "cov_q_975": 0.952,
+          "interval_cov_50": 0.7072,
+          "interval_width_50": 37.221,
+          "interval_cov_80": 0.8896,
+          "interval_width_80": 70.7168,
+          "interval_cov_90": 0.9264,
+          "interval_width_90": 90.7708,
+          "interval_cov_95": 0.9404,
+          "interval_width_95": 108.1464
+        },
+        "train_time_sec": 15.418149471282959,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D2_k1_heteroscedastic__with_year_fold_3.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D2_k1_heteroscedastic__with_year_fold_3.parquet"
+      },
+      "D2_k1_heteroscedastic__no_year": {
+        "candidate": "D2_k1_heteroscedastic",
+        "k_components": 1,
+        "include_calendar_year": false,
+        "best_epoch": 4,
+        "best_inner_nll": 4.880622863769531,
+        "metrics": {
+          "nll_discretized": 5.102911330413739,
+          "nll_continuous": 5.102918095832879,
+          "crps": 15.958949561291778,
+          "mae": 18.44943784507513
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 38.50459686107636,
+          "std": 8.240162920025462,
+          "q10": 28.078478240966795,
+          "q50": 38.3293514251709,
+          "q90": 49.08351173400879
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.8565300000000002,
+          "pinball_q_050": 3.10752,
+          "pinball_q_100": 4.82354,
+          "pinball_q_250": 6.52855,
+          "pinball_q_500": 9.2221,
+          "pinball_q_750": 11.80405,
+          "pinball_q_900": 8.64484,
+          "pinball_q_950": 6.236760000000003,
+          "pinball_q_975": 4.531590000000001
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0,
+          "cov_q_050": 0.0006,
+          "cov_q_100": 0.0016,
+          "cov_q_250": 0.0754,
+          "cov_q_500": 0.7462,
+          "cov_q_750": 0.9194,
+          "cov_q_900": 0.9526,
+          "cov_q_950": 0.9634,
+          "cov_q_975": 0.9704,
+          "interval_cov_50": 0.8568,
+          "interval_width_50": 51.9344,
+          "interval_cov_80": 0.9512,
+          "interval_width_80": 98.6878,
+          "interval_cov_90": 0.963,
+          "interval_width_90": 126.6656,
+          "interval_cov_95": 0.9704,
+          "interval_width_95": 150.9408
+        },
+        "train_time_sec": 14.665216207504272,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D2_k1_heteroscedastic__no_year_fold_3.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D2_k1_heteroscedastic__no_year_fold_3.parquet"
+      },
+      "D3_k3_mixture__with_year": {
+        "candidate": "D3_k3_mixture",
+        "k_components": 3,
+        "include_calendar_year": true,
+        "best_epoch": 7,
+        "best_inner_nll": 4.109952449798584,
+        "metrics": {
+          "nll_discretized": 4.265765623653187,
+          "nll_continuous": 4.265756577682594,
+          "crps": 12.84729122394726,
+          "mae": 18.334472467165433
+        },
+        "component_stats": {
+          "k_components": 3,
+          "component_weights": [
+            0.8903345060944557,
+            8.075469479508434e-11,
+            0.10966549459472298
+          ],
+          "min_component_weight": 8.075469479508434e-11,
+          "component_entropy": 0.3366133877205834,
+          "effective_component_count": 1.2452085736341179
+        },
+        "sigma_stats": {
+          "mean": 35.2327034825325,
+          "std": 36.70558922703997,
+          "q10": 7.993003988265992,
+          "q50": 11.295975685119629,
+          "q90": 92.11140670776368
+        },
+        "pinball_loss": {
+          "pinball_q_025": 0.84514,
+          "pinball_q_050": 1.45628,
+          "pinball_q_100": 2.5518,
+          "pinball_q_250": 5.1887,
+          "pinball_q_500": 8.0812,
+          "pinball_q_750": 8.86615,
+          "pinball_q_900": 7.533639999999999,
+          "pinball_q_950": 6.270140000000002,
+          "pinball_q_975": 4.744290000000003
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0082,
+          "cov_q_050": 0.0274,
+          "cov_q_100": 0.0874,
+          "cov_q_250": 0.2856,
+          "cov_q_500": 0.5796,
+          "cov_q_750": 0.7794,
+          "cov_q_900": 0.8972,
+          "cov_q_950": 0.9648,
+          "cov_q_975": 0.9854,
+          "interval_cov_50": 0.5276,
+          "interval_width_50": 17.737,
+          "interval_cov_80": 0.8254,
+          "interval_width_80": 43.3984,
+          "interval_cov_90": 0.9434,
+          "interval_width_90": 93.6364,
+          "interval_cov_95": 0.9784,
+          "interval_width_95": 158.0492
+        },
+        "train_time_sec": 17.97165822982788,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D3_k3_mixture__with_year_fold_3.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D3_k3_mixture__with_year_fold_3.parquet"
+      },
+      "D3_k3_mixture__no_year": {
+        "candidate": "D3_k3_mixture",
+        "k_components": 3,
+        "include_calendar_year": false,
+        "best_epoch": 14,
+        "best_inner_nll": 4.076801300048828,
+        "metrics": {
+          "nll_discretized": 4.205732930053569,
+          "nll_continuous": 4.205724892637327,
+          "crps": 12.798767768544463,
+          "mae": 19.04207516733867
+        },
+        "component_stats": {
+          "k_components": 3,
+          "component_weights": [
+            0.7875900584936142,
+            0.16964017078131438,
+            0.04276977060791105
+          ],
+          "min_component_weight": 0.04276977060791105,
+          "component_entropy": 0.602472749332926,
+          "effective_component_count": 1.5456402907671511
+        },
+        "sigma_stats": {
+          "mean": 52.96663435386022,
+          "std": 51.100717011842335,
+          "q10": 8.943072605133057,
+          "q50": 25.84807777404785,
+          "q90": 132.12170867919923
+        },
+        "pinball_loss": {
+          "pinball_q_025": 0.78646,
+          "pinball_q_050": 1.4141100000000002,
+          "pinball_q_100": 2.53614,
+          "pinball_q_250": 5.20045,
+          "pinball_q_500": 8.0419,
+          "pinball_q_750": 8.8293,
+          "pinball_q_900": 7.5248800000000005,
+          "pinball_q_950": 6.069900000000002,
+          "pinball_q_975": 4.773430000000002
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0172,
+          "cov_q_050": 0.046,
+          "cov_q_100": 0.1126,
+          "cov_q_250": 0.2938,
+          "cov_q_500": 0.5684,
+          "cov_q_750": 0.785,
+          "cov_q_900": 0.9184,
+          "cov_q_950": 0.9602,
+          "cov_q_975": 0.9814,
+          "interval_cov_50": 0.524,
+          "interval_width_50": 18.6326,
+          "interval_cov_80": 0.8266,
+          "interval_width_80": 47.8862,
+          "interval_cov_90": 0.9248,
+          "interval_width_90": 79.7522,
+          "interval_cov_95": 0.9684,
+          "interval_width_95": 137.8196
+        },
+        "train_time_sec": 20.149494409561157,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D3_k3_mixture__no_year_fold_3.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D3_k3_mixture__no_year_fold_3.parquet"
+      }
+    },
+    "fold_4": {
+      "D1_k1_fixed_sigma__with_year": {
+        "candidate": "D1_k1_fixed_sigma",
+        "k_components": 1,
+        "include_calendar_year": true,
+        "best_epoch": 20,
+        "best_inner_nll": 24.208765029907227,
+        "metrics": {
+          "nll_discretized": 29.861727003180906,
+          "nll_continuous": 29.89628687956693,
+          "crps": 17.26241987622894,
+          "mae": 19.84046258344725
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 6.768422603607178,
+          "std": 0.0,
+          "q10": 6.768422603607178,
+          "q50": 6.768422603607178,
+          "q90": 6.768422603607178
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.57438,
+          "pinball_q_050": 2.4065,
+          "pinball_q_100": 3.738840000000001,
+          "pinball_q_250": 6.69835,
+          "pinball_q_500": 9.9217,
+          "pinball_q_750": 11.4692,
+          "pinball_q_900": 11.266720000000001,
+          "pinball_q_950": 10.75929,
+          "pinball_q_975": 10.26886
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.166,
+          "cov_q_050": 0.212,
+          "cov_q_100": 0.2788,
+          "cov_q_250": 0.4016,
+          "cov_q_500": 0.549,
+          "cov_q_750": 0.6586,
+          "cov_q_900": 0.7288,
+          "cov_q_950": 0.7636,
+          "cov_q_975": 0.7854,
+          "interval_cov_50": 0.2852,
+          "interval_width_50": 9.123,
+          "interval_cov_80": 0.4786,
+          "interval_width_80": 17.3176,
+          "interval_cov_90": 0.5742,
+          "interval_width_90": 22.2838,
+          "interval_cov_95": 0.6394,
+          "interval_width_95": 26.5616
+        },
+        "train_time_sec": 29.82102680206299,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D1_k1_fixed_sigma__with_year_fold_4.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D1_k1_fixed_sigma__with_year_fold_4.parquet"
+      },
+      "D1_k1_fixed_sigma__no_year": {
+        "candidate": "D1_k1_fixed_sigma",
+        "k_components": 1,
+        "include_calendar_year": false,
+        "best_epoch": 20,
+        "best_inner_nll": 22.822269439697266,
+        "metrics": {
+          "nll_discretized": 28.797971043783683,
+          "nll_continuous": 28.83100220036353,
+          "crps": 17.643403517488725,
+          "mae": 20.489680881880222
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 6.787147045135498,
+          "std": 0.0,
+          "q10": 6.787147045135498,
+          "q50": 6.787147045135498,
+          "q90": 6.787147045135498
+        },
+        "pinball_loss": {
+          "pinball_q_025": 2.309705,
+          "pinball_q_050": 3.26005,
+          "pinball_q_100": 4.6949,
+          "pinball_q_250": 7.5628,
+          "pinball_q_500": 10.2368,
+          "pinball_q_750": 11.0757,
+          "pinball_q_900": 10.46828,
+          "pinball_q_950": 9.86835,
+          "pinball_q_975": 9.35434
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.2702,
+          "cov_q_050": 0.3376,
+          "cov_q_100": 0.418,
+          "cov_q_250": 0.547,
+          "cov_q_500": 0.6564,
+          "cov_q_750": 0.7364,
+          "cov_q_900": 0.7864,
+          "cov_q_950": 0.8104,
+          "cov_q_975": 0.8266,
+          "interval_cov_50": 0.2192,
+          "interval_width_50": 9.1468,
+          "interval_cov_80": 0.4008,
+          "interval_width_80": 17.3838,
+          "interval_cov_90": 0.503,
+          "interval_width_90": 22.34,
+          "interval_cov_95": 0.5874,
+          "interval_width_95": 26.6178
+        },
+        "train_time_sec": 30.333869695663452,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D1_k1_fixed_sigma__no_year_fold_4.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D1_k1_fixed_sigma__no_year_fold_4.parquet"
+      },
+      "D2_k1_heteroscedastic__with_year": {
+        "candidate": "D2_k1_heteroscedastic",
+        "k_components": 1,
+        "include_calendar_year": true,
+        "best_epoch": 1,
+        "best_inner_nll": 5.116915702819824,
+        "metrics": {
+          "nll_discretized": 5.399998505325841,
+          "nll_continuous": 5.400020709042187,
+          "crps": 18.227386550619194,
+          "mae": 21.117396388083698
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 38.863055202484134,
+          "std": 4.632578685380583,
+          "q10": 31.601248931884765,
+          "q50": 39.920631408691406,
+          "q90": 43.743908691406254
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.9824700000000002,
+          "pinball_q_050": 3.35275,
+          "pinball_q_100": 5.2960400000000005,
+          "pinball_q_250": 7.5396,
+          "pinball_q_500": 10.6247,
+          "pinball_q_750": 13.17305,
+          "pinball_q_900": 10.103959999999999,
+          "pinball_q_950": 7.690030000000003,
+          "pinball_q_975": 5.941400000000002
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0,
+          "cov_q_050": 0.0,
+          "cov_q_100": 0.001,
+          "cov_q_250": 0.0478,
+          "cov_q_500": 0.7024,
+          "cov_q_750": 0.8906,
+          "cov_q_900": 0.9344,
+          "cov_q_950": 0.9498,
+          "cov_q_975": 0.9598,
+          "interval_cov_50": 0.8498,
+          "interval_width_50": 52.425,
+          "interval_cov_80": 0.9338,
+          "interval_width_80": 99.6,
+          "interval_cov_90": 0.9498,
+          "interval_width_90": 127.8436,
+          "interval_cov_95": 0.9598,
+          "interval_width_95": 152.3388
+        },
+        "train_time_sec": 14.291244745254517,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D2_k1_heteroscedastic__with_year_fold_4.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D2_k1_heteroscedastic__with_year_fold_4.parquet"
+      },
+      "D2_k1_heteroscedastic__no_year": {
+        "candidate": "D2_k1_heteroscedastic",
+        "k_components": 1,
+        "include_calendar_year": false,
+        "best_epoch": 1,
+        "best_inner_nll": 5.108710289001465,
+        "metrics": {
+          "nll_discretized": 5.469955450954224,
+          "nll_continuous": 5.469991897337553,
+          "crps": 17.74266105667629,
+          "mae": 20.9228183729887
+        },
+        "component_stats": {
+          "k_components": 1,
+          "component_weights": [
+            1.0
+          ],
+          "min_component_weight": 1.0,
+          "component_entropy": 0.0,
+          "effective_component_count": 1.0
+        },
+        "sigma_stats": {
+          "mean": 35.29850581741333,
+          "std": 3.7022415312781987,
+          "q10": 29.40599880218506,
+          "q50": 36.05581283569336,
+          "q90": 39.369415283203125
+        },
+        "pinball_loss": {
+          "pinball_q_025": 1.8210699999999997,
+          "pinball_q_050": 3.0860100000000004,
+          "pinball_q_100": 4.89318,
+          "pinball_q_250": 7.138,
+          "pinball_q_500": 10.4401,
+          "pinball_q_750": 12.77155,
+          "pinball_q_900": 9.9355,
+          "pinball_q_950": 7.687690000000003,
+          "pinball_q_975": 6.059090000000001
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0,
+          "cov_q_050": 0.0,
+          "cov_q_100": 0.001,
+          "cov_q_250": 0.0636,
+          "cov_q_500": 0.6836,
+          "cov_q_750": 0.8812,
+          "cov_q_900": 0.9282,
+          "cov_q_950": 0.9452,
+          "cov_q_975": 0.9546,
+          "interval_cov_50": 0.8296,
+          "interval_width_50": 47.6182,
+          "interval_cov_80": 0.9276,
+          "interval_width_80": 90.4728,
+          "interval_cov_90": 0.9452,
+          "interval_width_90": 116.126,
+          "interval_cov_95": 0.9546,
+          "interval_width_95": 138.3664
+        },
+        "train_time_sec": 14.067772626876831,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D2_k1_heteroscedastic__no_year_fold_4.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D2_k1_heteroscedastic__no_year_fold_4.parquet"
+      },
+      "D3_k3_mixture__with_year": {
+        "candidate": "D3_k3_mixture",
+        "k_components": 3,
+        "include_calendar_year": true,
+        "best_epoch": 13,
+        "best_inner_nll": 4.203830242156982,
+        "metrics": {
+          "nll_discretized": 4.468371968847117,
+          "nll_continuous": 4.468402889109323,
+          "crps": 15.788492262678156,
+          "mae": 19.784995684801792
+        },
+        "component_stats": {
+          "k_components": 3,
+          "component_weights": [
+            0.9373724539160728,
+            3.635240014291817e-06,
+            0.06262391441669315
+          ],
+          "min_component_weight": 3.635240014291817e-06,
+          "component_entropy": 0.22475744650149398,
+          "effective_component_count": 1.1351939097340127
+        },
+        "sigma_stats": {
+          "mean": 42.29204571612676,
+          "std": 32.77373728987256,
+          "q10": 10.249874687194824,
+          "q50": 30.861924171447754,
+          "q90": 92.74695892333985
+        },
+        "pinball_loss": {
+          "pinball_q_025": 0.9201400000000002,
+          "pinball_q_050": 1.65155,
+          "pinball_q_100": 2.9415200000000006,
+          "pinball_q_250": 6.0916,
+          "pinball_q_500": 9.7251,
+          "pinball_q_750": 11.15,
+          "pinball_q_900": 10.005040000000001,
+          "pinball_q_950": 8.17369,
+          "pinball_q_975": 5.867345000000001
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0082,
+          "cov_q_050": 0.0268,
+          "cov_q_100": 0.0766,
+          "cov_q_250": 0.249,
+          "cov_q_500": 0.5106,
+          "cov_q_750": 0.708,
+          "cov_q_900": 0.8232,
+          "cov_q_950": 0.8904,
+          "cov_q_975": 0.9522,
+          "interval_cov_50": 0.4904,
+          "interval_width_50": 16.9448,
+          "interval_cov_80": 0.762,
+          "interval_width_80": 34.5896,
+          "interval_cov_90": 0.8712,
+          "interval_width_90": 56.5088,
+          "interval_cov_95": 0.9454,
+          "interval_width_95": 100.6034
+        },
+        "train_time_sec": 23.694039583206177,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D3_k3_mixture__with_year_fold_4.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D3_k3_mixture__with_year_fold_4.parquet"
+      },
+      "D3_k3_mixture__no_year": {
+        "candidate": "D3_k3_mixture",
+        "k_components": 3,
+        "include_calendar_year": false,
+        "best_epoch": 12,
+        "best_inner_nll": 4.254715442657471,
+        "metrics": {
+          "nll_discretized": 4.4115352217102615,
+          "nll_continuous": 4.411525248642617,
+          "crps": 15.75867614578476,
+          "mae": 19.7665886996972
+        },
+        "component_stats": {
+          "k_components": 3,
+          "component_weights": [
+            0.8836104992508889,
+            0.06669731070175768,
+            0.04969218905679881
+          ],
+          "min_component_weight": 0.04969218905679881,
+          "component_entropy": 0.41811704481666245,
+          "effective_component_count": 1.2822221160035026
+        },
+        "sigma_stats": {
+          "mean": 44.59441174300512,
+          "std": 38.174061487321325,
+          "q10": 10.15710220336914,
+          "q50": 27.33258056640625,
+          "q90": 104.64761962890626
+        },
+        "pinball_loss": {
+          "pinball_q_025": 0.930475,
+          "pinball_q_050": 1.6689199999999997,
+          "pinball_q_100": 2.95854,
+          "pinball_q_250": 6.09985,
+          "pinball_q_500": 9.7119,
+          "pinball_q_750": 11.13015,
+          "pinball_q_900": 9.904359999999999,
+          "pinball_q_950": 8.101500000000001,
+          "pinball_q_975": 5.959455000000001
+        },
+        "crossing_metrics": {
+          "crossing_rate": 0.0,
+          "total_crossing_inversions": 0
+        },
+        "interval_metrics": {
+          "cov_q_025": 0.0074,
+          "cov_q_050": 0.0212,
+          "cov_q_100": 0.0664,
+          "cov_q_250": 0.227,
+          "cov_q_500": 0.4916,
+          "cov_q_750": 0.7052,
+          "cov_q_900": 0.833,
+          "cov_q_950": 0.9006,
+          "cov_q_975": 0.9524,
+          "interval_cov_50": 0.5042,
+          "interval_width_50": 17.4312,
+          "interval_cov_80": 0.7804,
+          "interval_width_80": 36.641,
+          "interval_cov_90": 0.8848,
+          "interval_width_90": 58.9884,
+          "interval_cov_95": 0.9468,
+          "interval_width_95": 100.0452
+        },
+        "train_time_sec": 24.038342714309692,
+        "predictions_parquet": "artifacts/probabilistic/distribution_ablation/preds_D3_k3_mixture__no_year_fold_4.parquet",
+        "daily_parquet": "artifacts/probabilistic/distribution_ablation/daily_D3_k3_mixture__no_year_fold_4.parquet"
+      }
+    }
+  },
+  "pooled_development_metrics": {
+    "D1_k1_fixed_sigma__with_year": {
+      "pooled_crps_mean": 16.08417721147464,
+      "pooled_crps_std": 36.47866161764709,
+      "mean_nll_discretized": 24.848355666023146,
+      "mean_nll_continuous": 24.883558271809292,
+      "mean_effective_components": 1.0,
+      "mean_entropy": 0.0,
+      "mean_component_weights": [
+        1.0
+      ]
+    },
+    "D1_k1_fixed_sigma__no_year": {
+      "pooled_crps_mean": 16.403556577735102,
+      "pooled_crps_std": 35.823393178709715,
+      "mean_nll_discretized": 24.241862021200966,
+      "mean_nll_continuous": 24.275967096791515,
+      "mean_effective_components": 1.0,
+      "mean_entropy": 0.0,
+      "mean_component_weights": [
+        1.0
+      ]
+    },
+    "D2_k1_heteroscedastic__with_year": {
+      "pooled_crps_mean": 16.30724769309849,
+      "pooled_crps_std": 32.03668205977951,
+      "mean_nll_discretized": 5.204727489606066,
+      "mean_nll_continuous": 5.204848116218486,
+      "mean_effective_components": 1.0,
+      "mean_entropy": 0.0,
+      "mean_component_weights": [
+        1.0
+      ]
+    },
+    "D2_k1_heteroscedastic__no_year": {
+      "pooled_crps_mean": 16.30421089896733,
+      "pooled_crps_std": 32.0066119084911,
+      "mean_nll_discretized": 5.143719379060833,
+      "mean_nll_continuous": 5.143742120749646,
+      "mean_effective_components": 1.0,
+      "mean_entropy": 0.0,
+      "mean_component_weights": [
+        1.0
+      ]
+    },
+    "D3_k3_mixture__with_year": {
+      "pooled_crps_mean": 13.776473056610397,
+      "pooled_crps_std": 33.472239636496866,
+      "mean_nll_discretized": 4.317034555184672,
+      "mean_nll_continuous": 4.317049669276119,
+      "mean_effective_components": 1.4287763682234365,
+      "mean_entropy": 0.4499246190816363,
+      "mean_component_weights": [
+        0.8207334007680416,
+        0.056549944942137075,
+        0.12271665528360753
+      ]
+    },
+    "D3_k3_mixture__no_year": {
+      "pooled_crps_mean": 13.32170818441048,
+      "pooled_crps_std": 34.84365057772068,
+      "mean_nll_discretized": 4.2831357173895395,
+      "mean_nll_continuous": 4.283152598981356,
+      "mean_effective_components": 1.2839304245750507,
+      "mean_entropy": 0.37224751605050077,
+      "mean_component_weights": [
+        0.8829406354680658,
+        0.059209968556795334,
+        0.057849396301247184
+      ]
+    }
+  },
+  "ladder_attribution": {
+    "d1_crps": 16.08417721147464,
+    "d2_crps": 16.30724769309849,
+    "d3_crps": 13.776473056610397,
+    "heteroscedasticity_value_crps_delta (D1 - D2)": -0.22307048162385001,
+    "mixture_value_crps_delta (D2 - D3)": 2.5307746364880916,
+    "total_ladder_improvement (D1 - D3)": 2.3077041548642416
+  },
+  "calendar_year_diagnosis": {
+    "d1_with_year_crps": 16.08417721147464,
+    "d1_no_year_crps": 16.403556577735102,
+    "d2_with_year_crps": 16.30724769309849,
+    "d2_no_year_crps": 16.30421089896733,
+    "d3_with_year_crps": 13.776473056610397,
+    "d3_no_year_crps": 13.32170818441048,
+    "d3_year_delta": -0.4547648721999167
+  },
+  "k5_opening_evaluation": {
+    "condition_1_effective_components": {
+      "required_threshold": 2.5,
+      "fold_values": [
+        1.6265260871861766,
+        1.7081769023394384,
+        1.2452085736341179,
+        1.1351939097340127
+      ],
+      "passed": false
+    },
+    "condition_2_min_component_weight": {
+      "required_threshold": 0.05,
+      "fold_values": [
+        3.775512816389496e-09,
+        0.046114101078547534,
+        8.075469479508434e-11,
+        3.635240014291817e-06
+      ],
+      "passed": false
+    },
+    "condition_3_crps_improvement": {
+      "required_delta_minutes": 0.05,
+      "observed_delta_minutes": 2.5307746364880916,
+      "passed": true
+    },
+    "all_criteria_met": false,
+    "k5_opened": false,
+    "decision_rationale": "At least one pre-registered opening criterion failed; K=5 remains sealed."
+  },
+  "sigma_policy": {
+    "parameterization": "sigma(x) = softplus(raw_sigma(x)) + sigma_floor",
+    "sigma_floor": 1.0,
+    "gradient_clip_norm": 1.0
+  },
+  "holdout_guards": {
+    "2023_accessed": false,
+    "2024_accessed": false
+  }
+}

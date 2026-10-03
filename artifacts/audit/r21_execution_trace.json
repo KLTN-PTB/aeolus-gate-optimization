@@ -1,0 +1,160 @@
+{
+  "task_id": "R21_TARGETED_DEVELOPMENT_REBUILD_V3",
+  "status": "PASS",
+  "created_at_utc": "2026-10-02T10:54:59.720229+00:00",
+  "environment": {
+    "python_executable": "D:\\Study\\Code\\Python\\Aelous\\.venv\\Scripts\\python.exe",
+    "python_version": "3.11.15",
+    "working_directory": "D:\\Study\\Code\\Python\\Aelous"
+  },
+  "temporal_governance": {
+    "training_period": "2016-2022",
+    "selection_and_downstream_period": "2023",
+    "holdout_2024_status": "SEALED_AND_UNTOUCHED_IN_R21",
+    "holdout_2024_access_detected": false
+  },
+  "summary": {
+    "experiments_rebuilt": 3,
+    "experiments_reused": 4,
+    "experiments_invalidated": 3,
+    "experiments_blocked": 1,
+    "total_experiments": 11,
+    "total_execution_runs_rebuilt": 124,
+    "cache_hits": 0,
+    "unsupported_metrics_rejected": 3,
+    "failures": 0
+  },
+  "rebuilt_experiments": [
+    {
+      "experiment_id": "academic_model_selection_2023",
+      "script": "scripts/run_academic_model_selection.py",
+      "code_hash": "ddb3d953058c54c2683b8d56ef33db338e0d9e6587f6563bd7f9aade122c430a",
+      "config_hash": "4289b046873c0bcdc596321aee8d3bb0ce3632c570e0e61fa2539345f09fdbcf",
+      "output_manifest": "artifacts/manifests/academic_model_selection_v3.json",
+      "output_hash": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+      "seed": 202601,
+      "cache_hit": false,
+      "fit_executed": true,
+      "prediction_executed": true,
+      "metric_executed": true,
+      "roles_decoupled": [
+        "role_a_point_prediction",
+        "role_b_probabilistic_forecasting",
+        "role_c_downstream_simulation"
+      ],
+      "single_winner_claimed": false
+    },
+    {
+      "experiment_id": "downstream_operational_comparison_2023",
+      "script": "scripts/run_downstream_model_comparison.py",
+      "code_hash": "89d82586340728004ff17b7a0723fdef1c5d21ea0c65d49672ed7ff09d64ba3d",
+      "engine_hash": "a258616b25f29a79b3922171c9ce670e3a0b87315471ae3ea0f77a4397d64da7",
+      "output_dir": "artifacts/downstream_model_comparison_v3",
+      "output_hash": "689f440ca7f1c6956a94657e1dee86b767193c3f12e90b130b1f604e1e09bf31",
+      "seed": 202601,
+      "cache_hit": false,
+      "fit_executed": true,
+      "prediction_executed": true,
+      "metric_executed": true,
+      "evaluations_count": 84,
+      "candidates_count": 7,
+      "scenarios_count": 4,
+      "solvers_count": 3,
+      "semantics": "SCALAR_FORECAST_IMPACT",
+      "distinct_gate_types_tracked": [
+        "contact",
+        "remote",
+        "unassigned"
+      ]
+    },
+    {
+      "experiment_id": "monte_carlo_convergence_2023",
+      "script": "scripts/run_monte_carlo_comparison.py",
+      "code_hash": "d8829e2ce3a8ea793974d96b04f666fad010d3bc7d92c360d2f85d9cd09ae9de",
+      "engine_hash": "f40f46623f998c6649aa76d24372f6f32d410614ee9d7319eeed746c4142b787",
+      "output_dir_v1": "artifacts/monte_carlo_model_comparison",
+      "output_dir_v2": "artifacts/monte_carlo_model_comparison_v2",
+      "output_hash": "4353fb1b82b6d9fa98e8ad4dd8e864584e8dff4b9a0017c877619c6c58261382",
+      "seed": 202601,
+      "cache_hit": false,
+      "fit_executed": true,
+      "prediction_executed": true,
+      "metric_executed": true,
+      "evaluated_counts": [
+        100,
+        250,
+        500,
+        1000,
+        2500
+      ],
+      "truncation_applied": false,
+      "convergence_se_formula": "s / sqrt(N)",
+      "fabricated_variance_reduction_claim": "REJECTED_MARKED_NOT_ESTABLISHED",
+      "optimal_n_claim": "REJECTED_OPERATIONAL_CHOICE_ONLY"
+    }
+  ],
+  "reused_experiments": [
+    {
+      "experiment_id": "core_point_benchmark_folds_1_to_4",
+      "status": "VALID_TO_REUSE",
+      "path": "artifacts/model_benchmark_v2/core_point/core_point_benchmark_v2/oof/",
+      "hash": "0a2d92ce9ead6c61628884ea389e90ac33e923fffb4cbd6cb3f557e450f89a92",
+      "lineage": "Freshly trained and evaluated in R13 forensic rebuild; bitwise hashes certified in R20."
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_folds_1_to_4",
+      "status": "VALID_TO_REUSE",
+      "path": "artifacts/probabilistic_benchmark/core_probabilistic_benchmark_v2/",
+      "hash": "a9b4024531535464dc1a6df239166d7ee04397be6a67089456c6c0ce6e83d8b4",
+      "lineage": "Freshly trained in R13; audited and decoupled from unsupported metrics in R19; certified in R20."
+    },
+    {
+      "experiment_id": "paired_statistical_comparison_folds_1_to_4",
+      "status": "VALID_TO_REUSE",
+      "path": "artifacts/r18_paired_statistics_v2.json",
+      "hash": "8060e97e1cd546e6386966dc2f97da79afdd925bccbd65a7442a355e9d6bad1d",
+      "lineage": "Repaired in R18 with Holm-Bonferroni FWER control and day-cluster bootstrap on FL_DATE across 48 families; zero None in adjusted_p for valid hypothesis tests."
+    },
+    {
+      "experiment_id": "stability_evaluation_2016_2022",
+      "status": "VALID_TO_REUSE",
+      "path": "artifacts/manifests/probabilistic_stage5_stability_v1.json",
+      "hash": "d99157f692465d832aef3696591c341408f39ee71132331cec0c36abd2a1a685",
+      "lineage": "Derived from verified rolling fold OOF predictions."
+    }
+  ],
+  "invalidated_experiments": [
+    {
+      "experiment_id": "legacy_unsupported_probabilistic_metrics",
+      "reason": "P5 Quantile Regression evaluated on continuous density metrics (NLL, PIT, sampling) without constructing a valid predictive density.",
+      "action": "Excluded from evaluation and certification."
+    },
+    {
+      "experiment_id": "historical_stage8_single_winner_claim",
+      "reason": "Student-T + Copula claimed as overall single champion across point, probabilistic, and optimization layers.",
+      "action": "Replaced by 3 decoupled operational roles with explicit trade-offs."
+    },
+    {
+      "experiment_id": "historical_real_world_gate_operation_claims",
+      "reason": "BTS data contains zero gate numbers; evaluation is synthetic simulation only.",
+      "action": "All claims of real-world airfield gate conflict reductions or actual operational improvements are banned."
+    }
+  ],
+  "blocked_experiments": [
+    {
+      "experiment_id": "holdout_evaluation_2024",
+      "status": "BLOCKED_IN_R21",
+      "reason": "Strict temporal sealing of 2024 holdout data during development rebuild. Evaluated exclusively in R23 after V3 freeze."
+    }
+  ],
+  "failure_accounting": {
+    "timeouts": 0,
+    "model_failures": 0,
+    "solver_failures": 0,
+    "infeasible_realizations": 0,
+    "numerical_errors": 0,
+    "unsupported_metrics_requested": 0,
+    "unsupported_metrics_rejected": 3,
+    "notes": "All 84 downstream runs and all 30 MC runs completed cleanly with 100% feasibility and zero numerical/solver errors."
+  }
+}

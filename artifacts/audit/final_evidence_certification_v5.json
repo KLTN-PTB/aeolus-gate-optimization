@@ -1,0 +1,142 @@
+{
+  "manifest_version": "V5_FINAL_CERTIFICATION",
+  "certification_task_id": "R37_FINAL_CERTIFICATION_V5",
+  "created_at_utc": "2026-10-03T10:03:31.116298+00:00",
+  "certification_status": "CERTIFIED_WITH_LIMITATIONS",
+  "final_action": "CERTIFIED_WITH_LIMITATIONS",
+  "phase_statuses": {
+    "R25": "PASS",
+    "R26": "PASS",
+    "R27": "PASS",
+    "R28": "PASS",
+    "R29": "PASS",
+    "R30": "PASS",
+    "R31": "PASS",
+    "R33": "PASS",
+    "R34": "PASS",
+    "R35": "PASS",
+    "R36": "PASS",
+    "R37": "PASS"
+  },
+  "metrics_accounting": {
+    "p0_blockers_count": 0,
+    "p1_limitations_count": 12,
+    "unsupported_claims_remaining": 0,
+    "hash_mismatches_count": 0,
+    "unclassified_claims_count": 0,
+    "unverified_executions_count": 0,
+    "adaptation_2024_detected": false,
+    "p4_metric_discrepancy": "RESOLVED",
+    "p5_quantile_discrepancy": "RESOLVED",
+    "p5_metric_semantics": "RESOLVED",
+    "solver_compute_semantics": "EQUAL_WALL_CLOCK"
+  },
+  "environment_freeze": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "architecture": "AMD64",
+    "python_version": "3.11.15",
+    "python_executable": "D:\\Study\\Code\\Python\\Aelous\\.venv\\Scripts\\python.exe",
+    "git_branch": "week5-model-parameters-export",
+    "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.17.1",
+      "pandas": "2.3.3",
+      "pyarrow": "25.0.1",
+      "scikit-learn": "1.9.0",
+      "lightgbm": "4.7.0",
+      "xgboost": "3.2.0",
+      "ngboost": "0.5.11",
+      "ortools": "9.15.6755",
+      "pytest": "9.1.1"
+    }
+  },
+  "temporal_governance": {
+    "development_period": "2016-2022",
+    "model_selection_year": 2023,
+    "post_holdout_year": 2024,
+    "post_holdout_role": "POST_HOLDOUT",
+    "zero_2024_retraining_verified": true,
+    "zero_2024_tuning_verified": true,
+    "zero_2024_selection_verified": true,
+    "zero_2024_solver_tuning_verified": true,
+    "zero_2024_threshold_adaptation_verified": true,
+    "zero_2024_ensemble_weight_adaptation_verified": true,
+    "outer_development_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ]
+  },
+  "cryptographic_lineage": {
+    "final_freeze_manifest_v5_sha256": "65464c6e058c6af44bb381f7d7dd37f6541729167be0a7b307e1fa26c67068c8",
+    "final_claim_boundary_audit_v5_sha256": "3804e3c7cc5d785157f3b8bfe3fdd03365f601a16fa99427ee2028cea259cffe",
+    "final_reproducibility_audit_v5_sha256": "f77f37bfddbbcf92a9d8f29a56c5708d9f20e8b89f934784aee465b6e1d6e5d5",
+    "final_execution_summary_v5_sha256": "fca0b052f15ba93654f349e2ee6ff1f5ffc64b8d09441db4fed663830e1bb09f",
+    "r36_final_evidence_reconciliation_v2_sha256": "2ae8f800e35cf4e702d297c1fb6536911ee248e1c3ced18934a948b18d6f3df9"
+  },
+  "epistemological_guardrails": {
+    "point_selection": {
+      "dev_2023_status": "TIED_WITHIN_INDIFFERENCE_BAND",
+      "dev_2023_delta_min": 0.00045,
+      "indifference_band_min": 0.1,
+      "holdout_2024_status": "NOT_TIED",
+      "holdout_2024_delta_min": 0.405,
+      "single_overall_point_champion_allowed": false
+    },
+    "probabilistic_capabilities": {
+      "P4_student_t": {
+        "density_type": "parametric_continuous",
+        "exact_continuous_crps": true,
+        "exact_continuous_nll": true,
+        "continuous_sampling": true,
+        "calibration_certified": false,
+        "calibration_status": "NOT_SEPARATELY_CERTIFIED",
+        "authoritative_crps_holdout": 17.6532,
+        "authoritative_nll_holdout": 4.6307
+      },
+      "P5_quantile": {
+        "density_type": "discrete_quantiles_only",
+        "quantile_count": 9,
+        "quantile_levels": [
+          0.025,
+          0.05,
+          0.1,
+          0.25,
+          0.5,
+          0.75,
+          0.9,
+          0.95,
+          0.975
+        ],
+        "exact_continuous_crps": false,
+        "crps_quantile_approximation_dev": 16.85,
+        "crps_quantile_approximation_holdout": 16.77,
+        "pinball_loss_dev": 6.88,
+        "pinball_loss_holdout": 6.82,
+        "continuous_density": false,
+        "exact_continuous_nll": false,
+        "continuous_sampling": false,
+        "continuous_pit": false
+      }
+    },
+    "downstream_semantics": "SCALAR_FORECAST_IMPACT",
+    "solver_fairness": {
+      "wall_clock_equality": "PROVEN",
+      "computational_work_equality": "NOT_PROVEN",
+      "r26_scope": "28_CASES_112_RUNS_2024_SEASONAL",
+      "r21_scope": "28_CASES_84_RUNS_2023_DEV",
+      "cp_sat_optimality": "PROVEN_ON_ALL_28_AUDITED_CASES",
+      "hybrid_zero_marginal_gain": "PROVEN_ON_ALL_28_AUDITED_CASES"
+    },
+    "synthetic_environment": true,
+    "oracle_benchmark": "NON_DEPLOYABLE_ACAUSAL_REFERENCE",
+    "monte_carlo_crn": "NOT_ESTABLISHED",
+    "monte_carlo_optimal_n": "OPERATIONAL_CHOICE_ONLY",
+    "reproducibility": "CONTAINED_SPECIFICATION_REPRODUCIBILITY"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "benchmark_version": "phase_a_day2_sample_scan_selection_v1",
+  "created_at_utc": "2026-09-20T11:21:25Z",
+  "objective": "reg:absoluteerror",
+  "feature_set": "v1.1",
+  "sample_levels_requested": [
+    25000,
+    75000,
+    150000,
+    250000
+  ],
+  "completed_levels": [
+    {
+      "sample_train_per_year": 25000,
+      "skill_mean": -0.2519280802513224
+    },
+    {
+      "sample_train_per_year": 75000,
+      "skill_mean": -0.3203815610941163
+    },
+    {
+      "sample_train_per_year": 150000,
+      "skill_mean": -0.3119803024462042
+    },
+    {
+      "sample_train_per_year": 250000,
+      "skill_mean": -0.2252348438252083
+    }
+  ],
+  "best_level_by_mean_skill": {
+    "sample_train_per_year": 250000,
+    "skill_mean": -0.2252348438252083
+  },
+  "stability_report": "artifacts\\manifests\\phase_a_benchmark_sample_250k_10seed.json",
+  "runner_sha256": "256344F5DB8E452D012B54F3F1CF50D1FD8068EC461208CD21027139295861C9",
+  "inputs": {
+    "artifacts\\manifests\\feature_manifest_arrival_v1_1.json": "80b453ae3fcf755699fddb05d82fc942790f8c59bd3b4da294a56dc47fd77523",
+    "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json": "eb82039e078ff99e7b4bce9960bf6365377f99723b8ab10204bb0a6760faf20e",
+    "configs\\week5_hpo_v1_1.yaml": "bcb6263f8a030fc149d72f409a912b17f1b4db20c638eb50a396c959726b973a"
+  }
+}

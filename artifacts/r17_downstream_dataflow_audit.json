@@ -1,0 +1,148 @@
+[
+  {
+    "candidate": "schedule_only",
+    "source_model": "schedule_only",
+    "forecast_representation": "constant_zero",
+    "fields_used_downstream": [
+      "constant_0.0_delay"
+    ],
+    "fields_discarded": [],
+    "uses_uncertainty": false,
+    "scalar_or_distribution": "SCALAR",
+    "downstream_impact_semantics": "forecast_derived_scalar_operational_impact",
+    "evidence_files": [
+      "src/evaluation/downstream_comparison_v2.py",
+      "scripts/run_downstream_model_comparison.py",
+      "scripts/run_post_holdout_evaluation_v2.py",
+      "configs/downstream_candidate_registry_v2.yaml"
+    ]
+  },
+  {
+    "candidate": "arrival_linear_baseline_v1",
+    "source_model": "Ridge(alpha=1.0)",
+    "forecast_representation": "deterministic_point",
+    "fields_used_downstream": [
+      "pred_delay (scalar point prediction)"
+    ],
+    "fields_discarded": [],
+    "uses_uncertainty": false,
+    "scalar_or_distribution": "SCALAR",
+    "downstream_impact_semantics": "forecast_derived_scalar_operational_impact",
+    "evidence_files": [
+      "src/evaluation/downstream_comparison_v2.py",
+      "scripts/run_downstream_model_comparison.py",
+      "scripts/run_post_holdout_evaluation_v2.py",
+      "configs/downstream_candidate_registry_v2.yaml"
+    ]
+  },
+  {
+    "candidate": "arrival_xgboost_baseline_v1",
+    "source_model": "XGBRegressor",
+    "forecast_representation": "deterministic_point",
+    "fields_used_downstream": [
+      "pred_delay (scalar point prediction)"
+    ],
+    "fields_discarded": [],
+    "uses_uncertainty": false,
+    "scalar_or_distribution": "SCALAR",
+    "downstream_impact_semantics": "forecast_derived_scalar_operational_impact",
+    "evidence_files": [
+      "src/evaluation/downstream_comparison_v2.py",
+      "scripts/run_downstream_model_comparison.py",
+      "scripts/run_post_holdout_evaluation_v2.py",
+      "configs/downstream_candidate_registry_v2.yaml"
+    ]
+  },
+  {
+    "candidate": "arrival_weighted_ensemble_v1",
+    "source_model": "0.5 * Ridge + 0.5 * XGBRegressor",
+    "forecast_representation": "deterministic_point",
+    "fields_used_downstream": [
+      "pred_delay (scalar point prediction)"
+    ],
+    "fields_discarded": [],
+    "uses_uncertainty": false,
+    "scalar_or_distribution": "SCALAR",
+    "downstream_impact_semantics": "forecast_derived_scalar_operational_impact",
+    "evidence_files": [
+      "src/evaluation/downstream_comparison_v2.py",
+      "scripts/run_downstream_model_comparison.py",
+      "scripts/run_post_holdout_evaluation_v2.py",
+      "configs/downstream_candidate_registry_v2.yaml"
+    ]
+  },
+  {
+    "candidate": "P5_quantile_regression",
+    "source_model": "P5QuantileRegressionCandidate (Multi-pinball LightGBM, alphas=[0.1, 0.25, 0.5, 0.75, 0.9])",
+    "forecast_representation": "discrete_quantiles",
+    "fields_used_downstream": [
+      "dist_p5.median() (q50 scalar delay)"
+    ],
+    "fields_discarded": [
+      "q10",
+      "q25",
+      "q75",
+      "q90",
+      "prediction_intervals",
+      "pinball_loss",
+      "quantile_spread"
+    ],
+    "uses_uncertainty": false,
+    "scalar_or_distribution": "SCALAR",
+    "downstream_impact_semantics": "forecast_derived_scalar_operational_impact",
+    "evidence_files": [
+      "src/evaluation/downstream_comparison_v2.py",
+      "scripts/run_downstream_model_comparison.py",
+      "scripts/run_post_holdout_evaluation_v2.py",
+      "src/models/probabilistic/candidate_interfaces.py",
+      "src/contracts/distribution.py",
+      "configs/downstream_candidate_registry_v2.yaml"
+    ]
+  },
+  {
+    "candidate": "P4_ngboost_student_t",
+    "source_model": "P4NGBoostStudentTCandidate (NGBoost with Student-T distribution)",
+    "forecast_representation": "parametric_distribution (location mu, scale sigma, degrees of freedom df)",
+    "fields_used_downstream": [
+      "dist_p4.mean() (expected value mu scalar delay)"
+    ],
+    "fields_discarded": [
+      "scale (sigma)",
+      "degrees_of_freedom (df / nu)",
+      "predictive_variance (sigma^2 * df/(df-2))",
+      "density (pdf)",
+      "cumulative_distribution (cdf)",
+      "tail_probabilities",
+      "continuous_samples (rvs)"
+    ],
+    "uses_uncertainty": false,
+    "scalar_or_distribution": "SCALAR",
+    "downstream_impact_semantics": "forecast_derived_scalar_operational_impact",
+    "evidence_files": [
+      "src/evaluation/downstream_comparison_v2.py",
+      "scripts/run_downstream_model_comparison.py",
+      "scripts/run_post_holdout_evaluation_v2.py",
+      "src/models/probabilistic/candidate_interfaces.py",
+      "src/contracts/distribution.py",
+      "configs/downstream_candidate_registry_v2.yaml"
+    ]
+  },
+  {
+    "candidate": "oracle_actual",
+    "source_model": "raw_df['ARR_DELAY'] (ground-truth realized delay)",
+    "forecast_representation": "ground_truth_outcome",
+    "fields_used_downstream": [
+      "realized_arr_delay (scalar actual delay)"
+    ],
+    "fields_discarded": [],
+    "uses_uncertainty": false,
+    "scalar_or_distribution": "SCALAR",
+    "downstream_impact_semantics": "forecast_derived_scalar_operational_impact",
+    "evidence_files": [
+      "src/evaluation/downstream_comparison_v2.py",
+      "scripts/run_downstream_model_comparison.py",
+      "scripts/run_post_holdout_evaluation_v2.py",
+      "configs/downstream_candidate_registry_v2.yaml"
+    ]
+  }
+]

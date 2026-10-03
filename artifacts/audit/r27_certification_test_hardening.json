@@ -1,0 +1,20 @@
+{
+  "audit_name": "r27_certification_test_hardening",
+  "task_id": "R27_CERTIFICATION_TEST_HARDENING",
+  "created_at_utc": "2026-10-02T12:23:10.422819+00:00",
+  "audit_verdict": "PASS",
+  "components_audited": {
+    "actual_byte_sha256_lineage": "PASS",
+    "exact_13_claim_matrix": "PASS",
+    "r21_execution_trace": "PASS",
+    "r22_freeze_manifest": "PASS",
+    "r23_post_holdout_governance": "PASS",
+    "downstream_input_boundary": "PASS",
+    "reproducibility_audit_verified": "PASS"
+  },
+  "artifact_hashes": {
+    "r27_lineage_actual_hashes_sha256": "36245a53253add27611d1f459e84656fd6245a6d0df3f2a9aed9b4b8aa087808",
+    "r27_claim_matrix_validation_sha256": "91d2c0e7fb60aa8c1e0025fcf926ae28d2e6ee3e7f8df2c404ddcd23d4f3774e",
+    "r27_provenance_validation_sha256": "5a80f115807ee164b9a27f898c492967a56101ce8cbfc7d29efd97bbd1f9f522"
+  }
+}

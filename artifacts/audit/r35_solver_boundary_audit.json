@@ -1,0 +1,185 @@
+{
+  "audit_name": "r35_solver_boundary_audit",
+  "task_id": "R35_SOLVER_BOUNDARY_REPRODUCIBILITY_ENVIRONMENT_AUDIT",
+  "created_at_utc": "2026-10-03T09:52:04.148566+00:00",
+  "protocol": "AEOLUS_V4_R35_SOLVER_BOUNDARY_AUDIT",
+  "solver_fairness_semantics": {
+    "wall_clock_equality": "PROVEN",
+    "computational_work_equality": "NOT_PROVEN",
+    "metric_distinctions": {
+      "WALL_CLOCK": "Ceiling on elapsed real-world time (T = 2.0s). Solvers may terminate early or consume up to this budget.",
+      "CPU_TIME": "Total active CPU execution time across assigned threads/workers.",
+      "ITERATION_COUNT": "Total discrete state-transitions or candidate neighbor evaluations.",
+      "OBJECTIVE_EVALUATION_COUNT": "Total calls to cost function evaluate_gate_assignment or internal formulation."
+    },
+    "work_inequality_explanation": "Equating wall-clock time limit (2.0s) does not equate computational work. Deterministic Greedy completes in ~1.1 ms (O(N log M) heuristic construction), CP-SAT conducts branch-and-bound constraint search terminating early upon proving optimality in mean 0.4438s, and Simulated Annealing loops continuously for the full 2.0s consuming 2351 iterations. Equating their time ceilings does not render computational work equal."
+  },
+  "solver_budget_summary": {
+    "DeterministicGreedy": {
+      "budget_type": "WALL_CLOCK",
+      "configured_budget_seconds": 2.0,
+      "mean_actual_runtime_seconds": 0.0011,
+      "min_actual_runtime_seconds": 0.0005,
+      "max_actual_runtime_seconds": 0.0025,
+      "workers": 1,
+      "threads": 1,
+      "seed": 202601,
+      "mean_iterations": 1,
+      "mean_objective_evaluations": 1,
+      "termination_reason": "Deterministic single-pass completion",
+      "mean_objective": 7181.45,
+      "hard_feasibility_rate": 1.0,
+      "total_conflicts": 0
+    },
+    "CPSat": {
+      "budget_type": "WALL_CLOCK",
+      "configured_budget_seconds": 2.0,
+      "mean_actual_runtime_seconds": 0.4438,
+      "min_actual_runtime_seconds": 0.0694,
+      "max_actual_runtime_seconds": 1.0133,
+      "workers": 1,
+      "threads": 1,
+      "seed": 202601,
+      "mean_iterations": null,
+      "mean_objective_evaluations": null,
+      "termination_reason": "OPTIMAL (global optimality proven by branch-and-bound search)",
+      "mean_objective": 7167.17,
+      "hard_feasibility_rate": 1.0,
+      "total_conflicts": 0
+    },
+    "SimulatedAnnealing": {
+      "budget_type": "WALL_CLOCK",
+      "configured_budget_seconds": 2.0,
+      "mean_actual_runtime_seconds": 2.0009,
+      "min_actual_runtime_seconds": 2.0004,
+      "max_actual_runtime_seconds": 2.0019,
+      "workers": 1,
+      "threads": 1,
+      "seed": 202601,
+      "mean_iterations": 2351.0,
+      "mean_objective_evaluations": 2351.0,
+      "termination_reason": "WALL_CLOCK_TIME_EXHAUSTION",
+      "mean_objective": 7167.88,
+      "hard_feasibility_rate": 1.0,
+      "total_conflicts": 0
+    },
+    "HybridCPSatSA": {
+      "budget_type": "SPLIT_WALL_CLOCK",
+      "configured_budget_seconds": 2.0,
+      "cp_sat_sub_budget_seconds": 1.0,
+      "sa_sub_budget_seconds": 1.0,
+      "mean_actual_runtime_seconds": 1.4531,
+      "min_actual_runtime_seconds": 1.0666,
+      "max_actual_runtime_seconds": 1.9619,
+      "workers": 1,
+      "threads": 1,
+      "seed": 202601,
+      "mean_iterations": 1175.5,
+      "mean_objective_evaluations": 1175.5,
+      "termination_reason": "SA_TIME_LIMIT_REACHED_AFTER_CPSAT_INCUMBENT",
+      "mean_objective": 7167.17,
+      "hard_feasibility_rate": 1.0,
+      "total_conflicts": 0
+    }
+  },
+  "hybrid_budget_verification": {
+    "formula": "T_CP-SAT + T_SA <= T_total",
+    "configured_cp_budget_s": 1.0,
+    "configured_sa_budget_s": 1.0,
+    "configured_total_budget_s": 2.0,
+    "sum_equality_verified": true,
+    "mean_actual_total_runtime_s": 1.4531,
+    "max_actual_total_runtime_s": 1.9619,
+    "budget_ceiling_respected": true,
+    "overrun_count": 0
+  },
+  "cp_sat_optimality_audit": {
+    "total_cases_audited": 28,
+    "status_counts": {
+      "OPTIMAL": 28,
+      "FEASIBLE": 0,
+      "UNKNOWN": 0,
+      "TIME_LIMIT": 0,
+      "INFEASIBLE": 0
+    },
+    "optimality_gap": {
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0
+    },
+    "best_bound_equals_objective": true,
+    "verdict": "PROVEN_OPTIMAL_ON_ALL_28_AUDITED_CASES",
+    "safe_claim": "CP-SAT reached an OPTIMAL solution on all 28 audited instances.",
+    "generalization_restriction": "Prohibited from asserting optimality on arbitrary or massive airfields."
+  },
+  "hybrid_zero_gain_audit": {
+    "delta_formula": "delta_i = hybrid_i - cp_sat_i",
+    "total_cases": 28,
+    "min_delta": 0.0,
+    "max_delta": 0.0,
+    "mean_delta": 0.0,
+    "std_delta": 0.0,
+    "count_exact_zero": 28,
+    "count_hybrid_better": 0,
+    "count_hybrid_worse": 0,
+    "percentage_zero_gain": 100.0,
+    "verdict": "PROVEN_ZERO_MARGINAL_GAIN_ON_AUDITED_CASES",
+    "causal_explanation": "CP-SAT reaches the proven optimal solution within its initial 1.0s budget on all 28 synthetic cases. SA receives the optimal incumbent and, under monotonic preservation, cannot find any improving moves."
+  },
+  "benchmark_scope_reconciliation": {
+    "r26_scope": {
+      "description": "2024 Seasonal Operational Scenarios Equal Compute Benchmark",
+      "scenarios_count": 4,
+      "scenarios": [
+        "SCEN_2024_WINTER",
+        "SCEN_2024_SPRING",
+        "SCEN_2024_SUMMER",
+        "SCEN_2024_FALL_DISRUPTED"
+      ],
+      "forecast_models_count": 7,
+      "solvers_count": 4,
+      "solvers": [
+        "DeterministicGreedy",
+        "CPSat",
+        "SimulatedAnnealing",
+        "HybridCPSatSA"
+      ],
+      "total_cases": 28,
+      "total_runs": 112,
+      "temporal_year": 2024
+    },
+    "r21_scope": {
+      "description": "2023 Development Downstream Operational Comparison",
+      "scenarios_count": 4,
+      "forecast_models_count": 7,
+      "solvers_count": 3,
+      "solvers": [
+        "DeterministicGreedy",
+        "CPSat",
+        "SimulatedAnnealing"
+      ],
+      "total_cases": 28,
+      "total_runs": 84,
+      "temporal_year": 2023
+    },
+    "r26_certifies_r21_downstream": false,
+    "scoping_distinction": "R26 and R21 evaluate distinct benchmark problem sets. R26 benchmarks 112 runs across 4 solvers on 2024 seasonal post-holdout synthetic scenarios. R21 benchmarked 84 runs across 3 solvers on 2023 development scenarios. R26 does NOT certify or replace R21 downstream runs."
+  },
+  "solver_claim_boundary": {
+    "allowed_claims": [
+      "equal wall-clock budget",
+      "same configured wall-clock ceiling",
+      "zero observed marginal gain on 28 audited cases",
+      "CP-SAT reached an OPTIMAL solution on all 28 audited instances"
+    ],
+    "prohibited_claims": [
+      "equal computational work",
+      "equal CPU work",
+      "fair compute in all computational senses",
+      "SA never improves",
+      "Hybrid universally equivalent to CP-SAT",
+      "universally proven global optimality on arbitrary airfields"
+    ]
+  },
+  "audit_verdict": "PASS"
+}

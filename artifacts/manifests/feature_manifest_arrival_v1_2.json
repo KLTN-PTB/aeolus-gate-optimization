@@ -1,0 +1,75 @@
+{
+  "manifest_version": "feature_manifest_arrival_v1_2",
+  "created_at": "2026-09-20T10:01:49Z",
+  "parent_manifest": "artifacts/manifests/feature_manifest_arrival_v1_1.json",
+  "parent_manifest_sha256": "80B453AE3FCF755699FDDB05D82FC942790F8C59BD3B4DA294A56DC47FD77523",
+  "task": "arrival_core",
+  "feature_contract_version": "arrival_feature_contract_v1_2",
+  "preprocessing_version": "arrival_preprocessing_v1_2",
+  "target_filter": "DEST=ATL",
+  "prediction_cutoff": "CRS_DEP_TIME - 2 hours",
+  "final_approved_predictor_columns": [
+    "CRS_ELAPSED_TIME",
+    "calendar_year",
+    "calendar_month",
+    "calendar_day_of_month",
+    "calendar_day_of_week",
+    "is_weekend",
+    "scheduled_departure_hour",
+    "scheduled_departure_minute",
+    "OP_CARRIER",
+    "ORIGIN",
+    "OP_CARRIER_FL_NUM",
+    "scheduled_arrival_hour",
+    "scheduled_arrival_minute",
+    "carrier_arrhour_train_median",
+    "carrier_arrhour_train_count"
+  ],
+  "base_predictor_count": 13,
+  "target_encoded_predictor_count": 2,
+  "target_encoding_feature_names": [
+    "carrier_arrhour_train_median",
+    "carrier_arrhour_train_count"
+  ],
+  "target_encoding_policy": {
+    "source_target": "y_arr_reg / signed ARR_DELAY",
+    "group_keys": [
+      "OP_CARRIER",
+      "scheduled_arrival_hour"
+    ],
+    "fit_scope": "recomputed independently per fold using train rows only",
+    "application_scope": "train and validation rows of the same fold",
+    "fallback_order": [
+      "carrier x scheduled_arrival_hour median",
+      "carrier median",
+      "global median"
+    ],
+    "smoothing": "raw median or smoothed median; Day 1 compares both",
+    "smoothing_formula": "(n_cell * median_cell + k * median_carrier) / (n_cell + k)",
+    "smoothing_k": 30,
+    "cell_count_feature": "number of train rows in the carrier-hour cell",
+    "validation_targets_used_for_feature": false,
+    "point_in_time_safe": true
+  },
+  "leakage_justification": "Uses the same carrier x scheduled-arrival-hour train-side information as the Phase A baseline, but exposes it to ML through a fold-local mapping; validation labels are never used to construct the feature.",
+  "forbidden_inputs": [
+    "DEP_TIME",
+    "DEP_DELAY",
+    "WHEELS_OFF",
+    "WHEELS_ON",
+    "TAXI_IN",
+    "TAXI_OUT",
+    "ARR_TIME",
+    "ARR_DELAY as a raw predictor",
+    "ACTUAL_ELAPSED_TIME",
+    "AIR_TIME",
+    "weather",
+    "DEST"
+  ],
+  "parent_integrity": {
+    "feature_manifest_arrival_v1_1_immutable": true,
+    "feature_manifest_arrival_v1_immutable": true
+  },
+  "allowed_row_level_years": "2016-2022",
+  "config_version": "0.1.0"
+}

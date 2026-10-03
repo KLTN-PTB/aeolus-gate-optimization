@@ -1,0 +1,395 @@
+{
+  "report_version": "phase_a_comprehensive_audit_v1",
+  "created_at_utc": "2026-09-28T14:31:32.332822+00:00",
+  "phase": "PHASE_A_AUDIT_STAGES_8_11",
+  "overall_phase_status": "PASS",
+  "executive_summary": {
+    "stage8_one_time_selection": {
+      "verdict": "PASS",
+      "winner": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "is_one_time": true
+    },
+    "stage9_post_selection_reuse": {
+      "verdict": "POST_SELECTION_REUSE",
+      "overlap_with_stage8": 100.0,
+      "data_reuse_verdict": "CIRCULAR_DOWNSTREAM_REUSE_OF_SELECTION_DATA"
+    },
+    "stage10_freeze_completeness": {
+      "verdict": "INCOMPLETE_OR_INCONSISTENT",
+      "weights_verified": true,
+      "git_commit_recorded": false,
+      "config_alignment": false
+    },
+    "stage11_holdout_provenance": {
+      "verdict": "POST_HOLDOUT_ALTERATIONS_PRESENT",
+      "opened_at_utc": "2026-09-27T18:23:46.416794+00:00",
+      "current_code_status": "POST_HOLDOUT",
+      "contradiction_detected": true,
+      "numeric_2024_conflict_reduction": -3.8723404255319345
+    },
+    "claim_semantics": {
+      "total_flagged_claims": 5,
+      "unsupported_ground_truth_claims": [
+        "real-world gate conflict",
+        "ground truth gate assignment",
+        "unnecessary gate changes",
+        "real-world optimality",
+        "83.7% error reduction"
+      ]
+    }
+  },
+  "stage_reports": {
+    "stage8": {
+      "stage_id": "STAGE_8_SYSTEM_SELECTION",
+      "audit_status": "PASS",
+      "is_one_time_selection": true,
+      "candidate_pool_pre_frozen": true,
+      "exactly_one_system_selected": true,
+      "selected_system_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "marginal_candidate_id": "B5_ngboost_student_t",
+      "dependence_candidate_id": "DEP_D2_gaussian_copula",
+      "post_selection_changes_detected": {
+        "model_architecture": false,
+        "model_weights": false,
+        "seed_policy": false,
+        "representation": false,
+        "calibration": false,
+        "dependence_model": false,
+        "dependence_parameters": false,
+        "monte_carlo_count": false,
+        "simulation_assumptions": false,
+        "optimization_parameters": false
+      },
+      "tie_break_protocol_compliance": "MULTI_TIER_TIE_BREAK_DISCREPANCY",
+      "audit_findings": [
+        "Tie-break rule evaluated secondary joint metrics rather than pure single-gate lowest CRPS.",
+        "Stage 8 fit model in-memory; serialized model weights were only generated in Stage 10."
+      ],
+      "provenance_chain": {
+        "stage7_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/probabilistic_stage7_system_candidates_v1.json",
+        "stage8_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/selected_system_manifest_v1.json",
+        "evaluation_year": 2023,
+        "training_window": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "total_candidates_evaluated": 0
+      }
+    },
+    "stage9": {
+      "stage_id": "STAGE_9_GATE_SIMULATION",
+      "audit_status": "POST_SELECTION_REUSE",
+      "days_evaluated": 25,
+      "flights_evaluated": 529,
+      "were_days_preregistered_before_stage8": false,
+      "were_days_excluded_from_stage8": false,
+      "overlap_with_stage8_data_percent": 100.0,
+      "data_reuse_verdict": "CIRCULAR_DOWNSTREAM_REUSE_OF_SELECTION_DATA",
+      "ground_truth_type": "SYNTHETIC_SIMULATION_UNDER_HISTORICAL_DELAYS",
+      "claim_semantics_valid": false,
+      "simulation_config_matches_freeze_manifest": false,
+      "config_discrepancies": [
+        "Reassignment penalty mismatch: Freeze manifest records 10.0, but script executed with 1.0.",
+        "Overflow penalty mismatch: Freeze manifest records 1000.0, but script executed with 100.0."
+      ],
+      "audit_findings": [
+        "CRITICAL: The 25 operational days (529 flights) evaluated in Stage 9 overlap 100% with the 2023 selection data used in Stage 8. They were NOT held out or pre-registered as an independent test set.",
+        "Downstream utility on 2023 is a post-selection re-use of the development selection partition, meaning Stage 9 downstream results cannot be claimed as independent out-of-sample confirmation.",
+        "CRITICAL: 'historical_ground_truth' does NOT represent actual airport gate occupancy or real-world gate assignments. It is an artificial simulation using an assumed 45m turnaround, 60m dwell, 30 contact gates, and a greedy nominal schedule applied to observed arrival delays.",
+        "Reassignment penalty mismatch: Freeze manifest records 10.0, but script executed with 1.0.",
+        "Overflow penalty mismatch: Freeze manifest records 1000.0, but script executed with 100.0."
+      ],
+      "provenance_chain": {
+        "stage8_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/selected_system_manifest_v1.json",
+        "stage9_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/probabilistic_stage9_gate_simulation_v1.json",
+        "evaluation_year": 2023,
+        "sample_val": 5000,
+        "seed": 202601,
+        "overlap_days_count": 25
+      }
+    },
+    "stage10": {
+      "stage_id": "STAGE_10_FULL_SYSTEM_FREEZE",
+      "audit_status": "INCOMPLETE_OR_INCONSISTENT",
+      "all_step7_components_verified": false,
+      "component_audit": {
+        "feature_manifest": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "representation": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "preprocessing": {
+          "present": true,
+          "status": "PARTIALLY_SPECIFIED_NO_HASH"
+        },
+        "model_family": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "architecture": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "weights_hash": {
+          "present": true,
+          "match": true,
+          "status": "VERIFIED"
+        },
+        "training_policy": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "seed": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "calibration": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "distribution": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "dependence_family": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "dependence_parameters": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "sampling_procedure": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "mc_count": {
+          "present": true,
+          "status": "VERIFIED"
+        },
+        "simulation_config": {
+          "present": true,
+          "status": "MISMATCHED_WITH_EXECUTION_CODE"
+        },
+        "optimization_config": {
+          "present": true,
+          "status": "MISMATCHED_WITH_EXECUTION_CODE"
+        },
+        "git_commit_hash": {
+          "present": false,
+          "status": "MISSING"
+        }
+      },
+      "model_weights_sha256_verified": true,
+      "git_commit_hash_recorded": false,
+      "simulation_config_alignment": false,
+      "optimization_config_alignment": false,
+      "missing_critical_hashes": [
+        "source::src/data/stratified_loader.py"
+      ],
+      "audit_findings": [
+        "CRITICAL: Git commit hash is NOT recorded in full_system_freeze_manifest_v1.json. Stage 8-11 files were uncommitted/untracked.",
+        "INCOMPLETE: item_03_preprocessing declares class name but lacks code hash and fitted scaler checkpoint hash.",
+        "WARNING: Data loader 'src/data/stratified_loader.py' hash is missing from the 16 recorded artifact hashes.",
+        "CRITICAL INCONSISTENCY: Simulation & Optimization configuration mismatch! The freeze manifest records reassignment_penalty=10.0 and overflow_penalty=1000.0, while both Stage 9 and Stage 11 execution scripts ran with reassignment_penalty=1.0 and overflow_penalty=100.0!"
+      ],
+      "provenance_chain": {
+        "freeze_manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/full_system_freeze_manifest_v1.json",
+        "weights_path": "D:/Study/Code/Python/Aelous/artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+        "weights_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+        "system_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+        "frozen_at_utc": "2026-09-27T11:52:15.181370+00:00"
+      }
+    },
+    "stage11": {
+      "stage_id": "STAGE_11_FINAL_HOLDOUT",
+      "audit_status": "POST_HOLDOUT_ALTERATIONS_PRESENT",
+      "holdout_access_timestamp_utc": "2026-09-27T18:23:46.416794+00:00",
+      "accessed_before_freeze": false,
+      "used_for_tuning_or_fitting": false,
+      "used_for_calibration": false,
+      "used_for_hyperparameter_selection": false,
+      "current_repo_status": "POST_HOLDOUT",
+      "marginal_forecast_gap_crps": 0.2656494312104556,
+      "downstream_conflict_error_reduction_2024": -3.8723404255319345,
+      "claim_contradiction_detected": true,
+      "contradiction_details": {
+        "manifest_numeric_value": -3.8723404255319345,
+        "numeric_interpretation": "-387.2% (increased error: D2 performed worse than D0)",
+        "textual_claim_in_finding_3": "The Gaussian Copula (D2) preserves its decisive advantage on unseen 2024 data, reducing gate conflict occurrence error by >75% over independent sampling (D0).",
+        "audit_verdict": "FLAGRANT_CONTRADICTION_BETWEEN_NUMERICAL_DATA_AND_TEXT_CLAIM"
+      },
+      "ground_truth_claim_validity": false,
+      "audit_findings": [
+        "2024 was opened post-freeze at 2026-09-27T18:23:46.416794+00:00 (Freeze timestamp: 2026-09-27T11:52:15.181370+00:00).",
+        "Model weights loaded directly from frozen joblib without refitting or retuning on 2024.",
+        "CRITICAL POST-HOLDOUT STATUS: Because Stage 11 has already executed and recorded 2024 results, any code modification present in the repository (e.g. uncommitted changes in git status) is strictly a POST-HOLDOUT change. 2024 CANNOT be re-evaluated as an untouched final holdout.",
+        "CRITICAL SCIENTIFIC INTEGRITY FINDING: In 2024 holdout, conflict_occurrence_error_reduction was -3.8723 (-387.2%), meaning D2 was SUBSTANTIALLY WORSE than D0. However, Finding #3 in the manifest falsely claimed D2 reduced error by >75%!",
+        "CRITICAL: The claims '96.0% real-world gate conflict' and 'unnecessary gate changes' are unsupported by BTS data. BTS data does not record gate numbers or gate conflicts; this metric was derived from a synthetic turn simulation."
+      ],
+      "provenance_chain": {
+        "freeze_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/full_system_freeze_manifest_v1.json",
+        "holdout_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/final_holdout_2024_evaluation_v1.json",
+        "weights_file": "D:/Study/Code/Python/Aelous/artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+        "holdout_year": 2024,
+        "evaluated_instances": 5000,
+        "holdout_accessed_utc": "2026-09-27T18:23:46.416794+00:00"
+      }
+    }
+  },
+  "flagged_claims": [
+    {
+      "claim_term": "real-world gate conflict",
+      "location_file": "docs/BAO_CAO_TONG_KET_PROBABILISTIC_CORE_ARRIVAL_STAGE_0_11.md (lines 241, 293, 320)",
+      "claimed_text": "T\u1ef7 l\u1ec7 xung \u0111\u1ed9t c\u1ed5ng th\u1ef1c t\u1ebf ngo\u00e0i \u0111\u1eddi l\u00ean t\u1edbi 84.0% (2023) v\u00e0 96.0% (2024); Xung \u0111\u1ed9t th\u1ef1c t\u1ebf ngo\u00e0i \u0111\u1eddi.",
+      "available_ground_truth": "BTS On-Time flight delay dataset (ARR_DELAY signed integer minutes). Zero gate data.",
+      "scientific_defect": "BTS flight records DO NOT contain actual airport gate assignments, gate logs, or gate conflict records. The 84.0% and 96.0% numbers were produced by feeding realized flight delays into an artificial synthetic turn synthesizer (45m turnaround, 60m dwell) on an artificial 30-gate capacity nominal schedule. Labeling synthetic simulation outcomes as 'real-world gate conflicts' is a severe semantic mislabeling.",
+      "severity": "CRITICAL",
+      "recommended_scientific_relabeling": "Synthetic gate conflict rate under historical flight arrival delays on a 30-contact-gate nominal plan."
+    },
+    {
+      "claim_term": "ground truth gate assignment",
+      "location_file": "src/simulation/downstream_metrics.py & scripts/run_probabilistic_stage9_simulation.py",
+      "claimed_text": "regime_id: 'historical_ground_truth', 'Oracle realized outcomes'",
+      "available_ground_truth": "Actual ARR_DELAY values only. No gate assignment ground truth exists in the dataset.",
+      "scientific_defect": "The regime 'historical_ground_truth' does not contain actual gate assignments. It evaluates the nominal greedy schedule when flights arrive with their observed delays, with recourse handled by the same dynamic greedy heuristic. Calling this 'ground truth gate assignment' conflates flight delay ground truth with gate allocation ground truth.",
+      "severity": "HIGH",
+      "recommended_scientific_relabeling": "Simulated benchmark under realized historical delays (Oracle delay benchmark)."
+    },
+    {
+      "claim_term": "unnecessary gate changes",
+      "location_file": "docs/BAO_CAO_TONG_KET_PROBABILISTIC_CORE_ARRIVAL_STAGE_0_11.md (lines 248, 323, 338)",
+      "claimed_text": "B\u1ed9 gi\u1ea3i quy ho\u1ea1ch nguy\u00ean MILP gi\u1ea3m 48.1% s\u1ed1 l\u1ea7n \u0111\u1ed5i c\u1ed5ng kh\u00f4ng c\u1ea7n thi\u1ebft (xu\u1ed1ng ch\u1ec9 c\u00f2n 2.00 l\u1ea7n/ng\u00e0y).",
+      "available_ground_truth": "No airline or airport dispatcher reassignment ground truth exists.",
+      "scientific_defect": "The '48.1% reduction' is strictly the mathematical difference between HiGHS MILP and an ad-hoc greedy heuristic on synthetic turn windows. There is no baseline of airline operations or gate dispatcher decisions to justify calling greedy reassignments 'unnecessary gate changes in the real world'.",
+      "severity": "HIGH",
+      "recommended_scientific_relabeling": "Reassignment reduction of exact MILP relative to dynamic greedy heuristic under synthetic turn model."
+    },
+    {
+      "claim_term": "real-world optimality",
+      "location_file": "docs/BAO_CAO_TONG_KET_PROBABILISTIC_CORE_ARRIVAL_STAGE_0_11.md (lines 323, 338)",
+      "claimed_text": "\u0111\u1ea1t \u0111\u01b0\u1ee3c l\u1eddi gi\u1ea3i t\u1ed1i \u01b0u to\u00e0n c\u1ee5c ngay trong th\u1eddi gian th\u1ef1c, v\u1eeba tri\u1ec7t ti\u00eau 100% xung \u0111\u1ed9t c\u1ed5ng",
+      "available_ground_truth": "A stylized 30-gate integer linear program with assumed penalty weights (1.0 reassignment, 1000.0 overflow).",
+      "scientific_defect": "Real-world gate allocation involves aircraft gauge constraints (heavy/narrow-body compatibility), concourse adjacency, passenger walking times, airline gate leases, and towing operations. The MILP model is a simplified contact gate assignment with homogeneous gates and unconstrained taxiway operations.",
+      "severity": "HIGH",
+      "recommended_scientific_relabeling": "Exact optimal solution for the stylized 30-gate single-concourse assignment problem."
+    },
+    {
+      "claim_term": "83.7% error reduction",
+      "location_file": "docs/BAO_CAO_TONG_KET_PROBABILISTIC_CORE_ARRIVAL_STAGE_0_11.md (line 244, 322) & final_holdout_2024_evaluation_v1.json (finding 3)",
+      "claimed_text": "gi\u00fap gi\u1ea3m 83.7% sai s\u1ed1 d\u1ef1 b\u00e1o xung \u0111\u1ed9t c\u1ed5ng so v\u1edbi D0; reducing gate conflict occurrence error by >75% over independent sampling (D0).",
+      "available_ground_truth": "2023 development sample: +83.7%; 2024 final holdout: -387.2% (conflict_occurrence_error_reduction = -3.8723).",
+      "scientific_defect": "1. The 83.7% reduction was measured exclusively on the 2023 development selection sample (25 days / 529 flights reused from Stage 8). 2. On the 2024 final holdout, the exact same metric was NEGATIVE: -387.2% (D2 error was 0.0916 vs D0 error 0.0188). 3. Manifest final_holdout_2024_evaluation_v1.json Finding #3 explicitly claims '>75% error reduction on 2024', which contradicts the manifest's own numerical data! 4. The summary report omitted this negative result entirely.",
+      "severity": "CRITICAL",
+      "recommended_scientific_relabeling": "In 2023 development selection, D2 reduced synthetic conflict rate estimation error by 83.7% relative to D0. However, in 2024 holdout, D2 underperformed D0 (-387.2% error reduction) due to severe unmodeled common-shock delay surges."
+    }
+  ],
+  "audit_table_summary": [
+    {
+      "artifact_id": "artifacts/manifests/selected_system_manifest_v1.json",
+      "stage": "STAGE_8_SYSTEM_SELECTION",
+      "year": 2023,
+      "role": "DEVELOPMENT_MODEL_SELECTION",
+      "input_dataset": "inbound_atl/year=2016-2022 (train) + year=2023 (selection sample 5000)",
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "model_hash": "checkpoint_unserialized_fitted_in_memory",
+      "config_hash": "1b35863b17fb90a7d30cfc09315ab092cfa38a6fef18aa54e1735143ddb29f9b",
+      "seed": 202601,
+      "selection_dependency": "artifacts/manifests/probabilistic_stage7_system_candidates_v1.json",
+      "holdout_dependency": "NONE (2024 claimed sealed)",
+      "status": "VALID_ONE_TIME_SELECTION"
+    },
+    {
+      "artifact_id": "artifacts/manifests/probabilistic_stage9_gate_simulation_v1.json",
+      "stage": "STAGE_9_GATE_SIMULATION",
+      "year": 2023,
+      "role": "DOWNSTREAM_GATE_SIMULATION_UTILITY",
+      "input_dataset": "inbound_atl/year=2023 (same 25 multi-flight days / 529 flights from Stage 8)",
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "model_hash": "refit_in_memory_seed_202601",
+      "config_hash": "eb25df052bb5f259bcdc07d94f1dd568d8c528fbc6245557c072a92b983feade",
+      "seed": 202601,
+      "selection_dependency": "artifacts/manifests/selected_system_manifest_v1.json",
+      "holdout_dependency": "NONE (2024 claimed sealed)",
+      "status": "POST_SELECTION_REUSE_OF_2023_DATA"
+    },
+    {
+      "artifact_id": "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+      "stage": "STAGE_10_FULL_SYSTEM_FREEZE",
+      "year": 2022,
+      "role": "FROZEN_MODEL_CHECKPOINT",
+      "input_dataset": "inbound_atl/year=2016-2022 (7000 stratified training rows)",
+      "candidate_id": "B5_ngboost_student_t",
+      "model_hash": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "config_hash": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "seed": 202601,
+      "selection_dependency": "artifacts/manifests/selected_system_manifest_v1.json",
+      "holdout_dependency": "NONE",
+      "status": "FROZEN_MODEL_WEIGHTS"
+    },
+    {
+      "artifact_id": "artifacts/manifests/full_system_freeze_manifest_v1.json",
+      "stage": "STAGE_10_FULL_SYSTEM_FREEZE",
+      "year": 2024,
+      "role": "PRE_HOLDOUT_FREEZE_MANIFEST",
+      "input_dataset": "N/A (Configuration specification locking 20 components)",
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "model_hash": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "config_hash": "c520d20f27a8d7890becd469cb0e87fec100e6311548329b745ba2ca81f707a7",
+      "seed": 202601,
+      "selection_dependency": "artifacts/manifests/selected_system_manifest_v1.json",
+      "holdout_dependency": "GATE_KEEPER_FOR_2024",
+      "status": "INCOMPLETE_FREEZE_MISSING_GIT_HASH_AND_SIM_CONFIG_MISMATCH"
+    },
+    {
+      "artifact_id": "artifacts/manifests/system_freeze_manifest.json",
+      "stage": "STAGE_10_ACCESS_GUARD_AUTHORIZATION",
+      "year": 2024,
+      "role": "ACCESS_GUARD_AUTHORIZER",
+      "input_dataset": "N/A",
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "model_hash": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "config_hash": "ed451a7548a994027060b4cbc682ff7c18cdee6dbedc341097088db8def008f7",
+      "seed": 202601,
+      "selection_dependency": "full_system_freeze_manifest_v1.json",
+      "holdout_dependency": "AUTHORIZES_2024_FINAL_EVALUATION",
+      "status": "FREEZE_FLAG_ACTIVE"
+    },
+    {
+      "artifact_id": "artifacts/manifests/final_holdout_2024_evaluation_v1.json",
+      "stage": "STAGE_11_FINAL_HOLDOUT",
+      "year": 2024,
+      "role": "FINAL_HOLDOUT",
+      "input_dataset": "inbound_atl/year=2024 (5000 stratified flights, 25 days / 579 simulation flights)",
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "model_hash": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "config_hash": "20921ebfd6817cbb14ea3bb3bc80cb628a5f341bbff981c420a053798870eb2d",
+      "seed": 202601,
+      "selection_dependency": "full_system_freeze_manifest_v1.json",
+      "holdout_dependency": "OPENED_2024_OBSERVED_OUTCOME",
+      "status": "PREVIOUSLY_OPENED_HOLDOUT_SUBSEQUENT_CHANGES_ARE_POST_HOLDOUT"
+    },
+    {
+      "artifact_id": "artifacts/evaluation/final_holdout_2024/holdout_predictions_2024.parquet",
+      "stage": "STAGE_11_FINAL_HOLDOUT",
+      "year": 2024,
+      "role": "HOLDOUT_PREDICTION_PAYLOAD",
+      "input_dataset": "inbound_atl/year=2024 (5000 instances)",
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "model_hash": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "config_hash": "67620cc572a367ba4ee5697f673e7a00996741d2d4436200de2bc3e4a8830e15",
+      "seed": 202601,
+      "selection_dependency": "full_system_freeze_manifest_v1.json",
+      "holdout_dependency": "2024_GROUND_TRUTH_REALIZED_DELAYS",
+      "status": "STATIC_SAVED_PREDICTIONS"
+    }
+  ]
+}

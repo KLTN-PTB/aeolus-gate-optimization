@@ -1,0 +1,38 @@
+{
+  "audit_name": "r29_run_count_reconciliation",
+  "task_id": "R29_EXECUTION_PROVENANCE_RECONCILIATION",
+  "created_at_utc": "2026-10-03T08:21:20.056871+00:00",
+  "reported_rebuilt_runs": 124,
+  "mathematical_sum_of_decomposed_runs": 124,
+  "runs_match_reported": true,
+  "zero_unclassified_runs": true,
+  "unclassified_count": 0,
+  "decomposition": {
+    "Selection": {
+      "count": 10,
+      "description": "5 point models + 5 probabilistic candidates evaluated on 2023 model selection slice",
+      "run_ids_range": "R21_SEL_01 .. R21_SEL_10",
+      "failures": 0
+    },
+    "Downstream": {
+      "count": 84,
+      "description": "7 candidates x 4 scenarios x 3 solvers under SCALAR_FORECAST_IMPACT semantics",
+      "run_ids_range": "R21_DOWNSTREAM_01 .. R21_DOWNSTREAM_84",
+      "failures": 0
+    },
+    "Monte Carlo": {
+      "count": 30,
+      "description": "6 candidates x 5 sample sizes N in {100, 250, 500, 1000, 2500} under empirical SE tracking",
+      "run_ids_range": "R21_MC_01 .. R21_MC_30",
+      "failures": 0
+    }
+  },
+  "reused_family_accounting": {
+    "Point": 20,
+    "Probabilistic": 20,
+    "Statistics": 48,
+    "Stability": 12,
+    "total_reused_runs": 100
+  },
+  "grand_total_research_evidence_runs": 224
+}

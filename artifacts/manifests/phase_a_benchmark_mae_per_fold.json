@@ -1,0 +1,532 @@
+{
+  "benchmark_version": "phase_a_day2_objective_per_locked_fold_v1",
+  "created_at_utc": "2026-09-20T10:42:31Z",
+  "purpose": "Per-fold follow-up because reg:absoluteerror improved A2/B2 by >1 percentage point",
+  "protocol": {
+    "sample_train_per_year": 25000,
+    "sample_val": 25000,
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "folds": {
+      "fold_1": {
+        "train_years": [
+          2016,
+          2017,
+          2018
+        ],
+        "validation_year": 2019
+      },
+      "fold_2": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019
+        ],
+        "validation_year": 2020
+      },
+      "fold_3": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "validation_year": 2021
+      },
+      "fold_4": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021
+        ],
+        "validation_year": 2022
+      }
+    },
+    "allowed_row_level_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "blocked_row_level_years": [
+      2023,
+      2024
+    ],
+    "row_level_2023_accessed": false,
+    "row_level_2024_accessed": false
+  },
+  "configs": {
+    "a2": {
+      "feature_set": "v1",
+      "xgb_objective": "reg:absoluteerror"
+    },
+    "b2": {
+      "feature_set": "v1.1",
+      "xgb_objective": "reg:absoluteerror"
+    }
+  },
+  "input_hashes": {
+    "hpo_result": {
+      "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json": "eb82039e078ff99e7b4bce9960bf6365377f99723b8ab10204bb0a6760faf20e"
+    },
+    "hpo_protocol": {
+      "configs\\week5_hpo_v1_1.yaml": "bcb6263f8a030fc149d72f409a912b17f1b4db20c638eb50a396c959726b973a"
+    },
+    "feature_manifests": {
+      "artifacts\\manifests\\feature_manifest_arrival_v1.json": "cb352a56d194e9f39ee9477fdbc5da7929ba03b5ba089100cbd88b01dec09e85",
+      "artifacts\\manifests\\feature_manifest_arrival_v1_1.json": "80b453ae3fcf755699fddb05d82fc942790f8c59bd3b4da294a56dc47fd77523"
+    }
+  },
+  "fold_summary": {
+    "a2": {
+      "fold_1": {
+        "validation_year": 2019.0,
+        "mae_mean": 18.116098873209662,
+        "mae_std": 0.23479442235913262,
+        "skill_mean": 0.5099942267308522,
+        "skill_std": 0.28224286580912966,
+        "baseline_mae_mean": 18.208928
+      },
+      "fold_2": {
+        "validation_year": 2020.0,
+        "mae_mean": 13.482676173398222,
+        "mae_std": 0.21680645186005826,
+        "skill_mean": 1.4455200623446696,
+        "skill_std": 0.27971149472281814,
+        "baseline_mae_mean": 13.680632
+      },
+      "fold_3": {
+        "validation_year": 2021.0,
+        "mae_mean": 15.81031090004945,
+        "mae_std": 0.12599475113041528,
+        "skill_mean": 0.18413171846770382,
+        "skill_std": 0.10923591873236727,
+        "baseline_mae_mean": 15.839492000000002
+      },
+      "fold_4": {
+        "validation_year": 2022.0,
+        "mae_mean": 19.886297399195747,
+        "mae_std": 0.22525095281097707,
+        "skill_mean": -0.24519168077326903,
+        "skill_std": 0.04670315081129478,
+        "baseline_mae_mean": 19.837684000000003
+      }
+    },
+    "b2": {
+      "fold_1": {
+        "validation_year": 2019.0,
+        "mae_mean": 18.101858861444647,
+        "mae_std": 0.22889810720877915,
+        "skill_mean": 0.4739864757229717,
+        "skill_std": 0.13060803228580334,
+        "baseline_mae_mean": 18.188036
+      },
+      "fold_2": {
+        "validation_year": 2020.0,
+        "mae_mean": 13.485775577719277,
+        "mae_std": 0.21909238280600357,
+        "skill_mean": 1.2443612075586175,
+        "skill_std": 0.23467962328218334,
+        "baseline_mae_mean": 13.655556
+      },
+      "fold_3": {
+        "validation_year": 2021.0,
+        "mae_mean": 15.816083201504707,
+        "mae_std": 0.13036912799729622,
+        "skill_mean": 0.16983434964552568,
+        "skill_std": 0.08075455501202815,
+        "baseline_mae_mean": 15.842984000000001
+      },
+      "fold_4": {
+        "validation_year": 2022.0,
+        "mae_mean": 19.886445896088997,
+        "mae_std": 0.23992863352387012,
+        "skill_mean": -0.2519280802513224,
+        "skill_std": 0.09073953637291235,
+        "baseline_mae_mean": 19.836584
+      }
+    }
+  },
+  "per_seed_results": [
+    {
+      "config_id": "a2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 42,
+      "xgboost_mae": 18.38664382511052,
+      "xgboost_skill_score_vs_carrier_hour": 0.599948398169492,
+      "baseline_mae": 18.49762
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 43,
+      "xgboost_mae": 18.290836151114878,
+      "xgboost_skill_score_vs_carrier_hour": 0.2812270621058932,
+      "baseline_mae": 18.34242
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 44,
+      "xgboost_mae": 18.02953260353865,
+      "xgboost_skill_score_vs_carrier_hour": 0.9625361524202902,
+      "baseline_mae": 18.20476
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 45,
+      "xgboost_mae": 17.713042292907947,
+      "xgboost_skill_score_vs_carrier_hour": 0.5579124402638858,
+      "baseline_mae": 17.81242
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 46,
+      "xgboost_mae": 18.160439493376316,
+      "xgboost_skill_score_vs_carrier_hour": 0.1483470806946996,
+      "baseline_mae": 18.18742
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 42,
+      "xgboost_mae": 13.295726914070286,
+      "xgboost_skill_score_vs_carrier_hour": 1.3411020841505361,
+      "baseline_mae": 13.47646
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 43,
+      "xgboost_mae": 13.342318177151197,
+      "xgboost_skill_score_vs_carrier_hour": 1.1510261233693697,
+      "baseline_mae": 13.49768
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 44,
+      "xgboost_mae": 13.4263975326363,
+      "xgboost_skill_score_vs_carrier_hour": 1.3252456680500568,
+      "baseline_mae": 13.60672
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 45,
+      "xgboost_mae": 13.44683076822226,
+      "xgboost_skill_score_vs_carrier_hour": 1.9737390398141708,
+      "baseline_mae": 13.71758
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 46,
+      "xgboost_mae": 13.902107474911064,
+      "xgboost_skill_score_vs_carrier_hour": 1.4364873963392144,
+      "baseline_mae": 14.10472
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 42,
+      "xgboost_mae": 15.59320899630189,
+      "xgboost_skill_score_vs_carrier_hour": 0.25108654490790805,
+      "baseline_mae": 15.63246
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 43,
+      "xgboost_mae": 15.877205121397973,
+      "xgboost_skill_score_vs_carrier_hour": 0.3489335120131276,
+      "baseline_mae": 15.9328
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 44,
+      "xgboost_mae": 15.744640870723725,
+      "xgboost_skill_score_vs_carrier_hour": 0.032502903385678295,
+      "baseline_mae": 15.74976
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 45,
+      "xgboost_mae": 15.909555874729156,
+      "xgboost_skill_score_vs_carrier_hour": 0.1139155387836488,
+      "baseline_mae": 15.9277
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 46,
+      "xgboost_mae": 15.926943637094498,
+      "xgboost_skill_score_vs_carrier_hour": 0.17422009324815635,
+      "baseline_mae": 15.95474
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 42,
+      "xgboost_mae": 19.777742980077864,
+      "xgboost_skill_score_vs_carrier_hour": -0.32618852964203526,
+      "baseline_mae": 19.71344
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 43,
+      "xgboost_mae": 20.222194840271474,
+      "xgboost_skill_score_vs_carrier_hour": -0.25440060260868425,
+      "baseline_mae": 20.17088
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 44,
+      "xgboost_mae": 19.585480468274355,
+      "xgboost_skill_score_vs_carrier_hour": -0.24599188774339087,
+      "baseline_mae": 19.53742
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 45,
+      "xgboost_mae": 19.789077695944755,
+      "xgboost_skill_score_vs_carrier_hour": -0.20740048138634393,
+      "baseline_mae": 19.74812
+    },
+    {
+      "config_id": "a2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 46,
+      "xgboost_mae": 20.056991011410283,
+      "xgboost_skill_score_vs_carrier_hour": -0.19197690248589083,
+      "baseline_mae": 20.01856
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 42,
+      "xgboost_mae": 18.364718795802826,
+      "xgboost_skill_score_vs_carrier_hour": 0.3682671147704264,
+      "baseline_mae": 18.4326
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 43,
+      "xgboost_mae": 18.2605483057693,
+      "xgboost_skill_score_vs_carrier_hour": 0.5880248328159476,
+      "baseline_mae": 18.36856
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 44,
+      "xgboost_mae": 18.018040782307395,
+      "xgboost_skill_score_vs_carrier_hour": 0.6486617413441698,
+      "baseline_mae": 18.13568
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 45,
+      "xgboost_mae": 17.70535605867248,
+      "xgboost_skill_score_vs_carrier_hour": 0.4657241391907041,
+      "baseline_mae": 17.7882
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "seed": 46,
+      "xgboost_mae": 18.16063036467122,
+      "xgboost_skill_score_vs_carrier_hour": 0.2992545504936106,
+      "baseline_mae": 18.21514
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 42,
+      "xgboost_mae": 13.292932402324238,
+      "xgboost_skill_score_vs_carrier_hour": 1.146033607959529,
+      "baseline_mae": 13.44704
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 43,
+      "xgboost_mae": 13.366521424951628,
+      "xgboost_skill_score_vs_carrier_hour": 1.15888333748696,
+      "baseline_mae": 13.52324
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 44,
+      "xgboost_mae": 13.403576821314553,
+      "xgboost_skill_score_vs_carrier_hour": 1.691937653275244,
+      "baseline_mae": 13.63426
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 45,
+      "xgboost_mae": 13.454772375143115,
+      "xgboost_skill_score_vs_carrier_hour": 1.22037754098,
+      "baseline_mae": 13.621
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "seed": 46,
+      "xgboost_mae": 13.911074864862847,
+      "xgboost_skill_score_vs_carrier_hour": 1.0045738980913543,
+      "baseline_mae": 14.05224
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 42,
+      "xgboost_mae": 15.602362022624016,
+      "xgboost_skill_score_vs_carrier_hour": 0.1398980389163973,
+      "baseline_mae": 15.62422
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 43,
+      "xgboost_mae": 15.878149786515236,
+      "xgboost_skill_score_vs_carrier_hour": 0.28630342799345065,
+      "baseline_mae": 15.92374
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 44,
+      "xgboost_mae": 15.731060413088798,
+      "xgboost_skill_score_vs_carrier_hour": 0.22123379203017324,
+      "baseline_mae": 15.76594
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 45,
+      "xgboost_mae": 15.924063847370148,
+      "xgboost_skill_score_vs_carrier_hour": 0.15559808983359735,
+      "baseline_mae": 15.94888
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "seed": 46,
+      "xgboost_mae": 15.944779937925338,
+      "xgboost_skill_score_vs_carrier_hour": 0.04613839945400988,
+      "baseline_mae": 15.95214
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 42,
+      "xgboost_mae": 19.766571052204966,
+      "xgboost_skill_score_vs_carrier_hour": -0.3802162952155852,
+      "baseline_mae": 19.6917
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 43,
+      "xgboost_mae": 20.234930549688936,
+      "xgboost_skill_score_vs_carrier_hour": -0.17292351331157363,
+      "baseline_mae": 20.2
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 44,
+      "xgboost_mae": 19.57259393716201,
+      "xgboost_skill_score_vs_carrier_hour": -0.3160995850632009,
+      "baseline_mae": 19.51092
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 45,
+      "xgboost_mae": 19.771141276444197,
+      "xgboost_skill_score_vs_carrier_hour": -0.13229298549304325,
+      "baseline_mae": 19.74502
+    },
+    {
+      "config_id": "b2",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "seed": 46,
+      "xgboost_mae": 20.086992664944866,
+      "xgboost_skill_score_vs_carrier_hour": -0.25810802217320905,
+      "baseline_mae": 20.03528
+    }
+  ],
+  "execution_time_seconds": 416.1,
+  "runner_sha256": "0f37a1c3f96d9891bd2a6a123b987ac8034560e0fefa168013bdacf066433261",
+  "covid_fold": {
+    "fold_id": "fold_2",
+    "validation_year": 2020,
+    "interpretation": "Reported separately; no 2023/2024 rows are needed for this diagnostic."
+  }
+}

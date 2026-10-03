@@ -1,0 +1,228 @@
+{
+  "manifest_version": "probabilistic_stage6_5_pruning_v1",
+  "created_at_utc": "2026-09-27T10:43:37.688949+00:00",
+  "source_evaluation_manifest": "artifacts\\manifests\\probabilistic_stage6_forecast_evaluation_v1.json",
+  "rules_source": "artifacts/manifests/distribution_candidate_manifest_v1.json",
+  "stage": "STAGE_6_5_CANDIDATE_PRUNING",
+  "pruning_summary": {
+    "total_candidates_evaluated": 10,
+    "retained_count": 4,
+    "pruned_count": 6,
+    "retained_candidates": [
+      "B5_ngboost_student_t",
+      "D3_k3_mixture__with_year",
+      "D3_k3_mixture__no_year",
+      "seed_ensemble_3"
+    ],
+    "pruned_candidates": [
+      "B1_empirical",
+      "B2_xgb_gaussian",
+      "B3_ngboost_normal",
+      "B4_lightgbm_quantile",
+      "D1_k1_fixed_sigma",
+      "D2_k1_heteroscedastic"
+    ]
+  },
+  "pruning_details": {
+    "pruning_screen_delta_crps": 0.2,
+    "tail_brier_tolerance": 0.005,
+    "best_candidate_crps": "seed_ensemble_3",
+    "best_crps_value": 13.285275727039124,
+    "best_candidate_brier60": "B1_empirical",
+    "best_brier60_value": 0.038898547377231925,
+    "retained_candidate_count": 4,
+    "retained_candidates": [
+      "B5_ngboost_student_t",
+      "D3_k3_mixture__with_year",
+      "D3_k3_mixture__no_year",
+      "seed_ensemble_3"
+    ],
+    "pruned_candidate_count": 6,
+    "pruned_candidates": [
+      "B1_empirical",
+      "B2_xgb_gaussian",
+      "B3_ngboost_normal",
+      "B4_lightgbm_quantile",
+      "D1_k1_fixed_sigma",
+      "D2_k1_heteroscedastic"
+    ],
+    "pruning_decisions": {
+      "B1_empirical": {
+        "candidate_name": "B1_empirical",
+        "status": "PRUNED",
+        "primary_rationale": "Pruned due to clear multi-axis dominance: CRPS (17.1351m) dominated by best (13.2853m) by +3.8498m > 0.2m.",
+        "dominated_axes": [
+          "CRPS (17.1351m) dominated by best (13.2853m) by +3.8498m > 0.2m"
+        ],
+        "metrics": {
+          "crps": 17.13511231673687,
+          "delta_from_best_crps": 3.8498365896977447,
+          "brier_15": 0.1059095944431818,
+          "brier_60": 0.038898547377231925,
+          "delta_from_best_brier60": 0.0,
+          "cov_80": 0.79855,
+          "cov_90": 0.89385,
+          "crossing_rate": 0.0
+        }
+      },
+      "B2_xgb_gaussian": {
+        "candidate_name": "B2_xgb_gaussian",
+        "status": "PRUNED",
+        "primary_rationale": "Pruned due to clear multi-axis dominance: CRPS (17.3967m) dominated by best (13.2853m) by +4.1114m > 0.2m; Severe interval miscalibration (80% cov=0.953, 90% cov=0.965).",
+        "dominated_axes": [
+          "CRPS (17.3967m) dominated by best (13.2853m) by +4.1114m > 0.2m",
+          "Severe interval miscalibration (80% cov=0.953, 90% cov=0.965)"
+        ],
+        "metrics": {
+          "crps": 17.3966763461377,
+          "delta_from_best_crps": 4.111400619098575,
+          "brier_15": 0.13990024724389052,
+          "brier_60": 0.03989070347608598,
+          "delta_from_best_brier60": 0.0009921560988540579,
+          "cov_80": 0.95255,
+          "cov_90": 0.96495,
+          "crossing_rate": 0.0
+        }
+      },
+      "B3_ngboost_normal": {
+        "candidate_name": "B3_ngboost_normal",
+        "status": "PRUNED",
+        "primary_rationale": "Pruned due to clear multi-axis dominance: CRPS (15.9643m) dominated by best (13.2853m) by +2.6790m > 0.2m.",
+        "dominated_axes": [
+          "CRPS (15.9643m) dominated by best (13.2853m) by +2.6790m > 0.2m"
+        ],
+        "metrics": {
+          "crps": 15.964319514912443,
+          "delta_from_best_crps": 2.6790437878733186,
+          "brier_15": 0.14739385687293896,
+          "brier_60": 0.040834724666903195,
+          "delta_from_best_brier60": 0.0019361772896712703,
+          "cov_80": 0.9405,
+          "cov_90": 0.95485,
+          "crossing_rate": 0.0
+        }
+      },
+      "B4_lightgbm_quantile": {
+        "candidate_name": "B4_lightgbm_quantile",
+        "status": "PRUNED",
+        "primary_rationale": "Pruned because it lacks full predictive CDF required for Monte Carlo joint simulation (no registered continuous/discrete CDF construction), and exhibited quantile crossing violations.",
+        "dominated_axes": [
+          "Lacks full predictive CDF; quantile crossing > 0"
+        ],
+        "metrics": {
+          "pinball_q90": 7.9615999934195365,
+          "pinball_q95": 6.4358873410373345,
+          "cov_80": 0.75005,
+          "cov_90": 0.8637,
+          "crossing_rate": 0.07175
+        }
+      },
+      "B5_ngboost_student_t": {
+        "candidate_name": "B5_ngboost_student_t",
+        "status": "RETAINED",
+        "primary_rationale": "Retained as non-dominated candidate: heavy-tail parametric specification with non-standard analytical CRPS, tail Brier score on Y>=60 (0.0399) is within 0.005 of best, and quantile crossing rate is 0.0%.",
+        "dominated_axes": [],
+        "metrics": {
+          "crps": null,
+          "delta_from_best_crps": null,
+          "brier_15": 0.10876365146681967,
+          "brier_60": 0.03990252943498904,
+          "delta_from_best_brier60": 0.001003982057757112,
+          "cov_80": 0.83055,
+          "cov_90": 0.8973,
+          "crossing_rate": 0.0
+        }
+      },
+      "D1_k1_fixed_sigma": {
+        "candidate_name": "D1_k1_fixed_sigma",
+        "status": "PRUNED",
+        "primary_rationale": "Pruned due to clear multi-axis dominance: CRPS (16.6750m) dominated by best (13.2853m) by +3.3897m > 0.2m; Severe interval miscalibration (80% cov=0.311, 90% cov=0.386).",
+        "dominated_axes": [
+          "CRPS (16.6750m) dominated by best (13.2853m) by +3.3897m > 0.2m",
+          "Severe interval miscalibration (80% cov=0.311, 90% cov=0.386)"
+        ],
+        "metrics": {
+          "crps": 16.675003154948527,
+          "delta_from_best_crps": 3.3897274279094027,
+          "brier_15": 0.13559561574178475,
+          "brier_60": 0.04044999999545621,
+          "delta_from_best_brier60": 0.001551452618224286,
+          "cov_80": 0.3106,
+          "cov_90": 0.38575,
+          "crossing_rate": 0.0
+        }
+      },
+      "D2_k1_heteroscedastic": {
+        "candidate_name": "D2_k1_heteroscedastic",
+        "status": "PRUNED",
+        "primary_rationale": "Pruned due to clear multi-axis dominance: CRPS (16.5186m) dominated by best (13.2853m) by +3.2333m > 0.2m.",
+        "dominated_axes": [
+          "CRPS (16.5186m) dominated by best (13.2853m) by +3.2333m > 0.2m"
+        ],
+        "metrics": {
+          "crps": 16.51862013754238,
+          "delta_from_best_crps": 3.233344410503257,
+          "brier_15": 0.1578500484173169,
+          "brier_60": 0.041161618590052976,
+          "delta_from_best_brier60": 0.002263071212821051,
+          "cov_80": 0.93935,
+          "cov_90": 0.9565,
+          "crossing_rate": 0.0
+        }
+      },
+      "D3_k3_mixture__with_year": {
+        "candidate_name": "D3_k3_mixture__with_year",
+        "status": "RETAINED",
+        "primary_rationale": "Retained as non-dominated candidate: CRPS (13.4055m) is within 0.2m of best, tail Brier score on Y>=60 (0.0389) is within 0.005 of best, and quantile crossing rate is 0.0%.",
+        "dominated_axes": [],
+        "metrics": {
+          "crps": 13.405468637800364,
+          "delta_from_best_crps": 0.12019291076124006,
+          "brier_15": 0.1087827783895008,
+          "brier_60": 0.03893833678823535,
+          "delta_from_best_brier60": 3.9789411003424147e-05,
+          "cov_80": 0.79045,
+          "cov_90": 0.90375,
+          "crossing_rate": 0.0
+        }
+      },
+      "D3_k3_mixture__no_year": {
+        "candidate_name": "D3_k3_mixture__no_year",
+        "status": "RETAINED",
+        "primary_rationale": "Retained as non-dominated candidate: CRPS (13.4643m) is within 0.2m of best, tail Brier score on Y>=60 (0.0400) is within 0.005 of best, and quantile crossing rate is 0.0%.",
+        "dominated_axes": [],
+        "metrics": {
+          "crps": 13.464261247265656,
+          "delta_from_best_crps": 0.17898552022653114,
+          "brier_15": 0.10675343280053964,
+          "brier_60": 0.04002272702449006,
+          "delta_from_best_brier60": 0.001124179647258132,
+          "cov_80": 0.83365,
+          "cov_90": 0.9324,
+          "crossing_rate": 0.0
+        }
+      },
+      "seed_ensemble_3": {
+        "candidate_name": "seed_ensemble_3",
+        "status": "RETAINED",
+        "primary_rationale": "Retained as non-dominated candidate: CRPS (13.2853m) is within 0.2m of best, tail Brier score on Y>=60 (0.0391) is within 0.005 of best, and quantile crossing rate is 0.0%.",
+        "dominated_axes": [],
+        "metrics": {
+          "crps": 13.285275727039124,
+          "delta_from_best_crps": 0.0,
+          "brier_15": 0.10500573620260437,
+          "brier_60": 0.039068279960579266,
+          "delta_from_best_brier60": 0.00016973258334734148,
+          "cov_80": 0.83005,
+          "cov_90": 0.93795,
+          "crossing_rate": 0.0
+        }
+      }
+    }
+  },
+  "holdout_guards": {
+    "2023_accessed": false,
+    "2024_accessed": false
+  },
+  "stage_status": "PASS"
+}

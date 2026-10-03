@@ -1,0 +1,63 @@
+{
+  "audit_name": "R34_P5_CAPABILITY_FORENSICS",
+  "task_id": "R34_P5_QUANTILE_CONFIGURATION_AND_CRPS_AUDIT",
+  "created_at_utc": "2026-10-03T11:00:00Z",
+  "candidate_id": "P5_quantile_regression",
+  "mathematical_capabilities": {
+    "has_mean": false,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": false,
+    "has_probability_ge": false,
+    "has_sampler": false,
+    "has_nll": false,
+    "has_crps_exact": false,
+    "has_crps_approx": true,
+    "has_pit": false
+  },
+  "metric_forensics_16_85": {
+    "raw_value_source": 16.8477,
+    "rounded_reporting_value": 16.85,
+    "source_artifact": "artifacts/manifests/academic_model_selection_v1.json",
+    "eval_split": "2023 Development Selection",
+    "true_metric_identity": "CRPS_QUANTILE_APPROXIMATION",
+    "mathematical_formula": "2.0 * int_{alpha_min}^{alpha_max} Pinball_alpha(y, q_alpha) d_alpha / (alpha_max - alpha_min)",
+    "trapezoidal_integration_function": "src.models.probabilistic.unified_evaluation.compute_quantile_crps_approximation",
+    "distinct_mean_pinball_loss": 6.8781,
+    "conflation_finding": "16.85 was colloquially referred to as 'pinball loss / discrete CRPS' in summary reports. It is neither pure pinball loss (which was 6.88) nor exact discrete CRPS (which requires a discrete CDF support). It is strictly the trapezoidal pinball integral approximation of CRPS."
+  },
+  "taxonomy_classification": "CRPS_QUANTILE_APPROXIMATION",
+  "terminology_reconciliation": {
+    "historical_label": "champion discrete CRPS (16.85 min) and pinball loss",
+    "reconciled_scientific_label": "champion CRPS quantile approximation (16.85 min dev, 16.77 min holdout) and mean pinball loss (6.88 min dev, 6.82 min holdout)",
+    "forbidden_labels": [
+      "P5 exact continuous CRPS",
+      "P5 exact discrete CRPS",
+      "P5 continuous density",
+      "P5 continuous NLL",
+      "P5 continuous PIT calibration",
+      "P5 generative sampling"
+    ]
+  },
+  "final_status_block": {
+    "R34_STATUS": "PASS",
+    "FINAL_P5_QUANTILE_COUNT": 9,
+    "FINAL_P5_QUANTILE_LEVELS": [
+      0.025,
+      0.05,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      0.95,
+      0.975
+    ],
+    "P5_16_85_METRIC": "CRPS_QUANTILE_APPROXIMATION",
+    "P5_CONTINUOUS_DENSITY": "NO",
+    "P5_NLL": "NOT_SUPPORTED",
+    "P5_PIT": "NOT_SUPPORTED",
+    "P5_CONTINUOUS_SAMPLING": "NOT_SUPPORTED",
+    "P5_CLAIM_SEMANTICS": "NEEDS_REPAIR"
+  }
+}

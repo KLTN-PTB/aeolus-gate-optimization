@@ -1,0 +1,82 @@
+{
+  "audit_name": "monte_carlo_audit_v2",
+  "audit_date": "2026-10-02T03:35:00Z",
+  "auditor_role": "Principal Stochastic Simulation & Monte Carlo Methods Engineer",
+  "target_subsystem": "src/evaluation/monte_carlo_comparison.py, src/evaluation/mc_convergence.py, and scripts/run_monte_carlo_comparison.py",
+  "historical_findings_summary": {
+    "total_flaws_identified": 6,
+    "flaws": [
+      {
+        "issue_id": "MC_FLAW_01_SILENT_TRUNCATION_RISK",
+        "severity": "HIGH_METHODOLOGICAL_RISK",
+        "description": "Historical development scripts occasionally contained patterns like min(n_scen, 100), silently capping Monte Carlo sample sizes at 100 even when 250, 500, 1000, or 2500 were requested.",
+        "legacy_code_location": "Historical Phase 9 scripts and prototype runners",
+        "repaired_in_v2": true,
+        "repair_description": "Enforced strict fail-closed check: requested_n == actual_n. Any truncation raises TruncationViolationError immediately."
+      },
+      {
+        "issue_id": "MC_FLAW_02_UNSUBSTANTIATED_CRN_VARIANCE_REDUCTION",
+        "severity": "CRITICAL_SCIENTIFIC_ERROR",
+        "description": "Historical documentation claimed that Common Random Numbers (CRN) reduced downstream objective variance by 82.4%. However, this percentage was asserted without running outer replications comparing Var_CRN(Delta) against Var_Independent(Delta).",
+        "legacy_code_location": "Historical Stage 9 summary narratives",
+        "repaired_in_v2": true,
+        "repair_description": "Introduced compute_crn_variance_reduction() which requires explicit outer replications (R >= 2). In the absence of empirical outer replications, the claim is strictly marked CRN_VARIANCE_REDUCTION = NOT_ESTABLISHED."
+      },
+      {
+        "issue_id": "MC_FLAW_03_POST_HOC_N500_OPTIMALITY_CLAIM",
+        "severity": "HIGH_METHODOLOGICAL_ERROR",
+        "description": "Historical convergence reports claimed 'N=500 is optimal' post-hoc simply because standard error was < 0.3. No pre-registered precision target was defined in the frozen protocol before viewing evaluation data.",
+        "legacy_code_location": "Historical Phase 9 convergence reports",
+        "repaired_in_v2": true,
+        "repair_description": "Formally declared PRECISION_TARGET_STATUS = NOT_PREREGISTERED. Replaced post-hoc 'optimal' claims with empirical convergence metrics: running mean, SE, 95% CI, and consecutive N relative deltas."
+      },
+      {
+        "issue_id": "MC_FLAW_04_INVENTED_P5_TRANSFORMATION",
+        "severity": "CRITICAL_METHODOLOGICAL_ERROR",
+        "description": "In legacy MonteCarloDelayTransformer.transform(), P5 Quantile Regression was given an invented asymmetric Laplace transformation (scaling by 1.2x on left and 1.8x on right) to force continuous density sampling, directly violating Task R4 distribution capability boundaries.",
+        "legacy_code_location": "src/evaluation/monte_carlo_comparison.py (lines 244-255)",
+        "repaired_in_v2": true,
+        "repair_description": "In V2, P5 is strictly evaluated in capability-aware forecast-only mode (median delay across scenarios) without invented transformations, respecting R4/R5 predictive distribution contracts."
+      },
+      {
+        "issue_id": "MC_FLAW_05_CRN_RNG_RESET_AUDIT",
+        "severity": "MEDIUM_SCIENTIFIC_RISK",
+        "description": "Risk of improper RNG re-initialization inside model or flight iteration loops, which can cause scenario realizations to collapse into identical rows or reuse only the first prefix.",
+        "legacy_code_location": "src/evaluation/monte_carlo_comparison.py",
+        "repaired_in_v2": true,
+        "repair_description": "Added audit_monte_carlo_matrix() which verifies 100% unique scenario rows, strictly positive per-flight variance across all flights, and records SHA256 realization digests."
+      },
+      {
+        "issue_id": "MC_FLAW_06_INCOMPLETE_FAILURE_ACCOUNTING",
+        "severity": "MEDIUM_METHODOLOGICAL_ERROR",
+        "description": "Early simulation prototypes silently dropped failed or infeasible scenarios from aggregate metric computations, biasing mean objectives downward.",
+        "legacy_code_location": "Prototype simulation loops",
+        "repaired_in_v2": true,
+        "repair_description": "Implemented MCFailureType tracking (SUCCESS, TIMEOUT, INFEASIBLE, SOLVER_FAILURE, SAMPLING_FAILURE, INVALID_DISTRIBUTION, NUMERICAL_ERROR). Every realization remains in the denominator."
+      }
+    ]
+  },
+  "repaired_engine_validation": {
+    "modules": [
+      "src/evaluation/mc_convergence.py",
+      "src/evaluation/monte_carlo_comparison_v2.py"
+    ],
+    "protocol_manifest": "artifacts/manifests/monte_carlo_protocol_v2.json",
+    "protocol_config": "configs/monte_carlo_protocol_v2.yaml",
+    "tests_suites": [
+      "tests/evaluation/test_mc_convergence_v2.py"
+    ],
+    "status": "VERIFIED_PASS",
+    "acceptance_criteria_verification": {
+      "actual_n_validated": "PASS - Zero truncation enforced, requested_n == actual_n validated",
+      "crn_mechanism_validated": "PASS - Latent U in (0, 1)^(N x K) generated once with predetermined seed",
+      "no_accidental_rng_reuse": "PASS - 100% scenario uniqueness and positive variance verified",
+      "outer_replications_required_for_variance_reduction": "PASS - Marked NOT_ESTABLISHED unless empirical outer replications exist",
+      "convergence_criterion_explicit": "PASS - Running mean, SE = s/sqrt(N), 95% CI, delta N to 2N computed",
+      "precision_target_status_explicit": "PASS - Marked NOT_PREREGISTERED; zero post-hoc 'optimal' claims permitted",
+      "failures_retained_in_denominator": "PASS - Full accounting across 7 explicit failure classes",
+      "p5_capability_respected": "PASS - Evaluated in forecast-only mode, zero invented transformations",
+      "no_2024_data": "PASS - 2023 development set only"
+    }
+  }
+}

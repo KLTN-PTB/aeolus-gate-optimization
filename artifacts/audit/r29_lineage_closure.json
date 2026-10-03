@@ -1,0 +1,65 @@
+{
+  "audit_name": "r29_lineage_closure",
+  "task_id": "R29_EXECUTION_PROVENANCE_RECONCILIATION",
+  "created_at_utc": "2026-10-03T08:21:20.056871+00:00",
+  "total_lineage_items_verified": 8,
+  "closure_complete": true,
+  "closure_records": [
+    {
+      "evidence_item": "Development Fold Point OOF Predictions",
+      "provenance": "R13 Rebuild -> R20 Freeze -> R21 Validated Reuse",
+      "type": "REUSED_VERIFIED",
+      "hash": "0a2d92ce9ead6c61628884ea389e90ac33e923fffb4cbd6cb3f557e450f89a92",
+      "lineage_intact": true
+    },
+    {
+      "evidence_item": "Development Fold Probabilistic Predictions",
+      "provenance": "R13 Rebuild -> R19 Decoupling -> R20 Freeze -> R21 Validated Reuse",
+      "type": "REUSED_VERIFIED",
+      "hash": "a9b4024531535464dc1a6df239166d7ee04397be6a67089456c6c0ce6e83d8b4",
+      "lineage_intact": true
+    },
+    {
+      "evidence_item": "Holm-Bonferroni Clustered Statistical Inference",
+      "provenance": "R18 Targeted Statistical Repair -> R20 Freeze -> R21 Validated Reuse",
+      "type": "REUSED_VERIFIED",
+      "hash": "8060e97e1cd546e6386966dc2f97da79afdd925bccbd65a7442a355e9d6bad1d",
+      "lineage_intact": true
+    },
+    {
+      "evidence_item": "Model Selection Decoupled Roles (2023)",
+      "provenance": "R21 Fresh Rebuild -> R22 Freeze V3 -> R25 Indifference Band Audit",
+      "type": "FRESH_EXECUTION",
+      "hash": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+      "lineage_intact": true
+    },
+    {
+      "evidence_item": "Downstream Gate Simulation Benchmark (2023)",
+      "provenance": "R21 Fresh Rebuild -> R22 Freeze V3 -> R26 Equal Compute Recertification",
+      "type": "FRESH_EXECUTION",
+      "hash": "689f440ca7f1c6956a94657e1dee86b767193c3f12e90b130b1f604e1e09bf31",
+      "lineage_intact": true
+    },
+    {
+      "evidence_item": "Monte Carlo Convergence Benchmark (2023)",
+      "provenance": "R21 Fresh Rebuild -> R22 Freeze V3",
+      "type": "FRESH_EXECUTION",
+      "hash": "4353fb1b82b6d9fa98e8ad4dd8e864584e8dff4b9a0017c877619c6c58261382",
+      "lineage_intact": true
+    },
+    {
+      "evidence_item": "Post-Holdout Evaluation (2024)",
+      "provenance": "R22 Freeze V3 -> R23 Post-Holdout Evaluation (Zero Tuning)",
+      "type": "POST_HOLDOUT_EVALUATION",
+      "hash": "b9d7a7cf51b8f5691d7b37e6ce73ceb92113358247469f1cb750ff2a407c4f23",
+      "lineage_intact": true
+    },
+    {
+      "evidence_item": "Equal-Total-Compute Solver Recertification (2024)",
+      "provenance": "R26 Fresh Solver Equal Compute Run (Budget = 2.0s, 112 runs)",
+      "type": "SOLVER_EQUAL_COMPUTE_RECERTIFICATION",
+      "hash": "028ce68663dc8de4fd4781d1c3c71885a961104ed44f67475eaadb07b8b1da9f",
+      "lineage_intact": true
+    }
+  ]
+}

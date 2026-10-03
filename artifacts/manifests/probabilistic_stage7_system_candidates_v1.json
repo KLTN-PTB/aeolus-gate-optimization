@@ -1,0 +1,1304 @@
+{
+  "manifest_version": "probabilistic_stage7_system_candidates_v1",
+  "created_at_utc": "2026-09-27T11:02:30.710375+00:00",
+  "stage": "STAGE_7_COMPLETE_SYSTEM_CANDIDATE_CONSTRUCTION",
+  "total_wall_seconds": 4.11823034286499,
+  "evidence_gate_d3_tail_copula": {
+    "empirical_co_exceedance_q90": 0.003405171786551027,
+    "d2_simulated_co_exceedance_q90": 0.00604630042463249,
+    "co_exceedance_deficit": -0.002641128638081463,
+    "deficit_threshold": 0.005,
+    "d3_tail_copula_opened": false,
+    "diagnostic_rationale": "D3 Tail Copula remains CLOSED: Empirical development co-exceedance (0.0034) is adequately modeled by Gaussian copula (0.0060), deficit -0.0026 <= threshold 0.0050."
+  },
+  "surviving_marginal_candidates": [
+    "B5_ngboost_student_t",
+    "D3_k3_mixture__with_year",
+    "D3_k3_mixture__no_year",
+    "seed_ensemble_3"
+  ],
+  "registered_dependence_families": [
+    "DEP_D0_independent",
+    "DEP_D1_scenario_block",
+    "DEP_D2_gaussian_copula"
+  ],
+  "conditional_d3_family_status": "CLOSED_BY_PRE_REGISTERED_GATE",
+  "active_system_candidate_count": 12,
+  "complete_system_candidates": {
+    "SYS_B5_ngboost_student_t__DEP_D0_independent": {
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D0_independent",
+      "marginal_candidate_id": "B5_ngboost_student_t",
+      "dependence_candidate_id": "DEP_D0_independent",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "NGBoost with Heavy-Tail Student-T Distribution",
+      "architecture": {
+        "model_class": "NGBoostStudentT",
+        "base_learner": "DecisionTreeRegressor(max_depth=3)",
+        "distribution": "scipy.stats.t",
+        "parameters": [
+          "loc (mu)",
+          "scale (sigma)",
+          "df (nu)"
+        ],
+        "sigma_floor": 1.0
+      },
+      "training_policy": {
+        "n_estimators": 50,
+        "learning_rate": 0.005,
+        "min_name_samples": 20
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/probabilistic/ngboost_student_t/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Independent sampling from each flight marginal predictive distribution (mandatory baseline).",
+      "dependence_parameters": {
+        "dependence_type": "independent"
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_B5_ngboost_student_t__DEP_D1_scenario_block": {
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D1_scenario_block",
+      "marginal_candidate_id": "B5_ngboost_student_t",
+      "dependence_candidate_id": "DEP_D1_scenario_block",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "NGBoost with Heavy-Tail Student-T Distribution",
+      "architecture": {
+        "model_class": "NGBoostStudentT",
+        "base_learner": "DecisionTreeRegressor(max_depth=3)",
+        "distribution": "scipy.stats.t",
+        "parameters": [
+          "loc (mu)",
+          "scale (sigma)",
+          "df (nu)"
+        ],
+        "sigma_floor": 1.0
+      },
+      "training_policy": {
+        "n_estimators": 50,
+        "learning_rate": 0.005,
+        "min_name_samples": 20
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/probabilistic/ngboost_student_t/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Hierarchical latent schedule-block factor model conditioned on pre-cutoff schedule variables (departure time block, carrier tier). Arbitrary daily n_flights supported via exchangeable block mapping.",
+      "dependence_parameters": {
+        "day_factor_weight": 0.2,
+        "block_factor_weight": 0.25,
+        "idiosyncratic_weight": 0.9473647660748208,
+        "schedule_time_blocks": [
+          "MORN (00-11h)",
+          "AFTN (12-17h)",
+          "EVEN (18-23h)"
+        ],
+        "carrier_tiers": [
+          "MAIN",
+          "REG"
+        ]
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula": {
+      "candidate_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+      "marginal_candidate_id": "B5_ngboost_student_t",
+      "dependence_candidate_id": "DEP_D2_gaussian_copula",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "NGBoost with Heavy-Tail Student-T Distribution",
+      "architecture": {
+        "model_class": "NGBoostStudentT",
+        "base_learner": "DecisionTreeRegressor(max_depth=3)",
+        "distribution": "scipy.stats.t",
+        "parameters": [
+          "loc (mu)",
+          "scale (sigma)",
+          "df (nu)"
+        ],
+        "sigma_floor": 1.0
+      },
+      "training_policy": {
+        "n_estimators": 50,
+        "learning_rate": 0.005,
+        "min_name_samples": 20
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/probabilistic/ngboost_student_t/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Gaussian copula with pre-cutoff spatio-temporal kernel based on scheduled departure time proximity and carrier match. Positive semi-definiteness guaranteed for arbitrary n_flights via PSD projection.",
+      "dependence_parameters": {
+        "temporal_length_scale_minutes": 120.0,
+        "carrier_correlation": 0.15,
+        "psd_minimum_eigenvalue": 1e-06,
+        "psd_projection": "nearest-PSD eigenvalue clipping with unit diagonal re-normalization"
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_D3_k3_mixture__with_year__DEP_D0_independent": {
+      "candidate_id": "SYS_D3_k3_mixture__with_year__DEP_D0_independent",
+      "marginal_candidate_id": "D3_k3_mixture__with_year",
+      "dependence_candidate_id": "DEP_D0_independent",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "Stage 3 Gaussian Mixture (K=3, with_year)",
+      "architecture": {
+        "model_class": "Stage3DistributionModel",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "components_k": 3,
+        "heads": [
+          "pi_head (Linear 3 -> Softmax)",
+          "mu_head (Linear 3)",
+          "sigma_head (Linear 3 -> Softplus + 1.0)"
+        ],
+        "sigma_floor": 1.0,
+        "calendar_year_included": true
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/D3_k3_mixture__with_year/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Independent sampling from each flight marginal predictive distribution (mandatory baseline).",
+      "dependence_parameters": {
+        "dependence_type": "independent"
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_D3_k3_mixture__with_year__DEP_D1_scenario_block": {
+      "candidate_id": "SYS_D3_k3_mixture__with_year__DEP_D1_scenario_block",
+      "marginal_candidate_id": "D3_k3_mixture__with_year",
+      "dependence_candidate_id": "DEP_D1_scenario_block",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "Stage 3 Gaussian Mixture (K=3, with_year)",
+      "architecture": {
+        "model_class": "Stage3DistributionModel",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "components_k": 3,
+        "heads": [
+          "pi_head (Linear 3 -> Softmax)",
+          "mu_head (Linear 3)",
+          "sigma_head (Linear 3 -> Softplus + 1.0)"
+        ],
+        "sigma_floor": 1.0,
+        "calendar_year_included": true
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/D3_k3_mixture__with_year/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Hierarchical latent schedule-block factor model conditioned on pre-cutoff schedule variables (departure time block, carrier tier). Arbitrary daily n_flights supported via exchangeable block mapping.",
+      "dependence_parameters": {
+        "day_factor_weight": 0.2,
+        "block_factor_weight": 0.25,
+        "idiosyncratic_weight": 0.9473647660748208,
+        "schedule_time_blocks": [
+          "MORN (00-11h)",
+          "AFTN (12-17h)",
+          "EVEN (18-23h)"
+        ],
+        "carrier_tiers": [
+          "MAIN",
+          "REG"
+        ]
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_D3_k3_mixture__with_year__DEP_D2_gaussian_copula": {
+      "candidate_id": "SYS_D3_k3_mixture__with_year__DEP_D2_gaussian_copula",
+      "marginal_candidate_id": "D3_k3_mixture__with_year",
+      "dependence_candidate_id": "DEP_D2_gaussian_copula",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "Stage 3 Gaussian Mixture (K=3, with_year)",
+      "architecture": {
+        "model_class": "Stage3DistributionModel",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "components_k": 3,
+        "heads": [
+          "pi_head (Linear 3 -> Softmax)",
+          "mu_head (Linear 3)",
+          "sigma_head (Linear 3 -> Softplus + 1.0)"
+        ],
+        "sigma_floor": 1.0,
+        "calendar_year_included": true
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/D3_k3_mixture__with_year/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Gaussian copula with pre-cutoff spatio-temporal kernel based on scheduled departure time proximity and carrier match. Positive semi-definiteness guaranteed for arbitrary n_flights via PSD projection.",
+      "dependence_parameters": {
+        "temporal_length_scale_minutes": 120.0,
+        "carrier_correlation": 0.15,
+        "psd_minimum_eigenvalue": 1e-06,
+        "psd_projection": "nearest-PSD eigenvalue clipping with unit diagonal re-normalization"
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_D3_k3_mixture__no_year__DEP_D0_independent": {
+      "candidate_id": "SYS_D3_k3_mixture__no_year__DEP_D0_independent",
+      "marginal_candidate_id": "D3_k3_mixture__no_year",
+      "dependence_candidate_id": "DEP_D0_independent",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "Stage 3 Gaussian Mixture (K=3, no_year)",
+      "architecture": {
+        "model_class": "Stage3DistributionModel",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "components_k": 3,
+        "heads": [
+          "pi_head (Linear 3 -> Softmax)",
+          "mu_head (Linear 3)",
+          "sigma_head (Linear 3 -> Softplus + 1.0)"
+        ],
+        "sigma_floor": 1.0,
+        "calendar_year_included": false
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/D3_k3_mixture__no_year/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Independent sampling from each flight marginal predictive distribution (mandatory baseline).",
+      "dependence_parameters": {
+        "dependence_type": "independent"
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_D3_k3_mixture__no_year__DEP_D1_scenario_block": {
+      "candidate_id": "SYS_D3_k3_mixture__no_year__DEP_D1_scenario_block",
+      "marginal_candidate_id": "D3_k3_mixture__no_year",
+      "dependence_candidate_id": "DEP_D1_scenario_block",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "Stage 3 Gaussian Mixture (K=3, no_year)",
+      "architecture": {
+        "model_class": "Stage3DistributionModel",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "components_k": 3,
+        "heads": [
+          "pi_head (Linear 3 -> Softmax)",
+          "mu_head (Linear 3)",
+          "sigma_head (Linear 3 -> Softplus + 1.0)"
+        ],
+        "sigma_floor": 1.0,
+        "calendar_year_included": false
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/D3_k3_mixture__no_year/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Hierarchical latent schedule-block factor model conditioned on pre-cutoff schedule variables (departure time block, carrier tier). Arbitrary daily n_flights supported via exchangeable block mapping.",
+      "dependence_parameters": {
+        "day_factor_weight": 0.2,
+        "block_factor_weight": 0.25,
+        "idiosyncratic_weight": 0.9473647660748208,
+        "schedule_time_blocks": [
+          "MORN (00-11h)",
+          "AFTN (12-17h)",
+          "EVEN (18-23h)"
+        ],
+        "carrier_tiers": [
+          "MAIN",
+          "REG"
+        ]
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_D3_k3_mixture__no_year__DEP_D2_gaussian_copula": {
+      "candidate_id": "SYS_D3_k3_mixture__no_year__DEP_D2_gaussian_copula",
+      "marginal_candidate_id": "D3_k3_mixture__no_year",
+      "dependence_candidate_id": "DEP_D2_gaussian_copula",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "Stage 3 Gaussian Mixture (K=3, no_year)",
+      "architecture": {
+        "model_class": "Stage3DistributionModel",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "components_k": 3,
+        "heads": [
+          "pi_head (Linear 3 -> Softmax)",
+          "mu_head (Linear 3)",
+          "sigma_head (Linear 3 -> Softplus + 1.0)"
+        ],
+        "sigma_floor": 1.0,
+        "calendar_year_included": false
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/D3_k3_mixture__no_year/",
+        "seed": 202601,
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Gaussian copula with pre-cutoff spatio-temporal kernel based on scheduled departure time proximity and carrier match. Positive semi-definiteness guaranteed for arbitrary n_flights via PSD projection.",
+      "dependence_parameters": {
+        "temporal_length_scale_minutes": 120.0,
+        "carrier_correlation": 0.15,
+        "psd_minimum_eigenvalue": 1e-06,
+        "psd_projection": "nearest-PSD eigenvalue clipping with unit diagonal re-normalization"
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_seed_ensemble_3__DEP_D0_independent": {
+      "candidate_id": "SYS_seed_ensemble_3__DEP_D0_independent",
+      "marginal_candidate_id": "seed_ensemble_3",
+      "dependence_candidate_id": "DEP_D0_independent",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "3-Seed Mixture Ensemble (Gaussian Mixture K=3)",
+      "architecture": {
+        "model_class": "SeedEnsembleMixture",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "ensemble_size": 3,
+        "seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "total_effective_components": 9,
+        "sigma_floor": 1.0,
+        "calendar_year_included": false
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/stage5_finalist_seeds/",
+        "ensemble_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ],
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Independent sampling from each flight marginal predictive distribution (mandatory baseline).",
+      "dependence_parameters": {
+        "dependence_type": "independent"
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_seed_ensemble_3__DEP_D1_scenario_block": {
+      "candidate_id": "SYS_seed_ensemble_3__DEP_D1_scenario_block",
+      "marginal_candidate_id": "seed_ensemble_3",
+      "dependence_candidate_id": "DEP_D1_scenario_block",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "3-Seed Mixture Ensemble (Gaussian Mixture K=3)",
+      "architecture": {
+        "model_class": "SeedEnsembleMixture",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "ensemble_size": 3,
+        "seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "total_effective_components": 9,
+        "sigma_floor": 1.0,
+        "calendar_year_included": false
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/stage5_finalist_seeds/",
+        "ensemble_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ],
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Hierarchical latent schedule-block factor model conditioned on pre-cutoff schedule variables (departure time block, carrier tier). Arbitrary daily n_flights supported via exchangeable block mapping.",
+      "dependence_parameters": {
+        "day_factor_weight": 0.2,
+        "block_factor_weight": 0.25,
+        "idiosyncratic_weight": 0.9473647660748208,
+        "schedule_time_blocks": [
+          "MORN (00-11h)",
+          "AFTN (12-17h)",
+          "EVEN (18-23h)"
+        ],
+        "carrier_tiers": [
+          "MAIN",
+          "REG"
+        ]
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    },
+    "SYS_seed_ensemble_3__DEP_D2_gaussian_copula": {
+      "candidate_id": "SYS_seed_ensemble_3__DEP_D2_gaussian_copula",
+      "marginal_candidate_id": "seed_ensemble_3",
+      "dependence_candidate_id": "DEP_D2_gaussian_copula",
+      "feature_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "feature_set": "arrival_v1",
+        "approved_predictors": [
+          "CRS_ELAPSED_TIME",
+          "OP_CARRIER",
+          "OP_CARRIER_FL_NUM",
+          "ORIGIN",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "calendar_month",
+          "calendar_year",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute"
+        ]
+      },
+      "representation_manifest": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/representation_manifest_v1.json",
+        "carrier_encoding": "learnable_embedding",
+        "origin_encoding": "learnable_embedding",
+        "flight_freq_encoding": "frequency_map",
+        "time_encoding": "cyclic_sin_cos"
+      },
+      "marginal_model_family": "3-Seed Mixture Ensemble (Gaussian Mixture K=3)",
+      "architecture": {
+        "model_class": "SeedEnsembleMixture",
+        "backbone": "Linear(128) -> GELU -> Linear(64) -> GELU -> Linear(32)",
+        "ensemble_size": 3,
+        "seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "total_effective_components": 9,
+        "sigma_floor": 1.0,
+        "calendar_year_included": false
+      },
+      "training_policy": {
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 1024,
+        "max_epochs": 20,
+        "early_stopping_patience": 5,
+        "early_stopping_metric": "discretized_mixture_nll"
+      },
+      "frozen_weights_config": {
+        "checkpoint_directory": "artifacts/checkpoints/stage5_finalist_seeds/",
+        "ensemble_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ],
+        "status": "FROZEN_DEVELOPMENT_CHECKPOINTS"
+      },
+      "calibration_method": {
+        "method": "Discrete Randomized Probability Integral Transform",
+        "formula": "U_i = F(Y_i - 1) + V_i * [F(Y_i) - F(Y_i - 1)], V_i ~ Uniform(0, 1)",
+        "randomization_policy": "Deterministic pseudorandom generator locked to predetermined sequence",
+        "sensitivity_tolerance": "Mean U-std across 10 randomized draws < 0.25"
+      },
+      "dependence_mechanism": "Gaussian copula with pre-cutoff spatio-temporal kernel based on scheduled departure time proximity and carrier match. Positive semi-definiteness guaranteed for arbitrary n_flights via PSD projection.",
+      "dependence_parameters": {
+        "temporal_length_scale_minutes": 120.0,
+        "carrier_correlation": 0.15,
+        "psd_minimum_eigenvalue": 1e-06,
+        "psd_projection": "nearest-PSD eigenvalue clipping with unit diagonal re-normalization"
+      },
+      "sampling_procedure": [
+        "Step 1: Ingest DayFlightBatch containing strictly pre-cutoff schedule covariates known by T-2h.",
+        "Step 2: Generate marginal predictive distribution objects (Discrete Gaussian Mixture or Student-T) for each flight.",
+        "Step 3: Sample joint copula coordinates U in [0, 1]^(S x N) using the frozen dependence mechanism.",
+        "Step 4: Invert copula coordinates through flight-specific marginal quantile functions: Y_{s, i} = Q_i(U_{s, i}).",
+        "Step 5: Output integer delay scenario matrix Y in Z^(S x N) for downstream Monte Carlo simulation and optimization."
+      ],
+      "seed_policy": {
+        "manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/seed_manifest_v1.json",
+        "project_seed": 202601,
+        "screening_seed": 202601,
+        "finalist_seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "generator_algorithm": "numpy.random.default_rng (PCG64)"
+      },
+      "interfaces": {
+        "monte_carlo_interface": "sample_scenarios(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray",
+        "simulation_interface": "simulate_daily_operations(batch: DayFlightBatch, n_scenarios, seed) -> dict",
+        "optimization_interface": "get_scenario_matrix(batch: DayFlightBatch, n_scenarios, seed) -> np.ndarray"
+      }
+    }
+  },
+  "operational_verification_summaries": {
+    "SYS_B5_ngboost_student_t__DEP_D0_independent": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 286.57,
+      "std_daily_total_delay_min": 111.21800708518381,
+      "q50_daily_total_delay_min": 277.0,
+      "q90_daily_total_delay_min": 428.1,
+      "p_any_severe_ge60": 0.4,
+      "mean_severe_flights_ge60": 0.47,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_B5_ngboost_student_t__DEP_D1_scenario_block": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 290.14,
+      "std_daily_total_delay_min": 184.70695817970693,
+      "q50_daily_total_delay_min": 271.5,
+      "q90_daily_total_delay_min": 539.8000000000003,
+      "p_any_severe_ge60": 0.36,
+      "mean_severe_flights_ge60": 0.52,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 310.68,
+      "std_daily_total_delay_min": 322.6352082460933,
+      "q50_daily_total_delay_min": 319.0,
+      "q90_daily_total_delay_min": 727.3000000000002,
+      "p_any_severe_ge60": 0.21,
+      "mean_severe_flights_ge60": 0.46,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_D3_k3_mixture__with_year__DEP_D0_independent": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 486.0,
+      "std_daily_total_delay_min": 128.6562862824821,
+      "q50_daily_total_delay_min": 464.0,
+      "q90_daily_total_delay_min": 654.6000000000001,
+      "p_any_severe_ge60": 0.79,
+      "mean_severe_flights_ge60": 1.7,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_D3_k3_mixture__with_year__DEP_D1_scenario_block": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 502.48,
+      "std_daily_total_delay_min": 211.2675782035663,
+      "q50_daily_total_delay_min": 453.0,
+      "q90_daily_total_delay_min": 807.4000000000003,
+      "p_any_severe_ge60": 0.79,
+      "mean_severe_flights_ge60": 1.96,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_D3_k3_mixture__with_year__DEP_D2_gaussian_copula": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 522.18,
+      "std_daily_total_delay_min": 356.88097119347793,
+      "q50_daily_total_delay_min": 437.5,
+      "q90_daily_total_delay_min": 1062.6000000000001,
+      "p_any_severe_ge60": 0.46,
+      "mean_severe_flights_ge60": 1.99,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_D3_k3_mixture__no_year__DEP_D0_independent": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 501.75,
+      "std_daily_total_delay_min": 131.7497153697115,
+      "q50_daily_total_delay_min": 480.0,
+      "q90_daily_total_delay_min": 676.2,
+      "p_any_severe_ge60": 0.82,
+      "mean_severe_flights_ge60": 1.78,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_D3_k3_mixture__no_year__DEP_D1_scenario_block": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 518.13,
+      "std_daily_total_delay_min": 216.25173548436553,
+      "q50_daily_total_delay_min": 469.0,
+      "q90_daily_total_delay_min": 834.6000000000004,
+      "p_any_severe_ge60": 0.8,
+      "mean_severe_flights_ge60": 2.01,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_D3_k3_mixture__no_year__DEP_D2_gaussian_copula": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 538.49,
+      "std_daily_total_delay_min": 365.6661727587063,
+      "q50_daily_total_delay_min": 458.0,
+      "q90_daily_total_delay_min": 1088.8000000000002,
+      "p_any_severe_ge60": 0.47,
+      "mean_severe_flights_ge60": 2.08,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_seed_ensemble_3__DEP_D0_independent": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 470.29,
+      "std_daily_total_delay_min": 128.88757077391134,
+      "q50_daily_total_delay_min": 449.5,
+      "q90_daily_total_delay_min": 638.6000000000001,
+      "p_any_severe_ge60": 0.79,
+      "mean_severe_flights_ge60": 1.7,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_seed_ensemble_3__DEP_D1_scenario_block": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 486.89,
+      "std_daily_total_delay_min": 211.70082168003034,
+      "q50_daily_total_delay_min": 437.5,
+      "q90_daily_total_delay_min": 793.2000000000004,
+      "p_any_severe_ge60": 0.79,
+      "mean_severe_flights_ge60": 1.93,
+      "all_finite": true,
+      "psd_guaranteed": true
+    },
+    "SYS_seed_ensemble_3__DEP_D2_gaussian_copula": {
+      "n_flights": 25,
+      "n_scenarios": 100,
+      "mean_daily_total_delay_min": 506.66,
+      "std_daily_total_delay_min": 357.3701504043112,
+      "q50_daily_total_delay_min": 423.0,
+      "q90_daily_total_delay_min": 1047.6000000000001,
+      "p_any_severe_ge60": 0.46,
+      "mean_severe_flights_ge60": 1.95,
+      "all_finite": true,
+      "psd_guaranteed": true
+    }
+  },
+  "holdout_guards": {
+    "2023_accessed": false,
+    "2024_accessed": false
+  },
+  "stage_status": "PASS"
+}

@@ -1,0 +1,62 @@
+{
+  "configs/.gitkeep": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size_bytes": 0
+  },
+  "configs/academic_model_selection.yaml": {
+    "sha256": "4289b046873c0bcdc596321aee8d3bb0ce3632c570e0e61fa2539345f09fdbcf",
+    "size_bytes": 2219
+  },
+  "configs/base.yaml": {
+    "sha256": "3d93727982f72b3955c4e8d382eb8996aa18c730d40ba7ee325db0edba77f838",
+    "size_bytes": 3960
+  },
+  "configs/current_state.yaml": {
+    "sha256": "e5f82b54c7850fd02f5e32782c63928ccc0ba4238fcae57dbcbfdba9f0f0a114",
+    "size_bytes": 4182
+  },
+  "configs/outlier_and_simulation_guard.yaml": {
+    "sha256": "9ea3a16b39147850ee0809b0d1834250a7034db23505710f66996c4c0601423d",
+    "size_bytes": 503
+  },
+  "configs/reconstructed_chain_feature_policy.yaml": {
+    "sha256": "df9543ef4609d2bf9123d5e1ea7eba958fbbc8fb24167ad7ba7a011db76d177f",
+    "size_bytes": 2041
+  },
+  "configs/seed_registry.yaml": {
+    "sha256": "798ecc5abfebb1fb11e0ab6db76962f5e9f78bf516d2f5e64edded6d895f0ff9",
+    "size_bytes": 865
+  },
+  "configs/week4_hist_gradient_boosting_baseline.yaml": {
+    "sha256": "b63b77ddbff4c3be722bff245ec8fd0095b55e20351eb91ba385fb40e08ff258",
+    "size_bytes": 1765
+  },
+  "configs/week4_linear_baseline.yaml": {
+    "sha256": "d61657d2155e832f5806738eb1ac6da6f6ab906d0ef63b45ba8fe01c81b8faf1",
+    "size_bytes": 849
+  },
+  "configs/week4_random_forest_baseline.yaml": {
+    "sha256": "54b83e533666ff0111f1acffddb806e4f884b670029d1bfe59494fca6731c64c",
+    "size_bytes": 1605
+  },
+  "configs/week5_hpo.yaml": {
+    "sha256": "39244f7e63557fb731221bb6e98376be53322c999b2a9f274593000e7cb79028",
+    "size_bytes": 8308
+  },
+  "configs/week5_hpo_v1_1.yaml": {
+    "sha256": "bcb6263f8a030fc149d72f409a912b17f1b4db20c638eb50a396c959726b973a",
+    "size_bytes": 8880
+  },
+  "configs/week5_xgboost_baseline.yaml": {
+    "sha256": "cf27f717c80f9041d9176e62f3cbbbee650545f95a260060fe0bab5c9d525d2f",
+    "size_bytes": 1758
+  },
+  "configs/week6_robust_models.yaml": {
+    "sha256": "3a63bdf4888d0ff882d42f792460599ae93707cfd09e6dadd72da3248acd7372",
+    "size_bytes": 5185
+  },
+  ".gitignore": {
+    "sha256": "780f42af4e87a2e5d929b29ddd104631a9c7871457e0886636680173fb09996d",
+    "size_bytes": 780
+  }
+}

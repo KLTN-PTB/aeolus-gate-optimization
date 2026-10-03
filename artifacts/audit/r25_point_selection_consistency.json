@@ -1,0 +1,85 @@
+{
+  "audit_name": "r25_point_selection_consistency",
+  "task_id": "R25_POINT_SELECTION_CONSISTENCY",
+  "created_at_utc": "2026-10-02T11:51:15.662001+00:00",
+  "source_artifacts": {
+    "academic_model_selection_v3": {
+      "path": "artifacts/manifests/academic_model_selection_v3.json",
+      "sha256": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+      "role": "development_model_selection_slice"
+    },
+    "model_selection_protocol_v2_yaml": {
+      "path": "configs/model_selection_protocol_v2.yaml",
+      "sha256": "425cdc64ea2a20e016ec619dd677198cb68e8282640e3923bd52ad0d91c9bd61",
+      "role": "selection_policy_and_indifference_band_specification"
+    },
+    "marginal_forecast_metrics_2024_v3": {
+      "path": "artifacts/post_holdout_v3/marginal_forecast_metrics_2024_v3.json",
+      "sha256": "90159f1dd0a0bbbe5eb25b9646aa8bbdaa179edce8a56924165bab971d0f594c",
+      "role": "post_holdout_evaluation_metrics"
+    },
+    "post_holdout_evaluation_manifest_v3": {
+      "path": "artifacts/post_holdout_v3/post_holdout_evaluation_manifest_v3.json",
+      "sha256": "b9d7a7cf51b8f5691d7b37e6ce73ceb92113358247469f1cb750ff2a407c4f23",
+      "role": "post_holdout_evaluation_manifest"
+    }
+  },
+  "indifference_band_specification": {
+    "parameter": "effect_size_delta",
+    "value_minutes": 0.1,
+    "unit": "minutes (6 seconds)",
+    "selection_rule": "tie(year) = abs(mae_ridge - mae_ensemble) <= indifference_band"
+  },
+  "numerical_audit": {
+    "year_2023_selection_slice": {
+      "evaluation_role": "development_model_selection",
+      "sample_val_2023": 1500,
+      "ridge_mae": 24.6181333149954,
+      "ensemble_mae": 24.617684454376416,
+      "absolute_difference_minutes": 0.00044886061898452567,
+      "indifference_band_minutes": 0.1,
+      "is_tied_under_band": true,
+      "status": "TIED_WITHIN_0.10_MIN_INDIFFERENCE_BAND",
+      "interpretation": "On the 2023 selection slice, Ridge and Weighted Ensemble differ by only 0.00045 min (< 0.10 min) and tie as co-champions."
+    },
+    "year_2024_post_holdout": {
+      "evaluation_role": "POST_HOLDOUT",
+      "sample_size": 5000,
+      "ridge_mae": 22.9125,
+      "ensemble_mae": 23.3175,
+      "absolute_difference_minutes": 0.4049999999999976,
+      "indifference_band_minutes": 0.1,
+      "is_tied_under_band": false,
+      "status": "NOT_TIED_DIFFERENCE_EXCEEDS_0.10_MIN",
+      "interpretation": "On the 2024 post-holdout set, Ridge and Weighted Ensemble differ by 0.4050 min (> 0.10 min); they are NOT tied."
+    }
+  },
+  "temporal_governance_verification": {
+    "selection_year": 2023,
+    "training_window": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "post_holdout_year": 2024,
+    "post_holdout_role": "POST_HOLDOUT",
+    "zero_2024_retraining": true,
+    "zero_2024_selection_influence": true,
+    "zero_2024_hpo": true,
+    "zero_2024_threshold_tuning": true,
+    "zero_2024_ensemble_weight_tuning": true,
+    "zero_2024_calibration": true,
+    "zero_2024_feature_engineering": true
+  },
+  "final_semantic_interpretation": {
+    "2023_status": "TIED_WITHIN_PREDEFINED_INDIFFERENCE_BAND",
+    "2024_status": "NOT_TIED_DIFFERENCE_EXCEEDS_INDIFFERENCE_BAND",
+    "overall_point_champion_claim": "NO_SINGLE_OVERALL_CHAMPION_ASSERTED",
+    "justification": "Ridge and Weighted Ensemble tie solely on the 2023 selection slice under the pre-registered 0.10 min indifference band. On the 2024 post-holdout set, the difference exceeds 0.10 min (Ridge MAE is 0.405 min lower). Because 2024 is strictly a post-holdout evaluation set and cannot be used to select or adapt models, no single overall point champion is asserted across all datasets."
+  },
+  "audit_verdict": "PASS"
+}

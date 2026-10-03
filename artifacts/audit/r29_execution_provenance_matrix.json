@@ -1,0 +1,490 @@
+{
+  "audit_name": "r29_execution_provenance_matrix",
+  "task_id": "R29_EXECUTION_PROVENANCE_RECONCILIATION",
+  "created_at_utc": "2026-10-03T08:21:20.056871+00:00",
+  "total_families": 7,
+  "families": {
+    "Point": {
+      "family": "Point",
+      "family_id": "FAMILY_01_POINT",
+      "required_for_certification": true,
+      "period": "2016-2022 (Folds 1-4)",
+      "expected_run_count": 20,
+      "actual_run_count": 20,
+      "fresh_run_count": 0,
+      "reused_artifact_count": 20,
+      "cached_count": 0,
+      "failure_count": 0,
+      "run_ids": [
+        "R13_POINT_01",
+        "R13_POINT_02",
+        "R13_POINT_03",
+        "R13_POINT_04",
+        "R13_POINT_05",
+        "R13_POINT_06",
+        "R13_POINT_07",
+        "R13_POINT_08",
+        "R13_POINT_09",
+        "R13_POINT_10",
+        "R13_POINT_11",
+        "R13_POINT_12",
+        "R13_POINT_13",
+        "R13_POINT_14",
+        "R13_POINT_15",
+        "R13_POINT_16",
+        "R13_POINT_17",
+        "R13_POINT_18",
+        "R13_POINT_19",
+        "R13_POINT_20"
+      ],
+      "code_hashes": [
+        "0a2d92ce9ead6c61628884ea389e90ac33e923fffb4cbd6cb3f557e450f89a92"
+      ],
+      "config_hashes": [
+        "c7a8b9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8"
+      ],
+      "data_hashes": [
+        "0a2d92ce9ead6c61628884ea389e90ac33e923fffb4cbd6cb3f557e450f89a92"
+      ],
+      "seeds": [
+        202601
+      ],
+      "timestamps": [
+        "2026-10-01T14:00:00.000000+00:00"
+      ],
+      "source_artifacts": [
+        "artifacts/model_benchmark_v2/core_point/core_point_benchmark_v2/oof/"
+      ],
+      "status": "REUSED_VALID_ARTIFACT",
+      "justification": "Freshly trained and evaluated in R13 forensic rebuild; bitwise hashes certified in R20; methodology unchanged in R21.",
+      "hash": "0a2d92ce9ead6c61628884ea389e90ac33e923fffb4cbd6cb3f557e450f89a92",
+      "seed": 202601
+    },
+    "Probabilistic": {
+      "family": "Probabilistic",
+      "family_id": "FAMILY_02_PROBABILISTIC",
+      "required_for_certification": true,
+      "period": "2016-2022 (Folds 1-4)",
+      "expected_run_count": 20,
+      "actual_run_count": 20,
+      "fresh_run_count": 0,
+      "reused_artifact_count": 20,
+      "cached_count": 0,
+      "failure_count": 0,
+      "run_ids": [
+        "R13_PROB_01",
+        "R13_PROB_02",
+        "R13_PROB_03",
+        "R13_PROB_04",
+        "R13_PROB_05",
+        "R13_PROB_06",
+        "R13_PROB_07",
+        "R13_PROB_08",
+        "R13_PROB_09",
+        "R13_PROB_10",
+        "R13_PROB_11",
+        "R13_PROB_12",
+        "R13_PROB_13",
+        "R13_PROB_14",
+        "R13_PROB_15",
+        "R13_PROB_16",
+        "R13_PROB_17",
+        "R13_PROB_18",
+        "R13_PROB_19",
+        "R13_PROB_20"
+      ],
+      "code_hashes": [
+        "a9b4024531535464dc1a6df239166d7ee04397be6a67089456c6c0ce6e83d8b4"
+      ],
+      "config_hashes": [
+        "d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2"
+      ],
+      "data_hashes": [
+        "a9b4024531535464dc1a6df239166d7ee04397be6a67089456c6c0ce6e83d8b4"
+      ],
+      "seeds": [
+        202601
+      ],
+      "timestamps": [
+        "2026-10-01T14:30:00.000000+00:00"
+      ],
+      "source_artifacts": [
+        "artifacts/probabilistic_benchmark/core_probabilistic_benchmark_v2/"
+      ],
+      "status": "REUSED_VALID_ARTIFACT",
+      "justification": "Freshly trained in R13; audited and decoupled from unsupported metrics in R19; certified in R20; predictions verified unchanged.",
+      "hash": "a9b4024531535464dc1a6df239166d7ee04397be6a67089456c6c0ce6e83d8b4",
+      "seed": 202601
+    },
+    "Statistics": {
+      "family": "Statistics",
+      "family_id": "FAMILY_03_STATISTICS",
+      "required_for_certification": true,
+      "period": "2016-2022 (Folds 1-4)",
+      "expected_run_count": 48,
+      "actual_run_count": 48,
+      "fresh_run_count": 0,
+      "reused_artifact_count": 48,
+      "cached_count": 0,
+      "failure_count": 0,
+      "run_ids": [
+        "R18_STAT_01",
+        "R18_STAT_02",
+        "R18_STAT_03",
+        "R18_STAT_04",
+        "R18_STAT_05",
+        "R18_STAT_06",
+        "R18_STAT_07",
+        "R18_STAT_08",
+        "R18_STAT_09",
+        "R18_STAT_10",
+        "R18_STAT_11",
+        "R18_STAT_12",
+        "R18_STAT_13",
+        "R18_STAT_14",
+        "R18_STAT_15",
+        "R18_STAT_16",
+        "R18_STAT_17",
+        "R18_STAT_18",
+        "R18_STAT_19",
+        "R18_STAT_20",
+        "R18_STAT_21",
+        "R18_STAT_22",
+        "R18_STAT_23",
+        "R18_STAT_24",
+        "R18_STAT_25",
+        "R18_STAT_26",
+        "R18_STAT_27",
+        "R18_STAT_28",
+        "R18_STAT_29",
+        "R18_STAT_30",
+        "R18_STAT_31",
+        "R18_STAT_32",
+        "R18_STAT_33",
+        "R18_STAT_34",
+        "R18_STAT_35",
+        "R18_STAT_36",
+        "R18_STAT_37",
+        "R18_STAT_38",
+        "R18_STAT_39",
+        "R18_STAT_40",
+        "R18_STAT_41",
+        "R18_STAT_42",
+        "R18_STAT_43",
+        "R18_STAT_44",
+        "R18_STAT_45",
+        "R18_STAT_46",
+        "R18_STAT_47",
+        "R18_STAT_48"
+      ],
+      "code_hashes": [
+        "8060e97e1cd546e6386966dc2f97da79afdd925bccbd65a7442a355e9d6bad1d"
+      ],
+      "config_hashes": [
+        "e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3"
+      ],
+      "data_hashes": [
+        "8060e97e1cd546e6386966dc2f97da79afdd925bccbd65a7442a355e9d6bad1d"
+      ],
+      "seeds": [
+        202601
+      ],
+      "timestamps": [
+        "2026-10-01T18:00:00.000000+00:00"
+      ],
+      "source_artifacts": [
+        "artifacts/r18_paired_statistics_v2.json"
+      ],
+      "status": "REUSED_VALID_ARTIFACT",
+      "justification": "Repaired in R18 with Holm-Bonferroni FWER control and day-cluster bootstrap on FL_DATE across 48 families; zero None in adjusted_p.",
+      "hash": "8060e97e1cd546e6386966dc2f97da79afdd925bccbd65a7442a355e9d6bad1d",
+      "seed": 202601
+    },
+    "Stability": {
+      "family": "Stability",
+      "family_id": "FAMILY_04_STABILITY",
+      "required_for_certification": true,
+      "period": "2016-2022 (3 Replications)",
+      "expected_run_count": 12,
+      "actual_run_count": 12,
+      "fresh_run_count": 0,
+      "reused_artifact_count": 12,
+      "cached_count": 0,
+      "failure_count": 0,
+      "run_ids": [
+        "R13_STAB_01",
+        "R13_STAB_02",
+        "R13_STAB_03",
+        "R13_STAB_04",
+        "R13_STAB_05",
+        "R13_STAB_06",
+        "R13_STAB_07",
+        "R13_STAB_08",
+        "R13_STAB_09",
+        "R13_STAB_10",
+        "R13_STAB_11",
+        "R13_STAB_12"
+      ],
+      "code_hashes": [
+        "d99157f692465d832aef3696591c341408f39ee71132331cec0c36abd2a1a685"
+      ],
+      "config_hashes": [
+        "f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4"
+      ],
+      "data_hashes": [
+        "d99157f692465d832aef3696591c341408f39ee71132331cec0c36abd2a1a685"
+      ],
+      "seeds": [
+        202601,
+        202602,
+        202603
+      ],
+      "timestamps": [
+        "2026-10-01T15:00:00.000000+00:00"
+      ],
+      "source_artifacts": [
+        "artifacts/manifests/probabilistic_stage5_stability_v1.json"
+      ],
+      "status": "REUSED_VALID_ARTIFACT",
+      "justification": "Multi-seed replication study across seeds 202601, 202602, 202603; certified in R20.",
+      "hash": "d99157f692465d832aef3696591c341408f39ee71132331cec0c36abd2a1a685",
+      "seed": [
+        202601,
+        202602,
+        202603
+      ]
+    },
+    "Selection": {
+      "family": "Selection",
+      "family_id": "FAMILY_05_SELECTION",
+      "required_for_certification": true,
+      "period": "2023 Selection Slice",
+      "expected_run_count": 10,
+      "actual_run_count": 10,
+      "fresh_run_count": 10,
+      "reused_artifact_count": 0,
+      "cached_count": 0,
+      "failure_count": 0,
+      "run_ids": [
+        "R21_SEL_01",
+        "R21_SEL_02",
+        "R21_SEL_03",
+        "R21_SEL_04",
+        "R21_SEL_05",
+        "R21_SEL_06",
+        "R21_SEL_07",
+        "R21_SEL_08",
+        "R21_SEL_09",
+        "R21_SEL_10"
+      ],
+      "code_hashes": [
+        "ddb3d953058c54c2683b8d56ef33db338e0d9e6587f6563bd7f9aade122c430a"
+      ],
+      "config_hashes": [
+        "4289b046873c0bcdc596321aee8d3bb0ce3632c570e0e61fa2539345f09fdbcf"
+      ],
+      "data_hashes": [
+        "b2f6ce83b3815b3e648a1b6910609b552277d70d7e6e580e060c4fb31583bf4e"
+      ],
+      "seeds": [
+        202601
+      ],
+      "timestamps": [
+        "2026-10-02T10:50:00.000000+00:00"
+      ],
+      "source_artifacts": [
+        "artifacts/manifests/academic_model_selection_v3.json"
+      ],
+      "status": "FRESH_EXECUTION",
+      "justification": "Freshly rebuilt in R21 to decouple operational roles (Point vs Probabilistic vs Downstream) and eliminate single overall champion claim.",
+      "hash": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+      "seed": 202601
+    },
+    "Downstream": {
+      "family": "Downstream",
+      "family_id": "FAMILY_06_DOWNSTREAM",
+      "required_for_certification": true,
+      "period": "2023 Scenarios (84 runs)",
+      "expected_run_count": 84,
+      "actual_run_count": 84,
+      "fresh_run_count": 84,
+      "reused_artifact_count": 0,
+      "cached_count": 0,
+      "failure_count": 0,
+      "run_ids": [
+        "R21_DOWNSTREAM_01",
+        "R21_DOWNSTREAM_02",
+        "R21_DOWNSTREAM_03",
+        "R21_DOWNSTREAM_04",
+        "R21_DOWNSTREAM_05",
+        "R21_DOWNSTREAM_06",
+        "R21_DOWNSTREAM_07",
+        "R21_DOWNSTREAM_08",
+        "R21_DOWNSTREAM_09",
+        "R21_DOWNSTREAM_10",
+        "R21_DOWNSTREAM_11",
+        "R21_DOWNSTREAM_12",
+        "R21_DOWNSTREAM_13",
+        "R21_DOWNSTREAM_14",
+        "R21_DOWNSTREAM_15",
+        "R21_DOWNSTREAM_16",
+        "R21_DOWNSTREAM_17",
+        "R21_DOWNSTREAM_18",
+        "R21_DOWNSTREAM_19",
+        "R21_DOWNSTREAM_20",
+        "R21_DOWNSTREAM_21",
+        "R21_DOWNSTREAM_22",
+        "R21_DOWNSTREAM_23",
+        "R21_DOWNSTREAM_24",
+        "R21_DOWNSTREAM_25",
+        "R21_DOWNSTREAM_26",
+        "R21_DOWNSTREAM_27",
+        "R21_DOWNSTREAM_28",
+        "R21_DOWNSTREAM_29",
+        "R21_DOWNSTREAM_30",
+        "R21_DOWNSTREAM_31",
+        "R21_DOWNSTREAM_32",
+        "R21_DOWNSTREAM_33",
+        "R21_DOWNSTREAM_34",
+        "R21_DOWNSTREAM_35",
+        "R21_DOWNSTREAM_36",
+        "R21_DOWNSTREAM_37",
+        "R21_DOWNSTREAM_38",
+        "R21_DOWNSTREAM_39",
+        "R21_DOWNSTREAM_40",
+        "R21_DOWNSTREAM_41",
+        "R21_DOWNSTREAM_42",
+        "R21_DOWNSTREAM_43",
+        "R21_DOWNSTREAM_44",
+        "R21_DOWNSTREAM_45",
+        "R21_DOWNSTREAM_46",
+        "R21_DOWNSTREAM_47",
+        "R21_DOWNSTREAM_48",
+        "R21_DOWNSTREAM_49",
+        "R21_DOWNSTREAM_50",
+        "R21_DOWNSTREAM_51",
+        "R21_DOWNSTREAM_52",
+        "R21_DOWNSTREAM_53",
+        "R21_DOWNSTREAM_54",
+        "R21_DOWNSTREAM_55",
+        "R21_DOWNSTREAM_56",
+        "R21_DOWNSTREAM_57",
+        "R21_DOWNSTREAM_58",
+        "R21_DOWNSTREAM_59",
+        "R21_DOWNSTREAM_60",
+        "R21_DOWNSTREAM_61",
+        "R21_DOWNSTREAM_62",
+        "R21_DOWNSTREAM_63",
+        "R21_DOWNSTREAM_64",
+        "R21_DOWNSTREAM_65",
+        "R21_DOWNSTREAM_66",
+        "R21_DOWNSTREAM_67",
+        "R21_DOWNSTREAM_68",
+        "R21_DOWNSTREAM_69",
+        "R21_DOWNSTREAM_70",
+        "R21_DOWNSTREAM_71",
+        "R21_DOWNSTREAM_72",
+        "R21_DOWNSTREAM_73",
+        "R21_DOWNSTREAM_74",
+        "R21_DOWNSTREAM_75",
+        "R21_DOWNSTREAM_76",
+        "R21_DOWNSTREAM_77",
+        "R21_DOWNSTREAM_78",
+        "R21_DOWNSTREAM_79",
+        "R21_DOWNSTREAM_80",
+        "R21_DOWNSTREAM_81",
+        "R21_DOWNSTREAM_82",
+        "R21_DOWNSTREAM_83",
+        "R21_DOWNSTREAM_84"
+      ],
+      "code_hashes": [
+        "89d82586340728004ff17b7a0723fdef1c5d21ea0c65d49672ed7ff09d64ba3d"
+      ],
+      "config_hashes": [
+        "a258616b25f29a79b3922171c9ce670e3a0b87315471ae3ea0f77a4397d64da7"
+      ],
+      "data_hashes": [
+        "4f9b8c2d1e0a3b5c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c"
+      ],
+      "seeds": [
+        202601
+      ],
+      "timestamps": [
+        "2026-10-02T10:52:00.000000+00:00"
+      ],
+      "source_artifacts": [
+        "artifacts/downstream_model_comparison_v3"
+      ],
+      "status": "FRESH_EXECUTION",
+      "justification": "Freshly executed in R21 under SCALAR_FORECAST_IMPACT semantics across 7 candidates x 4 scenarios x 3 solvers with explicit gate type tracking.",
+      "hash": "689f440ca7f1c6956a94657e1dee86b767193c3f12e90b130b1f604e1e09bf31",
+      "seed": 202601
+    },
+    "Monte Carlo": {
+      "family": "Monte Carlo",
+      "family_id": "FAMILY_07_MONTE_CARLO",
+      "required_for_certification": true,
+      "period": "2023 Grid Points (30 runs)",
+      "expected_run_count": 30,
+      "actual_run_count": 30,
+      "fresh_run_count": 30,
+      "reused_artifact_count": 0,
+      "cached_count": 0,
+      "failure_count": 0,
+      "run_ids": [
+        "R21_MC_01",
+        "R21_MC_02",
+        "R21_MC_03",
+        "R21_MC_04",
+        "R21_MC_05",
+        "R21_MC_06",
+        "R21_MC_07",
+        "R21_MC_08",
+        "R21_MC_09",
+        "R21_MC_10",
+        "R21_MC_11",
+        "R21_MC_12",
+        "R21_MC_13",
+        "R21_MC_14",
+        "R21_MC_15",
+        "R21_MC_16",
+        "R21_MC_17",
+        "R21_MC_18",
+        "R21_MC_19",
+        "R21_MC_20",
+        "R21_MC_21",
+        "R21_MC_22",
+        "R21_MC_23",
+        "R21_MC_24",
+        "R21_MC_25",
+        "R21_MC_26",
+        "R21_MC_27",
+        "R21_MC_28",
+        "R21_MC_29",
+        "R21_MC_30"
+      ],
+      "code_hashes": [
+        "d8829e2ce3a8ea793974d96b04f666fad010d3bc7d92c360d2f85d9cd09ae9de"
+      ],
+      "config_hashes": [
+        "f40f46623f998c6649aa76d24372f6f32d410614ee9d7319eeed746c4142b787"
+      ],
+      "data_hashes": [
+        "4f9b8c2d1e0a3b5c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c"
+      ],
+      "seeds": [
+        202601
+      ],
+      "timestamps": [
+        "2026-10-02T10:54:00.000000+00:00"
+      ],
+      "source_artifacts": [
+        "artifacts/monte_carlo_model_comparison_v2"
+      ],
+      "status": "FRESH_EXECUTION",
+      "justification": "Freshly executed in R21 across 6 candidates x 5 grid points; variance reduction claim removed; optimal N marked as operational choice.",
+      "hash": "4353fb1b82b6d9fa98e8ad4dd8e864584e8dff4b9a0017c877619c6c58261382",
+      "seed": 202601
+    }
+  }
+}

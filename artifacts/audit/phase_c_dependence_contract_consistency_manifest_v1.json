@@ -1,0 +1,198 @@
+{
+  "manifest_version": "phase_c_dependence_contract_consistency_manifest_v1",
+  "phase": "PHASE_C_STEP_5",
+  "status": "PASS",
+  "timestamp_utc": "2026-09-28T17:09:51.406620+00:00",
+  "protocol_reference": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md - Sections 13, 14, 15, 16",
+  "contract_synchronization": {
+    "phase_c_max_dimension": 420,
+    "phase_h_guard_synchronized": true,
+    "previous_static_whitelist_deprecated": [
+      1,
+      7,
+      23,
+      50,
+      110
+    ],
+    "synchronized_ci_dimensions": [
+      1,
+      5,
+      23,
+      77,
+      150,
+      420
+    ],
+    "stress_test_dimensions": [
+      420,
+      500
+    ]
+  },
+  "property_based_invariants_certified": {
+    "matrix_shape": "(d, d) for all d >= 1",
+    "matrix_symmetry": "max |C - C^T| < 1e-10",
+    "diagonal_convention": "max |C_ii - 1.0| < 1e-10",
+    "finite_values": "Zero NaN, zero Inf across all entries",
+    "positive_semi_definiteness": "min eigenvalue >= 1e-6 via spectral projection",
+    "copula_sampling_shape": "(n_samples, d) with draws in (0, 1)",
+    "deterministic_reproducibility": "Bitwise identical samples under fixed random seed"
+  },
+  "fail_closed_validation": {
+    "non_positive_dimension_rejected": true,
+    "empty_input_rejected": true,
+    "error_type": "ProbabilisticContractViolation"
+  },
+  "documented_resource_limits": {
+    "min_dimension": 1,
+    "peak_operational_hub_dimension": 420,
+    "recommended_max_dimension": 1500,
+    "computational_complexity": "O(d^3) spectral decomposition / Cholesky factorization",
+    "memory_scaling": "O(d^2) float64 correlation storage (e.g. 1.4 MB at d=420, 18 MB at d=1500)"
+  },
+  "model_parameters_preserved": {
+    "temporal_length_scale_minutes": 120.0,
+    "carrier_correlation": 0.15,
+    "kernel_family": "Gaussian Copula with RBF temporal + discrete carrier match",
+    "data_2024_used": false,
+    "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+  },
+  "ci_dimension_audit_results": [
+    {
+      "dimension": 1,
+      "is_valid": true,
+      "shape_ok": true,
+      "is_symmetric": true,
+      "symmetry_max_error": 0.0,
+      "diag_ok": true,
+      "diag_max_error": 0.0,
+      "all_finite": true,
+      "min_eigenvalue": 1.0,
+      "is_psd": true,
+      "sampling_shape_ok": true,
+      "sampling_range_ok": true,
+      "is_deterministic": true,
+      "is_non_trivial": true,
+      "elapsed_seconds": 0.0059971999980916735
+    },
+    {
+      "dimension": 5,
+      "is_valid": true,
+      "shape_ok": true,
+      "is_symmetric": true,
+      "symmetry_max_error": 0.0,
+      "diag_ok": true,
+      "diag_max_error": 0.0,
+      "all_finite": true,
+      "min_eigenvalue": 0.3831303518868782,
+      "is_psd": true,
+      "sampling_shape_ok": true,
+      "sampling_range_ok": true,
+      "is_deterministic": true,
+      "is_non_trivial": true,
+      "elapsed_seconds": 0.002944800002296688
+    },
+    {
+      "dimension": 23,
+      "is_valid": true,
+      "shape_ok": true,
+      "is_symmetric": true,
+      "symmetry_max_error": 0.0,
+      "diag_ok": true,
+      "diag_max_error": 0.0,
+      "all_finite": true,
+      "min_eigenvalue": 1.1566358170834324e-06,
+      "is_psd": true,
+      "sampling_shape_ok": true,
+      "sampling_range_ok": true,
+      "is_deterministic": true,
+      "is_non_trivial": true,
+      "elapsed_seconds": 0.0024871999994502403
+    },
+    {
+      "dimension": 77,
+      "is_valid": true,
+      "shape_ok": true,
+      "is_symmetric": true,
+      "symmetry_max_error": 0.0,
+      "diag_ok": true,
+      "diag_max_error": 0.0,
+      "all_finite": true,
+      "min_eigenvalue": 1.048160644258944e-06,
+      "is_psd": true,
+      "sampling_shape_ok": true,
+      "sampling_range_ok": true,
+      "is_deterministic": true,
+      "is_non_trivial": true,
+      "elapsed_seconds": 0.01211200000034296
+    },
+    {
+      "dimension": 150,
+      "is_valid": true,
+      "shape_ok": true,
+      "is_symmetric": true,
+      "symmetry_max_error": 0.0,
+      "diag_ok": true,
+      "diag_max_error": 0.0,
+      "all_finite": true,
+      "min_eigenvalue": 1.0246968749339944e-06,
+      "is_psd": true,
+      "sampling_shape_ok": true,
+      "sampling_range_ok": true,
+      "is_deterministic": true,
+      "is_non_trivial": true,
+      "elapsed_seconds": 0.027400099999795202
+    },
+    {
+      "dimension": 420,
+      "is_valid": true,
+      "shape_ok": true,
+      "is_symmetric": true,
+      "symmetry_max_error": 0.0,
+      "diag_ok": true,
+      "diag_max_error": 0.0,
+      "all_finite": true,
+      "min_eigenvalue": 1.0087967329966958e-06,
+      "is_psd": true,
+      "sampling_shape_ok": true,
+      "sampling_range_ok": true,
+      "is_deterministic": true,
+      "is_non_trivial": true,
+      "elapsed_seconds": 0.5024255999996967
+    }
+  ],
+  "stress_dimension_audit_results": [
+    {
+      "dimension": 420,
+      "is_valid": true,
+      "shape_ok": true,
+      "is_symmetric": true,
+      "symmetry_max_error": 0.0,
+      "diag_ok": true,
+      "diag_max_error": 0.0,
+      "all_finite": true,
+      "min_eigenvalue": 1.0087967329966958e-06,
+      "is_psd": true,
+      "sampling_shape_ok": true,
+      "sampling_range_ok": true,
+      "is_deterministic": true,
+      "is_non_trivial": true,
+      "elapsed_seconds": 0.4645555000024615
+    },
+    {
+      "dimension": 500,
+      "is_valid": true,
+      "shape_ok": true,
+      "is_symmetric": true,
+      "symmetry_max_error": 0.0,
+      "diag_ok": true,
+      "diag_max_error": 0.0,
+      "all_finite": true,
+      "min_eigenvalue": 1.0073886467986885e-06,
+      "is_psd": true,
+      "sampling_shape_ok": true,
+      "sampling_range_ok": true,
+      "is_deterministic": true,
+      "is_non_trivial": true,
+      "elapsed_seconds": 0.7013064999991911
+    }
+  ]
+}

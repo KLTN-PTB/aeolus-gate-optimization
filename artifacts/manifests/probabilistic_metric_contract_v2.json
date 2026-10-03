@@ -1,0 +1,219 @@
+{
+  "contract_name": "AEOLUS_V4_PROBABILISTIC_METRIC_CONTRACT_V2",
+  "version": "v2.0",
+  "created_at_utc": "2026-10-02T02:20:00Z",
+  "auditor": "Principal Operations Research & ML Uncertainty Engineer",
+  "allowed_statuses": [
+    "SUPPORTED",
+    "NOT_SUPPORTED",
+    "APPROXIMATE",
+    "UNKNOWN"
+  ],
+  "evaluated_candidates": [
+    "P1_empirical",
+    "P2_xgb_gaussian_oof",
+    "P3_ngboost_normal",
+    "P4_ngboost_student_t",
+    "P5_quantile_regression"
+  ],
+  "pre_registered_quantiles": [
+    0.025,
+    0.05,
+    0.10,
+    0.25,
+    0.50,
+    0.75,
+    0.90,
+    0.95,
+    0.975
+  ],
+  "pre_registered_interval_pairs": {
+    "50": [0.25, 0.75],
+    "80": [0.10, 0.90],
+    "90": [0.05, 0.95],
+    "95": [0.025, 0.975]
+  },
+  "candidates": {
+    "P1_empirical": {
+      "candidate_id": "P1_empirical",
+      "family": "empirical",
+      "distribution_type": "non_parametric_empirical",
+      "operational_role": "EMPIRICAL_RESIDUAL_BASELINE",
+      "support": "finite_sample_pool",
+      "parameters": ["sample_pool"],
+      "capabilities": {
+        "mean": "SUPPORTED",
+        "median": "SUPPORTED",
+        "quantile": "SUPPORTED",
+        "cdf": "SUPPORTED",
+        "event_probability": "SUPPORTED",
+        "sampling": "SUPPORTED",
+        "nll": "NOT_SUPPORTED",
+        "exact_crps": "NOT_SUPPORTED",
+        "approximate_crps": "SUPPORTED",
+        "pit": "NOT_SUPPORTED",
+        "coverage": "SUPPORTED",
+        "interval_width": "SUPPORTED"
+      },
+      "provenance_details": {
+        "mean_method": "sample_mean_of_hierarchical_pool",
+        "median_method": "sample_median_of_hierarchical_pool",
+        "quantile_method": "empirical_quantile_with_linear_interpolation",
+        "cdf_method": "empirical_step_function",
+        "sampling_method": "bootstrap_sampling_with_replacement",
+        "nll_unsupported_reason": "Discrete empirical step function has zero density almost everywhere; continuous likelihood is undefined.",
+        "pit_unsupported_reason": "Step CDF produces discrete atomic PIT distributions; classical KS test against continuous Uniform(0,1) is formally invalid.",
+        "exact_crps_unsupported_reason": "Analytical CRPS requires parametric continuous distribution.",
+        "crps_method": "trapezoidal_pinball_integration",
+        "is_exact_crps": false,
+        "is_approximate_crps": true
+      }
+    },
+    "P2_xgb_gaussian_oof": {
+      "candidate_id": "P2_xgb_gaussian_oof",
+      "family": "xgb_gaussian_oof",
+      "distribution_type": "parametric_gaussian_homoscedastic",
+      "operational_role": "HOMOSCEDASTIC_PARAMETRIC_BASELINE",
+      "support": "real_line_R",
+      "parameters": ["mu", "sigma"],
+      "capabilities": {
+        "mean": "SUPPORTED",
+        "median": "SUPPORTED",
+        "quantile": "SUPPORTED",
+        "cdf": "SUPPORTED",
+        "event_probability": "SUPPORTED",
+        "sampling": "SUPPORTED",
+        "nll": "SUPPORTED",
+        "exact_crps": "SUPPORTED",
+        "approximate_crps": "SUPPORTED",
+        "pit": "SUPPORTED",
+        "coverage": "SUPPORTED",
+        "interval_width": "SUPPORTED"
+      },
+      "provenance_details": {
+        "mean_method": "xgboost_point_regression",
+        "median_method": "identical_to_mean_gaussian_symmetry",
+        "quantile_method": "inverse_standard_normal_cdf",
+        "cdf_method": "standard_normal_cdf_ndtr",
+        "sampling_method": "gaussian_pseudorandom_sampling",
+        "nll_method": "analytical_gaussian_log_density",
+        "crps_method": "analytical_gaussian_crps",
+        "pit_method": "continuous_gaussian_cdf_ks_test",
+        "is_exact_crps": true,
+        "is_approximate_crps": false
+      }
+    },
+    "P3_ngboost_normal": {
+      "candidate_id": "P3_ngboost_normal",
+      "family": "ngboost_normal",
+      "distribution_type": "parametric_gaussian_heteroscedastic",
+      "operational_role": "HETEROSCEDASTIC_PARAMETRIC_GAUSSIAN",
+      "support": "real_line_R",
+      "parameters": ["mu", "sigma"],
+      "capabilities": {
+        "mean": "SUPPORTED",
+        "median": "SUPPORTED",
+        "quantile": "SUPPORTED",
+        "cdf": "SUPPORTED",
+        "event_probability": "SUPPORTED",
+        "sampling": "SUPPORTED",
+        "nll": "SUPPORTED",
+        "exact_crps": "SUPPORTED",
+        "approximate_crps": "SUPPORTED",
+        "pit": "SUPPORTED",
+        "coverage": "SUPPORTED",
+        "interval_width": "SUPPORTED"
+      },
+      "provenance_details": {
+        "mean_method": "ngboost_natural_gradient_location",
+        "median_method": "identical_to_mean_gaussian_symmetry",
+        "quantile_method": "inverse_standard_normal_cdf",
+        "cdf_method": "standard_normal_cdf_ndtr",
+        "sampling_method": "gaussian_pseudorandom_sampling",
+        "nll_method": "analytical_gaussian_log_density",
+        "crps_method": "analytical_gaussian_crps",
+        "pit_method": "continuous_gaussian_cdf_ks_test",
+        "is_exact_crps": true,
+        "is_approximate_crps": false
+      }
+    },
+    "P4_ngboost_student_t": {
+      "candidate_id": "P4_ngboost_student_t",
+      "family": "ngboost_student_t",
+      "distribution_type": "parametric_student_t_heteroscedastic",
+      "operational_role": "historical_candidate",
+      "support": "real_line_R",
+      "parameters": ["mu", "sigma", "df"],
+      "capabilities": {
+        "mean": "SUPPORTED",
+        "median": "SUPPORTED",
+        "quantile": "SUPPORTED",
+        "cdf": "SUPPORTED",
+        "event_probability": "SUPPORTED",
+        "sampling": "SUPPORTED",
+        "nll": "SUPPORTED",
+        "exact_crps": "NOT_SUPPORTED",
+        "approximate_crps": "SUPPORTED",
+        "pit": "SUPPORTED",
+        "coverage": "SUPPORTED",
+        "interval_width": "SUPPORTED"
+      },
+      "provenance_details": {
+        "mean_method": "student_t_location_valid_nu_gt_1",
+        "median_method": "identical_to_location_student_t_symmetry",
+        "quantile_method": "scipy_student_t_ppf",
+        "cdf_method": "scipy_student_t_cdf",
+        "sampling_method": "standard_t_pseudorandom_sampling",
+        "nll_method": "analytical_student_t_logpdf",
+        "exact_crps_unsupported_reason": "Closed-form Student-T CRPS requires Gauss hypergeometric function; evaluated via approximate trapezoidal pinball integration.",
+        "crps_method": "trapezoidal_pinball_integration",
+        "pit_method": "continuous_student_t_cdf_ks_test",
+        "is_exact_crps": false,
+        "is_approximate_crps": true
+      }
+    },
+    "P5_quantile_regression": {
+      "candidate_id": "P5_quantile_regression",
+      "family": "quantile_regression",
+      "distribution_type": "non_parametric_quantiles_only",
+      "operational_role": "QUANTILE_FORECAST_ONLY",
+      "support": "finite_pre_registered_quantiles",
+      "parameters": ["quantiles"],
+      "capabilities": {
+        "mean": "NOT_SUPPORTED",
+        "median": "SUPPORTED",
+        "quantile": "SUPPORTED",
+        "cdf": "NOT_SUPPORTED",
+        "event_probability": "NOT_SUPPORTED",
+        "sampling": "NOT_SUPPORTED",
+        "nll": "NOT_SUPPORTED",
+        "exact_crps": "NOT_SUPPORTED",
+        "approximate_crps": "SUPPORTED",
+        "pit": "NOT_SUPPORTED",
+        "coverage": "SUPPORTED",
+        "interval_width": "SUPPORTED"
+      },
+      "provenance_details": {
+        "mean_method": null,
+        "mean_unsupported_reason": "Non-parametric quantile regression models do not estimate conditional expectation; conditional mean is undefined.",
+        "median_method": "median_quantile_pinball_alpha_0_50",
+        "quantile_method": "multi_pinball_lightgbm_with_monotone_rearrangement",
+        "rearrangement_reference": "Chernozhukov, Fernandez-Val, and Galichon (Econometrica 2010)",
+        "cdf_method": null,
+        "cdf_unsupported_reason": "Quantile regression models do not possess a continuous CDF; heuristic CDF synthesis is strictly prohibited by protocol.",
+        "event_probability_method": null,
+        "event_prob_unsupported_reason": "Binary event probability is unsupported without full CDF or dedicated classification head.",
+        "sampling_method": null,
+        "sampling_unsupported_reason": "Generative sampling requires inverse CDF transform; unsupported for quantile regression.",
+        "nll_method": null,
+        "nll_unsupported_reason": "Non-parametric quantile models do not provide a continuous density function; continuous NLL is undefined.",
+        "exact_crps_unsupported_reason": "Analytical CRPS requires parametric continuous distribution.",
+        "crps_method": "trapezoidal_pinball_integration",
+        "pit_method": null,
+        "pit_unsupported_reason": "Quantile regression does not provide a continuous CDF; PIT cannot be evaluated.",
+        "is_exact_crps": false,
+        "is_approximate_crps": true
+      }
+    }
+  }
+}

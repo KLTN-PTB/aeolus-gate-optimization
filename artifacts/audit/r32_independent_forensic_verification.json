@@ -1,0 +1,222 @@
+{
+  "audit_name": "R32_INDEPENDENT_FORENSIC_VERIFICATION",
+  "created_at_utc": "2026-10-03T09:00:00Z",
+  "auditor": "Antigravity Independent Forensic Auditor",
+  "mandate": "Raw evidence verification without repair, retraining, or certification by assertion",
+  "repository_state": {
+    "root": "D:\\Study\\Code\\Python\\Aelous",
+    "branch": "week5-model-parameters-export",
+    "head_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+    "dirty_status": "DIRTY (audit working directory has uncommitted validation records)",
+    "git_clean": false
+  },
+  "host_environment": {
+    "os": "Windows 10 AMD64",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+    "python_version": "3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]",
+    "python_executable": "D:\\Study\\Code\\Python\\Aelous\\.venv\\Scripts\\python.exe"
+  },
+  "mandatory_questions": {
+    "Q1_ridge_vs_weighted_ensemble_tie": {
+      "verdict": "PROVEN",
+      "evidence_summary": "Ridge and Weighted Ensemble tie within the 0.10 min indifference band on 2023 development (|Delta| = 0.000449 min), but are NOT tied on 2024 post-holdout (|Delta| = 0.4050 min).",
+      "source_files": [
+        "artifacts/manifests/academic_model_selection_v3.json",
+        "artifacts/post_holdout_v3/marginal_forecast_metrics_2024_v3.json"
+      ],
+      "raw_values": {
+        "2023_dev_ridge_mae": 24.6181333149954,
+        "2023_dev_weighted_ensemble_mae": 24.617684454376416,
+        "2023_dev_delta_abs": 0.000448860618983584,
+        "indifference_band_minutes": 0.1,
+        "2024_holdout_ridge_mae": 22.9125,
+        "2024_holdout_weighted_ensemble_mae": 23.3175,
+        "2024_holdout_delta_abs": 0.405
+      },
+      "what_it_does_not_prove": "Does NOT prove that Ridge and Weighted Ensemble are universally identical or tied across all temporal distributions or holdouts."
+    },
+    "Q2_2023_selection_isolated_from_2024": {
+      "verdict": "PROVEN",
+      "evidence_summary": "scripts/run_academic_model_selection.py trains exclusively on 2016-2022 and selects on 2023. Explicit data guard assert_data_access_allowed(2024, 'development') throws fail-closed error.",
+      "source_files": [
+        "scripts/run_academic_model_selection.py",
+        "artifacts/manifests/academic_model_selection_v3.json"
+      ],
+      "raw_values": {
+        "training_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "selection_year": 2023,
+        "forbidden_year": 2024,
+        "fail_closed_assert": "assert_data_access_allowed(year, stage)"
+      },
+      "what_it_does_not_prove": "Does NOT prove that 2024 data did not exist on the file system; proves only that selection code execution did not access 2024."
+    },
+    "Q3_solver_budget_equal_compute": {
+      "verdict": "PROVEN_WALL_CLOCK_BUT_NOT_WORK",
+      "evidence_summary": "All 4 solvers were configured with an equal wall-clock time limit T = 2.0s and single-worker thread. However, actual computational work is fundamentally unequal: Greedy runs in 1.1ms (O(N log M) heuristic), CP-SAT proves optimality in 0.44s, SA spins for 2.0009s (2351 iterations).",
+      "source_files": [
+        "scripts/run_r26_solver_equal_compute.py",
+        "artifacts/audit/r26_solver_equal_compute_results.parquet"
+      ],
+      "raw_values": {
+        "time_limit_sec": 2.0,
+        "num_workers": 1,
+        "mean_greedy_runtime_sec": 0.001119,
+        "mean_cpsat_runtime_sec": 0.443793,
+        "mean_sa_runtime_sec": 2.000938,
+        "mean_sa_iterations": 2351.0,
+        "mean_hybrid_runtime_sec": 1.453118
+      },
+      "what_it_does_not_prove": "Does NOT prove equal computational FLOPs, CPU cycles, or branch-and-bound node evaluations across paradigms."
+    },
+    "Q4_hybrid_zero_marginal_gain": {
+      "verdict": "EXPLAINED_AND_PROVEN",
+      "evidence_summary": "In all 28 evaluated cases (100%), hybrid objective value minus CP-SAT objective value is exactly 0.0. CP-SAT solves the 2024 synthetic scenarios to proven global optimality in <0.5s, providing SA with an already optimal warm start that cannot be improved.",
+      "source_files": [
+        "artifacts/audit/r26_solver_equal_compute_results.parquet",
+        "scripts/run_r26_solver_equal_compute.py"
+      ],
+      "raw_values": {
+        "total_evaluated_cases": 28,
+        "cases_with_delta_zero": 28,
+        "delta_min": 0.0,
+        "delta_max": 0.0,
+        "delta_mean": 0.0,
+        "delta_std": 0.0
+      },
+      "what_it_does_not_prove": "Does NOT prove that SA would have zero gain on intractable NP-hard instances where CP-SAT fails to converge within its time budget."
+    },
+    "Q5_dataset_solver_28_vs_84_scope": {
+      "verdict": "DIFFERENT_BENCHMARKS",
+      "evidence_summary": "R26 evaluates 28 problem instances (4 seasonal 2024 scenarios x 7 models including oracle) x 4 solvers = 112 runs. R21 evaluated 84 runs (4 development scenarios x 7 ML models x 3 solvers without hybrid). They represent two distinct benchmark sets.",
+      "source_files": [
+        "artifacts/audit/r26_solver_equal_compute_results.parquet",
+        "artifacts/audit/r21_execution_trace.json"
+      ],
+      "raw_values": {
+        "r26_cases": 28,
+        "r26_solvers": 4,
+        "r26_total_runs": 112,
+        "r21_downstream_cases": 28,
+        "r21_downstream_solvers": 3,
+        "r21_downstream_runs": 84
+      },
+      "what_it_does_not_prove": "Does NOT prove that R26 is a 1-to-1 rerun of R21; R26 is an independent post-holdout re-certification benchmark."
+    },
+    "Q6_actual_sha256_verification": {
+      "verdict": "PROVEN",
+      "evidence_summary": "Actual byte-level SHA256 hashes of all 31 critical artifacts were computed directly from disk and match reference freeze manifests and sidecar files with 0 mismatches.",
+      "source_files": [
+        "artifacts/audit/final_freeze_manifest_v4.json",
+        "artifacts/audit/r32_hash_reconciliation.parquet"
+      ],
+      "raw_values": {
+        "total_files_audited": 31,
+        "hash_matches": 31,
+        "hash_mismatches": 0,
+        "missing_files": 0
+      },
+      "what_it_does_not_prove": "Does NOT prove substantive scientific validity by itself; cryptographic hashes prove only byte integrity and immutability."
+    },
+    "Q7_r21_124_execution_accounting": {
+      "verdict": "PROVEN_WITH_FORENSIC_CLARIFICATION",
+      "evidence_summary": "The 224 execution units in R29 comprise 124 fresh rebuilt executions (Selection: 10, Downstream: 84, MC: 30) and 100 reused/frozen evidence units. The '48 statistical runs' are Holm-Bonferroni paired comparison families across 10 model pairs, not standalone training runs.",
+      "source_files": [
+        "artifacts/audit/r29_execution_matrix.parquet",
+        "artifacts/audit/r29_run_count_reconciliation.json"
+      ],
+      "raw_values": {
+        "total_records": 224,
+        "fresh_rebuilt": 124,
+        "reused_frozen": 100,
+        "statistics_units": 48,
+        "unclassified_or_failed": 0
+      },
+      "what_it_does_not_prove": "Does NOT prove that 48 end-to-end model training runs took place in the statistics family; they are statistical hypothesis tests computed on point predictions."
+    },
+    "Q8_p4_continuous_distribution_calibration": {
+      "verdict": "SUPPORTED_WITH_LIMITATION",
+      "evidence_summary": "P4 provides an explicit parametric continuous density (Student-T with mu, sigma, df >= 2.1), exact continuous CRPS (17.15 min), and exact NLL (4.032). However, empirical PIT and confidence calibration are NOT separately certified.",
+      "source_files": [
+        "src/probabilistic/p4_ngboost_student_t.py",
+        "artifacts/audit/r28_calibration_evidence.json",
+        "artifacts/manifests/academic_model_selection_v3.json"
+      ],
+      "raw_values": {
+        "distribution": "Student-T",
+        "exact_continuous_crps": 17.1539,
+        "exact_continuous_nll": 4.0321,
+        "calibration_certified": false,
+        "claim_status": "SUPPORTED_WITH_LIMITATION"
+      },
+      "what_it_does_not_prove": "Does NOT prove empirical calibration or coverage guarantees across all forecast quantiles."
+    },
+    "Q9_cross_machine_bit_reproducibility": {
+      "verdict": "PROVEN_UNDER_CONTAINED_SPECIFICATION",
+      "evidence_summary": "Reproduction is certified within the contained specification (Python 3.11.15, Windows 10 AMD64, deterministic seeds). Universal bit-for-bit replication across arbitrary OS/CPU environments is not guaranteed due to floating-point differences.",
+      "source_files": [
+        "artifacts/audit/final_reproducibility_audit_v4.json",
+        "artifacts/audit/r32_dependency_environment_reconciliation.json"
+      ],
+      "raw_values": {
+        "python_version": "3.11.15",
+        "os": "Windows 10 AMD64",
+        "seeds": [
+          202601,
+          202602,
+          202603
+        ],
+        "contained_specification": true
+      },
+      "what_it_does_not_prove": "Does NOT prove bit-identical floating-point output on ARM/Linux or across differing BLAS/MKL linear algebra implementations."
+    },
+    "Q10_certification_tests_strength": {
+      "verdict": "MIXED",
+      "evidence_summary": "Certification tests in tests/test_r24_certification_gate.py combine actual byte hash checks and numeric sanity checks with structural manifest validations. They go beyond text-presence tests but remain bounded by manifest-defined schemas.",
+      "source_files": [
+        "tests/test_r24_certification_gate.py",
+        "artifacts/audit/r27_certification_test_hardening.json"
+      ],
+      "raw_values": {
+        "hardened_in_r27": true,
+        "byte_hash_checks_present": true,
+        "numeric_bound_checks_present": true,
+        "manifest_schema_checks_present": true
+      },
+      "what_it_does_not_prove": "Does NOT constitute a full end-to-end retraining test from raw BTS CSV data on every run."
+    }
+  },
+  "domain_statuses": {
+    "point_forecasting": "VERIFIED_WITH_LIMITATIONS",
+    "probabilistic_forecasting": "VERIFIED_WITH_LIMITATIONS",
+    "optimization_downstream": "VERIFIED_WITH_LIMITATIONS",
+    "statistical_inference": "VERIFIED_WITH_LIMITATIONS",
+    "cryptographic_lineage": "PROVEN"
+  },
+  "p0_blockers_count": 0,
+  "p1_limitations_count": 12,
+  "final_summary_block": {
+    "R25_NUMERICAL_CONSISTENCY": "PROVEN",
+    "R26_WALL_CLOCK_EQUALITY": "PROVEN",
+    "R26_COMPUTATIONAL_WORK_EQUALITY": "NOT_PROVEN",
+    "R26_SCOPE_28_VS_84": "DIFFERENT",
+    "R26_HYBRID_ZERO_GAIN": "PROVEN",
+    "R27_R31_ACTUAL_HASH_LINEAGE": "PROVEN",
+    "R29_EXECUTION_ACCOUNTING": "PROVEN",
+    "ENVIRONMENT_REPRODUCIBILITY": "PROVEN",
+    "TEST_STRENGTH": "MIXED",
+    "OVERALL_R32": "VERIFIED_WITH_LIMITATIONS",
+    "P0_BLOCKERS": 0,
+    "P1_LIMITATIONS": 12,
+    "FINAL_CERTIFICATION_STILL_JUSTIFIED": "ONLY_WITH_LIMITATIONS"
+  }
+}

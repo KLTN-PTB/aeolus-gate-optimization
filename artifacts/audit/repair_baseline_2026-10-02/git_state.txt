@@ -1,0 +1,502 @@
+================================================================================
+GIT REPOSITORY BASELINE STATE
+Generated: 2026-10-01T18:28:09.954949+00:00
+================================================================================
+
+1. BRANCH & COMMIT
+------------------
+Branch: week5-model-parameters-export
+HEAD Commit: c99b3e84b403527bcfb0f9612a1e2737c9f63701
+
+Latest Commit Log:
+commit c99b3e84b403527bcfb0f9612a1e2737c9f63701
+Author:     mrhao165-del <mr.hao165@gmail.com>
+AuthorDate: Sun Sep 20 16:10:08 2026 +0700
+Commit:     mrhao165-del <mr.hao165@gmail.com>
+CommitDate: Sun Sep 20 16:10:08 2026 +0700
+
+    feat(models): implement robust refactoring, Phase A and Phase B improvements
+    
+    - Add monthly stratified data loader eliminating 12-month sampling bias
+    - Add NaiveDelayBaselines and skill score calculation
+    - Refactor loss functions to Pseudo-Huber and Quantile
+    - Implement Calibrated Two-Stage Hurdle predictor with isotonic calibration
+    - Implement Conformalized Quantile Regression and Quantile Rearrangement
+    - Add temporal sample weighting module
+    - Add comprehensive benchmark and ablation experiment runners
+    - Add audit and experimental notebooks (01 to 04)
+    - Add unit tests for Phase 3, Phase A, and Phase B (399 tests passing 100%)
+
+2. WORKING TREE SUMMARY
+-----------------------
+Staged Changes: 1
+Modified Unstaged: 12
+Untracked Items: 207
+
+3. UNSTAGED MODIFIED FILES (12)
+---------------------------------------------
+  M src/data/preprocessing.py
+  M src/data/stratified_loader.py
+  M src/evaluation/__init__.py
+  M src/features/refactored_features.py
+  M src/features/tabular_features.py
+  M src/models/baselines.py
+  M src/optimization/__init__.py
+  M tests/test_holdout_guard.py
+  M tests/test_phase_a.py
+  M tests/test_refactored_pipeline.py
+  M tests/test_tabular_features.py
+  M tests/test_temporal_split.py
+
+4. UNTRACKED FILES & DIRECTORIES (207)
+---------------------------------------------
+  ?? PROJECT_SUMMARY.md
+  ?? artifacts/audit/
+  ?? artifacts/development_end_to_end/
+  ?? artifacts/downstream_model_comparison/
+  ?? artifacts/end_to_end/
+  ?? artifacts/end_to_end_smoke/
+  ?? artifacts/evaluation/
+  ?? artifacts/final_code_audit/
+  ?? artifacts/manifests/academic_model_selection_v1.json
+  ?? artifacts/manifests/academic_model_selection_v1.sha256
+  ?? artifacts/manifests/day3_carrier_ablation_v1.json
+  ?? artifacts/manifests/day3_fold_diagnostics_v1.json
+  ?? artifacts/manifests/day3_lightgbm_l1_ordinal_v1.json
+  ?? artifacts/manifests/day3_lightgbm_l2_reduced_v1.json
+  ?? artifacts/manifests/dependence_candidate_manifest_v1.json
+  ?? artifacts/manifests/distribution_candidate_manifest_v1.json
+  ?? artifacts/manifests/feature_manifest_arrival_v1_1.json
+  ?? artifacts/manifests/feature_manifest_arrival_v1_2.json
+  ?? artifacts/manifests/final_holdout_2024_evaluation_v1.json
+  ?? artifacts/manifests/full_system_freeze_manifest_v1.json
+  ?? artifacts/manifests/phase_a_benchmark_lightgbm_v1_1_fold4.json
+  ?? artifacts/manifests/phase_a_benchmark_lightgbm_v1_1_per_fold.json
+  ?? artifacts/manifests/phase_a_benchmark_mae_a1.json
+  ?? artifacts/manifests/phase_a_benchmark_mae_a2.json
+  ?? artifacts/manifests/phase_a_benchmark_mae_b1.json
+  ?? artifacts/manifests/phase_a_benchmark_mae_b2.json
+  ?? artifacts/manifests/phase_a_benchmark_mae_per_fold.json
+  ?? artifacts/manifests/phase_a_benchmark_report_v1_1.json
+  ?? artifacts/manifests/phase_a_benchmark_report_v1_2a.json
+  ?? artifacts/manifests/phase_a_benchmark_report_v1_2b.json
+  ?? artifacts/manifests/phase_a_benchmark_report_v1_tuned_control.json
+  ?? artifacts/manifests/phase_a_benchmark_sample_150k.json
+  ?? artifacts/manifests/phase_a_benchmark_sample_250k.json
+  ?? artifacts/manifests/phase_a_benchmark_sample_250k_10seed.json
+  ?? artifacts/manifests/phase_a_benchmark_sample_25k.json
+  ?? artifacts/manifests/phase_a_benchmark_sample_75k.json
+  ?? artifacts/manifests/phase_a_benchmark_sample_scan_selection.json
+  ?? artifacts/manifests/probabilistic_protocol_v1.json
+  ?? artifacts/manifests/probabilistic_stage1_baselines_summary_v1.json
+  ?? artifacts/manifests/probabilistic_stage2_representation_ablation_v1.json
+  ?? artifacts/manifests/probabilistic_stage3_distribution_ablation_v1.json
+  ?? artifacts/manifests/probabilistic_stage4_synthetic_recovery_v1.json
+  ?? artifacts/manifests/probabilistic_stage5_stability_v1.json
+  ?? artifacts/manifests/probabilistic_stage6_5_pruning_v1.json
+  ?? artifacts/manifests/probabilistic_stage6_forecast_evaluation_v1.json
+  ?? artifacts/manifests/probabilistic_stage7_5_joint_validation_v1.json
+  ?? artifacts/manifests/probabilistic_stage7_system_candidates_v1.json
+  ?? artifacts/manifests/probabilistic_stage9_gate_simulation_v1.json
+  ?? artifacts/manifests/representation_manifest_v1.json
+  ?? artifacts/manifests/seed_manifest_v1.json
+  ?? artifacts/manifests/selected_system_manifest_v1.json
+  ?? artifacts/manifests/system_freeze_manifest.json
+  ?? artifacts/manifests/system_freeze_manifest.sha256
+  ?? artifacts/model_benchmark/
+  ?? artifacts/monte_carlo_model_comparison/
+  ?? artifacts/paired_comparison/
+  ?? artifacts/post_holdout/
+  ?? artifacts/probabilistic_benchmark/
+  ?? artifacts/stability/
+  ?? configs/academic_model_selection.yaml
+  ?? configs/current_state.yaml
+  ?? configs/seed_registry.yaml
+  ?? docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md
+  ?? docs/BAO_CAO_TIEN_TRINH_VA_KET_QUA_STEP_1_DEN_STEP_7.md
+  ?? docs/BAO_CAO_TONG_KET_PHASE_E_F_G_H_OPTIMIZATION.md
+  ?? docs/BAO_CAO_TONG_KET_PROBABILISTIC_CORE_ARRIVAL_STAGE_0_11.md
+  ?? docs/CURRENT_STATE.md
+  ?? docs/TONG_KET_TIEN_TRINH_PHASE_0_DEN_PHASE_11.md
+  ?? docs/handover.md
+  ?? docs/notes/
+  ?? docs/superpowers/plans/2026-09-20-day2-objective-sample.md
+  ?? docs/superpowers/plans/2026-09-20-day3-model-class-and-metrics.md
+  ?? docs/superpowers/plans/2026-09-20-feature-gap-closure.md
+  ?? scripts/audit_stage10_freeze.py
+  ?? scripts/audit_stage11_holdout.py
+  ?? scripts/audit_stage8_selection.py
+  ?? scripts/audit_stage9_downstream.py
+  ?? scripts/benchmark_cp_sat_solver.py
+  ?? scripts/compare_cpsat_vs_greedy.py
+  ?? scripts/generate_repair_baseline.py
+  ?? scripts/generate_stage0_manifests.py
+  ?? scripts/run_academic_model_selection.py
+  ?? scripts/run_academic_point_benchmark.py
+  ?? scripts/run_algorithmic_stability.py
+  ?? scripts/run_day3_carrier_ablation.py
+  ?? scripts/run_day3_fold_diagnostics.py
+  ?? scripts/run_day3_lightgbm_diagnostics.py
+  ?? scripts/run_development_end_to_end_benchmark.py
+  ?? scripts/run_downstream_model_comparison.py
+  ?? scripts/run_end_to_end_evaluation.py
+  ?? scripts/run_final_code_audit.py
+  ?? scripts/run_monte_carlo_comparison.py
+  ?? scripts/run_paired_comparison.py
+  ?? scripts/run_phase_a_audit.py
+  ?? scripts/run_phase_a_benchmark_lightgbm.py
+  ?? scripts/run_phase_a_benchmark_mae.py
+  ?? scripts/run_phase_a_benchmark_sample_scan.py
+  ?? scripts/run_phase_b_probabilistic_audit.py
+  ?? scripts/run_phase_c_dependence_audit.py
+  ?? scripts/run_phase_c_dependence_contract_audit.py
+  ?? scripts/run_phase_f_sa_audit.py
+  ?? scripts/run_phase_f_time_limited_sa_benchmark.py
+  ?? scripts/run_phase_g_pipeline.py
+  ?? scripts/run_phase_g_timeline_semantics_audit.py
+  ?? scripts/run_post_holdout_evaluation.py
+  ?? scripts/run_probabilistic_benchmark.py
+  ?? scripts/run_probabilistic_stage1.py
+  ?? scripts/run_probabilistic_stage10_system_freeze.py
+  ?? scripts/run_probabilistic_stage11_final_holdout.py
+  ?? scripts/run_probabilistic_stage2.py
+  ?? scripts/run_probabilistic_stage3.py
+  ?? scripts/run_probabilistic_stage4_synthetic_recovery.py
+  ?? scripts/run_probabilistic_stage5.py
+  ?? scripts/run_probabilistic_stage6.py
+  ?? scripts/run_probabilistic_stage6_5_pruning.py
+  ?? scripts/run_probabilistic_stage7_5_joint_validation.py
+  ?? scripts/run_probabilistic_stage7_candidate_construction.py
+  ?? scripts/run_probabilistic_stage8_system_selection.py
+  ?? scripts/run_probabilistic_stage9_simulation.py
+  ?? src/audit/
+  ?? src/contracts/
+  ?? src/dependence/
+  ?? src/evaluation/algorithmic_stability.py
+  ?? src/evaluation/calibration.py
+  ?? src/evaluation/downstream_comparison.py
+  ?? src/evaluation/final_evaluation_guard.py
+  ?? src/evaluation/forecast_metrics.py
+  ?? src/evaluation/model_selection.py
+  ?? src/evaluation/monte_carlo_comparison.py
+  ?? src/evaluation/paired_comparison.py
+  ?? src/models/interfaces.py
+  ?? src/models/probabilistic/
+  ?? src/models/registry.py
+  ?? src/optimization/config.py
+  ?? src/optimization/domain.py
+  ?? src/optimization/evaluation.py
+  ?? src/optimization/sa/
+  ?? src/optimization/solvers/
+  ?? src/pipeline/
+  ?? src/simulation/aircraft_turn.py
+  ?? src/simulation/conflict_detector.py
+  ?? src/simulation/downstream_metrics.py
+  ?? src/simulation/gate_simulator.py
+  ?? src/simulation/scenario_runner.py
+  ?? src/simulation/turn_synthesis.py
+  ?? tests/benchmark/
+  ?? tests/contracts/
+  ?? tests/downstream/
+  ?? tests/evaluation/
+  ?? tests/probabilistic/
+  ?? tests/selection/
+  ?? tests/stability/
+  ?? tests/test_audit_provenance_guards.py
+  ?? tests/test_audit_stage10_freeze.py
+  ?? tests/test_audit_stage11_holdout.py
+  ?? tests/test_audit_stage8_selection.py
+  ?? tests/test_audit_stage9_downstream.py
+  ?? tests/test_convergence_statistics.py
+  ?? tests/test_cp_sat_solver.py
+  ?? tests/test_cross_contract_freeze_validation.py
+  ?? tests/test_day2_benchmarks.py
+  ?? tests/test_day3_carrier_ablation.py
+  ?? tests/test_day3_fold_diagnostics.py
+  ?? tests/test_day3_lightgbm_diagnostics.py
+  ?? tests/test_day3_lightgbm_runner.py
+  ?? tests/test_day_level_bootstrap.py
+  ?? tests/test_dependence_contract_consistency.py
+  ?? tests/test_dependence_hardening.py
+  ?? tests/test_development_end_to_end_benchmark.py
+  ?? tests/test_end_to_end_pipeline.py
+  ?? tests/test_final_evaluation_guard.py
+  ?? tests/test_greedy_and_adversarial.py
+  ?? tests/test_holdout_and_fold_guards.py
+  ?? tests/test_model_pairing.py
+  ?? tests/test_model_registry_and_contracts.py
+  ?? tests/test_monte_carlo_audit.py
+  ?? tests/test_nonzero_variance.py
+  ?? tests/test_objective_audit.py
+  ?? tests/test_optimization_benchmarks.py
+  ?? tests/test_optimization_domain.py
+  ?? tests/test_phase10_system_freeze.py
+  ?? tests/test_post_holdout_pipeline.py
+  ?? tests/test_probabilistic_stage0.py
+  ?? tests/test_probabilistic_stage1.py
+  ?? tests/test_probabilistic_stage10_system_freeze.py
+  ?? tests/test_probabilistic_stage11_final_holdout.py
+  ?? tests/test_probabilistic_stage2.py
+  ?? tests/test_probabilistic_stage3.py
+  ?? tests/test_probabilistic_stage4_correctness.py
+  ?? tests/test_probabilistic_stage5.py
+  ?? tests/test_probabilistic_stage6.py
+  ?? tests/test_probabilistic_stage6_5_pruning.py
+  ?? tests/test_probabilistic_stage7_5_joint_validation.py
+  ?? tests/test_probabilistic_stage7_system_candidates.py
+  ?? tests/test_probabilistic_stage8_selection.py
+  ?? tests/test_probabilistic_stage9_simulation.py
+  ?? tests/test_requested_n_is_evaluated.py
+  ?? tests/test_scenario_uniqueness.py
+  ?? tests/test_seed_reproducibility.py
+  ?? tests/test_simulated_annealing.py
+  ?? tests/test_simulation_pipeline.py
+  ?? tests/test_student_t_correctness.py
+  ?? tests/test_target_encoding.py
+  ?? tests/test_target_semantics.py
+  ?? tests/test_time_limited_sa_benchmark.py
+  ?? tests/test_timeline_semantics.py
+  ?? tests/test_unified_evaluation.py
+
+5. FULL GIT STATUS OUTPUT
+-------------------------
+On branch week5-model-parameters-export
+Your branch is up to date with 'origin/week5-model-parameters-export'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   scripts/run_phase_a_benchmark.py
+	modified:   src/data/preprocessing.py
+	modified:   src/data/stratified_loader.py
+	modified:   src/evaluation/__init__.py
+	modified:   src/features/refactored_features.py
+	modified:   src/features/tabular_features.py
+	modified:   src/models/baselines.py
+	modified:   src/optimization/__init__.py
+	modified:   tests/test_holdout_guard.py
+	modified:   tests/test_phase_a.py
+	modified:   tests/test_refactored_pipeline.py
+	modified:   tests/test_tabular_features.py
+	modified:   tests/test_temporal_split.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	PROJECT_SUMMARY.md
+	artifacts/audit/
+	artifacts/development_end_to_end/
+	artifacts/downstream_model_comparison/
+	artifacts/end_to_end/
+	artifacts/end_to_end_smoke/
+	artifacts/evaluation/
+	artifacts/final_code_audit/
+	artifacts/manifests/academic_model_selection_v1.json
+	artifacts/manifests/academic_model_selection_v1.sha256
+	artifacts/manifests/day3_carrier_ablation_v1.json
+	artifacts/manifests/day3_fold_diagnostics_v1.json
+	artifacts/manifests/day3_lightgbm_l1_ordinal_v1.json
+	artifacts/manifests/day3_lightgbm_l2_reduced_v1.json
+	artifacts/manifests/dependence_candidate_manifest_v1.json
+	artifacts/manifests/distribution_candidate_manifest_v1.json
+	artifacts/manifests/feature_manifest_arrival_v1_1.json
+	artifacts/manifests/feature_manifest_arrival_v1_2.json
+	artifacts/manifests/final_holdout_2024_evaluation_v1.json
+	artifacts/manifests/full_system_freeze_manifest_v1.json
+	artifacts/manifests/phase_a_benchmark_lightgbm_v1_1_fold4.json
+	artifacts/manifests/phase_a_benchmark_lightgbm_v1_1_per_fold.json
+	artifacts/manifests/phase_a_benchmark_mae_a1.json
+	artifacts/manifests/phase_a_benchmark_mae_a2.json
+	artifacts/manifests/phase_a_benchmark_mae_b1.json
+	artifacts/manifests/phase_a_benchmark_mae_b2.json
+	artifacts/manifests/phase_a_benchmark_mae_per_fold.json
+	artifacts/manifests/phase_a_benchmark_report_v1_1.json
+	artifacts/manifests/phase_a_benchmark_report_v1_2a.json
+	artifacts/manifests/phase_a_benchmark_report_v1_2b.json
+	artifacts/manifests/phase_a_benchmark_report_v1_tuned_control.json
+	artifacts/manifests/phase_a_benchmark_sample_150k.json
+	artifacts/manifests/phase_a_benchmark_sample_250k.json
+	artifacts/manifests/phase_a_benchmark_sample_250k_10seed.json
+	artifacts/manifests/phase_a_benchmark_sample_25k.json
+	artifacts/manifests/phase_a_benchmark_sample_75k.json
+	artifacts/manifests/phase_a_benchmark_sample_scan_selection.json
+	artifacts/manifests/probabilistic_protocol_v1.json
+	artifacts/manifests/probabilistic_stage1_baselines_summary_v1.json
+	artifacts/manifests/probabilistic_stage2_representation_ablation_v1.json
+	artifacts/manifests/probabilistic_stage3_distribution_ablation_v1.json
+	artifacts/manifests/probabilistic_stage4_synthetic_recovery_v1.json
+	artifacts/manifests/probabilistic_stage5_stability_v1.json
+	artifacts/manifests/probabilistic_stage6_5_pruning_v1.json
+	artifacts/manifests/probabilistic_stage6_forecast_evaluation_v1.json
+	artifacts/manifests/probabilistic_stage7_5_joint_validation_v1.json
+	artifacts/manifests/probabilistic_stage7_system_candidates_v1.json
+	artifacts/manifests/probabilistic_stage9_gate_simulation_v1.json
+	artifacts/manifests/representation_manifest_v1.json
+	artifacts/manifests/seed_manifest_v1.json
+	artifacts/manifests/selected_system_manifest_v1.json
+	artifacts/manifests/system_freeze_manifest.json
+	artifacts/manifests/system_freeze_manifest.sha256
+	artifacts/model_benchmark/
+	artifacts/monte_carlo_model_comparison/
+	artifacts/paired_comparison/
+	artifacts/post_holdout/
+	artifacts/probabilistic_benchmark/
+	artifacts/stability/
+	configs/academic_model_selection.yaml
+	configs/current_state.yaml
+	configs/seed_registry.yaml
+	docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md
+	docs/BAO_CAO_TIEN_TRINH_VA_KET_QUA_STEP_1_DEN_STEP_7.md
+	docs/BAO_CAO_TONG_KET_PHASE_E_F_G_H_OPTIMIZATION.md
+	docs/BAO_CAO_TONG_KET_PROBABILISTIC_CORE_ARRIVAL_STAGE_0_11.md
+	docs/CURRENT_STATE.md
+	docs/TONG_KET_TIEN_TRINH_PHASE_0_DEN_PHASE_11.md
+	docs/handover.md
+	docs/notes/
+	docs/superpowers/plans/2026-09-20-day2-objective-sample.md
+	docs/superpowers/plans/2026-09-20-day3-model-class-and-metrics.md
+	docs/superpowers/plans/2026-09-20-feature-gap-closure.md
+	scripts/audit_stage10_freeze.py
+	scripts/audit_stage11_holdout.py
+	scripts/audit_stage8_selection.py
+	scripts/audit_stage9_downstream.py
+	scripts/benchmark_cp_sat_solver.py
+	scripts/compare_cpsat_vs_greedy.py
+	scripts/generate_repair_baseline.py
+	scripts/generate_stage0_manifests.py
+	scripts/run_academic_model_selection.py
+	scripts/run_academic_point_benchmark.py
+	scripts/run_algorithmic_stability.py
+	scripts/run_day3_carrier_ablation.py
+	scripts/run_day3_fold_diagnostics.py
+	scripts/run_day3_lightgbm_diagnostics.py
+	scripts/run_development_end_to_end_benchmark.py
+	scripts/run_downstream_model_comparison.py
+	scripts/run_end_to_end_evaluation.py
+	scripts/run_final_code_audit.py
+	scripts/run_monte_carlo_comparison.py
+	scripts/run_paired_comparison.py
+	scripts/run_phase_a_audit.py
+	scripts/run_phase_a_benchmark_lightgbm.py
+	scripts/run_phase_a_benchmark_mae.py
+	scripts/run_phase_a_benchmark_sample_scan.py
+	scripts/run_phase_b_probabilistic_audit.py
+	scripts/run_phase_c_dependence_audit.py
+	scripts/run_phase_c_dependence_contract_audit.py
+	scripts/run_phase_f_sa_audit.py
+	scripts/run_phase_f_time_limited_sa_benchmark.py
+	scripts/run_phase_g_pipeline.py
+	scripts/run_phase_g_timeline_semantics_audit.py
+	scripts/run_post_holdout_evaluation.py
+	scripts/run_probabilistic_benchmark.py
+	scripts/run_probabilistic_stage1.py
+	scripts/run_probabilistic_stage10_system_freeze.py
+	scripts/run_probabilistic_stage11_final_holdout.py
+	scripts/run_probabilistic_stage2.py
+	scripts/run_probabilistic_stage3.py
+	scripts/run_probabilistic_stage4_synthetic_recovery.py
+	scripts/run_probabilistic_stage5.py
+	scripts/run_probabilistic_stage6.py
+	scripts/run_probabilistic_stage6_5_pruning.py
+	scripts/run_probabilistic_stage7_5_joint_validation.py
+	scripts/run_probabilistic_stage7_candidate_construction.py
+	scripts/run_probabilistic_stage8_system_selection.py
+	scripts/run_probabilistic_stage9_simulation.py
+	src/audit/
+	src/contracts/
+	src/dependence/
+	src/evaluation/algorithmic_stability.py
+	src/evaluation/calibration.py
+	src/evaluation/downstream_comparison.py
+	src/evaluation/final_evaluation_guard.py
+	src/evaluation/forecast_metrics.py
+	src/evaluation/model_selection.py
+	src/evaluation/monte_carlo_comparison.py
+	src/evaluation/paired_comparison.py
+	src/models/interfaces.py
+	src/models/probabilistic/
+	src/models/registry.py
+	src/optimization/config.py
+	src/optimization/domain.py
+	src/optimization/evaluation.py
+	src/optimization/sa/
+	src/optimization/solvers/
+	src/pipeline/
+	src/simulation/aircraft_turn.py
+	src/simulation/conflict_detector.py
+	src/simulation/downstream_metrics.py
+	src/simulation/gate_simulator.py
+	src/simulation/scenario_runner.py
+	src/simulation/turn_synthesis.py
+	tests/benchmark/
+	tests/contracts/
+	tests/downstream/
+	tests/evaluation/
+	tests/probabilistic/
+	tests/selection/
+	tests/stability/
+	tests/test_audit_provenance_guards.py
+	tests/test_audit_stage10_freeze.py
+	tests/test_audit_stage11_holdout.py
+	tests/test_audit_stage8_selection.py
+	tests/test_audit_stage9_downstream.py
+	tests/test_convergence_statistics.py
+	tests/test_cp_sat_solver.py
+	tests/test_cross_contract_freeze_validation.py
+	tests/test_day2_benchmarks.py
+	tests/test_day3_carrier_ablation.py
+	tests/test_day3_fold_diagnostics.py
+	tests/test_day3_lightgbm_diagnostics.py
+	tests/test_day3_lightgbm_runner.py
+	tests/test_day_level_bootstrap.py
+	tests/test_dependence_contract_consistency.py
+	tests/test_dependence_hardening.py
+	tests/test_development_end_to_end_benchmark.py
+	tests/test_end_to_end_pipeline.py
+	tests/test_final_evaluation_guard.py
+	tests/test_greedy_and_adversarial.py
+	tests/test_holdout_and_fold_guards.py
+	tests/test_model_pairing.py
+	tests/test_model_registry_and_contracts.py
+	tests/test_monte_carlo_audit.py
+	tests/test_nonzero_variance.py
+	tests/test_objective_audit.py
+	tests/test_optimization_benchmarks.py
+	tests/test_optimization_domain.py
+	tests/test_phase10_system_freeze.py
+	tests/test_post_holdout_pipeline.py
+	tests/test_probabilistic_stage0.py
+	tests/test_probabilistic_stage1.py
+	tests/test_probabilistic_stage10_system_freeze.py
+	tests/test_probabilistic_stage11_final_holdout.py
+	tests/test_probabilistic_stage2.py
+	tests/test_probabilistic_stage3.py
+	tests/test_probabilistic_stage4_correctness.py
+	tests/test_probabilistic_stage5.py
+	tests/test_probabilistic_stage6.py
+	tests/test_probabilistic_stage6_5_pruning.py
+	tests/test_probabilistic_stage7_5_joint_validation.py
+	tests/test_probabilistic_stage7_system_candidates.py
+	tests/test_probabilistic_stage8_selection.py
+	tests/test_probabilistic_stage9_simulation.py
+	tests/test_requested_n_is_evaluated.py
+	tests/test_scenario_uniqueness.py
+	tests/test_seed_reproducibility.py
+	tests/test_simulated_annealing.py
+	tests/test_simulation_pipeline.py
+	tests/test_student_t_correctness.py
+	tests/test_target_encoding.py
+	tests/test_target_semantics.py
+	tests/test_time_limited_sa_benchmark.py
+	tests/test_timeline_semantics.py
+	tests/test_unified_evaluation.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+6. PROVENANCE & CHANGE SEPARATION
+---------------------------------
+User Changes:
+  - Base branch commit: c99b3e84b403527bcfb0f9612a1e2737c9f63701 (Week 5 tuned parameters export)
+  - 13 modified unstaged files in source/test tree (features, preprocessing, test guards)
+Agent Changes:
+  - Phase 0-11 research artifacts, test additions, evaluation manifests, and reports
+  - Preserved in place without deletion, checkout, or reset

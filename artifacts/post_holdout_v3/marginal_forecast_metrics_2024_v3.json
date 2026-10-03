@@ -1,0 +1,76 @@
+{
+  "evaluation_role": "POST_HOLDOUT",
+  "holdout_year": 2024,
+  "freeze_version": "v3",
+  "n_samples": 5000,
+  "created_at_utc": "2026-10-02T11:15:55.170151+00:00",
+  "freeze_manifest_v3_sha256": "0144ea3ffb73039c070dac4c7f0a410995e755d973f300289651ffa4be30020c",
+  "metrics": {
+    "schedule_only": {
+      "model_id": "schedule_only",
+      "role": "baseline",
+      "point_mae": 23.3776,
+      "point_rmse": 52.6527,
+      "r2": -0.0079,
+      "severe_delay_mae_ge_60": 147.6545,
+      "capability_status": "POINT_FORECAST_ONLY"
+    },
+    "arrival_linear_baseline_v1": {
+      "model_id": "arrival_linear_baseline_v1",
+      "role": "point_model",
+      "point_mae": 22.9125,
+      "point_rmse": 52.7226,
+      "r2": -0.0106,
+      "severe_delay_mae_ge_60": 146.8507,
+      "capability_status": "POINT_FORECAST_ONLY"
+    },
+    "arrival_xgboost_baseline_v1": {
+      "model_id": "arrival_xgboost_baseline_v1",
+      "role": "point_model",
+      "point_mae": 24.2886,
+      "point_rmse": 55.5362,
+      "r2": -0.1213,
+      "severe_delay_mae_ge_60": 142.2209,
+      "capability_status": "POINT_FORECAST_ONLY"
+    },
+    "arrival_weighted_ensemble_v1": {
+      "model_id": "arrival_weighted_ensemble_v1",
+      "role": "point_model",
+      "point_mae": 23.3175,
+      "point_rmse": 53.2867,
+      "r2": -0.0323,
+      "severe_delay_mae_ge_60": 144.5358,
+      "capability_status": "POINT_FORECAST_ONLY"
+    },
+    "P5_quantile_regression": {
+      "model_id": "P5_quantile_regression",
+      "role": "probabilistic_forecast_champion",
+      "point_mae": 21.6879,
+      "point_rmse": 53.7388,
+      "r2": -0.0499,
+      "crps": 16.7675,
+      "nll": "NOT_AVAILABLE",
+      "brier_score_ge_15": "NOT_AVAILABLE",
+      "mean_pinball_loss": 6.8204,
+      "coverage_80": 0.7424,
+      "coverage_90": 0.8514,
+      "capability_status": "APPROVED_FORECAST_ONLY",
+      "sampling_status": "NOT_SUPPORTED"
+    },
+    "P4_ngboost_student_t": {
+      "model_id": "P4_ngboost_student_t",
+      "role": "downstream_candidate",
+      "point_mae": 21.9664,
+      "point_rmse": 54.2237,
+      "r2": -0.0689,
+      "crps": 17.6532,
+      "nll": 4.6307,
+      "brier_score_ge_15": 0.1552,
+      "mean_pinball_loss": 7.6585,
+      "coverage_80": 0.761,
+      "coverage_90": 0.8438,
+      "capability_status": "APPROVED_DOWNSTREAM_ELIGIBLE",
+      "sampling_status": "SUPPORTED_CONTINUOUS_PARAMETRIC"
+    }
+  }
+}

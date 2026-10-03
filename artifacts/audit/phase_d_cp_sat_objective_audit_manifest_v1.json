@@ -1,0 +1,99 @@
+{
+  "manifest_version": "phase_d_cp_sat_objective_audit_manifest_v1",
+  "step": "STEP_2_CP_SAT_OBJECTIVE_AUDIT",
+  "status": "PASS",
+  "protocol_reference": "docs/roadmap/01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V4_DONG_BO.md - Section 4",
+  "objective_terms_classification": {
+    "reassignment_cost": {
+      "classification": "DECISION_DEPENDENT",
+      "decision_variable": "x[f, g] for g != nominal_gate_id",
+      "changes_with_decisions": true,
+      "weight_name": "reassignment_weight",
+      "configured_weight": 10.0,
+      "unit": "penalty units per reassigned flight"
+    },
+    "overflow_cost": {
+      "classification": "DECISION_DEPENDENT",
+      "decision_variable": "x[f, g_overflow]",
+      "changes_with_decisions": true,
+      "weight_name": "overflow_weight",
+      "configured_weight": 200.0,
+      "unit": "penalty units per overflow/remote apron flight"
+    },
+    "conflict_cost": {
+      "classification": "DECISION_DEPENDENT",
+      "decision_variable": "x[f1, g] * x[f2, g] for overlapping windows on contact gates",
+      "changes_with_decisions": true,
+      "cp_sat_enforcement": "Enforced as hard mutual exclusion (x[f1, g] + x[f2, g] <= 1), strictly 0 in all feasible solutions",
+      "weight_name": "conflict_weight",
+      "configured_weight": 1000.0,
+      "unit": "penalty units per conflict pair"
+    },
+    "delay_cost": {
+      "classification": "CONSTANT_REPORTING",
+      "decision_variable": null,
+      "changes_with_decisions": false,
+      "mathematical_proof": "Exogenous arrival delay is property of flight. Since sum_g x[f, g] = 1, sum_g (delay_f) * x[f, g] = delay_f (invariant constant)",
+      "weight_name": "delay_weight",
+      "configured_weight": 1.0,
+      "unit": "penalty units per delay hour"
+    },
+    "risk_cost": {
+      "classification": "CONSTANT_REPORTING",
+      "decision_variable": null,
+      "changes_with_decisions": false,
+      "mathematical_proof": "Turnaround duration and slack (stay - min_turnaround) depend strictly on schedule and arrival time, invariant to gate assignment",
+      "weight_name": "risk_weight",
+      "configured_weight": 2.0,
+      "unit": "penalty units for tight turnaround buffer slack (<15 min)"
+    }
+  },
+  "micro_test_results": {
+    "test_description": "2 flights with identical arrival delays (20m, 10m) evaluated across 3 distinct feasible assignments",
+    "plan_A_nominal": {
+      "assignment": {"FL001": "G_01", "FL002": "G_02"},
+      "reassignment_cost": 0.0,
+      "overflow_cost": 0.0,
+      "delay_cost": 0.5,
+      "risk_cost": 3.333333333333333,
+      "conflict_cost": 0.0,
+      "decision_cost": 0.0,
+      "reporting_cost": 3.833333333333333,
+      "total_cost": 3.833333333333333
+    },
+    "plan_B_swapped": {
+      "assignment": {"FL001": "G_02", "FL002": "G_01"},
+      "reassignment_cost": 20.0,
+      "overflow_cost": 0.0,
+      "delay_cost": 0.5,
+      "risk_cost": 3.333333333333333,
+      "conflict_cost": 0.0,
+      "decision_cost": 20.0,
+      "reporting_cost": 3.833333333333333,
+      "total_cost": 23.833333333333332
+    },
+    "plan_C_overflow": {
+      "assignment": {"FL001": "G_01", "FL002": "OVERFLOW_APRON"},
+      "reassignment_cost": 10.0,
+      "overflow_cost": 200.0,
+      "delay_cost": 0.5,
+      "risk_cost": 3.333333333333333,
+      "conflict_cost": 0.0,
+      "decision_cost": 210.0,
+      "reporting_cost": 3.833333333333333,
+      "total_cost": 213.83333333333334
+    }
+  },
+  "solver_evaluator_agreement": {
+    "solver_status": "OPTIMAL",
+    "solver_objective_value": 3.833333333333333,
+    "evaluator_objective_value": 3.833333333333333,
+    "difference": 0.0,
+    "agreement_status": "EXACT_PARITY"
+  },
+  "regression_tests": [
+    "tests/test_objective_audit.py::test_micro_test_decision_dependent_vs_constant_reporting_terms",
+    "tests/test_objective_audit.py::test_solver_objective_and_common_evaluator_agree",
+    "tests/test_objective_audit.py::test_weights_and_units_explicit_in_config"
+  ]
+}

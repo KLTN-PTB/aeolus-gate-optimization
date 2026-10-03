@@ -1,0 +1,165 @@
+{
+  "manifest_version": "r20_freeze_manifest_v1",
+  "task_id": "R20_PROVENANCE_AND_FREEZE_AUDIT",
+  "created_at_utc": "2026-10-02T10:24:13.439722+00:00",
+  "freeze_status": "SYSTEM_FROZEN_V3",
+  "total_components": 17,
+  "frozen_components": 17,
+  "blocked_components": 0,
+  "components": [
+    {
+      "component": "1. data_split",
+      "status": "FROZEN",
+      "source_file": "src/data/stratified_loader.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "cfe6dccb55e807429236f4e689c0d889ac01c42bb9f536a048658046fe304594",
+      "data_hash": "cfb308b8c3fd8e7de0081821bd544fc4738e9a60497627e4020198c3980b4514",
+      "notes": "Rolling 2016-2022, selection 2023, holdout 2024; monthly stratified sampling with fixed seed 202601."
+    },
+    {
+      "component": "2. feature_definition",
+      "status": "FROZEN",
+      "source_file": "src/features/refactored_features.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "1457c6e65c16a10be42ac6cfc3ed3f24419b328fec00bb19481683b24565978a",
+      "data_hash": "2e280c5942e5afe42c94fc147eae3eff0e52cf0897b2cdd76a816daccd72f465",
+      "notes": "11 approved features; zero weather, departure delay, or operational leakage."
+    },
+    {
+      "component": "3. target_definition",
+      "status": "FROZEN",
+      "source_file": "src/data/preprocessing.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "v4_target_semantics_core_arrival",
+      "data_hash": "b1c417750b5c9067c58fc1933e097bf8d4cd795266ed1168f680079d83594d2b",
+      "notes": "DEST=ATL; y_arr_cls = 1[ARR_DELAY >= 15]; y_arr_reg = signed ARR_DELAY."
+    },
+    {
+      "component": "4. cutoff_logic",
+      "status": "FROZEN",
+      "source_file": "src/features/tabular_features.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "v4_cutoff_t_minus_2h",
+      "data_hash": "33d2e08b37058032764cd6968021542aeca3aa68268bf9525bf878e217234418",
+      "notes": "Strict preflight cutoff at CRS_DEP_TIME - 2 hours."
+    },
+    {
+      "component": "5. model_registry",
+      "status": "FROZEN",
+      "source_file": "src/models/registry.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "782a59f639d9c1a1b4626e9920ebd8469ac9edf04121fa164f5952778421be8f",
+      "data_hash": "0a07a9237fdfa9bc1aaccf5fdfd4eab0b2e82acb90b2ecd49450c6c99174df30",
+      "notes": "Max 5 core point methods (Linear, RF, HGB, XGB, Ensemble) + P1-P5 probabilistic evidence layer."
+    },
+    {
+      "component": "6. hyperparameter_configs",
+      "status": "FROZEN",
+      "source_file": "configs/academic_model_selection.yaml",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "4289b046873c0bcdc596321aee8d3bb0ce3632c570e0e61fa2539345f09fdbcf",
+      "data_hash": "425cdc64ea2a20e016ec619dd677198cb68e8282640e3923bd52ad0d91c9bd61",
+      "notes": "Pre-registered hyperparameters across all candidate models."
+    },
+    {
+      "component": "7. preprocessing",
+      "status": "FROZEN",
+      "source_file": "src/data/preprocessing.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "v4_preprocessing_standard_scaler_one_hot",
+      "data_hash": "b1c417750b5c9067c58fc1933e097bf8d4cd795266ed1168f680079d83594d2b",
+      "notes": "Fit strictly on training window partitions; zero validation or holdout leakage."
+    },
+    {
+      "component": "8. oof_generation",
+      "status": "FROZEN",
+      "source_file": "src/evaluation/model_benchmark_runner.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "782a59f639d9c1a1b4626e9920ebd8469ac9edf04121fa164f5952778421be8f",
+      "data_hash": "6fd556570082c16ac4480a7cca8bc4d0551f3ab541c9d68337cfaf259bb62454",
+      "notes": "Expanding-window rolling folds 1-4 generating out-of-fold predictions."
+    },
+    {
+      "component": "9. model_selection_logic",
+      "status": "FROZEN",
+      "source_file": "src/evaluation/model_selection.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "425cdc64ea2a20e016ec619dd677198cb68e8282640e3923bd52ad0d91c9bd61",
+      "data_hash": "38981b63da5bdd2cd0819b2d8835a5cd137c6d3d4e6a7e3ae459fac6314f80fb",
+      "notes": "Three distinct roles: Role A (Point), Role B (Quantile Risk), Role C (Downstream Simulation)."
+    },
+    {
+      "component": "10. probabilistic_metric_definitions",
+      "status": "FROZEN",
+      "source_file": "src/evaluation/forecast_metrics.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "2b8a69cbec8302ad81920222686f9b2e81083b17177f476bc9669931ddf1bb63",
+      "data_hash": "719b57d95bb02ec010a189d3e49547d4744140467e4cdefdecb99e6085ce7b77",
+      "notes": "NLL restricted to densities; PIT restricted to continuous CDFs; CRPS approximation explicitly labeled."
+    },
+    {
+      "component": "11. downstream_semantics",
+      "status": "FROZEN",
+      "source_file": "src/evaluation/downstream_comparison_v2.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "e998cb3775d59d1841d18d3fdc1ba8e4866360545d57ab204b8e8424d38d7dfb",
+      "data_hash": "a258616b25f29a79b3922171c9ce670e3a0b87315471ae3ea0f77a4397d64da7",
+      "notes": "Scalar Forecast Impact Benchmark semantics locked; unassigned != remote != contact."
+    },
+    {
+      "component": "12. optimizer_semantics",
+      "status": "FROZEN",
+      "source_file": "src/optimization/solvers/cp_sat_solver.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "0630b8febc47312a107810e81297a19eff9def35e2c19f6c55f79ab64d4b97f0",
+      "data_hash": "668216f37881b5c3a663e21bb5e321d206abfaee98b50f0dff30c1eff4ffcda3",
+      "notes": "CP-SAT exact formulation; Greedy benchmark; SA warm-start post-search."
+    },
+    {
+      "component": "13. statistical_runner",
+      "status": "FROZEN",
+      "source_file": "scripts/run_paired_comparison.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "250501372d1da6122cd2467544b3252fc238f19644bbe5516e7eaaf854fa05d3",
+      "data_hash": "feb9077567a653698d4d5a222f47892cb518618c0d37273b8b3b00a10eeaeca6",
+      "notes": "Holm-Bonferroni FWER control across 48 families; Day-cluster bootstrap over FL_DATE."
+    },
+    {
+      "component": "14. monte_carlo_configuration",
+      "status": "FROZEN",
+      "source_file": "configs/monte_carlo_protocol_v2.yaml",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "85a1a360dc6dc59bcea0eb957462a9730258e47239a60e6801529f4d453a3dfc",
+      "data_hash": "f40f46623f998c6649aa76d24372f6f32d410614ee9d7319eeed746c4142b787",
+      "notes": "N=500 scenarios; seed 202603; antithetic sampling; standard error monitoring."
+    },
+    {
+      "component": "15. seed_policy",
+      "status": "FROZEN",
+      "source_file": "configs/seed_registry.yaml",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "798ecc5abfebb1fb11e0ab6db76962f5e9f78bf516d2f5e64edded6d895f0ff9",
+      "data_hash": "b796e738f1291d9d1b6036292cef1aef04051e8ca4a8567bfb1a7e81f72055fc",
+      "notes": "Fixed seeds: screening=202601, deployment=202602, outer=202603."
+    },
+    {
+      "component": "16. artifact_naming",
+      "status": "FROZEN",
+      "source_file": "artifacts/manifests/",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "v2_artifact_hierarchy_frozen",
+      "data_hash": "e2024078feef585924c67f9be2cf2e63950d52eb2b1b158efe0d5b8e38223e53",
+      "notes": "Versioned v2 naming conventions; SHA256 sidecars; manifest catalog."
+    },
+    {
+      "component": "17. provenance_checks",
+      "status": "FROZEN",
+      "source_file": "src/audit/provenance.py",
+      "git_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+      "config_hash": "5764b5fda8d88c30d21dcf38d205ec94d02a14fc2ad5da42b8abca366377c2b5",
+      "data_hash": "7671fb9bb473e564e814b9ef5f54e665a171c27485b509b124fbb2c61cb9527a",
+      "notes": "Fail-closed provenance verification; anti-stale artifact guard active."
+    }
+  ],
+  "governance_rule": "All 17 result-affecting components are frozen. Under R21 targeted rebuild, zero retuning, zero hyperparameter modifications, zero threshold adjustments, and zero downstream semantic changes are permitted."
+}

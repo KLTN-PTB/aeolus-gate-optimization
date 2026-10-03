@@ -1,0 +1,124 @@
+{
+  "report_version": "target_semantics_verification_v1",
+  "verified_target_name": "ARR_DELAY",
+  "development_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "total_records_inspected": 2380527,
+  "overall_integer_semantics_confirmed": true,
+  "per_year_semantics": [
+    {
+      "year": 2016,
+      "count": 381166,
+      "dtype": "float64",
+      "min_val": -91.0,
+      "max_val": 1439.0,
+      "mean_val": 0.011079162359706794,
+      "std_val": 45.92987083798348,
+      "non_zero_fractional_count": 0,
+      "fractional_rate": 0.0,
+      "unique_fractional_samples": [
+        0.0
+      ],
+      "is_strictly_integer_minute": true
+    },
+    {
+      "year": 2017,
+      "count": 358263,
+      "dtype": "float64",
+      "min_val": -202.0,
+      "max_val": 1810.0,
+      "mean_val": 1.7848145077778057,
+      "std_val": 50.63670075439858,
+      "non_zero_fractional_count": 0,
+      "fractional_rate": 0.0,
+      "unique_fractional_samples": [
+        0.0
+      ],
+      "is_strictly_integer_minute": true
+    },
+    {
+      "year": 2018,
+      "count": 386580,
+      "dtype": "float64",
+      "min_val": -79.0,
+      "max_val": 2108.0,
+      "mean_val": 2.9128485695069584,
+      "std_val": 46.63553134522102,
+      "non_zero_fractional_count": 0,
+      "fractional_rate": 0.0,
+      "unique_fractional_samples": [
+        0.0
+      ],
+      "is_strictly_integer_minute": true
+    },
+    {
+      "year": 2019,
+      "count": 391075,
+      "dtype": "float64",
+      "min_val": -76.0,
+      "max_val": 1464.0,
+      "mean_val": 0.9968139103752477,
+      "std_val": 45.40346859132105,
+      "non_zero_fractional_count": 0,
+      "fractional_rate": 0.0,
+      "unique_fractional_samples": [
+        0.0
+      ],
+      "is_strictly_integer_minute": true
+    },
+    {
+      "year": 2020,
+      "count": 242121,
+      "dtype": "float64",
+      "min_val": -71.0,
+      "max_val": 1451.0,
+      "mean_val": -4.890009540684203,
+      "std_val": 36.48865281606457,
+      "non_zero_fractional_count": 0,
+      "fractional_rate": 0.0,
+      "unique_fractional_samples": [
+        0.0
+      ],
+      "is_strictly_integer_minute": true
+    },
+    {
+      "year": 2021,
+      "count": 309621,
+      "dtype": "float64",
+      "min_val": -67.0,
+      "max_val": 1937.0,
+      "mean_val": -2.224619777082304,
+      "std_val": 42.08948068372616,
+      "non_zero_fractional_count": 0,
+      "fractional_rate": 0.0,
+      "unique_fractional_samples": [
+        0.0
+      ],
+      "is_strictly_integer_minute": true
+    },
+    {
+      "year": 2022,
+      "count": 311701,
+      "dtype": "float64",
+      "min_val": -86.0,
+      "max_val": 1303.0,
+      "mean_val": 3.3481317031385847,
+      "std_val": 51.4009147111443,
+      "non_zero_fractional_count": 0,
+      "fractional_rate": 0.0,
+      "unique_fractional_samples": [
+        0.0
+      ],
+      "is_strictly_integer_minute": true
+    }
+  ],
+  "methodological_conclusion": "Empirical target semantics across all 2016-2022 development partitions confirm that ARR_DELAY is 100.0% integer-minute valued (zero non-zero fractional values out of 2.3+ million records). The discrete integer formulation P(Y = y) = F_cont(y + 0.5) - F_cont(y - 0.5) is the scientifically justified primary observation model, with continuous modeling preserved as a registered comparative baseline.",
+  "discrete_quantization_convention": "Unit bin [y - 0.5, y + 0.5] for all y in Z"
+}

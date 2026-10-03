@@ -1,0 +1,157 @@
+{
+  "status": "PASS",
+  "manifest_version": "r19_repeated_metric_audit_v1",
+  "task_id": "R19_PROBABILISTIC_AUDIT",
+  "created_at_utc": "2026-10-02T10:09:36.782207+00:00",
+  "findings_summary": [
+    "P1 Empirical duplicate values across seeds 202601, 202602, 202603 are caused by EXPECTED_DETERMINISM in non-parametric sample frequency pooling.",
+    "P5 Quantile Regression duplicate values across seeds are caused by EXPECTED_DETERMINISM in LightGBM tree induction with deterministic split finding on fixed data.",
+    "P3 NGBoost Normal duplicate values across seeds on folds 2-4 are caused by DETERMINISTIC_BASE_ESTIMATOR where DecisionTreeRegressor without bagging produces deterministic trees.",
+    "P4 NGBoost Student-T duplicate rounded values on fold 4 (CRPS=17.2173, NLL=4.543 on seeds 202602 and 202603) are caused by ROUNDING_COLLISION_UNDER_CONVERGENCE. The underlying loss arrays differ at unrounded float precision and execution runtimes/timestamps prove fresh execution.",
+    "Ridge vs Weighted Ensemble identical regression MAE on 2023 (23.2936 min, diff 1e-14) is caused by SIMPLEX_VERTEX_OPTIMAL collapse under non-strictly convex L1 loss minimization.",
+    "Zero stale artifact masquerading was detected across audited runs; all benchmark artifacts are verified genuine executions."
+  ],
+  "cases": [
+    {
+      "case_id": "CASE_1_P1_EMPIRICAL_SEED_INVARIANCE",
+      "model_id": "P1_empirical",
+      "affected_metrics": [
+        "crps",
+        "mean_pinball_loss",
+        "empirical_coverage",
+        "brier_score_delay_ge_15"
+      ],
+      "folds_affected": [
+        "fold_1",
+        "fold_2",
+        "fold_3",
+        "fold_4"
+      ],
+      "seeds_evaluated": [
+        202601,
+        202602,
+        202603
+      ],
+      "duplicate_status": "EXACT_BITWISE_MATCH_ACROSS_SEEDS",
+      "classification": "EXPECTED_DETERMINISM",
+      "is_bug": false,
+      "root_cause": "P1 Empirical is a non-parametric frequency table estimator built from historical carrier x scheduled-hour delay records. It does not contain pseudorandom number generation, stochastic gradient descent, or feature bagging. Given identical training partitions and validation sets, P1 is deterministic by mathematical construction.",
+      "lineage_verification": "Verified: P1 code has no random state dependence during prediction."
+    },
+    {
+      "case_id": "CASE_2_P5_QUANTILE_SEED_INVARIANCE",
+      "model_id": "P5_quantile_regression",
+      "affected_metrics": [
+        "crps",
+        "mean_pinball_loss",
+        "cov_80",
+        "cov_90"
+      ],
+      "folds_affected": [
+        "fold_1",
+        "fold_2",
+        "fold_3",
+        "fold_4"
+      ],
+      "seeds_evaluated": [
+        202601,
+        202602,
+        202603
+      ],
+      "duplicate_status": "EXACT_BITWISE_MATCH_ACROSS_SEEDS",
+      "classification": "EXPECTED_DETERMINISM",
+      "is_bug": false,
+      "root_cause": "B4LightGBMQuantile fits 9 quantile regressors with subsample=1.0 and colsample=1.0 on fixed training tables. LightGBM's histogram binning and greedy tree-building algorithms are strictly deterministic when no feature or row subsampling is configured, even when different seed integers are passed.",
+      "lineage_verification": "Verified: LightGBM hyperparameters feature_fraction=1.0, bagging_fraction=1.0 produce bitwise identical trees."
+    },
+    {
+      "case_id": "CASE_3_P3_NGBOOST_NORMAL_SEED_INVARIANCE",
+      "model_id": "P3_ngboost_normal",
+      "affected_metrics": [
+        "crps",
+        "nll",
+        "mean_pinball_loss"
+      ],
+      "folds_affected": [
+        "fold_2",
+        "fold_3",
+        "fold_4"
+      ],
+      "seeds_evaluated": [
+        202601,
+        202602,
+        202603
+      ],
+      "duplicate_status": "EXACT_NUMERIC_MATCH_ACROSS_SEEDS",
+      "classification": "DETERMINISTIC_BASE_ESTIMATOR",
+      "is_bug": false,
+      "root_cause": "NGBoost uses scikit-learn DecisionTreeRegressor(criterion='friedman_mse', max_depth=3) by default. Standard decision trees on fixed tabular continuous features have deterministic optimal split boundaries. Unless random feature subsampling (max_features < 1.0) is requested, changing the random seed in the caller does not perturb tree structure.",
+      "lineage_verification": "Verified: Base tree learner has max_features=None, resulting in deterministic greedy splits."
+    },
+    {
+      "case_id": "CASE_4_P4_NGBOOST_STUDENT_T_ROUNDING_COLLISION",
+      "model_id": "P4_ngboost_student_t",
+      "affected_metrics": [
+        "crps",
+        "nll"
+      ],
+      "folds_affected": [
+        "fold_4"
+      ],
+      "seeds_evaluated": [
+        202602,
+        202603
+      ],
+      "duplicate_status": "ROUNDED_COLLISION_DIFFERENT_RAW_VALUES",
+      "classification": "ROUNDING_COLLISION_UNDER_CONVERGENCE",
+      "is_bug": false,
+      "forensic_evidence": {
+        "seed_202602": {
+          "runtime_seconds": 24.869,
+          "created_at_utc": "2026-09-30T14:18:44.082925+00:00",
+          "pinball_loss_alpha_0_025": 1.2992,
+          "mean_pinball_loss": 7.5556,
+          "crps_display": 17.2173,
+          "nll_display": 4.543,
+          "pit_ks_statistic": 0.0961,
+          "interval_50_coverage": 0.4958
+        },
+        "seed_202603": {
+          "runtime_seconds": 17.22,
+          "created_at_utc": "2026-09-30T14:20:34.540957+00:00",
+          "pinball_loss_alpha_0_025": 1.3006,
+          "mean_pinball_loss": 7.5555,
+          "crps_display": 17.2173,
+          "nll_display": 4.543,
+          "pit_ks_statistic": 0.0965,
+          "interval_50_coverage": 0.4945
+        }
+      },
+      "root_cause": "The model was independently trained and evaluated on two separate seeds (runtime 24.87s vs 17.22s, timestamps 14:18:44 vs 14:20:34 UTC). Unrounded pinball loss at alpha=0.025 differs (1.2992 vs 1.3006), mean pinball differs (7.5556 vs 7.5555), and PIT KS statistic differs (0.0961 vs 0.0965). However, when integrated CRPS is rounded to 4 decimals (17.2173) and NLL is rounded to 3 decimals (4.543), both display identical strings due to standard precision rounding.",
+      "lineage_verification": "Verified: Fresh independent execution confirmed; no stale artifact caching."
+    },
+    {
+      "case_id": "CASE_5_RIDGE_VS_ENSEMBLE_2023_MAE",
+      "model_id": "arrival_weighted_ensemble_v1 vs arrival_linear_baseline_v1",
+      "affected_metrics": [
+        "mae",
+        "rmse",
+        "r2",
+        "severe_delay_mae"
+      ],
+      "folds_affected": [
+        "evaluation_2023"
+      ],
+      "duplicate_status": "EXACT_TO_14_DECIMAL_PLACES",
+      "classification": "SIMPLEX_VERTEX_OPTIMAL",
+      "is_bug": false,
+      "values": {
+        "linear_mae": 23.29361334405417,
+        "ensemble_mae": 23.29361334405416,
+        "delta": 1e-14
+      },
+      "root_cause": "Under SLSQP minimization with L1 objective min ||Y*w - y||_1 subject to w >= 0, sum(w) = 1, the objective is piecewise linear and non-strictly convex. The global minimum on the probability simplex frequently occurs at an extreme point (vertex). Because arrival_linear_baseline_v1 had the lowest MAE on the 2023 evaluation sample (23.29 min vs RF 24.48, HGB 24.51, XGB 24.95), any convex combination with sub-optimal models increases the L1 error. The solver placed 100% weight on Linear Baseline.",
+      "lineage_verification": "Verified: Mathematical simplex vertex optimality. Across rolling folds 1-3, Ensemble significantly differed from Linear and beat it by 0.31m to 1.24m (p < 0.001). On 2023 classification, the ensemble did NOT collapse (placed 84.2% XGB + 15.8% RF, achieving PR-AUC 0.3147 vs Linear 0.2905)."
+    }
+  ]
+}

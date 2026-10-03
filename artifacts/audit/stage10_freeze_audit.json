@@ -1,0 +1,96 @@
+{
+  "stage_id": "STAGE_10_FULL_SYSTEM_FREEZE",
+  "audit_status": "INCOMPLETE_OR_INCONSISTENT",
+  "all_step7_components_verified": false,
+  "component_audit": {
+    "feature_manifest": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "representation": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "preprocessing": {
+      "present": true,
+      "status": "PARTIALLY_SPECIFIED_NO_HASH"
+    },
+    "model_family": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "architecture": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "weights_hash": {
+      "present": true,
+      "match": true,
+      "status": "VERIFIED"
+    },
+    "training_policy": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "seed": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "calibration": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "distribution": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "dependence_family": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "dependence_parameters": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "sampling_procedure": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "mc_count": {
+      "present": true,
+      "status": "VERIFIED"
+    },
+    "simulation_config": {
+      "present": true,
+      "status": "MISMATCHED_WITH_EXECUTION_CODE"
+    },
+    "optimization_config": {
+      "present": true,
+      "status": "MISMATCHED_WITH_EXECUTION_CODE"
+    },
+    "git_commit_hash": {
+      "present": false,
+      "status": "MISSING"
+    }
+  },
+  "model_weights_sha256_verified": true,
+  "git_commit_hash_recorded": false,
+  "simulation_config_alignment": false,
+  "optimization_config_alignment": false,
+  "missing_critical_hashes": [
+    "source::src/data/stratified_loader.py"
+  ],
+  "audit_findings": [
+    "CRITICAL: Git commit hash is NOT recorded in full_system_freeze_manifest_v1.json. Stage 8-11 files were uncommitted/untracked.",
+    "INCOMPLETE: item_03_preprocessing declares class name but lacks code hash and fitted scaler checkpoint hash.",
+    "WARNING: Data loader 'src/data/stratified_loader.py' hash is missing from the 16 recorded artifact hashes.",
+    "CRITICAL INCONSISTENCY: Simulation & Optimization configuration mismatch! The freeze manifest records reassignment_penalty=10.0 and overflow_penalty=1000.0, while both Stage 9 and Stage 11 execution scripts ran with reassignment_penalty=1.0 and overflow_penalty=100.0!"
+  ],
+  "provenance_chain": {
+    "freeze_manifest_path": "D:/Study/Code/Python/Aelous/artifacts/manifests/full_system_freeze_manifest_v1.json",
+    "weights_path": "D:/Study/Code/Python/Aelous/artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+    "weights_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+    "system_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+    "frozen_at_utc": "2026-09-27T11:52:15.181370+00:00"
+  }
+}

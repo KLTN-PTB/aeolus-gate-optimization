@@ -1,0 +1,74 @@
+{
+  "audit_name": "final_execution_summary_v5",
+  "task_id": "R37_FINAL_CERTIFICATION_V5",
+  "created_at_utc": "2026-10-03T10:03:31.111378+00:00",
+  "total_research_runs": 336,
+  "total_development_runs": 224,
+  "fresh_rebuilt_development_runs": 124,
+  "reused_development_runs": 100,
+  "statistical_inference_families": 48,
+  "fresh_solver_equal_compute_runs": 112,
+  "cache_hits": 0,
+  "failures": 0,
+  "unclassified_runs": 0,
+  "phase_results": {
+    "R25_POINT_SELECTION_CONSISTENCY": {
+      "status": "PASS",
+      "tests_passed": 7
+    },
+    "R26_SOLVER_EQUAL_COMPUTE": {
+      "status": "PASS",
+      "tests_passed": 12
+    },
+    "R27_CERTIFICATION_HARDENING": {
+      "status": "PASS",
+      "tests_passed": 24
+    },
+    "R28_PROBABILISTIC_AUDIT": {
+      "status": "PASS",
+      "tests_passed": 11
+    },
+    "R29_EXECUTION_PROVENANCE": {
+      "status": "PASS",
+      "tests_passed": 21
+    },
+    "R30_FINAL_RECONCILIATION": {
+      "status": "PASS",
+      "tests_passed": 16
+    },
+    "R31_FINAL_CERTIFICATION": {
+      "status": "PASS",
+      "tests_passed": 21
+    },
+    "R33_P4_METRIC_LINEAGE": {
+      "status": "PASS",
+      "tests_passed": 8
+    },
+    "R34_P5_MATHEMATICAL_AUDIT": {
+      "status": "PASS",
+      "tests_passed": 10
+    },
+    "R35_SOLVER_REPRO": {
+      "status": "PASS",
+      "tests_passed": 11
+    },
+    "R36_FINAL_RECONCILIATION": {
+      "status": "PASS",
+      "tests_passed": 20
+    },
+    "R37_FINAL_CERTIFICATION": {
+      "status": "PASS",
+      "tests_passed": 19
+    }
+  },
+  "total_phase_tests_passed": 180,
+  "regression_test_summary": {
+    "collected": 180,
+    "passed": 180,
+    "failed": 0,
+    "skipped": 0,
+    "errors": 0,
+    "warnings": 0,
+    "duration_s": 5.0
+  }
+}

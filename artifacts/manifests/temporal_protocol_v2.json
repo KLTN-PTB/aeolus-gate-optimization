@@ -1,0 +1,124 @@
+{
+  "manifest_version": "temporal_protocol_v2",
+  "protocol_name": "AEOLUS_V4_TEMPORAL_GOVERNANCE_PROTOCOL",
+  "created_at_utc": "2026-10-02T01:50:00Z",
+  "governing_documents": [
+    "docs/roadmap/01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V4_DONG_BO.md",
+    "docs/CURRENT_STATE.md",
+    "configs/current_state.yaml"
+  ],
+  "temporal_roles": {
+    "2016-2022": {
+      "role": "ROLLING_DEVELOPMENT_AND_HPO",
+      "purpose": "Expanding-window rolling development, preprocessor training, model training, and Optuna HPO.",
+      "years": [2016, 2017, 2018, 2019, 2020, 2021, 2022],
+      "allowed_operations": [
+        "schema_audit",
+        "preprocessing_fit_on_train_window_only",
+        "ml_model_train",
+        "hpo_optuna_search",
+        "calibration_development",
+        "oof_prediction_generation"
+      ],
+      "forbidden_operations": [
+        "random_shuffle_split",
+        "cross_fold_preprocessing_leakage",
+        "use_2023_for_training_or_hpo",
+        "use_2024_for_development"
+      ]
+    },
+    "2023": {
+      "role": "CONTROLLED_DEVELOPMENT_AND_SELECTION",
+      "purpose": "Model selection on frozen models, downstream simulation development, and controlled comparisons.",
+      "years": [2023],
+      "allowed_operations": [
+        "transform_with_frozen_preprocessor",
+        "evaluate_candidate_predictions",
+        "model_selection_on_preregistered_rules",
+        "downstream_gate_simulation_development"
+      ],
+      "forbidden_operations": [
+        "ml_model_retraining",
+        "hpo_search",
+        "calibration_parameter_fitting",
+        "ensemble_weight_re_optimization",
+        "threshold_tuning",
+        "use_2024_data"
+      ]
+    },
+    "2024": {
+      "role": "POST_HOLDOUT",
+      "purpose": "Historical post-freeze holdout evaluation. Sealed against exploratory access.",
+      "years": [2024],
+      "classification": "POST_HOLDOUT",
+      "post_holdout_history": "PREVIOUSLY_ACCESSED",
+      "allowed_operations": [
+        "schema_metadata_audit",
+        "authorized_final_evaluation_post_freeze"
+      ],
+      "forbidden_operations": [
+        "hpo",
+        "model_selection",
+        "calibration",
+        "ensemble_weight_tuning",
+        "solver_tuning",
+        "sa_metaheuristic_tuning",
+        "scenario_tuning",
+        "feature_selection",
+        "unauthorized_row_level_access"
+      ]
+    }
+  },
+  "rolling_folds": [
+    {
+      "fold_id": "fold_1",
+      "train_years": [2016, 2017, 2018],
+      "validation_year": 2019,
+      "train_rows_inbound_atl": 1126009,
+      "validation_rows_inbound_atl": 391075,
+      "train_fingerprint": "c91778923e1614beb626c8d1160774cb",
+      "validation_fingerprint": "93a8af05982106063279a6ddd667c24b",
+      "preprocessing_scope": "fit_transform_on_train_transform_only_on_validation",
+      "preprocessor_state_mutated_on_val": false
+    },
+    {
+      "fold_id": "fold_2",
+      "train_years": [2016, 2017, 2018, 2019],
+      "validation_year": 2020,
+      "train_rows_inbound_atl": 1517084,
+      "validation_rows_inbound_atl": 242121,
+      "train_fingerprint": "6f264875323bfd0f3a60a7e6b8c9c0cb",
+      "validation_fingerprint": "81f1e944747781b22e11e3b2e59dfd3e",
+      "preprocessing_scope": "fit_transform_on_train_transform_only_on_validation",
+      "preprocessor_state_mutated_on_val": false
+    },
+    {
+      "fold_id": "fold_3",
+      "train_years": [2016, 2017, 2018, 2019, 2020],
+      "validation_year": 2021,
+      "train_rows_inbound_atl": 1759205,
+      "validation_rows_inbound_atl": 309621,
+      "train_fingerprint": "8a3ea0d53c393bc331828591f0a2fe89",
+      "validation_fingerprint": "e30560a2ba1a0e0e0ffb1bb4a64d603e",
+      "preprocessing_scope": "fit_transform_on_train_transform_only_on_validation",
+      "preprocessor_state_mutated_on_val": false
+    },
+    {
+      "fold_id": "fold_4",
+      "train_years": [2016, 2017, 2018, 2019, 2020, 2021],
+      "validation_year": 2022,
+      "train_rows_inbound_atl": 2068826,
+      "validation_rows_inbound_atl": 311701,
+      "train_fingerprint": "cb5a8f4c2bead28876c1bb0fe7b6d194",
+      "validation_fingerprint": "10fe8dae921d6046e7f1ef5d45d3bf7d",
+      "preprocessing_scope": "fit_transform_on_train_transform_only_on_validation",
+      "preprocessor_state_mutated_on_val": false
+    }
+  ],
+  "provenance_statuses": {
+    "temporal_protocol_status": "VERIFIED_COMPLIANT",
+    "pre_registration_status": "UNKNOWN",
+    "post_holdout_history": "PREVIOUSLY_ACCESSED",
+    "scenario_selection_status": "POST_HOC_OR_UNKNOWN"
+  }
+}

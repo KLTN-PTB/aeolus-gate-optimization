@@ -1,0 +1,155 @@
+{
+  "contract_name": "AEOLUS_V4_PREDICTIVE_DISTRIBUTION_CONTRACT_V2",
+  "version": "v2.0",
+  "created_at_utc": "2026-10-02T02:40:00Z",
+  "governance": {
+    "protocol": "Task R5 Predictive Distribution Contract",
+    "auditor": "Principal Operations Research & ML Uncertainty Engineer",
+    "strict_fail_closed": true,
+    "heuristic_cdf_synthesis_prohibited": true,
+    "fabricated_continuous_likelihood_prohibited": true
+  },
+  "required_base_api": [
+    "mean",
+    "median",
+    "quantile",
+    "cdf",
+    "probability_ge",
+    "sample",
+    "validate",
+    "metadata",
+    "capabilities"
+  ],
+  "required_capabilities": [
+    "mean",
+    "median",
+    "quantile",
+    "cdf",
+    "probability_ge",
+    "sample",
+    "nll",
+    "crps_exact",
+    "crps_approx",
+    "pit"
+  ],
+  "numerical_invariants": {
+    "quantiles_in_open_unit_interval": "0 < alpha < 1",
+    "probabilities_in_closed_unit_interval": "0 <= p <= 1",
+    "gaussian_scale_positive": "sigma > 0",
+    "student_t_degrees_of_freedom": "df > 2.0",
+    "monotonic_quantiles": "Q(a_1) <= Q(a_2) for all a_1 <= a_2",
+    "sample_size_positive": "n > 0",
+    "finite_numerical_safety": "no NaN or Inf permitted across outputs"
+  },
+  "distributions": {
+    "EmpiricalDistribution": {
+      "adapter_class": "EmpiricalDistribution",
+      "candidate_id": "P1_empirical",
+      "family": "empirical",
+      "operational_role": "EMPIRICAL_RESIDUAL_BASELINE",
+      "capabilities": {
+        "mean": true,
+        "median": true,
+        "quantile": true,
+        "cdf": true,
+        "probability_ge": true,
+        "sample": true,
+        "nll": false,
+        "crps_exact": false,
+        "crps_approx": true,
+        "pit": false
+      },
+      "unsupported_operations": {
+        "nll": "CapabilityNotSupportedError / NOT_AVAILABLE (discrete step CDF has no continuous density)",
+        "crps_exact": "NOT_AVAILABLE (non-parametric baseline evaluates CRPS via trapezoidal pinball integration)",
+        "pit": "NOT_AVAILABLE (step CDF produces discrete atomic PIT distributions violating continuous KS assumptions)"
+      }
+    },
+    "GaussianResidualDistribution": {
+      "adapter_class": "GaussianResidualDistribution",
+      "candidate_id": "P2_xgb_gaussian_oof",
+      "family": "xgb_gaussian_oof",
+      "operational_role": "HOMOSCEDASTIC_PARAMETRIC_BASELINE",
+      "capabilities": {
+        "mean": true,
+        "median": true,
+        "quantile": true,
+        "cdf": true,
+        "probability_ge": true,
+        "sample": true,
+        "nll": true,
+        "crps_exact": true,
+        "crps_approx": true,
+        "pit": true
+      },
+      "unsupported_operations": {}
+    },
+    "NGBoostNormalDistribution": {
+      "adapter_class": "NGBoostNormalDistribution",
+      "candidate_id": "P3_ngboost_normal",
+      "family": "ngboost_normal",
+      "operational_role": "HETEROSCEDASTIC_PARAMETRIC_GAUSSIAN",
+      "capabilities": {
+        "mean": true,
+        "median": true,
+        "quantile": true,
+        "cdf": true,
+        "probability_ge": true,
+        "sample": true,
+        "nll": true,
+        "crps_exact": true,
+        "crps_approx": true,
+        "pit": true
+      },
+      "unsupported_operations": {}
+    },
+    "NGBoostStudentTDistribution": {
+      "adapter_class": "NGBoostStudentTDistribution",
+      "candidate_id": "P4_ngboost_student_t",
+      "family": "ngboost_student_t",
+      "operational_role": "historical_candidate",
+      "capabilities": {
+        "mean": true,
+        "median": true,
+        "quantile": true,
+        "cdf": true,
+        "probability_ge": true,
+        "sample": true,
+        "nll": true,
+        "crps_exact": false,
+        "crps_approx": true,
+        "pit": true
+      },
+      "unsupported_operations": {
+        "crps_exact": "NOT_AVAILABLE (closed-form Student-T CRPS requires Gauss hypergeometric function; evaluated via trapezoidal pinball integration)"
+      }
+    },
+    "QuantilePredictiveDistribution": {
+      "adapter_class": "QuantilePredictiveDistribution",
+      "candidate_id": "P5_quantile_regression",
+      "family": "quantile_regression",
+      "operational_role": "QUANTILE_FORECAST_ONLY",
+      "capabilities": {
+        "mean": false,
+        "median": true,
+        "quantile": true,
+        "cdf": false,
+        "probability_ge": false,
+        "sample": false,
+        "nll": false,
+        "crps_exact": false,
+        "crps_approx": true,
+        "pit": false
+      },
+      "unsupported_operations": {
+        "mean": "CapabilityNotSupportedError",
+        "cdf": "CapabilityNotSupportedError (heuristic CDF synthesis prohibited)",
+        "probability_ge": "CapabilityNotSupportedError",
+        "sample": "CapabilityNotSupportedError",
+        "nll": "CapabilityNotSupportedError / NOT_AVAILABLE (no continuous density)",
+        "crps_exact": "NOT_AVAILABLE",
+        "pit": "CapabilityNotSupportedError / NOT_AVAILABLE"
+      }
+    }
+  }
+}

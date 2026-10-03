@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "manifest_version": "r20_repository_state_v1",
+  "task_id": "R20_PROVENANCE_AND_FREEZE_AUDIT",
+  "timestamp_utc": "2026-10-02T10:24:13.291949+00:00",
+  "git": {
+    "commit_sha": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+    "branch": "week5-model-parameters-export",
+    "is_dirty": true,
+    "modified_tracked_files_count": 13,
+    "modified_tracked_files": [
+      "scripts/run_phase_a_benchmark.py",
+      "src/data/preprocessing.py",
+      "src/data/stratified_loader.py",
+      "src/evaluation/__init__.py",
+      "src/features/refactored_features.py",
+      "src/features/tabular_features.py",
+      "src/models/baselines.py",
+      "src/optimization/__init__.py",
+      "tests/test_holdout_guard.py",
+      "tests/test_phase_a.py",
+      "tests/test_refactored_pipeline.py",
+      "tests/test_tabular_features.py",
+      "tests/test_temporal_split.py"
+    ],
+    "untracked_components": {
+      "artifacts_new": "R13-R20 audit and v2 benchmark artifacts",
+      "configs_new": "v2 frozen protocol and capability specifications",
+      "docs_new": "R0-R19 audit reports and protocol documentation",
+      "scripts_new": "Audited v2 runners and audit artifact generators",
+      "src_new": "V2 contract implementations and optimization modules",
+      "tests_new": "V2 contract test suites (R17, R18, R19, R20)"
+    },
+    "governance_note": "Uncommitted files represent authoritative R13-R20 audits and v2 contracts awaiting R21 targeted rebuild."
+  },
+  "environment": {
+    "python_version": "3.11.15",
+    "python_executable": "D:\\Study\\Code\\Python\\Aelous\\.venv\\Scripts\\python.exe",
+    "platform": "win32",
+    "key_packages": {
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0",
+      "lightgbm": "4.7.0",
+      "ngboost": "0.5.11",
+      "ortools": "9.15.6755",
+      "scipy": "1.17.1",
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "pyarrow": "25.0.1",
+      "pytest": "9.1.1"
+    }
+  },
+  "relevant_runners": {
+    "scripts/run_academic_point_benchmark_v2.py": {
+      "version": "v2",
+      "sha256": "4cfaaa26ecb2c12b785670a6060c738c1b18014417d329359dbca2fb36d62618",
+      "role": "Common Point Benchmark across 4 rolling folds"
+    },
+    "scripts/run_probabilistic_benchmark.py": {
+      "version": "v2",
+      "sha256": "00a0577949d0ad95401720a2697908a8d7fe1795f1a44e1536b0924e7f0ec0ca",
+      "role": "Probabilistic Benchmark across P1-P5"
+    },
+    "scripts/run_paired_comparison.py": {
+      "version": "v2_r18",
+      "sha256": "feb9077567a653698d4d5a222f47892cb518618c0d37273b8b3b00a10eeaeca6",
+      "role": "Statistical Paired Comparison with Holm correction & Day-Cluster Bootstrap"
+    },
+    "scripts/run_academic_model_selection.py": {
+      "version": "v2",
+      "sha256": "96db181d667d84d6069423f84c88745041a0d5e6e2386f6e905e0a4cc9bdde58",
+      "role": "Phase 7 Academic Model Selection on 2023"
+    },
+    "scripts/run_downstream_model_comparison.py": {
+      "version": "v2_r17",
+      "sha256": "bedeb195e984074f066bb81eb279d518e172577fd373d7222cb83b6c1850b0da",
+      "role": "Downstream Scalar Forecast Impact Benchmark"
+    },
+    "scripts/run_monte_carlo_comparison.py": {
+      "version": "v2",
+      "sha256": "7345623373249cc5efa7c4ff5f30782e5e06f641e3497a7c99376bf1fb6fb4e8",
+      "role": "Monte Carlo Scenario Simulation"
+    }
+  }
+}

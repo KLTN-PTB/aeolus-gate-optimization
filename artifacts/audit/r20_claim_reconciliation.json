@@ -1,0 +1,110 @@
+[
+  {
+    "claim": "SYSTEM_FROZEN",
+    "old_status": "CLAIMED (Stage 10)",
+    "current_evidence": "Stage 10 froze model weights for SYS_B5+DEP_D2, but downstream adapters, statistical multiplicity adjustment (Holm), and metric capability contracts were not unified across runners until R17/R18/R19.",
+    "reconciled_status": "OVERSTATED",
+    "reconciled_definition": "SYSTEM_FROZEN_V3 (Formally frozen post-R17/R18/R19 across all 17 components)",
+    "action_required": "Enforce R20 freeze manifest across all R21 rebuild invocations.",
+    "evidence": [
+      "artifacts/r20_freeze_manifest.json",
+      "artifacts/manifests/system_freeze_manifest_v2.json"
+    ]
+  },
+  {
+    "claim": "FAIL_CLOSED_CERTIFIED",
+    "old_status": "CLAIMED (Historical Stage 0-11)",
+    "current_evidence": "Audits in R14-R16 found several runners bypassed multiplicity adjustment (adjusted_p = None), P5 had unprincipled heuristic wrappers, and downstream used scalar median/mean without full distribution.",
+    "reconciled_status": "OVERSTATED",
+    "reconciled_definition": "FAIL_CLOSED_CERTIFIED_POST_R18_R19 (Verified through automated test suites)",
+    "action_required": "Maintain automated protocol guard enforcement in all test suites.",
+    "evidence": [
+      "tests/test_r18_statistical_inference.py",
+      "tests/test_r17_downstream_semantics.py"
+    ]
+  },
+  {
+    "claim": "POST_HOLDOUT_STABILIZED",
+    "old_status": "CLAIMED (Historical Stage 11)",
+    "current_evidence": "2024 holdout evaluation recorded conflict error reduction of -387.2% (D2 performed worse than D0), which flagrantly contradicted textual claim of >75% reduction. Downstream gate conflicts were derived from synthetic turn simulation rather than real operational outcomes.",
+    "reconciled_status": "INVALID_AND_OVERSTATED",
+    "reconciled_definition": "POST_HOLDOUT_AUDITED_WITH_KNOWN_DEGRADATION",
+    "action_required": "Explicitly report -387.2% empirical metric without embellishment in all downstream documents.",
+    "evidence": [
+      "artifacts/audit/stage11_holdout_audit.json",
+      "artifacts/manifests/temporal_protocol_v2.json"
+    ]
+  },
+  {
+    "claim": "untouched 2024",
+    "old_status": "CLAIMED (Historical Documentation)",
+    "current_evidence": "2024 data was opened and evaluated in historical Stage 11 on 2026-09-27. It cannot be mathematically claimed as 'untouched' or 'never seen'.",
+    "reconciled_status": "INVALID",
+    "reconciled_definition": "POST_HOLDOUT",
+    "action_required": "Classify 2024 strictly as POST_HOLDOUT; reject labels like 'untouched' or 'unseen'.",
+    "evidence": [
+      "src/evaluation/final_evaluation_guard_v2.py",
+      "artifacts/r20_2024_provenance_audit.json"
+    ]
+  },
+  {
+    "claim": "7 core models",
+    "old_status": "CLAIMED (Historical Downstream Documentation)",
+    "current_evidence": "V4 protocol defines exactly 5 Core Point Methods (Linear, RF, HGB, XGB, Ensemble). P1-P5 are probabilistic variants/evidence layer; oracle and schedule_only are reference heuristics. They are not 7 core models.",
+    "reconciled_status": "INVALID",
+    "reconciled_definition": "5_CORE_POINT_METHODS_PLUS_PROBABILISTIC_EVIDENCE_LAYER",
+    "action_required": "Maintain model catalog v2 with 5 core models and separate probabilistic candidate registry.",
+    "evidence": [
+      "configs/model_catalog_v2.yaml",
+      "src/models/registry.py"
+    ]
+  },
+  {
+    "claim": "real-world gate optimization",
+    "old_status": "CLAIMED (Historical Reports)",
+    "current_evidence": "BTS Form 41 data does not record gate numbers, stand assignments, or real gate conflicts. Gate conflicts are evaluated on synthetic aircraft turn simulations generated from schedule differences.",
+    "reconciled_status": "OVERSTATED",
+    "reconciled_definition": "SYNTHETIC_GATE_SIMULATION_BENCHMARK",
+    "action_required": "Prepend simulation disclaimer: BTS data contains zero gate numbers; results reflect synthetic benchmark.",
+    "evidence": [
+      "artifacts/r17_downstream_semantics_decision.json",
+      "docs/audit/R17_DOWNSTREAM_SEMANTICS_AUDIT.md"
+    ]
+  },
+  {
+    "claim": "optimal N=500",
+    "old_status": "CLAIMED (Historical Monte Carlo)",
+    "current_evidence": "Convergence audit demonstrated standard error scales as O(1/sqrt(N)). N=500 achieves acceptable empirical variance (<1.5%), representing a practical computational trade-off rather than an absolute theoretical optimum.",
+    "reconciled_status": "OVERSTATED",
+    "reconciled_definition": "EMPIRICAL_CONVERGENCE_OPERATIONAL_CHOICE",
+    "action_required": "Document standard error bounds alongside N=500 without claiming theoretical optimality.",
+    "evidence": [
+      "configs/monte_carlo_protocol_v2.yaml",
+      "src/evaluation/mc_convergence.py"
+    ]
+  },
+  {
+    "claim": "CRPS Pinball",
+    "old_status": "CLAIMED (Historical Probabilistic Reports)",
+    "current_evidence": "Multi-pinball trapezoidal approximation over 9 quantiles is an approximation to continuous CRPS, not continuous exact CRPS, and is distinct from mean pinball loss.",
+    "reconciled_status": "OVERSTATED",
+    "reconciled_definition": "CRPS_QUANTILE_APPROXIMATION",
+    "action_required": "Standardize all metric reporting to 'crps_quantile_approximation'.",
+    "evidence": [
+      "artifacts/r19_probabilistic_capability_matrix.json",
+      "src/evaluation/forecast_metrics.py"
+    ]
+  },
+  {
+    "claim": "SA peer solver",
+    "old_status": "CLAIMED (Historical Optimization Reports)",
+    "current_evidence": "Simulated Annealing on large flight-gate instances (50-100 gates, 500 flights) without CP-SAT warm start frequently violates hard overlap constraints or converges to sub-optimal local minima; its valid role is neighborhood post-search/warm-started refinement, not an unassisted standalone solver.",
+    "reconciled_status": "OVERSTATED",
+    "reconciled_definition": "WARM_START_HYBRID_OR_HEURISTIC_BASELINE",
+    "action_required": "Position CP-SAT as primary exact solver; position SA as warm-started neighborhood heuristic.",
+    "evidence": [
+      "src/optimization/solvers/cp_sat_solver.py",
+      "scripts/benchmark_cp_sat_solver.py"
+    ]
+  }
+]

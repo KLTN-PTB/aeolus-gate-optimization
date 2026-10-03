@@ -1,0 +1,141 @@
+{
+  "manifest_version": "V4_FINAL_CERTIFICATION",
+  "certification_task_id": "R31_FINAL_FORENSIC_CERTIFICATION",
+  "created_at_utc": "2026-10-03T08:29:22.215726+00:00",
+  "certification_status": "CERTIFIED_WITH_LIMITATIONS",
+  "final_action": "CERTIFIED_WITH_LIMITATIONS",
+  "phase_statuses": {
+    "R25": "PASS",
+    "R26": "PASS",
+    "R27": "PASS",
+    "R28": "PASS",
+    "R29": "PASS",
+    "R30": "PASS",
+    "R31": "PASS"
+  },
+  "metrics_accounting": {
+    "p0_blockers_count": 0,
+    "p1_limitations_count": 12,
+    "unsupported_claims_remaining": 0,
+    "hash_mismatches_count": 0,
+    "unclassified_claims_count": 0,
+    "unverified_executions_count": 0,
+    "adaptation_2024_detected": false
+  },
+  "environment_freeze": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "architecture": "AMD64",
+    "python_version": "3.11.15",
+    "python_executable": "D:\\Study\\Code\\Python\\Aelous\\.venv\\Scripts\\python.exe",
+    "git_branch": "week5-model-parameters-export",
+    "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.17.1",
+      "pandas": "2.3.3",
+      "pyarrow": "25.0.1",
+      "scikit-learn": "1.9.0",
+      "lightgbm": "4.7.0",
+      "xgboost": "3.2.0",
+      "ngboost": "0.5.11",
+      "ortools": "9.15.6755",
+      "pytest": "9.1.1"
+    }
+  },
+  "temporal_governance": {
+    "development_period": "2016-2022",
+    "model_selection_year": 2023,
+    "post_holdout_year": 2024,
+    "post_holdout_role": "POST_HOLDOUT",
+    "zero_2024_retraining_verified": true,
+    "zero_2024_tuning_verified": true,
+    "zero_2024_selection_verified": true,
+    "zero_2024_solver_tuning_verified": true,
+    "zero_2024_threshold_adaptation_verified": true,
+    "zero_2024_ensemble_weight_adaptation_verified": true,
+    "outer_development_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ]
+  },
+  "cryptographic_lineage": {
+    "system_freeze_manifest_v3_sha256": "0144ea3ffb73039c070dac4c7f0a410995e755d973f300289651ffa4be30020c",
+    "academic_model_selection_v3_sha256": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+    "post_holdout_evaluation_manifest_v3_sha256": "b9d7a7cf51b8f5691d7b37e6ce73ceb92113358247469f1cb750ff2a407c4f23",
+    "r30_final_evidence_reconciliation_sha256": "4415d56eee04fe5041042aa376f92fc0f930e3bb97ae0d63503b145a3036e76e",
+    "final_freeze_manifest_v4_sha256": "d6cabd2bf87b7a2990e1bcdc5b4295a3520d84576268de226eb791b4b1d3c837",
+    "final_claim_boundary_audit_v4_sha256": "7cf23a48f947bdd501319e9ad31c06a3444580f0b88b930fd2bb34fd381a514e",
+    "final_reproducibility_audit_v4_sha256": "f32bd65c34ceb32e7e4ac857b674e80aadc952e78d339e5791b0276682f50e40",
+    "final_execution_summary_v4_sha256": "3180b1a923848aae47f8d5a27171932a8d071e8d06bf63b8d7c0a95d7b1b6bf0"
+  },
+  "epistemological_guardrails": {
+    "point_selection": {
+      "dev_2023_status": "TIED_WITHIN_INDIFFERENCE_BAND",
+      "dev_2023_delta_min": 0.00045,
+      "indifference_band_min": 0.1,
+      "holdout_2024_status": "NOT_TIED",
+      "holdout_2024_delta_min": 0.405,
+      "single_overall_point_champion_allowed": false
+    },
+    "probabilistic_capabilities": {
+      "P4_student_t": {
+        "density_type": "parametric_continuous",
+        "exact_continuous_crps": true,
+        "exact_continuous_nll": true,
+        "continuous_sampling": true,
+        "calibration_certified": false,
+        "calibration_status": "NOT_SEPARATELY_CERTIFIED"
+      },
+      "P5_quantile": {
+        "density_type": "discrete_quantiles_only",
+        "exact_continuous_crps": false,
+        "continuous_density": false,
+        "exact_continuous_nll": false,
+        "continuous_sampling": false,
+        "pinball_loss_evaluated": true
+      }
+    },
+    "downstream_semantics": "SCALAR_FORECAST_IMPACT",
+    "oracle_benchmark": "ANALYTICAL_NON_DEPLOYABLE_REFERENCE",
+    "synthetic_environment": "BTS_SYNTHETIC_AIRFIELD_SIMULATION",
+    "monte_carlo_crn": "NOT_ESTABLISHED",
+    "monte_carlo_optimal_n": "OPERATIONAL_CHOICE_ONLY",
+    "reproducibility": "CERTIFIED_WITH_LIMITATIONS",
+    "weather_quarantine": "EXCLUDED_FROM_CORE_ARRIVAL",
+    "departure_quarantine": "EXCLUDED_FROM_CORE_ARRIVAL",
+    "actual_outcome_quarantine": "ZERO_REALIZED_DELAY_LEAKAGE"
+  },
+  "domains_summary": {
+    "total_domains": 18,
+    "pass_domains": 15,
+    "limited_domains": 3,
+    "blocked_domains": 0
+  },
+  "claims_summary": {
+    "total_claims": 13,
+    "exact_claim_ids": [
+      "CLAIM_01_TEMPORAL_POST_HOLDOUT",
+      "CLAIM_02_POINT_CHAMPION_SELECTION",
+      "CLAIM_03_PROBABILISTIC_P5_CRPS",
+      "CLAIM_04_PROBABILISTIC_P4_STUDENT_T",
+      "CLAIM_05_SINGLE_OVERALL_CHAMPION",
+      "CLAIM_06_CRN_VARIANCE_REDUCTION",
+      "CLAIM_07_MC_N500_OPTIMALITY",
+      "CLAIM_08_REAL_WORLD_GATE_OPERATIONS",
+      "CLAIM_09_ORACLE_EQUIVALENCE",
+      "CLAIM_10_DOWNSTREAM_SEMANTICS",
+      "CLAIM_11_STATISTICAL_SIGNIFICANCE",
+      "CLAIM_12_AUXILIARY_DEPARTURE_DELAY",
+      "CLAIM_13_REPRODUCIBILITY_STANDARDS"
+    ]
+  },
+  "certification_decision": {
+    "verdict": "CERTIFIED_WITH_LIMITATIONS",
+    "formal_statement": "The Aeolus V4 research evidence package is certified with limitations under contained specification, cryptographic freeze manifests, deterministic seeds where applicable, and explicit failure accounting. All P0 blockers have been resolved with mathematical and empirical proof across phases R25 through R31."
+  }
+}

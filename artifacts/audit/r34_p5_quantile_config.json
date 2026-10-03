@@ -1,0 +1,50 @@
+{
+  "audit_name": "R34_P5_QUANTILE_CONFIG_AUDIT",
+  "task_id": "R34_P5_QUANTILE_CONFIGURATION_AND_CRPS_AUDIT",
+  "created_at_utc": "2026-10-03T11:00:00Z",
+  "target_candidate": "P5_quantile_regression",
+  "model_architecture": {
+    "candidate_interface": "src.models.probabilistic.candidate_interfaces.P5QuantileRegressionCandidate",
+    "base_regressor": "src.models.probabilistic.baselines.B4LightGBMQuantile",
+    "distribution_adapter": "src.contracts.distribution.QuantilePredictiveDistribution",
+    "sorting_rearrangement": "Chernozhukov et al. (2010) Monotone Quantile Rearrangement"
+  },
+  "quantile_grid_specification": {
+    "source_definition": "src.models.probabilistic.metrics.PRE_REGISTERED_QUANTILES",
+    "total_quantile_count": 9,
+    "quantile_levels": [
+      0.025,
+      0.05,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      0.95,
+      0.975
+    ],
+    "interval_coverages": {
+      "interval_50": [
+        0.25,
+        0.75
+      ],
+      "interval_80": [
+        0.1,
+        0.9
+      ],
+      "interval_90": [
+        0.05,
+        0.95
+      ],
+      "interval_95": [
+        0.025,
+        0.975
+      ]
+    }
+  },
+  "discrepancy_resolution_5_vs_9": {
+    "finding": "P5 is strictly a 9-quantile estimator in all model code, configuration files, and prediction parquets.",
+    "origin_of_5_quantiles": "In Phase R28, audit scripts (generate_r28_audit_artifacts_v2.py) documented a 5-quantile subset {0.10, 0.25, 0.50, 0.75, 0.90} in text notes without inspecting PRE_REGISTERED_QUANTILES.",
+    "determination": "The 5-quantile description was an underspecified documentation error in R28; the true model trained and evaluated across all phases is the 9-quantile estimator."
+  }
+}

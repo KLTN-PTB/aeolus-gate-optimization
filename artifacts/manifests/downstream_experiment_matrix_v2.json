@@ -1,0 +1,621 @@
+{
+  "manifest_version": "downstream_experiment_matrix_v2",
+  "created_at_utc": "2026-10-02T09:14:55.046108+00:00",
+  "dimension_counts": {
+    "scenarios_count": 4,
+    "candidates_count": 7,
+    "solvers_count": 3,
+    "total_evaluations_count": 84
+  },
+  "scenarios": [
+    "SCEN_2023_LOW",
+    "SCEN_2023_MEDIUM",
+    "SCEN_2023_HIGH",
+    "SCEN_2023_WEATHER_DISRUPTED"
+  ],
+  "candidates": [
+    "schedule_only",
+    "arrival_linear_baseline_v1",
+    "arrival_xgboost_baseline_v1",
+    "arrival_weighted_ensemble_v1",
+    "P5_quantile_regression",
+    "P4_ngboost_student_t",
+    "oracle_actual"
+  ],
+  "solvers": [
+    "DeterministicGreedy",
+    "CPSat",
+    "SimulatedAnnealing"
+  ],
+  "formula": "4 scenarios x 7 candidates x 3 solvers = 84 total runs",
+  "matrix_cells": [
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "schedule_only",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "schedule_only",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "schedule_only",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "oracle_actual",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "oracle_actual",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_LOW",
+      "model_id": "oracle_actual",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "schedule_only",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "schedule_only",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "schedule_only",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "oracle_actual",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "oracle_actual",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_MEDIUM",
+      "model_id": "oracle_actual",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "schedule_only",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "schedule_only",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "schedule_only",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "oracle_actual",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "oracle_actual",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_HIGH",
+      "model_id": "oracle_actual",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "schedule_only",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "schedule_only",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "schedule_only",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "P5_quantile_regression",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "P4_ngboost_student_t",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "oracle_actual",
+      "solver_name": "DeterministicGreedy",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "oracle_actual",
+      "solver_name": "CPSat",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    },
+    {
+      "scenario_id": "SCEN_2023_WEATHER_DISRUPTED",
+      "model_id": "oracle_actual",
+      "solver_name": "SimulatedAnnealing",
+      "budget_seconds": 5.0,
+      "target_feasible": true
+    }
+  ]
+}

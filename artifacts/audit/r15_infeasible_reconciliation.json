@@ -1,0 +1,108 @@
+{
+  "manifest_version": "r15_infeasible_reconciliation_v1",
+  "created_at_utc": "2026-10-02T09:14:55.046881+00:00",
+  "task_id": "R15_SOLVER_EQUAL_COMPUTE_AUDIT",
+  "total_reconciled_cases": 9,
+  "old_infeasible_count": 9,
+  "new_infeasible_count": 0,
+  "reconciliation_summary": "All 9 historical 'infeasible' instances in post_holdout v1 occurred exclusively on SCEN_2024_SUMMER across Linear, XGBoost, and Weighted Ensemble (3 models x 3 solvers). They stemmed from an evaluation bug that labeled simulated operational conflicts under realized delays as solver hard constraint violations. Repaired by enforcing IndependentConstraintChecker on planned inputs and logging realized conflicts as distinct operational disruption metrics.",
+  "cases": [
+    {
+      "case_id": 1,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 1, status = COMPLETED",
+      "semantic_code_change": "Separated planned solver constraint feasibility from simulated operational conflicts under realized delay. IndependentConstraintChecker verifies planned turn feasibility (which was True).",
+      "explanation": "In post_holdout v1, if realized flight delays caused overlapping gate occupancy, the case was incorrectly labeled solver infeasible. Repaired in post_holdout_v2 to distinguish planned feasibility (100% valid) from operational disruption conflicts."
+    },
+    {
+      "case_id": 2,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "CPSat",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 1, status = COMPLETED",
+      "semantic_code_change": "IndependentConstraintChecker verifies planned turns; realized conflict duration reported as metric rather than infeasibility.",
+      "explanation": "Same semantic clarification as Case 1."
+    },
+    {
+      "case_id": 3,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_linear_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 1, status = COMPLETED",
+      "semantic_code_change": "IndependentConstraintChecker verifies planned turns; realized conflict duration reported as metric rather than infeasibility.",
+      "explanation": "Same semantic clarification as Case 1."
+    },
+    {
+      "case_id": 4,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "DeterministicGreedy",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 2, status = COMPLETED",
+      "semantic_code_change": "IndependentConstraintChecker verifies planned turns; realized conflict duration reported as metric rather than infeasibility.",
+      "explanation": "In post_holdout v1, XGBoost forecast caused 2 overlaps under realized delays. Corrected to report conflict_count = 2 while recognizing planned assignment as feasible."
+    },
+    {
+      "case_id": 5,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "CPSat",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 2, status = COMPLETED",
+      "semantic_code_change": "IndependentConstraintChecker verifies planned turns; realized conflict duration reported as metric rather than infeasibility.",
+      "explanation": "Same semantic clarification as Case 4."
+    },
+    {
+      "case_id": 6,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "solver_name": "SimulatedAnnealing",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 2, status = COMPLETED",
+      "semantic_code_change": "IndependentConstraintChecker verifies planned turns; realized conflict duration reported as metric rather than infeasibility.",
+      "explanation": "Same semantic clarification as Case 4."
+    },
+    {
+      "case_id": 7,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "DeterministicGreedy",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 1, status = COMPLETED",
+      "semantic_code_change": "IndependentConstraintChecker verifies planned turns; realized conflict duration reported as metric rather than infeasibility.",
+      "explanation": "In post_holdout v1, Ensemble forecast caused 1 overlap under realized delays. Corrected to report conflict_count = 1 while recognizing planned assignment as feasible."
+    },
+    {
+      "case_id": 8,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "CPSat",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 1, status = COMPLETED",
+      "semantic_code_change": "IndependentConstraintChecker verifies planned turns; realized conflict duration reported as metric rather than infeasibility.",
+      "explanation": "Same semantic clarification as Case 7."
+    },
+    {
+      "case_id": 9,
+      "scenario_id": "SCEN_2024_SUMMER",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "solver_name": "SimulatedAnnealing",
+      "old_status_post_holdout_v1": "hard_feasible = False (counted as infeasible_instances_count = 1)",
+      "current_status_post_holdout_v2": "hard_feasible = True, simulated_conflicts = 1, status = COMPLETED",
+      "semantic_code_change": "IndependentConstraintChecker verifies planned turns; realized conflict duration reported as metric rather than infeasibility.",
+      "explanation": "Same semantic clarification as Case 7."
+    }
+  ],
+  "solver_equal_compute_audit": {
+    "registered_budget_seconds": 5.0,
+    "cpsat_time_limit_seconds": 5.0,
+    "sa_iterations": 500,
+    "sa_equal_compute_semantics": "In standalone downstream comparisons (R8/R12), SA ran with iterations=500 and Greedy warm-start. In hybrid CP-SAT+SA benchmark (phase_f_time_limited_sa_benchmark), CP-SAT was time-limited (0.1, 0.3, 1.0, 3.0s), and feasible incumbents were passed to SA. SA monotonicity guaranteed best_obj <= initial_obj.",
+    "budget_status": "5.0s per scenario explicitly pre-registered in configs/monte_carlo_protocol_v2.yaml and artifacts/manifests/downstream_protocol_v2.json"
+  }
+}

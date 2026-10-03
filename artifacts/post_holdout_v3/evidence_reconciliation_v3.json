@@ -1,0 +1,58 @@
+[
+  {
+    "claim_id": "CLAIM_01_HOLDOUT_TERMINOLOGY",
+    "old_claim": "2024 is an untouched, pristine, unseen final holdout dataset.",
+    "current_evidence": "Historical repository lineage audit proved 2024 data was accessed during initial pipeline exploration.",
+    "status": "CORRECTED",
+    "action": "Standardized mandatory terminology across all manifests, code, and reports to 'POST_HOLDOUT' or '2024 LOCKED POST-HOLDOUT RE-EVALUATION'."
+  },
+  {
+    "claim_id": "CLAIM_02_CRN_VARIANCE_REDUCTION",
+    "old_claim": "Common Random Numbers (CRN) reduces variance by 82.4%.",
+    "current_evidence": "No empirical outer replications (R >= 2) comparing Var_CRN(Delta) to Var_indep(Delta) were conducted to substantiate 82.4%.",
+    "status": "NOT_SUPPORTED",
+    "action": "Marked strictly as 'CRN_VARIANCE_REDUCTION = NOT_ESTABLISHED' across code and manifests; fabricated percentage removed."
+  },
+  {
+    "claim_id": "CLAIM_03_MC_N500_OPTIMALITY",
+    "old_claim": "N=500 is mathematically optimal because SE < 0.3.",
+    "current_evidence": "No pre-registered error tolerance criterion epsilon* was established in protocol prior to data observation; SE < 0.3 is post-hoc.",
+    "status": "NOT_SUPPORTED",
+    "action": "Marked strictly as 'PRECISION_TARGET_STATUS = NOT_PREREGISTERED'. Evaluated full registered N in (100, 250, 500, 1000, 2500) without truncation."
+  },
+  {
+    "claim_id": "CLAIM_04_P5_FULL_DISTRIBUTION",
+    "old_claim": "P5 Quantile Regression provides a full probability distribution with analytical density, NLL, and continuous sampling.",
+    "current_evidence": "Quantile regression estimates discrete conditional quantiles; it does not estimate continuous density, continuous CDF, exact NLL, or valid continuous PIT. Heuristic Laplace/asymmetric transforms were ad-hoc inventions.",
+    "status": "CORRECTED",
+    "action": "Restricted P5 strictly to forecast-only median mode under capability contract; continuous operations return NOT_AVAILABLE or raise CapabilityNotSupportedError. Removed all invented transformations."
+  },
+  {
+    "claim_id": "CLAIM_05_PAIRED_STATISTICAL_SIGNIFICANCE",
+    "old_claim": "Ridge vs Ensemble achieves p < 0.001 standalone significance.",
+    "current_evidence": "Standalone p-values computed via unadjusted iid tests without proper units of inference or multiplicity corrections were scientifically invalid.",
+    "status": "SUPERSEDED",
+    "action": "Repaired paired inference pipeline using flight-level units for pointwise errors, aggregate block bootstrap for RMSE/R2/PR-AUC, and Holm-Bonferroni / Benjamini-Hochberg corrections. Standalone claims banned."
+  },
+  {
+    "claim_id": "CLAIM_06_SINGLE_OVERALL_CHAMPION",
+    "old_claim": "Ridge is the scientifically proven best overall model across all tasks.",
+    "current_evidence": "Point error, probabilistic sharpness/calibration, and downstream scenario generation require distinct mathematical capabilities. Ridge and Ensemble tie on MAE within indifference band (0.10 min); P5 wins on CRPS (16.85); P4 wins on downstream parametric sampling.",
+    "status": "CORRECTED",
+    "action": "Separated selection into 3 distinct roles (Point Champion: Ridge/Ensemble tie, Forecast Champion: P5, Downstream Candidate: P4). Joint single-champion selection marked fail-closed BLOCKED."
+  },
+  {
+    "claim_id": "CLAIM_07_REAL_WORLD_GATE_OPERATIONS",
+    "old_claim": "Aeolus achieves 100% gate conflict reduction and massive operational cost savings at Hartsfield-Jackson Atlanta International Airport (ATL).",
+    "current_evidence": "No ground truth gate assignments exist in BTS TranStats dataset; gates, turns, and bank scenarios are synthetically synthesized.",
+    "status": "CORRECTED",
+    "action": "Enforced hard claim boundary: strictly simulated synthetic gate assignment research environment; real airfield operations and monetary claims strictly banned."
+  },
+  {
+    "claim_id": "CLAIM_08_AUXILIARY_DEPARTURE_DELAY",
+    "old_claim": "Auxiliary departure delay predictions improve core arrival gate optimization.",
+    "current_evidence": "Auxiliary departure model predicts departure delay at departure cutoff; routing departure delay into arrival gate optimization violates V4 Core Arrival prediction cutoff (CRS_DEP_TIME - 2h) and target semantics.",
+    "status": "NOT_SUPPORTED",
+    "action": "Enforced total isolation of auxiliary departure models from Core Arrival gate optimizer."
+  }
+]

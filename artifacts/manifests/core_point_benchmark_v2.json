@@ -1,0 +1,55 @@
+{
+  "manifest_version": "core_point_benchmark_v2",
+  "protocol_name": "AEOLUS_V4_CORE_POINT_BENCHMARK",
+  "created_at_utc": "2026-10-01T19:11:40.700358+00:00",
+  "experiment_id": "core_point_benchmark_v2",
+  "run_dir": "artifacts\\model_benchmark_v2\\core_point\\core_point_benchmark_v2",
+  "config_hash": "330171646359ccfcf05efc90feb9871a4ecd0706b3dc405ffb41c52625be2976",
+  "code_hash": "a5bcc081155c8a9f4aa00fce03b21055ad0103de929ff7508e2337717adab61d",
+  "models_evaluated": [
+    "arrival_linear_baseline_v1",
+    "arrival_random_forest_baseline_v1",
+    "arrival_hist_gradient_boosting_baseline_v1",
+    "arrival_xgboost_baseline_v1",
+    "arrival_weighted_ensemble_v1"
+  ],
+  "model_count": 5,
+  "total_runs": 20,
+  "completed_runs": 20,
+  "failed_runs": 0,
+  "temporal_coverage": {
+    "rolling_folds": [
+      "fold_1",
+      "fold_2",
+      "fold_3",
+      "fold_4"
+    ],
+    "development_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "year_2023_included": false,
+    "year_2024_included": false
+  },
+  "provenance_invariants": {
+    "core_methods_only": true,
+    "cap_5_strictly_enforced": true,
+    "same_row_alignment_guaranteed": true,
+    "no_weather_features": true,
+    "no_departure_delay_predictors": true,
+    "no_target_leakage": true,
+    "preprocessing_train_only": true,
+    "probability_semantics_audited": true,
+    "champion_selection": "NONE"
+  },
+  "artifacts": {
+    "benchmark_summary_json": "artifacts\\model_benchmark_v2\\core_point\\core_point_benchmark_v2\\benchmark_summary.json",
+    "benchmark_summary_csv": "artifacts\\model_benchmark_v2\\core_point\\core_point_benchmark_v2\\benchmark_summary.csv",
+    "manifest_sha256": "artifacts\\model_benchmark_v2\\core_point\\core_point_benchmark_v2\\manifest.sha256"
+  }
+}

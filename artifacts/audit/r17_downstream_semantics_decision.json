@@ -1,0 +1,79 @@
+{
+  "decision": "SCALAR_FORECAST_IMPACT",
+  "decision_status": "PASS",
+  "rationale": "Comprehensive code path audit from Core Arrival forecast through synthetic turnaround to solvers (Greedy, CP-SAT, CP-SAT+SA) establishes that downstream optimization operates exclusively on deterministic scalar time windows [start_min, end_min). Neither Flight domain objects nor CP-SAT/SA/Greedy solvers consume distributions, variances, quantiles, or risk buffers. P5 quantile regression passes strictly its median q50 scalar; all other quantiles and intervals are discarded. P4 Student-T passes strictly its predictive mean; scale, degrees of freedom, and tail distributions are discarded. Monte Carlo evaluates independent scalar realizations rather than stochastic programming. Therefore, the pipeline is strictly a forecast-derived scalar operational impact benchmark, and locking semantics to SCALAR_FORECAST_IMPACT prevents unverified claims of uncertainty-aware optimization.",
+  "supported_by_code": true,
+  "candidate_summary": [
+    {
+      "candidate": "schedule_only",
+      "role": "operational_baseline",
+      "downstream_field": "constant_0.0_delay",
+      "uses_uncertainty": false,
+      "classification": "SCALAR"
+    },
+    {
+      "candidate": "arrival_linear_baseline_v1",
+      "role": "point_champion_tied",
+      "downstream_field": "predicted_delay (scalar point prediction)",
+      "uses_uncertainty": false,
+      "classification": "SCALAR"
+    },
+    {
+      "candidate": "arrival_xgboost_baseline_v1",
+      "role": "point_model_comparator",
+      "downstream_field": "predicted_delay (scalar point prediction)",
+      "uses_uncertainty": false,
+      "classification": "SCALAR"
+    },
+    {
+      "candidate": "arrival_weighted_ensemble_v1",
+      "role": "point_champion_tied",
+      "downstream_field": "0.5 * linear + 0.5 * xgboost (scalar point prediction)",
+      "uses_uncertainty": false,
+      "classification": "SCALAR"
+    },
+    {
+      "candidate": "P5_quantile_regression",
+      "role": "probabilistic_forecast_champion",
+      "downstream_field": "dist_p5.median() (q50 scalar delay)",
+      "uses_uncertainty": false,
+      "classification": "SCALAR"
+    },
+    {
+      "candidate": "P4_ngboost_student_t",
+      "role": "downstream_eligible_candidate",
+      "downstream_field": "dist_p4.mean() (mu scalar delay)",
+      "uses_uncertainty": false,
+      "classification": "SCALAR"
+    },
+    {
+      "candidate": "oracle_actual",
+      "role": "non_deployable_reference",
+      "downstream_field": "raw_df['ARR_DELAY'] (ground-truth realized delay)",
+      "uses_uncertainty": false,
+      "classification": "SCALAR"
+    }
+  ],
+  "forbidden_claims": [
+    "Uncertainty-aware optimization or stochastic gate assignment",
+    "Distributional gate allocation or chance-constrained gate optimization",
+    "Downstream propagation of predictive variance, quantiles, or tail risk",
+    "Real-world gate assignment or physical airport delay reductions at ATL",
+    "Continuous distribution capabilities for P5 quantile regression",
+    "Oracle as a learned or deployable prediction model"
+  ],
+  "required_terminology": [
+    "Forecast-derived scalar operational impact benchmark",
+    "Downstream synthetic gate assignment comparison",
+    "Scalar turn window optimization [start_min, end_min)",
+    "P5 evaluated strictly in forecast-only median mode (q50)",
+    "P4 evaluated downstream via point mean delay",
+    "Oracle designated strictly as non-deployable reference arm"
+  ],
+  "next_actions": [
+    "Lock downstream semantics across all registry manifests, tests, and documentation.",
+    "Maintain P4 and P5 probabilistic evaluations strictly at the upstream forecast evaluation layer.",
+    "Enforce test assertions preventing unapproved stochastic claims in downstream evaluations.",
+    "Proceed to R18 post-freeze audit upon verified pass of R17."
+  ]
+}

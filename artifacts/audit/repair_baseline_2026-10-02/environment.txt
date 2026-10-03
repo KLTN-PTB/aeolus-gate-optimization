@@ -1,0 +1,13 @@
+================================================================================
+RUNTIME ENVIRONMENT BASELINE
+Generated: 2026-10-01T18:28:09.954949+00:00
+================================================================================
+
+Python Version:    3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]
+Python Executable: D:\Study\Code\Python\Aelous\.venv\Scripts\python.exe
+OS Platform:       Windows-10-10.0.19045-SP0
+OS System:         Windows
+OS Release:        10
+Machine/Arch:      AMD64
+Processor:         Intel64 Family 6 Model 141 Stepping 1, GenuineIntel
+Working Directory: D:\Study\Code\Python\Aelous

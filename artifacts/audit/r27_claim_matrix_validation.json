@@ -1,0 +1,160 @@
+{
+  "audit_name": "r27_claim_matrix_validation",
+  "task_id": "R27_CERTIFICATION_TEST_HARDENING",
+  "created_at_utc": "2026-10-02T12:23:10.421499+00:00",
+  "expected_claim_count": 13,
+  "actual_claim_count": 13,
+  "expected_claim_ids": [
+    "CLAIM_01_TEMPORAL_POST_HOLDOUT",
+    "CLAIM_02_POINT_CHAMPION_SELECTION",
+    "CLAIM_03_PROBABILISTIC_P5_CRPS",
+    "CLAIM_04_PROBABILISTIC_P4_STUDENT_T",
+    "CLAIM_05_SINGLE_OVERALL_CHAMPION",
+    "CLAIM_06_CRN_VARIANCE_REDUCTION",
+    "CLAIM_07_MC_N500_OPTIMALITY",
+    "CLAIM_08_REAL_WORLD_GATE_OPERATIONS",
+    "CLAIM_09_ORACLE_EQUIVALENCE",
+    "CLAIM_10_DOWNSTREAM_SEMANTICS",
+    "CLAIM_11_STATISTICAL_SIGNIFICANCE",
+    "CLAIM_12_AUXILIARY_DEPARTURE_DELAY",
+    "CLAIM_13_REPRODUCIBILITY_STANDARDS"
+  ],
+  "actual_claim_ids": [
+    "CLAIM_01_TEMPORAL_POST_HOLDOUT",
+    "CLAIM_02_POINT_CHAMPION_SELECTION",
+    "CLAIM_03_PROBABILISTIC_P5_CRPS",
+    "CLAIM_04_PROBABILISTIC_P4_STUDENT_T",
+    "CLAIM_05_SINGLE_OVERALL_CHAMPION",
+    "CLAIM_06_CRN_VARIANCE_REDUCTION",
+    "CLAIM_07_MC_N500_OPTIMALITY",
+    "CLAIM_08_REAL_WORLD_GATE_OPERATIONS",
+    "CLAIM_09_ORACLE_EQUIVALENCE",
+    "CLAIM_10_DOWNSTREAM_SEMANTICS",
+    "CLAIM_11_STATISTICAL_SIGNIFICANCE",
+    "CLAIM_12_AUXILIARY_DEPARTURE_DELAY",
+    "CLAIM_13_REPRODUCIBILITY_STANDARDS"
+  ],
+  "duplicates": [],
+  "missing_claim_ids": [],
+  "extra_claim_ids": [],
+  "matrix_valid": true,
+  "claims_detail": [
+    {
+      "claim_id": "CLAIM_01_TEMPORAL_POST_HOLDOUT",
+      "category": "TEMPORAL_EVALUATION",
+      "status": "CORRECTED",
+      "evidence_file": "artifacts/post_holdout_v3/post_holdout_evaluation_manifest_v3.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_02_POINT_CHAMPION_SELECTION",
+      "category": "POINT_PREDICTION",
+      "status": "SUPPORTED_WITH_LIMITATION",
+      "evidence_file": "artifacts/manifests/academic_model_selection_v3.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_03_PROBABILISTIC_P5_CRPS",
+      "category": "PROBABILISTIC_FORECASTING",
+      "status": "CORRECTED",
+      "evidence_file": "artifacts/manifests/academic_model_selection_v3.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_04_PROBABILISTIC_P4_STUDENT_T",
+      "category": "PROBABILISTIC_FORECASTING",
+      "status": "SUPPORTED_WITH_LIMITATION",
+      "evidence_file": "artifacts/manifests/academic_model_selection_v3.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_05_SINGLE_OVERALL_CHAMPION",
+      "category": "MODEL_SELECTION",
+      "status": "BLOCKED",
+      "evidence_file": "artifacts/manifests/academic_model_selection_v3.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_06_CRN_VARIANCE_REDUCTION",
+      "category": "MONTE_CARLO_SIMULATION",
+      "status": "NOT_SUPPORTED",
+      "evidence_file": "artifacts/monte_carlo_model_comparison_v2/crn_variance_reduction_report.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_07_MC_N500_OPTIMALITY",
+      "category": "MONTE_CARLO_SIMULATION",
+      "status": "NOT_SUPPORTED",
+      "evidence_file": "artifacts/monte_carlo_model_comparison_v2/monte_carlo_convergence_report.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_08_REAL_WORLD_GATE_OPERATIONS",
+      "category": "DEPLOYMENT_BOUNDARIES",
+      "status": "CORRECTED",
+      "evidence_file": "artifacts/post_holdout_v3/post_holdout_evaluation_manifest_v3.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_09_ORACLE_EQUIVALENCE",
+      "category": "DEPLOYMENT_BOUNDARIES",
+      "status": "CORRECTED",
+      "evidence_file": "artifacts/post_holdout_v3/paired_downstream_deltas_v3.parquet",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_10_DOWNSTREAM_SEMANTICS",
+      "category": "DOWNSTREAM_OPTIMIZATION",
+      "status": "SUPPORTED_WITH_LIMITATION",
+      "evidence_file": "artifacts/audit/r17_downstream_semantics_decision.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_11_STATISTICAL_SIGNIFICANCE",
+      "category": "STATISTICAL_INFERENCE",
+      "status": "CORRECTED",
+      "evidence_file": "artifacts/audit/r18_paired_statistics_v2.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_12_AUXILIARY_DEPARTURE_DELAY",
+      "category": "PREDICTION_PIPELINE",
+      "status": "NOT_SUPPORTED",
+      "evidence_file": "artifacts/manifests/academic_model_selection_v3.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    },
+    {
+      "claim_id": "CLAIM_13_REPRODUCIBILITY_STANDARDS",
+      "category": "SCIENTIFIC_RIGOR",
+      "status": "HISTORICAL_ONLY",
+      "evidence_file": "artifacts/manifests/final_evidence_certification_v3.json",
+      "evidence_exists": true,
+      "has_allowed_wording": true,
+      "has_prohibited_wording": true
+    }
+  ]
+}

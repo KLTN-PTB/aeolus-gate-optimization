@@ -1,0 +1,53 @@
+{
+  "audit_name": "final_reproducibility_audit_v5",
+  "task_id": "R37_FINAL_CERTIFICATION_V5",
+  "created_at_utc": "2026-10-03T10:03:31.103755+00:00",
+  "reproducibility_verdict": "REPRODUCIBILITY_VERIFIED_UNDER_CONTAINED_SPECIFICATION",
+  "certification_level": "CERTIFIED_WITH_LIMITATIONS",
+  "allowed_wording": "The research evidence package is Certified With Limitations under contained specification, cryptographic freeze manifests, deterministic seeds where applicable, and explicit failure accounting.",
+  "prohibited_claims": [
+    "100% reproducible",
+    "perfect reproducibility",
+    "top-tier",
+    "state-of-the-art",
+    "guaranteed replication on all arbitrary environments",
+    "error-free research",
+    "scientifically proven perfection",
+    "universally bit-for-bit reproducible",
+    "cross-platform bit identity"
+  ],
+  "contained_specification": {
+    "os": "Windows-10-10.0.19045-SP0 (Windows 10 AMD64)",
+    "architecture": "AMD64",
+    "python_version": "3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]",
+    "python_executable": "D:\\Study\\Code\\Python\\Aelous\\.venv\\Scripts\\python.exe",
+    "deterministic_seeds_registered": [
+      202601,
+      202602,
+      202603
+    ],
+    "data_immutability_verified": true,
+    "final_freeze_manifest_v5_sha256": "65464c6e058c6af44bb381f7d7dd37f6541729167be0a7b307e1fa26c67068c8",
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "scipy": "1.17.1",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0",
+      "lightgbm": "4.7.0",
+      "ngboost": "0.5.11",
+      "ortools": "9.15.6755",
+      "pyarrow": "25.0.1",
+      "optuna": "5.0.0",
+      "pytest": "9.1.1"
+    }
+  },
+  "failure_accounting": {
+    "timeouts": 0,
+    "model_failures": 0,
+    "solver_failures": 0,
+    "infeasible_realizations": 0,
+    "numerical_errors": 0,
+    "unsupported_metrics_rejected": 3
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "artifacts_certified": [
+    "artifacts/manifests/system_freeze_manifest_v3.json",
+    "artifacts/manifests/development_evidence_manifest_v3.json",
+    "artifacts/manifests/academic_model_selection_v3.json",
+    "artifacts/post_holdout_v3/post_holdout_evaluation_manifest_v3.json",
+    "artifacts/post_holdout_v3/marginal_forecast_metrics_2024_v3.json",
+    "artifacts/post_holdout_v3/downstream_operational_evaluations_v3.parquet",
+    "artifacts/post_holdout_v3/paired_downstream_deltas_v3.parquet",
+    "artifacts/post_holdout_v3/failures_accounting_v3.json",
+    "artifacts/post_holdout_v3/provenance_verification_v3.json",
+    "artifacts/post_holdout_v3/evidence_reconciliation_v3.json",
+    "artifacts/audit/final_claim_boundary_audit_v3.json",
+    "artifacts/audit/final_reproducibility_audit_v3.json",
+    "docs/audit/FINAL_EVIDENCE_CERTIFICATION_V3.md"
+  ],
+  "certification_status": "CERTIFIED_WITH_LIMITATIONS",
+  "certifying_authority": "AEOLUS_V4_FORENSIC_CERTIFICATION_COUNCIL",
+  "claim_boundary_summary": {
+    "mandatory_bans_enforced": [
+      "Real airfield operations and monetary claims strictly banned.",
+      "Equivalence to Oracle claims strictly banned.",
+      "100% reproducible and top-tier perfection claims strictly banned.",
+      "P5 continuous distribution claims strictly banned.",
+      "CRN 82.4% variance reduction claims strictly banned.",
+      "N=500 mathematical optimality claims strictly banned."
+    ],
+    "status_breakdown": {
+      "BLOCKED": 1,
+      "CORRECTED": 5,
+      "HISTORICAL_ONLY": 1,
+      "NOT_SUPPORTED": 3,
+      "SUPPORTED_WITH_LIMITATION": 3
+    },
+    "total_claims_audited": 13
+  },
+  "created_at_utc": "2026-10-02T11:52:19.537233+00:00",
+  "cryptographic_lineage": {
+    "academic_model_selection_v3_sha256": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+    "development_evidence_manifest_v3_sha256": "506cf808dbf044b4404a844ac7f525b1877e51e9a52567398ea2cd4afeae876d",
+    "post_holdout_evaluation_manifest_v3_sha256": "b9d7a7cf51b8f5691d7b37e6ce73ceb92113358247469f1cb750ff2a407c4f23",
+    "system_freeze_manifest_v3_sha256": "0144ea3ffb73039c070dac4c7f0a410995e755d973f300289651ffa4be30020c"
+  },
+  "decoupled_model_champions": {
+    "downstream_simulation_role": {
+      "candidate": "P4_ngboost_student_t",
+      "capability": "PARAMETRIC_CONTINUOUS_DENSITY_ENABLED",
+      "crps_continuous_exact_2024": 17.6532,
+      "nll_continuous_exact_2024": 4.6307
+    },
+    "joint_overall_champion": "BLOCKED_FAIL_CLOSED",
+    "point_prediction_role": {
+      "champions": [
+        "arrival_linear_baseline_v1",
+        "arrival_weighted_ensemble_v1"
+      ],
+      "mae_2023_dev": {
+        "ensemble": 24.6177,
+        "linear": 24.6181
+      },
+      "mae_2024_holdout": {
+        "ensemble": 23.3175,
+        "linear": 22.9125
+      },
+      "overall_status": "NO_SINGLE_OVERALL_CHAMPION_ASSERTED",
+      "status": "TIED_2023_DEV_ONLY_NOT_TIED_2024_HOLDOUT",
+      "status_2023_dev": "TIED_WITHIN_0.10_MIN_INDIFFERENCE_BAND",
+      "status_2024_holdout": "NOT_TIED_DIFFERENCE_EXCEEDS_0.10_MIN"
+    },
+    "probabilistic_forecasting_role": {
+      "capability": "NON_PARAMETRIC_QUANTILE_FORECASTING_ONLY",
+      "champion": "P5_quantile_regression",
+      "continuous_density": "NOT_AVAILABLE",
+      "crps_2023_dev": 16.85
+    }
+  },
+  "manifest_version": "final_evidence_certification_v3",
+  "operational_evaluation_summary": {
+    "evaluation_cases": 84,
+    "hard_constraint_violations_observed": 0,
+    "realized_conflicts_observed": 0,
+    "scenarios_evaluated": 4,
+    "semantics_enforced": "SCALAR_FORECAST_IMPACT",
+    "solvers_evaluated": 3,
+    "total_unaccounted_failures": 0
+  },
+  "task_id": "R24_FINAL_EVIDENCE_CERTIFICATION",
+  "temporal_governance": {
+    "model_selection_year": 2023,
+    "outer_development_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "post_holdout_role": "POST_HOLDOUT",
+    "post_holdout_year": 2024,
+    "zero_2024_retraining_verified": true
+  }
+}

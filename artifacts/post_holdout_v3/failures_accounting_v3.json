@@ -1,0 +1,13 @@
+{
+  "evaluation_role": "POST_HOLDOUT",
+  "holdout_year": 2024,
+  "freeze_version": "v3",
+  "created_at_utc": "2026-10-02T11:16:33.775752+00:00",
+  "total_evaluated_cases": 84,
+  "total_failures_count": 0,
+  "solver_timeouts_count": 0,
+  "infeasible_instances_count": 0,
+  "simulation_divergence_count": 0,
+  "prediction_anomalies_count": 0,
+  "failures_log": []
+}

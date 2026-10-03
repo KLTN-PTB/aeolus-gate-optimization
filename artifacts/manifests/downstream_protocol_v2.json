@@ -1,0 +1,172 @@
+{
+  "protocol_name": "downstream_protocol_v2",
+  "version": "2.0.0",
+  "created_at_utc": "2026-10-02T03:15:00Z",
+  "governance": {
+    "roadmap_source": "docs/roadmap/01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V4_DONG_BO.md",
+    "protocol_source": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md",
+    "pre_repair_task": "Task R8 - Downstream Gate / Optimization Repair"
+  },
+  "hard_claim_boundary": {
+    "interpretation": "Downstream evaluations are strictly synthetic gate assignment simulations and simulated operational scenarios.",
+    "forbidden_claims": [
+      "real gate assignment",
+      "actual airport gate operation",
+      "real-world gate conflict",
+      "real-world conflict reduction",
+      "actual operational savings",
+      "ground-truth airport gate allocation"
+    ],
+    "ground_truth_justification": "BTS On-Time dataset contains scheduled and realized departure/arrival clock times, flight numbers, and tail identifiers, but contains ZERO physical gate identifiers or pushback apron movement records. All gate topologies, nominal assignments, and turnaround buffers are synthetic research models."
+  },
+  "information_regimes": {
+    "regime_A_schedule_only": {
+      "display_name": "Schedule-Only Baseline",
+      "arrival_delay_input": "0.0 minutes",
+      "role": "baseline",
+      "deployable": true,
+      "description": "Plans gate allocations strictly according to published scheduled CRS_ARR_TIME."
+    },
+    "regime_B_core_arrival_forecast": {
+      "display_name": "Core Arrival Forecast Candidates",
+      "arrival_delay_input": "Predicted arrival delay from approved Core Arrival point/probabilistic models",
+      "role": "candidate_models",
+      "deployable": true,
+      "description": "Plans gate allocations using pre-registered predictions (Linear Baseline, Random Forest, HistGradientBoosting, XGBoost, Weighted Ensemble, P5 Quantile Median, P4 NGBoost)."
+    },
+    "regime_C_oracle_reference": {
+      "display_name": "Oracle Ground-Truth Realized Delay Reference",
+      "arrival_delay_input": "Actual realized ARR_DELAY",
+      "role": "non_deployable_reference",
+      "deployable": false,
+      "description": "Theoretical upper/reference bound with perfect future information. Research reference only; does not represent an operational forecasting system."
+    },
+    "strictly_prohibited_inputs": [
+      "Auxiliary departure delay predictions (p_dep_delay, y_dep_cls, dep_delay)",
+      "Weather features (METAR, wind, snow, precip, temp)",
+      "Actual operational outcomes from holdout year 2024"
+    ]
+  },
+  "gate_assignment_states": {
+    "CONTACT_GATE": {
+      "semantic_definition": "Flight assigned to an available physical terminal contact gate.",
+      "capacity": "Single occupancy [start_min - buffer, end_min + buffer)",
+      "cost_implication": "Standard nominal reassignment penalty if gate differs from nominal plan."
+    },
+    "REMOTE_STAND": {
+      "semantic_definition": "Flight assigned to a remote stand / overflow apron.",
+      "capacity": "Infinite capacity (no pairwise conflict), incurs busing/towing operational penalty.",
+      "cost_implication": "overflow_weight penalty (200.0) + nominal reassignment penalty."
+    },
+    "UNASSIGNED": {
+      "semantic_definition": "Flight left unassigned due to complete solver failure or infeasibility.",
+      "capacity": "Invalid operational state.",
+      "cost_implication": "Massive overflow penalty (2 * overflow_weight = 400.0); renders solution strictly infeasible."
+    },
+    "state_balance_invariant": "contact_count + remote_count + unassigned_count == n_flights"
+  },
+  "independent_verifier": {
+    "function": "src.optimization.domain.verify_hard_constraints_independently",
+    "authority": "Solvers cannot self-certify feasibility. An independent outside function audits all constraints.",
+    "verifications_performed": [
+      "Pairwise contact gate overlap detection (including separation buffer)",
+      "Gate operational availability time windows",
+      "Carrier compatibility (allowed_carriers set)",
+      "Aircraft type compatibility (allowed_aircraft_types set)",
+      "Minimum turnaround duration compliance",
+      "Distinct state counting and unassigned detection",
+      "Realized post-hoc conflict detection under actual delays"
+    ],
+    "machine_readable_diagnostic_fields": [
+      "is_valid",
+      "feasible",
+      "all_flights_assigned",
+      "no_contact_gate_conflicts",
+      "gate_availability_satisfied",
+      "gate_compatibility_satisfied",
+      "turnaround_valid",
+      "contact_count",
+      "remote_count",
+      "unassigned_count",
+      "hard_constraint_violations_count",
+      "conflict_count",
+      "realized_post_hoc_conflicts_count"
+    ]
+  },
+  "objective_formulation": {
+    "standard_weights": {
+      "reassignment_weight": 10.0,
+      "overflow_weight": 200.0,
+      "delay_weight": 1.0,
+      "conflict_weight": 1000.0,
+      "risk_weight": 2.0
+    },
+    "decision_cost_components": [
+      "reassignment_cost",
+      "overflow_cost",
+      "conflict_cost"
+    ],
+    "reporting_cost_components": [
+      "delay_cost",
+      "risk_cost"
+    ],
+    "integer_scaling": {
+      "scale_factor": 100,
+      "audited_terms": "Decision costs only. Exogenous delay and risk costs are evaluated in common evaluator but omitted from CP-SAT decision variables to prevent integer scaling distortion."
+    }
+  },
+  "solver_hierarchy_and_equal_compute": {
+    "solvers": {
+      "DeterministicGreedy": {
+        "tier": "baseline_heuristic",
+        "budget": "instantaneous / single-pass deterministic",
+        "role": "fast constructive baseline"
+      },
+      "CPSat": {
+        "tier": "exact_constraint_programming",
+        "budget": "Total time limit T seconds (default: 10.0s)",
+        "role": "primary exact solver producing proved optimal or bounded solutions",
+        "status_reporting_rule": "Reports OPTIMAL strictly when solver status == cp_model.OPTIMAL and independent verifier certifies feasible."
+      },
+      "SimulatedAnnealingRefinement": {
+        "tier": "hybrid_metaheuristic_refinement",
+        "budget": "T/2 seconds for CP-SAT incumbent + T/2 seconds for SA refinement, total compute <= T",
+        "role": "neighborhood local search starting from CP-SAT incumbent under equal compute",
+        "superiority_rule": "SA refinement must never be claimed as superior to an optimal CP-SAT solution."
+      }
+    }
+  },
+  "scenario_design": {
+    "temporal_data_source": "2023 development set only (strictly NO 2024 data)",
+    "scenarios": [
+      {
+        "scenario_id": "SCEN_2023_LOW",
+        "day_id": "2023-11-23",
+        "n_flights": 30,
+        "n_contact_gates": 10,
+        "seed": 202601
+      },
+      {
+        "scenario_id": "SCEN_2023_MEDIUM",
+        "day_id": "2023-07-03",
+        "n_flights": 50,
+        "n_contact_gates": 15,
+        "seed": 202602
+      },
+      {
+        "scenario_id": "SCEN_2023_HIGH",
+        "day_id": "2023-07-13",
+        "n_flights": 70,
+        "n_contact_gates": 20,
+        "seed": 202603
+      },
+      {
+        "scenario_id": "SCEN_2023_DISRUPTED",
+        "day_id": "2023-08-07",
+        "n_flights": 50,
+        "n_contact_gates": 15,
+        "seed": 202604
+      }
+    ]
+  }
+}

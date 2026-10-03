@@ -1,0 +1,166 @@
+{
+  "manifest_version": "feature_manifest_arrival_v1_1",
+  "created_at": "2026-09-20T10:01:49Z",
+  "parent_manifest": "artifacts/manifests/feature_manifest_arrival_v1.json",
+  "parent_manifest_sha256": "CB352A56D194E9F39EE9477FDBC5DA7929BA03B5BA089100CBD88B01DEC09E85",
+  "task": "arrival_core",
+  "hub": "ATL",
+  "flow": "inbound",
+  "target_filter": "DEST=ATL",
+  "prediction_cutoff": "CRS_DEP_TIME - 2 hours",
+  "labels": {
+    "y_arr_cls": "1[ARR_DELAY >= 15]",
+    "y_arr_reg": "signed ARR_DELAY",
+    "missing_target": "DROP_ROW_AND_REPORT_COUNT",
+    "target_imputation": false,
+    "ground_truth_clipping": false
+  },
+  "source_schema_version": "canonical_schema_v1",
+  "temporal_protocol_version": "expanding_window_v1",
+  "feature_contract_version": "arrival_feature_contract_v1_1",
+  "preprocessing_version": "arrival_preprocessing_v1_1",
+  "feature_families": [
+    "Schedule",
+    "Calendar",
+    "Carrier",
+    "Route"
+  ],
+  "raw_candidate_columns": [
+    "FL_DATE",
+    "OP_CARRIER",
+    "OP_CARRIER_FL_NUM",
+    "ORIGIN",
+    "CRS_DEP_TIME",
+    "CRS_ARR_TIME",
+    "CRS_ELAPSED_TIME",
+    "MONTH",
+    "DAY_OF_MONTH",
+    "DAY_OF_WEEK"
+  ],
+  "approved_source_columns": [
+    "FL_DATE",
+    "OP_CARRIER",
+    "OP_CARRIER_FL_NUM",
+    "ORIGIN",
+    "CRS_DEP_TIME",
+    "CRS_ARR_TIME",
+    "CRS_ELAPSED_TIME",
+    "MONTH",
+    "DAY_OF_MONTH",
+    "DAY_OF_WEEK"
+  ],
+  "source_only_columns": {
+    "FL_DATE": "calendar derivation and validation",
+    "CRS_DEP_TIME": "cutoff plus departure clock derivation",
+    "CRS_ARR_TIME": "scheduled arrival clock derivation only; no raw predictor",
+    "MONTH": "validation against FL_DATE",
+    "DAY_OF_MONTH": "validation against FL_DATE",
+    "DAY_OF_WEEK": "validation against FL_DATE"
+  },
+  "final_approved_predictor_columns": [
+    "CRS_ELAPSED_TIME",
+    "calendar_year",
+    "calendar_month",
+    "calendar_day_of_month",
+    "calendar_day_of_week",
+    "is_weekend",
+    "scheduled_departure_hour",
+    "scheduled_departure_minute",
+    "OP_CARRIER",
+    "ORIGIN",
+    "OP_CARRIER_FL_NUM",
+    "scheduled_arrival_hour",
+    "scheduled_arrival_minute"
+  ],
+  "derived_feature_names": [
+    "calendar_year",
+    "calendar_month",
+    "calendar_day_of_month",
+    "calendar_day_of_week",
+    "is_weekend",
+    "scheduled_departure_hour",
+    "scheduled_departure_minute",
+    "scheduled_arrival_hour",
+    "scheduled_arrival_minute"
+  ],
+  "scheduled_arrival_policy": {
+    "source": "CRS_ARR_TIME",
+    "derived_values": [
+      "scheduled_arrival_hour",
+      "scheduled_arrival_minute"
+    ],
+    "point_in_time_safe_at": "CRS_DEP_TIME - 2 hours",
+    "raw_source_dropped_from_X": true,
+    "rollover_or_duration_derivation": false,
+    "range_validation": {
+      "scheduled_arrival_hour": "0..23",
+      "scheduled_arrival_minute": "0..59"
+    }
+  },
+  "dropped_columns": {
+    "ARR_DELAY": "TARGET_ONLY",
+    "y_arr_cls": "TARGET_ONLY",
+    "y_arr_reg": "TARGET_ONLY",
+    "DEP_DELAY": "DROP_LEAKAGE",
+    "y_dep_cls": "DROP_LEAKAGE",
+    "DEP_TIME": "DROP_LEAKAGE",
+    "TAXI_OUT": "DROP_LEAKAGE",
+    "WHEELS_OFF": "DROP_LEAKAGE",
+    "WHEELS_ON": "DROP_LEAKAGE",
+    "TAXI_IN": "DROP_LEAKAGE",
+    "ARR_TIME": "DROP_LEAKAGE",
+    "ACTUAL_ELAPSED_TIME": "DROP_LEAKAGE",
+    "AIR_TIME": "DROP_LEAKAGE",
+    "O_TEMP": "DROP_WEATHER",
+    "O_PRCP": "DROP_WEATHER",
+    "O_WSPD": "DROP_WEATHER",
+    "D_TEMP": "DROP_WEATHER",
+    "D_PRCP": "DROP_WEATHER",
+    "D_WSPD": "DROP_WEATHER",
+    "DEST": "DROP_CONSTANT",
+    "DEST_INDEX": "DROP_CONSTANT",
+    "D_LATITUDE": "DROP_CONSTANT",
+    "D_LONGITUDE": "DROP_CONSTANT",
+    "ORIGIN_INDEX": "REVIEW_REQUIRED",
+    "O_LATITUDE": "REVIEW_REQUIRED",
+    "O_LONGITUDE": "REVIEW_REQUIRED",
+    "FLIGHTS": "REVIEW_REQUIRED",
+    "flight_key": "DROP_IDENTIFIER",
+    "chain_id": "DROP_IDENTIFIER",
+    "source_year": "DROP_IDENTIFIER",
+    "source_row_number": "DROP_IDENTIFIER"
+  },
+  "identifier_only_columns": [
+    "flight_key",
+    "chain_id",
+    "source_year",
+    "source_row_number"
+  ],
+  "weather_policy": {
+    "arrival_allowed": false,
+    "aeolus_raw": "DROP",
+    "external": "NOT_ALLOWED"
+  },
+  "chain_policy": {
+    "source_artifact": "schedule_chain_v1",
+    "availability_policy": "reconstructed_chain_feature_availability_v1",
+    "included_in_base_matrix": false,
+    "arr_b_enabled": false
+  },
+  "flights_policy": "REVIEW_REQUIRED_BLOCKED",
+  "airport_index_policy": "DROP_INDICES_USE_ORIGIN_CODE_CATEGORICAL",
+  "fit_boundary": "EACH_FOLD_TRAIN_ROWS_ONLY",
+  "change_log": [
+    "Added exact scheduled_arrival_hour and scheduled_arrival_minute from CRS_ARR_TIME.",
+    "The raw CRS_ARR_TIME value remains source-only and is not passed to X.",
+    "This closes the Phase A comparison issue associated with the -6.07% skill score against the carrier x approximate scheduled-arrival-hour baseline.",
+    "The frozen feature_manifest_arrival_v1.json was not modified."
+  ],
+  "bounded_io": {
+    "year_partitioned": true,
+    "column_projected": true,
+    "batch_aware": true,
+    "allowed_row_level_years": "2016-2022"
+  },
+  "config_version": "0.1.0"
+}

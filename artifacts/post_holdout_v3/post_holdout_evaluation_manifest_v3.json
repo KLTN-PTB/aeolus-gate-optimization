@@ -1,0 +1,106 @@
+{
+  "artifacts_generated": [
+    "post_holdout_evaluation_manifest_v3.json",
+    "downstream_operational_evaluations_v3.parquet",
+    "downstream_operational_evaluations_v3.csv",
+    "paired_downstream_deltas_v3.parquet",
+    "paired_downstream_deltas_v3.csv",
+    "marginal_forecast_metrics_2024_v3.json",
+    "failures_accounting_v3.json",
+    "failures_accounting.json",
+    "provenance_verification_v3.json",
+    "evidence_reconciliation_v3.json"
+  ],
+  "claim_boundaries": {
+    "environment": "SIMULATED_SYNTHETIC_RESEARCH_ONLY",
+    "oracle_role": "NON_DEPLOYABLE_REFERENCE_ONLY",
+    "physical_airport_claims": "STRICTLY_PROHIBITED"
+  },
+  "created_at_utc": "2026-10-02T11:16:33.777012+00:00",
+  "evaluation_role": "POST_HOLDOUT",
+  "evaluation_scope": {
+    "marginal_holdout_samples": 5000,
+    "n_candidates": 7,
+    "n_operational_scenarios": 4,
+    "n_solvers": 3,
+    "total_downstream_cases": 84
+  },
+  "freeze_manifest_v3_sha256": "0144ea3ffb73039c070dac4c7f0a410995e755d973f300289651ffa4be30020c",
+  "freeze_version": "v3",
+  "holdout_year": 2024,
+  "manifest_version": "post_holdout_evaluation_manifest_v3",
+  "protocol_name": "AEOLUS_V4_POST_HOLDOUT_REEVALUATION_PROTOCOL_V3",
+  "provenance_audit": {
+    "audit_name": "provenance_anomaly_audit_2024",
+    "comparison_records": [
+      {
+        "abs_difference": 1.7056,
+        "is_suspiciously_identical": false,
+        "metric": "mae",
+        "model_id": "arrival_linear_baseline_v1",
+        "status": "VERIFIED_DISTINCT",
+        "val_2023_dev": 24.6181333149954,
+        "val_2024_holdout": 22.9125
+      },
+      {
+        "abs_difference": 1.3002,
+        "is_suspiciously_identical": false,
+        "metric": "mae",
+        "model_id": "arrival_weighted_ensemble_v1",
+        "status": "VERIFIED_DISTINCT",
+        "val_2023_dev": 24.617684454376416,
+        "val_2024_holdout": 23.3175
+      },
+      {
+        "abs_difference": 2.72,
+        "is_suspiciously_identical": false,
+        "metric": "mae",
+        "model_id": "arrival_xgboost_baseline_v1",
+        "status": "VERIFIED_DISTINCT",
+        "val_2023_dev": 27.008624591649045,
+        "val_2024_holdout": 24.2886
+      },
+      {
+        "formula": "Exact Student-T continuous CRPS integral",
+        "metric": "crps_continuous_exact",
+        "model_id": "P4_ngboost_student_t",
+        "status": "VERIFIED_DISTINCT",
+        "val_2023_dev": 18.484,
+        "val_2024_holdout": 17.6532
+      },
+      {
+        "formula": "Exact Student-T negative log-likelihood density",
+        "metric": "nll_continuous_exact",
+        "model_id": "P4_ngboost_student_t",
+        "status": "VERIFIED_DISTINCT",
+        "val_2023_dev": 4.5805,
+        "val_2024_holdout": 4.6307
+      },
+      {
+        "metric": "capability_contract_boundary",
+        "model_id": "P5_quantile_regression",
+        "nll_status": "NOT_AVAILABLE",
+        "sampling_status": "NOT_SUPPORTED",
+        "status": "VERIFIED_CONTRACT_HONORED"
+      }
+    ],
+    "has_lineage_anomaly": false,
+    "p4_continuous_lineage_verified": true,
+    "p5_capability_boundary_verified": true,
+    "provenance_status": "VERIFIED_DISTINCT",
+    "timestamp_utc": "2026-10-02T11:15:55.171602+00:00"
+  },
+  "provenance_status": "VERIFIED_DISTINCT",
+  "summary_findings": {
+    "marginal_mae": {
+      "P4_ngboost_student_t": 21.9664,
+      "P5_quantile_regression": 21.6879,
+      "arrival_linear_baseline_v1": 22.9125,
+      "arrival_weighted_ensemble_v1": 23.3175,
+      "arrival_xgboost_baseline_v1": 24.2886,
+      "schedule_only": 23.3776
+    },
+    "overall_status": "PASS",
+    "total_failures": 0
+  }
+}

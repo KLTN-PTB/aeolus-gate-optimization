@@ -1,0 +1,144 @@
+{
+  "manifest_version": "r14_candidate_inventory_v1",
+  "created_at_utc": "2026-10-02T09:14:55.044726+00:00",
+  "task_id": "R14_DOWNSTREAM_CANDIDATE_CONSISTENCY_AUDIT",
+  "candidate_count": 7,
+  "explicit_candidate_ids": [
+    "schedule_only",
+    "arrival_linear_baseline_v1",
+    "arrival_xgboost_baseline_v1",
+    "arrival_weighted_ensemble_v1",
+    "P5_quantile_regression",
+    "P4_ngboost_student_t",
+    "oracle_actual"
+  ],
+  "candidates": [
+    {
+      "model_id": "schedule_only",
+      "family": "baseline",
+      "task": "core_arrival_downstream",
+      "forecast_type": "deterministic_point",
+      "distribution_type": "constant_zero",
+      "sampling_supported": false,
+      "downstream_eligible": true,
+      "eligibility_reason": "Pre-registered deterministic schedule-only baseline (0 min delay).",
+      "selection_role": "operational_baseline",
+      "source_manifest": "configs/model_catalog_v2.yaml",
+      "feature_manifest": "artifacts/manifests/feature_manifest_arrival_v2.json",
+      "prediction_interface": "np.zeros(len(X))",
+      "downstream_input_semantics": "sampled_delay_min = 0.0"
+    },
+    {
+      "model_id": "arrival_linear_baseline_v1",
+      "family": "point",
+      "task": "core_arrival_downstream",
+      "forecast_type": "deterministic_point",
+      "distribution_type": "degenerate_point",
+      "sampling_supported": false,
+      "downstream_eligible": true,
+      "eligibility_reason": "Core point champion (tied with ensemble on MAE); linear regression point forecast.",
+      "selection_role": "point_champion_tied",
+      "source_manifest": "configs/model_catalog_v2.yaml",
+      "feature_manifest": "artifacts/manifests/feature_manifest_arrival_v2.json",
+      "prediction_interface": "Ridge.predict(X_trans)",
+      "downstream_input_semantics": "sampled_delay_min = pred_delay"
+    },
+    {
+      "model_id": "arrival_xgboost_baseline_v1",
+      "family": "point",
+      "task": "core_arrival_downstream",
+      "forecast_type": "deterministic_point",
+      "distribution_type": "degenerate_point",
+      "sampling_supported": false,
+      "downstream_eligible": true,
+      "eligibility_reason": "Core gradient boosting point baseline comparator.",
+      "selection_role": "point_model_comparator",
+      "source_manifest": "configs/model_catalog_v2.yaml",
+      "feature_manifest": "artifacts/manifests/feature_manifest_arrival_v2.json",
+      "prediction_interface": "XGBRegressor.predict(X_trans)",
+      "downstream_input_semantics": "sampled_delay_min = pred_delay"
+    },
+    {
+      "model_id": "arrival_weighted_ensemble_v1",
+      "family": "point",
+      "task": "core_arrival_downstream",
+      "forecast_type": "deterministic_point",
+      "distribution_type": "degenerate_point",
+      "sampling_supported": false,
+      "downstream_eligible": true,
+      "eligibility_reason": "Core ensemble point champion (tied with linear on MAE); implemented in downstream as 50/50 linear + xgboost.",
+      "selection_role": "point_champion_tied",
+      "source_manifest": "configs/model_catalog_v2.yaml",
+      "feature_manifest": "artifacts/manifests/feature_manifest_arrival_v2.json",
+      "prediction_interface": "0.5 * linear + 0.5 * xgboost",
+      "downstream_input_semantics": "sampled_delay_min = pred_delay"
+    },
+    {
+      "model_id": "P5_quantile_regression",
+      "family": "probabilistic",
+      "task": "core_arrival_downstream",
+      "forecast_type": "quantile_median",
+      "distribution_type": "discrete_quantiles",
+      "sampling_supported": false,
+      "downstream_eligible": true,
+      "eligibility_reason": "Forecast champion for quantile risks (CRPS 16.85m). Evaluated downstream strictly via its median (q50) point prediction, conforming to capability contract (no continuous sampling).",
+      "selection_role": "probabilistic_forecast_champion",
+      "source_manifest": "artifacts/manifests/probabilistic_metric_contract_v2.json",
+      "feature_manifest": "artifacts/manifests/feature_manifest_arrival_v2.json",
+      "prediction_interface": "P5QuantileRegressionCandidate.predict_distribution(X).median()",
+      "downstream_input_semantics": "sampled_delay_min = dist_p5.median()"
+    },
+    {
+      "model_id": "P4_ngboost_student_t",
+      "family": "probabilistic",
+      "task": "core_arrival_downstream",
+      "forecast_type": "parametric_distribution",
+      "distribution_type": "student_t_location_scale",
+      "sampling_supported": true,
+      "downstream_eligible": true,
+      "eligibility_reason": "Approved Downstream Candidate (Role C) possessing continuous density and sampling capabilities. Evaluated in current downstream benchmark via its expected mean delay.",
+      "selection_role": "downstream_eligible_candidate",
+      "source_manifest": "artifacts/manifests/probabilistic_metric_contract_v2.json",
+      "feature_manifest": "artifacts/manifests/feature_manifest_arrival_v2.json",
+      "prediction_interface": "P4NGBoostStudentTCandidate.predict_distribution(X).mean()",
+      "downstream_input_semantics": "sampled_delay_min = dist_p4.mean()"
+    },
+    {
+      "model_id": "oracle_actual",
+      "family": "reference",
+      "task": "core_arrival_downstream",
+      "forecast_type": "ground_truth_outcome",
+      "distribution_type": "realized_scalar",
+      "sampling_supported": false,
+      "downstream_eligible": true,
+      "eligibility_reason": "Theoretical upper/reference bound; plans with realized actual delay. Strictly non-deployable.",
+      "selection_role": "non_deployable_reference",
+      "source_manifest": "artifacts/manifests/downstream_protocol_v2.json",
+      "feature_manifest": "data/processed/inbound_atl",
+      "prediction_interface": "raw_df['ARR_DELAY'].values",
+      "downstream_input_semantics": "sampled_delay_min = actual_delay"
+    }
+  ],
+  "reconciliation_r7_vs_r8_r12": {
+    "r7_selection_role_summary": {
+      "role_a_point_champion": "arrival_linear_baseline_v1 (tied with arrival_weighted_ensemble_v1)",
+      "role_b_probabilistic_forecast_champion": "P5_quantile_regression",
+      "role_c_downstream_candidate": "P4_ngboost_student_t",
+      "joint_system_selection": "BLOCKED"
+    },
+    "r8_r12_downstream_purpose": "R8/R12 did not merely run the single Role C candidate in isolation. Instead, they executed a 7-candidate comparison benchmark across 4 operational scenarios to empirically determine whether forecast differences propagate downstream to gate optimization.",
+    "status": "RECONCILED"
+  },
+  "p5_downstream_status": {
+    "status": "VERIFIED_COMPLIANT_MEDIAN_ONLY",
+    "details": "P5 quantile regression was evaluated downstream strictly using its median (q50) scalar point prediction. No continuous distribution or heuristic Laplace continuous sampling was fabricated. This strictly adheres to the R4/R5 capabilities contract."
+  },
+  "p4_downstream_status": {
+    "status": "VERIFIED_PARAMETRIC_EXPECTED_MEAN",
+    "details": "P4 possesses continuous sampling and CDF capabilities. In the R8/R12 downstream benchmark, its expected mean delay dist_p4.mean() was used as the planned input to the turn model."
+  },
+  "point_models_downstream_status": {
+    "status": "VERIFIED_DETERMINISTIC_SCALAR",
+    "details": "Linear, XGBoost, and Weighted Ensemble supplied their scalar predicted delay in minutes directly to synthesize_turn(sampled_delay_min=pred_delay). Zero heuristic probability or artificial variance was injected."
+  }
+}

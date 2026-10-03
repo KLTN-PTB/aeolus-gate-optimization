@@ -1,0 +1,76 @@
+{
+  "protocol_version": "statistical_protocol_v3",
+  "created_at_utc": "2026-10-02T09:14:55.047348+00:00",
+  "status": "APPROVED",
+  "scope": "Rigorous paired inference, aggregate metrics, stationary bootstrap, and mandatory family-level Holm-Bonferroni FWER control.",
+  "units_of_inference": {
+    "mae": {
+      "unit": "flight",
+      "type": "pointwise",
+      "test": "paired_t_test",
+      "bootstrap": "iid_percentile"
+    },
+    "rmse": {
+      "unit": "fold_population",
+      "type": "aggregate",
+      "test": "paired_bootstrap_test",
+      "bootstrap": "iid_percentile"
+    },
+    "r2": {
+      "unit": "fold_population",
+      "type": "aggregate",
+      "test": "paired_bootstrap_test",
+      "bootstrap": "iid_percentile"
+    },
+    "pr_auc": {
+      "unit": "fold_population",
+      "type": "aggregate",
+      "test": "paired_bootstrap_test",
+      "bootstrap": "iid_percentile"
+    },
+    "brier": {
+      "unit": "flight",
+      "type": "pointwise",
+      "test": "paired_t_test",
+      "bootstrap": "iid_percentile"
+    },
+    "crps": {
+      "unit": "flight",
+      "type": "pointwise",
+      "test": "paired_t_test",
+      "bootstrap": "iid_percentile"
+    },
+    "nll": {
+      "unit": "flight",
+      "type": "pointwise",
+      "test": "paired_t_test",
+      "bootstrap": "iid_percentile"
+    },
+    "downstream_objective": {
+      "unit": "scenario_x_seed",
+      "type": "scenario_matched",
+      "test": "paired_t_test"
+    },
+    "monte_carlo_estimates": {
+      "unit": "outer_replication",
+      "type": "outer_replication_sample",
+      "test": "paired_replications"
+    }
+  },
+  "multiplicity_rules": {
+    "family_definition": "Grouping by (comparison_family, fold_id)",
+    "primary_correction": "holm",
+    "enforcement": "MANDATORY. No significance claim without adjusted_p < 0.05."
+  },
+  "reporting_rules": {
+    "full_precision": true,
+    "indifference_band": "0.10 minutes",
+    "effect_sizes_required": [
+      "mean_delta",
+      "std_delta",
+      "ci_95",
+      "raw_p",
+      "adjusted_p"
+    ]
+  }
+}

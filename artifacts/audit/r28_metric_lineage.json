@@ -1,0 +1,79 @@
+{
+  "audit_name": "r28_metric_lineage",
+  "task_id": "R28_PROBABILISTIC_METRIC_CALIBRATION_DEPENDENCY_AUDIT",
+  "created_at_utc": "2026-10-03T08:14:29.618954+00:00",
+  "crps_terminology_taxonomy": {
+    "exact_continuous_crps": {
+      "definition": "Exact closed-form or numerical integral of predictive continuous CDF against step observation indicator: CRPS(F, y) = int (F(t) - 1(y <= t))^2 dt.",
+      "applied_models": [
+        "P2_xgb_gaussian_oof",
+        "P3_ngboost_normal",
+        "P4_ngboost_student_t"
+      ],
+      "is_valid_continuous": true
+    },
+    "exact_discrete_crps": {
+      "definition": "Closed-form CRPS computed directly over finite empirical discrete support.",
+      "applied_models": [
+        "P1_empirical"
+      ],
+      "is_valid_continuous": false
+    },
+    "crps_quantile_approximation": {
+      "definition": "Quadrature / trapezoidal approximation of CRPS across a discrete set of quantiles alpha: 2 * mean(rho_alpha(y - q_alpha)).",
+      "applied_models": [
+        "P5_quantile_regression"
+      ],
+      "is_valid_continuous": false
+    },
+    "pinball_loss": {
+      "definition": "Asymmetric piecewise-linear loss function for quantile alpha: rho_alpha(u) = u * (alpha - 1(u < 0)).",
+      "applied_models": [
+        "P5_quantile_regression"
+      ],
+      "is_valid_continuous": false
+    },
+    "unsupported_label": {
+      "definition": "Calling pinball loss 'CRPS' without explicit approximation qualification, or calling discrete quantile approximation 'exact CRPS'.",
+      "policy": "STRICTLY_PROHIBITED"
+    }
+  },
+  "model_metric_lineage": {
+    "P4_ngboost_student_t": {
+      "distribution_type": "Heteroscedastic Student-T (mu, sigma, df)",
+      "dev_2023_metrics": {
+        "crps_continuous_exact": 18.484,
+        "nll_continuous_exact": 4.5805,
+        "classification": "exact_continuous_crps"
+      },
+      "holdout_2024_metrics": {
+        "crps_continuous_exact": 17.6532,
+        "nll_continuous_exact": 4.6307,
+        "classification": "exact_continuous_crps"
+      },
+      "implementation_path": "src/contracts/distribution.py::NGBoostStudentTDistribution",
+      "sampling_engine": "numpy.random.default_rng().standard_t"
+    },
+    "P5_quantile_regression": {
+      "distribution_type": "Discrete Quantiles on {0.10, 0.25, 0.50, 0.75, 0.90}",
+      "dev_2023_metrics": {
+        "crps_discrete_pinball": 16.85,
+        "classification": "crps_quantile_approximation"
+      },
+      "holdout_2024_metrics": {
+        "mae_median": 21.6879,
+        "classification": "pinball_loss"
+      },
+      "implementation_path": "src/contracts/distribution.py::QuantilePredictiveDistribution",
+      "continuous_density": "NOT_AVAILABLE",
+      "continuous_nll": "NOT_AVAILABLE",
+      "continuous_sampling": "NOT_SUPPORTED"
+    }
+  },
+  "rules_enforced": [
+    "Pinball loss is never reported as exact CRPS.",
+    "Quantile CRPS approximation is explicitly distinguished from exact continuous CRPS.",
+    "P5 continuous density and NLL are classified as NOT_AVAILABLE.",
+    "P4 CRPS (17.65 holdout) and NLL (4.63 holdout) verified from source records."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "stage_id": "STAGE_11_FINAL_HOLDOUT",
+  "audit_status": "POST_HOLDOUT_ALTERATIONS_PRESENT",
+  "holdout_access_timestamp_utc": "2026-09-27T18:23:46.416794+00:00",
+  "accessed_before_freeze": false,
+  "used_for_tuning_or_fitting": false,
+  "used_for_calibration": false,
+  "used_for_hyperparameter_selection": false,
+  "current_repo_status": "POST_HOLDOUT",
+  "marginal_forecast_gap_crps": 0.2656494312104556,
+  "downstream_conflict_error_reduction_2024": -3.8723404255319345,
+  "claim_contradiction_detected": true,
+  "contradiction_details": {
+    "manifest_numeric_value": -3.8723404255319345,
+    "numeric_interpretation": "-387.2% (increased error: D2 performed worse than D0)",
+    "textual_claim_in_finding_3": "The Gaussian Copula (D2) preserves its decisive advantage on unseen 2024 data, reducing gate conflict occurrence error by >75% over independent sampling (D0).",
+    "audit_verdict": "FLAGRANT_CONTRADICTION_BETWEEN_NUMERICAL_DATA_AND_TEXT_CLAIM"
+  },
+  "ground_truth_claim_validity": false,
+  "audit_findings": [
+    "2024 was opened post-freeze at 2026-09-27T18:23:46.416794+00:00 (Freeze timestamp: 2026-09-27T11:52:15.181370+00:00).",
+    "Model weights loaded directly from frozen joblib without refitting or retuning on 2024.",
+    "CRITICAL POST-HOLDOUT STATUS: Because Stage 11 has already executed and recorded 2024 results, any code modification present in the repository (e.g. uncommitted changes in git status) is strictly a POST-HOLDOUT change. 2024 CANNOT be re-evaluated as an untouched final holdout.",
+    "CRITICAL SCIENTIFIC INTEGRITY FINDING: In 2024 holdout, conflict_occurrence_error_reduction was -3.8723 (-387.2%), meaning D2 was SUBSTANTIALLY WORSE than D0. However, Finding #3 in the manifest falsely claimed D2 reduced error by >75%!",
+    "CRITICAL: The claims '96.0% real-world gate conflict' and 'unnecessary gate changes' are unsupported by BTS data. BTS data does not record gate numbers or gate conflicts; this metric was derived from a synthetic turn simulation."
+  ],
+  "provenance_chain": {
+    "freeze_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/full_system_freeze_manifest_v1.json",
+    "holdout_manifest": "D:/Study/Code/Python/Aelous/artifacts/manifests/final_holdout_2024_evaluation_v1.json",
+    "weights_file": "D:/Study/Code/Python/Aelous/artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+    "holdout_year": 2024,
+    "evaluated_instances": 5000,
+    "holdout_accessed_utc": "2026-09-27T18:23:46.416794+00:00"
+  }
+}

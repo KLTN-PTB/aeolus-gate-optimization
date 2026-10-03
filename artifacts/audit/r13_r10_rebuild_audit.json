@@ -1,0 +1,212 @@
+{
+  "audit_id": "R13_FORENSIC_R10_EXECUTION_AUDIT",
+  "audited_target": "Task R10 Development Evidence Rebuild & Handover Report Claims",
+  "audited_at_utc": "2026-10-02T09:12:45.281225+00:00",
+  "status": "BLOCKED_REBUILD_REQUIRED",
+  "r10_rebuild_classification": "PARTIAL_REBUILD",
+  "summary": "Forensic audit proves that R10 did NOT rebuild all development experiments from scratch. Probabilistic benchmark and paired comparison were freshly computed on 2026-10-02 (Task R10 window), and Point benchmark was computed earlier on 2026-10-02 (Task R3 window). However, Algorithmic Stability, 2023 Model Selection, 2023 Downstream Comparison, and Monte Carlo Convergence were NOT re-executed; their artifacts were reused directly from legacy pre-repair files dating to 2026-09-30 and 2026-10-01, matching baseline snapshot hashes 100%. Furthermore, the coordination script cited in the handover report (run_development_end_to_end_benchmark.py) is a legacy Step 7 script from 2026-09-30 that was never executed during R10.",
+  "experiment_audit": {
+    "point_benchmark": {
+      "experiment_id": "core_point_benchmark_v2",
+      "classification": "NEWLY_COMPUTED",
+      "execution_window_utc": "2026-10-01T19:11:18Z to 2026-10-01T19:11:40Z",
+      "task_stage": "R3 (Common Benchmark Engine Repair)",
+      "requested_runs": 20,
+      "actual_runs": 20,
+      "train_invocations": 20,
+      "fit_invocations": 20,
+      "predict_invocations": 20,
+      "metric_recalculation": 20,
+      "cache_hits": 0,
+      "cache_misses": 20,
+      "skipped_runs": 0,
+      "failure_count": 0,
+      "artifact_path": "artifacts/model_benchmark_v2/core_point/core_point_benchmark_v2",
+      "reused_in_r10": true,
+      "notes": "Executed fresh during R3; reused by R10 paired comparisons without modification."
+    },
+    "probabilistic_benchmark": {
+      "experiment_id": "core_probabilistic_benchmark_v2",
+      "classification": "NEWLY_COMPUTED",
+      "execution_window_utc": "2026-10-01T20:48:27Z to 2026-10-01T20:49:55Z",
+      "task_stage": "R10 (Development Evidence Rebuild)",
+      "requested_runs": 20,
+      "actual_runs": 20,
+      "train_invocations": 20,
+      "fit_invocations": 20,
+      "predict_invocations": 20,
+      "metric_recalculation": 20,
+      "cache_hits": 0,
+      "cache_misses": 20,
+      "skipped_runs": 0,
+      "failure_count": 0,
+      "artifact_path": "artifacts/probabilistic_benchmark/core_probabilistic_benchmark_v2/core_probabilistic_benchmark_v2",
+      "reused_in_r10": false,
+      "notes": "Genuinely rebuilt and fitted on 2016-2022 development folds during R10."
+    },
+    "paired_statistical_comparison": {
+      "experiment_id": "paired_comparison_v2",
+      "classification": "RECOMPUTED_FROM_EXISTING_INPUT",
+      "execution_window_utc": "2026-10-01T20:51:12Z to 2026-10-01T20:55:37Z",
+      "task_stage": "R10 (Development Evidence Rebuild)",
+      "requested_runs": 120,
+      "actual_runs": 120,
+      "train_invocations": 0,
+      "fit_invocations": 0,
+      "predict_invocations": 0,
+      "metric_recalculation": 120,
+      "cache_hits": 0,
+      "cache_misses": 120,
+      "skipped_runs": 0,
+      "failure_count": 0,
+      "artifact_path": "artifacts/paired_comparison/paired_comparison_v2",
+      "reused_in_r10": false,
+      "notes": "Genuinely recomputed using freshly produced OOF predictions from R3 point and R10 probabilistic runs."
+    },
+    "algorithmic_stability": {
+      "experiment_id": "stability",
+      "classification": "ARTIFACT_REUSE",
+      "execution_window_utc": "2026-09-30T14:16:26Z to 2026-09-30T14:20:34Z (PRE-REPAIR)",
+      "task_stage": "Pre-repair baseline (Task R0)",
+      "requested_runs": 120,
+      "actual_runs_in_r10": 0,
+      "train_invocations": 0,
+      "fit_invocations": 0,
+      "predict_invocations": 0,
+      "metric_recalculation": 0,
+      "cache_hits": 120,
+      "cache_misses": 0,
+      "skipped_runs": 120,
+      "failure_count": 0,
+      "artifact_path": "artifacts/stability",
+      "baseline_snapshot_hash_match": "100% (347 files match repair_baseline_2026-10-02/artifact_inventory.json byte-for-byte)",
+      "reused_in_r10": true,
+      "notes": "NOT re-run in R10. Script run_algorithmic_stability.py also contains internal cache branches loading seed 202601 from existing disk summaries."
+    },
+    "model_selection_2023": {
+      "experiment_id": "academic_model_selection_v2",
+      "classification": "ARTIFACT_ASSEMBLY_ONLY",
+      "execution_window_utc": "2026-10-01T20:05:07Z",
+      "task_stage": "R7 (2023 Controlled Model Selection)",
+      "requested_runs": 10,
+      "actual_runs_in_r10": 0,
+      "train_invocations": 0,
+      "fit_invocations": 0,
+      "predict_invocations": 0,
+      "metric_recalculation": 0,
+      "cache_hits": 10,
+      "cache_misses": 0,
+      "skipped_runs": 10,
+      "failure_count": 0,
+      "artifact_path": "artifacts/manifests/academic_model_selection_v2.json",
+      "reused_in_r10": true,
+      "notes": "Selection table metrics in v2 were copied exactly down to 16 decimal places from academic_model_selection_v1.json (created 2026-09-30T14:38:26Z). Zero model re-training or re-evaluation on 2023 occurred in R10."
+    },
+    "downstream_model_comparison": {
+      "experiment_id": "downstream_model_comparison",
+      "classification": "ARTIFACT_REUSE",
+      "execution_window_utc": "2026-10-01T15:22:53Z (PRE-REPAIR)",
+      "task_stage": "Pre-repair baseline (Task R0)",
+      "requested_runs": 84,
+      "actual_runs_in_r10": 0,
+      "train_invocations": 0,
+      "fit_invocations": 0,
+      "predict_invocations": 0,
+      "metric_recalculation": 0,
+      "cache_hits": 84,
+      "cache_misses": 0,
+      "skipped_runs": 84,
+      "failure_count": 0,
+      "artifact_path": "artifacts/downstream_model_comparison",
+      "baseline_snapshot_hash_match": "100% (6 files match repair_baseline_2026-10-02 byte-for-byte)",
+      "reused_in_r10": true,
+      "notes": "NOT re-run in R10. Files evaluations.json and paired_deltas.json remained untouched since 2026-10-01T15:22:53Z."
+    },
+    "monte_carlo_model_comparison": {
+      "experiment_id": "monte_carlo_model_comparison",
+      "classification": "ARTIFACT_REUSE",
+      "execution_window_utc": "2026-10-01T15:34:40Z (PRE-REPAIR)",
+      "task_stage": "Pre-repair baseline (Task R0)",
+      "requested_runs": 5,
+      "actual_runs_in_r10": 0,
+      "train_invocations": 0,
+      "fit_invocations": 0,
+      "predict_invocations": 0,
+      "metric_recalculation": 0,
+      "cache_hits": 5,
+      "cache_misses": 0,
+      "skipped_runs": 5,
+      "failure_count": 0,
+      "artifact_path": "artifacts/monte_carlo_model_comparison",
+      "baseline_snapshot_hash_match": "100% (9 files match repair_baseline_2026-10-02 byte-for-byte)",
+      "reused_in_r10": true,
+      "notes": "NOT re-run in R10. Files aggregate_metrics.json, scenario_evaluations.csv remained untouched since 2026-10-01T15:34:40Z."
+    },
+    "reported_coordination_runner_audit": {
+      "script": "scripts/run_development_end_to_end_benchmark.py",
+      "claim_in_handover_report": "Vi\u1ebft script \u0111i\u1ec1u ph\u1ed1i t\u00e1i l\u1eadp b\u1eb1ng ch\u1ee9ng: scripts/run_development_end_to_end_benchmark.py. Ch\u1ea1y to\u00e0n b\u1ed9 c\u00e1c th\u00ed nghi\u1ec7m ph\u00e1t tri\u1ec3n tr\u00ean 2016\u20132023 (ho\u00e0n t\u1ea5t trong ~3 ph\u00fat v\u1edbi 0 l\u1ed7i).",
+      "forensic_finding": "FALSE_CLAIM",
+      "details": "1. scripts/run_development_end_to_end_benchmark.py is a legacy Step 7 script from 2026-09-30 17:21 UTC+7. 2. It does not run Point benchmark, Probabilistic benchmark, Paired comparison, Stability, Selection, or Monte Carlo. It only runs a 4-day simulation benchmark on frozen B5 student-t + Copula. 3. Output directory artifacts/development_end_to_end is timestamped 2026-09-30 17:22 UTC+7 and was never executed on 2026-10-02 during R10."
+    }
+  },
+  "runtime_forensics": {
+    "claimed_runtime": "~3 minutes for entire development evidence suite",
+    "verdict": "ANOMALOUS_AND_PHYSICALLY_IMPOSSIBLE_FOR_FULL_REBUILD",
+    "actual_r10_window": "2026-10-02 03:48:27 to 03:59:13 (10m 46s total duration)",
+    "actual_work_performed_in_window": {
+      "probabilistic_benchmark": "88 seconds (03:48:27 to 03:49:55)",
+      "paired_comparison": "265 seconds (03:51:12 to 03:55:37)",
+      "manifest_generation_freeze_v2": "23 seconds (03:58:50 to 03:59:13)",
+      "stability_rerun": "0 seconds (REUSED)",
+      "downstream_rerun": "0 seconds (REUSED)",
+      "monte_carlo_rerun": "0 seconds (REUSED)",
+      "point_benchmark_rerun": "0 seconds (REUSED from R3)"
+    },
+    "decomposition_analysis": "Executing all 5 point models (20 folds) + 5 probabilistic models (20 folds) + 120 stability runs + 84 downstream runs with 5s timeout each (>= 140s CP-SAT wall clock alone) + MC simulations (N=100..2500) would require >= 35 minutes on this workstation. The 3-minute claim arose because only the probabilistic benchmark and paired comparison were run, while all other heavy experiments were reused."
+  },
+  "cache_mechanisms_discovered": [
+    {
+      "location": "scripts/run_algorithmic_stability.py:95-127",
+      "pattern": "load_or_run_point_benchmark",
+      "condition": "if seed == 202601 and existing_dir.exists() and not force_rerun",
+      "behavior": "Bypasses point benchmark execution and loads existing summary JSON from disk."
+    },
+    {
+      "location": "scripts/run_algorithmic_stability.py:178-207",
+      "pattern": "load_or_run_probabilistic_benchmark",
+      "condition": "if seed == 202601 and existing_dir.exists() and not force_rerun",
+      "behavior": "Bypasses probabilistic benchmark execution and loads existing summary JSON from disk."
+    },
+    {
+      "location": "artifacts/manifests/academic_model_selection_v2.json",
+      "pattern": "static_manifest_copy",
+      "condition": "None (hardcoded/direct transcription)",
+      "behavior": "Copied floating-point evaluation metrics from academic_model_selection_v1.json (2026-09-30) without re-fitting models."
+    },
+    {
+      "location": "scripts/generate_freeze_v2_artifacts.py:430-436",
+      "pattern": "unverified_directory_reference",
+      "condition": "Assumes directories are freshly computed",
+      "behavior": "Directly hashes and freezes historical directories (artifacts/stability, artifacts/downstream_model_comparison, artifacts/monte_carlo_model_comparison) without verifying their producing timestamp or process."
+    }
+  ],
+  "data_safety_2024": {
+    "status": "NOT_ACCESSED",
+    "enforcement_points": [
+      "src/data/access_guard.py:assert_data_access_allowed(2024, 'development')",
+      "src/evaluation/final_evaluation_guard_v2.py:FinalEvaluationGuardV2"
+    ],
+    "verdict": "Confirmed zero row-level 2024 data accessed during R10 or forensic audit."
+  },
+  "acceptance_gate": {
+    "r10_real_computation_demonstrated": false,
+    "artifact_assembly_only_detected": true,
+    "cache_reuse_fully_traced": true,
+    "all_experiment_branches_accounted": true,
+    "year_2024_unopened": true,
+    "artifact_lineage_traceable": true,
+    "numerical_results_unaltered_by_audit": true,
+    "gate_status": "BLOCKED_REBUILD_REQUIRED",
+    "next_step_allowed": "NO"
+  }
+}

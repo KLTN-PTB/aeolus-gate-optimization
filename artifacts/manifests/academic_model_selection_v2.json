@@ -1,0 +1,334 @@
+{
+  "manifest_version": "academic_model_selection_v2",
+  "created_at_utc": "2026-10-01T20:05:07.228777+00:00",
+  "task": {
+    "name": "Core Arrival",
+    "filter": "DEST=ATL",
+    "cutoff": "CRS_DEP_TIME - 2h",
+    "weather_policy": "DROP_FROM_PREDICTORS",
+    "flight_chain_policy": "FINAL_NO_GO"
+  },
+  "temporal_governance": {
+    "training_window": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "evaluation_year": 2023,
+    "evaluation_role": "development_model_selection",
+    "holdout_year": 2024,
+    "holdout_status": "SEALED_AND_PROTECTED"
+  },
+  "candidate_set": {
+    "point_models": [
+      "arrival_linear_baseline_v1",
+      "arrival_random_forest_baseline_v1",
+      "arrival_hist_gradient_boosting_baseline_v1",
+      "arrival_xgboost_baseline_v1",
+      "arrival_weighted_ensemble_v1"
+    ],
+    "probabilistic_models": [
+      "P1_empirical",
+      "P2_xgb_gaussian_oof",
+      "P3_ngboost_normal",
+      "P4_ngboost_student_t",
+      "P5_quantile_regression"
+    ]
+  },
+  "metrics_used": {
+    "point_regression": [
+      "mae",
+      "rmse",
+      "r2",
+      "severe_delay_mae"
+    ],
+    "point_classification": [
+      "pr_auc",
+      "roc_auc",
+      "brier_score"
+    ],
+    "probabilistic": [
+      "crps",
+      "nll",
+      "mean_pinball_loss",
+      "cov_80",
+      "cov_90"
+    ]
+  },
+  "pre_registration_audit": {
+    "primary_metric": {
+      "rule_name": "primary_metric",
+      "status": "PRE_REGISTERED",
+      "is_pre_registered": true,
+      "details": "Primary metrics pre-registered: MAE (regression), PR-AUC (classification), CRPS (probabilistic)."
+    },
+    "secondary_metrics": {
+      "rule_name": "secondary_metrics",
+      "status": "PRE_REGISTERED",
+      "is_pre_registered": true,
+      "details": "Secondary metrics pre-registered per task family."
+    },
+    "tolerance": {
+      "rule_name": "tolerance",
+      "status": "PRE_REGISTERED",
+      "is_pre_registered": true,
+      "details": "Effect size indifference bands pre-registered: 0.10 min (MAE/CRPS), 0.0050 (PR-AUC)."
+    },
+    "tie_break": {
+      "rule_name": "tie_break",
+      "status": "PRE_REGISTERED",
+      "is_pre_registered": true,
+      "details": "Tie-break pre-registered: report_tie_when_within_delta; force_single_selection=false."
+    },
+    "complexity_rule": {
+      "rule_name": "complexity_rule",
+      "status": "UNKNOWN",
+      "is_pre_registered": false,
+      "details": "NOT PRE-REGISTERED in historical config. Selecting Ridge over Ensemble for lower complexity is POST-HOC reasoning."
+    },
+    "calibration_rule": {
+      "rule_name": "calibration_rule",
+      "status": "UNKNOWN",
+      "is_pre_registered": false,
+      "details": "NOT PRE-REGISTERED as a formal gate in historical config."
+    },
+    "distribution_capability_requirement": {
+      "rule_name": "distribution_capability_requirement",
+      "status": "UNKNOWN",
+      "is_pre_registered": false,
+      "details": "NOT PRE-REGISTERED in historical config."
+    },
+    "downstream_eligibility_rule": {
+      "rule_name": "downstream_eligibility_rule",
+      "status": "UNKNOWN",
+      "is_pre_registered": false,
+      "details": "NOT PRE-REGISTERED in historical config."
+    }
+  },
+  "selection_table": {
+    "point_models": {
+      "arrival_linear_baseline_v1": {
+        "mae": 23.29361334405417,
+        "rmse": 63.53324500053397,
+        "r2": 0.0035113898715330993,
+        "severe_delay_mae": 159.79431030788658,
+        "pr_auc": 0.2904573480348101,
+        "roc_auc": 0.6484401316440939,
+        "brier_score": 0.22142403663359259
+      },
+      "arrival_random_forest_baseline_v1": {
+        "mae": 24.484418009570952,
+        "rmse": 63.20130180629278,
+        "r2": 0.01389692905316442,
+        "severe_delay_mae": 155.69755979272438,
+        "pr_auc": 0.3107122255263487,
+        "roc_auc": 0.6549739059819709,
+        "brier_score": 0.21962580168524032
+      },
+      "arrival_hist_gradient_boosting_baseline_v1": {
+        "mae": 24.513808474018948,
+        "rmse": 63.12348957793021,
+        "r2": 0.016323576617788493,
+        "severe_delay_mae": 155.60945174786352,
+        "pr_auc": 0.30375138844370553,
+        "roc_auc": 0.6538824932467756,
+        "brier_score": 0.24371458136471202
+      },
+      "arrival_xgboost_baseline_v1": {
+        "mae": 24.946739786414895,
+        "rmse": 63.15804939579273,
+        "r2": 0.015246165197945749,
+        "severe_delay_mae": 152.93398541600774,
+        "pr_auc": 0.31390478775451225,
+        "roc_auc": 0.6595704659562682,
+        "brier_score": 0.23292999799395228
+      },
+      "arrival_weighted_ensemble_v1": {
+        "mae": 23.29361334405416,
+        "rmse": 63.53324500053397,
+        "r2": 0.0035113898715330993,
+        "severe_delay_mae": 159.79431030788658,
+        "pr_auc": 0.3147463700518061,
+        "roc_auc": 0.6597685115318306,
+        "brier_score": 0.2185136145012249
+      }
+    },
+    "probabilistic_models": {
+      "P1_empirical": {
+        "crps": 16.9998,
+        "nll": "NOT_AVAILABLE",
+        "brier_score_delay_ge_15": 0.14072,
+        "mean_pinball_loss": 6.9641,
+        "cov_80": 0.7652,
+        "cov_90": 0.8758
+      },
+      "P2_xgb_gaussian_oof": {
+        "crps": 21.4119,
+        "nll": 5.6861,
+        "brier_score_delay_ge_15": 0.16214,
+        "mean_pinball_loss": 8.6938,
+        "cov_80": 0.9353,
+        "cov_90": 0.9515
+      },
+      "P3_ngboost_normal": {
+        "crps": 21.3296,
+        "nll": 5.5673,
+        "brier_score_delay_ge_15": 0.18813,
+        "mean_pinball_loss": 8.5746,
+        "cov_80": 0.9485,
+        "cov_90": 0.9605
+      },
+      "P4_ngboost_student_t": {
+        "crps": 17.7854,
+        "nll": 4.596,
+        "brier_score_delay_ge_15": 0.15527,
+        "mean_pinball_loss": 7.7393,
+        "cov_80": 0.7672,
+        "cov_90": 0.8475
+      },
+      "P5_quantile_regression": {
+        "crps": 16.8477,
+        "nll": "NOT_AVAILABLE",
+        "brier_score_delay_ge_15": "NOT_AVAILABLE",
+        "mean_pinball_loss": 6.8781,
+        "cov_80": 0.759,
+        "cov_90": 0.8725
+      }
+    }
+  },
+  "three_distinct_roles": {
+    "role_a_point_champion": {
+      "role": "point_champion",
+      "pre_registered_outcome": {
+        "primary_metric": "mae",
+        "best_numeric_candidate": "arrival_weighted_ensemble_v1",
+        "tie_status": "TIED_WITHIN_EFFECT_SIZE_THRESHOLD",
+        "tied_candidates": [
+          "arrival_linear_baseline_v1",
+          "arrival_weighted_ensemble_v1"
+        ],
+        "margin_to_second": 0.0
+      },
+      "selected_champion": "arrival_linear_baseline_v1",
+      "selected_comparator": "arrival_weighted_ensemble_v1",
+      "decision_provenance": "POST_HOC_PARSIMONY",
+      "provenance_note": "Linear Baseline and Weighted Ensemble are statistically and numerically indistinguishable on 2023 MAE (diff = 0.00 min < 0.10 min delta). The pre-registered outcome is a TIE. Selecting Linear Baseline as champion is an explicit post-hoc parsimony decision (Occam's razor), NOT a pre-registered rule."
+    },
+    "role_b_probabilistic_forecast_champion": {
+      "role": "probabilistic_forecast_champion",
+      "pre_registered_outcome": {
+        "primary_metric": "crps",
+        "best_numeric_candidate": "P5_quantile_regression",
+        "tie_status": "DECISIVE_LEADER",
+        "selected_candidates": [
+          "P5_quantile_regression"
+        ],
+        "margin_to_second": 0.1521
+      },
+      "selected_champion": "P5_quantile_regression",
+      "selected_comparator": "P4_ngboost_student_t",
+      "decision_provenance": "PRE_REGISTERED_CRPS_LEADER",
+      "provenance_note": "P5_quantile_regression achieves the lowest CRPS on 2023 (16.8477 min), outperforming the nearest competitor by 0.1521 min (> 0.1 min delta). P5 is pre-registered champion for marginal quantile forecasting only. It does NOT possess full distribution capabilities."
+    },
+    "role_c_downstream_candidate": {
+      "role": "downstream_candidate",
+      "required_capabilities": [
+        "sample",
+        "cdf",
+        "nll"
+      ],
+      "eligibility_audit": {
+        "P1_empirical": {
+          "sample": true,
+          "cdf": true,
+          "nll": false,
+          "eligible": true
+        },
+        "P2_xgb_gaussian_oof": {
+          "sample": true,
+          "cdf": true,
+          "nll": true,
+          "eligible": true
+        },
+        "P3_ngboost_normal": {
+          "sample": true,
+          "cdf": true,
+          "nll": true,
+          "eligible": true
+        },
+        "P4_ngboost_student_t": {
+          "sample": true,
+          "cdf": true,
+          "nll": true,
+          "eligible": true
+        },
+        "P5_quantile_regression": {
+          "sample": false,
+          "cdf": false,
+          "nll": false,
+          "eligible": false
+        }
+      },
+      "selected_candidate": "P4_ngboost_student_t",
+      "selected_metrics": {
+        "crps": 17.7854,
+        "nll": 4.596,
+        "cov_80": 0.7672,
+        "cov_90": 0.8475
+      },
+      "decision_provenance": "DOWNSTREAM_CAPABILITY_AND_PARAMETRIC_FIT",
+      "provenance_note": "P5 Quantile Regression is strictly ineligible for stochastic downstream Copula simulation because finite quantiles do not provide a continuous sampler or likelihood density. P4 NGBoost Student-T is selected as the downstream simulation candidate due to its full continuous parametric capabilities, robust heavy-tail modeling (nu > 2), and superior continuous NLL (4.596)."
+    }
+  },
+  "joint_system_governance": {
+    "pre_registered_joint_rule_exists": false,
+    "joint_selection_status": "BLOCKED",
+    "selected_joint_architecture": {
+      "forecast_model": "P5_quantile_regression",
+      "downstream_simulation_model": "P4_ngboost_student_t",
+      "dependence_model": "DEP_D2_gaussian_copula"
+    },
+    "decision_provenance": "POST_HOC_ARCHITECTURAL_DECISION",
+    "audit_trace": "Historical protocol configs/academic_model_selection.yaml lacked an explicit pre-registered joint selection rule authorizing dual-model assignment (P5 for forecast, P4 for simulation). Under strict pre-registered governance, JOINT_SELECTION_STATUS is BLOCKED and audited as an architectural post-hoc accommodation."
+  },
+  "legacy_comparators": {
+    "point_regression": "arrival_weighted_ensemble_v1",
+    "probabilistic": "P4_ngboost_student_t"
+  },
+  "paired_evidence_reference": {
+    "protocol_manifest": "artifacts/manifests/statistical_comparison_protocol_v2.json",
+    "audit_manifest": "artifacts/audit/statistical_comparison_audit_v2.json",
+    "summary_data": "artifacts/paired_comparison/paired_comparison_summary.json"
+  },
+  "decision_trace": [
+    "1. Verified zero access to 2024 holdout data.",
+    "2. Loaded pre-registered selection rules from configs/academic_model_selection.yaml.",
+    "3. Evaluated Core Point models on 2023 development set: Linear Baseline and Weighted Ensemble tied on MAE.",
+    "4. Recorded Ridge selection as POST_HOC_PARSIMONY due to lack of pre-registered complexity tie-breaker.",
+    "5. Evaluated Probabilistic candidates on 2023 development set: P5 decisively led on CRPS (16.85m).",
+    "6. Designated P5 as Forecast Champion (Role B) for quantile predictions.",
+    "7. Evaluated downstream eligibility: P5 disqualified due to lack of sample() and cdf() capabilities.",
+    "8. Designated P4 as Downstream Simulation Candidate (Role C) due to full continuous likelihood.",
+    "9. Evaluated Joint System selection rule: Marked JOINT_SELECTION_STATUS = BLOCKED under pre-registered protocol."
+  ],
+  "audit_provenance": {
+    "feature_set_v1_sha256": "824436245cc5a95dd343172a7bcfd9b1c2ee5a960624de2ce8453ca1efae196e",
+    "policy_config_sha256": "4289b046873c0bcdc596321aee8d3bb0ce3632c570e0e61fa2539345f09fdbcf",
+    "model_spec_hashes": {
+      "arrival_linear_baseline_v1": "1caaf47fe3c60aa2a0a7cccc9d85af8409e79782a02c81c3aff803e9a3643cb2",
+      "arrival_random_forest_baseline_v1": "9ebcbb707a80b6fe54b7acef9a7d778d40c0fa5bde1703348de6502122f70ba1",
+      "arrival_hist_gradient_boosting_baseline_v1": "4867fe29b75cef7c1a36331198bb175c6faa9ccc7e2cf314352253bf974b8c65",
+      "arrival_xgboost_baseline_v1": "075b0f8192f101a24761a49968c07bcf9c8aee4b9bb2a370d1cb937f6a98d7ac",
+      "arrival_weighted_ensemble_v1": "148e530f0335ee930ea6aed7ca236cdedce17b7e028bb0e838d78d930cc62f4c",
+      "P1_empirical": "8c44a7fc6fa788a9112dfba75f499c6214e9cbe6596a634eb570e72e59fcdaf2",
+      "P2_xgb_gaussian_oof": "8db1f8d5e0073e9d9cf778546e3c2c182f83a10cf036d818f60f9fb12e6db772",
+      "P3_ngboost_normal": "a7179a964e68f8fbe3f3c095172a508ff7053b8ce0156a1e228141a1dc2df519",
+      "P4_ngboost_student_t": "0ae3d3389aa800af533ea60d0fa0cf7d3846f6a83dde082a5d419405aa5c5315",
+      "P5_quantile_regression": "b50505025cfcc4dfb0da5b0fc1d33501cf995d9a3efb50af60ecee93c1570c91"
+    }
+  }
+}

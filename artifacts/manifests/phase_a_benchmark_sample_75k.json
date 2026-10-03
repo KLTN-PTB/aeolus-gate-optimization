@@ -1,0 +1,300 @@
+{
+  "benchmark_version": "phase_a_day2_sample_scan_v1",
+  "created_at_utc": "2026-09-20T10:45:07Z",
+  "feature_set": "v1.1",
+  "feature_manifest": "artifacts\\manifests\\feature_manifest_arrival_v1_1.json",
+  "feature_manifest_sha256": "80b453ae3fcf755699fddb05d82fc942790f8c59bd3b4da294a56dc47fd77523",
+  "protocol": {
+    "fold": "Fold 4 (Train 2016-2021, Val 2022)",
+    "train_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "validation_year": 2022,
+    "sample_train_per_year": 75000,
+    "sample_val": 25000,
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "sampling_method": "stratified by calendar month",
+    "validation_population_fixed_across_levels": true,
+    "allowed_row_level_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "blocked_row_level_years": [
+      2023,
+      2024
+    ],
+    "row_level_2023_accessed": false,
+    "row_level_2024_accessed": false
+  },
+  "xgboost": {
+    "objective": "reg:absoluteerror",
+    "eval_metric": "mae",
+    "best_params_source": "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json",
+    "best_params_sha256": "eb82039e078ff99e7b4bce9960bf6365377f99723b8ab10204bb0a6760faf20e"
+  },
+  "inputs": {
+    "artifacts\\manifests\\feature_manifest_arrival_v1_1.json": "80b453ae3fcf755699fddb05d82fc942790f8c59bd3b4da294a56dc47fd77523",
+    "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json": "eb82039e078ff99e7b4bce9960bf6365377f99723b8ab10204bb0a6760faf20e",
+    "configs\\week5_hpo_v1_1.yaml": "bcb6263f8a030fc149d72f409a912b17f1b4db20c638eb50a396c959726b973a"
+  },
+  "actual_operation_features_used": false,
+  "weather_features_used": false,
+  "flight_chain_features_used": false,
+  "status": "COMPLETED",
+  "execution_time_seconds": 179.46,
+  "summary": {
+    "carrier_hour_median": {
+      "mae": {
+        "mean": 19.811128000000004,
+        "std": 0.22848898532752016
+      },
+      "rmse": {
+        "mean": 52.97873672152915,
+        "std": 1.5547550903269987
+      },
+      "r2": {
+        "mean": -0.05090654409991422,
+        "std": 0.0015282824196547933
+      },
+      "skill_score_vs_carrier_hour": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "severe_mae": {
+        "mean": 161.72407913468246,
+        "std": 4.434792861644623
+      },
+      "shrinkage_ratio": {
+        "mean": -0.05304313625542299,
+        "std": 0.002210555668858651
+      },
+      "pr_auc_severe": {
+        "mean": 0.07739789371597715,
+        "std": 0.0038298695033787433
+      }
+    },
+    "xgboost": {
+      "mae": {
+        "mean": 19.87462593421348,
+        "std": 0.23234230198882388
+      },
+      "rmse": {
+        "mean": 53.21162408284373,
+        "std": 1.5699214434909983
+      },
+      "r2": {
+        "mean": -0.060156299113097764,
+        "std": 0.0014566128146984482
+      },
+      "skill_score_vs_carrier_hour": {
+        "mean": -0.3203815610941163,
+        "std": 0.09563926285432892
+      },
+      "severe_mae": {
+        "mean": 162.89162917418278,
+        "std": 4.623017235812013
+      },
+      "shrinkage_ratio": {
+        "mean": -0.060615342046822486,
+        "std": 0.0011429112657019137
+      },
+      "pr_auc_severe": {
+        "mean": 0.07468238019064667,
+        "std": 0.002718413531175625
+      }
+    }
+  },
+  "per_seed_results": [
+    {
+      "seed": 42,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "validation_year": 2022,
+      "sample_train_per_year": 75000,
+      "sample_val": 25000,
+      "train_rows": 450000,
+      "validation_rows": 25000,
+      "carrier_hour_median": {
+        "mae": 19.66888,
+        "rmse": 52.498380355969076,
+        "r2": -0.05021769794964559,
+        "severe_mae": 162.91296156744536,
+        "shrinkage_ratio": -0.05192078437097049,
+        "pr_auc_severe": 0.0790395870293448,
+        "skill_score_vs_carrier_hour": 0.0
+      },
+      "xgboost": {
+        "mae": 19.750195828131996,
+        "rmse": 52.76181727782229,
+        "r2": -0.060784129567603706,
+        "severe_mae": 164.2533100253447,
+        "shrinkage_ratio": -0.06057534682934289,
+        "pr_auc_severe": 0.07083775228362409,
+        "skill_score_vs_carrier_hour": -0.4134237848418154
+      },
+      "execution_time_seconds": 35.699
+    },
+    {
+      "seed": 43,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "validation_year": 2022,
+      "sample_train_per_year": 75000,
+      "sample_val": 25000,
+      "train_rows": 450000,
+      "validation_rows": 25000,
+      "carrier_hour_median": {
+        "mae": 20.15604,
+        "rmse": 54.3228110465576,
+        "r2": -0.051256175098502776,
+        "severe_mae": 162.8766328011611,
+        "shrinkage_ratio": -0.052344336084021004,
+        "pr_auc_severe": 0.07994655076452147,
+        "skill_score_vs_carrier_hour": 0.0
+      },
+      "xgboost": {
+        "mae": 20.223925768683404,
+        "rmse": 54.5824264530555,
+        "r2": -0.061328351357681665,
+        "severe_mae": 164.16456329087214,
+        "shrinkage_ratio": -0.06066564241758166,
+        "pr_auc_severe": 0.07497173000691415,
+        "skill_score_vs_carrier_hour": -0.33680112107041804
+      },
+      "execution_time_seconds": 36.361
+    },
+    {
+      "seed": 44,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "validation_year": 2022,
+      "sample_train_per_year": 75000,
+      "sample_val": 25000,
+      "train_rows": 450000,
+      "validation_rows": 25000,
+      "carrier_hour_median": {
+        "mae": 19.5084,
+        "rmse": 50.604358310327385,
+        "r2": -0.05259604468160317,
+        "severe_mae": 155.66434336023477,
+        "shrinkage_ratio": -0.055275369671287246,
+        "pr_auc_severe": 0.07551210246653337,
+        "skill_score_vs_carrier_hour": 0.0
+      },
+      "xgboost": {
+        "mae": 19.57159766523719,
+        "rmse": 50.82169365894952,
+        "r2": -0.0616568287023338,
+        "severe_mae": 156.63948296195255,
+        "shrinkage_ratio": -0.06188600882904516,
+        "pr_auc_severe": 0.07808987422503984,
+        "skill_score_vs_carrier_hour": -0.3239510428184156
+      },
+      "execution_time_seconds": 36.161
+    },
+    {
+      "seed": 45,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "validation_year": 2022,
+      "sample_train_per_year": 75000,
+      "sample_val": 25000,
+      "train_rows": 450000,
+      "validation_rows": 25000,
+      "carrier_hour_median": {
+        "mae": 19.74894,
+        "rmse": 52.45533347525302,
+        "r2": -0.052143917702544895,
+        "severe_mae": 158.4860805860806,
+        "shrinkage_ratio": -0.05580554321885417,
+        "pr_auc_severe": 0.07086337543452875,
+        "skill_score_vs_carrier_hour": 0.0
+      },
+      "xgboost": {
+        "mae": 19.776699747909902,
+        "rmse": 52.63247262662996,
+        "r2": -0.05926199548627431,
+        "severe_mae": 159.32664808685527,
+        "shrinkage_ratio": -0.06140525155592479,
+        "pr_auc_severe": 0.0770434143126513,
+        "skill_score_vs_carrier_hour": -0.14056322977284985
+      },
+      "execution_time_seconds": 35.183
+    },
+    {
+      "seed": 46,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "validation_year": 2022,
+      "sample_train_per_year": 75000,
+      "sample_val": 25000,
+      "train_rows": 450000,
+      "validation_rows": 25000,
+      "carrier_hour_median": {
+        "mae": 19.97338,
+        "rmse": 55.01280041953873,
+        "r2": -0.048318885067274664,
+        "severe_mae": 168.68037735849057,
+        "shrinkage_ratio": -0.04986964793198205,
+        "pr_auc_severe": 0.08162785288495739,
+        "skill_score_vs_carrier_hour": 0.0
+      },
+      "xgboost": {
+        "mae": 20.05071066110492,
+        "rmse": 55.259710397761346,
+        "r2": -0.05775019045159535,
+        "severe_mae": 170.07414150588917,
+        "shrinkage_ratio": -0.058544460602217886,
+        "pr_auc_severe": 0.07246913012500393,
+        "skill_score_vs_carrier_hour": -0.38716862696708265
+      },
+      "execution_time_seconds": 35.57
+    }
+  ]
+}

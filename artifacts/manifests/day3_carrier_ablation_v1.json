@@ -1,0 +1,828 @@
+{
+  "benchmark_version": "day3_carrier_ablation_v1",
+  "created_at_utc": "2026-09-20T17:50:09Z",
+  "purpose": "Determine whether OP_CARRIER helps or harms B2 under temporal drift before LightGBM",
+  "config": {
+    "base_config": "b2",
+    "feature_set": "v1.1",
+    "ablated_model_features": [
+      "OP_CARRIER"
+    ],
+    "objective": "reg:absoluteerror",
+    "eval_metric": "mae",
+    "baseline_unchanged": true,
+    "baseline": "carrier_hour_median fit on original fold-local X_train",
+    "xgboost_parameters_source": "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json"
+  },
+  "protocol": {
+    "sample_train_per_year": 25000,
+    "sample_val": 25000,
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "folds": {
+      "fold_1": {
+        "train_years": [
+          2016,
+          2017,
+          2018
+        ],
+        "validation_year": 2019
+      },
+      "fold_2": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019
+        ],
+        "validation_year": 2020
+      },
+      "fold_3": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "validation_year": 2021
+      },
+      "fold_4": {
+        "train_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021
+        ],
+        "validation_year": 2022
+      }
+    },
+    "allowed_row_level_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "blocked_row_level_years": [
+      2023,
+      2024
+    ],
+    "row_level_2023_accessed": false,
+    "row_level_2024_accessed": false
+  },
+  "input_hashes": {
+    "feature_manifest": {
+      "artifacts\\manifests\\feature_manifest_arrival_v1_1.json": "80b453ae3fcf755699fddb05d82fc942790f8c59bd3b4da294a56dc47fd77523"
+    },
+    "hpo_result": {
+      "artifacts\\manifests\\week5_hpo_protocol_v1_1__xgboost_regression_result_v1.json": "eb82039e078ff99e7b4bce9960bf6365377f99723b8ab10204bb0a6760faf20e"
+    },
+    "hpo_protocol": {
+      "configs\\week5_hpo_v1_1.yaml": "bcb6263f8a030fc149d72f409a912b17f1b4db20c638eb50a396c959726b973a"
+    },
+    "day2_per_fold": {
+      "artifacts\\manifests\\phase_a_benchmark_mae_per_fold.json": "5407dbea9d1978587e1239ed3e0b24b3897ae0a850bf24caa9f591ea968f6e2e"
+    }
+  },
+  "fold_summary": {
+    "fold_1": {
+      "validation_year": 2019,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metrics": {
+        "baseline_mae": {
+          "mean": 18.188036,
+          "std": 0.22616147732096203
+        },
+        "mae": {
+          "mean": 18.165310448267313,
+          "std": 0.23627042453883348
+        },
+        "rmse": {
+          "mean": 45.17299868349435,
+          "std": 1.395169401839421
+        },
+        "r2": {
+          "mean": -0.022410810577950226,
+          "std": 0.001896815353102672
+        },
+        "severe_mae": {
+          "mean": 151.8519347015321,
+          "std": 2.4133666682669648
+        },
+        "shrinkage_ratio": {
+          "mean": -0.03995545705231591,
+          "std": 0.0018899675097973573
+        },
+        "pr_auc_severe": {
+          "mean": 0.07307104649653319,
+          "std": 0.0020986123021330965
+        },
+        "skill_score_vs_carrier_hour": {
+          "mean": 0.12549496572915597,
+          "std": 0.18793442322811213
+        }
+      },
+      "per_seed": [
+        {
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 42,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 18.4326,
+          "ablation": {
+            "mae": 18.44524599638436,
+            "rmse": 46.55412726750327,
+            "r2": -0.020601187579246227,
+            "severe_mae": 155.13124047347316,
+            "shrinkage_ratio": -0.03858436065567279,
+            "pr_auc_severe": 0.07150095999464064,
+            "skill_score_vs_carrier_hour": -0.06860668806549786
+          }
+        },
+        {
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 43,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 18.36856,
+          "ablation": {
+            "mae": 18.318881685595663,
+            "rmse": 45.383015727026596,
+            "r2": -0.023815454391663327,
+            "severe_mae": 153.7718946742919,
+            "shrinkage_ratio": -0.03891684210030007,
+            "pr_auc_severe": 0.07500317176626761,
+            "skill_score_vs_carrier_hour": 0.27045296095249416
+          }
+        },
+        {
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 44,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 18.13568,
+          "ablation": {
+            "mae": 18.06660742576495,
+            "rmse": 43.467222262325386,
+            "r2": -0.024530928729257218,
+            "severe_mae": 148.65051001811443,
+            "shrinkage_ratio": -0.04301360727122361,
+            "pr_auc_severe": 0.07362055109479838,
+            "skill_score_vs_carrier_hour": 0.3808656429483248
+          }
+        },
+        {
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 45,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 17.7882,
+          "ablation": {
+            "mae": 17.761919726982192,
+            "rmse": 43.67072732950463,
+            "r2": -0.023393897358954474,
+            "severe_mae": 149.74920343576565,
+            "shrinkage_ratio": -0.041265058345940485,
+            "pr_auc_severe": 0.06986707746482645,
+            "skill_score_vs_carrier_hour": 0.14773992319518925
+          }
+        },
+        {
+          "fold_id": "fold_1",
+          "validation_year": 2019,
+          "seed": 46,
+          "train_years": [
+            2016,
+            2017,
+            2018
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 18.21514,
+          "ablation": {
+            "mae": 18.233897406609394,
+            "rmse": 46.78990083111189,
+            "r2": -0.019712584830629876,
+            "severe_mae": 151.95682490601527,
+            "shrinkage_ratio": -0.03799741688844257,
+            "pr_auc_severe": 0.07536347216213284,
+            "skill_score_vs_carrier_hour": -0.1029770103847305
+          }
+        }
+      ]
+    },
+    "fold_2": {
+      "validation_year": 2020,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metrics": {
+        "baseline_mae": {
+          "mean": 13.655556,
+          "std": 0.2097580886259216
+        },
+        "mae": {
+          "mean": 13.496180709427042,
+          "std": 0.20786560702738388
+        },
+        "rmse": {
+          "mean": 35.34969692699504,
+          "std": 1.995319099595943
+        },
+        "r2": {
+          "mean": -0.008349191209516115,
+          "std": 0.001088866744767645
+        },
+        "severe_mae": {
+          "mean": 162.95304682888585,
+          "std": 6.106961000473233
+        },
+        "shrinkage_ratio": {
+          "mean": -0.052135826352464255,
+          "std": 0.0016729000353495193
+        },
+        "pr_auc_severe": {
+          "mean": 0.023954168365902105,
+          "std": 0.001735848899827223
+        },
+        "skill_score_vs_carrier_hour": {
+          "mean": 1.1668733705105927,
+          "std": 0.23527193527499402
+        }
+      },
+      "per_seed": [
+        {
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 42,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 13.44704,
+          "ablation": {
+            "mae": 13.304643400218636,
+            "rmse": 33.867349818293334,
+            "r2": -0.00936289113793265,
+            "severe_mae": 162.43932260232157,
+            "shrinkage_ratio": -0.053856902789110914,
+            "pr_auc_severe": 0.021710863141719633,
+            "skill_score_vs_carrier_hour": 1.058943825417069
+          }
+        },
+        {
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 43,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 13.52324,
+          "ablation": {
+            "mae": 13.393708978409991,
+            "rmse": 34.36283410650879,
+            "r2": -0.00914249018780633,
+            "severe_mae": 157.2287597029718,
+            "shrinkage_ratio": -0.053617769956802896,
+            "pr_auc_severe": 0.022298225406802038,
+            "skill_score_vs_carrier_hour": 0.9578401447434826
+          }
+        },
+        {
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 44,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 13.63426,
+          "ablation": {
+            "mae": 13.412503757750466,
+            "rmse": 35.32896972121281,
+            "r2": -0.006617098867234272,
+            "severe_mae": 162.97687470840407,
+            "shrinkage_ratio": -0.05166785685201,
+            "pr_auc_severe": 0.024255659026530253,
+            "skill_score_vs_carrier_hour": 1.626463352243046
+          }
+        },
+        {
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 45,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 13.621,
+          "ablation": {
+            "mae": 13.472269892290626,
+            "rmse": 33.98363913653043,
+            "r2": -0.009108071320609534,
+            "severe_mae": 157.87066722284345,
+            "shrinkage_ratio": -0.05232962512146101,
+            "pr_auc_severe": 0.025149530189536015,
+            "skill_score_vs_carrier_hour": 1.091917683792487
+          }
+        },
+        {
+          "fold_id": "fold_2",
+          "validation_year": 2020,
+          "seed": 46,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 14.05224,
+          "ablation": {
+            "mae": 13.8977775184655,
+            "rmse": 39.20569185242983,
+            "r2": -0.007515404533997794,
+            "severe_mae": 174.24960990788836,
+            "shrinkage_ratio": -0.04920697704293645,
+            "pr_auc_severe": 0.026356564064922577,
+            "skill_score_vs_carrier_hour": 1.0992018463568787
+          }
+        }
+      ]
+    },
+    "fold_3": {
+      "validation_year": 2021,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metrics": {
+        "baseline_mae": {
+          "mean": 15.842984000000001,
+          "std": 0.12918513251918773
+        },
+        "mae": {
+          "mean": 15.791243906249525,
+          "std": 0.11660211037327503
+        },
+        "rmse": {
+          "mean": 42.707790235202864,
+          "std": 1.5029894861219169
+        },
+        "r2": {
+          "mean": -0.038287341056910985,
+          "std": 0.0033906854913710667
+        },
+        "severe_mae": {
+          "mean": 160.74380943255204,
+          "std": 4.247823434098557
+        },
+        "shrinkage_ratio": {
+          "mean": -0.07184018370771403,
+          "std": 0.0019315724695121463
+        },
+        "pr_auc_severe": {
+          "mean": 0.048916267764308206,
+          "std": 0.004928336945638808
+        },
+        "skill_score_vs_carrier_hour": {
+          "mean": 0.32588605743691934,
+          "std": 0.1355055313029019
+        }
+      },
+      "per_seed": [
+        {
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 42,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 15.62422,
+          "ablation": {
+            "mae": 15.602442298080922,
+            "rmse": 40.32376795376403,
+            "r2": -0.04464411490860409,
+            "severe_mae": 157.06284373091765,
+            "shrinkage_ratio": -0.07531952744789715,
+            "pr_auc_severe": 0.043912556034784896,
+            "skill_score_vs_carrier_hour": 0.13938425034387691
+          }
+        },
+        {
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 43,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 15.92374,
+          "ablation": {
+            "mae": 15.835610760884284,
+            "rmse": 41.74869914217184,
+            "r2": -0.03818209813185525,
+            "severe_mae": 155.84412578034795,
+            "shrinkage_ratio": -0.07252310863116078,
+            "pr_auc_severe": 0.05216817496314627,
+            "skill_score_vs_carrier_hour": 0.553445604586078
+          }
+        },
+        {
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 44,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 15.76594,
+          "ablation": {
+            "mae": 15.714641076364517,
+            "rmse": 44.61947296861705,
+            "r2": -0.034755754682710194,
+            "severe_mae": 167.93197402438602,
+            "shrinkage_ratio": -0.07031133367349578,
+            "pr_auc_severe": 0.042737629335853,
+            "skill_score_vs_carrier_hour": 0.3253781483088414
+          }
+        },
+        {
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 45,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 15.94888,
+          "ablation": {
+            "mae": 15.907636176147461,
+            "rmse": 43.344634456694244,
+            "r2": -0.037595552561370704,
+            "severe_mae": 161.32961146178857,
+            "shrinkage_ratio": -0.07089617564433091,
+            "pr_auc_severe": 0.05003465256494478,
+            "skill_score_vs_carrier_hour": 0.25860012648248887
+          }
+        },
+        {
+          "fold_id": "fold_3",
+          "validation_year": 2021,
+          "seed": 46,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 15.95214,
+          "ablation": {
+            "mae": 15.895889219770432,
+            "rmse": 43.502376654767126,
+            "r2": -0.03625918500001468,
+            "severe_mae": 161.55049216532007,
+            "shrinkage_ratio": -0.07015077314168558,
+            "pr_auc_severe": 0.055728325922812134,
+            "skill_score_vs_carrier_hour": 0.3526221574633115
+          }
+        }
+      ]
+    },
+    "fold_4": {
+      "validation_year": 2022,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metrics": {
+        "baseline_mae": {
+          "mean": 19.836584,
+          "std": 0.24778364349569168
+        },
+        "mae": {
+          "mean": 19.964744815675267,
+          "std": 0.2140434229631409
+        },
+        "rmse": {
+          "mean": 53.32912710528615,
+          "std": 1.5293661446847537
+        },
+        "r2": {
+          "mean": -0.06489816102125015,
+          "std": 0.002856718991705425
+        },
+        "severe_mae": {
+          "mean": 163.41261167270414,
+          "std": 4.495409375459708
+        },
+        "shrinkage_ratio": {
+          "mean": -0.06403531935757596,
+          "std": 0.002156359385181633
+        },
+        "pr_auc_severe": {
+          "mean": 0.06582211785899292,
+          "std": 0.003473653758477768
+        },
+        "skill_score_vs_carrier_hour": {
+          "mean": -0.6483183725004116,
+          "std": 0.18600095169849307
+        }
+      },
+      "per_seed": [
+        {
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 42,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 19.6917,
+          "ablation": {
+            "mae": 19.855903770691157,
+            "rmse": 52.880384154947286,
+            "r2": -0.06555709563189938,
+            "severe_mae": 164.7841027096509,
+            "shrinkage_ratio": -0.0640026484475914,
+            "pr_auc_severe": 0.06097092084470405,
+            "skill_score_vs_carrier_hour": -0.8338730058408128
+          }
+        },
+        {
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 43,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 20.2,
+          "ablation": {
+            "mae": 20.283391697154045,
+            "rmse": 54.65498147503742,
+            "r2": -0.06415181990092655,
+            "severe_mae": 164.47724047731418,
+            "shrinkage_ratio": -0.06268584666981879,
+            "pr_auc_severe": 0.06937719496202632,
+            "skill_score_vs_carrier_hour": -0.4128301839309234
+          }
+        },
+        {
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 44,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 19.51092,
+          "ablation": {
+            "mae": 19.681768923499583,
+            "rmse": 51.0136095617088,
+            "r2": -0.0696901514126862,
+            "severe_mae": 157.4685386520751,
+            "shrinkage_ratio": -0.06750632001262508,
+            "pr_auc_severe": 0.06584064188437325,
+            "skill_score_vs_carrier_hour": -0.8756579571828738
+          }
+        },
+        {
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 45,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 19.74502,
+          "ablation": {
+            "mae": 19.87299738008056,
+            "rmse": 52.756158276008954,
+            "r2": -0.06424634995897005,
+            "severe_mae": 159.84943520440123,
+            "shrinkage_ratio": -0.06488796457770746,
+            "pr_auc_severe": 0.06987721480272487,
+            "skill_score_vs_carrier_hour": -0.6481501668803569
+          }
+        },
+        {
+          "fold_id": "fold_4",
+          "validation_year": 2022,
+          "seed": 46,
+          "train_years": [
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021
+          ],
+          "sample_train_per_year": 25000,
+          "sample_val": 25000,
+          "baseline_mae": 20.03528,
+          "ablation": {
+            "mae": 20.129662306950987,
+            "rmse": 55.3405020587283,
+            "r2": -0.06084538820176855,
+            "severe_mae": 170.48374132007922,
+            "shrinkage_ratio": -0.06109381708013705,
+            "pr_auc_severe": 0.06304461680113614,
+            "skill_score_vs_carrier_hour": -0.47108054866709104
+          }
+        }
+      ]
+    }
+  },
+  "comparison_to_b2": {
+    "fold_1": {
+      "validation_year": 2019.0,
+      "b2_reference": {
+        "skill_mean": 0.4739864757229717,
+        "mae_mean": 18.101858861444647
+      },
+      "carrier_ablation": {
+        "skill_mean": 0.12549496572915597,
+        "mae_mean": 18.165310448267313
+      },
+      "delta": {
+        "skill_pp_ablation_minus_b2": -0.34849150999381573,
+        "mae_ablation_minus_b2": 0.06345158682266572
+      }
+    },
+    "fold_2": {
+      "validation_year": 2020.0,
+      "b2_reference": {
+        "skill_mean": 1.2443612075586175,
+        "mae_mean": 13.485775577719277
+      },
+      "carrier_ablation": {
+        "skill_mean": 1.1668733705105927,
+        "mae_mean": 13.496180709427042
+      },
+      "delta": {
+        "skill_pp_ablation_minus_b2": -0.07748783704802475,
+        "mae_ablation_minus_b2": 0.010405131707765136
+      }
+    },
+    "fold_3": {
+      "validation_year": 2021.0,
+      "b2_reference": {
+        "skill_mean": 0.16983434964552568,
+        "mae_mean": 15.816083201504707
+      },
+      "carrier_ablation": {
+        "skill_mean": 0.32588605743691934,
+        "mae_mean": 15.791243906249525
+      },
+      "delta": {
+        "skill_pp_ablation_minus_b2": 0.15605170779139366,
+        "mae_ablation_minus_b2": -0.024839295255182137
+      }
+    },
+    "fold_4": {
+      "validation_year": 2022.0,
+      "b2_reference": {
+        "skill_mean": -0.2519280802513224,
+        "mae_mean": 19.886445896088997
+      },
+      "carrier_ablation": {
+        "skill_mean": -0.6483183725004116,
+        "mae_mean": 19.964744815675267
+      },
+      "delta": {
+        "skill_pp_ablation_minus_b2": -0.39639029224908917,
+        "mae_ablation_minus_b2": 0.07829891958627044
+      }
+    }
+  },
+  "macro_skill": {
+    "b2_reference": 0.4090634881689481,
+    "carrier_ablation": 0.2424840052940641,
+    "delta_pp_ablation_minus_b2": -0.166579482874884
+  },
+  "carrier_effect": {
+    "conclusion": "carrier_signal_is_useful",
+    "fold4_skill_delta_pp": -0.39639029224908917,
+    "macro_skill_delta_pp": -0.166579482874884,
+    "signal_threshold_pp": 0.1
+  },
+  "execution_time_seconds": 195.68,
+  "runner_sha256": "d663080b509c086470f9b5bafb9363f8fbd441bfd37262cb29b94cc32cc7cff9"
+}

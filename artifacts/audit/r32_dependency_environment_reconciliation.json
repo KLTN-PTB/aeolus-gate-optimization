@@ -1,0 +1,42 @@
+{
+  "audit_name": "R32_DEPENDENCY_ENVIRONMENT_RECONCILIATION",
+  "created_at_utc": "2026-10-03T09:00:00Z",
+  "auditor": "Antigravity Independent Forensic Auditor",
+  "host_environment": {
+    "os": "Windows 10 AMD64",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+    "python_version": "3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]",
+    "python_executable": "D:\\Study\\Code\\Python\\Aelous\\.venv\\Scripts\\python.exe"
+  },
+  "repository_state": {
+    "root": "D:\\Study\\Code\\Python\\Aelous",
+    "branch": "week5-model-parameters-export",
+    "head_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+    "dirty_status": "DIRTY (audit working directory has uncommitted validation records)",
+    "git_clean": false
+  },
+  "core_dependencies_pinned": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.2",
+    "scipy": "1.13.1",
+    "scikit-learn": "1.5.0",
+    "ortools": "9.9.3963",
+    "pyarrow": "16.1.0",
+    "lightgbm": "4.3.0",
+    "xgboost": "2.0.3",
+    "ngboost": "0.5.2"
+  },
+  "deterministic_seeds_registered": [
+    202601,
+    202602,
+    202603
+  ],
+  "reproducibility_contract": {
+    "scope": "CONTAINED_SPECIFICATION",
+    "guaranteed_environment": "Python 3.11.15 on Windows 10 AMD64 with exact pinned requirements",
+    "cross_platform_portability": "NOT_GUARANTEED_BIT_FOR_BIT (floating-point rounding and BLAS/LAPACK differences across OS/CPUs)",
+    "verdict": "PROVEN_UNDER_CONTAINED_SPECIFICATION"
+  }
+}

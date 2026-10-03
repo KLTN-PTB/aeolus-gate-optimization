@@ -1,0 +1,80 @@
+{
+  "manifest_version": "distribution_candidate_manifest_v1",
+  "created_at_utc": "2026-09-27T08:55:00Z",
+  "ladder_candidates": {
+    "D1_k1_fixed_sigma": {
+      "components": 1,
+      "mean": "mu(x)",
+      "sigma": "fixed global sigma",
+      "description": "Homogeneous Gaussian baseline"
+    },
+    "D2_k1_heteroscedastic": {
+      "components": 1,
+      "mean": "mu(x)",
+      "sigma": "softplus(raw_sigma(x)) + sigma_floor",
+      "description": "Heteroscedastic Gaussian"
+    },
+    "D3_k3_mixture": {
+      "components": 3,
+      "weights": "softmax(raw_pi(x))",
+      "means": "mu_k(x)",
+      "sigmas": "softplus(raw_sigma_k(x)) + sigma_floor",
+      "description": "3-component Gaussian mixture"
+    },
+    "D4_k5_mixture_conditional": {
+      "components": 5,
+      "weights": "softmax(raw_pi(x))",
+      "means": "mu_k(x)",
+      "sigmas": "softplus(raw_sigma_k(x)) + sigma_floor",
+      "description": "5-component Gaussian mixture (CONDITIONALLY OPENED ONLY)"
+    }
+  },
+  "k5_opening_criteria": {
+    "condition_1_effective_components": {
+      "metric": "N_eff = 1 / sum(pi_k^2)",
+      "threshold": 2.5,
+      "requirement": "Must exceed 2.50 on validation set across all 4 development folds"
+    },
+    "condition_2_min_component_weight": {
+      "metric": "min_k pi_bar_k",
+      "threshold": 0.05,
+      "requirement": "Every component must have mean validation weight >= 0.05 (no degenerate components)"
+    },
+    "condition_3_crps_improvement": {
+      "metric": "Delta CRPS = CRPS(D2) - CRPS(D3)",
+      "threshold": 0.05,
+      "requirement": "95% day-block bootstrap CI lower bound > 0.05 min"
+    }
+  },
+  "sigma_parameterization": {
+    "formula": "sigma(x) = softplus(raw_sigma(x)) + sigma_floor",
+    "default_sigma_floor": 1.0,
+    "sensitivity_grid": [
+      0.1,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "gradient_clip_norm": 1.0
+  },
+  "pruning_rules_stage_6_5": {
+    "delta_screen": 0.2,
+    "rule": "CRPS_candidate <= CRPS_best + 0.20 min AND calibration_guard_passed AND tail_guard_passed",
+    "calibration_guard": "80% coverage in [0.75, 0.85] and 90% coverage in [0.85, 0.95]",
+    "tail_guard": "Brier score on Y >= 60 min no worse than best candidate by > 0.005"
+  },
+  "forecast_effect_size_delta": {
+    "metric": "CRPS",
+    "delta": 0.1,
+    "interpretation": "Practical superiority requires lower bound of paired day-block bootstrap 95% CI > 0.10 min (6 seconds)"
+  },
+  "quantile_crossing_correction": {
+    "method": "monotonic_rearrangement",
+    "reference": "Chernozhukov et al. (2010)"
+  },
+  "heavy_tail_candidate": {
+    "candidate_id": "B5_ngboost_student_t",
+    "estimator": "NGBoost with Student-T distribution",
+    "degrees_of_freedom": "nu in [3, 10] or learned with lower bound nu >= 2.1"
+  }
+}

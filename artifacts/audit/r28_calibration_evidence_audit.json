@@ -1,0 +1,23 @@
+{
+  "audit_name": "r28_calibration_evidence_audit",
+  "task_id": "R28_PROBABILISTIC_METRIC_CALIBRATION_DEPENDENCY_AUDIT",
+  "created_at_utc": "2026-10-02T12:27:13.961979+00:00",
+  "target_model": "P4_ngboost_student_t",
+  "claims_evaluated": [
+    "P4 is calibrated",
+    "P4 has calibrated tail intervals"
+  ],
+  "evidence_search_summary": {
+    "pit_uniformity_hypothesis_test_found": false,
+    "empirical_coverage_vs_nominal_curve_found": false,
+    "phase_b_calibration_report_type": "Binary classification Platt/Isotonic scaling for ARR_DELAY >= 15 min (not Student-T continuous density)",
+    "direct_p4_density_calibration_evidence_present": false
+  },
+  "epistemological_rule": "A parametric distribution is NOT certified as empirically calibrated merely because NLL is finite, CRPS is competitive, or parameters are estimated by maximum likelihood. True empirical calibration requires direct coverage testing (e.g., PIT uniformity tests or nominal vs empirical interval tracking).",
+  "calibration_verdict": "NOT_SEPARATELY_CERTIFIED",
+  "required_claim_wording_amendment": {
+    "prior_wording": "P4 NGBoost Student-T provides calibrated continuous parametric density and is the primary candidate for downstream continuous sampling.",
+    "amended_wording": "P4 NGBoost Student-T provides a parametric continuous predictive density; empirical calibration is not separately certified.",
+    "prohibited_wording": "P4 is an empirically certified calibrated distribution, P4 has guaranteed calibrated tail bounds"
+  }
+}

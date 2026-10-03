@@ -1,0 +1,90 @@
+{
+  "manifest_version": "development_evidence_manifest_v3",
+  "task_id": "R22_SYSTEM_FREEZE_V3",
+  "created_at_utc": "2026-10-02T11:12:55.456105+00:00",
+  "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+  "environment": {
+    "python_version": "3.11.15",
+    "os": "Windows-10-10.0.19045-SP0",
+    "architecture": "AMD64"
+  },
+  "system_freeze_reference": {
+    "manifest": "artifacts/manifests/system_freeze_manifest_v3.json",
+    "sidecar": "artifacts/manifests/system_freeze_manifest_v3.sha256"
+  },
+  "evaluated_models": {
+    "core_point": [
+      "arrival_linear_baseline_v1",
+      "arrival_random_forest_baseline_v1",
+      "arrival_hist_gradient_boosting_baseline_v1",
+      "arrival_xgboost_baseline_v1",
+      "arrival_weighted_ensemble_v1"
+    ],
+    "probabilistic": [
+      "P1_empirical",
+      "P2_xgb_gaussian_oof",
+      "P3_ngboost_normal",
+      "P4_ngboost_student_t",
+      "P5_quantile_regression"
+    ]
+  },
+  "folds_evaluated": [
+    "fold_1",
+    "fold_2",
+    "fold_3",
+    "fold_4"
+  ],
+  "development_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "model_selection_year": 2023,
+  "holdout_year": 2024,
+  "holdout_status": "SEALED_UNTIL_R23",
+  "seeds_evaluated": [
+    202601,
+    202602,
+    202603
+  ],
+  "metric_contracts": {
+    "point": [
+      "mae",
+      "rmse",
+      "r2",
+      "severe_delay_mae_ge_60",
+      "pr_auc",
+      "roc_auc",
+      "brier_score"
+    ],
+    "probabilistic": [
+      "crps",
+      "nll",
+      "mean_pinball_loss",
+      "brier_score_delay_ge_15",
+      "cov_80",
+      "cov_90"
+    ]
+  },
+  "protocols_applied": {
+    "temporal": "temporal_protocol_v2.json",
+    "statistical": "statistical_protocol_v3.json",
+    "downstream": "downstream_protocol_v2.json",
+    "monte_carlo": "monte_carlo_protocol_v2.json",
+    "model_selection": "academic_model_selection_v3.json",
+    "rebuild_scope": "r21_rebuild_scope.json"
+  },
+  "evidence_artifact_directories": [
+    "artifacts/model_benchmark_v2/core_point/core_point_benchmark_v2",
+    "artifacts/probabilistic_benchmark/core_probabilistic_benchmark_v2/core_probabilistic_benchmark_v2",
+    "artifacts/paired_comparison",
+    "artifacts/downstream_model_comparison_v3",
+    "artifacts/monte_carlo_model_comparison_v2"
+  ],
+  "failures_encountered": 0,
+  "status": "DEVELOPMENT_REBUILD_V3_VERIFIED"
+}

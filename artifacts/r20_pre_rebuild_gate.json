@@ -1,0 +1,102 @@
+{
+  "gate": "R20_PRE_REBUILD",
+  "status": "PASS",
+  "timestamp_utc": "2026-10-02T10:41:59.575822+00:00",
+  "total_checks": 10,
+  "passed_checks": 10,
+  "failed_checks": 0,
+  "checks": [
+    {
+      "check": "repository_state",
+      "status": "PASS",
+      "evidence": [
+        "Active branch: week5-model-parameters-export",
+        "Head commit: c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+        "Audited uncommitted modifications reflect verified R13-R20 audit artifacts and v2 contracts."
+      ]
+    },
+    {
+      "check": "model_registry_unambiguous",
+      "status": "PASS",
+      "evidence": [
+        "Exactly 5 Core Point Models verified: ['arrival_hist_gradient_boosting_baseline_v1', 'arrival_linear_baseline_v1', 'arrival_random_forest_baseline_v1', 'arrival_weighted_ensemble_v1', 'arrival_xgboost_baseline_v1']",
+        "Core method families verified: ['linear', 'random_forest', 'hist_gradient_boosting', 'xgboost', 'weighted_ensemble']",
+        "Probabilistic models (P1-P5) maintained in dedicated evidence layer without core model proliferation."
+      ]
+    },
+    {
+      "check": "temporal_split_integrity",
+      "status": "PASS",
+      "evidence": [
+        "Rolling Development: 2016-2022 (Folds 1-4 with monthly stratified sampling)",
+        "Controlled Selection: 2023 (train 2016-2022, val 2023)",
+        "Post-Holdout: 2024 (strictly sealed against exploratory access)"
+      ]
+    },
+    {
+      "check": "2024_holdout_safety",
+      "status": "PASS",
+      "evidence": [
+        "Formally classified as POST_HOLDOUT under temporal protocol v2",
+        "Zero row-level reads on 2024 during development/tuning audits",
+        "Zero tuning, Optuna HPO, threshold selection, or ensemble weight leakage verified"
+      ]
+    },
+    {
+      "check": "statistical_runner_resolution",
+      "status": "PASS",
+      "evidence": [
+        "Holm-Bonferroni FWER multiplicity correction invoked directly by runner",
+        "All 384 hypothesis comparisons populated with exact adjusted_p",
+        "Day-cluster block bootstrap on FL_DATE resolves temporal intraday dependence"
+      ]
+    },
+    {
+      "check": "downstream_semantics_resolution",
+      "status": "PASS",
+      "evidence": [
+        "Adopted semantics: SCALAR_FORECAST_IMPACT",
+        "Downstream pipeline certified as Scalar Forecast Impact Benchmark",
+        "Synthetic turn simulation disclaimed; unassigned != remote != contact"
+      ]
+    },
+    {
+      "check": "probabilistic_capability_resolution",
+      "status": "PASS",
+      "evidence": [
+        "P4 Student-T continuous parametric capabilities mapped (NLL=True, PIT=True, Sampling=True)",
+        "P5 Quantile Regression discrete capabilities mapped (NLL=False, PIT=False, Sampling=False)",
+        "Joint ranking prohibited; distinct roles enforced (Role B Forecast vs Role C Simulation)"
+      ]
+    },
+    {
+      "check": "freeze_completeness",
+      "status": "PASS",
+      "evidence": [
+        "All 17/17 result-affecting components verified FROZEN",
+        "Zero blocked or unvetted components detected",
+        "Freeze status: SYSTEM_FROZEN_V3"
+      ]
+    },
+    {
+      "check": "stale_artifact_guard",
+      "status": "PASS",
+      "evidence": [
+        "Anti-stale guard library active in src/audit/artifact_freshness.py",
+        "Automated freshness verification suite active in tests/test_r20_artifact_freshness.py",
+        "Detects stale timestamps, copy-masquerading, missing provenance, and code/config hash mismatches"
+      ]
+    },
+    {
+      "check": "legacy_claim_reconciliation",
+      "status": "PASS",
+      "evidence": [
+        "All 9 historical legacy claims audited and reconciled",
+        "Disclaims: untouched 2024, 7 core models, real-world gate optimization, SA peer solver, CRPS pinball",
+        "Prevents legacy claim contamination in R21 targeted rebuild"
+      ]
+    }
+  ],
+  "rebuild_authorization": "AUTHORIZED",
+  "governance_directive": "R21 TARGETED REBUILD IS FORMALLY AUTHORIZED TO PROCEED under strict freeze governance. Zero retraining, zero hyperparameter adjustments, zero threshold changes, and zero 2024 exploratory access are permitted."
+}
