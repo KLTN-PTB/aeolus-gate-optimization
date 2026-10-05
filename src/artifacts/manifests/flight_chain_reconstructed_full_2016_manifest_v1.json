@@ -1,0 +1,211 @@
+{
+  "artifact": "reconstructed_schedule_flight_chain_full_year_evidence",
+  "version": "v1",
+  "created_at": "2026-08-25T19:53:12.654470+00:00",
+  "scope": {
+    "executed_years": [2016],
+    "not_executed_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023],
+    "development_2024_accessed": false,
+    "max_rows": null,
+    "chunk_size": 100000
+  },
+  "status": {
+    "full_2016": "PASS",
+    "reconstructed_chain": "CANDIDATE_REQUIRES_REVIEW",
+    "go_for_ablation": false,
+    "full_2016_2023": "NOT_RUN"
+  },
+  "contracts": {
+    "reconstruction_version": "schedule_chain_v1",
+    "datetime_storage_amendment_version": "canonical_datetime_storage_amendment_v1",
+    "flight_key_version": "flight_key_v1",
+    "stored_flight_key_reused": true,
+    "source": "canonical_tabular",
+    "raw_chain_used_for_mapping": false,
+    "physical_aircraft_identity": false,
+    "weather_policy": "DROP",
+    "original_raw_chain_decision": "FINAL — NO_GO"
+  },
+  "environment": {
+    "python": "3.11.15",
+    "pandas": "2.3.3",
+    "pyarrow": "25.0.1",
+    "sqlite": "3.50.4",
+    "venv_verified": true
+  },
+  "year": {
+    "year": 2016,
+    "status": "PASS",
+    "is_complete": true,
+    "source_partition_rows": 5537987,
+    "source_rows": 5537987,
+    "eligible_source_rows": 5537987,
+    "excluded_rows": 0,
+    "exclusion_reasons": {},
+    "mapped_rows": 5537987,
+    "chain_count": 4153379,
+    "inbound_target_count": 381166,
+    "chain_length_distribution": {
+      "min": 1,
+      "median": 1,
+      "p95": 2,
+      "max": 8
+    },
+    "chains_over_max_context_length": 3104,
+    "ambiguous_chain_count": 0,
+    "ambiguous_timestamp_count": 0,
+    "ambiguous_member_count": 0,
+    "duplicate_schedule_signature_count": 0,
+    "duplicate_schedule_signature_excess_rows": 0,
+    "flight_number_missing_count": 0,
+    "fingerprints": {
+      "chain_groups": "3556297d22e835835afacee8c7db3f3182af046404f577b109373b1c3ef0732e",
+      "chain_members": "32a6a1b0c1eb12f7740d5a8093e37d0ccd50ba6c48a5e424cbfde4a526ca02d3",
+      "inbound_target_map": "e6bb70b139bd2d480a7b974876c5144e1994e45664c51467e3345197b977f09d",
+      "combined": "14b41224aafc3e89ad4011ca157adc7eef0dbd4a0e4fafc530b64bdd3148ceaf"
+    }
+  },
+  "critical_gates": {
+    "mapped_equals_eligible": true,
+    "eligible_coverage": 1.0,
+    "unmapped_eligible_rows": 0,
+    "duplicate_flight_key_count": 0,
+    "invalid_or_null_chain_id_count": 0,
+    "multi_chain_membership_count": 0,
+    "target_fields_found": [],
+    "actual_or_outcome_fields_found": [],
+    "weather_fields_found": [],
+    "uncertain_fields_found": [],
+    "FLIGHTS_found": false,
+    "raw_pt_labels_used": false,
+    "raw_inventory_unchanged": true,
+    "development_2024_blocked": true,
+    "result": "PASS"
+  },
+  "real_atl_mapping_validation": {
+    "canonical_DEST_rows_scanned": 5537987,
+    "eligible_source_DEST_ATL_count": 381166,
+    "emitted_inbound_target_count": 381166,
+    "ATL_chain_member_count": 381166,
+    "target_duplicate_flight_key_count": 0,
+    "ATL_member_duplicate_flight_key_count": 0,
+    "target_null_chain_id_count": 0,
+    "target_invalid_chain_position_count": 0,
+    "target_chain_length_conflict_count": 0,
+    "missing_target_member_count": 0,
+    "extra_ATL_member_count": 0,
+    "target_member_mapping_mismatch_count": 0,
+    "referenced_target_chain_count": 381166,
+    "matched_target_chain_group_count": 381166,
+    "missing_target_chain_group_count": 0,
+    "duplicate_referenced_chain_group_count": 0,
+    "target_group_length_mismatch_count": 0,
+    "result": "PASS"
+  },
+  "traceable_inbound_examples": [
+    {
+      "flight_key": "flight_key_v1_cb50863285b62969c24a99b8c44ef7da",
+      "chain_id": "schedule_chain_v1_b53c13fa6006e650db8e6f00303b3b6d",
+      "chain_position": 0,
+      "chain_length": 2,
+      "source_row_number": 3077935,
+      "FL_DATE": "2016-01-01",
+      "OP_CARRIER": "AA",
+      "OP_CARRIER_FL_NUM": "1087",
+      "ORIGIN": "DFW",
+      "DEST": "ATL",
+      "CRS_DEP_TIME": "1330"
+    },
+    {
+      "flight_key": "flight_key_v1_6b66c4da149c8209fba31e4d6f8d26ae",
+      "chain_id": "schedule_chain_v1_0dec662ba768668b42099cfa8ab7a9e2",
+      "chain_position": 0,
+      "chain_length": 1,
+      "source_row_number": 3071488,
+      "FL_DATE": "2016-01-01",
+      "OP_CARRIER": "AA",
+      "OP_CARRIER_FL_NUM": "1116",
+      "ORIGIN": "LAX",
+      "DEST": "ATL",
+      "CRS_DEP_TIME": "2300"
+    },
+    {
+      "flight_key": "flight_key_v1_7dfde61a1249dccbc20639c512ddc193",
+      "chain_id": "schedule_chain_v1_949e6938b8e49cf5b796817e7d07744e",
+      "chain_position": 0,
+      "chain_length": 1,
+      "source_row_number": 3077936,
+      "FL_DATE": "2016-01-01",
+      "OP_CARRIER": "AA",
+      "OP_CARRIER_FL_NUM": "1178",
+      "ORIGIN": "DFW",
+      "DEST": "ATL",
+      "CRS_DEP_TIME": "2125"
+    },
+    {
+      "flight_key": "flight_key_v1_fce6a261f391250f5144b4bb0b582f48",
+      "chain_id": "schedule_chain_v1_8cffd4dd32045df07c42013dd494a4af",
+      "chain_position": 0,
+      "chain_length": 2,
+      "source_row_number": 3071489,
+      "FL_DATE": "2016-01-01",
+      "OP_CARRIER": "AA",
+      "OP_CARRIER_FL_NUM": "1249",
+      "ORIGIN": "LAX",
+      "DEST": "ATL",
+      "CRS_DEP_TIME": "1000"
+    },
+    {
+      "flight_key": "flight_key_v1_40daa7b799bc5205386358309f6f9157",
+      "chain_id": "schedule_chain_v1_edb26e98673ad01aa3008ca7b02b1f5c",
+      "chain_position": 0,
+      "chain_length": 2,
+      "source_row_number": 3077937,
+      "FL_DATE": "2016-01-01",
+      "OP_CARRIER": "AA",
+      "OP_CARRIER_FL_NUM": "1427",
+      "ORIGIN": "DFW",
+      "DEST": "ATL",
+      "CRS_DEP_TIME": "0906"
+    }
+  ],
+  "output": {
+    "parquet_row_counts": {
+      "chain_groups": 4153379,
+      "chain_members": 5537987,
+      "inbound_target_map": 381166
+    },
+    "output_bytes": 459621386,
+    "production_year_partitions": [2016],
+    "staging_path_exists_after_pass": false,
+    "staging_root_empty_after_pass": true
+  },
+  "resources": {
+    "runtime_seconds": 3731.167580000001,
+    "rows_per_second": 1484.2504072143547,
+    "peak_staging_bytes": 2780627978,
+    "peak_sqlite_bytes": 2321006592,
+    "output_bytes": 459621386,
+    "peak_python_allocation_bytes": 208393447,
+    "current_python_allocation_bytes": 72437,
+    "disk_free_before_bytes": 65661276160,
+    "disk_free_at_peak_before_cleanup_bytes": 62879313920,
+    "disk_free_after_cleanup_bytes": 65200328704,
+    "python_allocation_caveat": "tracemalloc does not measure all native PyArrow allocations"
+  },
+  "raw_integrity": {
+    "raw_file_count": 36,
+    "inventory_blake2b_before": "c4071bfaad09e21d2d51cee64d01acf5a9b0fef5011f1122615ed379567a05c4",
+    "inventory_blake2b_after": "c4071bfaad09e21d2d51cee64d01acf5a9b0fef5011f1122615ed379567a05c4",
+    "path_size_mtime_unchanged": true,
+    "raw_pt_loaded": false,
+    "torch_load_present_in_reconstruction": false,
+    "git_changed_raw_paths": 0
+  },
+  "post_execution_verification": {
+    "verified_at": "2026-08-25T19:55:18.331000+00:00",
+    "pytest": "108 passed",
+    "smoke_test": "PASS",
+    "git_diff_check": "PASS"
+  }
+}

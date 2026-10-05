@@ -33,13 +33,15 @@ class Flight:
     chain_group_id: Optional[str] = None
     current_gate: Optional[str] = None
     priority_weight: float = 1.0
+    turnaround_time_min: Optional[int] = None
+    actual_delay_min: Optional[float] = None
 
     def __post_init__(self) -> None:
         if not self.flight_id or not isinstance(self.flight_id, str):
             raise GateOptimizationContractViolation("flight_id must be a non-empty string")
-        if self.direction not in ("ARR", "DEP"):
+        if self.direction not in ("ARR", "DEP", "TURN"):
             raise GateOptimizationContractViolation(
-                f"direction must be 'ARR' or 'DEP', got {self.direction!r}"
+                f"direction must be 'ARR', 'DEP', or 'TURN', got {self.direction!r}"
             )
         if not self.aircraft_type or not isinstance(self.aircraft_type, str):
             raise GateOptimizationContractViolation("aircraft_type must be a non-empty string")
@@ -53,6 +55,8 @@ class Flight:
             raise GateOptimizationContractViolation("dwell_time_min must be positive")
         if self.priority_weight <= 0.0:
             raise GateOptimizationContractViolation("priority_weight must be positive")
+        if self.turnaround_time_min is not None and self.turnaround_time_min <= 0:
+            raise GateOptimizationContractViolation("turnaround_time_min must be positive")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -99,6 +103,7 @@ class CostParams:
     delay_cost_weight: float = 1.0
     reassignment_cost_default: float = 50.0
     remote_gate_cost: float = 20.0
+    default_turnaround_time_min: int = 45
 
     def __post_init__(self) -> None:
         if self.buffer_time_min < 0:
@@ -109,6 +114,8 @@ class CostParams:
             raise GateOptimizationContractViolation("reassignment_cost_default cannot be negative")
         if self.remote_gate_cost < 0.0:
             raise GateOptimizationContractViolation("remote_gate_cost cannot be negative")
+        if self.default_turnaround_time_min <= 0:
+            raise GateOptimizationContractViolation("default_turnaround_time_min must be positive")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

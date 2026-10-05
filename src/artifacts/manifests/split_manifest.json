@@ -1,0 +1,465 @@
+{
+  "manifest_version": "v1",
+  "generated_at_utc": "2026-08-23T15:44:03.918957+00:00",
+  "canonical_temporal_manifest": "artifacts/manifests/temporal_folds_manifest.json",
+  "schema_version": "v1",
+  "config_version": "0.1.0",
+  "random_split_allowed": false,
+  "temporal_roles": [
+    {
+      "year": 2016,
+      "role": "ROLLING_DEVELOPMENT",
+      "fold_membership": [
+        {
+          "fold_id": "fold_1",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_2",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_3",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_4",
+          "set": "train"
+        }
+      ],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2016",
+          "row_count": 5537987
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2016",
+          "row_count": 381166
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2016",
+          "row_count": 381303
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 5537987,
+      "allowed_operations": [
+        "schema",
+        "preprocessing_fit_in_fold",
+        "ml_train",
+        "hpo",
+        "calibration_development",
+        "oof"
+      ],
+      "forbidden_operations": [
+        "random_split",
+        "cross_fold_preprocessing_fit",
+        "use_2023_for_hpo",
+        "use_2024"
+      ]
+    },
+    {
+      "year": 2017,
+      "role": "ROLLING_DEVELOPMENT",
+      "fold_membership": [
+        {
+          "fold_id": "fold_1",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_2",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_3",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_4",
+          "set": "train"
+        }
+      ],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2017",
+          "row_count": 5575872
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2017",
+          "row_count": 358263
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2017",
+          "row_count": 358537
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 5575872,
+      "allowed_operations": [
+        "schema",
+        "preprocessing_fit_in_fold",
+        "ml_train",
+        "hpo",
+        "calibration_development",
+        "oof"
+      ],
+      "forbidden_operations": [
+        "random_split",
+        "cross_fold_preprocessing_fit",
+        "use_2023_for_hpo",
+        "use_2024"
+      ]
+    },
+    {
+      "year": 2018,
+      "role": "ROLLING_DEVELOPMENT",
+      "fold_membership": [
+        {
+          "fold_id": "fold_1",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_2",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_3",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_4",
+          "set": "train"
+        }
+      ],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2018",
+          "row_count": 6986842
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2018",
+          "row_count": 386580
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2018",
+          "row_count": 386460
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 6986842,
+      "allowed_operations": [
+        "schema",
+        "preprocessing_fit_in_fold",
+        "ml_train",
+        "hpo",
+        "calibration_development",
+        "oof"
+      ],
+      "forbidden_operations": [
+        "random_split",
+        "cross_fold_preprocessing_fit",
+        "use_2023_for_hpo",
+        "use_2024"
+      ]
+    },
+    {
+      "year": 2019,
+      "role": "ROLLING_DEVELOPMENT",
+      "fold_membership": [
+        {
+          "fold_id": "fold_1",
+          "set": "validation"
+        },
+        {
+          "fold_id": "fold_2",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_3",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_4",
+          "set": "train"
+        }
+      ],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2019",
+          "row_count": 7161827
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2019",
+          "row_count": 391075
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2019",
+          "row_count": 391053
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 7161827,
+      "allowed_operations": [
+        "schema",
+        "preprocessing_fit_in_fold",
+        "ml_train",
+        "hpo",
+        "calibration_development",
+        "oof"
+      ],
+      "forbidden_operations": [
+        "random_split",
+        "cross_fold_preprocessing_fit",
+        "use_2023_for_hpo",
+        "use_2024"
+      ]
+    },
+    {
+      "year": 2020,
+      "role": "ROLLING_DEVELOPMENT",
+      "fold_membership": [
+        {
+          "fold_id": "fold_2",
+          "set": "validation"
+        },
+        {
+          "fold_id": "fold_3",
+          "set": "train"
+        },
+        {
+          "fold_id": "fold_4",
+          "set": "train"
+        }
+      ],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2020",
+          "row_count": 4312091
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2020",
+          "row_count": 242121
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2020",
+          "row_count": 242207
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 4312091,
+      "allowed_operations": [
+        "schema",
+        "preprocessing_fit_in_fold",
+        "ml_train",
+        "hpo",
+        "calibration_development",
+        "oof"
+      ],
+      "forbidden_operations": [
+        "random_split",
+        "cross_fold_preprocessing_fit",
+        "use_2023_for_hpo",
+        "use_2024"
+      ]
+    },
+    {
+      "year": 2021,
+      "role": "ROLLING_DEVELOPMENT",
+      "fold_membership": [
+        {
+          "fold_id": "fold_3",
+          "set": "validation"
+        },
+        {
+          "fold_id": "fold_4",
+          "set": "train"
+        }
+      ],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2021",
+          "row_count": 5755666
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2021",
+          "row_count": 309621
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2021",
+          "row_count": 309488
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 5755666,
+      "allowed_operations": [
+        "schema",
+        "preprocessing_fit_in_fold",
+        "ml_train",
+        "hpo",
+        "calibration_development",
+        "oof"
+      ],
+      "forbidden_operations": [
+        "random_split",
+        "cross_fold_preprocessing_fit",
+        "use_2023_for_hpo",
+        "use_2024"
+      ]
+    },
+    {
+      "year": 2022,
+      "role": "ROLLING_DEVELOPMENT",
+      "fold_membership": [
+        {
+          "fold_id": "fold_4",
+          "set": "validation"
+        }
+      ],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2022",
+          "row_count": 6413416
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2022",
+          "row_count": 311701
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2022",
+          "row_count": 311746
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 6413416,
+      "allowed_operations": [
+        "schema",
+        "preprocessing_fit_in_fold",
+        "ml_train",
+        "hpo",
+        "calibration_development",
+        "oof"
+      ],
+      "forbidden_operations": [
+        "random_split",
+        "cross_fold_preprocessing_fit",
+        "use_2023_for_hpo",
+        "use_2024"
+      ]
+    },
+    {
+      "year": 2023,
+      "role": "DEVELOPMENT_MODEL_SELECTION",
+      "fold_membership": [],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2023",
+          "row_count": 6645461
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2023",
+          "row_count": 332741
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2023",
+          "row_count": 332734
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 6645461,
+      "allowed_operations": [
+        "transform_later",
+        "evaluate_later",
+        "model_selection_later",
+        "simulation_optimization_development_later"
+      ],
+      "forbidden_operations": [
+        "hpo",
+        "calibration_fit",
+        "ensemble_weight_optimization",
+        "random_split",
+        "use_2024"
+      ]
+    },
+    {
+      "year": 2024,
+      "role": "FINAL_HOLDOUT",
+      "fold_membership": [],
+      "processed_partitions": [
+        {
+          "flow": "tabular_by_year",
+          "path": "data/processed/tabular_by_year/year=2024",
+          "row_count": 6284841
+        },
+        {
+          "flow": "inbound_atl",
+          "path": "data/processed/inbound_atl/year=2024",
+          "row_count": 309165
+        },
+        {
+          "flow": "outbound_atl",
+          "path": "data/processed/outbound_atl/year=2024",
+          "row_count": 309142
+        }
+      ],
+      "schema_version": "v1",
+      "row_count": 6284841,
+      "allowed_operations": [
+        "schema_audit",
+        "canonicalize_holdout"
+      ],
+      "forbidden_operations": [
+        "model_fit",
+        "hpo",
+        "feature_selection_by_performance",
+        "model_selection",
+        "simulation_parameter_tuning",
+        "optimization_tuning",
+        "final_evaluation_before_system_freeze"
+      ]
+    }
+  ],
+  "hpo_policy": {
+    "allowed_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "blocked_years": [
+      2023,
+      2024
+    ]
+  },
+  "final_evaluation_policy": {
+    "year": 2024,
+    "requires": "artifacts/manifests/system_freeze_manifest.json with freeze_status=FROZEN",
+    "currently_allowed": false
+  }
+}

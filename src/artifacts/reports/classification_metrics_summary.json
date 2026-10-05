@@ -1,0 +1,79 @@
+[
+  {
+    "Task": "IS_ARR_DELAY >= 15 (TOÀN TẬP DỮ LIỆU)",
+    "Model": "LGBM",
+    "Fit (s)": 39.7,
+    "Val ROC-AUC": 0.6701,
+    "Test ROC-AUC": 0.671,
+    "Test PR-AUC": 0.3511,
+    "T*": 0.2484,
+    "F1 (T*)": 0.4056,
+    "Acc (T*)": "63.78%"
+  },
+  {
+    "Task": "IS_ARR_DELAY >= 15 (TOÀN TẬP DỮ LIỆU)",
+    "Model": "XGB",
+    "Fit (s)": 780.7,
+    "Val ROC-AUC": 0.6887,
+    "Test ROC-AUC": 0.6873,
+    "Test PR-AUC": 0.3723,
+    "T*": 0.348,
+    "F1 (T*)": 0.4201,
+    "Acc (T*)": "65.07%"
+  },
+  {
+    "Task": "IS_ARR_DELAY >= 15 (TOÀN TẬP DỮ LIỆU)",
+    "Model": "CATBOOST",
+    "Fit (s)": 288.0,
+    "Val ROC-AUC": 0.6805,
+    "Test ROC-AUC": 0.681,
+    "Test PR-AUC": 0.3634,
+    "T*": 0.5438,
+    "F1 (T*)": 0.4151,
+    "Acc (T*)": "63.89%"
+  },
+  {
+    "Task": "IS_ARR_DELAY >= 15 (TOÀN TẬP DỮ LIỆU)",
+    "Model": "LR",
+    "Fit (s)": 2.3,
+    "Val ROC-AUC": 0.6615,
+    "Test ROC-AUC": 0.6659,
+    "Test PR-AUC": 0.3354,
+    "T*": 0.5669,
+    "F1 (T*)": 0.4063,
+    "Acc (T*)": "61.41%"
+  },
+  {
+    "Task": "IS_DEP_DELAY >= 15 (PHỤ TRỢ)",
+    "Model": "LGBM",
+    "Fit (s)": 18.6,
+    "Val ROC-AUC": 0.6825,
+    "Test ROC-AUC": 0.6778,
+    "Test PR-AUC": 0.3454,
+    "T*": 0.2574,
+    "F1 (T*)": 0.4127,
+    "Acc (T*)": "66.83%"
+  },
+  {
+    "Task": "IS_DEP_DELAY >= 15 (PHỤ TRỢ)",
+    "Model": "XGB",
+    "Fit (s)": 332.0,
+    "Val ROC-AUC": 0.6984,
+    "Test ROC-AUC": 0.6964,
+    "Test PR-AUC": 0.3766,
+    "T*": 0.3814,
+    "F1 (T*)": 0.4253,
+    "Acc (T*)": "68.40%"
+  },
+  {
+    "Task": "IS_ARR_DELAY >= 15 (TOÀN TẬP DỮ LIỆU)",
+    "Model": "FAST_BLENDING",
+    "Fit (s)": 0.1,
+    "Val ROC-AUC": 0.6885,
+    "Test ROC-AUC": 0.6876,
+    "Test PR-AUC": 0.373,
+    "T*": 0.2054,
+    "F1 (T*)": 0.4204,
+    "Acc (T*)": "65.59%"
+  }
+]
