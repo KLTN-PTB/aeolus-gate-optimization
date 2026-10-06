@@ -53,6 +53,8 @@ remain visible in later reports, dashboard, and thesis materials.
 - Year 2024 is sealed for final end-to-end evaluation after full-system freeze. It cannot be used for development, feature/model/HPO selection, pairing, gate configuration, solver settings, or robustness tuning.
 - Future 100/200/300 movement scenarios are sampled/synthetic benchmarks, not representations of all ATL operations in a day.
 - Optimizer outcomes address simulated gate-related consequences of delay; they do not demonstrate a reduction in real flight delay minutes.
+- Occupancy window calculation uses expected delay (`p_delay * delay_est_min`) for deterministic planning, which abstracts dynamic ground turnaround variability.
+- Monte Carlo robustness simulation uses synthetic random delay sampling derived from model prediction outputs; it does not open or evaluate on the sealed 2024 Final Holdout.
 - Source Chain train/val/test filenames are not the thesis temporal split and cannot replace the locked year-based protocol.
 
 These limitations do not invalidate the planned study; they define the boundary for defensible interpretation.
