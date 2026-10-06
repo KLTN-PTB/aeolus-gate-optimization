@@ -1,0 +1,145 @@
+{
+  "contract_version": "weather_point_in_time_contract_v1",
+  "protocol_version": "Research Protocol V4.0",
+  "task": "departure_auxiliary",
+  "hub": "ATL",
+  "flow": "ORIGIN=ATL",
+  "target": "y_dep_cls = 1[DEP_DELAY >= 15]",
+  "departure_regression_enabled": false,
+  "cutoff": "CRS_DEP_TIME - 2 hours",
+  "provider_status": "TBD",
+  "provider": "TBD",
+  "audit_status": "AUDIT_REQUIRED",
+  "enabled": false,
+  "artifact_template": "weather_point_in_time_v1",
+  "required_time_fields": [
+    "issue_time",
+    "publication_time",
+    "available_time",
+    "valid_time"
+  ],
+  "time_field_mapping_policy": {
+    "provider_may_use_different_names": true,
+    "documented_mapping_required": true,
+    "availability_time_may_not_be_inferred_from_issue_time": true,
+    "missing_or_unproven_availability_time": "FAIL_CLOSED"
+  },
+  "timezone_policy": {
+    "canonical_storage": "UTC",
+    "source_timezone_required": true,
+    "normalized_utc_timestamp_required": true,
+    "conversion_rule_required": true,
+    "dst_semantics_required_when_applicable": true,
+    "ambiguous_local_time_policy": "DOCUMENT_OR_FAIL_CLOSED",
+    "nonexistent_local_time_policy": "DOCUMENT_OR_FAIL_CLOSED",
+    "naive_timestamp_policy": "FAIL_CLOSED"
+  },
+  "location_mapping_requirements": {
+    "target_airport": "ATL",
+    "allowed_location_types": ["airport", "station", "grid_point", "forecast_grid_cell"],
+    "required_fields": ["location_type", "location_id", "latitude", "longitude", "source_mapping", "mapping_version"],
+    "distance_to_atl_required_when_applicable": true,
+    "nearest_station_automatic_approval": false,
+    "historical_mapping_changes_must_be_versioned": true
+  },
+  "source_version_requirements": [
+    "provider",
+    "dataset_or_product",
+    "product_version",
+    "retrieval_date",
+    "license_or_usage_terms_reference",
+    "source_urls_or_identifiers",
+    "file_names",
+    "byte_sizes",
+    "hash_or_signature_when_feasible",
+    "time_coverage",
+    "location_coverage",
+    "variables",
+    "timezone_semantics"
+  ],
+  "variable_metadata_requirements": [
+    "source_variable_name",
+    "canonical_variable_name",
+    "units",
+    "measurement_or_forecast_meaning",
+    "aggregation_window",
+    "height_or_level_when_applicable",
+    "missing_semantics"
+  ],
+  "weather_semantic_classes": {
+    "FORECAST": "Requires issue, publication, availability, and valid-time provenance.",
+    "OBSERVATION": "Observation time is distinct from publication and information availability time.",
+    "REANALYSIS": "Blocked for predictor use unless the exact product version proves pre-cutoff availability.",
+    "MODEL_ANALYSIS": "Blocked for predictor use unless the exact product version proves pre-cutoff availability.",
+    "MODEL_FILL": "Blocked for predictor use unless the exact product version proves pre-cutoff availability."
+  },
+  "join_rules": {
+    "target_rows": "outbound ORIGIN=ATL",
+    "cutoff_source": "canonical scheduled CRS_DEP_TIME only",
+    "availability_condition": "available_time <= target_prediction_cutoff",
+    "publication_condition": "publication_time <= target_prediction_cutoff",
+    "forecast_issue_condition": "issue_time <= target_prediction_cutoff",
+    "valid_time_alone_is_sufficient": false,
+    "location_product_and_variable_semantics_must_match": true,
+    "availability_filter_precedes_valid_time_selection": true
+  },
+  "tie_break_rule": [
+    "latest eligible issue or documented observation publication",
+    "nearest valid_time",
+    "provider",
+    "product",
+    "product_version",
+    "location_id",
+    "record_id"
+  ],
+  "duplicate_policy": {
+    "detect_and_report": true,
+    "arbitrary_drop_duplicates_forbidden": true,
+    "unapproved_resolution": "FAIL"
+  },
+  "row_parity_required": true,
+  "missing_data_principles": {
+    "weather_missingness_may_change_target_row_eligibility": false,
+    "weather_available_flag_required": true,
+    "missing_reason_required": true,
+    "coverage_statistics_required": true,
+    "imputation_policy": "DEFER_UNTIL_SOURCE_AUDIT_AND_LOCK"
+  },
+  "audit_gates": {
+    "W1": {"name": "Source identity/version", "critical": true},
+    "W2": {"name": "License/retrieval provenance", "critical": true},
+    "W3": {"name": "Weather semantic class", "critical": true},
+    "W4": {"name": "Time fields present", "critical": true},
+    "W5": {"name": "Availability-time semantics proven", "critical": true},
+    "W6": {"name": "Timezone/DST proven", "critical": true},
+    "W7": {"name": "ATL location mapping proven", "critical": true},
+    "W8": {"name": "Units/variable semantics proven", "critical": true},
+    "W9": {"name": "Point-in-time join deterministic", "critical": true},
+    "W10": {"name": "No future availability leakage", "critical": true},
+    "W11": {"name": "DEP-A/DEP-B row parity", "critical": true},
+    "W12": {"name": "Missing-data policy", "critical": true},
+    "W13": {"name": "Duplicate/tie-break determinism", "critical": true},
+    "W14": {"name": "No raw Aeolus Weather substitution", "critical": true},
+    "W15": {"name": "No Core Arrival/optimizer path", "critical": true}
+  },
+  "pass_decision": {
+    "required": "ALL_CRITICAL_GATES_PASS",
+    "point_in_time_weather_provenance": "PASS",
+    "dep_b": "ENABLED_FOR_CONTROLLED_EXPERIMENT"
+  },
+  "fail_decision": {
+    "trigger": "ANY_CRITICAL_GATE_FAILS_OR_IS_UNPROVEN",
+    "point_in_time_weather_provenance": "FAIL_OR_INSUFFICIENT_EVIDENCE",
+    "dep_b": "BLOCKED_NOT_CORE_FAILURE",
+    "core_arrival": "CONTINUE"
+  },
+  "raw_aeolus_weather_allowed": false,
+  "core_arrival_weather_allowed": false,
+  "feeds_optimizer": false,
+  "weather_data_downloaded": false,
+  "api_called": false,
+  "weather_data_joined": false,
+  "weather_feature_matrix_created": false,
+  "model_trained": false,
+  "2024_accessed": false
+}

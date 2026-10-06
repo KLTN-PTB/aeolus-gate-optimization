@@ -1,0 +1,475 @@
+{
+  "manifest_version": "v1",
+  "schema_version": "v1",
+  "logical_roadmap_equivalent": "Partitioned inbound_atl/outbound_atl Parquet datasets are the logical equivalent of atl_inbound.parquet/atl_outbound.parquet; no monolithic file is created for large data.",
+  "flight_key_contract": {
+    "version": "flight_key_v1",
+    "components": [
+      "source_year",
+      "source_file",
+      "source_row_number",
+      "FL_DATE",
+      "OP_CARRIER",
+      "OP_CARRIER_FL_NUM",
+      "ORIGIN",
+      "DEST",
+      "CRS_DEP_TIME"
+    ],
+    "excluded_actual_or_target_fields": [
+      "ACTUAL_ELAPSED_TIME",
+      "AIR_TIME",
+      "ARR_DELAY",
+      "ARR_TIME",
+      "DEP_DELAY",
+      "DEP_TIME",
+      "TAXI_IN",
+      "TAXI_OUT",
+      "WHEELS_OFF",
+      "WHEELS_ON"
+    ],
+    "note": "flight_key is traceability-only, not an aircraft identifier or ML feature."
+  },
+  "years": [
+    {
+      "year": 2016,
+      "role": "DEVELOPMENT",
+      "source_file": "data/raw/tabular/2016/flight_with_weather_2016.csv",
+      "source_file_size_bytes": 1538427452,
+      "source_modified_time_ns": 1787484809868569600,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T14:29:36.075592+00:00",
+      "source_rows": 5537987,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 5537987,
+          "path": "data/processed/tabular_by_year/year=2016",
+          "year": 2016,
+          "role": "DEVELOPMENT",
+          "source_rows": 5537987,
+          "output_rows": 5537987,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:29:36.075592+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 381166,
+          "path": "data/processed/inbound_atl/year=2016",
+          "year": 2016,
+          "role": "DEVELOPMENT",
+          "source_rows": 5537987,
+          "output_rows": 381166,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:29:36.075592+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 381303,
+          "path": "data/processed/outbound_atl/year=2016",
+          "year": 2016,
+          "role": "DEVELOPMENT",
+          "source_rows": 5537987,
+          "output_rows": 381303,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:29:36.075592+00:00"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "role": "DEVELOPMENT",
+      "source_file": "data/raw/tabular/2017/flight_with_weather_2017.csv",
+      "source_file_size_bytes": 1549837485,
+      "source_modified_time_ns": 1787484841257974800,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T14:33:45.829807+00:00",
+      "source_rows": 5575872,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 5575872,
+          "path": "data/processed/tabular_by_year/year=2017",
+          "year": 2017,
+          "role": "DEVELOPMENT",
+          "source_rows": 5575872,
+          "output_rows": 5575872,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:33:45.829807+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 358263,
+          "path": "data/processed/inbound_atl/year=2017",
+          "year": 2017,
+          "role": "DEVELOPMENT",
+          "source_rows": 5575872,
+          "output_rows": 358263,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:33:45.829807+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 358537,
+          "path": "data/processed/outbound_atl/year=2017",
+          "year": 2017,
+          "role": "DEVELOPMENT",
+          "source_rows": 5575872,
+          "output_rows": 358537,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:33:45.829807+00:00"
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "role": "DEVELOPMENT",
+      "source_file": "data/raw/tabular/2018/flight_with_weather_2018.csv",
+      "source_file_size_bytes": 1941406432,
+      "source_modified_time_ns": 1787484873177224200,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T14:39:08.556372+00:00",
+      "source_rows": 6986842,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 6986842,
+          "path": "data/processed/tabular_by_year/year=2018",
+          "year": 2018,
+          "role": "DEVELOPMENT",
+          "source_rows": 6986842,
+          "output_rows": 6986842,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:39:08.556372+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 386580,
+          "path": "data/processed/inbound_atl/year=2018",
+          "year": 2018,
+          "role": "DEVELOPMENT",
+          "source_rows": 6986842,
+          "output_rows": 386580,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:39:08.556372+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 386460,
+          "path": "data/processed/outbound_atl/year=2018",
+          "year": 2018,
+          "role": "DEVELOPMENT",
+          "source_rows": 6986842,
+          "output_rows": 386460,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:39:08.556372+00:00"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "role": "DEVELOPMENT",
+      "source_file": "data/raw/tabular/2019/flight_with_weather_2019.csv",
+      "source_file_size_bytes": 1990370667,
+      "source_modified_time_ns": 1787485017859942000,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T14:44:33.277841+00:00",
+      "source_rows": 7161827,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 7161827,
+          "path": "data/processed/tabular_by_year/year=2019",
+          "year": 2019,
+          "role": "DEVELOPMENT",
+          "source_rows": 7161827,
+          "output_rows": 7161827,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:44:33.277841+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 391075,
+          "path": "data/processed/inbound_atl/year=2019",
+          "year": 2019,
+          "role": "DEVELOPMENT",
+          "source_rows": 7161827,
+          "output_rows": 391075,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:44:33.277841+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 391053,
+          "path": "data/processed/outbound_atl/year=2019",
+          "year": 2019,
+          "role": "DEVELOPMENT",
+          "source_rows": 7161827,
+          "output_rows": 391053,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:44:33.277841+00:00"
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "role": "DEVELOPMENT",
+      "source_file": "data/raw/tabular/2020/flight_with_weather_2020.csv",
+      "source_file_size_bytes": 1197858795,
+      "source_modified_time_ns": 1787484978106840500,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T14:47:43.909837+00:00",
+      "source_rows": 4312091,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 4312091,
+          "path": "data/processed/tabular_by_year/year=2020",
+          "year": 2020,
+          "role": "DEVELOPMENT",
+          "source_rows": 4312091,
+          "output_rows": 4312091,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:47:43.909837+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 242121,
+          "path": "data/processed/inbound_atl/year=2020",
+          "year": 2020,
+          "role": "DEVELOPMENT",
+          "source_rows": 4312091,
+          "output_rows": 242121,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:47:43.909837+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 242207,
+          "path": "data/processed/outbound_atl/year=2020",
+          "year": 2020,
+          "role": "DEVELOPMENT",
+          "source_rows": 4312091,
+          "output_rows": 242207,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:47:43.909837+00:00"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "role": "DEVELOPMENT",
+      "source_file": "data/raw/tabular/2021/flight_with_weather_2021.csv",
+      "source_file_size_bytes": 1600032487,
+      "source_modified_time_ns": 1787485020664678600,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T14:52:02.413091+00:00",
+      "source_rows": 5755666,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 5755666,
+          "path": "data/processed/tabular_by_year/year=2021",
+          "year": 2021,
+          "role": "DEVELOPMENT",
+          "source_rows": 5755666,
+          "output_rows": 5755666,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:52:02.413091+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 309621,
+          "path": "data/processed/inbound_atl/year=2021",
+          "year": 2021,
+          "role": "DEVELOPMENT",
+          "source_rows": 5755666,
+          "output_rows": 309621,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:52:02.413091+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 309488,
+          "path": "data/processed/outbound_atl/year=2021",
+          "year": 2021,
+          "role": "DEVELOPMENT",
+          "source_rows": 5755666,
+          "output_rows": 309488,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:52:02.413091+00:00"
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "role": "DEVELOPMENT",
+      "source_file": "data/raw/tabular/2022/flight_with_weather_2022.csv",
+      "source_file_size_bytes": 1782648882,
+      "source_modified_time_ns": 1787485038113783000,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T14:56:48.963343+00:00",
+      "source_rows": 6413416,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 6413416,
+          "path": "data/processed/tabular_by_year/year=2022",
+          "year": 2022,
+          "role": "DEVELOPMENT",
+          "source_rows": 6413416,
+          "output_rows": 6413416,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:56:48.963343+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 311701,
+          "path": "data/processed/inbound_atl/year=2022",
+          "year": 2022,
+          "role": "DEVELOPMENT",
+          "source_rows": 6413416,
+          "output_rows": 311701,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:56:48.963343+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 311746,
+          "path": "data/processed/outbound_atl/year=2022",
+          "year": 2022,
+          "role": "DEVELOPMENT",
+          "source_rows": 6413416,
+          "output_rows": 311746,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T14:56:48.963343+00:00"
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "role": "DEVELOPMENT",
+      "source_file": "data/raw/tabular/2023/flight_with_weather_2023.csv",
+      "source_file_size_bytes": 1847433387,
+      "source_modified_time_ns": 1787485167768559500,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T15:01:47.163178+00:00",
+      "source_rows": 6645461,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 6645461,
+          "path": "data/processed/tabular_by_year/year=2023",
+          "year": 2023,
+          "role": "DEVELOPMENT",
+          "source_rows": 6645461,
+          "output_rows": 6645461,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T15:01:47.163178+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 332741,
+          "path": "data/processed/inbound_atl/year=2023",
+          "year": 2023,
+          "role": "DEVELOPMENT",
+          "source_rows": 6645461,
+          "output_rows": 332741,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T15:01:47.163178+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 332734,
+          "path": "data/processed/outbound_atl/year=2023",
+          "year": 2023,
+          "role": "DEVELOPMENT",
+          "source_rows": 6645461,
+          "output_rows": 332734,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T15:01:47.163178+00:00"
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "role": "FINAL_HOLDOUT",
+      "source_file": "data/raw/tabular/2024/flight_with_weather_2024.csv",
+      "source_file_size_bytes": 1748350586,
+      "source_modified_time_ns": 1787485172792664700,
+      "schema_version": "v1",
+      "config_version": "0.1.0",
+      "created_at_utc": "2026-08-23T15:06:34.504258+00:00",
+      "source_rows": 6284841,
+      "partitions": [
+        {
+          "flow": "tabular_by_year",
+          "row_count": 6284841,
+          "path": "data/processed/tabular_by_year/year=2024",
+          "year": 2024,
+          "role": "FINAL_HOLDOUT",
+          "source_rows": 6284841,
+          "output_rows": 6284841,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T15:06:34.504258+00:00"
+        },
+        {
+          "flow": "inbound_atl",
+          "row_count": 309165,
+          "path": "data/processed/inbound_atl/year=2024",
+          "year": 2024,
+          "role": "FINAL_HOLDOUT",
+          "source_rows": 6284841,
+          "output_rows": 309165,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T15:06:34.504258+00:00"
+        },
+        {
+          "flow": "outbound_atl",
+          "row_count": 309142,
+          "path": "data/processed/outbound_atl/year=2024",
+          "year": 2024,
+          "role": "FINAL_HOLDOUT",
+          "source_rows": 6284841,
+          "output_rows": 309142,
+          "schema_version": "v1",
+          "config_version": "0.1.0",
+          "created_at_utc": "2026-08-23T15:06:34.504258+00:00"
+        }
+      ]
+    }
+  ]
+}

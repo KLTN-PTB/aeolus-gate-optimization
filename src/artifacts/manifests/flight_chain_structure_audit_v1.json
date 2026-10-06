@@ -1,0 +1,2782 @@
+{
+  "audit_version": "v1",
+  "config_version": "0.1.0",
+  "generated_at_utc": "2026-08-23T15:43:02.641183+00:00",
+  "method": "ZIP central directory plus restricted data.pkl metadata only",
+  "safety": {
+    "one_file_at_a_time": true,
+    "torch_load_used": false,
+    "tensor_storage_payload_read": false,
+    "csv_content_read": false,
+    "model_performance_access": false
+  },
+  "file_count": 27,
+  "years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "splits_per_year": [
+    "train",
+    "val",
+    "test"
+  ],
+  "total_source_bytes": 13751334923,
+  "cross_year_structure_consistent": false,
+  "reports": [
+    {
+      "year": 2016,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2016/test_flight_chain_2016.pt",
+      "file_size_bytes": 265574980,
+      "mtime_ns": 1787485308795252600,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "test_flight_chain_2016/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 265573000,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 862250,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 36214500,
+          "storage_offset": 0,
+          "shape": [
+            862250,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 41388000,
+          "storage_offset": 0,
+          "shape": [
+            862250,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 10347000,
+          "storage_offset": 0,
+          "shape": [
+            862250,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 862250,
+          "storage_offset": 0,
+          "shape": [
+            862250
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 10347000,
+          "storage_offset": 0,
+          "shape": [
+            862250,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2016/train_flight_chain_2016.pt",
+      "file_size_bytes": 736545099,
+      "mtime_ns": 1787485357036387400,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "train_flight_chain_2016/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 736543192,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 2391374,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 100437708,
+          "storage_offset": 0,
+          "shape": [
+            2391374,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 114785952,
+          "storage_offset": 0,
+          "shape": [
+            2391374,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 28696488,
+          "storage_offset": 0,
+          "shape": [
+            2391374,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 2391374,
+          "storage_offset": 0,
+          "shape": [
+            2391374
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 28696488,
+          "storage_offset": 0,
+          "shape": [
+            2391374,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2016/val_flight_chain_2016.pt",
+      "file_size_bytes": 277126461,
+      "mtime_ns": 1787485330211490500,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "val_flight_chain_2016/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 277124540,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 899755,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 37789710,
+          "storage_offset": 0,
+          "shape": [
+            899755,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 43188240,
+          "storage_offset": 0,
+          "shape": [
+            899755,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 10797060,
+          "storage_offset": 0,
+          "shape": [
+            899755,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 899755,
+          "storage_offset": 0,
+          "shape": [
+            899755
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 10797060,
+          "storage_offset": 0,
+          "shape": [
+            899755,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2017/test_flight_chain_2017.pt",
+      "file_size_bytes": 270152516,
+      "mtime_ns": 1787485341915269300,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "test_flight_chain_2017/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 270150496,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 877112,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 36838704,
+          "storage_offset": 0,
+          "shape": [
+            877112,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 42101376,
+          "storage_offset": 0,
+          "shape": [
+            877112,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 10525344,
+          "storage_offset": 0,
+          "shape": [
+            877112,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 877112,
+          "storage_offset": 0,
+          "shape": [
+            877112
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 10525344,
+          "storage_offset": 0,
+          "shape": [
+            877112,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2017/train_flight_chain_2017.pt",
+      "file_size_bytes": 744832267,
+      "mtime_ns": 1787485378730843300,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "train_flight_chain_2017/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 744830240,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 2418280,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 101567760,
+          "storage_offset": 0,
+          "shape": [
+            2418280,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 116077440,
+          "storage_offset": 0,
+          "shape": [
+            2418280,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 29019360,
+          "storage_offset": 0,
+          "shape": [
+            2418280,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 2418280,
+          "storage_offset": 0,
+          "shape": [
+            2418280
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 29019360,
+          "storage_offset": 0,
+          "shape": [
+            2418280,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2017/val_flight_chain_2017.pt",
+      "file_size_bytes": 282654973,
+      "mtime_ns": 1787485357968937800,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "val_flight_chain_2017/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 282653140,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 917705,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 38543610,
+          "storage_offset": 0,
+          "shape": [
+            917705,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 44049840,
+          "storage_offset": 0,
+          "shape": [
+            917705,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 11012460,
+          "storage_offset": 0,
+          "shape": [
+            917705,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 917705,
+          "storage_offset": 0,
+          "shape": [
+            917705
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 11012460,
+          "storage_offset": 0,
+          "shape": [
+            917705,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2018/test_flight_chain_2018.pt",
+      "file_size_bytes": 343048964,
+      "mtime_ns": 1787485412988112900,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "test_flight_chain_2018/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 343047012,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1113789,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 46779138,
+          "storage_offset": 0,
+          "shape": [
+            1113789,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 53461872,
+          "storage_offset": 0,
+          "shape": [
+            1113789,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 13365468,
+          "storage_offset": 0,
+          "shape": [
+            1113789,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1113789,
+          "storage_offset": 0,
+          "shape": [
+            1113789
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 13365468,
+          "storage_offset": 0,
+          "shape": [
+            1113789,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2018/train_flight_chain_2018.pt",
+      "file_size_bytes": 949427339,
+      "mtime_ns": 1787485472989285900,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "train_flight_chain_2018/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 949425400,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 3082550,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 129467100,
+          "storage_offset": 0,
+          "shape": [
+            3082550,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 147962400,
+          "storage_offset": 0,
+          "shape": [
+            3082550,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 36990600,
+          "storage_offset": 0,
+          "shape": [
+            3082550,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 3082550,
+          "storage_offset": 0,
+          "shape": [
+            3082550
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 36990600,
+          "storage_offset": 0,
+          "shape": [
+            3082550,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2018/val_flight_chain_2018.pt",
+      "file_size_bytes": 361722941,
+      "mtime_ns": 1787485431940679300,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "val_flight_chain_2018/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 361721052,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1174419,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 49325598,
+          "storage_offset": 0,
+          "shape": [
+            1174419,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 56372112,
+          "storage_offset": 0,
+          "shape": [
+            1174419,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 14093028,
+          "storage_offset": 0,
+          "shape": [
+            1174419,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1174419,
+          "storage_offset": 0,
+          "shape": [
+            1174419
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 14093028,
+          "storage_offset": 0,
+          "shape": [
+            1174419,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2019/test_flight_chain_2019.pt",
+      "file_size_bytes": 354560772,
+      "mtime_ns": 1787485450816314100,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "test_flight_chain_2019/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 354558820,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1151165,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 48348930,
+          "storage_offset": 0,
+          "shape": [
+            1151165,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 55255920,
+          "storage_offset": 0,
+          "shape": [
+            1151165,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 13813980,
+          "storage_offset": 0,
+          "shape": [
+            1151165,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1151165,
+          "storage_offset": 0,
+          "shape": [
+            1151165
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 13813980,
+          "storage_offset": 0,
+          "shape": [
+            1151165,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2019/train_flight_chain_2019.pt",
+      "file_size_bytes": 976201867,
+      "mtime_ns": 1787485502073377000,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "train_flight_chain_2019/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 976199840,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 3169480,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 133118160,
+          "storage_offset": 0,
+          "shape": [
+            3169480,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 152135040,
+          "storage_offset": 0,
+          "shape": [
+            3169480,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 38033760,
+          "storage_offset": 0,
+          "shape": [
+            3169480,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 3169480,
+          "storage_offset": 0,
+          "shape": [
+            3169480
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 38033760,
+          "storage_offset": 0,
+          "shape": [
+            3169480,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2019/val_flight_chain_2019.pt",
+      "file_size_bytes": 370291517,
+      "mtime_ns": 1787485474551499600,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "val_flight_chain_2019/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 370289612,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1202239,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 50494038,
+          "storage_offset": 0,
+          "shape": [
+            1202239,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 57707472,
+          "storage_offset": 0,
+          "shape": [
+            1202239,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 14426868,
+          "storage_offset": 0,
+          "shape": [
+            1202239,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1202239,
+          "storage_offset": 0,
+          "shape": [
+            1202239
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 14426868,
+          "storage_offset": 0,
+          "shape": [
+            1202239,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2020/test_flight_chain_2020.pt",
+      "file_size_bytes": 222317316,
+      "mtime_ns": 1787485548229475900,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "test_flight_chain_2020/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 222315324,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 721803,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 30315726,
+          "storage_offset": 0,
+          "shape": [
+            721803,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 34646544,
+          "storage_offset": 0,
+          "shape": [
+            721803,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 8661636,
+          "storage_offset": 0,
+          "shape": [
+            721803,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 721803,
+          "storage_offset": 0,
+          "shape": [
+            721803
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 8661636,
+          "storage_offset": 0,
+          "shape": [
+            721803,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2020/train_flight_chain_2020.pt",
+      "file_size_bytes": 615880587,
+      "mtime_ns": 1787485592388008300,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "train_flight_chain_2020/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 615878648,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1999606,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 83983452,
+          "storage_offset": 0,
+          "shape": [
+            1999606,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 95981088,
+          "storage_offset": 0,
+          "shape": [
+            1999606,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 23995272,
+          "storage_offset": 0,
+          "shape": [
+            1999606,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1999606,
+          "storage_offset": 0,
+          "shape": [
+            1999606
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 23995272,
+          "storage_offset": 0,
+          "shape": [
+            1999606,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2020/val_flight_chain_2020.pt",
+      "file_size_bytes": 232687357,
+      "mtime_ns": 1787485568615251000,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "val_flight_chain_2020/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 232685376,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 755472,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 31729824,
+          "storage_offset": 0,
+          "shape": [
+            755472,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 36262656,
+          "storage_offset": 0,
+          "shape": [
+            755472,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 9065664,
+          "storage_offset": 0,
+          "shape": [
+            755472,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 755472,
+          "storage_offset": 0,
+          "shape": [
+            755472
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 9065664,
+          "storage_offset": 0,
+          "shape": [
+            755472,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2021/test_flight_chain_2021.pt",
+      "file_size_bytes": 303737028,
+      "mtime_ns": 1787485588702871500,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "test_flight_chain_2021/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 303735124,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 986153,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 41418426,
+          "storage_offset": 0,
+          "shape": [
+            986153,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 47335344,
+          "storage_offset": 0,
+          "shape": [
+            986153,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 11833836,
+          "storage_offset": 0,
+          "shape": [
+            986153,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 986153,
+          "storage_offset": 0,
+          "shape": [
+            986153
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 11833836,
+          "storage_offset": 0,
+          "shape": [
+            986153,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2021/train_flight_chain_2021.pt",
+      "file_size_bytes": 836919371,
+      "mtime_ns": 1787485628171507700,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "train_flight_chain_2021/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 836917312,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 2717264,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 114125088,
+          "storage_offset": 0,
+          "shape": [
+            2717264,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 130428672,
+          "storage_offset": 0,
+          "shape": [
+            2717264,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 32607168,
+          "storage_offset": 0,
+          "shape": [
+            2717264,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 2717264,
+          "storage_offset": 0,
+          "shape": [
+            2717264
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 32607168,
+          "storage_offset": 0,
+          "shape": [
+            2717264,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2021/val_flight_chain_2021.pt",
+      "file_size_bytes": 317606269,
+      "mtime_ns": 1787485602783409300,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "val_flight_chain_2021/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 317604364,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1031183,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 43309686,
+          "storage_offset": 0,
+          "shape": [
+            1031183,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 49496784,
+          "storage_offset": 0,
+          "shape": [
+            1031183,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 12374196,
+          "storage_offset": 0,
+          "shape": [
+            1031183,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1031183,
+          "storage_offset": 0,
+          "shape": [
+            1031183
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 12374196,
+          "storage_offset": 0,
+          "shape": [
+            1031183,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2022/test_flight_chain_2022.pt",
+      "file_size_bytes": 332956676,
+      "mtime_ns": 1787485740827214500,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "test_flight_chain_2022/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 332954776,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1081022,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 45402924,
+          "storage_offset": 0,
+          "shape": [
+            1081022,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 51889056,
+          "storage_offset": 0,
+          "shape": [
+            1081022,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 12972264,
+          "storage_offset": 0,
+          "shape": [
+            1081022,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1081022,
+          "storage_offset": 0,
+          "shape": [
+            1081022
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 12972264,
+          "storage_offset": 0,
+          "shape": [
+            1081022,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2022/train_flight_chain_2022.pt",
+      "file_size_bytes": 919515083,
+      "mtime_ns": 1787485834213251700,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "train_flight_chain_2022/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 919513056,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 2985432,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 125388144,
+          "storage_offset": 0,
+          "shape": [
+            2985432,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 143300736,
+          "storage_offset": 0,
+          "shape": [
+            2985432,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 35825184,
+          "storage_offset": 0,
+          "shape": [
+            2985432,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 2985432,
+          "storage_offset": 0,
+          "shape": [
+            2985432
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 35825184,
+          "storage_offset": 0,
+          "shape": [
+            2985432,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2022/val_flight_chain_2022.pt",
+      "file_size_bytes": 346965757,
+      "mtime_ns": 1787485770293522900,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "val_flight_chain_2022/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 346963848,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1126506,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 47313252,
+          "storage_offset": 0,
+          "shape": [
+            1126506,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 54072288,
+          "storage_offset": 0,
+          "shape": [
+            1126506,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 13518072,
+          "storage_offset": 0,
+          "shape": [
+            1126506,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1126506,
+          "storage_offset": 0,
+          "shape": [
+            1126506
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 13518072,
+          "storage_offset": 0,
+          "shape": [
+            1126506,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2023/test_flight_chain_2023.pt",
+      "file_size_bytes": 343329540,
+      "mtime_ns": 1787485791120415200,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "test_flight_chain_2023/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 343327600,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1114700,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 46817400,
+          "storage_offset": 0,
+          "shape": [
+            1114700,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 53505600,
+          "storage_offset": 0,
+          "shape": [
+            1114700,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 13376400,
+          "storage_offset": 0,
+          "shape": [
+            1114700,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1114700,
+          "storage_offset": 0,
+          "shape": [
+            1114700
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 13376400,
+          "storage_offset": 0,
+          "shape": [
+            1114700,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2023/train_flight_chain_2023.pt",
+      "file_size_bytes": 944545547,
+      "mtime_ns": 1787485864635228800,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "train_flight_chain_2023/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 944543600,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 3066700,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 128801400,
+          "storage_offset": 0,
+          "shape": [
+            3066700,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 147201600,
+          "storage_offset": 0,
+          "shape": [
+            3066700,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 36800400,
+          "storage_offset": 0,
+          "shape": [
+            3066700,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 3066700,
+          "storage_offset": 0,
+          "shape": [
+            3066700
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 36800400,
+          "storage_offset": 0,
+          "shape": [
+            3066700,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2023/val_flight_chain_2023.pt",
+      "file_size_bytes": 356794301,
+      "mtime_ns": 1787485815359174000,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 7,
+      "pickle_metadata_member": "val_flight_chain_2023/data.pkl",
+      "pickle_metadata_bytes_read": 535,
+      "storage_member_count": 5,
+      "storage_payload_bytes_declared": 356792436,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 5,
+      "sample_count": 1158417,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 48653514,
+          "storage_offset": 0,
+          "shape": [
+            1158417,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "1",
+          "storage_numel": 55604016,
+          "storage_offset": 0,
+          "shape": [
+            1158417,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "CharStorage",
+          "dtype": "int8",
+          "storage_key": "2",
+          "storage_numel": 13901004,
+          "storage_offset": 0,
+          "shape": [
+            1158417,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1158417,
+          "storage_offset": 0,
+          "shape": [
+            1158417
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "ShortStorage",
+          "dtype": "int16",
+          "storage_key": "4",
+          "storage_numel": 13901004,
+          "storage_offset": 0,
+          "shape": [
+            1158417,
+            6,
+            2
+          ],
+          "stride": [
+            12,
+            2,
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "split": "test",
+      "source_relative_path": "data/raw/chain/2024/flight_chain_test_2024.pt",
+      "file_size_bytes": 370582841,
+      "mtime_ns": 1787485823357439600,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 6,
+      "pickle_metadata_member": "flight_chain_test_2024/data.pkl",
+      "pickle_metadata_bytes_read": 429,
+      "storage_member_count": 4,
+      "storage_payload_bytes_declared": 370581120,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 4,
+      "sample_count": 945360,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 39705120,
+          "storage_offset": 0,
+          "shape": [
+            945360,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "1",
+          "storage_numel": 45377280,
+          "storage_offset": 0,
+          "shape": [
+            945360,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "2",
+          "storage_numel": 5672160,
+          "storage_offset": 0,
+          "shape": [
+            945360,
+            6
+          ],
+          "stride": [
+            6,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 945360,
+          "storage_offset": 0,
+          "shape": [
+            945360
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "split": "train",
+      "source_relative_path": "data/raw/chain/2024/flight_chain_train_2024.pt",
+      "file_size_bytes": 1118279679,
+      "mtime_ns": 1787485888857269100,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 6,
+      "pickle_metadata_member": "flight_chain_train_2024/data.pkl",
+      "pickle_metadata_bytes_read": 429,
+      "storage_member_count": 4,
+      "storage_payload_bytes_declared": 1118278000,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 4,
+      "sample_count": 2852750,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 119815500,
+          "storage_offset": 0,
+          "shape": [
+            2852750,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "1",
+          "storage_numel": 136932000,
+          "storage_offset": 0,
+          "shape": [
+            2852750,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "2",
+          "storage_numel": 17116500,
+          "storage_offset": 0,
+          "shape": [
+            2852750,
+            6
+          ],
+          "stride": [
+            6,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 2852750,
+          "storage_offset": 0,
+          "shape": [
+            2852750
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "split": "val",
+      "source_relative_path": "data/raw/chain/2024/flight_chain_val_2024.pt",
+      "file_size_bytes": 557077875,
+      "mtime_ns": 1787485857567399100,
+      "container": "pytorch_zip_archive",
+      "archive_member_count": 6,
+      "pickle_metadata_member": "flight_chain_val_2024/data.pkl",
+      "pickle_metadata_bytes_read": 429,
+      "storage_member_count": 4,
+      "storage_payload_bytes_declared": 557076296,
+      "storage_payload_bytes_read": 0,
+      "tensor_count": 4,
+      "sample_count": 1421113,
+      "tensors": [
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "0",
+          "storage_numel": 59686746,
+          "storage_offset": 0,
+          "shape": [
+            1421113,
+            6,
+            7
+          ],
+          "stride": [
+            42,
+            7,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "1",
+          "storage_numel": 68213424,
+          "storage_offset": 0,
+          "shape": [
+            1421113,
+            6,
+            8
+          ],
+          "stride": [
+            48,
+            8,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "FloatStorage",
+          "dtype": "float32",
+          "storage_key": "2",
+          "storage_numel": 8526678,
+          "storage_offset": 0,
+          "shape": [
+            1421113,
+            6
+          ],
+          "stride": [
+            6,
+            1
+          ],
+          "requires_grad": false
+        },
+        {
+          "storage_type": "LongStorage",
+          "dtype": "int64",
+          "storage_key": "3",
+          "storage_numel": 1421113,
+          "storage_offset": 0,
+          "shape": [
+            1421113
+          ],
+          "stride": [
+            1
+          ],
+          "requires_grad": false
+        }
+      ]
+    }
+  ]
+}
