@@ -99,6 +99,65 @@ class SimulatedAnnealingResult(tuple):
         return self.solve_time_sec
 
 
+def soft_cost_breakdown(
+    assignment: dict[str, str],
+    instance: ProblemInstance,
+    weights: Sequence[float] = (1.0, 1.0, 0.5, 1.0),
+) -> dict[str, float]:
+    """Calculate and breakdown multi-objective soft costs for a valid gate assignment.
+
+    Returns
+    -------
+    dict[str, float]
+        Dictionary containing:
+        - reassignment_cost: gate reassignment penalty (w1)
+        - delay_risk_cost: expected delay risk cost (w2)
+        - load_balance_cost: gate workload balance variance penalty (w3)
+        - remote_gate_cost: remote stand penalty (w4)
+        - total: sum of all soft costs
+    """
+    w1, w2, w3, w4 = weights
+    reassignment_cost = 0.0
+    delay_risk_cost = 0.0
+    remote_gate_cost = 0.0
+    gate_load: dict[str, float] = defaultdict(float)
+    gate_map = {g.gate_id: g for g in instance.gates}
+
+    for f in instance.flights:
+        g_id = assignment.get(f.flight_id)
+        if not g_id or g_id not in gate_map:
+            continue
+        gate = gate_map[g_id]
+
+        # Cost 1: Gate reassignment penalty
+        if f.current_gate is not None and g_id != f.current_gate:
+            reassignment_cost += w1 * instance.cost_params.reassignment_cost_default
+
+        # Cost 2: Expected delay risk cost
+        delay_risk_cost += w2 * f.p_delay * f.delay_est_min * instance.cost_params.delay_cost_weight
+
+        # Cost 4: Remote gate penalty
+        if not gate.is_contact_gate:
+            remote_gate_cost += w4 * instance.cost_params.remote_gate_cost * f.priority_weight
+
+        gate_load[g_id] += 1.0
+
+    # Cost 3: Workload balance variance
+    loads = list(gate_load.values()) or [0.0]
+    mean_load = sum(loads) / len(loads)
+    load_balance_cost = w3 * sum((l - mean_load) ** 2 for l in loads)
+
+    total = reassignment_cost + delay_risk_cost + load_balance_cost + remote_gate_cost
+
+    return {
+        "reassignment_cost": float(reassignment_cost),
+        "delay_risk_cost": float(delay_risk_cost),
+        "load_balance_cost": float(load_balance_cost),
+        "remote_gate_cost": float(remote_gate_cost),
+        "total": float(total),
+    }
+
+
 def soft_cost(
     assignment: dict[str, str],
     instance: ProblemInstance,
@@ -113,47 +172,14 @@ def soft_cost(
     instance : ProblemInstance
         Problem instance data contract.
     weights : Sequence[float]
-        Tuple/list of (w1, w2, w3, w4) objective weights:
-        - w1: Gate reassignment penalty
-        - w2: Expected delay risk cost
-        - w3: Gate workload balance variance penalty
-        - w4: Remote stand penalty
+        Tuple/list of (w1, w2, w3, w4) objective weights.
 
     Returns
     -------
     float
         Total soft cost value.
     """
-    w1, w2, w3, w4 = weights
-    cost = 0.0
-    gate_load: dict[str, float] = defaultdict(float)
-    gate_map = {g.gate_id: g for g in instance.gates}
-
-    for f in instance.flights:
-        g_id = assignment.get(f.flight_id)
-        if not g_id or g_id not in gate_map:
-            continue
-        gate = gate_map[g_id]
-
-        # Cost 1: Gate reassignment penalty
-        if f.current_gate is not None and g_id != f.current_gate:
-            cost += w1 * instance.cost_params.reassignment_cost_default
-
-        # Cost 2: Expected delay risk cost
-        cost += w2 * f.p_delay * f.delay_est_min * instance.cost_params.delay_cost_weight
-
-        # Cost 4: Remote gate penalty
-        if not gate.is_contact_gate:
-            cost += w4 * instance.cost_params.remote_gate_cost * f.priority_weight
-
-        gate_load[g_id] += 1.0
-
-    # Cost 3: Workload balance variance
-    loads = list(gate_load.values()) or [0.0]
-    mean_load = sum(loads) / len(loads)
-    cost += w3 * sum((l - mean_load) ** 2 for l in loads)
-
-    return cost
+    return soft_cost_breakdown(assignment, instance, weights)["total"]
 
 
 def _build_chain_pairs(instance: ProblemInstance) -> dict[str, Flight]:

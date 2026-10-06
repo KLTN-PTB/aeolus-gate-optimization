@@ -35,6 +35,8 @@ class Flight:
     priority_weight: float = 1.0
     turnaround_time_min: Optional[int] = None
     actual_delay_min: Optional[float] = None
+    base_start_min: Optional[int] = None
+    base_end_min: Optional[int] = None
 
     def __post_init__(self) -> None:
         if not self.flight_id or not isinstance(self.flight_id, str):
@@ -57,6 +59,12 @@ class Flight:
             raise GateOptimizationContractViolation("priority_weight must be positive")
         if self.turnaround_time_min is not None and self.turnaround_time_min <= 0:
             raise GateOptimizationContractViolation("turnaround_time_min must be positive")
+        if self.base_start_min is not None and self.base_start_min < 0:
+            raise GateOptimizationContractViolation("base_start_min cannot be negative")
+        if self.base_start_min is not None and self.base_end_min is not None and self.base_end_min < self.base_start_min:
+            raise GateOptimizationContractViolation(
+                f"base_end_min ({self.base_end_min}) cannot be smaller than base_start_min ({self.base_start_min})"
+            )
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

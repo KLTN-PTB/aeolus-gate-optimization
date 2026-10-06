@@ -1,0 +1,242 @@
+{
+  "metadata": {
+    "dataset_path": "D:/Documents/BaiTap/KhoaLuanCuNhan/aeolus-gate-optimization/src/artifacts/predictions/atl_2024_01_01_full_day_1500_flights_turnaround_sessions.parquet",
+    "total_sessions": 851,
+    "buffer_min": 15,
+    "peak_lower_bounds": {
+      "sched_peak_gates": 141,
+      "pred_peak_gates": 152,
+      "actual_peak_gates": 144
+    },
+    "timestamp": "2026-10-06 00:08:57",
+    "python_version": "3.11.9",
+    "sa_iterations": 2000,
+    "sa_seed": 42
+  },
+  "scenarios": {
+    "147": {
+      "num_gates": 147,
+      "theoretical_feasibility": "INFEASIBLE_BY_LOWER_BOUND",
+      "P0": {
+        "method": "P0 (earliest_free sched)",
+        "status": "OPTIMAL",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 147,
+        "runtime_sec": 0.249,
+        "pred_conflicts": 13,
+        "pred_sessions_in_conflict": 26,
+        "actual_conflicts": 51,
+        "actual_sessions_in_conflict": 97,
+        "actual_conflict_rate": 0.114
+      },
+      "Greedy": {
+        "method": "Greedy (min_reassignment)",
+        "status": "FEASIBLE",
+        "assigned_count": 847,
+        "unassigned_count": 4,
+        "reassigned_count": 31,
+        "reassignment_rate": 0.0366,
+        "gates_used": 147,
+        "runtime_sec": 0.243,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 44,
+        "actual_sessions_in_conflict": 84,
+        "actual_conflict_rate": 0.0987
+      },
+      "CP-SAT": {
+        "method": "CP-SAT",
+        "status": "UNKNOWN",
+        "assigned_count": 0,
+        "unassigned_count": 851,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 0,
+        "runtime_sec": 47.189,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 0,
+        "actual_sessions_in_conflict": 0,
+        "actual_conflict_rate": 0.0,
+        "soft_cost_breakdown": {}
+      },
+      "CP-SAT+SA": {
+        "method": "CP-SAT + Simulated Annealing",
+        "status": "SKIPPED_CP_SAT_INFEASIBLE",
+        "assigned_count": 0,
+        "unassigned_count": 851,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 0,
+        "runtime_sec": 0.0,
+        "pred_conflicts": null,
+        "actual_conflicts": null
+      }
+    },
+    "161": {
+      "num_gates": 161,
+      "theoretical_feasibility": "FEASIBLE",
+      "P0": {
+        "method": "P0 (earliest_free sched)",
+        "status": "OPTIMAL",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 161,
+        "runtime_sec": 0.256,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 16,
+        "actual_sessions_in_conflict": 32,
+        "actual_conflict_rate": 0.0376
+      },
+      "Greedy": {
+        "method": "Greedy (min_reassignment)",
+        "status": "OPTIMAL",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 161,
+        "runtime_sec": 0.222,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 16,
+        "actual_sessions_in_conflict": 32,
+        "actual_conflict_rate": 0.0376
+      },
+      "CP-SAT": {
+        "method": "CP-SAT",
+        "status": "OPTIMAL",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 161,
+        "runtime_sec": 24.954,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 16,
+        "actual_sessions_in_conflict": 32,
+        "actual_conflict_rate": 0.0376,
+        "soft_cost_breakdown": {
+          "reassignment_cost": 0.0,
+          "delay_risk_cost": 601.9973657036352,
+          "load_balance_cost": 34.42857142857145,
+          "remote_gate_cost": 0.0,
+          "total": 636.4259371322066
+        }
+      },
+      "CP-SAT+SA": {
+        "method": "CP-SAT + Simulated Annealing",
+        "status": "FEASIBLE",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 161,
+        "runtime_sec": 0.441,
+        "initial_cost": 636.43,
+        "best_cost": 636.43,
+        "cost_improvement": 0.0,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 16,
+        "actual_sessions_in_conflict": 32,
+        "actual_conflict_rate": 0.0376,
+        "soft_cost_breakdown": {
+          "reassignment_cost": 0.0,
+          "delay_risk_cost": 601.9973657036352,
+          "load_balance_cost": 34.42857142857145,
+          "remote_gate_cost": 0.0,
+          "total": 636.4259371322066
+        }
+      }
+    },
+    "175": {
+      "num_gates": 175,
+      "theoretical_feasibility": "FEASIBLE",
+      "P0": {
+        "method": "P0 (earliest_free sched)",
+        "status": "OPTIMAL",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 175,
+        "runtime_sec": 0.306,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 12,
+        "actual_sessions_in_conflict": 24,
+        "actual_conflict_rate": 0.0282
+      },
+      "Greedy": {
+        "method": "Greedy (min_reassignment)",
+        "status": "OPTIMAL",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 175,
+        "runtime_sec": 0.262,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 12,
+        "actual_sessions_in_conflict": 24,
+        "actual_conflict_rate": 0.0282
+      },
+      "CP-SAT": {
+        "method": "CP-SAT",
+        "status": "OPTIMAL",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 175,
+        "runtime_sec": 25.923,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 12,
+        "actual_sessions_in_conflict": 24,
+        "actual_conflict_rate": 0.0282,
+        "soft_cost_breakdown": {
+          "reassignment_cost": 0.0,
+          "delay_risk_cost": 601.9973657036352,
+          "load_balance_cost": 24.35428571428569,
+          "remote_gate_cost": 0.0,
+          "total": 626.3516514179208
+        }
+      },
+      "CP-SAT+SA": {
+        "method": "CP-SAT + Simulated Annealing",
+        "status": "FEASIBLE",
+        "assigned_count": 851,
+        "unassigned_count": 0,
+        "reassigned_count": 0,
+        "reassignment_rate": 0.0,
+        "gates_used": 175,
+        "runtime_sec": 0.538,
+        "initial_cost": 626.35,
+        "best_cost": 626.35,
+        "cost_improvement": 0.0,
+        "pred_conflicts": 0,
+        "pred_sessions_in_conflict": 0,
+        "actual_conflicts": 12,
+        "actual_sessions_in_conflict": 24,
+        "actual_conflict_rate": 0.0282,
+        "soft_cost_breakdown": {
+          "reassignment_cost": 0.0,
+          "delay_risk_cost": 601.9973657036352,
+          "load_balance_cost": 24.35428571428569,
+          "remote_gate_cost": 0.0,
+          "total": 626.3516514179208
+        }
+      }
+    }
+  }
+}

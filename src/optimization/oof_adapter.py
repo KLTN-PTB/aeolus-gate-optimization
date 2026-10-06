@@ -83,7 +83,7 @@ COLUMN_ALIASES: dict[str, list[str]] = {
         "aircraft_type", "AIRCRAFT_TYPE", "ac_type", "type",
     ],
     "current_gate": [
-        "current_gate", "gate", "GATE", "assigned_gate",
+        "initial_gate", "current_gate", "gate", "GATE", "assigned_gate",
     ],
     "turnaround_time": [
         "turnaround_time_min", "turnaround_time", "turnaround",
@@ -640,12 +640,11 @@ def oof_to_problem_instance(
         else:
             chain_group_id = None
 
-        # Current gate
-        if gate_col is not None:
+        # Current gate (ưu tiên initial_gate > current_gate)
+        cur_gate = row.get("initial_gate") if "initial_gate" in row and pd.notna(row["initial_gate"]) else None
+        if cur_gate is None and gate_col is not None and pd.notna(row.get(gate_col)):
             cur_gate = row.get(gate_col)
-            current_gate = str(cur_gate) if pd.notna(cur_gate) else None
-        else:
-            current_gate = None
+        current_gate = str(cur_gate) if cur_gate is not None and str(cur_gate).strip() != "" and str(cur_gate).lower() != "nan" else None
 
         # Turnaround time
         if turnaround_col is not None:
@@ -671,6 +670,11 @@ def oof_to_problem_instance(
 
         ac_type = str(row.get("aircraft_type", row.get("AIRCRAFT_TYPE", "ALL"))) if pd.notna(row.get("aircraft_type", row.get("AIRCRAFT_TYPE"))) else "ALL"
 
+        base_s = row.get("base_start_min", row.get("pred_start_min", row.get("sched_start_min")))
+        base_e = row.get("base_end_min", row.get("pred_end_min", row.get("sched_end_min")))
+        b_start = int(base_s) if pd.notna(base_s) else None
+        b_end = int(base_e) if pd.notna(base_e) else None
+
         flight = Flight(
             flight_id=f_id,
             direction=direction_i,
@@ -683,6 +687,8 @@ def oof_to_problem_instance(
             chain_group_id=chain_group_id,
             turnaround_time_min=turnaround_time,
             actual_delay_min=actual_delay,
+            base_start_min=b_start,
+            base_end_min=b_end,
         )
         flights.append(flight)
 

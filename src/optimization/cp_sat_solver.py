@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import logging
 import sys
+import warnings
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Optional
@@ -141,6 +142,8 @@ def calculate_departure_time(
         eff_delay = flight.delay_est_min
     elif mode == "realized":
         eff_delay = realized_delay if realized_delay is not None else 0.0
+    elif mode == "fixed":
+        eff_delay = 0.0
     else:
         raise ValueError(f"Unknown occupancy mode: {mode!r}")
 
@@ -177,6 +180,24 @@ def calculate_departure_time(
         }
 
     elif flight.direction == "TURN":
+        if mode == "fixed" and flight.base_start_min is not None and flight.base_end_min is not None:
+            pred_arr = flight.base_start_min
+            sched_arr = flight.sched_time_min if flight.sched_time_min else flight.base_start_min
+            duration = max(1, flight.base_end_min - flight.base_start_min)
+            calc_dep = flight.base_end_min
+            sched_dep = sched_arr + duration
+            dep_delay = max(0.0, float(calc_dep - sched_dep))
+            return {
+                "flight_id": flight.flight_id,
+                "direction": flight.direction,
+                "sched_arrival_min": sched_arr,
+                "pred_arrival_min": pred_arr,
+                "turnaround_time_min": t_turn,
+                "earliest_departure_min": calc_dep,
+                "sched_departure_min": sched_dep,
+                "calculated_departure_min": calc_dep,
+                "departure_delay_min": dep_delay,
+            }
         sched_arr = flight.sched_time_min
         pred_arr = int(sched_arr + eff_delay)
         duration = max(1, flight.dwell_time_min)
@@ -205,6 +226,8 @@ def calculate_departure_time(
                 arr_delay = paired_flight.delay_est_min
             elif mode == "realized":
                 arr_delay = realized_delay if realized_delay is not None else 0.0
+            elif mode == "fixed":
+                arr_delay = 0.0
             else:
                 arr_delay = 0.0
 
@@ -268,7 +291,22 @@ def occupancy_window(
     - ARR: chuyến đến độc lập hoặc chặng đầu của cặp xoay vòng.
     - DEP: chuyến đi độc lập hoặc chặng sau của cặp xoay vòng.
     - TURN: phiên quay đầu kỹ thuật trọn gói (turnaround session).
+    - mode="fixed": tính trực tiếp từ flight.base_start_min và flight.base_end_min mà không
+      tính lại bằng p_delay hay delay_est_min.
     """
+    if mode == "fixed":
+        if flight.base_start_min is not None and flight.base_end_min is not None:
+            start = int(flight.base_start_min - buffer_time_min)
+            end = int(flight.base_end_min + buffer_time_min)
+        else:
+            raise ValueError(
+                f"Flight {flight.flight_id}: mode='fixed' requires base_start_min and base_end_min to be set, "
+                f"got base_start_min={flight.base_start_min}, base_end_min={flight.base_end_min}"
+            )
+        start_clamped = max(0, start)
+        end_clamped = max(start_clamped + 1, end)
+        return start_clamped, end_clamped
+
     if mode == "expected":
         eff_delay = flight.p_delay * flight.delay_est_min
     elif mode == "worst_case":
@@ -395,7 +433,7 @@ def compute_flight_schedule(
         else:
             eff_delay = 0.0
 
-        pred_target_min = int(f.sched_time_min + eff_delay)
+        pred_target_min = int(f.base_start_min) if (mode == "fixed" and f.base_start_min is not None) else int(f.sched_time_min + eff_delay)
         actual_delay = getattr(f, "actual_delay_min", None)
         actual_target_min = int(f.sched_time_min + actual_delay) if actual_delay is not None else None
 
@@ -438,6 +476,7 @@ def solve_gate_assignment(
     use_turnaround: bool = False,
     default_turnaround_time_min: Optional[int] = None,
     return_schedule: bool = False,
+    raise_on_infeasible: bool = True,
 ) -> tuple[dict[str, str], str, float] | GateAssignmentResult:
     """Solve the gate assignment problem using CP-SAT, supporting turnaround time to calculate departure time.
 
@@ -534,6 +573,7 @@ def solve_gate_assignment(
             key = (f.flight_id, f.current_gate)
             if key in x:
                 model.Add(yv == 1 - x[key])
+                model.AddHint(x[key], 1)
             else:
                 model.Add(yv == 1)
 
@@ -581,7 +621,11 @@ def solve_gate_assignment(
 
     if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         logger.error("CP-SAT solver failed: status=%s, wall_time=%.2fs", status_name, wall_time)
-        raise RuntimeError(f"CP-SAT solution not feasible: status={status_name}")
+        if raise_on_infeasible:
+            raise RuntimeError(f"CP-SAT solution not feasible: status={status_name}")
+        if return_schedule:
+            return {}, status_name, wall_time, pd.DataFrame()
+        return GateAssignmentResult({}, status_name, wall_time)
 
     assignment: dict[str, str] = {}
     for f in instance.flights:
@@ -631,12 +675,14 @@ def dataframe_to_problem_instance(
     gates: Optional[list[Gate]] = None,
     airport: str = "ATL",
     planning_date: str = "2024-01-01",
+    time_basis: Optional[str] = None,
 ) -> ProblemInstance:
     """Chuyển đổi DataFrame kết quả mô hình (hoặc Parquet OOF, Parquet Turnaround Sessions) sang ProblemInstance.
 
     Hỗ trợ tự động nhận diện:
     - Bảng phiên quay đầu (Turnaround Sessions): session_id, session_type, sched_start_min, pred_start_min,...
     - Bảng chuyến bay truyền thống: flight_id, flight_key, CRS_DEP_TIME, crs_arr_time,...
+    - time_basis: 'sched' (dùng sched_*), 'pred' (dùng pred_*), hoặc None (backward compatibility).
     """
     is_session_df = "session_id" in df.columns or "session_type" in df.columns
 
@@ -655,25 +701,60 @@ def dataframe_to_problem_instance(
             else:
                 direction = str(row.get("direction", "TURN"))
 
-            # Giờ lịch trình (phút từ 00:00)
-            if direction == "DEP" and "sched_end_min" in row and pd.notna(row["sched_end_min"]):
-                sched_time = int(row["sched_end_min"])
-            elif "sched_start_min" in row and pd.notna(row["sched_start_min"]):
-                sched_time = int(row["sched_start_min"])
-            elif "sched_time_min" in row and pd.notna(row["sched_time_min"]):
-                sched_time = int(row["sched_time_min"])
-            else:
-                sched_time = 0
+            # Giờ lịch trình & Cửa sổ cơ sở theo time_basis
+            base_start_min: Optional[int] = None
+            base_end_min: Optional[int] = None
 
-            # Thời gian đỗ tại cổng
-            if "sched_duration_min" in row and pd.notna(row["sched_duration_min"]):
-                dwell_time = max(1, int(row["sched_duration_min"]))
-            elif "pred_duration_min" in row and pd.notna(row["pred_duration_min"]):
-                dwell_time = max(1, int(row["pred_duration_min"]))
-            elif "dwell_time_min" in row and pd.notna(row["dwell_time_min"]):
-                dwell_time = max(1, int(row["dwell_time_min"]))
+            if time_basis == "sched":
+                if "sched_start_min" not in row or pd.isna(row["sched_start_min"]) or "sched_end_min" not in row or pd.isna(row["sched_end_min"]):
+                    raise ValueError(f"Turnaround session {f_id} missing sched_start_min or sched_end_min under time_basis='sched'")
+                base_start_min = int(row["sched_start_min"])
+                base_end_min = int(row["sched_end_min"])
+                dwell_val = row.get("sched_duration_min")
+                if pd.isna(dwell_val):
+                    dwell_val = base_end_min - base_start_min
+                dwell_time = max(1, int(dwell_val))
+                sched_time = base_start_min
+            elif time_basis == "pred":
+                if "pred_start_min" not in row or pd.isna(row["pred_start_min"]) or "pred_end_min" not in row or pd.isna(row["pred_end_min"]):
+                    raise ValueError(f"Turnaround session {f_id} missing pred_start_min or pred_end_min under time_basis='pred'")
+                base_start_min = int(row["pred_start_min"])
+                base_end_min = int(row["pred_end_min"])
+                dwell_val = row.get("pred_duration_min")
+                if pd.isna(dwell_val):
+                    dwell_val = base_end_min - base_start_min
+                    warnings.warn(
+                        f"Session {f_id}: pred_duration_min missing, computed {dwell_val} from pred_end_min - pred_start_min",
+                        UserWarning,
+                        stacklevel=2,
+                    )
+                dwell_time = max(1, int(dwell_val))
+                sched_time = int(row["sched_start_min"]) if ("sched_start_min" in row and pd.notna(row["sched_start_min"])) else base_start_min
             else:
-                dwell_time = default_dwell_time_min
+                if direction == "DEP" and "sched_end_min" in row and pd.notna(row["sched_end_min"]):
+                    sched_time = int(row["sched_end_min"])
+                elif "sched_start_min" in row and pd.notna(row["sched_start_min"]):
+                    sched_time = int(row["sched_start_min"])
+                elif "sched_time_min" in row and pd.notna(row["sched_time_min"]):
+                    sched_time = int(row["sched_time_min"])
+                else:
+                    sched_time = 0
+
+                if "sched_duration_min" in row and pd.notna(row["sched_duration_min"]):
+                    dwell_time = max(1, int(row["sched_duration_min"]))
+                elif "pred_duration_min" in row and pd.notna(row["pred_duration_min"]):
+                    dwell_time = max(1, int(row["pred_duration_min"]))
+                elif "dwell_time_min" in row and pd.notna(row["dwell_time_min"]):
+                    dwell_time = max(1, int(row["dwell_time_min"]))
+                else:
+                    dwell_time = default_dwell_time_min
+
+                if "pred_start_min" in row and pd.notna(row["pred_start_min"]) and "pred_end_min" in row and pd.notna(row["pred_end_min"]):
+                    base_start_min = int(row["pred_start_min"])
+                    base_end_min = int(row["pred_end_min"])
+                elif "sched_start_min" in row and pd.notna(row["sched_start_min"]) and "sched_end_min" in row and pd.notna(row["sched_end_min"]):
+                    base_start_min = int(row["sched_start_min"])
+                    base_end_min = int(row["sched_end_min"])
 
             # Thời gian quay đầu
             turnaround_val = row.get("turnaround_time_min")
@@ -697,10 +778,15 @@ def dataframe_to_problem_instance(
             # Loại tàu bay
             aircraft_type = str(row.get("aircraft_type", "ALL")) if pd.notna(row.get("aircraft_type")) else "ALL"
 
-            # Chuỗi xoay vòng & Cổng hiện tại (Trong bảng phiên, mỗi phiên đã đại diện trọn vẹn một đợt đỗ cổng)
+            # Chuỗi xoay vòng & Cổng hiện tại (ưu tiên initial_gate > current_gate)
             chain_group_id_str = None
-            cur_gate = row.get("current_gate")
-            current_gate_str = str(cur_gate) if pd.notna(cur_gate) else None
+            cur_gate = row.get("initial_gate")
+            if pd.isna(cur_gate) or cur_gate is None or str(cur_gate).strip() == "" or str(cur_gate).lower() == "nan":
+                cur_gate = row.get("current_gate")
+            if pd.isna(cur_gate) or cur_gate is None or str(cur_gate).strip() == "" or str(cur_gate).lower() == "nan":
+                current_gate_str = None
+            else:
+                current_gate_str = str(cur_gate)
 
             # Nhãn trễ thực tế
             if direction == "DEP":
@@ -721,6 +807,8 @@ def dataframe_to_problem_instance(
                 chain_group_id=chain_group_id_str,
                 turnaround_time_min=turnaround_time,
                 actual_delay_min=actual_delay,
+                base_start_min=base_start_min,
+                base_end_min=base_end_min,
             )
             flights.append(f)
     else:
@@ -767,8 +855,13 @@ def dataframe_to_problem_instance(
             )
             prob_delay = max(0.0, min(1.0, float(row[prob_col]))) if prob_col else 0.0
 
-            cur_gate = row.get("current_gate")
-            current_gate_str = str(cur_gate) if pd.notna(cur_gate) else None
+            cur_gate = row.get("initial_gate")
+            if pd.isna(cur_gate) or cur_gate is None or str(cur_gate).strip() == "" or str(cur_gate).lower() == "nan":
+                cur_gate = row.get("current_gate")
+            if pd.isna(cur_gate) or cur_gate is None or str(cur_gate).strip() == "" or str(cur_gate).lower() == "nan":
+                current_gate_str = None
+            else:
+                current_gate_str = str(cur_gate)
 
             chain_id_val = row.get("chain_group_id", row.get("chain_id"))
             chain_group_id_str = str(chain_id_val) if pd.notna(chain_id_val) else None
@@ -788,6 +881,11 @@ def dataframe_to_problem_instance(
             actual_val = row.get("actual_delay_min", row.get("y_true_arr_delay_min", row.get("y_true_dep_delay_min", row.get("ARR_DELAY", row.get("DEP_DELAY")))))
             actual_delay = float(actual_val) if pd.notna(actual_val) else None
 
+            base_s = row.get("base_start_min", row.get("pred_start_min", row.get("sched_start_min")))
+            base_e = row.get("base_end_min", row.get("pred_end_min", row.get("sched_end_min")))
+            b_start = int(base_s) if pd.notna(base_s) else None
+            b_end = int(base_e) if pd.notna(base_e) else None
+
             f = Flight(
                 flight_id=f_id,
                 direction=direction,
@@ -800,6 +898,8 @@ def dataframe_to_problem_instance(
                 chain_group_id=chain_group_id_str,
                 turnaround_time_min=turnaround_time,
                 actual_delay_min=actual_delay,
+                base_start_min=b_start,
+                base_end_min=b_end,
             )
             flights.append(f)
 
