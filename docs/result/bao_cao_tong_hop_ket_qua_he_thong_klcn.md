@@ -27,16 +27,18 @@
 ### 1.2. Giai đoạn 2: Kết Quả Huấn Luyện Mô Hình Học Máy Dự Báo Trễ (ML Delay Prediction)
 Đã thử nghiệm và so sánh đối đầu các kiến trúc thuật toán trên tập huấn luyện 5.000.000 chuyến bay (2016–2022) và kiểm thử độc lập trên 1.000.000 chuyến bay Holdout 2024:
 
-#### A. Bài toán Phân loại Rủi ro Trễ ($P_{\text{delay}} \ge 15$ phút):
-| Mô Hình (Model) | Hướng Bay (Task) | Val ROC-AUC (2023) | Test ROC-AUC (2024) | Test PR-AUC | Ngưỡng cắt $T^*$ | Test F1 ($T^*$) | Test Accuracy ($T^*$) |
+#### A. Bài toán Phân loại Rủi ro Trễ (P_delay >= 15 phút):
+Đánh giá trên 1.000.000 chuyến bay kiểm thử độc lập (Test Holdout 2024):
+
+| Hướng Bay (Task) | Thuật toán (Model) | Val ROC-AUC | Test ROC-AUC | Test PR-AUC | Ngưỡng cắt tối ưu (T*) | Test F1-Score | Test Accuracy |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Fast Blending Ensemble** 🏆 | **Chiều Đến (ARR — CỐT LÕI)** | 0.6885 | **0.6876** | **0.3730** | 0.2054 | **0.4204** | **65.59%** |
-| **XGBoost Classifier** | **Chiều Đến (ARR — CỐT LÕI)** | **0.6887** | 0.6873 | 0.3723 | 0.3480 | 0.4201 | 65.07% |
-| **CatBoost Classifier** | **Chiều Đến (ARR — CỐT LÕI)** | 0.6805 | 0.6810 | 0.3634 | 0.5438 | 0.4151 | 63.89% |
-| **LightGBM Classifier** | **Chiều Đến (ARR — CỐT LÕI)** | 0.6701 | 0.6710 | 0.3511 | 0.2484 | 0.4056 | 63.78% |
-| **Logistic Regression** | **Chiều Đến (ARR — CỐT LÕI)** | 0.6615 | 0.6659 | 0.3354 | 0.5669 | 0.4063 | 61.41% |
-| *XGBoost Classifier* | *Chiều Đi (DEP — PHỤ TRỢ)* | **0.6984** | **0.6964** | **0.3766** | 0.3814 | **0.4253** | **68.40%** |
-| *LightGBM Classifier* | *Chiều Đi (DEP — PHỤ TRỢ)* | 0.6825 | 0.6778 | 0.3454 | 0.2574 | 0.4127 | 66.83% |
+| **ARR (Chiều Đến — CỐT LÕI)** | **Fast Blending Ensemble (Champion)** 🏆 | 0.6885 | **0.6876** | **0.3730** | 0.2054 | **0.4204** | **65.59%** |
+| **ARR (Chiều Đến — CỐT LÕI)** | **XGBoost Classifier** | **0.6887** | 0.6873 | 0.3723 | 0.3480 | 0.4201 | 65.07% |
+| **ARR (Chiều Đến — CỐT LÕI)** | **CatBoost Classifier** | 0.6805 | 0.6810 | 0.3634 | 0.5438 | 0.4151 | 63.89% |
+| **ARR (Chiều Đến — CỐT LÕI)** | **LightGBM Classifier** | 0.6701 | 0.6710 | 0.3511 | 0.2484 | 0.4056 | 63.78% |
+| **ARR (Chiều Đến — CỐT LÕI)** | **Logistic Regression** | 0.6615 | 0.6659 | 0.3354 | 0.5669 | 0.4063 | 61.41% |
+| *DEP (Chiều Đi — PHỤ TRỢ)* | *XGBoost Classifier* 🏆 | **0.6984** | **0.6964** | **0.3766** | 0.3814 | **0.4253** | **68.40%** |
+| *DEP (Chiều Đi — PHỤ TRỢ)* | *LightGBM Classifier* | 0.6825 | 0.6778 | 0.3454 | 0.2574 | 0.4127 | 66.83% |
 
 > **Ghi chú chuyên môn:**
 > - Kết quả trên được xuất trực tiếp từ lần chạy chính thức của notebook [`tabular_classification_notebook.ipynb`](file:///D:/KLCN/aeolus-gate-optimization/src/notebooks/tabular_classification_notebook.ipynb), lưu tại file [`artifacts/reports/classification_metrics_summary.csv`](file:///D:/KLCN/aeolus-gate-optimization/artifacts/reports/classification_metrics_summary.csv).
