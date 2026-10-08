@@ -1,0 +1,111 @@
+{
+  "manifest_version": "departure_population_manifest_v1",
+  "generated_at": "2026-10-08T16:55:00+07:00",
+  "dataset_name": "Aeolus Outbound ATL Processed Population",
+  "population_filter": "ORIGIN == 'ATL'",
+  "total_source_partitions": 9,
+  "years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "total_rows": 3022670,
+  "total_eligible_rows": 3022670,
+  "total_dropped_rows": 0,
+  "partitions_summary": {
+    "2016": {
+      "files_count": 22,
+      "rows_scanned": 381303,
+      "manifest_rows": 381303,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 381303
+    },
+    "2017": {
+      "files_count": 22,
+      "rows_scanned": 358537,
+      "manifest_rows": 358537,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 358537
+    },
+    "2018": {
+      "files_count": 26,
+      "rows_scanned": 386460,
+      "manifest_rows": 386460,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 386460
+    },
+    "2019": {
+      "files_count": 26,
+      "rows_scanned": 391053,
+      "manifest_rows": 391053,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 391053
+    },
+    "2020": {
+      "files_count": 17,
+      "rows_scanned": 242207,
+      "manifest_rows": 242207,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 242207
+    },
+    "2021": {
+      "files_count": 21,
+      "rows_scanned": 309488,
+      "manifest_rows": 309488,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 309488
+    },
+    "2022": {
+      "files_count": 25,
+      "rows_scanned": 311746,
+      "manifest_rows": 311746,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 311746
+    },
+    "2023": {
+      "files_count": 25,
+      "rows_scanned": 332734,
+      "manifest_rows": 332734,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 332734
+    },
+    "2024": {
+      "files_count": 25,
+      "rows_scanned": 309142,
+      "manifest_rows": 309142,
+      "diff_from_manifest": 0,
+      "origin_atl_violations": 0,
+      "missing_dep_delay": 0,
+      "valid_dep_delay": 309142
+    }
+  },
+  "key_contract": {
+    "version": "flight_key_v1",
+    "unique_count": 3022670,
+    "duplicates": 0,
+    "nulls": 0,
+    "integrity_verified": true
+  }
+}

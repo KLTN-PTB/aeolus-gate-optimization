@@ -1,0 +1,134 @@
+{
+  "contract_version": "2.0.0",
+  "protocol": "AEOLUS_DUAL_CORE_ARCHITECTURE_PROTOCOL_V2",
+  "created_at": "2026-10-08T17:15:00+07:00",
+  "tasks": {
+    "core_arrival": {
+      "task_enum": "ModelTask.CORE_ARRIVAL",
+      "task_name": "core_arrival",
+      "population_boundary": {
+        "hub": "ATL",
+        "flow": "inbound",
+        "filter": "DEST == 'ATL'",
+        "constant_dropped": "DEST"
+      },
+      "prediction_cutoff": {
+        "rule": "CRS_DEP_TIME - 2 hours",
+        "timezone": "America/New_York"
+      },
+      "target": {
+        "target_enum": "ModelTarget.ARRIVAL_DELAY_SIGNED",
+        "target_name": "arrival_delay_signed",
+        "raw_column": "ARR_DELAY",
+        "type": "signed_continuous_minutes",
+        "clipping": false,
+        "imputation": false
+      },
+      "weather_policy": "NO_WEATHER (insufficient evidence, raw dropped)",
+      "chain_policy": "reconstructed_chain_feature_availability_v1",
+      "core_point_cap": 5,
+      "downstream_eligible_default": true,
+      "selection_roles": [
+        "core_point_linear_baseline",
+        "core_point_tree_baseline",
+        "core_point_hgb_baseline",
+        "core_point_xgb_baseline",
+        "core_point_ensemble_baseline",
+        "historical_probabilistic_comparator"
+      ]
+    },
+    "auxiliary_departure": {
+      "task_enum": "ModelTask.AUXILIARY_DEPARTURE",
+      "task_name": "auxiliary_departure",
+      "population_boundary": {
+        "hub": "ATL",
+        "flow": "outbound",
+        "filter": "ORIGIN == 'ATL'",
+        "constant_dropped": "ORIGIN"
+      },
+      "prediction_cutoff": {
+        "rule": "CRS_DEP_TIME - 2 hours",
+        "timezone": "America/New_York"
+      },
+      "target": {
+        "target_enum": "ModelTarget.DEPARTURE_DELAY_BINARY_15",
+        "target_name": "departure_delay_binary_15",
+        "formula": "1[DEP_DELAY >= 15]",
+        "type": "binary_classification"
+      },
+      "weather_policy": "NO_WEATHER",
+      "chain_policy": "NONE",
+      "downstream_eligible": false,
+      "downstream_policy": "STRICTLY_ISOLATED (NEVER downstream eligible)",
+      "purpose": "Academic binary classification research"
+    },
+    "core_departure": {
+      "task_enum": "ModelTask.CORE_DEPARTURE",
+      "task_name": "core_departure",
+      "population_boundary": {
+        "hub": "ATL",
+        "flow": "outbound",
+        "filter": "ORIGIN == 'ATL'",
+        "constant_dropped": "ORIGIN",
+        "route_feature": "DEST"
+      },
+      "prediction_cutoff": {
+        "rule": "CRS_DEP_TIME - 2 hours",
+        "timezone": "America/New_York"
+      },
+      "target": {
+        "target_enum": "ModelTarget.DEPARTURE_DELAY_SIGNED",
+        "target_name": "departure_delay_signed",
+        "raw_column": "DEP_DELAY",
+        "type": "signed_continuous_minutes",
+        "clipping": false,
+        "imputation": false,
+        "negative_values_preserved": true
+      },
+      "auxiliary_label": {
+        "target_enum": "ModelTarget.DEPARTURE_DELAY_BINARY_15",
+        "target_name": "departure_delay_binary_15",
+        "formula": "1[DEP_DELAY >= 15]"
+      },
+      "features": {
+        "feature_manifest": "feature_manifest_departure_v1",
+        "feature_count": 10,
+        "approved_columns": [
+          "CRS_ELAPSED_TIME",
+          "calendar_month",
+          "calendar_day_of_month",
+          "calendar_day_of_week",
+          "is_weekend",
+          "scheduled_departure_hour",
+          "scheduled_departure_minute",
+          "OP_CARRIER",
+          "DEST",
+          "OP_CARRIER_FL_NUM"
+        ],
+        "excluded_features": [
+          "calendar_year",
+          "weather",
+          "chain"
+        ]
+      },
+      "weather_policy": "NO_WEATHER (all weather fields forbidden)",
+      "chain_policy": "NOT_ALLOWED_IN_CORE_DEPARTURE_V1",
+      "registered_baselines": [
+        "departure_linear_baseline_v1"
+      ],
+      "downstream_eligible": false,
+      "future_downstream_certification_role": "GATE_OUT_PREDICTION",
+      "dual_core_optimizer_feature_flag": false
+    }
+  },
+  "leakage_enforcement": {
+    "fail_closed_unknown_task": true,
+    "fail_closed_unknown_column": true,
+    "cross_task_isolation": {
+      "arrival_target_in_departure": "FORBIDDEN_LEAKAGE",
+      "departure_target_in_arrival": "FORBIDDEN_LEAKAGE",
+      "realized_operations": "FORBIDDEN_LEAKAGE",
+      "simulation_outcomes": "FORBIDDEN_LEAKAGE"
+    }
+  }
+}

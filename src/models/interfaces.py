@@ -48,6 +48,7 @@ class ModelCategory(str, Enum):
     PROBABILISTIC_CANDIDATE = "PROBABILISTIC_CANDIDATE"
     LEGACY_FROZEN = "LEGACY_FROZEN"
     AUXILIARY_DEPARTURE = "AUXILIARY_DEPARTURE"
+    CORE_DEPARTURE = "CORE_DEPARTURE"
     RESEARCH_CANDIDATE = "RESEARCH_CANDIDATE"
 
 
@@ -55,6 +56,7 @@ class ModelTask(str, Enum):
     """Operational task classification with strict population boundaries."""
 
     CORE_ARRIVAL = "core_arrival"  # Inbound DEST=ATL at CRS_DEP_TIME - 2h
+    CORE_DEPARTURE = "core_departure"  # Outbound ORIGIN=ATL at CRS_DEP_TIME - 2h
     AUXILIARY_DEPARTURE = "auxiliary_departure"  # Outbound ORIGIN=ATL, research only
 
 
@@ -70,6 +72,7 @@ class ModelTarget(str, Enum):
 
     ARRIVAL_DELAY_SIGNED = "arrival_delay_signed"  # Signed minutes, no absolute, no clip
     ARRIVAL_DELAY_BINARY_15 = "arrival_delay_binary_15"  # 1[ARR_DELAY >= 15]
+    DEPARTURE_DELAY_SIGNED = "departure_delay_signed"  # Signed minutes, no clip, Core Departure
     DEPARTURE_DELAY_BINARY_15 = "departure_delay_binary_15"  # 1[DEP_DELAY >= 15]
 
 
@@ -165,6 +168,30 @@ class ModelSpec:
                 raise ValueError(
                     f"Core arrival model '{self.model_id}' feature_set cannot contain weather. "
                     "Arrival task strictly operates with no Weather features."
+                )
+
+        # Invariant: Core departure feature set must NOT contain weather
+        if self.task == ModelTask.CORE_DEPARTURE.value:
+            if "with_weather" in fs_lower or (
+                "weather" in fs_lower
+                and "no_weather" not in fs_lower
+                and "without_weather" not in fs_lower
+            ):
+                raise ValueError(
+                    f"Core departure model '{self.model_id}' feature_set cannot contain weather. "
+                    "Departure V1 task strictly operates with no Weather features."
+                )
+            if self.target in {
+                ModelTarget.ARRIVAL_DELAY_SIGNED.value,
+                ModelTarget.ARRIVAL_DELAY_BINARY_15.value,
+            }:
+                raise ValueError(
+                    f"Core departure model '{self.model_id}' cannot use Arrival target '{self.target}'."
+                )
+            if self.downstream_eligible and self.selection_role != "GATE_OUT_PREDICTION":
+                raise ValueError(
+                    f"Core departure model '{self.model_id}' requires certified role 'GATE_OUT_PREDICTION' "
+                    "to be downstream eligible."
                 )
 
     def compute_sha256(self) -> str:
