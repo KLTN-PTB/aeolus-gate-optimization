@@ -33,6 +33,7 @@ amendment dated 2026-08-26 is governed by the authoritative V4 roadmaps and
 | Robustness | Plan robustness and recourse are distinct; pilots are 20 then 50 scenarios, with 500 only if feasible. | D017 |
 | Utility comparison | Schedule-only, ML, and Oracle signed `ARR_DELAY` use the same scenario/solver; Oracle is evaluation-only. | D018 |
 | Claim boundary | Synthetic gate/turn outputs are not real ATL operations and do not establish reduced real flight delay. | D019 |
+| Gate Environment | Aeolus lacks airport gate assignment and physical aircraft identity — entire airport topology and gate mix are synthetic simulation constructs. | D027 |
 
 ## EVIDENCE-BASED WEEK-2 RESOLUTIONS
 

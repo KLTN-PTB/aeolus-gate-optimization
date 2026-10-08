@@ -105,5 +105,7 @@ def test_requirements_pin_only_activated_dependencies_through_week5_protocol() -
     assert "scikit-learn==1.9.0" in requirements
     assert "xgboost==3.2.0" in requirements
     assert "optuna==5.0.0" in requirements
-    for future_dependency in ["shap", "ortools", "streamlit", "plotly"]:
+    assert "ortools>=9.8.0" in requirements
+    for future_dependency in ["streamlit", "plotly"]:
         assert future_dependency not in requirements.lower()
+

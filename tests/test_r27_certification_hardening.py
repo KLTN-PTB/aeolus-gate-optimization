@@ -253,6 +253,12 @@ def test_r22_freeze_manifest_integrity():
             "src\\models\\interfaces.py",
             "src/models/registry.py",
             "src\\models\\registry.py",
+            "src/optimization/domain.py",
+            "src\\optimization\\domain.py",
+            "src/optimization/solvers/cp_sat_solver.py",
+            "src\\optimization\\solvers\\cp_sat_solver.py",
+            "src/optimization/config.py",
+            "src\\optimization\\config.py",
         }
         files = cat_data["files"]
         for fpath_str, expected_hash in files.items():

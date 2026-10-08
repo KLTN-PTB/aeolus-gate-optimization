@@ -1,0 +1,68 @@
+[
+  {
+    "Task": "ARR_DELAY (TOÀN TẬP DỮ LIỆU)",
+    "Model": "LGBM",
+    "Fit (s)": 13.8,
+    "Val MAE (m)": 24.4,
+    "Test MAE (m)": 25.24,
+    "Test RMSE (m)": 55.91,
+    "Test R2": 0.0306,
+    "Error <= 15m": "46.9%",
+    "Error <= 30m": "81.3%"
+  },
+  {
+    "Task": "ARR_DELAY (TOÀN TẬP DỮ LIỆU)",
+    "Model": "XGB",
+    "Fit (s)": 22.2,
+    "Val MAE (m)": 24.37,
+    "Test MAE (m)": 25.22,
+    "Test RMSE (m)": 56.24,
+    "Test R2": 0.0192,
+    "Error <= 15m": "47.3%",
+    "Error <= 30m": "82.2%"
+  },
+  {
+    "Task": "ARR_DELAY (TOÀN TẬP DỮ LIỆU)",
+    "Model": "RIDGE",
+    "Fit (s)": 1.1,
+    "Val MAE (m)": 25.29,
+    "Test MAE (m)": 26.2,
+    "Test RMSE (m)": 55.91,
+    "Test R2": 0.0308,
+    "Error <= 15m": "42.8%",
+    "Error <= 30m": "78.4%"
+  },
+  {
+    "Task": "DEP_DELAY (PHỤ TRỢ)",
+    "Model": "LGBM",
+    "Fit (s)": 18.0,
+    "Val MAE (m)": 21.5,
+    "Test MAE (m)": 22.31,
+    "Test RMSE (m)": 53.9,
+    "Test R2": 0.0245,
+    "Error <= 15m": "58.5%",
+    "Error <= 30m": "88.9%"
+  },
+  {
+    "Task": "DEP_DELAY (PHỤ TRỢ)",
+    "Model": "XGB",
+    "Fit (s)": 25.8,
+    "Val MAE (m)": 21.44,
+    "Test MAE (m)": 22.28,
+    "Test RMSE (m)": 54.18,
+    "Test R2": 0.0145,
+    "Error <= 15m": "59.9%",
+    "Error <= 30m": "89.3%"
+  },
+  {
+    "Task": "ARR_DELAY (TOÀN TẬP DỮ LIỆU)",
+    "Model": "FAST_BLENDING",
+    "Fit (s)": 0.1,
+    "Val MAE (m)": 24.88,
+    "Test MAE (m)": 25.67,
+    "Test RMSE (m)": 55.63,
+    "Test R2": 0.0405,
+    "Error <= 15m": "46.0%",
+    "Error <= 30m": "78.4%"
+  }
+]

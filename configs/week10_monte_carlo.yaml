@@ -1,0 +1,8 @@
+contract_version: week10_monte_carlo_v1
+task: monte_carlo_simulation
+
+simulation:
+  n_scenarios: 500
+  seed: 42
+  synthetic_sampling_only: true
+  holdout_2024_accessed: false

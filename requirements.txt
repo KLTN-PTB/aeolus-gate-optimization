@@ -1,5 +1,5 @@
 # Runtime contract: Python >=3.11
-# Resolved and verified on Python 3.11.15 (2026-08-26).
+# Resolved and verified on Python 3.11.15.
 numpy==2.2.6
 pandas==2.3.3
 pyarrow==25.0.1
@@ -9,3 +9,9 @@ PyYAML==6.0.3
 scikit-learn==1.9.0
 xgboost==3.2.0
 optuna==5.0.0
+ortools>=9.8.0
+matplotlib>=3.8.0
+ipykernel>=6.29.0
+catboost>=1.2.0
+lightgbm>=4.0.0
+shap>=0.45.0

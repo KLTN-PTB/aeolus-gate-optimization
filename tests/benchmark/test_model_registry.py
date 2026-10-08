@@ -30,7 +30,11 @@ def test_registry_integration_retrieval() -> None:
     for spec in models:
         assert spec.model_id
         assert spec.family
-        assert spec.task in {ModelTask.CORE_ARRIVAL.value, ModelTask.AUXILIARY_DEPARTURE.value}
+        assert spec.task in {
+            ModelTask.CORE_ARRIVAL.value,
+            ModelTask.AUXILIARY_DEPARTURE.value,
+            ModelTask.CORE_DEPARTURE.value,
+        }
         assert spec.target
         assert spec.status in {s.value for s in ModelStatus}
         assert isinstance(spec.downstream_eligible, bool)

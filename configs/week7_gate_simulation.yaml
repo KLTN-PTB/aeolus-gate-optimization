@@ -1,0 +1,11 @@
+contract_version: week7_gate_simulation_v1
+task: gate_simulation
+
+airport_topology:
+  n_gates: 30
+  wide_capable_ratio: 0.2
+  contact_gate_ratio: 0.7
+  seed: 202601
+
+fleet:
+  widebody_share: 0.08

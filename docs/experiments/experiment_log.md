@@ -451,3 +451,4 @@ and [powercfg options](https://learn.microsoft.com/en-us/windows-hardware/design
 - **Authoritative deliverables:**
   `week5_core_arrival_xgboost_optuna_summary_v1.json` and
   `week5_core_arrival_xgboost_optuna.md`.
+

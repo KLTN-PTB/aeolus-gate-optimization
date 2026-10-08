@@ -1,0 +1,8 @@
+contract_version: week8_cp_sat_v1
+task: gate_optimization_cp_sat
+
+solver:
+  buffer_time_min: 15
+  time_limit_sec: 60
+  num_search_workers: 8
+  mode: expected
