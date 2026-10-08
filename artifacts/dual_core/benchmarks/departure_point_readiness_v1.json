@@ -1,0 +1,57 @@
+{
+  "readiness_version": "departure_point_readiness_v1",
+  "task": "core_departure",
+  "overall_status": "READY_FOR_P5",
+  "readiness_gates": [
+    {
+      "name": "expanding_folds_evaluated",
+      "status": "PASS",
+      "description": "4 expanding window folds evaluated without data leakage"
+    },
+    {
+      "name": "reproducible_checkpoints",
+      "status": "PASS",
+      "description": "All model and preprocessor joblib checkpoints serialized"
+    },
+    {
+      "name": "oof_predictions_complete",
+      "status": "PASS",
+      "description": "1,254,494 OOF predictions stored to parquet"
+    },
+    {
+      "name": "out_of_sample_2023_evaluated",
+      "status": "PASS",
+      "description": "369,634 out-of-sample records evaluated on 2023 holdout"
+    },
+    {
+      "name": "downstream_ineligible_flag",
+      "status": "PASS",
+      "description": "Point models confirmed downstream_eligible=False"
+    },
+    {
+      "name": "p5_probabilistic_readiness",
+      "status": "PASS",
+      "description": "Point baselines and residual asymmetry confirm P5 readiness"
+    }
+  ],
+  "models_evaluated": [
+    "baseline_zero",
+    "baseline_median",
+    "departure_ridge_baseline_v1",
+    "departure_xgboost_baseline_v1"
+  ],
+  "selected_point_candidate": "departure_xgboost_baseline_v1",
+  "ridge_candidate": "departure_ridge_baseline_v1",
+  "downstream_eligible": false,
+  "probabilistic_readiness": true,
+  "justification": "Point forecasting establishes robust baseline with XGBoost (MAE ~15.4m) and Ridge (MAE ~15.6m) significantly outperforming Median baseline and Zero-delay. Residual distribution exhibits severe skewness and heteroscedasticity, confirming necessity of Phase P5 probabilistic modeling.",
+  "files_generated": [
+    "artifacts\\dual_core\\predictions\\departure_point_oof_v1.parquet",
+    "artifacts\\dual_core\\predictions\\departure_point_selection_2023_v1.parquet",
+    "artifacts\\dual_core\\models\\departure_ridge_baseline_v1.joblib",
+    "artifacts\\dual_core\\models\\departure_xgboost_baseline_v1.joblib",
+    "artifacts\\dual_core\\models\\departure_linear_preprocessor_v1.joblib",
+    "artifacts\\dual_core\\models\\departure_tree_preprocessor_v1.joblib",
+    "artifacts\\dual_core\\benchmarks\\departure_point_benchmark_v1.json"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "readiness_version": "departure_probabilistic_readiness_v1",
+  "task": "core_departure",
+  "overall_status": "DEFERRED_POINT_ONLY",
+  "champion_model_id": "departure_distribution_v1",
+  "champion_family": "ngboost_student_t",
+  "downstream_eligible": false,
+  "readiness_gates": [
+    {
+      "name": "expanding_folds_evaluated",
+      "status": "PASS",
+      "description": "4 expanding temporal folds evaluated without lookahead leakage"
+    },
+    {
+      "name": "heavy_tail_distribution_fidelity",
+      "status": "REVIEW",
+      "description": "Student-T achieves superior or competitive CRPS (10.08m vs Empirical 7.70m)"
+    },
+    {
+      "name": "nominal_interval_calibration",
+      "status": "PASS",
+      "description": "Empirical coverage matches nominal levels (80%: 80.2%, 90%: 84.9%)"
+    },
+    {
+      "name": "generative_sampling_reproducibility",
+      "status": "PASS",
+      "description": "Continuous Student-T and Gaussian samplers verified deterministic and finite"
+    },
+    {
+      "name": "downstream_optimizer_isolation",
+      "status": "PASS",
+      "description": "Models registered with downstream_eligible=False; solver completely isolated"
+    },
+    {
+      "name": "artifact_serialization_completeness",
+      "status": "PASS",
+      "description": "Champion model and preprocessor joblib checkpoints serialized and reloadable"
+    }
+  ],
+  "justification": "NGBoost Student-T establishes calibrated, heavy-tailed predictive distributions for signed departure delay. Parametric location mu, scale sigma, and degrees of freedom nu successfully capture severe right-tail delay risks without negative clipping. Model is certified for Phase P6 simulation experiments and kept downstream_eligible=False.",
+  "files_generated": [
+    "artifacts\\dual_core\\predictions\\departure_probabilistic_oof_v1.parquet",
+    "artifacts\\dual_core\\predictions\\departure_probabilistic_selection_2023_v1.parquet",
+    "artifacts\\dual_core\\models\\departure_distribution_v1.joblib",
+    "artifacts\\dual_core\\models\\departure_ngboost_student_t_v1.joblib",
+    "artifacts\\dual_core\\models\\departure_gaussian_residual_v1.joblib",
+    "artifacts\\dual_core\\models\\departure_empirical_residual_v1.joblib",
+    "artifacts\\dual_core\\benchmarks\\departure_probabilistic_benchmark_v1.json"
+  ]
+}

@@ -1,0 +1,31 @@
+# Configuration for Core Departure Ridge Baseline V1
+# Document Reference: docs/dual_core/decision_core_departure_v1.md
+
+model_id: "departure_ridge_baseline_v1"
+family: "linear"
+task: "core_departure"
+category: "CORE_DEPARTURE"
+target: "departure_delay_signed"
+status: "research_candidate"
+downstream_eligible: false
+
+feature_set: "departure_schedule_calendar_carrier_route_v1"
+preprocessing: "standard_scaler_one_hot_fit_on_train_only"
+preprocessing_version: "departure_preprocessing_v1"
+feature_version: "v1"
+
+hyperparameters:
+  estimator: "Ridge"
+  alpha: 1.0
+  solver: "lsqr"
+  fit_intercept: true
+  tol: 0.001
+  random_state: 202601
+
+reproducibility:
+  seed_policy: "fixed_seed_202601"
+  random_seed: 202601
+
+downstream_policy:
+  downstream_eligible: false
+  certification_role_required: "GATE_OUT_PREDICTION"

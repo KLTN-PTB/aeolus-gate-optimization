@@ -1,0 +1,40 @@
+# Configuration for Core Departure XGBoost Baseline V1
+# Document Reference: docs/dual_core/decision_core_departure_v1.md
+
+model_id: "departure_xgboost_baseline_v1"
+family: "xgboost"
+task: "core_departure"
+category: "CORE_DEPARTURE"
+target: "departure_delay_signed"
+status: "research_candidate"
+downstream_eligible: false
+
+feature_set: "departure_schedule_calendar_carrier_route_v1"
+preprocessing: "ordinal_frequency_fit_on_train_only"
+preprocessing_version: "departure_preprocessing_v1"
+feature_version: "v1"
+
+hyperparameters:
+  estimator: "XGBRegressor"
+  objective: "reg:squarederror"
+  eval_metric: "rmse"
+  n_estimators: 100
+  learning_rate: 0.05
+  max_depth: 6
+  min_child_weight: 20.0
+  subsample: 0.8
+  colsample_bytree: 0.8
+  reg_alpha: 0.0
+  reg_lambda: 2.0
+  tree_method: "hist"
+  device: "cpu"
+  n_jobs: 8
+  random_state: 202601
+
+reproducibility:
+  seed_policy: "fixed_seed_202601"
+  random_seed: 202601
+
+downstream_policy:
+  downstream_eligible: false
+  certification_role_required: "GATE_OUT_PREDICTION"
