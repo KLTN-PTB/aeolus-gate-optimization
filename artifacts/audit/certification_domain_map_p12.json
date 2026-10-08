@@ -1,0 +1,254 @@
+{
+  "audit_phase": "P12_CERTIFICATION_DOMAIN_MAP",
+  "timestamp_utc": "2026-10-04T12:55:00Z",
+  "old_domains_count": 18,
+  "new_domains_count": 13,
+  "consolidation_ratio": "18 granular operational domains -> 13 certified scientific domains (1:1 with Claims 01-13)",
+  "p4_p5_architecture_guard": {
+    "P4_role": "Role C: Continuous Downstream Stochastic Simulation Engine",
+    "P5_role": "Role B: Marginal Quantile Forecast Champion (FORECAST_ONLY)",
+    "continuous_density_certified": "P4 ONLY",
+    "continuous_sampling_authorized": "P4 ONLY",
+    "downstream_samplers_required": "P4 ONLY"
+  },
+  "domain_mappings": [
+    {
+      "old_domain": "Temporal governance",
+      "new_domain": "Domain 01: Temporal Post-Holdout Governance",
+      "status": "CONSOLIDATED",
+      "tests": [
+        "test_r20_freeze_gate.py",
+        "test_r22_system_freeze_v3.py",
+        "test_temporal_split.py"
+      ],
+      "artifacts": [
+        "artifacts/manifests/system_freeze_manifest.json",
+        "artifacts/audit/r22_freeze_audit.json"
+      ],
+      "claims": [
+        "CLAIM_01_TEMPORAL_POST_HOLDOUT"
+      ],
+      "decision": "E001 (Temporal cutoffs and rolling split isolation)",
+      "rationale": "Isolates 2024 access rules; enforces post-freeze semantics with zero parameter tuning.",
+      "source_evidence": "artifacts/audit/r30_final_evidence_reconciliation.json"
+    },
+    {
+      "old_domain": "Point model selection",
+      "new_domain": "Domain 02: Point Champion Selection",
+      "status": "CONSOLIDATED",
+      "tests": [
+        "test_r25_point_selection_consistency.py",
+        "tests/selection/test_academic_model_selection_v2.py"
+      ],
+      "artifacts": [
+        "artifacts/manifests/academic_model_selection_v3.json",
+        "artifacts/audit/r25_point_selection_consistency.json"
+      ],
+      "claims": [
+        "CLAIM_02_POINT_CHAMPION_SELECTION"
+      ],
+      "decision": "E005 (Ridge and Ensemble co-champions within 0.10m indifference threshold)",
+      "rationale": "Point MAE tie band (+/- 0.05 min) prevents declaring a single point victor.",
+      "source_evidence": "artifacts/audit/r25_claim_numeric_reconciliation.json"
+    },
+    {
+      "old_domain": "Core Arrival probabilistic prediction",
+      "new_domain": "Domain 03: P5 Quantile Forecasting",
+      "status": "SUPERSEDED / SEPARATED",
+      "tests": [
+        "test_r34_p5_mathematical_audit.py",
+        "tests/probabilistic/test_quantile.py"
+      ],
+      "artifacts": [
+        "artifacts/audit/r34_p5_capability_forensics.json",
+        "artifacts/audit/r34_p5_quantile_config.json"
+      ],
+      "claims": [
+        "CLAIM_03_PROBABILISTIC_P5_CRPS"
+      ],
+      "decision": "E007 (Role B: marginal quantile forecast champion, forecast-only)",
+      "rationale": "P5 predicts 9 marginal quantiles with superior pinball loss; lacks continuous density; barred from sampling.",
+      "source_evidence": "R39_P5_RECONSTRUCTION_FEASIBILITY.md"
+    },
+    {
+      "old_domain": "Probabilistic model selection",
+      "new_domain": "Domain 04: P4 Continuous Student-t Distribution",
+      "status": "CONSOLIDATED",
+      "tests": [
+        "test_r33_p4_metric_lineage.py",
+        "tests/contracts/test_distribution_properties.py"
+      ],
+      "artifacts": [
+        "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+        "artifacts/audit/r33_p4_metric_reconciliation.parquet"
+      ],
+      "claims": [
+        "CLAIM_04_PROBABILISTIC_P4_STUDENT_T"
+      ],
+      "decision": "E008 (Role C: certified continuous downstream stochastic engine)",
+      "rationale": "P4 yields exact closed-form Student-t parameters (mu, sigma, nu); certified as continuous sampler.",
+      "source_evidence": "R38_NATIVE_DOWNSTREAM_PREFLIGHT.md"
+    },
+    {
+      "old_domain": "Core Arrival point prediction",
+      "new_domain": "Domain 05: Decoupled Multi-Attribute Role Assignment",
+      "status": "SUPERSEDED / CONSOLIDATED",
+      "tests": [
+        "test_r24_final_certification.py",
+        "test_r31_final_certification.py"
+      ],
+      "artifacts": [
+        "artifacts/manifests/academic_model_selection_v3.json"
+      ],
+      "claims": [
+        "CLAIM_05_SINGLE_OVERALL_CHAMPION"
+      ],
+      "decision": "E009 (Decoupled multi-attribute utility: Role B for P5, Role C for P4)",
+      "rationale": "Strictly blocks unscientific claim of a single joint overall champion.",
+      "source_evidence": "artifacts/audit/final_claim_boundary_audit_v5.json"
+    },
+    {
+      "old_domain": "Monte Carlo (Variance Reduction)",
+      "new_domain": "Domain 06: Common Random Numbers Variance Reduction",
+      "status": "SPLIT / RETRACTED",
+      "tests": [
+        "tests/evaluation/test_mc_convergence_v2.py"
+      ],
+      "artifacts": [
+        "artifacts/monte_carlo_model_comparison_v2/crn_variance_reduction_report.json"
+      ],
+      "claims": [
+        "CLAIM_06_CRN_VARIANCE_REDUCTION"
+      ],
+      "decision": "E010 (Retraction of 82.4% CRN variance reduction claim)",
+      "rationale": "Pilot observation failed to replicate across diverse operational seeds; marked NOT_SUPPORTED.",
+      "source_evidence": "artifacts/audit/r30_final_evidence_reconciliation.json"
+    },
+    {
+      "old_domain": "Monte Carlo (Grid Convergence)",
+      "new_domain": "Domain 07: Monte Carlo Sample Size & Convergence",
+      "status": "SPLIT / CONSOLIDATED",
+      "tests": [
+        "tests/evaluation/test_monte_carlo_audit_v2.py"
+      ],
+      "artifacts": [
+        "artifacts/monte_carlo_model_comparison_v2/monte_carlo_convergence_report.json"
+      ],
+      "claims": [
+        "CLAIM_07_MC_N500_OPTIMALITY"
+      ],
+      "decision": "E011 (N=500 is canonical operational compromise, not global mathematical optimum)",
+      "rationale": "Establishes empirical s/sqrt(N) convergence; retracts optimality claim.",
+      "source_evidence": "artifacts/audit/r30_final_evidence_reconciliation.json"
+    },
+    {
+      "old_domain": "Synthetic Turn & Gate Simulation",
+      "new_domain": "Domain 08: Simulation Domain Boundary",
+      "status": "MERGED",
+      "tests": [
+        "tests/downstream/test_downstream_semantics_v2.py"
+      ],
+      "artifacts": [
+        "artifacts/manifests/system_freeze_manifest.json"
+      ],
+      "claims": [
+        "CLAIM_08_REAL_WORLD_GATE_OPERATIONS"
+      ],
+      "decision": "E012 (Airfield results strictly bounded to synthetic simulation)",
+      "rationale": "Turnaround (45m min turn, 15m buffer) simulated; strictly bans real-world ATL operations claims.",
+      "source_evidence": "artifacts/audit/final_claim_boundary_audit_v5.json"
+    },
+    {
+      "old_domain": "Greedy (Baseline Comparison)",
+      "new_domain": "Domain 09: Acausal Oracle Boundary & Robustness",
+      "status": "CONSOLIDATED",
+      "tests": [
+        "tests/downstream/test_auxiliary_isolation.py"
+      ],
+      "artifacts": [
+        "artifacts/post_holdout_re_evaluation_v1/robustness_results.json"
+      ],
+      "claims": [
+        "CLAIM_09_ORACLE_EQUIVALENCE"
+      ],
+      "decision": "E013 (Acausal oracle plan demonstrates extreme fragility under stochastic shocks)",
+      "rationale": "Fixed plans tuned to realized point actuals collapse under continuous Student-t realizations.",
+      "source_evidence": "artifacts/audit/final_claim_boundary_audit_v5.json"
+    },
+    {
+      "old_domain": "CP-SAT, SA, CP-SAT + SA",
+      "new_domain": "Domain 10: Downstream Gate Optimization & Equal-Compute Solvers",
+      "status": "MERGED",
+      "tests": [
+        "test_r26_solver_equal_compute.py",
+        "test_r35_solver_repro.py",
+        "tests/downstream/test_same_solver_budget.py"
+      ],
+      "artifacts": [
+        "artifacts/audit/r26_solver_equal_compute_results.parquet",
+        "artifacts/post_holdout_re_evaluation_v1/downstream_results.parquet"
+      ],
+      "claims": [
+        "CLAIM_10_DOWNSTREAM_SEMANTICS"
+      ],
+      "decision": "E014 (Equal wall-clock compute ceiling: 2.0s per solver instance)",
+      "rationale": "Solvers compared under identical compute budgets; CP-SAT proves optimal; Hybrid matches CP-SAT optimum.",
+      "source_evidence": "artifacts/audit/r26_solver_compute_contract.json"
+    },
+    {
+      "old_domain": "Statistical inference",
+      "new_domain": "Domain 11: Statistical Significance & Multiplicity Control",
+      "status": "CONSOLIDATED",
+      "tests": [
+        "test_r18_statistical_inference.py",
+        "tests/evaluation/test_paired_comparison_v2.py"
+      ],
+      "artifacts": [
+        "artifacts/r18_paired_statistics_v2.json"
+      ],
+      "claims": [
+        "CLAIM_11_STATISTICAL_SIGNIFICANCE"
+      ],
+      "decision": "E015 (Day-cluster bootstrap on FL_DATE with Holm-Bonferroni FWER control)",
+      "rationale": "Protects against unadjusted p-value claims; enforces paired comparisons.",
+      "source_evidence": "artifacts/audit/r30_final_evidence_reconciliation.json"
+    },
+    {
+      "old_domain": "Auxiliary Departure, Weather, Flight Chain",
+      "new_domain": "Domain 12: Auxiliary Non-Contamination & Input Isolation",
+      "status": "MERGED / ISOLATED",
+      "tests": [
+        "tests/downstream/test_model_input_boundary.py",
+        "tests/downstream/test_auxiliary_isolation.py"
+      ],
+      "artifacts": [
+        "artifacts/manifests/feature_manifest_arrival_v1.json"
+      ],
+      "claims": [
+        "CLAIM_12_AUXILIARY_DEPARTURE_DELAY"
+      ],
+      "decision": "E003 & E006 (Strict exclusion of weather, departure delays, and 27 .pt raw flight chains)",
+      "rationale": "Core Arrival is 100% tabular with zero leakage from auxiliary tasks.",
+      "source_evidence": "artifacts/audit/r30_final_evidence_reconciliation.json"
+    },
+    {
+      "old_domain": "Reproducibility & Certification tests",
+      "new_domain": "Domain 13: Cryptographic Lineage & Reproducibility Standards",
+      "status": "MERGED",
+      "tests": [
+        "test_r27_certification_hardening.py",
+        "test_r37_final_certification.py"
+      ],
+      "artifacts": [
+        "artifacts/audit/final_freeze_manifest_v5.json",
+        "artifacts/audit/final_execution_summary_v5.json"
+      ],
+      "claims": [
+        "CLAIM_13_REPRODUCIBILITY_STANDARDS"
+      ],
+      "decision": "E016 (Certified With Limitations; mandatory cryptographic freeze and SHA-256 sidecars)",
+      "rationale": "Enforces byte-for-byte reproducibility; explicitly flags missing dashboard presentation layer.",
+      "source_evidence": "artifacts/audit/r30_final_evidence_reconciliation.json"
+    }
+  ]
+}

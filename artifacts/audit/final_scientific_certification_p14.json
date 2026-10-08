@@ -1,0 +1,199 @@
+{
+  "certification_id": "FINAL_SCIENTIFIC_CERTIFICATION_P14_V1",
+  "phase": "P14 \u2014 Final Scientific Certification & Conditional Rebuild Decision after P11R",
+  "timestamp_utc": "2026-10-04T13:40:00Z",
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "branch": "v4-final-forensic-certification",
+  "verdict": {
+    "P14_STATUS": "PASS",
+    "CERTIFICATION_STATUS": "CERTIFIED_WITH_LIMITATIONS",
+    "REBUILD_REQUIRED": "NO"
+  },
+  "claim_matrix_summary": {
+    "total_claims": 13,
+    "pass_count": 11,
+    "pass_with_reservation_count": 2,
+    "fail_count": 0,
+    "unverified_count": 0
+  },
+  "rebuild_decision": {
+    "rebuild_required": false,
+    "justification_evaluations": {
+      "1_predictor_leakage": "CLEAN (11 verified features, zero weather/dep_delay)",
+      "2_cutoff_violation": "CLEAN (Strictly T-2h)",
+      "3_invalid_training_protocol": "CLEAN (2016-2022 development only)",
+      "4_invalid_model_artifact": "CLEAN (P4 checkpoint verified with SHA-256)",
+      "5_invalid_prediction_artifact": "CLEAN (P11R outputs complete and validated)",
+      "6_holdout_contamination": "CLEAN (2024 accessed only under frozen guard)",
+      "7_forbidden_information_in_ensemble": "CLEAN (Standard point features only)",
+      "8_scientifically_invalid_metric": "CLEAN (Exact closed-form Student-T CRPS, Brier)"
+    }
+  },
+  "known_limitations": [
+    "Calendar year 2024 is evaluated under POST_HOLDOUT_REEVALUATION_AFTER_METHODOLOGY_REPAIR, not an untouched holdout.",
+    "P5 has no serialized model checkpoint on disk and is certified as Role B (forecast-only), not a downstream stochastic generator.",
+    "P4 marginal prediction intervals are NOT_SEPARATELY_CERTIFIED for empirical calibration.",
+    "Universal bitwise cross-platform reproducibility is NOT_PROVEN due to hardware vectorization and thread scheduling differences.",
+    "Downstream gate optimization is conducted in a synthetic airfield simulation environment (10 contact gates, 1 apron) and does not represent real-world ATL operations.",
+    "Equal wall-clock budget (2.0s ceiling) demonstrates equal-time termination, not equal computational FLOPs.",
+    "Raw multi-gigabyte data CSV files lack initial cryptographic SHA-256 checksum sidecars (DATA_HASH = UNAVAILABLE)."
+  ],
+  "claim_matrix": [
+    {
+      "claim": "CLAIM_01_TEMPORAL_POST_HOLDOUT",
+      "scientific_domain": "Domain 01: Temporal Post-Holdout Governance",
+      "evidence_artifact": "artifacts/manifests/system_freeze_manifest.json",
+      "source_path": "src/data/access_guard.py",
+      "code_lineage": "src.data.access_guard:assert_data_access_allowed",
+      "test_reference": "tests/test_phase10_system_freeze.py",
+      "temporal_role": "POST_HOLDOUT_REEVALUATION",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "2024 is post-holdout re-evaluation following methodology repair, not an untouched initial holdout."
+    },
+    {
+      "claim": "CLAIM_02_POINT_CHAMPION_SELECTION",
+      "scientific_domain": "Domain 02: Point Champion Selection",
+      "evidence_artifact": "artifacts/manifests/academic_model_selection_v1.json",
+      "source_path": "configs/academic_model_selection.yaml",
+      "code_lineage": "src.models.linear_baseline:RidgeArrivalBaseline",
+      "test_reference": "tests/test_r25_point_selection_consistency.py",
+      "temporal_role": "DEVELOPMENT_SELECTION (2016-2023)",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Ridge baseline ties with Weighted Ensemble within \u00b10.10 min MAE band; point-only forecast."
+    },
+    {
+      "claim": "CLAIM_03_PROBABILISTIC_P5_CRPS",
+      "scientific_domain": "Domain 03: P5 Quantile Forecasting",
+      "evidence_artifact": "artifacts/audit/r34_p5_capability_forensics.json",
+      "source_path": "src/models/probabilistic/quantile_regression.py",
+      "code_lineage": "P5_quantile_regression",
+      "test_reference": "tests/test_r34_p5_mathematical_audit.py",
+      "temporal_role": "HISTORICAL_POST_HOLDOUT (Role B)",
+      "historical_or_current": "HISTORICAL_PRESERVED",
+      "status": "PASS_WITH_RESERVATION",
+      "limitation": "Role B Marginal Quantile Champion (FORECAST_ONLY); no serialized model checkpoint on disk; continuous sampling barred."
+    },
+    {
+      "claim": "CLAIM_04_PROBABILISTIC_P4_STUDENT_T",
+      "scientific_domain": "Domain 04: P4 Continuous Student-t Distribution",
+      "evidence_artifact": "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+      "source_path": "src/models/probabilistic/baselines.py",
+      "code_lineage": "B5NGBoostStudentT",
+      "test_reference": "tests/test_r33_p4_metric_lineage.py",
+      "temporal_role": "CONTINUOUS_DOWNSTREAM_ENGINE (Role C)",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Parametric continuous density certified with exact closed-form Student-t CRPS (18.33m); marginal calibration NOT_SEPARATELY_CERTIFIED."
+    },
+    {
+      "claim": "CLAIM_05_SINGLE_OVERALL_CHAMPION",
+      "scientific_domain": "Domain 05: Decoupled Multi-Attribute Role Assignment",
+      "evidence_artifact": "artifacts/manifests/system_freeze_manifest.json",
+      "source_path": "configs/academic_model_selection.yaml",
+      "code_lineage": "Decoupled Utility Architecture",
+      "test_reference": "tests/test_r24_final_certification.py",
+      "temporal_role": "SYSTEM_ARCHITECTURE",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Single joint champion claim strictly rejected; decoupled into Role B (P5 quantile) vs Role C (P4 stochastic)."
+    },
+    {
+      "claim": "CLAIM_06_CRN_VARIANCE_REDUCTION",
+      "scientific_domain": "Domain 06: Common Random Numbers Variance Reduction",
+      "evidence_artifact": "artifacts/audit/crn_variance_reduction_report.json",
+      "source_path": "src/evaluation/downstream_comparison_v2.py",
+      "code_lineage": "PCG64 Common Random Numbers Latent Generator",
+      "test_reference": "tests/test_evaluation/test_mc_convergence_v2.py",
+      "temporal_role": "SIMULATION_METHODOLOGY",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Historical unverified 82.4% CRN variance reduction claim formally retracted and marked NOT_SUPPORTED; empirical CRN active."
+    },
+    {
+      "claim": "CLAIM_07_MC_N500_OPTIMALITY",
+      "scientific_domain": "Domain 07: Monte Carlo Sample Size & Convergence",
+      "evidence_artifact": "artifacts/week10_robustness/pilot_robustness_results.json",
+      "source_path": "src/evaluation/week10_robustness_recourse.py",
+      "code_lineage": "Convergence Grid N in [100, 2500]",
+      "test_reference": "tests/test_evaluation/test_monte_carlo_audit_v2.py",
+      "temporal_role": "SIMULATION_METHODOLOGY",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "N=500 optimality claim retracted; N=500 certified as pragmatic operational budget with empirical s/sqrt(N) convergence."
+    },
+    {
+      "claim": "CLAIM_08_REAL_WORLD_GATE_OPERATIONS",
+      "scientific_domain": "Domain 08: Simulation Domain Boundary",
+      "evidence_artifact": "artifacts/manifests/system_freeze_manifest.json",
+      "source_path": "src/evaluation/downstream_comparison_v2.py",
+      "code_lineage": "AircraftTurnModel & Gate Topology",
+      "test_reference": "tests/downstream/test_downstream_semantics_v2.py",
+      "temporal_role": "SIMULATION_BOUNDARY",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Operational claims strictly bounded to synthetic airfield simulation (10 contact gates, 1 apron); real ATL claims prohibited."
+    },
+    {
+      "claim": "CLAIM_09_ORACLE_EQUIVALENCE",
+      "scientific_domain": "Domain 09: Acausal Oracle Boundary & Robustness",
+      "evidence_artifact": "artifacts/post_holdout_re_evaluation_v1/robustness_results.json",
+      "source_path": "src/evaluation/week10_robustness_recourse.py",
+      "code_lineage": "Mode A Fixed-Plan Robustness",
+      "test_reference": "tests/downstream/test_auxiliary_isolation.py",
+      "temporal_role": "POST_HOLDOUT_REEVALUATION",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Oracle is a non-deployable theoretical upper-bound; proves fragile (0.0% feasibility) under stochastic shocks."
+    },
+    {
+      "claim": "CLAIM_10_DOWNSTREAM_SEMANTICS",
+      "scientific_domain": "Domain 10: Downstream Gate Optimization & Equal-Compute Solvers",
+      "evidence_artifact": "artifacts/post_holdout_re_evaluation_v1/downstream_results.parquet",
+      "source_path": "src/optimization/solvers/",
+      "code_lineage": "DeterministicGreedy, CPSat, SA, HybridCPSatSA",
+      "test_reference": "tests/test_r26_solver_equal_compute.py",
+      "temporal_role": "POST_HOLDOUT_REEVALUATION",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Equal wall-clock budget (2.0s ceiling) certified; does NOT imply equal computational FLOPs."
+    },
+    {
+      "claim": "CLAIM_11_STATISTICAL_SIGNIFICANCE",
+      "scientific_domain": "Domain 11: Statistical Significance & Multiplicity Control",
+      "evidence_artifact": "artifacts/post_holdout_re_evaluation_v1/downstream_results.csv",
+      "source_path": "src/evaluation/paired_comparison.py",
+      "code_lineage": "Day-cluster bootstrap on FL_DATE with Holm-Bonferroni",
+      "test_reference": "tests/test_r18_statistical_inference.py",
+      "temporal_role": "STATISTICAL_PROTOCOL",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Clustered bootstrap assumes exchangeability across distinct calendar flight dates."
+    },
+    {
+      "claim": "CLAIM_12_AUXILIARY_DEPARTURE_DELAY",
+      "scientific_domain": "Domain 12: Auxiliary Non-Contamination & Input Isolation",
+      "evidence_artifact": "artifacts/manifests/feature_manifest_arrival_v1.json",
+      "source_path": "src/features/tabular_features.py",
+      "code_lineage": "Arrival Input Boundary Validator",
+      "test_reference": "tests/test_model_input_boundary.py",
+      "temporal_role": "INPUT_CONTRACT",
+      "historical_or_current": "CURRENT",
+      "status": "PASS",
+      "limitation": "Auxiliary models (departure delay, weather) isolated; raw .pt flight chain files rejected."
+    },
+    {
+      "claim": "CLAIM_13_REPRODUCIBILITY_STANDARDS",
+      "scientific_domain": "Domain 13: Cryptographic Lineage & Reproducibility Standards",
+      "evidence_artifact": "artifacts/manifests/system_freeze_manifest.json",
+      "source_path": "pytest.ini & retired_guard_scope_manifest.json",
+      "code_lineage": "Cryptographic SHA-256 sidecars & deterministic PRNG seeds",
+      "test_reference": "tests/test_r27_certification_hardening.py",
+      "temporal_role": "GOVERNANCE_LINEAGE",
+      "historical_or_current": "CURRENT",
+      "status": "PASS_WITH_RESERVATION",
+      "limitation": "Raw data CSVs lack initial cryptographic hashes (DATA_HASH = UNAVAILABLE); bitwise cross-platform reproduction NOT_PROVEN."
+    }
+  ]
+}

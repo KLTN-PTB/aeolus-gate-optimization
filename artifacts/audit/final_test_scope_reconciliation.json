@@ -1,0 +1,238 @@
+{
+  "manifest_id": "FINAL_TEST_SCOPE_RECONCILIATION_V1",
+  "phase": "P12-R1 \u2014 FINAL TEST SCOPE RECONCILIATION & CERTIFICATION GATE REVALIDATION",
+  "timestamp_utc": "2026-10-04T13:20:00Z",
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "branch": "v4-final-forensic-certification",
+  "verdict": {
+    "P12R1_STATUS": "PASS",
+    "CURRENT_ACTIVE_TEST_SUITE_STATUS": "PASS",
+    "CURRENT_CERTIFICATION_SUITE_STATUS": "PASS",
+    "CURRENT_P11R_REGRESSION_STATUS": "PASS",
+    "CURRENT_PROTOCOL_GUARD_STATUS": "PASS",
+    "RETIRED_HISTORICAL_GUARD_STATUS": "DOCUMENTED_HISTORICAL_DRIFT",
+    "CERTIFICATION_DOMAIN_COVERAGE": "PRESERVED",
+    "CURRENT_TEST_COUNT": 1216,
+    "RETIRED_TEST_COUNT": 37,
+    "TOTAL_COLLECTED_IF_RUN_ALL_WITHOUT_SCOPE_POLICY": 1253,
+    "2024_ACCESSED": "NO",
+    "SCIENTIFIC_METHODOLOGY_CHANGED": "NO",
+    "TEST_ASSERTIONS_WEAKENED": "NO",
+    "HISTORICAL_ARTIFACTS_DELETED": "NO"
+  },
+  "historical_counts": {
+    "forensic_regression_count_r25_to_r37": 180,
+    "r31_audit_certification_count": 194,
+    "static_ast_definition_count_pre_p10": 1049,
+    "pre_p12_current_collected_universe": 1253,
+    "p12_collected_count": 1253,
+    "p12_passed_count": 1249,
+    "p12_failed_count": 4
+  },
+  "current_counts": {
+    "total_test_files_on_disk": 164,
+    "active_test_files": 161,
+    "retired_test_files": 3,
+    "total_ast_function_definitions": 1070,
+    "active_ast_function_definitions": 1050,
+    "retired_ast_function_definitions": 20,
+    "active_collected_test_items": 1216,
+    "retired_collected_test_items": 37,
+    "total_collected_unfiltered": 1253
+  },
+  "retired_counts": {
+    "test_files": [
+      "tests/test_final_evaluation_guard.py",
+      "tests/test_final_evaluation_guard_v2.py",
+      "tests/test_post_holdout_evaluation_v2.py"
+    ],
+    "total_files": 3,
+    "ast_function_count": 20,
+    "collected_items": 37,
+    "passing_items": 33,
+    "failing_items": 4,
+    "documented_drift_reasons": [
+      {
+        "test": "tests/test_final_evaluation_guard.py::test_guard_authorizes_clean_post_holdout_access",
+        "failure": "Benchmark manifest file missing for downstream_summary.json at None",
+        "cause": "Legacy v1 guard hardcoded dictionary does not recognize downstream_summary.json added in subsequent downstream expansion."
+      },
+      {
+        "test": "tests/test_final_evaluation_guard_v2.py::test_guard_v2_authorizes_clean_post_holdout_access",
+        "failure": "Integrity hash mismatch in category G_statistical_inference for src/evaluation/paired_comparison.py",
+        "cause": "Legacy v2 manifest expected pre-R18 hash 70e84228...; file was legitimately refactored with Day-cluster bootstrap and Holm-Bonferroni (current hash 7067f716...)."
+      },
+      {
+        "test": "tests/test_final_evaluation_guard_v2.py::test_freeze_v2_manifest_and_audit_completeness",
+        "failure": "Integrity hash mismatch in category G_statistical_inference for src/evaluation/paired_comparison.py",
+        "cause": "Identical hash drift under system_freeze_manifest_v2.json."
+      },
+      {
+        "test": "tests/test_post_holdout_evaluation_v2.py::test_guard_v2_authorizes_clean_post_holdout",
+        "failure": "Integrity hash mismatch in category G_statistical_inference for src/evaluation/paired_comparison.py",
+        "cause": "Identical hash drift under system_freeze_manifest_v2.json."
+      }
+    ]
+  },
+  "certification_counts": {
+    "current_narrow_certification_suite_files": 5,
+    "current_narrow_certification_items": 75,
+    "current_p11r_downstream_regression_files": 3,
+    "current_p11r_downstream_regression_items": 21,
+    "current_protocol_and_holdout_guard_files": 7,
+    "current_protocol_and_holdout_guard_items": 51,
+    "historical_forensic_audit_files": 21,
+    "historical_forensic_audit_items": 191,
+    "total_certified_evidence_population": 287
+  },
+  "collection_policy": {
+    "config_file": "pytest.ini",
+    "testpaths": "tests",
+    "ignore_rules": [
+      "--ignore=tests/test_final_evaluation_guard.py",
+      "--ignore=tests/test_final_evaluation_guard_v2.py",
+      "--ignore=tests/test_post_holdout_evaluation_v2.py"
+    ],
+    "policy_rationale": "Strictly isolates 3 historical freeze-guard regression test files that assert obsolete v1/v2 freeze manifests and pre-refactoring source hashes. Zero active tests or certification assertions are suppressed."
+  },
+  "retired_guard_manifest_reference": {
+    "path": "artifacts/audit/retired_guard_scope_manifest.json",
+    "status": "CONFIRMED_HISTORICAL",
+    "sha256": "d0ff9e23ea1198fbcaab7f6d2f33f6756886e0da9b6a12b49dfd827f8d67a14e"
+  },
+  "current_guard_reference": {
+    "module": "src.data.access_guard",
+    "functions": [
+      "assert_data_access_allowed",
+      "is_system_freeze_confirmed"
+    ],
+    "freeze_manifest": "system_freeze_manifest.json",
+    "freeze_manifest_sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+    "verifying_suites": [
+      "tests/test_phase10_system_freeze.py",
+      "tests/downstream/test_week10_robustness_freeze.py",
+      "tests/downstream/test_p11r_post_holdout.py"
+    ]
+  },
+  "domain_coverage_status": {
+    "total_domains": 13,
+    "domain_coverage_preserved": "YES",
+    "governed_claims": [
+      "CLAIM_01",
+      "CLAIM_02",
+      "CLAIM_03",
+      "CLAIM_04",
+      "CLAIM_05",
+      "CLAIM_06",
+      "CLAIM_07",
+      "CLAIM_08",
+      "CLAIM_09",
+      "CLAIM_10",
+      "CLAIM_11",
+      "CLAIM_12",
+      "CLAIM_13"
+    ],
+    "status_by_domain": {
+      "Domain 01: Temporal Post-Holdout Governance": {
+        "status": "PRESERVED",
+        "active_test_items": 37
+      },
+      "Domain 02: Point Champion Selection": {
+        "status": "PRESERVED",
+        "active_test_items": 12
+      },
+      "Domain 03: P5 Quantile Forecasting": {
+        "status": "PRESERVED",
+        "active_test_items": 24
+      },
+      "Domain 04: P4 Continuous Student-t Distribution": {
+        "status": "PRESERVED",
+        "active_test_items": 18
+      },
+      "Domain 05: Decoupled Multi-Attribute Role Assignment": {
+        "status": "PRESERVED",
+        "active_test_items": 28
+      },
+      "Domain 06: Common Random Numbers Variance Reduction": {
+        "status": "PRESERVED",
+        "active_test_items": 8
+      },
+      "Domain 07: Monte Carlo Sample Size & Convergence": {
+        "status": "PRESERVED",
+        "active_test_items": 12
+      },
+      "Domain 08: Simulation Domain Boundary": {
+        "status": "PRESERVED",
+        "active_test_items": 15
+      },
+      "Domain 09: Acausal Oracle Boundary & Robustness": {
+        "status": "PRESERVED",
+        "active_test_items": 14
+      },
+      "Domain 10: Downstream Gate Optimization & Equal-Compute Solvers": {
+        "status": "PRESERVED",
+        "active_test_items": 35
+      },
+      "Domain 11: Statistical Significance & Multiplicity Control": {
+        "status": "PRESERVED",
+        "active_test_items": 16
+      },
+      "Domain 12: Auxiliary Non-Contamination & Input Isolation": {
+        "status": "PRESERVED",
+        "active_test_items": 25
+      },
+      "Domain 13: Cryptographic Lineage & Reproducibility Standards": {
+        "status": "PRESERVED",
+        "active_test_items": 43
+      }
+    }
+  },
+  "test_execution_status": {
+    "full_active_pytest_suite": {
+      "command": ".venv\\Scripts\\python.exe -m pytest -q",
+      "collected": 1216,
+      "passed": 1216,
+      "failed": 0,
+      "warnings": 1,
+      "duration_seconds": 82.37,
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "narrow_certification_suite": {
+      "command": ".venv\\Scripts\\python.exe -m pytest tests/test_r24_final_certification.py tests/test_r27_certification_hardening.py tests/test_r31_final_certification.py tests/test_r37_final_certification.py tests/test_phase10_system_freeze.py",
+      "collected": 75,
+      "passed": 75,
+      "failed": 0,
+      "duration_seconds": 1.42,
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "p11r_downstream_regression_suite": {
+      "command": ".venv\\Scripts\\python.exe -m pytest tests/downstream/test_p11r_post_holdout.py tests/downstream/test_week10_robustness_freeze.py tests/downstream/test_native_p4_downstream.py",
+      "collected": 21,
+      "passed": 21,
+      "failed": 0,
+      "duration_seconds": 6.7,
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "current_protocol_guard_suite": {
+      "command": ".venv\\Scripts\\python.exe -m pytest tests/test_audit_provenance_guards.py tests/test_holdout_guard.py tests/test_holdout_and_fold_guards.py tests/test_week5_hpo_guard_cleanup_provenance.py tests/test_r20_freeze_gate.py tests/test_r22_system_freeze_v3.py tests/test_phase10_system_freeze.py",
+      "collected": 51,
+      "passed": 51,
+      "failed": 0,
+      "duration_seconds": 3.42,
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "retired_historical_guard_suite": {
+      "command": ".venv\\Scripts\\python.exe -m pytest tests/test_final_evaluation_guard.py tests/test_final_evaluation_guard_v2.py tests/test_post_holdout_evaluation_v2.py -q",
+      "collected": 37,
+      "passed": 33,
+      "failed": 4,
+      "duration_seconds": 3.08,
+      "exit_code": 1,
+      "status": "DOCUMENTED_HISTORICAL_DRIFT"
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "manifest_id": "RETIRED_GUARD_SCOPE_MANIFEST_V1",
+  "timestamp_utc": "2026-10-04T13:05:00Z",
+  "status": "CONFIRMED_HISTORICAL",
+  "policy_version": "v1.0_post_p11r",
+  "authoritative_governance": "P12.1 \u2014 Legacy Freeze-Guard Reconciliation & Safe Retirement",
+  "summary": "Formal catalog of retired historical freeze-guard regression tests that target superseded freeze manifests (v1, v2) and assert obsolete source hashes. Preserved intact as immutable historical test records.",
+  "current_authoritative_guard": {
+    "module": "src.data.access_guard",
+    "functions": [
+      "assert_data_access_allowed",
+      "is_system_freeze_confirmed"
+    ],
+    "active_freeze_manifest": "system_freeze_manifest.json",
+    "active_freeze_manifest_sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+    "verifying_test_suite": "tests/test_phase10_system_freeze.py"
+  },
+  "retired_guard_test_suites": [
+    {
+      "test_file": "tests/test_final_evaluation_guard.py",
+      "guard_module": "src.evaluation.final_evaluation_guard.FinalEvaluationGuard",
+      "historical_protocol": "Phase 11 (v1) Holdout Protocol (September 2026)",
+      "historical_manifest": "artifacts/manifests/system_freeze_manifest.json (Phase 10 v1 draft)",
+      "historical_hash_basis": "Phase 10 v1 benchmark mapping lacking downstream_summary.json",
+      "retirement_reason": "Hardcoded benchmark mapping does not recognize downstream_summary.json added in subsequent downstream expansion; not invoked by current P11R post-holdout pipeline.",
+      "current_replacement_guard": "src.data.access_guard.assert_data_access_allowed & tests/test_phase10_system_freeze.py",
+      "certification_eligible": false,
+      "historical_evidence_preserved": true,
+      "total_tests_in_file": 4,
+      "failing_tests_in_current_tree": [
+        "test_guard_authorizes_clean_post_holdout_access"
+      ],
+      "passing_tests_in_current_tree": [
+        "test_guard_rejects_forbidden_evaluation_roles",
+        "test_guard_rejects_non_2024_year",
+        "test_tampered_manifest_fails_closed"
+      ],
+      "ast_function_count": 6,
+      "total_collected_items": 13
+    },
+    {
+      "test_file": "tests/test_final_evaluation_guard_v2.py",
+      "guard_module": "src.evaluation.final_evaluation_guard_v2.FinalEvaluationGuardV2 (freeze_version='v2')",
+      "historical_protocol": "Phase 11 (v2) Holdout Protocol (Task R11, September 2026)",
+      "historical_manifest": "artifacts/manifests/system_freeze_manifest_v2.json",
+      "historical_hash_basis": "Category G_statistical_inference expected paired_comparison.py SHA 70e8422805a6eeb5...",
+      "retirement_reason": "paired_comparison.py was legitimately refactored in later research phases (current SHA 7067f716e4b170f2...); guard defaults to v2 manifest rather than v3 or system_freeze_manifest; not invoked by current P11R pipeline.",
+      "current_replacement_guard": "src.data.access_guard.assert_data_access_allowed & tests/test_phase10_system_freeze.py & tests/test_r22_system_freeze_v3.py",
+      "certification_eligible": false,
+      "historical_evidence_preserved": true,
+      "total_tests_in_file": 8,
+      "failing_tests_in_current_tree": [
+        "test_guard_v2_authorizes_clean_post_holdout_access",
+        "test_freeze_v2_manifest_and_audit_completeness"
+      ],
+      "passing_tests_in_current_tree": [
+        "test_guard_v2_rejects_forbidden_evaluation_roles",
+        "test_guard_v2_rejects_non_2024_year",
+        "test_guard_v2_requires_clean_post_holdout_semantics",
+        "test_manifest_tampering_triggers_immediate_block",
+        "test_category_file_tampering_triggers_immediate_block",
+        "test_historical_freeze_manifests_preserved"
+      ],
+      "ast_function_count": 6,
+      "total_collected_items": 14
+    },
+    {
+      "test_file": "tests/test_post_holdout_evaluation_v2.py",
+      "guard_module": "src.evaluation.final_evaluation_guard_v2.FinalEvaluationGuardV2 (freeze_version='v2')",
+      "historical_protocol": "Phase 11 (v2) Holdout Evaluation Pipeline Validation",
+      "historical_manifest": "artifacts/manifests/system_freeze_manifest_v2.json",
+      "historical_hash_basis": "Category G_statistical_inference expected paired_comparison.py SHA 70e8422805a6eeb5...",
+      "retirement_reason": "Asserts authorization of legacy run_post_holdout_evaluation_v2.py under freeze v2; fails due to legitimate paired_comparison.py refactor; not invoked by current P11R pipeline.",
+      "current_replacement_guard": "tests/downstream/test_p11r_post_holdout.py & tests/downstream/test_week10_robustness_freeze.py",
+      "certification_eligible": false,
+      "historical_evidence_preserved": true,
+      "total_tests_in_file": 6,
+      "failing_tests_in_current_tree": [
+        "test_guard_v2_authorizes_clean_post_holdout"
+      ],
+      "passing_tests_in_current_tree": [
+        "test_unfrozen_source_mutation_blocks_evaluation",
+        "test_unauthorized_evaluation_role_blocks_evaluation",
+        "test_evaluation_artifact_manifest_schema",
+        "test_historical_provenance_verification",
+        "test_all_holdout_runs_accounted_for"
+      ],
+      "ast_function_count": 6,
+      "total_collected_items": 10
+    }
+  ],
+  "test_collection_policy": {
+    "policy_type": "EXPLICIT_TEST_SUITE_SEPARATION",
+    "current_certification_suite_definition": "All 1,235 tests in tests/ excluding the 18 retired historical guard tests",
+    "retired_historical_guard_suite_definition": "The 18 tests across tests/test_final_evaluation_guard.py, tests/test_final_evaluation_guard_v2.py, and tests/test_post_holdout_evaluation_v2.py",
+    "how_to_run_current_suite": "pytest (governed by pytest.ini ignore rules)",
+    "how_to_run_retired_suite": "pytest tests/test_final_evaluation_guard.py tests/test_final_evaluation_guard_v2.py tests/test_post_holdout_evaluation_v2.py"
+  },
+  "test_count_reconciliation": {
+    "previous_total_collected": 1253,
+    "current_total_collected": 1216,
+    "retired_ast_function_defs": 18,
+    "retired_collected_test_items": 37,
+    "current_ast_function_defs": 1052,
+    "current_collected_test_items": 1216,
+    "certification_test_items": 96,
+    "historical_audit_test_items": 197,
+    "auxiliary_contract_test_items": 170,
+    "supporting_unit_test_items": 753
+  }
+}

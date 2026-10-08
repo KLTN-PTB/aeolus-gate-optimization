@@ -1,0 +1,452 @@
+{
+  "manifest_id": "FORENSIC_BASELINE_2026-10-04",
+  "timestamp_utc": "2026-10-04T08:10:00Z",
+  "repository": "D:\\Study\\Code\\Python\\Aelous",
+  "branch": "v4-final-forensic-certification",
+  "head_sha": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "python_version": "3.11.15",
+  "platform": "Windows 10 AMD64",
+  "total_audited_artifacts": 55,
+  "artifacts": [
+    {
+      "path": "artifacts/manifests/system_freeze_manifest_v3.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "0144ea3ffb73039c070dac4c7f0a410995e755d973f300289651ffa4be30020c",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/manifests/development_evidence_manifest_v3.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "506cf808dbf044b4404a844ac7f525b1877e51e9a52567398ea2cd4afeae876d",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/manifests/academic_model_selection_v3.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "0ba819f68a960d4bea9b0ec0e99d059a5acc424255a6f3a230e6301e775879d5",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/post_holdout_v3/post_holdout_evaluation_manifest_v3.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "b9d7a7cf51b8f5691d7b37e6ce73ceb92113358247469f1cb750ff2a407c4f23",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/post_holdout_v3/marginal_forecast_metrics_2024_v3.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "90159f1dd0a0bbbe5eb25b9646aa8bbdaa179edce8a56924165bab971d0f594c",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/post_holdout_v3/downstream_operational_evaluations_v3.parquet",
+      "type": "PARQUET_EVALUATION_DATA",
+      "hash": "2b3f0bb5807eab826241b8d97cfea8b27a859ea503626543972404fa1429f2b8",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/post_holdout_v3/paired_downstream_deltas_v3.parquet",
+      "type": "PARQUET_EVALUATION_DATA",
+      "hash": "c966f846dccccf323402d71e144562bf226ae6f8cddc96bd6ecf18376eedbd92",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/post_holdout_v3/failures_accounting_v3.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "c27c1494f3ba4fd2275df360c4fe97d1f69b006c6696544c51712094600c94e4",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/post_holdout_v3/provenance_verification_v3.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "d5e855a064ff50c8c368641a47abe7247f128b2e4185b845163c94ae23f2eb1c",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/post_holdout_v3/evidence_reconciliation_v3.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "be22046b84ea92c5e820ee55aa9ec7cdb55ce778b2634512c23a0007dbb5855a",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/final_claim_boundary_audit_v4.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "7cf23a48f947bdd501319e9ad31c06a3444580f0b88b930fd2bb34fd381a514e",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/final_reproducibility_audit_v4.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "f32bd65c34ceb32e7e4ac857b674e80aadc952e78d339e5791b0276682f50e40",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r21_execution_trace.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "9196054d67bbba112053add264bccc4349a17e744206e4e69da2819e3f8d7296",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r22_freeze_audit.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "75313a53c9c3b65f52df81c16ff0ce1e28e8c236b025cbca9201f8abd5730533",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r25_point_selection_consistency.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "366511ecdcb8615a031a96de617740815d16a02c72ac45f253e7e2831bbeed37",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r25_claim_numeric_reconciliation.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "12e3e81ec5eea84ab2214c9f8cb82becb9dcc7bf686dee08418c67e5d636ac72",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r26_solver_compute_contract.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "f5fbc4706e653e2e5881c2cb3af34736fef1ce448cdaad4636059da260b1596d",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r26_solver_equal_compute_results.parquet",
+      "type": "PARQUET_EVALUATION_DATA",
+      "hash": "d3f3b00146ee78493c7fd0529b14d0b2b8598a62030fb50e7a768447ee16b1a9",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r26_solver_budget_reconciliation.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "028ce68663dc8de4fd4781d1c3c71885a961104ed44f67475eaadb07b8b1da9f",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r27_certification_test_hardening.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "23204abcf6827b3509a603bbc1e70b661fb132f7bc0523269713e5aa5449b4b9",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r27_lineage_actual_hashes.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "36245a53253add27611d1f459e84656fd6245a6d0df3f2a9aed9b4b8aa087808",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r27_claim_matrix_validation.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "91d2c0e7fb60aa8c1e0025fcf926ae28d2e6ee3e7f8df2c404ddcd23d4f3774e",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r28_probabilistic_capability_matrix.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "793f4d26074d2f8a903cad5b5c321a3b010a33113239d7a1e501f454d93426ce",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r28_calibration_evidence.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "24da7c130e677ce94c7b807fb47aa463cd10cfe76f887210dee628184589cbe9",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r28_metric_lineage.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "79bd66795e5eeb5d18f7e85000833de018078dafa9fe70eca20ede9f4ab50393",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r28_dependency_closure.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "df968a54b84a39c656a7495f98c73d67e26bc1464c9eaf6550c6d0c1963636a3",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r29_execution_provenance_matrix.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "fdeaa09d15d6c20f8d860b00cb0647f99b589b466d0a1ef95afa061fd29b07b9",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r29_execution_provenance_reconciliation.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "20d08ab6da13315d47beada21b84b081e6abfa36d244402a8649f0947a45b7ed",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r29_lineage_closure.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "a5953342c842c2c8233e2c2d2a13fa21a74e1ddcd8cc06557acc4249fcd7812b",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r30_final_evidence_reconciliation.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "4415d56eee04fe505cb96cc350c7fcf4c732bb8b4dbf50cc8280b5d490d670c7",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r30_final_status_matrix.parquet",
+      "type": "PARQUET_EVALUATION_DATA",
+      "hash": "d887f2bf8890dd24f2763f316342383355f37b8798a20420ef2aba861adc6558",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r33_p4_metric_lineage.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "b7c021bf0ff1e6a184a6bf883ccea85a4ad8f455ebf3092bf5fc1a15ac641780",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r33_p4_metric_reconciliation.parquet",
+      "type": "PARQUET_EVALUATION_DATA",
+      "hash": "7a578e21d4f2571bacd7b22ae925ea0c82c4a9c508059dd11ea2cb4525b04e4e",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r34_p5_capability_forensics.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "43ecd3340b3a927113725563ccddaa9fbd18fa0e01b2ff200fdea3a711be8227",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r34_p5_quantile_config.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "227984e6a5afaa8d30be3efd93a82b7b59c552dd46af21f9847052fb6557aada",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r34_p5_metric_reconciliation.parquet",
+      "type": "PARQUET_EVALUATION_DATA",
+      "hash": "470a2fca83117ca29308392a24f3d2c7ca6e551ce64ea1dbdb59ba1ea1f288c7",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r35_solver_boundary_audit.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "19b012a3f9941d3bb9f6d4ee44fb6b578f049721c2779349ae5ff1b686b64af4",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r35_reproducibility_environment_audit.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "b74e3e50fdcbe6ca0d55fd0e9633a977990bc511120ac0604b355b209957255b",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r35_solver_status.parquet",
+      "type": "PARQUET_EVALUATION_DATA",
+      "hash": "be8179fe71d4ff3536181172d1e8486c9041df763164620dcfd5a39a42d77866",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r36_final_evidence_reconciliation_v2.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "2ae8f800e35cf4e702d297c1fb6536911ee248e1c3ced18934a948b18d6f3df9",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r36_final_claim_matrix_v2.json",
+      "type": "JSON_MANIFEST_OR_METRIC",
+      "hash": "85a4f3d327dc9c0e895a563674e025e6e62cc5906031856f0c07498572cd20b9",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "artifacts/audit/r36_final_status_matrix_v2.parquet",
+      "type": "PARQUET_EVALUATION_DATA",
+      "hash": "393bbf4258a20616dbe5d1fd59298d874a4634f049ebd0bd9d5275f698d29b22",
+      "source_lineage_known": true,
+      "status": "FROZEN_CERTIFIED_V5",
+      "notes": "Part of 42 certified freeze v5 artifacts. Sidecar match: True"
+    },
+    {
+      "path": "data/raw/tabular/2016/flight_with_weather_2016.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "4ed92ed732721a38ae28325135fad63436347613674ad96c1b273eb9d44cef34",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2016."
+    },
+    {
+      "path": "data/raw/tabular/2017/flight_with_weather_2017.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "67b8dbd6678576b1a2229ef2dbeec065e0f64d31d688ab8a2ca59c88d2a656f9",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2017."
+    },
+    {
+      "path": "data/raw/tabular/2018/flight_with_weather_2018.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "0398bab8f1b79a5f3bea628b707e18c3af628f37a1daa52de6849fb8bdfc71a3",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2018."
+    },
+    {
+      "path": "data/raw/tabular/2019/flight_with_weather_2019.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "eec50211a1a63f37b840977be5ab2e99a008a8d5234c2a12df8eb50862f93b4a",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2019."
+    },
+    {
+      "path": "data/raw/tabular/2020/flight_with_weather_2020.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "787981046c9fe0f4884ac207a3d28ea6a7fae98e89535cb9f8a37debb5c7fa5d",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2020."
+    },
+    {
+      "path": "data/raw/tabular/2021/flight_with_weather_2021.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "5b7cc4801a6ff5cf432137632209ebd7aecd3d4a0f83e8920e3525116e88defc",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2021."
+    },
+    {
+      "path": "data/raw/tabular/2022/flight_with_weather_2022.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "45eb45e801d6eeeb16167306fc69a8449177191cfff29bfb5d22285827f53140",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2022."
+    },
+    {
+      "path": "data/raw/tabular/2023/flight_with_weather_2023.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "9c9e20f55d3dd10a127bcdd28680df6547a01a82ad71999b794aff3e1075d7bd",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2023."
+    },
+    {
+      "path": "data/raw/tabular/2024/flight_with_weather_2024.csv",
+      "type": "RAW_TABULAR_CSV",
+      "hash": "f938ade95a031088467ab5e75abea2021e541eaf4a4288e564066e100541d5f7",
+      "source_lineage_known": true,
+      "status": "IMMUTABLE_RAW_DATA",
+      "notes": "BTS On-Time flight delay data with raw Aeolus weather scalars for 2024."
+    },
+    {
+      "path": "data/raw/flight_chains/flight_chains_*.pt (27 files)",
+      "type": "RAW_PYTORCH_TENSOR",
+      "hash": "2016_sample: None",
+      "source_lineage_known": false,
+      "status": "FINAL_NO_GO",
+      "notes": "Untraceable aircraft graph tensors. Prohibited from Core Arrival and downstream."
+    },
+    {
+      "path": "configs/base.yaml",
+      "type": "YAML_CONFIG",
+      "hash": "3d93727982f72b3955c4e8d382eb8996aa18c730d40ba7ee325db0edba77f838",
+      "source_lineage_known": true,
+      "status": "ACTIVE_SYSTEM_CONFIG",
+      "notes": "System protocol, current state, or simulation guard configuration."
+    },
+    {
+      "path": "configs/current_state.yaml",
+      "type": "YAML_CONFIG",
+      "hash": "c8113bc6108ea0cc6ec7c783857b5a05a0eda1638e4e8e47a9acecf8f3fc69b4",
+      "source_lineage_known": true,
+      "status": "ACTIVE_SYSTEM_CONFIG",
+      "notes": "System protocol, current state, or simulation guard configuration."
+    },
+    {
+      "path": "configs/outlier_and_simulation_guard.yaml",
+      "type": "YAML_CONFIG",
+      "hash": "9ea3a16b39147850ee0809b0d1834250a7034db23505710f66996c4c0601423d",
+      "source_lineage_known": true,
+      "status": "ACTIVE_SYSTEM_CONFIG",
+      "notes": "System protocol, current state, or simulation guard configuration."
+    }
+  ]
+}

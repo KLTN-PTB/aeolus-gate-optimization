@@ -1,0 +1,127 @@
+{
+  "audit_id": "SCOPED_REPRODUCIBILITY_AUDIT_P13_V1",
+  "phase": "P13 — Scoped Reproducibility Audit after P11R",
+  "timestamp_utc": "2026-10-04T13:30:00Z",
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "branch": "v4-final-forensic-certification",
+  "verdict": {
+    "P13_STATUS": "PASS_WITH_RESERVATION",
+    "SCIENTIFIC_REPRODUCIBILITY": "CONTAINED_AND_CERTIFIED",
+    "ENVIRONMENT_REPRODUCIBILITY": "FULLY_PINNED_AND_VERIFIED",
+    "DATA_REPRODUCIBILITY": "PASS_WITH_RESERVATION",
+    "DATA_HASH": "UNAVAILABLE",
+    "P4_REPRODUCIBILITY": "CERTIFIED_FROZEN_CHECKPOINT",
+    "P5_REPRODUCIBILITY": "FORECAST_ONLY_ROLE_B_PRESERVED",
+    "CONFIGURATION_REPRODUCIBILITY": "EXACT_AND_FROZEN",
+    "COMMAND_REPRODUCIBILITY": "SPECIFIED_AND_DOCUMENTED",
+    "PRESENTATION_REPRODUCIBILITY": "NOT_APPLICABLE",
+    "BITWISE_REPRODUCIBILITY": "NOT_PROVEN",
+    "2024_ACCESSED": "NO",
+    "SCIENTIFIC_METHODOLOGY_CHANGED": "NO"
+  },
+  "environment_audit": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "architecture": "AMD64",
+    "python_version": "3.11.15",
+    "packages_comparison": {
+      "numpy": {
+        "registered": "2.2.6",
+        "installed": "2.2.6",
+        "match": true
+      },
+      "scipy": {
+        "registered": "1.17.1",
+        "installed": "1.17.1",
+        "match": true
+      },
+      "pandas": {
+        "registered": "2.3.3",
+        "installed": "2.3.3",
+        "match": true
+      },
+      "scikit-learn": {
+        "registered": "1.9.0",
+        "installed": "1.9.0",
+        "match": true
+      },
+      "xgboost": {
+        "registered": "3.2.0",
+        "installed": "3.2.0",
+        "match": true
+      },
+      "lightgbm": {
+        "registered": "4.7.0",
+        "installed": "4.7.0",
+        "match": true
+      },
+      "ngboost": {
+        "registered": "0.5.11",
+        "installed": "0.5.11",
+        "match": true
+      },
+      "ortools": {
+        "registered": "9.15.6755",
+        "installed": "9.15.6755",
+        "match": true
+      },
+      "pyarrow": {
+        "registered": "25.0.1",
+        "installed": "25.0.1",
+        "match": true
+      },
+      "joblib": {
+        "registered": "1.5.3",
+        "installed": "1.5.3",
+        "match": true
+      },
+      "pytest": {
+        "registered": "9.1.1",
+        "installed": "9.1.1",
+        "match": true
+      }
+    }
+  },
+  "data_audit": {
+    "canonical_reference": "BTS Airline On-Time Performance (2016-2024) with integrated METAR weather",
+    "source_files": "data/raw/tabular/{year}/flight_with_weather_{year}.csv",
+    "processed_partition": "data/processed/inbound_atl/year={year}",
+    "data_version": "v1 (flight_key_v1 contract)",
+    "data_hash": "UNAVAILABLE",
+    "hash_limitation_explanation": "Original raw CSV files (~1.5GB/yr) and partitioned parquet stores were indexed with file size and timestamp in processed_data_manifest_v1.json but lack sha256 checksum sidecars.",
+    "temporal_partitions": {
+      "training_development": [2016, 2017, 2018, 2019, 2020, 2021, 2022],
+      "model_selection_validation": 2023,
+      "post_holdout_evaluation": 2024
+    },
+    "atl_filter": "DEST == 'ATL' (Inbound arrival core)",
+    "cutoff_time": "CRS_DEP_TIME - 2 hours (T-2h)"
+  },
+  "p4_audit": {
+    "model_id": "P4_ngboost_student_t",
+    "checkpoint_path": "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+    "registered_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+    "verified_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+    "hash_match": true,
+    "predictive_output": ["mu(x)", "sigma(x)", "df(x)"],
+    "downstream_formula": "Y = mu(x) + sigma(x) * StudentT(df(x))",
+    "downstream_role": "Role C: Continuous Downstream Stochastic Simulation Engine",
+    "calibration_status": "NOT_SEPARATELY_CERTIFIED"
+  },
+  "p5_audit": {
+    "model_id": "P5_quantile_regression",
+    "role": "Role B: Marginal Quantile Forecast Champion",
+    "downstream_role": "FORECAST_ONLY",
+    "historical_oof_reproducibility": "VERIFIED_IN_R10_R34",
+    "outer_fit_reproducibility": "METHODOLOGICALLY_FEASIBLE_UNAUTHORIZED",
+    "checkpoint_availability": "NO_SERIALIZED_CHECKPOINT",
+    "downstream_necessity": "NOT_REQUIRED",
+    "continuous_sampling_authorized": false
+  },
+  "reproducibility_matrix_summary": {
+    "total_claims": 13,
+    "pass_count": 10,
+    "pass_with_reservation_count": 3,
+    "fail_count": 0,
+    "unverified_count": 0
+  }
+}
