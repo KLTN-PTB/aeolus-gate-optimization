@@ -1,8 +1,8 @@
 # Aeolus V4 — Master Documentation Index & Navigation Map
 
-**Current Certified Status**: `CERTIFIED_WITH_LIMITATIONS` (Phase R37 V5)  
-**Total Documentation Artifacts**: 87 markdown files across 8 specialized directories  
-**Authoritative Reading Priority**: V5 Certification Package $\gg$ V2 Reconciliation $\gg$ Targeted Deep-Dive Audits $\gg$ System State Registry $\gg$ Historical Artifacts  
+**Current Certified Status**: `CERTIFIED_WITH_LIMITATIONS` (Phase P14 Final Certification, `REBUILD_REQUIRED = NO`)  
+**Total Documentation Artifacts**: 92 markdown files across specialized directories and root forensic package  
+**Authoritative Reading Priority**: P14 Scientific Certification Package $\gg$ P11-R Post-Holdout Report $\gg$ P12-R1 Test Reconciliation $\gg$ P13 Reproducibility Audit $\gg$ V5 Forensic Certification (R37) $\gg$ System State Registry (v4.0.0) $\gg$ Historical Artifacts  
 
 ---
 
@@ -12,31 +12,47 @@
 
 | Lĩnh vực | Tài liệu Hiện hành (AUTHORITATIVE / HIGHEST PRECEDENCE) | Tài liệu Lịch sử Đã thay thế (SUPERSEDED / HISTORICAL) | Diễn giải thay đổi pháp y |
 | :--- | :--- | :--- | :--- |
-| **Chứng nhận Tối hậu** | [`audit/FINAL_EVIDENCE_CERTIFICATION_V5.md`](audit/FINAL_EVIDENCE_CERTIFICATION_V5.md) | `audit/FINAL_EVIDENCE_CERTIFICATION_V4.md` (R31)<br>`audit/FINAL_EVIDENCE_CERTIFICATION_V3.md` (R24) | V5 là văn bản chứng nhận pháp lý cao nhất, tích hợp đầy đủ kết quả phân giải R33, R34, R35, R36. V3/V4 giữ nguyên làm bằng chứng lịch sử. |
-| **Hợp nhất Bằng chứng** | [`audit/FINAL_EVIDENCE_RECONCILIATION_V2.md`](audit/FINAL_EVIDENCE_RECONCILIATION_V2.md) | `audit/R30_FINAL_EVIDENCE_RECONCILIATION.md` (R30) | V2 hợp nhất 13 Claims & Domains sau khi R33, R34, R35 giải quyết dứt điểm các điểm nghẽn kỹ thuật. |
-| **Trạng thái Hệ thống** | [`CURRENT_STATE.md`](CURRENT_STATE.md) (v3.0.0) | `CURRENT_STATE.md` (v2.0.0, 02/10/2026) | Phiên bản 3.0.0 đồng bộ hóa kết quả đánh giá Holdout 2024 và phân tách vai trò mô hình. |
-| **Kiểm toán Số liệu P4** | [`audit/R33_P4_METRIC_LINEAGE.md`](audit/R33_P4_METRIC_LINEAGE.md) | Đoạn số liệu $17.15/4.032$ trong `audit/R32_...md` | Xác định $17.6532/4.6307$ là số liệu holdout thật; loại bỏ lỗi chép nhầm $17.15/4.032$ trong văn bản R32. |
-| **Toán học Mô hình P5** | [`audit/R34_P5_MATHEMATICAL_AUDIT.md`](audit/R34_P5_MATHEMATICAL_AUDIT.md) | Ghi chú "5 quantiles" trong script R28 | Xác nhận P5 là mô hình 9 phân vị chính thức; chỉ số $16.85$ min là `CRPS_QUANTILE_APPROXIMATION` (pinball loss là $6.88$ min). |
+| **Chứng nhận Khoa học Tối hậu** | [`../FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md`](../FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md) (Phase P14) | [`audit/FINAL_EVIDENCE_CERTIFICATION_V5.md`](audit/FINAL_EVIDENCE_CERTIFICATION_V5.md) (R37)<br>`FINAL_EVIDENCE_CERTIFICATION_V4.md` (R31) | P14 là văn bản chứng nhận khoa học cao nhất, thẩm định 13 claims, xác nhận `REBUILD_REQUIRED = NO` và kết luận `CERTIFIED_WITH_LIMITATIONS`. |
+| **Tái đánh giá Hậu đóng băng 2024** | [`../P11R_FINAL_REPORT.md`](../P11R_FINAL_REPORT.md) (Phase P11-R) | `run_post_holdout_evaluation_v2.py` (R23/R37) | P11-R là kết quả đánh giá 2024 duy nhất sau khi sửa chữa phương pháp luận (P4 Student-T CRPS 18.33 min, NLL 4.62, MAE 21.97 min, $\nu=2.52$). |
+| **Hợp nhất Test Suite** | [`../FINAL_TEST_SCOPE_RECONCILIATION.md`](../FINAL_TEST_SCOPE_RECONCILIATION.md) (Phase P12-R1) | `audit/FINAL_EVIDENCE_RECONCILIATION_V2.md` (R36)<br>`audit/R30_...md` | Xác lập 1.216 bài test active (100% pass), 75 certification gate tests, và cách ly an toàn 4 legacy freeze guards trong `pytest.ini`. |
+| **Kiểm toán Khả năng Tái lập** | [`../SCOPED_REPRODUCIBILITY_AUDIT.md`](../SCOPED_REPRODUCIBILITY_AUDIT.md) (Phase P13) | `audit/R35_SOLVER_REPRODUCIBILITY_AUDIT.md` (R35) | Phán quyết `PASS_WITH_RESERVATION`, phân loại chính thức là `CONTAINED_SPECIFICATION_REPRODUCIBILITY` trên môi trường Python 3.11.15 Win AMD64. |
+| **Chuẩn hóa Bằng chứng Luận văn** | [`../THESIS_EVIDENCE_NORMALIZATION_REPORT.md`](../THESIS_EVIDENCE_NORMALIZATION_REPORT.md) (Phase P15) | Toàn bộ tài liệu luận văn tiền chuẩn hóa | Đồng bộ hóa toàn diện tài liệu với phán quyết P14 mà không sửa đổi bất kỳ mã nguồn khoa học hay tệp dữ liệu nào. |
+| **Trạng thái Hệ thống** | [`CURRENT_STATE.md`](CURRENT_STATE.md) (v4.0.0) | `CURRENT_STATE.md` (v3.0.0, R37) | Phiên bản 4.0.0 phản ánh đầy đủ dual 2024 reporting, P4 Role C, P5 Role B, và 1.216 bài test active. |
+| **Kiểm toán Số liệu P4** | [`audit/R33_P4_METRIC_LINEAGE.md`](audit/R33_P4_METRIC_LINEAGE.md) | Đoạn số liệu $17.15/4.032$ trong `audit/R32_...md` | Xác định $17.6532/4.6307$ là số liệu holdout lịch sử thật; loại bỏ lỗi chép nhầm $17.15/4.032$ trong văn bản R32. |
+| **Toán học Mô hình P5** | [`audit/R34_P5_MATHEMATICAL_AUDIT.md`](audit/R34_P5_MATHEMATICAL_AUDIT.md) | Ghi chú "5 quantiles" trong script R28 | Xác nhận P5 là mô hình 9 phân vị chính thức; chỉ số $16.77$ min là `CRPS_QUANTILE_APPROXIMATION` (pinball loss là $6.82$ min). |
 | **Công bằng Solver** | [`audit/R35_SOLVER_REPRODUCIBILITY_AUDIT.md`](audit/R35_SOLVER_REPRODUCIBILITY_AUDIT.md) | Các mô tả cũ về "equal compute" | Khóa ngữ nghĩa `EQUAL_WALL_CLOCK_BUDGET` (trần 2.0s); từ chối đồng nhất wall-clock với equal computational work. |
-| **Tổng quan Dự án** | [`../PROJECT_SUMMARY.md`](../PROJECT_SUMMARY.md) (Tháng 10/2026) | Bản tóm tắt ngày 20/09/2026 | Cập nhật đầy đủ kết quả sau khi mở và đánh giá tập Holdout 2024. |
+| **Tổng quan Dự án** | [`../PROJECT_SUMMARY.md`](../PROJECT_SUMMARY.md) (Tháng 10/2026) | Bản tóm tắt R37 (03/10/2026) | Cập nhật đầy đủ tiến trình P10–P15, P11-R results, và phán quyết tối hậu P14. |
 
 ---
 
 ## 2. Danh mục Chỉ dẫn Tài liệu theo Nhóm Chức năng
 
 ```text
-docs/
-├── [MỤC 1] BÁO CÁO PHÁP Y & CHỨNG NHẬN CHÍNH THỨC (docs/audit/)
-├── [MỤC 2] BÁO CÁO TỔNG KẾT TIẾN TRÌNH DỰ ÁN BẰNG TIẾNG VIỆT
-├── [MỤC 3] KIẾN TRÚC HỆ THỐNG & QUYẾT ĐỊNH THIẾT KẾ (ADRs)
-├── [MỤC 4] KIỂM TOÁN DỮ LIỆU, THỜI TIẾT & CHUỖI TÀU BAY (docs/dataset_audit/)
-└── [MỤC 5] LỊCH SỬ THỰC NGHIỆM & KẾ HOẠCH BẢO LƯU (docs/experiments/, roadmap/)
+Aeolus/
+├── [MỤC 0] BỘ BÁO CÁO CHỨNG NHẬN KHOA HỌC TỐI HẬU P10–P15 (Root Directory)
+├── docs/
+│   ├── [MỤC 1] BÁO CÁO PHÁP Y & CHỨNG NHẬN CHÍNH THỨC (docs/audit/)
+│   ├── [MỤC 2] BÁO CÁO TỔNG KẾT TIẾN TRÌNH DỰ ÁN BẰNG TIẾNG VIỆT
+│   ├── [MỤC 3] KIẾN TRÚC HỆ THỐNG & QUYẾT ĐỊNH THIẾT KẾ (ADRs)
+│   ├── [MỤC 4] KIỂM TOÁN DỮ LIỆU, THỜI TIẾT & CHUỖI TÀU BAY (docs/dataset_audit/)
+│   └── [MỤC 5] LỊCH SỬ THỰC NGHIỆM & KẾ HOẠCH BẢO LƯU (docs/experiments/, roadmap/)
 ```
 
 ---
 
-### MỤC 1: BÁO CÁO PHÁP Y & CHỨNG NHẬN CHÍNH THỨC (`docs/audit/`)
-*Đây là nhóm tài liệu quan trọng nhất, chứa đựng toàn bộ các phán quyết, số liệu đối chiếu và chứng nhận cuối cùng của chương trình nghiên cứu.*
+### MỤC 0: BỘ BÁO CÁO CHỨNG NHẬN KHOA HỌC TỐI HẬU P10–P15 (Root Directory)
+*Bộ tài liệu tối hậu có hiệu lực pháp lý và học thuật cao nhất trong toàn bộ repository:*
+
+1. 🏛️ **Chứng nhận Khoa học Tối hậu & Quyết định Xây lại (P14)**: [`../FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md`](../FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md)  
+   *Xác lập `CERTIFIED_WITH_LIMITATIONS`, thẩm định 13 luận điểm khoa học, kết luận `REBUILD_REQUIRED = NO`.*
+2. 🔄 **Báo cáo Tái đánh giá Hậu đóng băng 2024 sau Sửa chữa Phương pháp luận (P11-R)**: [`../P11R_FINAL_REPORT.md`](../P11R_FINAL_REPORT.md)  
+   *Đánh giá độc lập 2024 sau khi đóng băng hệ thống: P4 Continuous CRPS 18.33 min, NLL 4.62, MAE 21.97 min, $\nu=2.52$; P4 native downstream 100% feasibility.*
+3. ⚖️ **Biên bản Hợp nhất Phạm vi Kiểm thử & Chứng nhận Gate (P12-R1)**: [`../FINAL_TEST_SCOPE_RECONCILIATION.md`](../FINAL_TEST_SCOPE_RECONCILIATION.md)  
+   *Hợp nhất 1.216 bài test active (100% pass), 75 certification gate tests, và cách ly 4 legacy freeze-guard tests an toàn.*
+4. 🔬 **Kiểm toán Khả năng Tái lập Phạm vi Hẹp (P13)**: [`../SCOPED_REPRODUCIBILITY_AUDIT.md`](../SCOPED_REPRODUCIBILITY_AUDIT.md)  
+   *Chứng nhận khả năng tái lập trong phạm vi xác định (`CONTAINED_SPECIFICATION_REPRODUCIBILITY`).*
+5. 📝 **Báo cáo Chuẩn hóa Bằng chứng Luận văn (P15)**: [`../THESIS_EVIDENCE_NORMALIZATION_REPORT.md`](../THESIS_EVIDENCE_NORMALIZATION_REPORT.md)  
+   *Biên bản chuẩn hóa toàn bộ hệ thống tài liệu đồng bộ với phán quyết P14 mà không sửa đổi mã nguồn khoa học.*
 
 1. 🏛️ **Chứng nhận Pháp y Tối hậu V5**: [`audit/FINAL_EVIDENCE_CERTIFICATION_V5.md`](audit/FINAL_EVIDENCE_CERTIFICATION_V5.md)  
    *Văn bản chính thức xác lập trạng thái `CERTIFIED_WITH_LIMITATIONS`, khóa 8 ranh giới cấm, 5 sự thật được chứng nhận, và bảng kết quả Holdout 2024 & Downstream Solver.*
@@ -147,7 +163,13 @@ docs/
 
 Khi trích dẫn số liệu hoặc kết quả cho bài báo, slide báo cáo, hoặc luận văn tốt nghiệp, người thực hiện **BẮT BUỘC** phải tuân theo các quy tắc sau:
 
-1. **Số liệu trễ đến trên tập Holdout 2024**: Chỉ sử dụng số liệu từ [`audit/FINAL_EVIDENCE_CERTIFICATION_V5.md`](audit/FINAL_EVIDENCE_CERTIFICATION_V5.md) (Ridge: MAE $22.91$ min; P5: Approx CRPS $16.77$ min, Pinball $6.82$ min; P4: Continuous CRPS $17.65$ min, Continuous NLL $4.6307$).
-2. **Không khẳng định "Quán quân duy nhất"**: Trình bày kết quả theo vai trò (Point vs Quantile vs Continuous Density).
-3. **Số liệu bộ giải cổng hạ nguồn**: Trích dẫn kết quả từ bảng 28 kịch bản mùa 2024 (CP-SAT tối ưu trên 28/28 bài toán trong $0.44$s; Greedy chạy $1.1$ ms; Hybrid đạt $\Delta = 0.0$ so với CP-SAT).
-4. **Mô tả công bằng thời gian**: Luôn nêu rõ các solver được so sánh dưới cùng trần thời gian thực ($T = 2.0$ giây), không suy diễn thành "công tính toán bằng nhau".
+1. **Phân định rõ 2 thế hệ số liệu Holdout 2024**:
+   - **Thế hệ Hậu sửa chữa phương pháp luận (`P11R_POST_HOLDOUT_REEVALUATION`)**: Phải trích dẫn từ [`../P11R_FINAL_REPORT.md`](../P11R_FINAL_REPORT.md) và [`../FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md`](../FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md):
+     - P4 NGBoost Student-T (Role C): Continuous CRPS **$18.33$ min** (tính bằng công thức giải tích đóng Student-T của Jordan et al.), Continuous NLL **$4.62$**, Point MAE **$21.97$ min**, RMSE **$54.21$ min**, Brier ($Y \ge 15$) **$0.1544$**, bậc tự do trung bình $\nu = \mathbf{2.52} \in [2.10, 2.78]$.
+     - Ridge Regression Baseline: Point MAE **$23.39$ min**.
+     - P5 Quantile Regression: Giữ nguyên là Role B (forecast-only, không tái huấn luyện hay tái cấu trúc theo R39/P10-A).
+   - **Thế hệ Lịch sử trước sửa chữa (`HISTORICAL_2024_RESULTS`)**: Trích dẫn từ [`audit/FINAL_EVIDENCE_CERTIFICATION_V5.md`](audit/FINAL_EVIDENCE_CERTIFICATION_V5.md) với chú thích rõ ràng là kết quả lịch sử (Ridge MAE $22.91$ min; P5 Approx CRPS $16.77$ min, Pinball $6.82$ min; P4 Continuous CRPS $17.65$ min, Continuous NLL $4.6307$).
+2. **Tuyệt đối không khẳng định "Quán quân duy nhất"**: Trình bày kết quả theo các vai trò tách biệt (Point Baseline vs Role B Quantile Forecast vs Role C Continuous Simulation).
+3. **Số liệu mô phỏng gán cổng hạ nguồn**: Trích dẫn kết quả từ bảng 28 kịch bản mùa (CP-SAT tối ưu 28/28 bài trong $0.44$s) và 16 kịch bản P11-R (P4 native draws đạt 100% khả thi dưới 500 cú sốc mùa hè). Nhấn mạnh toàn bộ mô phỏng được thực hiện trên kịch bản nghiên cứu tổng hợp; zero real-world ATL operations claimed.
+4. **Mô tả công bằng thời gian thực**: Luôn nêu rõ các solver được so sánh dưới cùng trần thời gian thực ($T = 2.0$ giây), không suy diễn thành "công tính toán bằng nhau".
+5. **Quy mô bộ kiểm thử**: Trích dẫn chính xác toàn bộ hệ thống gồm **1.216 bài test active (100% pass)** và **75 certification gate tests** theo [`../FINAL_TEST_SCOPE_RECONCILIATION.md`](../FINAL_TEST_SCOPE_RECONCILIATION.md) (4 bài test freeze-guard cũ đã được cách ly bảo lưu an toàn qua `pytest.ini`).

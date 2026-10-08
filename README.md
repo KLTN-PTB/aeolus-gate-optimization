@@ -1,12 +1,13 @@
 # Aeolus Probabilistic Core Arrival & Gate Optimization — V4
 
-[![Certification Status](https://img.shields.io/badge/Certification-CERTIFIED__WITH__LIMITATIONS-blue.svg)](docs/audit/FINAL_EVIDENCE_CERTIFICATION_V5.md)
-[![Regression Tests](https://img.shields.io/badge/Tests-180%2F180%20PASSED-success.svg)](tests/)
-[![Python Version](https://img.shields.io/badge/Python-3.11.15-informational.svg)](configs/seed_registry.yaml)
-[![Architecture Protocol](https://img.shields.io/badge/Protocol-V4.0%20Dual%20Prediction-orange.svg)](docs/decisions/decision_dual_prediction_architecture_v4.md)
+[![Certification Status](https://img.shields.io/badge/Certification-CERTIFIED__WITH__LIMITATIONS-blue.svg)](FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md)
+[![Active Tests](https://img.shields.io/badge/Active%20Tests-1%2C216%20PASSED%20(exit%200)-success.svg)](pytest.ini)
+[![Certification Suite](https://img.shields.io/badge/Certification%20Suite-75%2F75%20PASSED-brightgreen.svg)](tests/test_r24_final_certification.py)
+[![Downstream Regression](https://img.shields.io/badge/Downstream%20Regression-21%2F21%20PASSED-success.svg)](tests/downstream/test_p11r_post_holdout.py)
+[![Python Version](https://img.shields.io/badge/Python-3.11.15-informational.svg)](requirements.txt)
 [![Branch](https://img.shields.io/badge/Branch-v4--final--forensic--certification-brightgreen.svg)](https://github.com/KLTN-PTB/aeolus-gate-optimization/tree/v4-final-forensic-certification)
 
-> **Official Release State**: The Aeolus research program has achieved **Phase R37 Final Forensic Certification V5** with status **`CERTIFIED_WITH_LIMITATIONS`**. All empirical claims across 13 scientific domains and 13 claim boundaries have been audited against raw on-disk artifacts and validated by a 180-test regression harness.
+> **Authoritative Scientific Release State**: The Aeolus research program has achieved **Phase P14 Final Scientific Certification** with verdict **`CERTIFIED_WITH_LIMITATIONS`** and **`REBUILD_REQUIRED = NO`**. All empirical claims across 13 certified scientific domains have been audited against raw physical artifacts, validated by a frozen post-holdout re-evaluation on calendar year 2024 (**Phase P11-R**), verified by a 1,216-test active test suite (100% clean pass rate), and certified under strict epistemic bounds.
 
 ---
 
@@ -17,38 +18,41 @@ Aeolus investigates whether machine-learned flight arrival delay forecasts—eva
 The research framework operates strictly under the **Predict $\to$ Simulate $\to$ Optimize $\to$ Evaluate** operational loop:
 
 ```text
-[BTS Inbound Traffic DEST=ATL] (T - 2h cutoff)
+[BTS Inbound Traffic DEST=ATL] (CRS_DEP_TIME - 2h cutoff)
            │
            ▼
 ┌────────────────────────────────────────────────────────┐
 │               PREDICTION ARCHITECTURE                  │
-│  • Point Regression: Ridge, HistGB, XGBoost, Ensemble  │
-│  • Probabilistic Quantiles: P5 (9-Quantile Multi-LGBM) │
-│  • Parametric Continuous: P4 (Student-T NGBoost)       │
+│  • Point Baseline: Ridge (2016-2022 fit; Dev Co-Champ) │
+│  • Role B (Forecast-Only): P5 Multi-Pinball LightGBM   │
+│  • Role C (Stochastic Engine): P4 Student-T NGBoost   │
 └────────────────────────────────────────────────────────┘
-           │ (Scalar delay forecast or generative draws)
+           │ (Continuous parameter triplet mu, sigma, nu)
            ▼
 ┌────────────────────────────────────────────────────────┐
 │            SYNTHETIC TURN SIMULATION (ATL)             │
-│  • Turn synthesis, buffer violations & conflict check  │
-│  • Downstream operational scenarios (30-70 flights)    │
+│  • AircraftTurnModel: 45m turn, 60m dwell, 15m buffer  │
+│  • 10 contact gates, 1 overflow apron                  │
+│  • Stochastic arrival draws via PCG64 CRN matrix       │
 └────────────────────────────────────────────────────────┘
            │
            ▼
 ┌────────────────────────────────────────────────────────┐
 │            GATE ASSIGNMENT OPTIMIZATION                │
-│  • Deterministic Greedy (1.1 ms baseline)              │
-│  • Google OR-Tools CP-SAT (Branch-and-Bound, T=2.0s)   │
+│  • Deterministic Greedy (0.5 - 2.3 ms fast dispatch)   │
+│  • Google OR-Tools CP-SAT (Branch-and-Bound, 2.0s max) │
 │  • Simulated Annealing (Stochastic Local Search, 2.0s) │
-│  • Hybrid CP-SAT + SA (Sequential Composition, 2.0s)   │
+│  • Hybrid CP-SAT + SA (Warm-Start Composition, 2.0s)   │
+│  • Strict EQUAL_WALL_CLOCK_BUDGET (2.0s ceiling)       │
 └────────────────────────────────────────────────────────┘
            │
            ▼
 ┌────────────────────────────────────────────────────────┐
 │       FORENSIC RECONCILIATION & CERTIFICATION          │
-│  • 13 Claim Boundaries audited & locked                │
-│  • 180 regression tests (100% PASS)                    │
+│  • 13 Certified Scientific Domains audited & locked    │
+│  • 1,216 active tests (100% PASS, exit code 0)         │
 │  • Final Status: CERTIFIED_WITH_LIMITATIONS            │
+│  • Rebuild Required: NO                                │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -56,54 +60,68 @@ The research framework operates strictly under the **Predict $\to$ Simulate $\to
 
 ## 2. Certified Core Experimental Results
 
-### 2.1. Arrival Delay Prediction (Post-Holdout Calendar Year 2024)
-Evaluated post-freeze under strict `POST_HOLDOUT` governance on $N = 5,000$ commercial passenger flights arriving at Atlanta Hartsfield-Jackson (`DEST = 'ATL'`), with feature cutoff at $t_{\text{cutoff}} = \text{CRS\_DEP\_TIME} - 2\text{ hours}$:
+### 2.1. Arrival Delay Prediction on Calendar Year 2024
+In accordance with strict temporal governance, 2024 results are partitioned by evaluation generation. Evaluated on $N = 5,000$ monthly-stratified commercial passenger flights arriving at Atlanta Hartsfield-Jackson (`DEST = 'ATL'`), with feature cutoff strictly enforced at $t_{\text{cutoff}} = \text{CRS\_DEP\_TIME} - 120\text{ minutes}$:
 
-| Model ID | Formal Role | MAE (min) | Exact CRPS (min) | Quantile CRPS Approx (min) | Pinball Loss (min) | Exact NLL |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`arrival_linear_baseline_v1` (Ridge)** | Point Co-Champion (Dev 2023) | **22.9125** | — | — | — | — |
-| **`arrival_xgboost_baseline_v1`** | Point Benchmark | 24.3643 | — | — | — | — |
-| **`arrival_weighted_ensemble_v1`** | Point Co-Champion (Dev 2023) | 23.3175 | — | — | — | — |
-| **`P5_quantile_regression`** | Probabilistic Champion (9 quantiles) | 21.6881 | — | **16.7724** | **6.8211** | N/A |
-| **`P4_ngboost_student_t`** | Parametric Continuous Density | 23.2359 | **17.6532** | — | — | **4.6307** |
-| **`oracle_actual`** | Acausal Theoretical Bound | 0.0000 | 0.0000 | 0.0000 | 0.0000 | — |
+| Model ID | Formal Scientific Role | Historical 2024 Holdout MAE (min) | Repaired P11-R 2024 MAE (min) | Exact Continuous CRPS (min) | Quantile CRPS Proxy (min) | Exact Continuous NLL | Downstream Engine Eligibility |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| **`arrival_linear_baseline_v1` (Ridge)** | Point Baseline / Dev Co-Champion | 22.91 min | 23.39 min | — | — | — | Point Comparator Only |
+| **`arrival_xgboost_baseline_v1`** | Point Benchmark | 24.36 min | — | — | — | — | Point Comparator Only |
+| **`arrival_weighted_ensemble_v1`** | Point Co-Champion (Dev 2023) | 23.32 min | — | — | — | — | Point Comparator Only |
+| **`P5_quantile_regression`** | **Role B: Marginal Quantile Forecast Champion** | **21.69 min** | Historical Ref | — | **16.77 min** (Pinball: 6.82m) | N/A (No density) | **INELIGIBLE (FORECAST_ONLY)** |
+| **`P4_ngboost_student_t`** | **Role C: Continuous Downstream Stochastic Engine** | 21.96 min | **21.97 min** | **18.33 min** (Student-T closed form) | — | **4.62** | **CERTIFIED ENGINE** |
+| **`oracle_actual`** | Acausal Theoretical Bound (Non-deployable) | 0.00 min | 0.00 min | 0.00 min | — | — | Theoretical Upper Bound |
 
-*Forensic Clarifications*:
-- **P4 Student-T**: Lineage audited in Phase R33. Implements analytical continuous Student-T CRPS (Jordan et al., 2019) and exact continuous NLL. Empirical calibration is disclaimed (`NOT_SEPARATELY_CERTIFIED`).
-- **P5 Quantile**: Audited in Phase R34. Strictly a 9-quantile estimator (`[0.025, 0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95, 0.975]`). The $16.77$ min holdout metric ($16.85$ min dev) is `CRPS_QUANTILE_APPROXIMATION` (pinball loss is $6.82$ min). Continuous density/sampling is `NOT_AVAILABLE`.
-- **Decoupled Roles**: Point regression and weighted ensemble tied on 2023 dev within the 0.10-min band ($|\Delta| = 0.00045$ min) but did not tie on 2024 holdout ($|\Delta| = 0.405$ min). No single overall champion is asserted.
-
----
-
-### 2.2. Downstream Gate Assignment Solvers (2024 Seasonal Scenarios)
-Evaluated across 28 synthetic operational cases ($4\text{ scenarios} \times 7\text{ models} = 112\text{ runs}$) under an identical wall-clock ceiling $T_{\text{total}} = 2.0$ seconds:
-
-| Solver | Budget Type | Configured Limit | Mean Actual Runtime | Hard Feasibility | Realized Conflicts | Mean Cost Objective | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`DeterministicGreedy`** | `WALL_CLOCK` | 2.0 s | **0.0011 s (1.1 ms)** | 100% (28/28) | 0 | 7181.45 | FEASIBLE |
-| **`CPSat`** | `WALL_CLOCK` | 2.0 s | **0.4438 s** | 100% (28/28) | 0 | **7167.17** | **OPTIMAL (28/28)** |
-| **`SimulatedAnnealing`** | `WALL_CLOCK` | 2.0 s | 2.0009 s | 100% (28/28) | 0 | 7167.88 | FEASIBLE |
-| **`HybridCPSatSA`** | `SPLIT_WALL_CLOCK` | 2.0 s (1.0+1.0) | 1.4531 s | 100% (28/28) | 0 | **7167.17** | FEASIBLE |
-
-*Solver Fairness Semantics (R35 Audit)*:
-- **`WALL_CLOCK_EQUALITY = PROVEN`**: All four solvers operate within the uniform 2.0s envelope.
-- **`COMPUTATIONAL_WORK_EQUALITY = NOT_PROVEN`**: Computational operations are fundamentally disparate ($O(N \log M)$ heuristics vs. branch-and-bound search vs. stochastic local moves).
-- **Hybrid Zero Marginal Gain**: In 100% of cases ($28/28$), $\Delta_i = \text{Hybrid} - \text{CP-SAT} = 0.0000$ because CP-SAT achieves proven global optimality within its 1.0s sub-budget, leaving monotonic SA unable to find any strictly better feasible solution.
+*Authoritative Forensic Clarifications (Phases R39, P10-A, P11-R, P14)*:
+- **P4 Student-T (Role C)**: Serialized checkpoint verified on disk ([`artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib`](file:///D:/Study/Code/Python/Aelous/artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib), SHA-256 `e7e7462f...`). Delivers exact closed-form Student-t CRPS (18.33 min) and continuous NLL (4.62). Captures fat-tailed arrival dynamics with empirical degrees of freedom mean $\nu = 2.52 \in [2.10, 2.78]$. Marginal interval calibration is disclaimed (`NOT_SEPARATELY_CERTIFIED`).
+- **P5 Quantile Regression (Role B)**: Evaluates 9 discrete quantiles ($\tau \in \{0.10, \dots, 0.90\}$). Generates pinball loss of $6.82$ min and trapezoidal quantile CRPS proxy of $16.77$ min. Has no continuous density and is **strictly prohibited from acting as a downstream continuous stochastic sampler**. Absence of serialized checkpoint on disk is certified as non-blocking because P5 is permanently assigned to Role B.
+- **Decoupled Roles**: Ridge and Weighted Ensemble tied on 2023 development data within $\pm 0.10$ min MAE band. The claim of a single joint champion is rejected; models serve mathematically decoupled roles.
 
 ---
 
-## 3. Strict Epistemological Boundaries & Disclaimers
+### 2.2. Downstream Gate Assignment Benchmark Across 4 Seasonal Scenarios
+Evaluated across 64 operational runs ($4\text{ scenarios} \times 4\text{ models} \times 4\text{ solvers}$) on calendar year 2024 banks under a uniform wall-clock compute ceiling ($T_{\text{total}} = 2.0\text{ seconds}$):
 
-In accordance with Phase R36 and R37 certification standards, the following 8 claims are **BLOCKED** and strictly disclaimed:
+| Solver | Budget Type | Configured Limit | Actual Runtime Range | Hard Feasibility Rate | Proven CP-SAT Optimality | Mean Realized Conflicts | Solver Status |
+| :--- | :--- | :--- | :--- | :---: | :---: | :---: | :--- |
+| **`DeterministicGreedy`** | `WALL_CLOCK` | 2.0 s | **0.51 ms – 2.31 ms** | **100% (64/64)** | N/A (Heuristic) | 0 | **FEASIBLE** |
+| **`CPSat`** | `WALL_CLOCK` | 2.0 s | **65.7 ms – 1,016.5 ms**| **100% (64/64)** | **100% (16/16)** (0.0% gap) | 0 | **OPTIMAL** |
+| **`SimulatedAnnealing`** | `WALL_CLOCK` | 2.0 s | **2,000.5 ms – 2,002.4 ms** | **100% (64/64)** | N/A (Metaheuristic) | 0 | **FEASIBLE** |
+| **`HybridCPSatSA`** | `SPLIT_WALL_CLOCK` | 2.0 s (1.0+1.0) | **1,064.8 ms – 2,010.0 ms** | **100% (64/64)** | Matches CP-SAT (16/16) | 0 | **FEASIBLE** |
 
-1. **No Single Overall Champion**: Point, quantile, and continuous models serve distinct mathematical roles; asserting an overall benchmark winner is prohibited.
-2. **No Oracle Equivalence**: Predictive models do not match the post-hoc realized delay Oracle bound.
-3. **No Real Airfield Operations**: Evaluations are conducted in a synthetic simulation environment; no claims of live deployment at Atlanta (ATL) or airline cost savings are made.
-4. **No Actual Delay Reductions**: Algorithms optimize schedule buffer assignments; they do not alter physical flight movements.
-5. **Contained Reproducibility Only**: Bit-for-bit repeatability is certified strictly within Python 3.11.15 on Windows AMD64 with the pinned virtual environment; universal cross-platform bit identity is disclaimed.
-6. **No 82.4% CRN Variance Reduction**: Theoretical Common Random Numbers variance reduction is marked unestablished on the gate assignment objective.
-7. **No Mathematical Optimal Sample Size**: Monte Carlo $N = 500$ is an operational budget choice, not a proven asymptotic optimum.
-8. **No Universal Ineffectiveness of SA**: Simulated Annealing's $\Delta = 0.0$ applies to the audited cases where CP-SAT achieved global optimality; heuristics remain valuable for open or large-scale instances.
+*Solver Fairness Semantics (Phases R35, P11-R, P14)*:
+- **`EQUAL_WALL_CLOCK_BUDGET = PROVEN`**: All four solvers terminate within the uniform 2.0s envelope.
+- **`EQUAL_COMPUTATIONAL_WORK = NOT_PROVEN`**: Computational operation counts (FLOPs) are fundamentally disparate ($O(N \log M)$ greedy dispatch vs. branch-and-bound search vs. stochastic neighborhood walks).
+- **Hybrid Marginal Gain ($\Delta = 0.0$)**: In 100% of cases, CP-SAT proves global optimality during the first 1.0s sub-budget, leaving Simulated Annealing unable to find any strictly lower objective.
+
+---
+
+### 2.3. Monte Carlo Robustness & Recourse (Mode A & Mode B)
+Subjected to $N = 500$ canonical stochastic realizations drawn via Common Random Numbers (CRN) from the certified continuous Student-t distribution ($P4$):
+
+* **Mode A: Fixed-Plan Operational Robustness (No Reassignment Under Realization)**:
+  - In peak summer congestion (`SCEN_2024_SUMMER`, 60 flights, 15 gates), the fixed schedule planned using **`P4_ngboost_student_t` achieved 100.0% feasibility** (zero gate conflicts across all 500 realizations).
+  - In stark contrast, `schedule_only` suffered 0.72 average conflicts per realization and degraded to **27.6% feasibility**.
+  - The linear baseline (`arrival_linear_baseline_v1`) collapsed to **2.4% feasibility** (1.67 average conflicts).
+  - The acausal point oracle (`oracle_actual`) collapsed to **0.0% feasibility** (9.58 average conflicts), proving that point-optimized schedules without stochastic margin collapse catastrophically under arrival jitter.
+* **Mode B: Recourse Dynamic Recovery**:
+  - Dynamic real-time gate reassignments resolved **100% of realized conflicts** in $<1.0\text{ ms}$ per realization across all seasons.
+
+---
+
+## 3. Strict Epistemological Boundaries & Certified Disclaimers
+
+In accordance with Phase P14 certification standards, the following boundaries are strictly enforced:
+
+1. **2024 Post-Holdout Semantics**: Calendar year 2024 evidence is classified as `POST_HOLDOUT_REEVALUATION_AFTER_METHODOLOGY_REPAIR` and must never be labeled as an untouched or first-access holdout.
+2. **No Single Overall Champion**: Point, quantile, and continuous models serve mathematically distinct roles; asserting an overall benchmark winner is prohibited.
+3. **P5 Forecast-Only Status**: P5 quantile regression has no continuous density and is strictly barred from continuous downstream sampling.
+4. **P4 Calibration Disclosure**: Native P4 predictive intervals are mathematically proper but remain `NOT_SEPARATELY_CERTIFIED` for empirical coverage calibration.
+5. **No Real Airfield Operations**: Evaluations are conducted in a synthetic simulation environment (10 contact gates, 1 apron); claims of live deployment at Atlanta (ATL) or real-world delay reductions are prohibited.
+6. **Contained Reproducibility Only**: Bit-for-bit repeatability is certified strictly within Python 3.11.15 Windows AMD64 with pinned packages; universal cross-platform bit identity is disclaimed (`BITWISE_REPRODUCIBILITY = NOT_PROVEN`).
+7. **No 82.4% CRN Variance Reduction**: Historical claim of 82.4% CRN variance reduction is formally retracted and marked `NOT_SUPPORTED`.
+8. **No Mathematical Optimal Sample Size**: Monte Carlo $N = 500$ is an operational budget choice, not a proven asymptotic optimum.
+9. **Raw Data Hash Limitation**: Raw multi-gigabyte data CSV files lack initial cryptographic SHA-256 checksum sidecars (`DATA_HASH = UNAVAILABLE`).
 
 ---
 
@@ -123,34 +141,42 @@ git checkout v4-final-forensic-certification
 # 2. Activate virtual environment
 .\.venv\Scripts\Activate.ps1
 
-# 3. Execute full 180-test forensic regression suite (Runtime: ~5.0 seconds)
-python -m pytest tests/test_r25_point_selection_consistency.py `
-                 tests/test_r26_solver_equal_compute.py `
+# 3. Execute full active test suite (1,216 tests, Runtime: ~82s, exit code 0)
+python -m pytest -q
+
+# 4. Execute narrow current certification suite (75 tests, Runtime: ~1.5s, exit code 0)
+python -m pytest tests/test_r24_final_certification.py `
                  tests/test_r27_certification_hardening.py `
-                 tests/test_r28_probabilistic_audit.py `
-                 tests/test_r29_execution_provenance.py `
-                 tests/test_r30_final_reconciliation.py `
                  tests/test_r31_final_certification.py `
-                 tests/test_r33_p4_metric_lineage.py `
-                 tests/test_r34_p5_mathematical_audit.py `
-                 tests/test_r35_solver_repro.py `
-                 tests/test_r36_final_reconciliation.py `
-                 tests/test_r37_final_certification.py -q
+                 tests/test_r37_final_certification.py `
+                 tests/test_phase10_system_freeze.py
+
+# 5. Execute P11-R downstream regression suite (21 tests, Runtime: ~6.7s, exit code 0)
+python -m pytest tests/downstream/test_p11r_post_holdout.py `
+                 tests/downstream/test_week10_robustness_freeze.py `
+                 tests/downstream/test_native_p4_downstream.py
+
+# 6. Execute active protocol & holdout guard suite (51 tests, Runtime: ~3.4s, exit code 0)
+python -m pytest tests/test_audit_provenance_guards.py `
+                 tests/test_holdout_guard.py `
+                 tests/test_holdout_and_fold_guards.py `
+                 tests/test_week5_hpo_guard_cleanup_provenance.py `
+                 tests/test_r20_freeze_gate.py `
+                 tests/test_r22_system_freeze_v3.py `
+                 tests/test_phase10_system_freeze.py
 ```
-**Expected Outcome**: `180 passed in 4.93s` (100% clean pass rate).
 
 ---
 
 ## 5. Authoritative Documentation Roadmap
 
-For detailed investigations, consult the specialized documentation directory:
+For detailed investigations, consult the specialized forensic and certification packages:
 
+- 🏛️ **Final Scientific Certification Report (P14)**: [`FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md`](FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md)
+- 🔬 **Scoped Reproducibility Audit (P13)**: [`SCOPED_REPRODUCIBILITY_AUDIT.md`](SCOPED_REPRODUCIBILITY_AUDIT.md)
+- ⚖️ **Final Test Scope Reconciliation (P12-R1)**: [`FINAL_TEST_SCOPE_RECONCILIATION.md`](FINAL_TEST_SCOPE_RECONCILIATION.md)
+- 📊 **2024 Post-Holdout Re-Evaluation Report (P11-R)**: [`P11R_FINAL_REPORT.md`](P11R_FINAL_REPORT.md)
+- ❄️ **Authoritative Full System Freeze Manifest**: [`system_freeze_manifest.json`](system_freeze_manifest.json)
 - 📜 **Master Documentation Index**: [`docs/README.md`](docs/README.md)
-- 🏛️ **Final Certification Manifest (V5)**: [`docs/audit/FINAL_EVIDENCE_CERTIFICATION_V5.md`](docs/audit/FINAL_EVIDENCE_CERTIFICATION_V5.md)
-- ⚖️ **Final Evidence Reconciliation (V2)**: [`docs/audit/FINAL_EVIDENCE_RECONCILIATION_V2.md`](docs/audit/FINAL_EVIDENCE_RECONCILIATION_V2.md)
-- 🔍 **Targeted Audits**:
-  - P4 Metric Lineage: [`docs/audit/R33_P4_METRIC_LINEAGE.md`](docs/audit/R33_P4_METRIC_LINEAGE.md)
-  - P5 Quantile & Math: [`docs/audit/R34_P5_MATHEMATICAL_AUDIT.md`](docs/audit/R34_P5_MATHEMATICAL_AUDIT.md)
-  - Solver & Environment: [`docs/audit/R35_SOLVER_REPRODUCIBILITY_AUDIT.md`](docs/audit/R35_SOLVER_REPRODUCIBILITY_AUDIT.md)
 - 📐 **System State & Architectural Invariants**: [`docs/CURRENT_STATE.md`](docs/CURRENT_STATE.md)
 - 🗺️ **Repository Directory Layout**: [`project_structure.md`](project_structure.md)
