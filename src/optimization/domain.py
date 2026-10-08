@@ -17,6 +17,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from enum import Enum
+import math
 from typing import Any, Mapping, Sequence
 
 import numpy as np
@@ -116,6 +117,30 @@ class Flight:
     default_dwell_min: int = 60
     buffer_min: int = 15
     is_paired: bool = False
+    precomputed_gate_out_min: int | None = None
+
+    def __post_init__(self) -> None:
+        for field_name, val in [
+            ("scheduled_arrival_min", self.scheduled_arrival_min),
+            ("scheduled_departure_min", self.scheduled_departure_min),
+            ("predicted_arrival_min", self.predicted_arrival_min),
+            ("min_turnaround_min", self.min_turnaround_min),
+            ("default_dwell_min", self.default_dwell_min),
+            ("buffer_min", self.buffer_min),
+        ]:
+            if not math.isfinite(val):
+                raise ValueError(f"Flight.{field_name} must be finite, got {val}")
+
+        if self.precomputed_gate_out_min is not None:
+            if not math.isfinite(self.precomputed_gate_out_min):
+                raise ValueError(f"Flight.precomputed_gate_out_min must be finite, got {self.precomputed_gate_out_min}")
+            min_turn = self.predicted_arrival_min + self.min_turnaround_min
+            if self.precomputed_gate_out_min < min_turn:
+                raise ValueError(
+                    f"precomputed_gate_out_min ({self.precomputed_gate_out_min}) violates physical minimum "
+                    f"turnaround: must be >= predicted_arrival_min ({self.predicted_arrival_min}) + "
+                    f"min_turnaround_min ({self.min_turnaround_min}) = {min_turn}"
+                )
 
     @property
     def arrival_delay_min(self) -> int:
@@ -152,10 +177,15 @@ class Flight:
         """Simulated departure time respecting minimum turnaround.
 
         Timeline semantics:
-        1. D_min = A_pred + min_turnaround_min (physical turnaround requirement)
-        2. D_sched = scheduled_departure_min if (paired or explicit departure) else A_sched + default_dwell_min
-        3. D_pred = max(D_sched, D_min)
+        1. If precomputed_gate_out_min is provided (from certified Dual Turn Engine), return it directly.
+        2. Otherwise (legacy mode):
+           D_min = A_pred + min_turnaround_min (physical turnaround requirement)
+           D_sched = scheduled_departure_min if (paired or explicit departure) else A_sched + default_dwell_min
+           D_pred = max(D_sched, D_min)
         """
+        if self.precomputed_gate_out_min is not None:
+            return self.precomputed_gate_out_min
+
         a_pred = self.predicted_arrival_min
         d_min = a_pred + self.min_turnaround_min
 

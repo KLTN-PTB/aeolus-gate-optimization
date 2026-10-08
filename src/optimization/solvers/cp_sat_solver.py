@@ -126,18 +126,23 @@ class CPSatGateSolver:
             model.Add(sum(x[f_idx, g_idx] for g_idx in range(n_gates)) == 1)
 
         # 2. Overlapping occupancy intervals cannot use the same contact gate
+        sorted_indices = sorted(range(n_flights), key=lambda idx: flights[idx].time_window.start_min)
+        overlapping_pairs: list[tuple[int, int]] = []
+        for a, i in enumerate(sorted_indices):
+            w_i = flights[i].time_window
+            for b in range(a + 1, n_flights):
+                j = sorted_indices[b]
+                if flights[j].time_window.start_min >= w_i.end_min:
+                    break
+                if w_i.overlaps(flights[j].time_window):
+                    overlapping_pairs.append((i, j))
+
         for g_idx, gate in enumerate(gate_list):
             if gate.is_overflow:
                 continue  # Overflow stand has infinite capacity / no conflict
 
-            # Add mutual exclusion for all overlapping pairs
-            for i in range(n_flights - 1):
-                w_i = flights[i].time_window
-                for j in range(i + 1, n_flights):
-                    w_j = flights[j].time_window
-                    if w_i.overlaps(w_j):
-                        # At most one of flight i or flight j can be on gate g
-                        model.Add(x[i, g_idx] + x[j, g_idx] <= 1)
+            for i, j in overlapping_pairs:
+                model.Add(x[i, g_idx] + x[j, g_idx] <= 1)
 
         # 3. Gate operational availability windows
         for f_idx, fl in enumerate(flights):

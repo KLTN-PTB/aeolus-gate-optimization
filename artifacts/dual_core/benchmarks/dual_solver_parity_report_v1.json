@@ -1,0 +1,126 @@
+{
+  "metadata": {
+    "phase": "P8",
+    "protocol": "Aeolus Dual Core Architecture Protocol V2",
+    "audit_title": "Dual Core Gate Optimizer Integration & Solver Parity Benchmark",
+    "generated_at_utc": "2026-10-08T11:55:08.009904+00:00",
+    "departure_certified_model": "departure_certified_point_v1",
+    "num_flights": 12,
+    "num_contact_gates": 6,
+    "num_overflow_gates": 1
+  },
+  "role_based_access_control_audit": {
+    "auxiliary_departure_blocked": "PASS (RoleAccessViolationError)",
+    "uncertified_departure_blocked": "PASS (UncertifiedModelError)",
+    "unknown_model_blocked": "PASS (UncertifiedModelError)",
+    "physical_turnaround_blocked": "PASS (ValueError)",
+    "non_finite_values_blocked": "PASS (ValueError)"
+  },
+  "legacy_parity_matrix": {
+    "DeterministicGreedy": {
+      "assignment_mismatches": 0,
+      "objective_diff": 0.0,
+      "parity_status": "EXACT_BIT_PARITY"
+    },
+    "CPSat": {
+      "assignment_mismatches": 0,
+      "objective_diff": 0.0,
+      "parity_status": "EXACT_BIT_PARITY"
+    },
+    "SimulatedAnnealing": {
+      "assignment_mismatches": 0,
+      "objective_diff": 0.0,
+      "parity_status": "EXACT_BIT_PARITY"
+    },
+    "HybridCPSatSA": {
+      "assignment_mismatches": 0,
+      "objective_diff": 0.0,
+      "parity_status": "EXACT_BIT_PARITY"
+    }
+  },
+  "legacy_mode_solver_performance": {
+    "DeterministicGreedy": {
+      "feasible": true,
+      "status": "FEASIBLE",
+      "objective_value": 3.9167,
+      "runtime_ms": 0.13,
+      "hard_constraint_violations": 0,
+      "conflict_count": 0,
+      "is_valid": true
+    },
+    "CPSat": {
+      "feasible": true,
+      "status": "OPTIMAL",
+      "objective_value": 3.9167,
+      "runtime_ms": 9.48,
+      "hard_constraint_violations": 0,
+      "conflict_count": 0,
+      "is_valid": true
+    },
+    "SimulatedAnnealing": {
+      "feasible": true,
+      "status": "OPTIMAL",
+      "objective_value": 3.9167,
+      "runtime_ms": 77.0,
+      "hard_constraint_violations": 0,
+      "conflict_count": 0,
+      "is_valid": true
+    },
+    "HybridCPSatSA": {
+      "feasible": true,
+      "status": "OPTIMAL",
+      "objective_value": 3.9167,
+      "runtime_ms": 86.25,
+      "hard_constraint_violations": 0,
+      "conflict_count": 0,
+      "is_valid": true
+    }
+  },
+  "dual_core_mode_solver_performance": {
+    "DeterministicGreedy": {
+      "feasible": true,
+      "status": "FEASIBLE",
+      "objective_value": 202.5833,
+      "runtime_ms": 0.12,
+      "hard_constraint_violations": 0,
+      "conflict_count": 0,
+      "independent_verification_valid": true,
+      "independent_hard_violations": 0,
+      "independent_conflict_count": 0
+    },
+    "CPSat": {
+      "feasible": true,
+      "status": "OPTIMAL",
+      "objective_value": 202.5833,
+      "runtime_ms": 9.77,
+      "hard_constraint_violations": 0,
+      "conflict_count": 0,
+      "independent_verification_valid": true,
+      "independent_hard_violations": 0,
+      "independent_conflict_count": 0
+    },
+    "SimulatedAnnealing": {
+      "feasible": true,
+      "status": "OPTIMAL",
+      "objective_value": 202.5833,
+      "runtime_ms": 59.26,
+      "hard_constraint_violations": 0,
+      "conflict_count": 0,
+      "independent_verification_valid": true,
+      "independent_hard_violations": 0,
+      "independent_conflict_count": 0
+    },
+    "HybridCPSatSA": {
+      "feasible": true,
+      "status": "OPTIMAL",
+      "objective_value": 202.5833,
+      "runtime_ms": 68.65,
+      "hard_constraint_violations": 0,
+      "conflict_count": 0,
+      "independent_verification_valid": true,
+      "independent_hard_violations": 0,
+      "independent_conflict_count": 0
+    }
+  },
+  "overall_status": "PASS_DUAL_GATE_OPTIMIZER_INTEGRATION"
+}

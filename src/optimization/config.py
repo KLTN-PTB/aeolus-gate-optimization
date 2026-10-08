@@ -38,6 +38,7 @@ class GateOptimizationConfig:
     random_seed: int = PREDETERMINED_DEPLOYMENT_SEED
     log_search_progress: bool = False
     scale_factor: int = 100  # Multiplier to scale floating costs to integer objective
+    dual_core_gate_enabled: bool = False  # Feature flag for Dual Core gate optimization (default OFF)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

@@ -12,6 +12,11 @@ Provides:
 
 from __future__ import annotations
 
+from src.optimization.adapter import (
+    DualCoreGateOptimizerAdapter,
+    RoleAccessViolationError,
+    UncertifiedModelError,
+)
 from src.optimization.config import GateOptimizationConfig
 from src.optimization.domain import (
     ConstraintDiagnostic,
@@ -27,6 +32,7 @@ from src.optimization.evaluation import evaluate_gate_assignment
 from src.optimization.sa import SAConfig, SimulatedAnnealingGateSolver
 from src.optimization.solvers.cp_sat_solver import CPSatGateSolver
 from src.optimization.solvers.greedy_solver import DeterministicGreedyGateSolver
+from src.optimization.solvers.hybrid_solver import HybridGateSolver
 
 __all__ = [
     "Flight",
@@ -41,6 +47,10 @@ __all__ = [
     "CPSatGateSolver",
     "DeterministicGreedyGateSolver",
     "SimulatedAnnealingGateSolver",
+    "HybridGateSolver",
+    "DualCoreGateOptimizerAdapter",
+    "RoleAccessViolationError",
+    "UncertifiedModelError",
     "verify_hard_constraints_independently",
     "evaluate_gate_assignment",
 ]
