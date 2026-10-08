@@ -1,0 +1,70 @@
+{
+  "phase": "P01",
+  "phase_name": "DOMAIN_CONTRACT_AND_SOLUTION_STATUS_STANDARDIZATION",
+  "timestamp": "2026-10-09T00:51:00+07:00",
+  "environment": {
+    "python_executable": ".venv/Scripts/python.exe",
+    "python_version": "3.11.15",
+    "pytest_version": "9.1.1",
+    "git_branch": "development/scalability-1500x50",
+    "git_head": "8cf96b99"
+  },
+  "test_metrics": {
+    "total_collected": 1393,
+    "passed": 1389,
+    "failed": 4,
+    "warnings": 1,
+    "execution_duration_sec": 161.96,
+    "net_change_vs_baseline": {
+      "new_tests": 20,
+      "regressions": 0,
+      "resolved_baseline_failures": 0
+    }
+  },
+  "known_baseline_failures": [
+    {
+      "test_id": "tests/benchmark/test_model_registry.py::test_registry_integration_retrieval",
+      "reason": "Historical registry file hash check against frozen pre-dual-core state"
+    },
+    {
+      "test_id": "tests/test_r22_system_freeze_v3.py::test_guard_v3_verifies_all_frozen_files",
+      "reason": "Dual core evolution of src/data/leakage_rules.py checksum in pre-holdout freeze guard"
+    },
+    {
+      "test_id": "tests/test_r22_system_freeze_v3.py::test_guard_v3_authorizes_clean_post_holdout_access",
+      "reason": "Dual core evolution of src/data/leakage_rules.py checksum in pre-holdout freeze guard"
+    },
+    {
+      "test_id": "tests/test_r27_certification_hardening.py::test_r22_freeze_manifest_integrity",
+      "reason": "Evolution of src/optimization/domain.py checksum against system_freeze_manifest_v3.json"
+    }
+  ],
+  "p01_contract_tests": {
+    "file": "tests/contracts/test_domain_contracts_p01.py",
+    "total": 20,
+    "passed": 20,
+    "failed": 0,
+    "cases": [
+      "test_c01_flight_identity_validation",
+      "test_c02_flight_finite_numeric_times",
+      "test_c03_flight_early_arrival_allowed",
+      "test_c04_flight_positive_turnaround_and_buffer",
+      "test_c05_flight_aircraft_type_normalization",
+      "test_c06_flight_cross_midnight_relative_minutes",
+      "test_c07_gate_identity_validation",
+      "test_c08_gate_resource_type_and_backward_compatibility",
+      "test_c09_gate_capacity_validation",
+      "test_c10_gate_aircraft_compatibility",
+      "test_c11_gate_assignment_identity_validation",
+      "test_c12_gate_assignment_timeline_validation",
+      "test_c13_gate_assignment_state_synchronization",
+      "test_c14_validate_flights_collection_duplicates",
+      "test_c15_validate_gates_collection_duplicates",
+      "test_c16_independent_verifier_orphan_flight",
+      "test_c17_independent_verifier_unknown_gate",
+      "test_c18_independent_verifier_timeline_mismatch",
+      "test_c19_heuristic_solver_optimality_guard",
+      "test_c20_serialization_round_trip"
+    ]
+  }
+}

@@ -24,6 +24,8 @@ from src.optimization.domain import (
     GateAssignmentState,
     ObjectiveBreakdown,
     OptimizationResult,
+    SolverStatus,
+    TerminationReason,
     verify_hard_constraints_independently,
 )
 
@@ -38,6 +40,11 @@ def evaluate_gate_assignment(
     runtime_ms: float = 0.0,
     solver_status: str | None = None,
     solver_name: str = "unknown",
+    optimality_proven: bool = False,
+    optimality_gap: float | None = None,
+    best_bound: float | None = None,
+    termination_reason: TerminationReason | str | None = None,
+    raw_solver_status: str | None = None,
 ) -> OptimizationResult:
     """Evaluate a complete gate assignment solution against standard constraints and objective.
 
@@ -126,6 +133,7 @@ def evaluate_gate_assignment(
         conflict_cost=total_conflict_cost,
         risk_cost=total_risk_cost,
         weights=cfg.to_dict(),
+        objective_version=getattr(cfg, "objective_version", "v1"),
     )
 
     # Determine status
@@ -139,17 +147,38 @@ def evaluate_gate_assignment(
     # Solver output CANNOT self-certify feasibility: certified by Independent Verifier
     is_feasible = bool(diagnostics.is_valid and diagnostics.unassigned_count == 0)
 
+    # If independent verification fails, status cannot be OPTIMAL and optimality cannot be proven
+    if not is_feasible:
+        if status_str == "OPTIMAL":
+            status_str = "INFEASIBLE"
+        optimality_proven = False
+
+    raw_status = raw_solver_status or (solver_status or status_str)
+
+    term_reason = termination_reason
+    if term_reason is None:
+        if optimality_proven and status_str == "OPTIMAL":
+            term_reason = TerminationReason.OPTIMAL
+        elif is_feasible:
+            term_reason = TerminationReason.FEASIBLE_FOUND
+        else:
+            term_reason = TerminationReason.INFEASIBLE
+
     return OptimizationResult(
         status=status_str,
         objective_value=total_objective,
         objective_breakdown=breakdown,
         feasible=is_feasible,
         runtime_ms=runtime_ms,
-        optimality_gap=None,
+        optimality_gap=optimality_gap,
         assignments=dict(assignments),
         constraint_diagnostics=diagnostics,
         solver_configuration={
             "solver_name": solver_name,
             **cfg.to_dict(),
         },
+        raw_solver_status=raw_status,
+        optimality_proven=optimality_proven,
+        best_bound=best_bound,
+        termination_reason=term_reason,
     )

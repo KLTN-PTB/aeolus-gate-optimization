@@ -8,10 +8,10 @@ Specification:
 - Fail-closed verification: penalties for conflicts and illegal assignments.
 """
 
-from __future__ import annotations
+import math
 
 from src.optimization.config import GateOptimizationConfig
-from src.optimization.domain import OptimizationResult
+from src.optimization.domain import GateResourceType, OptimizationResult
 from src.optimization.evaluation import evaluate_gate_assignment
 from src.optimization.sa.state import SAState
 
@@ -70,22 +70,30 @@ def compute_state_objective(
         if slack < 15:
             total_risk_cost += ((15 - slack) / 15.0) * config.risk_weight
 
-    # Fast conflict detection across contact gates
+    # Conflict detection across finite gates (contact gates and finite remote stands)
     total_conflict_cost = 0.0
     for g_id, assigned_flights in state.gate_to_flights.items():
         gate = gate_map.get(g_id)
-        if gate is not None and gate.is_overflow:
+        if gate is not None and (gate.resource_type == GateResourceType.UNBOUNDED_OVERFLOW_APRON or gate.is_unbounded):
             continue
         n = len(assigned_flights)
         if n <= 1:
             continue
+        cap = int(gate.capacity) if (gate is not None and gate.capacity is not None and math.isfinite(gate.capacity)) else 1
         sorted_fl = sorted(assigned_flights, key=lambda f: f.time_window.start_min)
-        for i in range(n - 1):
-            w1 = sorted_fl[i].time_window
-            for j in range(i + 1, n):
-                w2 = sorted_fl[j].time_window
-                if w1.overlaps(w2):
-                    total_conflict_cost += config.conflict_weight
+        if cap == 1:
+            for i in range(n - 1):
+                w1 = sorted_fl[i].time_window
+                for j in range(i + 1, n):
+                    w2 = sorted_fl[j].time_window
+                    if w1.overlaps(w2):
+                        total_conflict_cost += config.conflict_weight
+        elif cap > 1:
+            for fl in sorted_fl:
+                t = fl.time_window.start_min
+                conc = sum(1 for o in sorted_fl if o.time_window.start_min <= t < o.time_window.end_min)
+                if conc > cap:
+                    total_conflict_cost += (conc - cap) * config.conflict_weight
 
     return (
         total_reassignment_cost

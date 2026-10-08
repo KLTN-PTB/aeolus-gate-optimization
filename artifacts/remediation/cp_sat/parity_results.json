@@ -1,0 +1,280 @@
+{
+  "description": "Exhaustive combinatorial oracle mathematical parity results",
+  "total_cases": 7,
+  "all_parity_passed": true,
+  "cases": [
+    {
+      "case_name": "tight_overlap_feasible",
+      "n_flights": 3,
+      "n_gates": 2,
+      "allow_overflow": true,
+      "oracle": {
+        "feasible": true,
+        "optimal_objective": 236.0,
+        "total_enumerated": 27,
+        "feasible_count": 13
+      },
+      "sparse_interval": {
+        "status": "OPTIMAL",
+        "feasible": true,
+        "objective_value": 236.0,
+        "runtime_ms": 5.7668,
+        "model_construction_ms": 0.99,
+        "search_time_ms": 4.5,
+        "parity_passed": true
+      },
+      "sparse_pairwise": {
+        "status": "OPTIMAL",
+        "feasible": true,
+        "objective_value": 236.0,
+        "runtime_ms": 1.3028,
+        "model_construction_ms": 0.52,
+        "search_time_ms": 0.56,
+        "parity_passed": true
+      },
+      "dense_pairwise": {
+        "status": "OPTIMAL",
+        "feasible": true,
+        "objective_value": 236.0,
+        "runtime_ms": 1.2964,
+        "model_construction_ms": 0.55,
+        "search_time_ms": 0.56,
+        "parity_passed": true
+      }
+    },
+    {
+      "case_name": "overlap_infeasible_without_overflow",
+      "n_flights": 2,
+      "n_gates": 1,
+      "allow_overflow": false,
+      "oracle": {
+        "feasible": false,
+        "optimal_objective": null,
+        "total_enumerated": 1,
+        "feasible_count": 0
+      },
+      "sparse_interval": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.4578,
+        "model_construction_ms": 0.29,
+        "search_time_ms": 0.06,
+        "parity_passed": true
+      },
+      "sparse_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.6974,
+        "model_construction_ms": 0.31,
+        "search_time_ms": 0.29,
+        "parity_passed": true
+      },
+      "dense_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.4099,
+        "model_construction_ms": 0.27,
+        "search_time_ms": 0.05,
+        "parity_passed": true
+      }
+    },
+    {
+      "case_name": "contact_plus_finite_remote",
+      "n_flights": 3,
+      "n_gates": 2,
+      "allow_overflow": true,
+      "oracle": {
+        "feasible": false,
+        "optimal_objective": null,
+        "total_enumerated": 8,
+        "feasible_count": 0
+      },
+      "sparse_interval": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.8374,
+        "model_construction_ms": 0.4,
+        "search_time_ms": 0.34,
+        "parity_passed": true
+      },
+      "sparse_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.7442,
+        "model_construction_ms": 0.37,
+        "search_time_ms": 0.28,
+        "parity_passed": true
+      },
+      "dense_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.7798,
+        "model_construction_ms": 0.38,
+        "search_time_ms": 0.26,
+        "parity_passed": true
+      }
+    },
+    {
+      "case_name": "carrier_restricted_multigate",
+      "n_flights": 4,
+      "n_gates": 3,
+      "allow_overflow": true,
+      "oracle": {
+        "feasible": false,
+        "optimal_objective": null,
+        "total_enumerated": 8,
+        "feasible_count": 0
+      },
+      "sparse_interval": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.7552,
+        "model_construction_ms": 0.43,
+        "search_time_ms": 0.23,
+        "parity_passed": true
+      },
+      "sparse_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.5599,
+        "model_construction_ms": 0.41,
+        "search_time_ms": 0.06,
+        "parity_passed": true
+      },
+      "dense_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.7712,
+        "model_construction_ms": 0.62,
+        "search_time_ms": 0.06,
+        "parity_passed": true
+      }
+    },
+    {
+      "case_name": "contact_plus_pooled_remote_cap2",
+      "n_flights": 4,
+      "n_gates": 2,
+      "allow_overflow": true,
+      "oracle": {
+        "feasible": false,
+        "optimal_objective": null,
+        "total_enumerated": 16,
+        "feasible_count": 0
+      },
+      "sparse_interval": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 1.015,
+        "model_construction_ms": 0.41,
+        "search_time_ms": 0.51,
+        "parity_passed": true
+      },
+      "sparse_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 1.6903,
+        "model_construction_ms": 0.53,
+        "search_time_ms": 1.06,
+        "parity_passed": true
+      },
+      "dense_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 0.9178,
+        "model_construction_ms": 0.5,
+        "search_time_ms": 0.32,
+        "parity_passed": true
+      }
+    },
+    {
+      "case_name": "cross_midnight_overlap",
+      "n_flights": 3,
+      "n_gates": 2,
+      "allow_overflow": true,
+      "oracle": {
+        "feasible": true,
+        "optimal_objective": 232.0,
+        "total_enumerated": 27,
+        "feasible_count": 13
+      },
+      "sparse_interval": {
+        "status": "OPTIMAL",
+        "feasible": true,
+        "objective_value": 232.0,
+        "runtime_ms": 1.7155,
+        "model_construction_ms": 0.43,
+        "search_time_ms": 1.11,
+        "parity_passed": true
+      },
+      "sparse_pairwise": {
+        "status": "OPTIMAL",
+        "feasible": true,
+        "objective_value": 232.0,
+        "runtime_ms": 1.0939,
+        "model_construction_ms": 0.42,
+        "search_time_ms": 0.5,
+        "parity_passed": true
+      },
+      "dense_pairwise": {
+        "status": "OPTIMAL",
+        "feasible": true,
+        "objective_value": 232.0,
+        "runtime_ms": 1.1185,
+        "model_construction_ms": 0.46,
+        "search_time_ms": 0.49,
+        "parity_passed": true
+      }
+    },
+    {
+      "case_name": "5flights_3gates_tight",
+      "n_flights": 5,
+      "n_gates": 3,
+      "allow_overflow": true,
+      "oracle": {
+        "feasible": false,
+        "optimal_objective": null,
+        "total_enumerated": 243,
+        "feasible_count": 0
+      },
+      "sparse_interval": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 1.1025,
+        "model_construction_ms": 0.57,
+        "search_time_ms": 0.43,
+        "parity_passed": true
+      },
+      "sparse_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 1.6106,
+        "model_construction_ms": 0.7,
+        "search_time_ms": 0.81,
+        "parity_passed": true
+      },
+      "dense_pairwise": {
+        "status": "INFEASIBLE",
+        "feasible": false,
+        "objective_value": null,
+        "runtime_ms": 1.6018,
+        "model_construction_ms": 0.71,
+        "search_time_ms": 0.79,
+        "parity_passed": true
+      }
+    }
+  ]
+}

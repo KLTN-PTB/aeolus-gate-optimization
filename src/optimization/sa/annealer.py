@@ -19,12 +19,14 @@ import time
 from typing import Any, Mapping, Sequence
 
 from src.models.probabilistic.contracts import PREDETERMINED_DEPLOYMENT_SEED
-from src.optimization.config import GateOptimizationConfig
+from src.optimization.config import GateOptimizationConfig, compute_improvement_pct
 from src.optimization.domain import (
     Flight,
     Gate,
     GateAssignment,
+    GateResourceType,
     OptimizationResult,
+    TerminationReason,
     verify_hard_constraints_independently,
 )
 from src.optimization.evaluation import evaluate_gate_assignment
@@ -48,6 +50,22 @@ class SAConfig:
     seed: int = PREDETERMINED_DEPLOYMENT_SEED
     move_prob: float = 0.6
     max_neighbor_attempts: int = 50
+
+    def __post_init__(self) -> None:
+        if not math.isfinite(self.T0) or self.T0 <= 0:
+            raise ValueError(f"T0 must be a positive finite float, got {self.T0}")
+        if not math.isfinite(self.Tmin) or self.Tmin <= 0:
+            raise ValueError(f"Tmin must be a positive finite float, got {self.Tmin}")
+        if self.Tmin > self.T0:
+            raise ValueError(f"Tmin ({self.Tmin}) cannot exceed T0 ({self.T0})")
+        if not math.isfinite(self.cooling_rate) or not (0.0 < self.cooling_rate < 1.0):
+            raise ValueError(f"cooling_rate must be in (0.0, 1.0), got {self.cooling_rate}")
+        if self.iterations < 0:
+            raise ValueError(f"iterations must be >= 0, got {self.iterations}")
+        if not math.isfinite(self.move_prob) or not (0.0 <= self.move_prob <= 1.0):
+            raise ValueError(f"move_prob must be in [0.0, 1.0], got {self.move_prob}")
+        if self.max_neighbor_attempts < 1:
+            raise ValueError(f"max_neighbor_attempts must be >= 1, got {self.max_neighbor_attempts}")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -108,27 +126,46 @@ class SimulatedAnnealingGateSolver:
                 gates=gates,
                 config=self.config,
                 runtime_ms=0.0,
-                solver_status="OPTIMAL",
+                solver_status="FEASIBLE",
                 solver_name="SimulatedAnnealing",
+                termination_reason=TerminationReason.FEASIBLE_FOUND,
             )
 
         # 1. Obtain or validate initial feasible assignment
         gate_list = list(gates)
         has_overflow = any(g.is_overflow for g in gate_list)
         if allow_overflow and not has_overflow:
-            overflow_gate = Gate(
-                gate_id="OVERFLOW_APRON",
-                gate_index=len(gate_list),
-                is_overflow=True,
-            )
-            gate_list.append(overflow_gate)
+            if getattr(self.config, "allow_unbounded_overflow", True):
+                overflow_gate = Gate(
+                    gate_id="OVERFLOW_APRON",
+                    gate_index=len(gate_list),
+                    resource_type=GateResourceType.UNBOUNDED_OVERFLOW_APRON,
+                    capacity=math.inf,
+                    is_overflow=True,
+                )
+                gate_list.append(overflow_gate)
 
         if initial_assignments is None:
             # Generate deterministic greedy solution as proven feasible initial seed
             greedy_solver = DeterministicGreedyGateSolver(config=self.config)
             greedy_result = greedy_solver.solve(flights, gate_list, allow_overflow=allow_overflow)
             if not greedy_result.feasible or not greedy_result.constraint_diagnostics.is_valid:
-                raise ValueError("Greedy solver failed to produce a valid initial feasible assignment.")
+                elapsed_ms = (time.perf_counter() - t0) * 1000.0
+                return OptimizationResult(
+                    status="INFEASIBLE",
+                    objective_value=float("inf"),
+                    objective_breakdown=greedy_result.objective_breakdown,
+                    feasible=False,
+                    runtime_ms=elapsed_ms,
+                    optimality_gap=None,
+                    assignments={},
+                    constraint_diagnostics=greedy_result.constraint_diagnostics,
+                    solver_configuration={
+                        **self.config.to_dict(),
+                        "sa_config": self.sa_config.to_dict(),
+                    },
+                    termination_reason=TerminationReason.NO_FEASIBLE_SOLUTION,
+                )
             init_assignments = greedy_result.assignments
         else:
             init_assignments = dict(initial_assignments)
@@ -177,19 +214,30 @@ class SimulatedAnnealingGateSolver:
             )
 
             if cand_state is not None:
-                cand_obj = compute_state_objective(cand_state, self.config)
-                delta = cand_obj - curr_obj
+                # Invariant I3: Accepted candidate must strictly satisfy hard constraints
+                if not cand_state.is_feasible():
+                    continue
 
-                # Step 5: Standard simulated annealing acceptance criterion
-                if delta <= 0:
-                    accept = True
+                try:
+                    cand_obj = compute_state_objective(cand_state, self.config)
+                except Exception:
+                    cand_obj = float("nan")
+
+                # S07: Reject non-finite (NaN, inf) objective values
+                if not math.isfinite(cand_obj):
+                    accept = False
                 else:
-                    if temp <= 1e-12:
-                        prob = 0.0
+                    delta = cand_obj - curr_obj
+                    # Step 5: Standard simulated annealing acceptance criterion
+                    if delta <= 0:
+                        accept = True
                     else:
-                        exponent = -delta / temp
-                        prob = math.exp(exponent) if exponent > -700.0 else 0.0
-                    accept = rng.random() < prob
+                        if temp <= 1e-12:
+                            prob = 0.0
+                        else:
+                            exponent = -delta / temp
+                            prob = math.exp(exponent) if exponent > -700.0 else 0.0
+                        accept = rng.random() < prob
 
                 if accept:
                     curr_state = cand_state
@@ -213,28 +261,38 @@ class SimulatedAnnealingGateSolver:
 
         elapsed_ms = (time.perf_counter() - t0) * 1000.0
 
-        # Best-so-far assignment is strictly returned
-        final_assignments = best_state.to_gate_assignments()
+        # Invariant I1: Best-so-far assignment is strictly verified
+        assert best_state.is_feasible(), "Invariant I1: SA best_state must be hard-feasible"
 
-        # Step 8 Verification: Objective never worse than initial solution
+        # Invariant I2: Objective never worse than initial solution
         assert best_obj <= initial_obj + 1e-9, (
-            f"SA best objective ({best_obj:.4f}) is worse than initial ({initial_obj:.4f})"
+            f"Invariant I2: SA best objective ({best_obj:.4f}) is worse than initial ({initial_obj:.4f})"
         )
 
+        # Invariant I9: Recomputed objective matches stored best_obj
+        recomputed_obj = compute_state_objective(best_state, self.config)
+        assert abs(recomputed_obj - best_obj) < 1e-6, (
+            f"Invariant I9: Recomputed objective ({recomputed_obj}) != stored best_obj ({best_obj})"
+        )
+
+        final_assignments = best_state.to_gate_assignments()
+
         # Authoritative evaluation via common evaluator
+        # Invariants I10, S02, S22: SA is a metaheuristic and NEVER self-certifies OPTIMAL
         result = evaluate_gate_assignment(
             assignments=final_assignments,
             flights=flights,
             gates=gate_list,
             config=self.config,
             runtime_ms=elapsed_ms,
-            solver_status="OPTIMAL" if best_obj <= curr_obj else "FEASIBLE",
+            solver_status="FEASIBLE",
             solver_name="SimulatedAnnealing",
+            termination_reason=TerminationReason.ITERATION_LIMIT,
         )
 
         # Augment solver configuration with SA-specific execution metadata
         improvement = initial_obj - best_obj
-        improvement_pct = (improvement / max(initial_obj, 1e-9)) * 100.0
+        improvement_pct = compute_improvement_pct(initial_obj, best_obj)
 
         extra_metadata = {
             "sa_config": self.sa_config.to_dict(),

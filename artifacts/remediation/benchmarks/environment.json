@@ -1,0 +1,13 @@
+{
+  "python_version": "3.11.15",
+  "python_implementation": "CPython",
+  "platform_system": "Windows",
+  "platform_release": "10",
+  "platform_machine": "AMD64",
+  "cpu_count_logical": 16,
+  "cpu_count_physical": 8,
+  "ram_total_mb": 16085.5,
+  "ram_available_mb": 6008.93,
+  "ortools_version": "9.15.6755",
+  "pid": 27340
+}

@@ -13,7 +13,7 @@ Protocol & Scientific Contract:
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -345,8 +345,9 @@ def benchmark_four_solvers_on_scenario(
                     overlap_pairs += 1
         num_cp_constraints = n_flights + overlap_pairs * scenario.n_contact_gates
 
-        solve_exec_ms = min(config.time_limit_seconds * 1000.0, t_cp_total)
-        model_build_ms = max(0.0, t_cp_total - solve_exec_ms)
+        cp_cfg = res_cpsat.solver_configuration if res_cpsat else {}
+        model_build_ms = cp_cfg.get("model_construction_ms", 0.0) if cp_cfg else 0.0
+        solve_exec_ms = cp_cfg.get("search_time_ms", min(config.time_limit_seconds * 1000.0, t_cp_total)) if cp_cfg else t_cp_total
 
         results.append(
             SolverBenchmarkResult(
@@ -435,24 +436,33 @@ def benchmark_four_solvers_on_scenario(
     # 4. Hybrid CP-SAT + SA (Total = 2.0s: CP-SAT 1.0s + SA 1.0s)
     # -------------------------------------------------------------------------
     t_hyb_start = time.perf_counter()
-    # If CP-SAT previously timed out or failed to find feasible at 2.0s, CP-SAT at 1.0s
-    # will also yield no feasible incumbent, falling back to Greedy.
-    if res_cpsat is not None and res_cpsat.feasible:
-        incumbent = res_cpsat.assignments
+    # Stage 1: CP-SAT run within half budget (1.0s)
+    cfg_half_cp = replace(config, time_limit_seconds=config.time_limit_seconds / 2.0)
+    solver_cp_half = CPSatGateSolver(config=cfg_half_cp)
+    t_cp_half_start = time.perf_counter()
+    res_cp_half = solver_cp_half.solve(planned_flights, all_gates, allow_overflow=True)
+    t_cp_half_ms = (time.perf_counter() - t_cp_half_start) * 1000.0
+
+    if res_cp_half.feasible and len(res_cp_half.assignments) == len(planned_flights):
+        incumbent = res_cp_half.assignments
+        fallback_used = False
     else:
         incumbent = res_greedy.assignments
+        fallback_used = True
 
     solver_sa_half = TimeBudgetedSimulatedAnnealingSolver(
         config=config,
         time_budget_seconds=config.time_limit_seconds / 2.0,
         seed=config.random_seed,
     )
+    t_sa_half_start = time.perf_counter()
     res_hyb, trace_hyb, iters_hyb = solver_sa_half.solve(
         planned_flights,
         all_gates,
         initial_assignments=incumbent,
         allow_overflow=True,
     )
+    t_sa_half_ms = (time.perf_counter() - t_sa_half_start) * 1000.0
     t_hyb_total = (time.perf_counter() - t_hyb_start) * 1000.0
     diag_hyb = res_hyb.constraint_diagnostics
 
@@ -472,7 +482,7 @@ def benchmark_four_solvers_on_scenario(
             solver_name="HybridCPSatSA",
             budget_seconds=config.time_limit_seconds,
             wall_clock_timeout=True,
-            model_construction_ms=round(0.1, 2),
+            model_construction_ms=round(res_cp_half.solver_configuration.get("model_construction_ms", 0.1), 2) if res_cp_half and res_cp_half.solver_configuration else 0.1,
             solver_execution_ms=round(t_hyb_total, 2),
             total_runtime_ms=round(t_hyb_total, 2),
             status=res_hyb.status,

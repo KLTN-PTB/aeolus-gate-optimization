@@ -12,10 +12,11 @@ Specification:
 
 from __future__ import annotations
 
+import math
 import random
 from typing import Sequence
 
-from src.optimization.domain import Flight, Gate
+from src.optimization.domain import Flight, Gate, GateResourceType
 from src.optimization.sa.state import SAState
 
 
@@ -32,30 +33,47 @@ def is_gate_feasible_for_flight(
     if not gate.is_available_during(flight.time_window):
         return False
 
-    if not gate.is_overflow:
-        w_fl = flight.time_window
-        for other in existing_flights_on_gate:
-            if other.flight_id == flight.flight_id:
-                continue
+    # Check capacity & overlap
+    if gate.resource_type == GateResourceType.UNBOUNDED_OVERFLOW_APRON or gate.is_unbounded:
+        return True
+
+    w_fl = flight.time_window
+    other_flights = [f for f in existing_flights_on_gate if f.flight_id != flight.flight_id]
+
+    if gate.capacity == 1:
+        for other in other_flights:
             if w_fl.overlaps(other.time_window):
                 return False
+        return True
+    elif math.isfinite(gate.capacity) and gate.capacity > 1:
+        cap = int(gate.capacity)
+        crit_times = [w_fl.start_min] + [
+            o.time_window.start_min for o in other_flights
+            if w_fl.start_min <= o.time_window.start_min < w_fl.end_min
+        ]
+        for t in crit_times:
+            concurrent = sum(1 for o in other_flights if o.time_window.start_min <= t < o.time_window.end_min)
+            if concurrent + 1 > cap:
+                return False
+        return True
 
     return True
 
 
 def repair_state(state: SAState) -> SAState | None:
-    """Explicit repair operator resolving contact gate conflicts.
+    """Explicit repair operator resolving gate conflicts across finite resources.
 
-    Attempts to relocate conflicting flights on contact gates to either:
-    1. A conflict-free compatible contact gate, or
-    2. An overflow apron.
+    Attempts to relocate conflicting flights on finite gates (contact gates and
+    finite remote stands) to either:
+    1. A conflict-free compatible gate, or
+    2. An overflow stand/apron that can accommodate them.
 
     Returns:
         Repaired feasible SAState, or None if repair fails.
     """
     repaired = state.copy()
+    finite_gates = [g for g in repaired.gates if g.is_finite]
     overflow_gates = [g for g in repaired.gates if g.is_overflow]
-    contact_gates = [g for g in repaired.gates if not g.is_overflow]
 
     # Iterative conflict resolution
     max_steps = 10
@@ -64,25 +82,63 @@ def repair_state(state: SAState) -> SAState | None:
         step += 1
         conflicts_found = False
 
-        for g in contact_gates:
+        for g in finite_gates:
             assigned = list(repaired.gate_to_flights.get(g.gate_id, []))
             n = len(assigned)
-            if n <= 1:
+            cap = int(g.capacity) if (g.capacity is not None and math.isfinite(g.capacity)) else 1
+            if n <= cap:
                 continue
 
             # Sort by arrival
             sorted_fl = sorted(assigned, key=lambda f: f.time_window.start_min)
-            for i in range(n - 1):
-                f1 = sorted_fl[i]
-                for j in range(i + 1, n):
-                    f2 = sorted_fl[j]
-                    if f1.time_window.overlaps(f2.time_window):
+            if cap == 1:
+                for i in range(n - 1):
+                    f1 = sorted_fl[i]
+                    for j in range(i + 1, n):
+                        f2 = sorted_fl[j]
+                        if f1.time_window.overlaps(f2.time_window):
+                            conflicts_found = True
+                            # Conflict detected: attempt to evict f2
+                            evicted = False
+
+                            # Try other finite gates first
+                            for alt_g in finite_gates:
+                                if alt_g.gate_id == g.gate_id:
+                                    continue
+                                existing = repaired.gate_to_flights.get(alt_g.gate_id, [])
+                                if is_gate_feasible_for_flight(alt_g, f2, existing):
+                                    repaired.assign(f2.flight_id, alt_g.gate_id)
+                                    evicted = True
+                                    break
+
+                            # Fallback to overflow stand
+                            if not evicted and overflow_gates:
+                                for ovf in overflow_gates:
+                                    if ovf.gate_id == g.gate_id:
+                                        continue
+                                    existing_ovf = repaired.gate_to_flights.get(ovf.gate_id, [])
+                                    if is_gate_feasible_for_flight(ovf, f2, existing_ovf):
+                                        repaired.assign(f2.flight_id, ovf.gate_id)
+                                        evicted = True
+                                        break
+
+                            if not evicted:
+                                # Cannot repair this conflict
+                                return None
+
+                            break  # Break inner loop to re-scan
+                    if conflicts_found:
+                        break
+            else:
+                for fl in sorted_fl:
+                    t = fl.time_window.start_min
+                    active = [f for f in sorted_fl if f.time_window.start_min <= t < f.time_window.end_min]
+                    if len(active) > cap:
                         conflicts_found = True
-                        # Conflict detected: attempt to evict f2
+                        f2 = active[-1]
                         evicted = False
 
-                        # Try other contact gates first
-                        for alt_g in contact_gates:
+                        for alt_g in finite_gates:
                             if alt_g.gate_id == g.gate_id:
                                 continue
                             existing = repaired.gate_to_flights.get(alt_g.gate_id, [])
@@ -91,21 +147,20 @@ def repair_state(state: SAState) -> SAState | None:
                                 evicted = True
                                 break
 
-                        # Fallback to overflow stand
                         if not evicted and overflow_gates:
                             for ovf in overflow_gates:
-                                if is_gate_feasible_for_flight(ovf, f2, []):
+                                if ovf.gate_id == g.gate_id:
+                                    continue
+                                existing_ovf = repaired.gate_to_flights.get(ovf.gate_id, [])
+                                if is_gate_feasible_for_flight(ovf, f2, existing_ovf):
                                     repaired.assign(f2.flight_id, ovf.gate_id)
                                     evicted = True
                                     break
 
                         if not evicted:
-                            # Cannot repair this conflict
                             return None
+                        break
 
-                        break  # Break inner loop to re-scan
-                if conflicts_found:
-                    break
             if conflicts_found:
                 break
 
@@ -134,22 +189,8 @@ def try_move_flight(
     if curr_gate_id == target_gate.gate_id:
         return None
 
-    # Check compatibility and operational availability
-    if not target_gate.is_compatible_carrier(flight.carrier):
-        return None
-    if not target_gate.is_compatible_aircraft(flight.aircraft_type):
-        return None
-    if not target_gate.is_available_during(flight.time_window):
-        return None
-
-    # Check contact gate overlap
     existing = state.gate_to_flights.get(target_gate.gate_id, [])
-    overlaps = False
-    if not target_gate.is_overflow:
-        w_fl = flight.time_window
-        overlaps = any(w_fl.overlaps(f.time_window) for f in existing)
-
-    if not overlaps:
+    if is_gate_feasible_for_flight(target_gate, flight, existing):
         # Option A: Directly feasible
         new_state = state.copy()
         new_state.assign(flight.flight_id, target_gate.gate_id)
@@ -188,34 +229,13 @@ def try_swap_flights(
     gate_1 = state.gate_map[g1_id]
     gate_2 = state.gate_map[g2_id]
 
-    # Check compatibility and availability
-    if not gate_2.is_compatible_carrier(flight_1.carrier):
-        return None
-    if not gate_2.is_compatible_aircraft(flight_1.aircraft_type):
-        return None
-    if not gate_2.is_available_during(flight_1.time_window):
-        return None
+    existing_g2 = [f for f in state.gate_to_flights.get(g2_id, []) if f.flight_id != flight_2.flight_id]
+    existing_g1 = [f for f in state.gate_to_flights.get(g1_id, []) if f.flight_id != flight_1.flight_id]
 
-    if not gate_1.is_compatible_carrier(flight_2.carrier):
-        return None
-    if not gate_1.is_compatible_aircraft(flight_2.aircraft_type):
-        return None
-    if not gate_1.is_available_during(flight_2.time_window):
-        return None
+    feasible_1_on_2 = is_gate_feasible_for_flight(gate_2, flight_1, existing_g2)
+    feasible_2_on_1 = is_gate_feasible_for_flight(gate_1, flight_2, existing_g1)
 
-    # Check overlaps on gate_2 (excluding flight_2)
-    overlap_g2 = False
-    if not gate_2.is_overflow:
-        existing_g2 = [f for f in state.gate_to_flights.get(g2_id, []) if f.flight_id != flight_2.flight_id]
-        overlap_g2 = any(flight_1.time_window.overlaps(f.time_window) for f in existing_g2)
-
-    # Check overlaps on gate_1 (excluding flight_1)
-    overlap_g1 = False
-    if not gate_1.is_overflow:
-        existing_g1 = [f for f in state.gate_to_flights.get(g1_id, []) if f.flight_id != flight_1.flight_id]
-        overlap_g1 = any(flight_2.time_window.overlaps(f.time_window) for f in existing_g1)
-
-    if not overlap_g1 and not overlap_g2:
+    if feasible_1_on_2 and feasible_2_on_1:
         # Option A: Directly feasible swap
         new_state = state.copy()
         new_state.swap(flight_1.flight_id, flight_2.flight_id)

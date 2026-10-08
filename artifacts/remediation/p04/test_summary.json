@@ -1,0 +1,49 @@
+{
+  "phase": "P04",
+  "phase_name": "OBJECTIVE_FUNCTION_STANDARDIZATION_AND_METRIC_SEMANTICS",
+  "timestamp": "2026-10-09T01:48:00+07:00",
+  "status": "PASS",
+  "quality_gate_met": true,
+  "test_suites": {
+    "tests/test_objective_standardization_p04.py": {
+      "passed": 26,
+      "failed": 0,
+      "specifications_covered": [
+        "O01", "O02", "O03", "O04", "O05", "O06", "O07", "O08", "O09", "O10",
+        "O11", "O12", "O13", "O14", "O15", "O16", "O17", "O18", "O19", "O20"
+      ],
+      "status": "PASS"
+    },
+    "full_regression_suite": {
+      "total_passed": 171,
+      "total_failed": 0,
+      "suites": [
+        "tests/contracts/test_domain_contracts_p01.py",
+        "tests/test_finite_remote_capacity_p02.py",
+        "tests/test_sa_hybrid_correctness_p03.py",
+        "tests/test_objective_standardization_p04.py",
+        "tests/test_simulated_annealing.py",
+        "tests/test_dual_optimizer_integration.py",
+        "tests/test_time_limited_sa_benchmark.py",
+        "tests/test_greedy_and_adversarial.py",
+        "tests/test_objective_audit.py",
+        "tests/downstream/test_downstream_semantics_v2.py"
+      ],
+      "status": "PASS"
+    }
+  },
+  "objective_decomposition": {
+    "total_reported_cost": "C_decision + C_reporting",
+    "decision_cost": "C_reassignment + C_overflow + C_conflict",
+    "reporting_cost": "C_exogenous_delay + C_exogenous_risk",
+    "decision_invariance_of_reporting": "d C_reporting / d x_{f, g} == 0"
+  },
+  "objective_contract_version": "v1",
+  "default_weights": {
+    "reassignment_weight": 10.0,
+    "overflow_weight": 200.0,
+    "delay_weight": 1.0,
+    "conflict_weight": 1000.0,
+    "risk_weight": 2.0
+  }
+}

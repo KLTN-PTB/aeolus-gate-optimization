@@ -1,0 +1,63 @@
+{
+  "phase": "P03",
+  "phase_name": "SIMULATED_ANNEALING_AND_HYBRID_CORRECTNESS",
+  "timestamp": "2026-10-09T01:38:00+07:00",
+  "status": "PASS",
+  "quality_gate_met": true,
+  "test_suites": {
+    "tests/test_sa_hybrid_correctness_p03.py": {
+      "passed": 37,
+      "failed": 0,
+      "specifications_covered": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "ORACLE_BRUTE_FORCE"],
+      "status": "PASS"
+    },
+    "full_regression_suite": {
+      "total_passed": 133,
+      "total_failed": 0,
+      "suites": [
+        "tests/contracts/test_domain_contracts_p01.py",
+        "tests/test_finite_remote_capacity_p02.py",
+        "tests/test_sa_hybrid_correctness_p03.py",
+        "tests/test_simulated_annealing.py",
+        "tests/test_dual_optimizer_integration.py",
+        "tests/test_time_limited_sa_benchmark.py",
+        "tests/test_greedy_and_adversarial.py"
+      ],
+      "status": "PASS"
+    }
+  },
+  "invariants_enforced": [
+    "I1: best_state is hard-feasible at all times",
+    "I2: best_cost <= initial_cost monotonicity",
+    "I3: accepted candidates strictly satisfy hard constraints",
+    "I4: deterministic reproducibility under fixed seed",
+    "I5: zero-iteration behavior returns initial solution",
+    "I6: Boltzmann acceptance criterion correctness",
+    "I7: monotonic cooling schedule",
+    "I8: independent verifier certification on final solution",
+    "I9: recomputed objective matches stored best_obj",
+    "I10: SA never self-certifies OPTIMAL status",
+    "I11: degenerate scenarios terminate gracefully",
+    "I12: non-finite/NaN objectives rejected safely"
+  ],
+  "provenance_fields_count": 17,
+  "provenance_fields": [
+    "cp_solver_status",
+    "cp_incumbent_found",
+    "cp_incumbent_valid",
+    "cp_optimality_proven",
+    "fallback_attempted",
+    "fallback_used",
+    "fallback_reason",
+    "initial_solution_source",
+    "initial_cost",
+    "sa_iterations",
+    "sa_accepted_moves",
+    "sa_best_cost",
+    "final_cost",
+    "final_feasible",
+    "final_verifier_violations",
+    "total_wall_clock_ms",
+    "termination_reason"
+  ]
+}

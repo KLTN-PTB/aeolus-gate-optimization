@@ -17,15 +17,26 @@ from src.optimization.adapter import (
     RoleAccessViolationError,
     UncertifiedModelError,
 )
-from src.optimization.config import GateOptimizationConfig
+from src.optimization.config import (
+    GateOptimizationConfig,
+    assert_compatible_objective_version,
+    compute_improvement_pct,
+)
 from src.optimization.domain import (
     ConstraintDiagnostic,
     Flight,
     FlightTimeWindow,
     Gate,
     GateAssignment,
+    GateAssignmentState,
+    GateResourceType,
     ObjectiveBreakdown,
     OptimizationResult,
+    SolverStatus,
+    TerminationReason,
+    validate_assignments_contract,
+    validate_flights_collection,
+    validate_gates_collection,
     verify_hard_constraints_independently,
 )
 from src.optimization.evaluation import evaluate_gate_assignment
@@ -37,8 +48,12 @@ from src.optimization.solvers.hybrid_solver import HybridGateSolver
 __all__ = [
     "Flight",
     "Gate",
+    "GateResourceType",
     "FlightTimeWindow",
     "GateAssignment",
+    "GateAssignmentState",
+    "SolverStatus",
+    "TerminationReason",
     "ConstraintDiagnostic",
     "ObjectiveBreakdown",
     "OptimizationResult",
@@ -51,6 +66,11 @@ __all__ = [
     "DualCoreGateOptimizerAdapter",
     "RoleAccessViolationError",
     "UncertifiedModelError",
+    "validate_flights_collection",
+    "validate_gates_collection",
+    "validate_assignments_contract",
     "verify_hard_constraints_independently",
     "evaluate_gate_assignment",
+    "compute_improvement_pct",
+    "assert_compatible_objective_version",
 ]

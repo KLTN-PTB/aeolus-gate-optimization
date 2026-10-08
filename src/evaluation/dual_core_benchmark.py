@@ -51,6 +51,7 @@ from src.optimization.domain import (
     Flight,
     Gate,
     GateAssignment,
+    GateResourceType,
     OptimizationResult,
     verify_hard_constraints_independently,
 )
@@ -88,26 +89,61 @@ def get_process_metrics() -> tuple[float, float]:
     return rss, cpu_total
 
 
-def generate_contact_gates(n_contact_gates: int, *, allow_overflow: bool = True, max_overflow: int | None = None) -> list[Gate]:
-    """Generate standard contact gates G01..Gnn plus optional overflow stand(s)."""
+def generate_contact_gates(
+    n_contact_gates: int,
+    *,
+    allow_overflow: bool = True,
+    max_overflow: int | None = None,
+    pooled_remote: bool = False,
+) -> list[Gate]:
+    """Generate standard contact gates G01..Gnn plus optional overflow stand(s).
+
+    Semantics:
+    - allow_overflow=False or max_overflow=0: 0 overflow gates generated.
+    - max_overflow=None: 1 UNBOUNDED_OVERFLOW_APRON (capacity=inf, legacy mode).
+    - max_overflow=K (K >= 1) with pooled_remote=False: K distinct FINITE_REMOTE_STAND gates (each capacity=1).
+    - max_overflow=K (K >= 1) with pooled_remote=True: 1 pooled FINITE_REMOTE_STAND gate with capacity=K.
+    """
     gates: list[Gate] = []
     for i in range(1, n_contact_gates + 1):
         gates.append(
             Gate(
                 gate_id=f"G{i:02d}",
                 gate_index=i - 1,
+                resource_type=GateResourceType.CONTACT_GATE,
+                capacity=1,
                 is_overflow=False,
             )
         )
-    if allow_overflow:
-        if max_overflow is None or max_overflow <= 1:
-            gates.append(Gate(gate_id="OVERFLOW_APRON", gate_index=len(gates), is_overflow=True))
+    if allow_overflow and (max_overflow is None or max_overflow > 0):
+        if max_overflow is None:
+            gates.append(
+                Gate(
+                    gate_id="OVERFLOW_APRON",
+                    gate_index=len(gates),
+                    resource_type=GateResourceType.UNBOUNDED_OVERFLOW_APRON,
+                    capacity=math.inf,
+                    is_overflow=True,
+                )
+            )
+        elif pooled_remote:
+            gates.append(
+                Gate(
+                    gate_id="REMOTE_POOL",
+                    gate_index=len(gates),
+                    resource_type=GateResourceType.FINITE_REMOTE_STAND,
+                    capacity=max_overflow,
+                    is_overflow=True,
+                )
+            )
         else:
             for ov_idx in range(1, max_overflow + 1):
                 gates.append(
                     Gate(
                         gate_id=f"OVERFLOW_STAND_{ov_idx:02d}",
                         gate_index=len(gates),
+                        resource_type=GateResourceType.FINITE_REMOTE_STAND,
+                        capacity=1,
                         is_overflow=True,
                     )
                 )

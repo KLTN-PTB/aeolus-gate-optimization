@@ -1,0 +1,59 @@
+{
+  "test_run_metadata": {
+    "phase": "P00_BASELINE_FREEZE_AND_EVIDENCE_AUDIT",
+    "timestamp_utc": "2026-10-08T17:25:25.876979+00:00",
+    "git_commit": "8cf96b9fd5ba6711da0c047181ea0e7004551781",
+    "git_branch": "development/scalability-1500x50",
+    "python_version": "3.11.15",
+    "pytest_version": "9.1.1",
+    "command": "python -m pytest -q",
+    "duration_seconds": 95.25
+  },
+  "summary": {
+    "collected": 1373,
+    "passed": 1369,
+    "failed": 4,
+    "skipped": 0,
+    "xfailed": 0,
+    "error": 0,
+    "warnings": 1,
+    "pass_rate_pct": 99.71
+  },
+  "failures": [
+    {
+      "test_id": "tests/benchmark/test_model_registry.py::test_registry_integration_retrieval",
+      "failure_type": "AssertionError",
+      "message": "assert 'core_departure' in {'auxiliary_departure', 'core_arrival'}",
+      "cause_classification": "LEGACY_TASK_ENUMERATION_RIGIDITY",
+      "description": "Historical test written prior to Dual Core (Core Departure) asserted registry tasks only contain core_arrival and auxiliary_departure. ModelTask.CORE_DEPARTURE was legitimately added."
+    },
+    {
+      "test_id": "tests/test_r22_system_freeze_v3.py::test_guard_v3_verifies_all_frozen_files",
+      "failure_type": "FinalEvaluationGuardV2Error",
+      "message": "Integrity hash mismatch in category 'A_data_contracts' for src\\data\\leakage_rules.py: expected a52e264199e953c51a1393842b847c85f907b161363c3915b9ae7658bf40b929, got 29521ee18130dd5dc2d95f1cb7fbd1997a8ffb943d81da2b865433df9c5f9cdf",
+      "cause_classification": "HISTORICAL_FREEZE_GUARD_HASH_MISMATCH",
+      "description": "Historical guard FinalEvaluationGuardV2 from Phase R22 checks src/data/leakage_rules.py against obsolete pre-Dual-Core hash. Dual core added departure leakage rules."
+    },
+    {
+      "test_id": "tests/test_r22_system_freeze_v3.py::test_guard_v3_authorizes_clean_post_holdout_access",
+      "failure_type": "FinalEvaluationGuardV2Error",
+      "message": "Integrity hash mismatch in category 'A_data_contracts' for src\\data\\leakage_rules.py (cascading from verify_freeze_manifest)",
+      "cause_classification": "HISTORICAL_FREEZE_GUARD_HASH_MISMATCH",
+      "description": "Cascading failure from FinalEvaluationGuardV2 verifying obsolete pre-Dual-Core freeze manifest."
+    },
+    {
+      "test_id": "tests/test_r27_certification_hardening.py::test_r22_freeze_manifest_integrity",
+      "failure_type": "AssertionError",
+      "message": "Frozen hash mismatch on src\\optimization\\domain.py: 35715b613be1372131b44ca2ee97457d24647c6aaf1d97102320b756b948f5f5 != 678d841262ee26415789f8a00c86a42374205ada7c420b9a7f2cd6ed808c92d3",
+      "cause_classification": "HISTORICAL_FREEZE_GUARD_HASH_MISMATCH",
+      "description": "Test asserts R22 freeze manifest against current files. In Phase P8, src/optimization/domain.py was extended with precomputed_gate_out_min for Dual Turn intervals, but domain.py was not added to the test's dual_core_evolved whitelist."
+    }
+  ],
+  "warnings": [
+    {
+      "test_id": "tests/test_phase3_pipeline.py::test_hurdle_predictor_soft_and_hard_modes",
+      "warning_type": "UserWarning",
+      "message": "Prediction collapse warning: shrinkage ratio on severe delay (>= 60 min) is 0.2770 (< 0.30). The model severely underpredicts extreme delays."
+    }
+  ]
+}
