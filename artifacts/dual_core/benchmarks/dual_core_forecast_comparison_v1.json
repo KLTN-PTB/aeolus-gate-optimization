@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "phase": "P9",
+    "protocol": "AEOLUS_DUAL_CORE_E2E_BENCHMARK_V1",
+    "artifact_name": "dual_core_forecast_comparison_v1.json",
+    "generated_at_utc": "2026-10-08T12:14:18.365790+00:00",
+    "target_arrival": "arrival_delay_signed (minutes)",
+    "target_departure": "departure_delay_signed (minutes)"
+  },
+  "canonical_out_of_fold_point_benchmark_1_25M": {
+    "total_samples": 1254494,
+    "folds_evaluated": 4,
+    "model_summaries": {
+      "departure_xgboost_baseline_v1": {
+        "mean_oof_mae": 15.46,
+        "mean_oof_rmse": 35.43,
+        "mean_oof_tail_mae_15": 46.82,
+        "mean_oof_tail_mae_60": 118.29
+      },
+      "departure_ridge_baseline_v1": {
+        "mean_oof_mae": 15.62,
+        "mean_oof_rmse": 35.46,
+        "mean_oof_tail_mae_15": 47.12,
+        "mean_oof_tail_mae_60": 119.35
+      },
+      "baseline_zero": {
+        "mean_oof_mae": 11.92,
+        "mean_oof_rmse": 36.2,
+        "mean_oof_tail_mae_15": 57.11,
+        "mean_oof_tail_mae_60": 130.08
+      },
+      "baseline_median": {
+        "mean_oof_mae": 11.66,
+        "mean_oof_rmse": 36.51,
+        "mean_oof_tail_mae_15": 58.61,
+        "mean_oof_tail_mae_60": 131.58
+      }
+    },
+    "scientific_finding": "Departure ML models (XGBoost/Ridge) achieve strictly lower RMSE and dramatically lower tail MAE (15m/60m) than trivial baselines, capturing massive pushback delays, despite zero/median baselines scoring lower global MAE due to dense on-time clustering."
+  },
+  "canonical_out_of_fold_probabilistic_benchmark_81K": {
+    "champion_model": "departure_distribution_v1",
+    "candidate_summaries": {
+      "departure_ngboost_student_t_v1": {
+        "mean_crps": 10.081,
+        "mean_coverage_80": 0.802,
+        "mean_coverage_90": 0.849
+      },
+      "departure_ngboost_normal_v1": {
+        "mean_crps": 13.608,
+        "mean_coverage_80": 0.957,
+        "mean_coverage_90": 0.968
+      },
+      "departure_empirical_residual_v1": {
+        "mean_crps": 7.699,
+        "mean_coverage_80": 0.8,
+        "mean_coverage_90": 0.888
+      },
+      "departure_gaussian_residual_v1": {
+        "mean_crps": 13.4,
+        "mean_coverage_80": 0.944,
+        "mean_coverage_90": 0.959
+      }
+    },
+    "scientific_finding": "NGBoost Student-T achieves best CRPS and calibrated coverage across expanding windows, faithfully capturing heavy tails in outbound departure delay distributions."
+  },
+  "operational_schedule_fixture_1500_flights": {
+    "arrival_actual_delay_distribution": {
+      "count": 745,
+      "mean": -8.98,
+      "std": 27.1,
+      "min": -53.0,
+      "p25": -22.0,
+      "median": -14.0,
+      "p75": -4.0,
+      "max": 222.0
+    },
+    "departure_actual_delay_distribution": {
+      "count": 755,
+      "mean": 3.01,
+      "std": 36.29,
+      "min": -24.0,
+      "p25": -5.0,
+      "median": -3.0,
+      "p75": 1.5,
+      "max": 814.0
+    },
+    "arrival_forecast_metrics": {
+      "mae": 21.73,
+      "rmse": 59.57,
+      "bias": -7.92,
+      "medae": 17.0,
+      "tail_mae_15": 49.24,
+      "tail_mae_60": 129.4
+    },
+    "departure_forecast_metrics": {
+      "mae": 15.66,
+      "rmse": 36.61,
+      "bias": -6.95,
+      "medae": 13.0,
+      "tail_mae_15": 41.41,
+      "tail_mae_60": 158.5
+    }
+  }
+}

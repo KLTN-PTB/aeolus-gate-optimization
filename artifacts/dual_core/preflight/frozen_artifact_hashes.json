@@ -1,0 +1,106 @@
+{
+  "inventory_version": "1.0.0",
+  "generated_at": "2026-10-08T16:50:00+07:00",
+  "hashes": {
+    "configs/base.yaml": {
+      "sha256": "3d93727982f72b3955c4e8d382eb8996aa18c730d40ba7ee325db0edba77f838",
+      "size_bytes": 3960,
+      "status": "VERIFIED_PRESENT"
+    },
+    "configs/current_state.yaml": {
+      "sha256": "c8113bc6108ea0cc6ec7c783857b5a05a0eda1638e4e8e47a9acecf8f3fc69b4",
+      "size_bytes": 4501,
+      "status": "VERIFIED_PRESENT"
+    },
+    "configs/model_catalog_v2.yaml": {
+      "sha256": "782a59f639d9c1a1b4626e9920ebd8469ac9edf04121fa164f5952778421be8f",
+      "size_bytes": 14188,
+      "status": "VERIFIED_PRESENT"
+    },
+    "configs/model_selection_protocol_v2.yaml": {
+      "sha256": "425cdc64ea2a20e016ec619dd677198cb68e8282640e3923bd52ad0d91c9bd61",
+      "size_bytes": 3973,
+      "status": "VERIFIED_PRESENT"
+    },
+    "configs/monte_carlo_protocol_v2.yaml": {
+      "sha256": "85a1a360dc6dc59bcea0eb957462a9730258e47239a60e6801529f4d453a3dfc",
+      "size_bytes": 2040,
+      "status": "VERIFIED_PRESENT"
+    },
+    "configs/probabilistic_metric_capabilities_v2.yaml": {
+      "sha256": "2b8a69cbec8302ad81920222686f9b2e81083b17177f476bc9669931ddf1bb63",
+      "size_bytes": 9397,
+      "status": "VERIFIED_PRESENT"
+    },
+    "configs/reconstructed_chain_feature_policy.yaml": {
+      "sha256": "df9543ef4609d2bf9123d5e1ea7eba958fbbc8fb24167ad7ba7a011db76d177f",
+      "size_bytes": 2041,
+      "status": "VERIFIED_PRESENT"
+    },
+    "configs/seed_registry.yaml": {
+      "sha256": "798ecc5abfebb1fb11e0ab6db76962f5e9f78bf516d2f5e64edded6d895f0ff9",
+      "size_bytes": 865,
+      "status": "VERIFIED_PRESENT"
+    },
+    "system_freeze_manifest.json": {
+      "sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+      "size_bytes": 12690,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/manifests/system_freeze_manifest.json": {
+      "sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+      "size_bytes": 12690,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/manifests/system_freeze_manifest.sha256": {
+      "sha256": "57669c298f8161b768d7e5130c9b141d2fe81aec3f7250e0b27fec379eed9305",
+      "size_bytes": 95,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib": {
+      "sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "size_bytes": 243595,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/manifests/processed_data_manifest_v1.json": {
+      "sha256": "8e0856fea4697c8e42e79d31beb0eac85207ae5ca6c404806f38d06f852d2933",
+      "size_bytes": 16059,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/manifests/feature_manifest_arrival_v1.json": {
+      "sha256": "cb352a56d194e9f39ee9477fdbc5da7929ba03b5ba089100cbd88b01dec09e85",
+      "size_bytes": 4141,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/manifests/temporal_folds_manifest.json": {
+      "sha256": "8c5bfbd400e0f0c8591ff0bdcf37759e7e4eaead00697f5e5d92c2a9fcea0f31",
+      "size_bytes": 13019,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/manifests/model_registry_manifest_v2.json": {
+      "sha256": "fb85b21ea5fa2fcf83bef316c9efb96c3f242a7aec2c2ea76663609b0c7f16f3",
+      "size_bytes": 15475,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/stress_1500x50/aggregate_metrics.json": {
+      "sha256": "432464493f5ae3440f6e5a0c4ada35a7310d8e2cd706482b3d986b29d210598c",
+      "size_bytes": 3918,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/stress_1500x50/architecture_decision.json": {
+      "sha256": "b31902190b71237c1be66351b581218773f0c58b568e669953cdb3fd302b46d4",
+      "size_bytes": 8553,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/week10_robustness/manifest.sha256": {
+      "sha256": "90110059ead50364ca2b4eb9cf18bef5470f0683ba9d784824c38ae8ae6907e2",
+      "size_bytes": 731,
+      "status": "VERIFIED_PRESENT"
+    },
+    "artifacts/post_holdout_v3/marginal_forecast_metrics_2024_v3.json": {
+      "sha256": "90159f1dd0a0bbbe5eb25b9646aa8bbdaa179edce8a56924165bab971d0f594c",
+      "size_bytes": 2470,
+      "status": "VERIFIED_PRESENT"
+    }
+  }
+}

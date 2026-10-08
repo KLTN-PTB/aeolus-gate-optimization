@@ -1,0 +1,164 @@
+{
+  "protocol": "AEOLUS_DUAL_CORE_ARCHITECTURE_PROTOCOL_V2",
+  "release_phase": "P10",
+  "release_version": "1.0.0-simulation",
+  "certification_id": "DUAL_CORE_CERTIFIED_FOR_SIMULATION",
+  "certification_date_utc": "2026-10-08T12:47:00Z",
+  "certification_status": "CERTIFIED_WITH_LIMITATIONS",
+  "environment": {
+    "os": "Windows 10 AMD64",
+    "python": "3.11.15",
+    "ortools": "9.15.6755",
+    "ngboost": "0.5.11",
+    "xgboost": "3.2.0",
+    "pyarrow": "25.0.1",
+    "pytest": "9.1.1",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.0"
+  },
+  "default_safeguards": {
+    "feature_flag": "dual_core_gate_enabled",
+    "default_value": false,
+    "downstream_eligible_default": false,
+    "rollout_stage": "OFF"
+  },
+  "frozen_artifacts_audit": {
+    "total_verified": 20,
+    "all_intact": true,
+    "ngboost_student_t_frozen_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f"
+  },
+  "dual_core_artifacts": {
+    "artifacts/dual_core/benchmarks/departure_point_benchmark_v1.json": {
+      "sha256": "b4cda58905acb330ccb76923fa19d2228604f513c96cc696ea273bdb8718bb07",
+      "size_bytes": 117946
+    },
+    "artifacts/dual_core/benchmarks/departure_point_readiness_v1.json": {
+      "sha256": "76eeae8e33dd6d264a8b28a95b2d4b57559441339f37304c65d08b7cbecac886",
+      "size_bytes": 2335
+    },
+    "artifacts/dual_core/benchmarks/departure_probabilistic_benchmark_v1.json": {
+      "sha256": "a19ac05e61c645eabc2c127f13bad86d25c76f1df3e599376fe7fa7b04411711",
+      "size_bytes": 26508
+    },
+    "artifacts/dual_core/benchmarks/departure_probabilistic_readiness_v1.json": {
+      "sha256": "5c2c50aca7c4847d20de1ea52dc97583effd023a0615a01b3ada1b2b508d5e7f",
+      "size_bytes": 2371
+    },
+    "artifacts/dual_core/benchmarks/dual_core_forecast_comparison_v1.json": {
+      "sha256": "8053febdc11c84db6836b8b3ac256c8e6246250d0d50f5199c5c86248a1e325c",
+      "size_bytes": 3353
+    },
+    "artifacts/dual_core/benchmarks/dual_core_scalability_v1.json": {
+      "sha256": "157b4be4c5ca3e475061683ef3bb1953c289d569a68567e4dd9d71c8cb2c9072",
+      "size_bytes": 70827
+    },
+    "artifacts/dual_core/benchmarks/dual_core_solver_comparison_v1.json": {
+      "sha256": "d1c791e6cc60b9c2ae6af34267a7bf153268f0d7939a0c3cbc8d2a86d627b487",
+      "size_bytes": 29377
+    },
+    "artifacts/dual_core/benchmarks/dual_solver_parity_report_v1.json": {
+      "sha256": "439dda641552f4e682f48fce35d3e5ebc82b6c67ab26275938f5d95f92db6690",
+      "size_bytes": 3847
+    },
+    "artifacts/dual_core/contracts/feature_manifest_departure_v1.json": {
+      "sha256": "d45b35215d9632c0a7b246c55a70fb856d5649d24633c754d6991e25bf0fcb4f",
+      "size_bytes": 3981
+    },
+    "artifacts/dual_core/contracts/model_task_contract_v2.json": {
+      "sha256": "6685d0795c17261a6939fc8fa2f96f44074d719fefe9453c0bb87a09fc52da94",
+      "size_bytes": 4392
+    },
+    "artifacts/dual_core/models/departure_distribution_v1.joblib": {
+      "sha256": "e07d9013ecf652efcc655a75572bda8d3f4a8304547fce5ccc101bb35fb1564f",
+      "size_bytes": 375309
+    },
+    "artifacts/dual_core/models/departure_empirical_residual_v1.joblib": {
+      "sha256": "c4a683b85b2d7665d1e2bd2e333f4435f69efa37ee9931bb89cbb72e76717b3a",
+      "size_bytes": 1243679
+    },
+    "artifacts/dual_core/models/departure_gaussian_residual_v1.joblib": {
+      "sha256": "cbbd7dc26f7cdc15ae2c28d3e793cec09aca122265f5c519c32299174b68b3b0",
+      "size_bytes": 646248
+    },
+    "artifacts/dual_core/models/departure_linear_preprocessor_v1.joblib": {
+      "sha256": "377a2aeafbe1969e01ef86038ec6aad974fd83ee871107e39412da7d9902e7d2",
+      "size_bytes": 212590
+    },
+    "artifacts/dual_core/models/departure_linear_preprocessor_v1_fold4.joblib": {
+      "sha256": "06015671b7110b65d6a9fb53132b72de120e5d7625bfad54357230ebb6568392",
+      "size_bytes": 211949
+    },
+    "artifacts/dual_core/models/departure_ngboost_student_t_v1.joblib": {
+      "sha256": "e07d9013ecf652efcc655a75572bda8d3f4a8304547fce5ccc101bb35fb1564f",
+      "size_bytes": 375309
+    },
+    "artifacts/dual_core/models/departure_ridge_baseline_v1.joblib": {
+      "sha256": "a9a9834aecd1af10cc3967cb1108c750b200a6802586e5eb41180285cbde5aae",
+      "size_bytes": 2217
+    },
+    "artifacts/dual_core/models/departure_ridge_baseline_v1_fold4.joblib": {
+      "sha256": "7539f1173d4d6afa9b5e0ee038aece524f30e6535b27ac1247071d5697cf344b",
+      "size_bytes": 2201
+    },
+    "artifacts/dual_core/models/departure_tree_preprocessor_v1.joblib": {
+      "sha256": "ce2bb0f6f0e0ed650df3ae82306013360de5c0fafac5814307e99dfb69f62017",
+      "size_bytes": 207187
+    },
+    "artifacts/dual_core/models/departure_tree_preprocessor_v1_fold4.joblib": {
+      "sha256": "fc4c376247eb910d4426aeb02b80a2a0bcb7df9552c3f33dcdf48a8c48d3e671",
+      "size_bytes": 206594
+    },
+    "artifacts/dual_core/models/departure_xgboost_baseline_v1.joblib": {
+      "sha256": "e483df5fd03ce4d0eefe7b431fc289b6804589c62eda17b48fb8051849f4f6e1",
+      "size_bytes": 498135
+    },
+    "artifacts/dual_core/models/departure_xgboost_baseline_v1_fold4.joblib": {
+      "sha256": "40013f154a6b3cfe88f7cdae0d4a8fc549e18a11deef6435e8832af77114998c",
+      "size_bytes": 497455
+    },
+    "artifacts/dual_core/p1/departure_data_readiness_v1.json": {
+      "sha256": "c00dd35c5d7538b4f4c21a58d6f9b45f81c14c9217f296b1a6561c770dc9e5be",
+      "size_bytes": 39649
+    },
+    "artifacts/dual_core/p1/departure_population_manifest_v1.json": {
+      "sha256": "380fcdbcfa5e346398a89776adc32b7576b28b2d3bac8cf04b1e3faf100a309c",
+      "size_bytes": 2836
+    },
+    "artifacts/dual_core/predictions/departure_point_oof_v1.parquet": {
+      "sha256": "1e7c41fd2ba3570efc6e246e8c371e841877b8118a69e6c9deda4ec92e59ccf7",
+      "size_bytes": 62650647
+    },
+    "artifacts/dual_core/predictions/departure_point_selection_2023_v1.parquet": {
+      "sha256": "11356c1dcb2b1b06ac79c94316d1c4f264ea22242d485e6720c4a18655b17e0c",
+      "size_bytes": 17131686
+    },
+    "artifacts/dual_core/predictions/departure_probabilistic_oof_v1.parquet": {
+      "sha256": "6de4a92e49f5b47fc4f56254b12c165594a059213a5214d729fee3c67c4b2f4e",
+      "size_bytes": 8512086
+    },
+    "artifacts/dual_core/predictions/departure_probabilistic_selection_2023_v1.parquet": {
+      "sha256": "868737b3ec4461efb33c655c8ccc73d81a1048e744aefaced45627730f006ae6",
+      "size_bytes": 1306174
+    },
+    "artifacts/dual_core/preflight/baseline_test_report.json": {
+      "sha256": "75651c00311e096dbb6cbae27a0f580d94413e5a86a7689e5580de91d92c83b3",
+      "size_bytes": 2165
+    },
+    "artifacts/dual_core/preflight/frozen_artifact_hashes.json": {
+      "sha256": "0ef3b5c9c8fe83860364ba751ad107f8a138f4e1a7ba08dd797452931f164c48",
+      "size_bytes": 4320
+    },
+    "artifacts/dual_core/preprocessing/departure_preprocessing_manifest_v1.json": {
+      "sha256": "d3040d35b8e322a4eeb2d8925556c4b7d4863743e796bc392a856274b1b3d12c",
+      "size_bytes": 6626
+    }
+  },
+  "test_summary": {
+    "dual_core_dedicated_passed": 142,
+    "dual_core_dedicated_failed": 0,
+    "full_repo_passed": 1369,
+    "full_repo_failed": 4,
+    "legacy_rigidity_failures_count": 4
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "protocol": "P0_DUAL_CORE_PREFLIGHT_BASELINE",
+  "timestamp": "2026-10-08T16:50:30+07:00",
+  "environment": {
+    "platform": "Windows 10 AMD64",
+    "python_version": "3.11.15 (MSC v.1944 64 bit)",
+    "packages": {
+      "ortools": "9.15.6755",
+      "ngboost": "0.5.11",
+      "xgboost": "3.2.0",
+      "pyarrow": "25.0.1",
+      "pytest": "9.1.1",
+      "lightgbm": "4.7.0",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.17.1",
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "optuna": "5.0.0"
+    }
+  },
+  "git_status": {
+    "branch": "development/scalability-1500x50",
+    "head_commit": "18962df",
+    "uncommitted_staged": [
+      "src/artifacts/predictions/atl_1500_flights_cpsat_turnaround_schedule.csv",
+      "src/artifacts/predictions/atl_1500_flights_reassigned_schedule.csv",
+      "src/artifacts/predictions/atl_cpsat_turnaround_flights_schedule.csv",
+      "src/artifacts/predictions/atl_cpsat_turnaround_sessions_schedule.csv",
+      "src/artifacts/predictions/greedy_160_flights_10_gates_schedule.csv"
+    ],
+    "uncommitted_unstaged": [],
+    "untracked": []
+  },
+  "test_suites": {
+    "full_active_suite": {
+      "command": "pytest -q",
+      "exit_code": 0,
+      "total_collected": 1231,
+      "passed": 1231,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "runtime_seconds": 86.59,
+      "status": "PASS"
+    },
+    "certification_downstream_suite": {
+      "command": "pytest tests/test_r37_final_certification.py tests/test_phase10_system_freeze.py tests/downstream/ tests/test_scalability_benchmark.py tests/test_scalability_scenario.py -v",
+      "exit_code": 0,
+      "total_collected": 85,
+      "passed": 85,
+      "failed": 0,
+      "skipped": 0,
+      "runtime_seconds": 11.89,
+      "status": "PASS"
+    }
+  },
+  "error_categorization": {
+    "environment_errors": 0,
+    "missing_data_errors": 0,
+    "project_defects": 0
+  },
+  "quality_gate": {
+    "p0_status": "PASS",
+    "rebuild_required": false,
+    "dependencies_complete": true,
+    "frozen_integrity_intact": true,
+    "data_availability": "FULL_LOCAL_ACCESS"
+  }
+}
