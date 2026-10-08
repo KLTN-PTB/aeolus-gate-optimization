@@ -1,0 +1,234 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v2",
+  "candidate_id": "P1_empirical",
+  "fold_id": "fold_4",
+  "validation_year": 2022,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "train_rows": 21000,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 0.593,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_probability_ge": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": false,
+    "has_crps": true,
+    "has_pit": false
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 0.9281,
+      "alpha_0.050": 1.6996,
+      "alpha_0.100": 3.0684,
+      "alpha_0.250": 6.4897,
+      "alpha_0.500": 10.5864,
+      "alpha_0.750": 12.3572,
+      "alpha_0.900": 10.9881,
+      "alpha_0.950": 9.1395,
+      "alpha_0.975": 7.1232
+    },
+    "mean_pinball_loss": 6.9311,
+    "crps_quantile_approx": 16.6575,
+    "crps": 16.6575,
+    "nll": "NOT_AVAILABLE",
+    "empirical_coverage": {
+      "interval_50": 0.488,
+      "interval_80": 0.7827,
+      "interval_90": 0.886,
+      "interval_95": 0.94
+    },
+    "interval_widths": {
+      "interval_50": 17.38,
+      "interval_80": 42.38,
+      "interval_90": 71.82,
+      "interval_95": 113.53
+    },
+    "brier_score_delay_ge_15": 0.13225,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.0392,
+      "maximum_calibration_error": 0.16,
+      "reliability_table": [
+        {
+          "bin": 0,
+          "bin_range": "[0.00, 0.10]",
+          "count": 1623,
+          "mean_pred": 0.0731,
+          "observed_freq": 0.1189,
+          "abs_gap": 0.0459
+        },
+        {
+          "bin": 1,
+          "bin_range": "[0.10, 0.20]",
+          "count": 2056,
+          "mean_pred": 0.137,
+          "observed_freq": 0.1697,
+          "abs_gap": 0.0327
+        },
+        {
+          "bin": 2,
+          "bin_range": "[0.20, 0.30]",
+          "count": 287,
+          "mean_pred": 0.2421,
+          "observed_freq": 0.2753,
+          "abs_gap": 0.0332
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.30, 0.40]",
+          "count": 34,
+          "mean_pred": 0.3106,
+          "observed_freq": 0.4706,
+          "abs_gap": 0.16
+        }
+      ]
+    },
+    "pit": {
+      "status": "NOT_AVAILABLE",
+      "reason": "Candidate does not support continuous PIT (e.g. step CDF or quantile-only)"
+    },
+    "metric_details": {
+      "mean": {
+        "metric_value": -0.5956799918586629,
+        "metric_status": "SUPPORTED",
+        "metric_method": "conditional_expectation",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "median": {
+        "metric_value": -9.119625,
+        "metric_status": "SUPPORTED",
+        "metric_method": "median_quantile_0_50",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "quantile": {
+        "metric_value": {
+          "0.025": -29.507131249999997,
+          "0.05": -26.189824999999995,
+          "0.1": -22.4916,
+          "0.25": -16.365875,
+          "0.5": -9.119625,
+          "0.75": 1.01475,
+          "0.9": 19.88735000000001,
+          "0.95": 45.62591249999994,
+          "0.975": 84.01933749999996
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "pre_registered_9_quantiles",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "cdf": {
+        "metric_value": null,
+        "metric_status": "SUPPORTED",
+        "metric_method": "empirical_step_function",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "event_probability": {
+        "metric_value": 0.13225,
+        "metric_status": "SUPPORTED",
+        "metric_method": "tail_probability_p_ge_15",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "sampling": {
+        "metric_value": null,
+        "metric_status": "SUPPORTED",
+        "metric_method": "pseudorandom_generative_sampling",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "crps": {
+        "metric_value": 16.6575,
+        "metric_status": "APPROXIMATE",
+        "metric_method": "trapezoidal_pinball_integration_9q",
+        "is_exact": false,
+        "is_approximate": true,
+        "unsupported_reason": null
+      },
+      "exact_crps": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Analytical closed-form CRPS is only supported for Gaussian families."
+      },
+      "approximate_crps": {
+        "metric_value": 16.6575,
+        "metric_status": "SUPPORTED",
+        "metric_method": "trapezoidal_pinball_integration_9q",
+        "is_exact": false,
+        "is_approximate": true,
+        "unsupported_reason": null
+      },
+      "nll": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Discrete empirical step function has zero density almost everywhere; continuous likelihood is undefined."
+      },
+      "pit": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Candidate does not support continuous PIT (e.g. step CDF or quantile-only)"
+      },
+      "coverage": {
+        "metric_value": {
+          "interval_50": 0.488,
+          "interval_80": 0.7827,
+          "interval_90": 0.886,
+          "interval_95": 0.94
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_coverage",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "interval_width": {
+        "metric_value": {
+          "interval_50": 17.38,
+          "interval_80": 42.38,
+          "interval_90": 71.82,
+          "interval_95": 113.53
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_width",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      }
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v2\\core_probabilistic_benchmark_v2\\oof\\P1_empirical_fold_4.parquet"
+}

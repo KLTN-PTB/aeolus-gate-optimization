@@ -1,0 +1,75 @@
+{
+  "artifacts_generated": [
+    "post_holdout_evaluation_manifest_v2.json",
+    "downstream_operational_evaluations_v2.parquet",
+    "downstream_operational_evaluations_v2.csv",
+    "paired_downstream_deltas_v2.parquet",
+    "paired_downstream_deltas_v2.csv",
+    "marginal_forecast_metrics_2024_v2.json",
+    "failures_accounting.json",
+    "evidence_reconciliation_v2.json"
+  ],
+  "claim_boundaries": {
+    "environment": "SIMULATED_SYNTHETIC_RESEARCH_ONLY",
+    "oracle_role": "NON_DEPLOYABLE_REFERENCE_ONLY",
+    "physical_airport_claims": "STRICTLY_PROHIBITED"
+  },
+  "created_at_utc": "2026-10-01T21:08:01.593902+00:00",
+  "evaluation_role": "POST_HOLDOUT",
+  "evaluation_scope": {
+    "marginal_holdout_samples": 5000,
+    "n_candidates": 7,
+    "n_operational_scenarios": 4,
+    "n_solvers": 3,
+    "total_downstream_cases": 84
+  },
+  "freeze_manifest_v2_sha256": "e2024078feef585924c67f9be2cf2e63950d52eb2b1b158efe0d5b8e38223e53",
+  "holdout_year": 2024,
+  "manifest_version": "post_holdout_evaluation_manifest_v2",
+  "protocol_name": "AEOLUS_V4_POST_HOLDOUT_REEVALUATION_PROTOCOL_V2",
+  "provenance_audit": {
+    "audit_name": "provenance_anomaly_audit_2024",
+    "comparison_records": [
+      {
+        "abs_difference": 0.3811,
+        "is_suspiciously_identical": false,
+        "mae_2023_dev": 23.29361334405417,
+        "mae_2024_holdout": 22.9125,
+        "model_id": "arrival_linear_baseline_v1",
+        "status": "VERIFIED_DISTINCT"
+      },
+      {
+        "abs_difference": 0.0239,
+        "is_suspiciously_identical": false,
+        "mae_2023_dev": 23.29361334405416,
+        "mae_2024_holdout": 23.3175,
+        "model_id": "arrival_weighted_ensemble_v1",
+        "status": "VERIFIED_DISTINCT"
+      },
+      {
+        "abs_difference": 0.6581,
+        "is_suspiciously_identical": false,
+        "mae_2023_dev": 24.946739786414895,
+        "mae_2024_holdout": 24.2886,
+        "model_id": "arrival_xgboost_baseline_v1",
+        "status": "VERIFIED_DISTINCT"
+      }
+    ],
+    "has_lineage_anomaly": false,
+    "provenance_status": "VERIFIED_DISTINCT",
+    "timestamp_utc": "2026-10-01T21:07:22.731236+00:00"
+  },
+  "provenance_status": "VERIFIED_DISTINCT",
+  "summary_findings": {
+    "marginal_mae": {
+      "P4_ngboost_student_t": 21.9648,
+      "P5_quantile_regression": 21.6879,
+      "arrival_linear_baseline_v1": 22.9125,
+      "arrival_weighted_ensemble_v1": 23.3175,
+      "arrival_xgboost_baseline_v1": 24.2886,
+      "schedule_only": 23.3776
+    },
+    "overall_status": "PASS",
+    "total_failures": 0
+  }
+}

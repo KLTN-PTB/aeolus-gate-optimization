@@ -1,0 +1,413 @@
+{
+  "canonical_n": 500,
+  "scenarios": {
+    "SCEN_2024_WINTER": {
+      "P4_ngboost_student_t": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4186.24,
+          "std_objective": 95.99,
+          "mc_se": 4.29,
+          "ci_95": [
+            4177.83,
+            4194.65
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.18
+        }
+      },
+      "schedule_only": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4186.24,
+          "std_objective": 95.99,
+          "mc_se": 4.29,
+          "ci_95": [
+            4177.83,
+            4194.65
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.18
+        }
+      },
+      "arrival_linear_baseline_v1": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4210.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            4210.0,
+            4210.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4186.24,
+          "std_objective": 95.99,
+          "mc_se": 4.29,
+          "ci_95": [
+            4177.83,
+            4194.65
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.18
+        }
+      },
+      "oracle_actual": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 10710.0,
+          "std_objective": 298.8,
+          "mc_se": 13.36,
+          "ci_95": [
+            10683.81,
+            10736.19
+          ],
+          "mean_conflicts": 7.93,
+          "feasibility_rate": 0.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4186.24,
+          "std_objective": 95.99,
+          "mc_se": 4.29,
+          "ci_95": [
+            4177.83,
+            4194.65
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.18
+        }
+      }
+    },
+    "SCEN_2024_SPRING": {
+      "P4_ngboost_student_t": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 7350.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            7350.0,
+            7350.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 7196.18,
+          "std_objective": 211.75,
+          "mc_se": 9.47,
+          "ci_95": [
+            7177.62,
+            7214.74
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 39.7
+        }
+      },
+      "schedule_only": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 7350.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            7350.0,
+            7350.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 7196.18,
+          "std_objective": 211.75,
+          "mc_se": 9.47,
+          "ci_95": [
+            7177.62,
+            7214.74
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 39.7
+        }
+      },
+      "arrival_linear_baseline_v1": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 7370.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            7370.0,
+            7370.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 7196.18,
+          "std_objective": 211.75,
+          "mc_se": 9.47,
+          "ci_95": [
+            7177.62,
+            7214.74
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 39.7
+        }
+      },
+      "oracle_actual": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 8902.0,
+          "std_objective": 268.44,
+          "mc_se": 12.01,
+          "ci_95": [
+            8878.47,
+            8925.53
+          ],
+          "mean_conflicts": 1.92,
+          "feasibility_rate": 0.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 7196.18,
+          "std_objective": 211.75,
+          "mc_se": 9.47,
+          "ci_95": [
+            7177.62,
+            7214.74
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 39.7
+        }
+      }
+    },
+    "SCEN_2024_SUMMER": {
+      "P4_ngboost_student_t": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 10500.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            10500.0,
+            10500.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 9994.8,
+          "std_objective": 308.09,
+          "mc_se": 13.78,
+          "ci_95": [
+            9967.79,
+            10021.81
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 56.12
+        }
+      },
+      "schedule_only": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 11024.0,
+          "std_objective": 447.46,
+          "mc_se": 20.01,
+          "ci_95": [
+            10984.78,
+            11063.22
+          ],
+          "mean_conflicts": 0.72,
+          "feasibility_rate": 0.276
+        },
+        "mode_b_recourse": {
+          "mean_objective": 9994.8,
+          "std_objective": 308.09,
+          "mc_se": 13.78,
+          "ci_95": [
+            9967.79,
+            10021.81
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 56.12
+        }
+      },
+      "arrival_linear_baseline_v1": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 11800.0,
+          "std_objective": 519.27,
+          "mc_se": 23.22,
+          "ci_95": [
+            11754.48,
+            11845.52
+          ],
+          "mean_conflicts": 1.67,
+          "feasibility_rate": 0.024
+        },
+        "mode_b_recourse": {
+          "mean_objective": 9994.8,
+          "std_objective": 308.09,
+          "mc_se": 13.78,
+          "ci_95": [
+            9967.79,
+            10021.81
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 56.12
+        }
+      },
+      "oracle_actual": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 18286.0,
+          "std_objective": 642.69,
+          "mc_se": 28.74,
+          "ci_95": [
+            18229.67,
+            18342.33
+          ],
+          "mean_conflicts": 9.58,
+          "feasibility_rate": 0.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 9994.8,
+          "std_objective": 308.09,
+          "mc_se": 13.78,
+          "ci_95": [
+            9967.79,
+            10021.81
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 56.12
+        }
+      }
+    },
+    "SCEN_2024_FALL_DISRUPTED": {
+      "P4_ngboost_student_t": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 7350.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            7350.0,
+            7350.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 7200.0,
+          "std_objective": 204.09,
+          "mc_se": 9.13,
+          "ci_95": [
+            7182.11,
+            7217.89
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 40.08
+        }
+      },
+      "schedule_only": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 7350.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            7350.0,
+            7350.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 7200.0,
+          "std_objective": 204.09,
+          "mc_se": 9.13,
+          "ci_95": [
+            7182.11,
+            7217.89
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 40.08
+        }
+      },
+      "arrival_linear_baseline_v1": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 7370.0,
+          "std_objective": 0.0,
+          "mc_se": 0.0,
+          "ci_95": [
+            7370.0,
+            7370.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 7200.0,
+          "std_objective": 204.09,
+          "mc_se": 9.13,
+          "ci_95": [
+            7182.11,
+            7217.89
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 40.08
+        }
+      },
+      "oracle_actual": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 9716.0,
+          "std_objective": 214.84,
+          "mc_se": 9.61,
+          "ci_95": [
+            9697.17,
+            9734.83
+          ],
+          "mean_conflicts": 2.96,
+          "feasibility_rate": 0.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 7200.0,
+          "std_objective": 204.09,
+          "mc_se": 9.13,
+          "ci_95": [
+            7182.11,
+            7217.89
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 40.08
+        }
+      }
+    }
+  }
+}

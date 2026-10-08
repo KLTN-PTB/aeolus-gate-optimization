@@ -1,0 +1,91 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v1",
+  "candidate_id": "P3_ngboost_normal",
+  "fold_id": "fold_4",
+  "validation_year": 2022,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "train_rows": 21000,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 2.528,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true
+  },
+  "metrics": {
+    "brier_score_delay_ge_15": 0.17004,
+    "pinball_losses": {
+      "alpha_0.025": 2.261,
+      "alpha_0.050": 3.8412,
+      "alpha_0.100": 6.1122,
+      "alpha_0.250": 8.7935,
+      "alpha_0.500": 11.1915,
+      "alpha_0.750": 14.4942,
+      "alpha_0.900": 11.467,
+      "alpha_0.950": 8.8892,
+      "alpha_0.975": 6.9994
+    },
+    "mean_pinball_loss": 8.2277,
+    "crps_quantile_approx": 19.613,
+    "crps": 20.2214,
+    "nll": 5.5446,
+    "empirical_coverage": {
+      "interval_50": 0.8765,
+      "interval_80": 0.9365,
+      "interval_90": 0.952,
+      "interval_95": 0.9615
+    },
+    "interval_widths": {
+      "interval_50": 58.3,
+      "interval_80": 110.77,
+      "interval_90": 142.18,
+      "interval_95": 169.41
+    },
+    "pit": {
+      "ks_statistic": 0.2413,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.0915
+    },
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.1924,
+      "maximum_calibration_error": 0.193,
+      "reliability_table": [
+        {
+          "bin": 3,
+          "bin_range": "[0.3, 0.4]",
+          "count": 3987,
+          "mean_pred": 0.3515,
+          "observed_freq": 0.1585,
+          "abs_gap": 0.193
+        },
+        {
+          "bin": 4,
+          "bin_range": "[0.4, 0.5]",
+          "count": 13,
+          "mean_pred": 0.4062,
+          "observed_freq": 0.3846,
+          "abs_gap": 0.0216
+        }
+      ]
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P3_ngboost_normal_fold_4.parquet"
+}

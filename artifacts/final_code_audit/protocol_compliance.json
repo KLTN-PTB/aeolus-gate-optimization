@@ -1,0 +1,188 @@
+{
+  "guard_status": "PASS",
+  "total_checks": 7,
+  "passed_checks": 7,
+  "failed_checks": 0,
+  "post_holdout_status": "POST_HOLDOUT_STABILIZED",
+  "details": [
+    {
+      "check": "raw_data_immutable",
+      "passed": true,
+      "missing_years": [],
+      "git_clean": true,
+      "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+    },
+    {
+      "check": "holdout_2024_not_in_training",
+      "passed": true,
+      "max_train_year": 2021,
+      "violates_2024": false,
+      "role_based_validation": true,
+      "fold_validations_passed": true,
+      "final_pre_holdout_train_authorized": true,
+      "training_2024_rejected": true,
+      "calibration_2024_rejected": true,
+      "selection_2024_rejected": true,
+      "future_years_rejected": true,
+      "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+    },
+    {
+      "check": "fold_definitions_exact",
+      "passed": true,
+      "mismatches": [],
+      "total_folds": 4,
+      "exact_rules": {
+        "fold_1": "train <= 2018, val = 2019",
+        "fold_2": "train <= 2019, val = 2020",
+        "fold_3": "train <= 2020, val = 2021",
+        "fold_4": "train <= 2021, val = 2022"
+      },
+      "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+    },
+    {
+      "check": "feature_contract",
+      "passed": true,
+      "feature_count": 11,
+      "disallowed_detected": [],
+      "matches_manifest": true,
+      "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+    },
+    {
+      "check": "no_insample_residual_uncertainty",
+      "passed": true,
+      "methodology": "Parametric Student-T & Copula Distribution Heads",
+      "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+    },
+    {
+      "check": "dynamic_dependence_dimension",
+      "passed": true,
+      "tested_dimensions": [
+        1,
+        5,
+        23,
+        77,
+        150,
+        420
+      ],
+      "max_tested_dimension": 420,
+      "peak_operational_hub_covered": true,
+      "property_based_checks_passed": true,
+      "invalid_dimension_fail_closed": true,
+      "resource_limits": {
+        "min_dimension": 1,
+        "peak_operational_dimension": 420,
+        "recommended_max_dimension": 1500,
+        "computational_complexity": "O(d^3) spectral decomposition / Cholesky factorization",
+        "memory_scaling": "O(d^2) float64 correlation storage"
+      },
+      "dimension_details": [
+        {
+          "dimension": 1,
+          "is_valid": true,
+          "shape_ok": true,
+          "is_symmetric": true,
+          "symmetry_max_error": 0.0,
+          "diag_ok": true,
+          "diag_max_error": 0.0,
+          "all_finite": true,
+          "min_eigenvalue": 1.0,
+          "is_psd": true,
+          "sampling_shape_ok": true,
+          "sampling_range_ok": true,
+          "is_deterministic": true,
+          "is_non_trivial": true
+        },
+        {
+          "dimension": 5,
+          "is_valid": true,
+          "shape_ok": true,
+          "is_symmetric": true,
+          "symmetry_max_error": 0.0,
+          "diag_ok": true,
+          "diag_max_error": 0.0,
+          "all_finite": true,
+          "min_eigenvalue": 0.3831303518868782,
+          "is_psd": true,
+          "sampling_shape_ok": true,
+          "sampling_range_ok": true,
+          "is_deterministic": true,
+          "is_non_trivial": true
+        },
+        {
+          "dimension": 23,
+          "is_valid": true,
+          "shape_ok": true,
+          "is_symmetric": true,
+          "symmetry_max_error": 0.0,
+          "diag_ok": true,
+          "diag_max_error": 0.0,
+          "all_finite": true,
+          "min_eigenvalue": 1.1566358170834324e-06,
+          "is_psd": true,
+          "sampling_shape_ok": true,
+          "sampling_range_ok": true,
+          "is_deterministic": true,
+          "is_non_trivial": true
+        },
+        {
+          "dimension": 77,
+          "is_valid": true,
+          "shape_ok": true,
+          "is_symmetric": true,
+          "symmetry_max_error": 0.0,
+          "diag_ok": true,
+          "diag_max_error": 0.0,
+          "all_finite": true,
+          "min_eigenvalue": 1.048160644258944e-06,
+          "is_psd": true,
+          "sampling_shape_ok": true,
+          "sampling_range_ok": true,
+          "is_deterministic": true,
+          "is_non_trivial": true
+        },
+        {
+          "dimension": 150,
+          "is_valid": true,
+          "shape_ok": true,
+          "is_symmetric": true,
+          "symmetry_max_error": 0.0,
+          "diag_ok": true,
+          "diag_max_error": 0.0,
+          "all_finite": true,
+          "min_eigenvalue": 1.0246968749339944e-06,
+          "is_psd": true,
+          "sampling_shape_ok": true,
+          "sampling_range_ok": true,
+          "is_deterministic": true,
+          "is_non_trivial": true
+        },
+        {
+          "dimension": 420,
+          "is_valid": true,
+          "shape_ok": true,
+          "is_symmetric": true,
+          "symmetry_max_error": 0.0,
+          "diag_ok": true,
+          "diag_max_error": 0.0,
+          "all_finite": true,
+          "min_eigenvalue": 1.0087967329966958e-06,
+          "is_psd": true,
+          "sampling_shape_ok": true,
+          "sampling_range_ok": true,
+          "is_deterministic": true,
+          "is_non_trivial": true
+        }
+      ],
+      "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+    },
+    {
+      "check": "solver_hard_constraints_verified",
+      "passed": true,
+      "conflict_count": 0,
+      "is_valid": true,
+      "post_holdout_status": "POST_HOLDOUT_STABILIZED"
+    }
+  ],
+  "timestamp_utc": "2026-09-30T12:26:40.635144+00:00",
+  "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701"
+}

@@ -1,0 +1,106 @@
+{
+  "experiment_id": "core_probabilistic_stability_seed_202603",
+  "candidate_id": "P2_xgb_gaussian_oof",
+  "fold_id": "fold_1",
+  "validation_year": 2019,
+  "train_years": [
+    2016,
+    2017,
+    2018
+  ],
+  "train_rows": 10500,
+  "validation_rows": 4000,
+  "seed": 202603,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 0.896,
+  "memory_mb": 1.18,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_probability_ge": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 2.5482,
+      "alpha_0.050": 4.3309,
+      "alpha_0.100": 6.8965,
+      "alpha_0.250": 9.8761,
+      "alpha_0.500": 8.6998,
+      "alpha_0.750": 11.9233,
+      "alpha_0.900": 8.9484,
+      "alpha_0.950": 6.3445,
+      "alpha_0.975": 4.4629
+    },
+    "mean_pinball_loss": 7.1145,
+    "crps_quantile_approx": 17.2146,
+    "crps": 17.8063,
+    "nll": 5.1534,
+    "empirical_coverage": {
+      "interval_50": 0.902,
+      "interval_80": 0.952,
+      "interval_90": 0.966,
+      "interval_95": 0.9755
+    },
+    "interval_widths": {
+      "interval_50": 65.55,
+      "interval_80": 124.54,
+      "interval_90": 159.85,
+      "interval_95": 190.47
+    },
+    "brier_score_delay_ge_15": 0.15388,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.1883,
+      "maximum_calibration_error": 0.5585,
+      "reliability_table": [
+        {
+          "bin": 2,
+          "bin_range": "[0.20, 0.30]",
+          "count": 553,
+          "mean_pred": 0.287,
+          "observed_freq": 0.1248,
+          "abs_gap": 0.1622
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.30, 0.40]",
+          "count": 3350,
+          "mean_pred": 0.3304,
+          "observed_freq": 0.1385,
+          "abs_gap": 0.1919
+        },
+        {
+          "bin": 4,
+          "bin_range": "[0.40, 0.50]",
+          "count": 95,
+          "mean_pred": 0.4187,
+          "observed_freq": 0.2105,
+          "abs_gap": 0.2082
+        },
+        {
+          "bin": 5,
+          "bin_range": "[0.50, 0.60]",
+          "count": 2,
+          "mean_pred": 0.5585,
+          "observed_freq": 0.0,
+          "abs_gap": 0.5585
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.295,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.0992
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_stability_seed_202603\\oof\\P2_xgb_gaussian_oof_fold_1.parquet"
+}

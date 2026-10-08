@@ -1,0 +1,56 @@
+{
+  "report_version": "integration_report_v1",
+  "phase": "PHASE_H",
+  "status": "PASS",
+  "timestamp_utc": "2026-09-30T12:27:03.163527+00:00",
+  "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+  "single_end_to_end_entrypoint": "python scripts/run_end_to_end_evaluation.py",
+  "supported_execution_modes": {
+    "smoke": "python scripts/run_end_to_end_evaluation.py --mode smoke (isolated in artifacts/end_to_end_smoke/)",
+    "research": "python scripts/run_end_to_end_evaluation.py --mode research (artifacts/end_to_end/)"
+  },
+  "protocol_compliance_summary": {
+    "status": "PASS",
+    "checks_passed": 7,
+    "total_checks": 7
+  },
+  "codebase_hygiene_summary": {
+    "status": "PASS",
+    "cleanliness_checks": {
+      "hardcoded_absolute_paths": {
+        "passed": true,
+        "violations": []
+      },
+      "secrets_and_passwords": {
+        "passed": true,
+        "violations": []
+      },
+      "temporary_files": {
+        "passed": true,
+        "violations": []
+      },
+      "raw_data_unmodified": {
+        "passed": true
+      }
+    }
+  },
+  "test_hierarchy_summary": {
+    "status": "PASS",
+    "tests_passed": 115,
+    "suites_evaluated": 6
+  },
+  "solver_comparison_summary": {
+    "solvers": [
+      "Greedy Baseline",
+      "Exact CP-SAT",
+      "CP-SAT + Simulated Annealing"
+    ],
+    "objective_ordering": "Greedy >= CP-SAT >= CP-SAT+SA (strictly verified)",
+    "zero_contact_conflicts_guaranteed": true
+  },
+  "holdout_2024_status": {
+    "sealed_during_development": true,
+    "historical_evaluation_preserved": true,
+    "current_state": "POST_HOLDOUT_CHANGES_DOCUMENTED"
+  }
+}

@@ -1,0 +1,1968 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v1",
+  "created_at_utc": "2026-09-30T13:14:46.123191+00:00",
+  "config_hash": "7659996ecb1fdcba496068f6793782de39a3494fc3e89b18d4d9d92754bf3525",
+  "total_runs": 20,
+  "completed_runs": 20,
+  "failed_runs": 0,
+  "results": [
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P1_empirical",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "train_years": [
+        2016,
+        2017,
+        2018
+      ],
+      "train_rows": 10500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 0.546,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": false,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.11699,
+        "pinball_losses": {
+          "alpha_0.025": 0.8811,
+          "alpha_0.050": 1.58,
+          "alpha_0.100": 2.7719,
+          "alpha_0.250": 5.6012,
+          "alpha_0.500": 8.6376,
+          "alpha_0.750": 9.5439,
+          "alpha_0.900": 7.7895,
+          "alpha_0.950": 6.1078,
+          "alpha_0.975": 4.6939
+        },
+        "mean_pinball_loss": 5.2897,
+        "crps_quantile_approx": 13.2051,
+        "crps": 13.2051,
+        "nll": "NOT_AVAILABLE",
+        "empirical_coverage": {
+          "interval_50": 0.5102,
+          "interval_80": 0.7925,
+          "interval_90": 0.8918,
+          "interval_95": 0.9383
+        },
+        "interval_widths": {
+          "interval_50": 19.09,
+          "interval_80": 47.59,
+          "interval_90": 80.62,
+          "interval_95": 129.33
+        },
+        "pit": {
+          "ks_statistic": 0.0153,
+          "ks_pvalue": 0.305563,
+          "uniformity_dev": 0.0057
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0054,
+          "maximum_calibration_error": 0.101,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 1200,
+              "mean_pred": 0.077,
+              "observed_freq": 0.0767,
+              "abs_gap": 0.0003
+            },
+            {
+              "bin": 1,
+              "bin_range": "[0.1, 0.2]",
+              "count": 2380,
+              "mean_pred": 0.1518,
+              "observed_freq": 0.1529,
+              "abs_gap": 0.0011
+            },
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 259,
+              "mean_pred": 0.2262,
+              "observed_freq": 0.2355,
+              "abs_gap": 0.0093
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 161,
+              "mean_pred": 0.3246,
+              "observed_freq": 0.2236,
+              "abs_gap": 0.101
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P1_empirical_fold_1.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P2_xgb_gaussian_oof",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "train_years": [
+        2016,
+        2017,
+        2018
+      ],
+      "train_rows": 10500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 2.296,
+      "memory_mb": 96.87,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.15398,
+        "pinball_losses": {
+          "alpha_0.025": 2.552,
+          "alpha_0.050": 4.3372,
+          "alpha_0.100": 6.9063,
+          "alpha_0.250": 9.8889,
+          "alpha_0.500": 8.6998,
+          "alpha_0.750": 11.9313,
+          "alpha_0.900": 8.9535,
+          "alpha_0.950": 6.3465,
+          "alpha_0.975": 4.463
+        },
+        "mean_pinball_loss": 7.1198,
+        "crps_quantile_approx": 17.2266,
+        "crps": 17.819,
+        "nll": 5.1539,
+        "empirical_coverage": {
+          "interval_50": 0.9022,
+          "interval_80": 0.952,
+          "interval_90": 0.966,
+          "interval_95": 0.9755
+        },
+        "interval_widths": {
+          "interval_50": 65.65,
+          "interval_80": 124.74,
+          "interval_90": 160.1,
+          "interval_95": 190.77
+        },
+        "pit": {
+          "ks_statistic": 0.2952,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0993
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.1886,
+          "maximum_calibration_error": 0.5584,
+          "reliability_table": [
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 542,
+              "mean_pred": 0.2871,
+              "observed_freq": 0.1255,
+              "abs_gap": 0.1616
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 3361,
+              "mean_pred": 0.3305,
+              "observed_freq": 0.1384,
+              "abs_gap": 0.1922
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 95,
+              "mean_pred": 0.4189,
+              "observed_freq": 0.2105,
+              "abs_gap": 0.2083
+            },
+            {
+              "bin": 5,
+              "bin_range": "[0.5, 0.6]",
+              "count": 2,
+              "mean_pred": 0.5584,
+              "observed_freq": 0.0,
+              "abs_gap": 0.5584
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P2_xgb_gaussian_oof_fold_1.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P3_ngboost_normal",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "train_years": [
+        2016,
+        2017,
+        2018
+      ],
+      "train_rows": 10500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.384,
+      "memory_mb": 0.91,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.17928,
+        "pinball_losses": {
+          "alpha_0.025": 2.2239,
+          "alpha_0.050": 3.7142,
+          "alpha_0.100": 5.7369,
+          "alpha_0.250": 7.4629,
+          "alpha_0.500": 10.0596,
+          "alpha_0.750": 13.1871,
+          "alpha_0.900": 9.3459,
+          "alpha_0.950": 6.4873,
+          "alpha_0.975": 4.48
+        },
+        "mean_pinball_loss": 6.9664,
+        "crps_quantile_approx": 17.2391,
+        "crps": 17.7095,
+        "nll": 5.1162,
+        "empirical_coverage": {
+          "interval_50": 0.8862,
+          "interval_80": 0.9575,
+          "interval_90": 0.9688,
+          "interval_95": 0.9755
+        },
+        "interval_widths": {
+          "interval_50": 62.81,
+          "interval_80": 119.34,
+          "interval_90": 153.17,
+          "interval_95": 182.51
+        },
+        "pit": {
+          "ks_statistic": 0.2682,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.1055
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.2486,
+          "maximum_calibration_error": 0.4497,
+          "reliability_table": [
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 3083,
+              "mean_pred": 0.3727,
+              "observed_freq": 0.1135,
+              "abs_gap": 0.2592
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 882,
+              "mean_pred": 0.4284,
+              "observed_freq": 0.2234,
+              "abs_gap": 0.2051
+            },
+            {
+              "bin": 5,
+              "bin_range": "[0.5, 0.6]",
+              "count": 19,
+              "mean_pred": 0.5537,
+              "observed_freq": 0.1579,
+              "abs_gap": 0.3958
+            },
+            {
+              "bin": 6,
+              "bin_range": "[0.6, 0.7]",
+              "count": 16,
+              "mean_pred": 0.6372,
+              "observed_freq": 0.1875,
+              "abs_gap": 0.4497
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P3_ngboost_normal_fold_1.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P4_ngboost_student_t",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "train_years": [
+        2016,
+        2017,
+        2018
+      ],
+      "train_rows": 10500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 9.486,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.12235,
+        "pinball_losses": {
+          "alpha_0.025": 1.2307,
+          "alpha_0.050": 1.9099,
+          "alpha_0.100": 2.9809,
+          "alpha_0.250": 5.556,
+          "alpha_0.500": 8.585,
+          "alpha_0.750": 9.5694,
+          "alpha_0.900": 8.3113,
+          "alpha_0.950": 6.9622,
+          "alpha_0.975": 5.6312
+        },
+        "mean_pinball_loss": 5.6374,
+        "crps_quantile_approx": 13.4381,
+        "crps": 13.4381,
+        "nll": 4.4004,
+        "empirical_coverage": {
+          "interval_50": 0.5278,
+          "interval_80": 0.8187,
+          "interval_90": 0.89,
+          "interval_95": 0.9185
+        },
+        "interval_widths": {
+          "interval_50": 18.56,
+          "interval_80": 40.54,
+          "interval_90": 59.4,
+          "interval_95": 82.15
+        },
+        "pit": {
+          "ks_statistic": 0.0755,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.03
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0594,
+          "maximum_calibration_error": 0.0594,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 4000,
+              "mean_pred": 0.0788,
+              "observed_freq": 0.1383,
+              "abs_gap": 0.0594
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P4_ngboost_student_t_fold_1.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P5_quantile_regression",
+      "fold_id": "fold_1",
+      "validation_year": 2019,
+      "train_years": [
+        2016,
+        2017,
+        2018
+      ],
+      "train_rows": 10500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.18,
+      "memory_mb": 4.73,
+      "capabilities": {
+        "has_mean": false,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": false,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.11746,
+        "pinball_losses": {
+          "alpha_0.025": 0.8188,
+          "alpha_0.050": 1.4965,
+          "alpha_0.100": 2.6943,
+          "alpha_0.250": 5.5383,
+          "alpha_0.500": 8.6566,
+          "alpha_0.750": 9.4734,
+          "alpha_0.900": 7.8913,
+          "alpha_0.950": 6.2228,
+          "alpha_0.975": 4.6339
+        },
+        "mean_pinball_loss": 5.2695,
+        "crps_quantile_approx": 13.1654,
+        "crps": 13.1654,
+        "nll": "NOT_AVAILABLE",
+        "empirical_coverage": {
+          "interval_50": 0.4693,
+          "interval_80": 0.7548,
+          "interval_90": 0.8622,
+          "interval_95": 0.9287
+        },
+        "interval_widths": {
+          "interval_50": 18.93,
+          "interval_80": 43.13,
+          "interval_90": 68.54,
+          "interval_95": 109.37
+        },
+        "pit": {
+          "ks_statistic": 0.0575,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0184
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0147,
+          "maximum_calibration_error": 0.4068,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 1535,
+              "mean_pred": 0.0854,
+              "observed_freq": 0.0938,
+              "abs_gap": 0.0084
+            },
+            {
+              "bin": 1,
+              "bin_range": "[0.1, 0.2]",
+              "count": 1576,
+              "mean_pred": 0.1507,
+              "observed_freq": 0.1352,
+              "abs_gap": 0.0156
+            },
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 787,
+              "mean_pred": 0.2321,
+              "observed_freq": 0.2147,
+              "abs_gap": 0.0174
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 100,
+              "mean_pred": 0.3385,
+              "observed_freq": 0.27,
+              "abs_gap": 0.0685
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 2,
+              "mean_pred": 0.4068,
+              "observed_freq": 0.0,
+              "abs_gap": 0.4068
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P5_quantile_regression_fold_1.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P1_empirical",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "train_rows": 14000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 0.558,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": false,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.06838,
+        "pinball_losses": {
+          "alpha_0.025": 0.8142,
+          "alpha_0.050": 1.3744,
+          "alpha_0.100": 2.3156,
+          "alpha_0.250": 4.4567,
+          "alpha_0.500": 6.5201,
+          "alpha_0.750": 7.0495,
+          "alpha_0.900": 6.1187,
+          "alpha_0.950": 4.9797,
+          "alpha_0.975": 3.8581
+        },
+        "mean_pinball_loss": 4.1652,
+        "crps_quantile_approx": 10.1428,
+        "crps": 10.1428,
+        "nll": "NOT_AVAILABLE",
+        "empirical_coverage": {
+          "interval_50": 0.5585,
+          "interval_80": 0.8255,
+          "interval_90": 0.905,
+          "interval_95": 0.9443
+        },
+        "interval_widths": {
+          "interval_50": 19.22,
+          "interval_80": 47.26,
+          "interval_90": 79.33,
+          "interval_95": 124.03
+        },
+        "pit": {
+          "ks_statistic": 0.095,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0222
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0819,
+          "maximum_calibration_error": 0.2938,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 1117,
+              "mean_pred": 0.0792,
+              "observed_freq": 0.0546,
+              "abs_gap": 0.0245
+            },
+            {
+              "bin": 1,
+              "bin_range": "[0.1, 0.2]",
+              "count": 2283,
+              "mean_pred": 0.1438,
+              "observed_freq": 0.064,
+              "abs_gap": 0.0798
+            },
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 488,
+              "mean_pred": 0.248,
+              "observed_freq": 0.0738,
+              "abs_gap": 0.1742
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 112,
+              "mean_pred": 0.3384,
+              "observed_freq": 0.0446,
+              "abs_gap": 0.2938
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P1_empirical_fold_2.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P2_xgb_gaussian_oof",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "train_rows": 14000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.126,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.12772,
+        "pinball_losses": {
+          "alpha_0.025": 2.4754,
+          "alpha_0.050": 4.1666,
+          "alpha_0.100": 6.5247,
+          "alpha_0.250": 8.7819,
+          "alpha_0.500": 6.5282,
+          "alpha_0.750": 10.9274,
+          "alpha_0.900": 8.1943,
+          "alpha_0.950": 5.6154,
+          "alpha_0.975": 3.7461
+        },
+        "mean_pinball_loss": 6.3289,
+        "crps_quantile_approx": 14.9808,
+        "crps": 15.514,
+        "nll": 5.0238,
+        "empirical_coverage": {
+          "interval_50": 0.9537,
+          "interval_80": 0.9758,
+          "interval_90": 0.9818,
+          "interval_95": 0.9855
+        },
+        "interval_widths": {
+          "interval_50": 67.15,
+          "interval_80": 127.59,
+          "interval_90": 163.76,
+          "interval_95": 195.13
+        },
+        "pit": {
+          "ks_statistic": 0.2906,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.1247
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.2623,
+          "maximum_calibration_error": 0.5278,
+          "reliability_table": [
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 349,
+              "mean_pred": 0.293,
+              "observed_freq": 0.0774,
+              "abs_gap": 0.2156
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 3557,
+              "mean_pred": 0.3246,
+              "observed_freq": 0.0604,
+              "abs_gap": 0.2642
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 90,
+              "mean_pred": 0.4247,
+              "observed_freq": 0.0667,
+              "abs_gap": 0.358
+            },
+            {
+              "bin": 5,
+              "bin_range": "[0.5, 0.6]",
+              "count": 4,
+              "mean_pred": 0.5278,
+              "observed_freq": 0.0,
+              "abs_gap": 0.5278
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P2_xgb_gaussian_oof_fold_2.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P3_ngboost_normal",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "train_rows": 14000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.724,
+      "memory_mb": 0.81,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.16664,
+        "pinball_losses": {
+          "alpha_0.025": 2.1618,
+          "alpha_0.050": 3.5629,
+          "alpha_0.100": 5.3715,
+          "alpha_0.250": 6.2724,
+          "alpha_0.500": 8.7745,
+          "alpha_0.750": 12.7056,
+          "alpha_0.900": 8.7315,
+          "alpha_0.950": 5.7882,
+          "alpha_0.975": 3.7511
+        },
+        "mean_pinball_loss": 6.3466,
+        "crps_quantile_approx": 15.6482,
+        "crps": 15.9678,
+        "nll": 4.9931,
+        "empirical_coverage": {
+          "interval_50": 0.9363,
+          "interval_80": 0.9805,
+          "interval_90": 0.9842,
+          "interval_95": 0.9868
+        },
+        "interval_widths": {
+          "interval_50": 65.14,
+          "interval_80": 123.76,
+          "interval_90": 158.85,
+          "interval_95": 189.28
+        },
+        "pit": {
+          "ks_statistic": 0.3533,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.1283
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.3295,
+          "maximum_calibration_error": 0.3484,
+          "reliability_table": [
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 2812,
+              "mean_pred": 0.3791,
+              "observed_freq": 0.0576,
+              "abs_gap": 0.3215
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 1188,
+              "mean_pred": 0.4208,
+              "observed_freq": 0.0724,
+              "abs_gap": 0.3484
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P3_ngboost_normal_fold_2.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P4_ngboost_student_t",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "train_rows": 14000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 12.094,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.0584,
+        "pinball_losses": {
+          "alpha_0.025": 1.0856,
+          "alpha_0.050": 1.6221,
+          "alpha_0.100": 2.42,
+          "alpha_0.250": 4.224,
+          "alpha_0.500": 6.2613,
+          "alpha_0.750": 6.6196,
+          "alpha_0.900": 5.4353,
+          "alpha_0.950": 4.4497,
+          "alpha_0.975": 3.5842
+        },
+        "mean_pinball_loss": 3.9669,
+        "crps_quantile_approx": 9.6113,
+        "crps": 9.6113,
+        "nll": 4.1135,
+        "empirical_coverage": {
+          "interval_50": 0.5925,
+          "interval_80": 0.8935,
+          "interval_90": 0.9477,
+          "interval_95": 0.9653
+        },
+        "interval_widths": {
+          "interval_50": 18.55,
+          "interval_80": 40.59,
+          "interval_90": 59.58,
+          "interval_95": 82.57
+        },
+        "pit": {
+          "ks_statistic": 0.1152,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0361
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0167,
+          "maximum_calibration_error": 0.0167,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 4000,
+              "mean_pred": 0.0787,
+              "observed_freq": 0.062,
+              "abs_gap": 0.0167
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P4_ngboost_student_t_fold_2.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P5_quantile_regression",
+      "fold_id": "fold_2",
+      "validation_year": 2020,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "train_rows": 14000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.394,
+      "memory_mb": 2.42,
+      "capabilities": {
+        "has_mean": false,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": false,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.06863,
+        "pinball_losses": {
+          "alpha_0.025": 0.7343,
+          "alpha_0.050": 1.2754,
+          "alpha_0.100": 2.2049,
+          "alpha_0.250": 4.2853,
+          "alpha_0.500": 6.4468,
+          "alpha_0.750": 7.0147,
+          "alpha_0.900": 5.9831,
+          "alpha_0.950": 4.8927,
+          "alpha_0.975": 3.6895
+        },
+        "mean_pinball_loss": 4.0585,
+        "crps_quantile_approx": 9.9542,
+        "crps": 9.9542,
+        "nll": "NOT_AVAILABLE",
+        "empirical_coverage": {
+          "interval_50": 0.529,
+          "interval_80": 0.801,
+          "interval_90": 0.8905,
+          "interval_95": 0.9357
+        },
+        "interval_widths": {
+          "interval_50": 19.1,
+          "interval_80": 43.65,
+          "interval_90": 73.07,
+          "interval_95": 115.0
+        },
+        "pit": {
+          "ks_statistic": 0.1367,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0319
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0861,
+          "maximum_calibration_error": 0.4077,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 1401,
+              "mean_pred": 0.0898,
+              "observed_freq": 0.0542,
+              "abs_gap": 0.0356
+            },
+            {
+              "bin": 1,
+              "bin_range": "[0.1, 0.2]",
+              "count": 1749,
+              "mean_pred": 0.1492,
+              "observed_freq": 0.064,
+              "abs_gap": 0.0852
+            },
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 768,
+              "mean_pred": 0.2309,
+              "observed_freq": 0.0716,
+              "abs_gap": 0.1593
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 77,
+              "mean_pred": 0.3403,
+              "observed_freq": 0.0649,
+              "abs_gap": 0.2754
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 5,
+              "mean_pred": 0.4077,
+              "observed_freq": 0.0,
+              "abs_gap": 0.4077
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P5_quantile_regression_fold_2.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P1_empirical",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "train_rows": 17500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 0.581,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": false,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.10302,
+        "pinball_losses": {
+          "alpha_0.025": 0.8179,
+          "alpha_0.050": 1.4673,
+          "alpha_0.100": 2.582,
+          "alpha_0.250": 5.2116,
+          "alpha_0.500": 8.0694,
+          "alpha_0.750": 9.0236,
+          "alpha_0.900": 7.6404,
+          "alpha_0.950": 6.2188,
+          "alpha_0.975": 4.8416
+        },
+        "mean_pinball_loss": 5.097,
+        "crps_quantile_approx": 12.4912,
+        "crps": 12.4912,
+        "nll": "NOT_AVAILABLE",
+        "empirical_coverage": {
+          "interval_50": 0.534,
+          "interval_80": 0.8115,
+          "interval_90": 0.9002,
+          "interval_95": 0.9497
+        },
+        "interval_widths": {
+          "interval_50": 17.52,
+          "interval_80": 43.06,
+          "interval_90": 71.1,
+          "interval_95": 116.7
+        },
+        "pit": {
+          "ks_statistic": 0.0189,
+          "ks_pvalue": 0.112743,
+          "uniformity_dev": 0.0074
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.004,
+          "maximum_calibration_error": 0.1352,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 1567,
+              "mean_pred": 0.0775,
+              "observed_freq": 0.0772,
+              "abs_gap": 0.0003
+            },
+            {
+              "bin": 1,
+              "bin_range": "[0.1, 0.2]",
+              "count": 2183,
+              "mean_pred": 0.1391,
+              "observed_freq": 0.1393,
+              "abs_gap": 0.0002
+            },
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 185,
+              "mean_pred": 0.2397,
+              "observed_freq": 0.2054,
+              "abs_gap": 0.0343
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 65,
+              "mean_pred": 0.3044,
+              "observed_freq": 0.1692,
+              "abs_gap": 0.1352
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P1_empirical_fold_3.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P2_xgb_gaussian_oof",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "train_rows": 17500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.346,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.13486,
+        "pinball_losses": {
+          "alpha_0.025": 2.5351,
+          "alpha_0.050": 4.3245,
+          "alpha_0.100": 6.9298,
+          "alpha_0.250": 10.1492,
+          "alpha_0.500": 8.0836,
+          "alpha_0.750": 11.3091,
+          "alpha_0.900": 8.9082,
+          "alpha_0.950": 6.5314,
+          "alpha_0.975": 4.7749
+        },
+        "mean_pinball_loss": 7.0606,
+        "crps_quantile_approx": 16.7897,
+        "crps": 17.4501,
+        "nll": 5.2371,
+        "empirical_coverage": {
+          "interval_50": 0.9083,
+          "interval_80": 0.9573,
+          "interval_90": 0.9695,
+          "interval_95": 0.977
+        },
+        "interval_widths": {
+          "interval_50": 63.84,
+          "interval_80": 121.3,
+          "interval_90": 155.68,
+          "interval_95": 185.51
+        },
+        "pit": {
+          "ks_statistic": 0.322,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.1091
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.1761,
+          "maximum_calibration_error": 0.1815,
+          "reliability_table": [
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 2426,
+              "mean_pred": 0.2825,
+              "observed_freq": 0.101,
+              "abs_gap": 0.1815
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 1574,
+              "mean_pred": 0.3134,
+              "observed_freq": 0.1455,
+              "abs_gap": 0.1679
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P2_xgb_gaussian_oof_fold_3.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P3_ngboost_normal",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "train_rows": 17500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 2.123,
+      "memory_mb": 1.13,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.14864,
+        "pinball_losses": {
+          "alpha_0.025": 2.0098,
+          "alpha_0.050": 3.3812,
+          "alpha_0.100": 5.2914,
+          "alpha_0.250": 7.2126,
+          "alpha_0.500": 8.9293,
+          "alpha_0.750": 11.8953,
+          "alpha_0.900": 8.916,
+          "alpha_0.950": 6.5334,
+          "alpha_0.975": 4.8452
+        },
+        "mean_pinball_loss": 6.5571,
+        "crps_quantile_approx": 15.8643,
+        "crps": 16.3307,
+        "nll": 5.2743,
+        "empirical_coverage": {
+          "interval_50": 0.8868,
+          "interval_80": 0.9535,
+          "interval_90": 0.9663,
+          "interval_95": 0.9745
+        },
+        "interval_widths": {
+          "interval_50": 54.66,
+          "interval_80": 103.86,
+          "interval_90": 133.3,
+          "interval_95": 158.84
+        },
+        "pit": {
+          "ks_statistic": 0.2418,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.1044
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.2074,
+          "maximum_calibration_error": 0.3077,
+          "reliability_table": [
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 408,
+              "mean_pred": 0.2943,
+              "observed_freq": 0.1324,
+              "abs_gap": 0.1619
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 3504,
+              "mean_pred": 0.3275,
+              "observed_freq": 0.1173,
+              "abs_gap": 0.2102
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 88,
+              "mean_pred": 0.41,
+              "observed_freq": 0.1023,
+              "abs_gap": 0.3077
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P3_ngboost_normal_fold_3.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P4_ngboost_student_t",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "train_rows": 17500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 15.122,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.10722,
+        "pinball_losses": {
+          "alpha_0.025": 1.1274,
+          "alpha_0.050": 1.7632,
+          "alpha_0.100": 2.7829,
+          "alpha_0.250": 5.2463,
+          "alpha_0.500": 8.1183,
+          "alpha_0.750": 9.106,
+          "alpha_0.900": 8.0115,
+          "alpha_0.950": 6.8174,
+          "alpha_0.975": 5.6838
+        },
+        "mean_pinball_loss": 5.4063,
+        "crps_quantile_approx": 12.7728,
+        "crps": 12.7728,
+        "nll": 4.3148,
+        "empirical_coverage": {
+          "interval_50": 0.5365,
+          "interval_80": 0.8237,
+          "interval_90": 0.8938,
+          "interval_95": 0.9265
+        },
+        "interval_widths": {
+          "interval_50": 17.46,
+          "interval_80": 37.87,
+          "interval_90": 55.11,
+          "interval_95": 75.64
+        },
+        "pit": {
+          "ks_statistic": 0.0682,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0293
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0537,
+          "maximum_calibration_error": 0.0537,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 4000,
+              "mean_pred": 0.0648,
+              "observed_freq": 0.1185,
+              "abs_gap": 0.0537
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P4_ngboost_student_t_fold_3.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P5_quantile_regression",
+      "fold_id": "fold_3",
+      "validation_year": 2021,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "train_rows": 17500,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.44,
+      "memory_mb": 1.94,
+      "capabilities": {
+        "has_mean": false,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": false,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.10565,
+        "pinball_losses": {
+          "alpha_0.025": 0.758,
+          "alpha_0.050": 1.3876,
+          "alpha_0.100": 2.4961,
+          "alpha_0.250": 5.1572,
+          "alpha_0.500": 8.0798,
+          "alpha_0.750": 9.0961,
+          "alpha_0.900": 7.9914,
+          "alpha_0.950": 6.5634,
+          "alpha_0.975": 5.0087
+        },
+        "mean_pinball_loss": 5.1709,
+        "crps_quantile_approx": 12.5792,
+        "crps": 12.5792,
+        "nll": "NOT_AVAILABLE",
+        "empirical_coverage": {
+          "interval_50": 0.4587,
+          "interval_80": 0.7372,
+          "interval_90": 0.8545,
+          "interval_95": 0.922
+        },
+        "interval_widths": {
+          "interval_50": 14.4,
+          "interval_80": 32.31,
+          "interval_90": 50.64,
+          "interval_95": 79.27
+        },
+        "pit": {
+          "ks_statistic": 0.0492,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0192
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.037,
+          "maximum_calibration_error": 0.0894,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 3343,
+              "mean_pred": 0.0719,
+              "observed_freq": 0.1152,
+              "abs_gap": 0.0433
+            },
+            {
+              "bin": 1,
+              "bin_range": "[0.1, 0.2]",
+              "count": 623,
+              "mean_pred": 0.137,
+              "observed_freq": 0.1364,
+              "abs_gap": 0.0006
+            },
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 34,
+              "mean_pred": 0.207,
+              "observed_freq": 0.1176,
+              "abs_gap": 0.0894
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P5_quantile_regression_fold_3.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P1_empirical",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "train_rows": 21000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 0.626,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": false,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.13225,
+        "pinball_losses": {
+          "alpha_0.025": 0.9281,
+          "alpha_0.050": 1.6996,
+          "alpha_0.100": 3.0684,
+          "alpha_0.250": 6.4897,
+          "alpha_0.500": 10.5864,
+          "alpha_0.750": 12.3572,
+          "alpha_0.900": 10.9881,
+          "alpha_0.950": 9.1395,
+          "alpha_0.975": 7.1232
+        },
+        "mean_pinball_loss": 6.9311,
+        "crps_quantile_approx": 16.6575,
+        "crps": 16.6575,
+        "nll": "NOT_AVAILABLE",
+        "empirical_coverage": {
+          "interval_50": 0.488,
+          "interval_80": 0.7827,
+          "interval_90": 0.886,
+          "interval_95": 0.94
+        },
+        "interval_widths": {
+          "interval_50": 17.38,
+          "interval_80": 42.38,
+          "interval_90": 71.82,
+          "interval_95": 113.53
+        },
+        "pit": {
+          "ks_statistic": 0.0682,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0169
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0392,
+          "maximum_calibration_error": 0.16,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 1623,
+              "mean_pred": 0.0731,
+              "observed_freq": 0.1189,
+              "abs_gap": 0.0459
+            },
+            {
+              "bin": 1,
+              "bin_range": "[0.1, 0.2]",
+              "count": 2056,
+              "mean_pred": 0.137,
+              "observed_freq": 0.1697,
+              "abs_gap": 0.0327
+            },
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 287,
+              "mean_pred": 0.2421,
+              "observed_freq": 0.2753,
+              "abs_gap": 0.0332
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 34,
+              "mean_pred": 0.3106,
+              "observed_freq": 0.4706,
+              "abs_gap": 0.16
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P1_empirical_fold_4.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P2_xgb_gaussian_oof",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "train_rows": 21000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.566,
+      "memory_mb": 4.03,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.15134,
+        "pinball_losses": {
+          "alpha_0.025": 2.6314,
+          "alpha_0.050": 4.5329,
+          "alpha_0.100": 7.3829,
+          "alpha_0.250": 11.4313,
+          "alpha_0.500": 10.6619,
+          "alpha_0.750": 13.6232,
+          "alpha_0.900": 11.3169,
+          "alpha_0.950": 8.9256,
+          "alpha_0.975": 7.0805
+        },
+        "mean_pinball_loss": 8.6207,
+        "crps_quantile_approx": 20.3449,
+        "crps": 21.1272,
+        "nll": 5.5983,
+        "empirical_coverage": {
+          "interval_50": 0.8715,
+          "interval_80": 0.9323,
+          "interval_90": 0.949,
+          "interval_95": 0.959
+        },
+        "interval_widths": {
+          "interval_50": 62.49,
+          "interval_80": 118.73,
+          "interval_90": 152.38,
+          "interval_95": 181.58
+        },
+        "pit": {
+          "ks_statistic": 0.3246,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.094
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.1351,
+          "maximum_calibration_error": 0.4265,
+          "reliability_table": [
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 2614,
+              "mean_pred": 0.2832,
+              "observed_freq": 0.1435,
+              "abs_gap": 0.1397
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 1385,
+              "mean_pred": 0.3154,
+              "observed_freq": 0.1892,
+              "abs_gap": 0.1263
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 1,
+              "mean_pred": 0.4265,
+              "observed_freq": 0.0,
+              "abs_gap": 0.4265
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P2_xgb_gaussian_oof_fold_4.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P3_ngboost_normal",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "train_rows": 21000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 2.528,
+      "memory_mb": 0.0,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.17004,
+        "pinball_losses": {
+          "alpha_0.025": 2.261,
+          "alpha_0.050": 3.8412,
+          "alpha_0.100": 6.1122,
+          "alpha_0.250": 8.7935,
+          "alpha_0.500": 11.1915,
+          "alpha_0.750": 14.4942,
+          "alpha_0.900": 11.467,
+          "alpha_0.950": 8.8892,
+          "alpha_0.975": 6.9994
+        },
+        "mean_pinball_loss": 8.2277,
+        "crps_quantile_approx": 19.613,
+        "crps": 20.2214,
+        "nll": 5.5446,
+        "empirical_coverage": {
+          "interval_50": 0.8765,
+          "interval_80": 0.9365,
+          "interval_90": 0.952,
+          "interval_95": 0.9615
+        },
+        "interval_widths": {
+          "interval_50": 58.3,
+          "interval_80": 110.77,
+          "interval_90": 142.18,
+          "interval_95": 169.41
+        },
+        "pit": {
+          "ks_statistic": 0.2413,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0915
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.1924,
+          "maximum_calibration_error": 0.193,
+          "reliability_table": [
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 3987,
+              "mean_pred": 0.3515,
+              "observed_freq": 0.1585,
+              "abs_gap": 0.193
+            },
+            {
+              "bin": 4,
+              "bin_range": "[0.4, 0.5]",
+              "count": 13,
+              "mean_pred": 0.4062,
+              "observed_freq": 0.3846,
+              "abs_gap": 0.0216
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P3_ngboost_normal_fold_4.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P4_ngboost_student_t",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "train_rows": 21000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 18.23,
+      "memory_mb": 8.14,
+      "capabilities": {
+        "has_mean": true,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": true,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.14275,
+        "pinball_losses": {
+          "alpha_0.025": 1.2956,
+          "alpha_0.050": 2.0731,
+          "alpha_0.100": 3.3588,
+          "alpha_0.250": 6.5671,
+          "alpha_0.500": 10.631,
+          "alpha_0.750": 12.5938,
+          "alpha_0.900": 11.7995,
+          "alpha_0.950": 10.5321,
+          "alpha_0.975": 9.1691
+        },
+        "mean_pinball_loss": 7.5578,
+        "crps_quantile_approx": 17.2185,
+        "crps": 17.2185,
+        "nll": 4.5442,
+        "empirical_coverage": {
+          "interval_50": 0.4975,
+          "interval_80": 0.7812,
+          "interval_90": 0.857,
+          "interval_95": 0.8962
+        },
+        "interval_widths": {
+          "interval_50": 17.37,
+          "interval_80": 37.83,
+          "interval_90": 55.28,
+          "interval_95": 76.22
+        },
+        "pit": {
+          "ks_statistic": 0.0963,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0372
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0951,
+          "maximum_calibration_error": 0.0951,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 4000,
+              "mean_pred": 0.0642,
+              "observed_freq": 0.1593,
+              "abs_gap": 0.0951
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P4_ngboost_student_t_fold_4.parquet"
+    },
+    {
+      "experiment_id": "core_probabilistic_benchmark_v1",
+      "candidate_id": "P5_quantile_regression",
+      "fold_id": "fold_4",
+      "validation_year": 2022,
+      "train_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "train_rows": 21000,
+      "validation_rows": 4000,
+      "seed": 202601,
+      "status": "COMPLETED",
+      "failure_reason": null,
+      "correctness_status": "PASSED",
+      "correctness_issues": [],
+      "runtime_seconds": 1.641,
+      "memory_mb": 2.76,
+      "capabilities": {
+        "has_mean": false,
+        "has_median": true,
+        "has_quantiles": true,
+        "has_cdf": true,
+        "has_p_delay_ge_15": true,
+        "has_sampler": true,
+        "has_nll": false,
+        "has_crps": true
+      },
+      "metrics": {
+        "brier_score_delay_ge_15": 0.13173,
+        "pinball_losses": {
+          "alpha_0.025": 0.8855,
+          "alpha_0.050": 1.6475,
+          "alpha_0.100": 3.0245,
+          "alpha_0.250": 6.4848,
+          "alpha_0.500": 10.6574,
+          "alpha_0.750": 12.4261,
+          "alpha_0.900": 11.0552,
+          "alpha_0.950": 9.1972,
+          "alpha_0.975": 7.2844
+        },
+        "mean_pinball_loss": 6.9625,
+        "crps_quantile_approx": 16.7266,
+        "crps": 16.7266,
+        "nll": "NOT_AVAILABLE",
+        "empirical_coverage": {
+          "interval_50": 0.446,
+          "interval_80": 0.7498,
+          "interval_90": 0.8665,
+          "interval_95": 0.9237
+        },
+        "interval_widths": {
+          "interval_50": 16.24,
+          "interval_80": 37.85,
+          "interval_90": 60.88,
+          "interval_95": 94.8
+        },
+        "pit": {
+          "ks_statistic": 0.0842,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0214
+        },
+        "calibration_diagnostics": {
+          "expected_calibration_error": 0.0447,
+          "maximum_calibration_error": 0.692,
+          "reliability_table": [
+            {
+              "bin": 0,
+              "bin_range": "[0.0, 0.1]",
+              "count": 2324,
+              "mean_pred": 0.084,
+              "observed_freq": 0.1239,
+              "abs_gap": 0.0399
+            },
+            {
+              "bin": 1,
+              "bin_range": "[0.1, 0.2]",
+              "count": 1407,
+              "mean_pred": 0.1421,
+              "observed_freq": 0.1798,
+              "abs_gap": 0.0377
+            },
+            {
+              "bin": 2,
+              "bin_range": "[0.2, 0.3]",
+              "count": 261,
+              "mean_pred": 0.2325,
+              "observed_freq": 0.3372,
+              "abs_gap": 0.1047
+            },
+            {
+              "bin": 3,
+              "bin_range": "[0.3, 0.4]",
+              "count": 8,
+              "mean_pred": 0.308,
+              "observed_freq": 1.0,
+              "abs_gap": 0.692
+            }
+          ]
+        }
+      },
+      "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P5_quantile_regression_fold_4.parquet"
+    }
+  ]
+}

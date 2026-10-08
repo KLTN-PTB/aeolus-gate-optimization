@@ -1,0 +1,156 @@
+{
+  "experiment_id": "core_point_academic_benchmark_v1",
+  "model_id": "arrival_weighted_ensemble_v1",
+  "fold_id": "fold_1",
+  "validation_year": 2019,
+  "train_years": [
+    2016,
+    2017,
+    2018
+  ],
+  "train_rows": 10500,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "runtime_seconds": 0.028,
+  "memory_mb": 1.84,
+  "classification": {
+    "roc_auc": 0.6266591333187492,
+    "pr_auc": 0.2107612471371312,
+    "recall": 0.5226039783001808,
+    "f1": 0.2822265625,
+    "brier_score": 0.22472195091662367,
+    "threshold": 0.5,
+    "calibration": {
+      "method": "fixed_width_10_bins_no_posthoc_calibrator",
+      "bin_count": 10,
+      "expected_calibration_error": 0.3201555341491633,
+      "bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.1,
+          "count": 0,
+          "mean_predicted_probability": null,
+          "observed_positive_rate": null
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.2,
+          "count": 26,
+          "mean_predicted_probability": 0.18328170110831368,
+          "observed_positive_rate": 0.038461538461538464
+        },
+        {
+          "lower": 0.2,
+          "upper": 0.3,
+          "count": 441,
+          "mean_predicted_probability": 0.26364275035036405,
+          "observed_positive_rate": 0.07029478458049887
+        },
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 1018,
+          "mean_predicted_probability": 0.3528841801800469,
+          "observed_positive_rate": 0.09528487229862476
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1020,
+          "mean_predicted_probability": 0.44782484662875593,
+          "observed_positive_rate": 0.1323529411764706
+        },
+        {
+          "lower": 0.5,
+          "upper": 0.6,
+          "count": 811,
+          "mean_predicted_probability": 0.5468880035242395,
+          "observed_positive_rate": 0.16522811344019728
+        },
+        {
+          "lower": 0.6,
+          "upper": 0.7,
+          "count": 535,
+          "mean_predicted_probability": 0.6436342608678413,
+          "observed_positive_rate": 0.20186915887850468
+        },
+        {
+          "lower": 0.7,
+          "upper": 0.8,
+          "count": 148,
+          "mean_predicted_probability": 0.7290361909030831,
+          "observed_positive_rate": 0.31756756756756754
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "count": 1,
+          "mean_predicted_probability": 0.8050638025980823,
+          "observed_positive_rate": 0.0
+        },
+        {
+          "lower": 0.9,
+          "upper": 1.0,
+          "count": 0,
+          "mean_predicted_probability": null,
+          "observed_positive_rate": null
+        }
+      ]
+    }
+  },
+  "regression": {
+    "mae": 21.02829919443838,
+    "rmse": 40.616423971673285,
+    "r2": -0.019832910248142044,
+    "stratified": {
+      "overall": {
+        "count": 4000,
+        "mae": 21.02829919443838,
+        "rmse": 40.616423971673285,
+        "mean_bias": 3.567953403615477,
+        "mean_true": -0.2075,
+        "mean_pred": 3.360453403615477
+      },
+      "early_on_time": {
+        "count": 3447,
+        "mae": 14.990971104837788,
+        "rmse": 18.1690893817983,
+        "mean_bias": 13.517578672865868,
+        "mean_true": -10.399767914128228,
+        "mean_pred": 3.1178107587376416
+      },
+      "moderate_delay": {
+        "count": 376,
+        "mae": 26.111430670318914,
+        "rmse": 29.60238403664819,
+        "mean_bias": -25.802815488215405,
+        "mean_true": 30.622340425531913,
+        "mean_pred": 4.81952493731651
+      },
+      "severe_delay": {
+        "count": 177,
+        "mae": 127.80464094541102,
+        "rmse": 170.26694167434943,
+        "mean_bias": -127.80464094541102,
+        "mean_true": 132.7909604519774,
+        "mean_pred": 4.986319506566387
+      },
+      "shrinkage_ratio": 0.03755014264219922,
+      "prediction_collapse_warning": true,
+      "warning_message": "Prediction collapse warning: shrinkage ratio on severe delay (>= 60 min) is 0.0376 (< 0.30). The model severely underpredicts extreme delays."
+    }
+  },
+  "oof_artifact": "artifacts\\model_benchmark\\core_point\\core_point_academic_benchmark_v1_20260930_124849\\oof\\arrival_weighted_ensemble_v1_fold_1.parquet",
+  "weights": {
+    "arrival_linear_baseline_v1_cls": 0.25,
+    "arrival_random_forest_baseline_v1_cls": 0.25,
+    "arrival_hist_gradient_boosting_baseline_v1_cls": 0.25,
+    "arrival_xgboost_baseline_v1_cls": 0.25,
+    "arrival_linear_baseline_v1_reg": 0.25,
+    "arrival_random_forest_baseline_v1_reg": 0.25,
+    "arrival_hist_gradient_boosting_baseline_v1_reg": 0.25,
+    "arrival_xgboost_baseline_v1_reg": 0.25
+  }
+}

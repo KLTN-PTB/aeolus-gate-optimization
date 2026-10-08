@@ -1,0 +1,55 @@
+{
+  "model_id": "P5_quantile_regression",
+  "family": "probabilistic",
+  "fold_id": "fold_2",
+  "validation_year": 2020,
+  "seed": 202602,
+  "data_seed": 202601,
+  "status": "COMPLETED",
+  "runtime_seconds": 1.045,
+  "memory_mb": 2.7,
+  "failure_reason": null,
+  "error_category": null,
+  "model_version": "core_probabilistic_v1",
+  "data_version": "aeolus_canonical_v1",
+  "feature_version": "v1",
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 0.7343,
+      "alpha_0.050": 1.2754,
+      "alpha_0.100": 2.2049,
+      "alpha_0.250": 4.2853,
+      "alpha_0.500": 6.4468,
+      "alpha_0.750": 7.0147,
+      "alpha_0.900": 5.9831,
+      "alpha_0.950": 4.8927,
+      "alpha_0.975": 3.6895
+    },
+    "mean_pinball_loss": 4.0585,
+    "crps_quantile_approx": 9.9542,
+    "crps": 9.9542,
+    "nll": "NOT_AVAILABLE",
+    "empirical_coverage": {
+      "interval_50": 0.529,
+      "interval_80": 0.801,
+      "interval_90": 0.8905,
+      "interval_95": 0.9357
+    },
+    "interval_widths": {
+      "interval_50": 19.1,
+      "interval_80": 43.65,
+      "interval_90": 73.07,
+      "interval_95": 115.0
+    },
+    "brier_score_delay_ge_15": "NOT_AVAILABLE",
+    "calibration_diagnostics": {
+      "status": "NOT_AVAILABLE",
+      "reason": "Event probability is not supported"
+    },
+    "pit": {
+      "status": "NOT_AVAILABLE",
+      "reason": "Candidate does not support continuous CDF"
+    }
+  },
+  "created_at_utc": "2026-09-30T14:18:44.082925+00:00"
+}

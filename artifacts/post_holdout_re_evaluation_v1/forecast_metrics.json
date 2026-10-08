@@ -1,0 +1,57 @@
+{
+  "evaluation_role": "POST_HOLDOUT_REEVALUATION_AFTER_METHODOLOGY_REPAIR",
+  "evaluation_year": 2024,
+  "n_samples": 5000,
+  "created_at_utc": "2026-10-04T12:12:26.688140+00:00",
+  "freeze_manifest_sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+  "p4_checkpoint_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+  "models": {
+    "schedule_only": {
+      "model_id": "schedule_only",
+      "role": "baseline",
+      "point_mae": 23.3776,
+      "point_rmse": 52.6527,
+      "r2": -0.0079
+    },
+    "arrival_linear_baseline_v1": {
+      "model_id": "arrival_linear_baseline_v1",
+      "role": "point_baseline_ridge",
+      "point_mae": 23.3887,
+      "point_rmse": 52.9374,
+      "r2": -0.0188
+    },
+    "P4_ngboost_student_t": {
+      "model_id": "P4_ngboost_student_t",
+      "role": "Role C: Continuous Downstream Stochastic Engine",
+      "point_mae": 21.9655,
+      "point_rmse": 54.2141,
+      "r2": -0.0685,
+      "exact_continuous_crps": 18.325,
+      "exact_continuous_nll": 4.6234,
+      "brier_score_ge_15": 0.15444,
+      "brier_score_ge_60": 0.06502,
+      "brier_score_ge_120": 0.02691,
+      "coverage_80": 0.7612,
+      "mean_width_80": 38.73,
+      "coverage_90": 0.8454,
+      "mean_width_90": 57.31,
+      "df_min": 2.1,
+      "df_mean": 2.52,
+      "df_max": 2.78,
+      "calibration_status": "NOT_SEPARATELY_CERTIFIED"
+    },
+    "historical_p5_reference": {
+      "model_id": "P5_quantile_regression",
+      "evidence_type": "HISTORICAL_POST_HOLDOUT_EVIDENCE",
+      "reconstruction_status": "NOT_RECONSTRUCTED (Permanent Role B Champion)",
+      "source_artifact": "artifacts/post_holdout_v2/marginal_forecast_metrics_2024_v2.json",
+      "historical_point_mae": 21.6879,
+      "historical_point_rmse": 53.7388,
+      "historical_pinball_crps_proxy": 16.7675,
+      "historical_nll": "NOT_AVAILABLE (No continuous density)",
+      "historical_coverage_80": 0.7424,
+      "historical_coverage_90": 0.8514,
+      "downstream_capability": "FORECAST_ONLY (No continuous sampling)"
+    }
+  }
+}

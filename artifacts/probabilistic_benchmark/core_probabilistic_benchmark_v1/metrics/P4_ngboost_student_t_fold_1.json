@@ -1,0 +1,80 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v1",
+  "candidate_id": "P4_ngboost_student_t",
+  "fold_id": "fold_1",
+  "validation_year": 2019,
+  "train_years": [
+    2016,
+    2017,
+    2018
+  ],
+  "train_rows": 10500,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 9.486,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true
+  },
+  "metrics": {
+    "brier_score_delay_ge_15": 0.12235,
+    "pinball_losses": {
+      "alpha_0.025": 1.2307,
+      "alpha_0.050": 1.9099,
+      "alpha_0.100": 2.9809,
+      "alpha_0.250": 5.556,
+      "alpha_0.500": 8.585,
+      "alpha_0.750": 9.5694,
+      "alpha_0.900": 8.3113,
+      "alpha_0.950": 6.9622,
+      "alpha_0.975": 5.6312
+    },
+    "mean_pinball_loss": 5.6374,
+    "crps_quantile_approx": 13.4381,
+    "crps": 13.4381,
+    "nll": 4.4004,
+    "empirical_coverage": {
+      "interval_50": 0.5278,
+      "interval_80": 0.8187,
+      "interval_90": 0.89,
+      "interval_95": 0.9185
+    },
+    "interval_widths": {
+      "interval_50": 18.56,
+      "interval_80": 40.54,
+      "interval_90": 59.4,
+      "interval_95": 82.15
+    },
+    "pit": {
+      "ks_statistic": 0.0755,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.03
+    },
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.0594,
+      "maximum_calibration_error": 0.0594,
+      "reliability_table": [
+        {
+          "bin": 0,
+          "bin_range": "[0.0, 0.1]",
+          "count": 4000,
+          "mean_pred": 0.0788,
+          "observed_freq": 0.1383,
+          "abs_gap": 0.0594
+        }
+      ]
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P4_ngboost_student_t_fold_1.parquet"
+}

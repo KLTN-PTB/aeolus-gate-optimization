@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-09-30T14:20:34.605066+00:00",
+  "total_runs_evaluated": 120,
+  "failed_runs_count": 0,
+  "overall_failure_rate": 0.0,
+  "failures": [],
+  "rerun_policy": "Rerun only if proven infrastructure/transient issue, recorded explicitly."
+}

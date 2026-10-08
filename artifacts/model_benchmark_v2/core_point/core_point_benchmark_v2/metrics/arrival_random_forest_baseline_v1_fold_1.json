@@ -1,0 +1,36 @@
+{
+  "experiment_id": "core_point_benchmark_v2",
+  "model_id": "arrival_random_forest_baseline_v1",
+  "fold_id": "fold_1",
+  "validation_year": 2019,
+  "train_years": [
+    2016,
+    2017,
+    2018
+  ],
+  "train_rows": 10500,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "runtime_seconds": 0.377,
+  "memory_mb": 7.73,
+  "metrics": {
+    "n_total": 4000,
+    "n_valid": 4000,
+    "n_missing": 0,
+    "n_failures": 0,
+    "mae": 20.8651,
+    "rmse": 40.5024,
+    "r2": -0.0141,
+    "severe_delay_count": 177,
+    "severe_delay_mae_ge_60": 127.7463,
+    "pr_auc": 0.21411,
+    "roc_auc": 0.629,
+    "brier_score": 0.21981,
+    "probability_semantics": "VALID_AUDITED_ESTIMATOR",
+    "probability_estimator": "dual_head_classifier"
+  },
+  "oof_artifact": "artifacts\\model_benchmark_v2\\core_point\\core_point_benchmark_v2\\oof\\arrival_random_forest_baseline_v1_fold_1.parquet",
+  "weights": null
+}

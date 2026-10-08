@@ -1,0 +1,63 @@
+On branch development/scalability-1500x50
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   PROJECT_SUMMARY.md
+	modified:   README.md
+	modified:   artifacts/manifests/system_freeze_manifest.json
+	modified:   artifacts/manifests/system_freeze_manifest.sha256
+	modified:   docs/CURRENT_STATE.md
+	modified:   docs/README.md
+	modified:   docs/handover.md
+	modified:   project_structure.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	ARTIFACT_RECONCILIATION.md
+	CERTIFICATION_DOMAIN_MAP.md
+	FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md
+	FINAL_TEST_SCOPE_RECONCILIATION.md
+	FREEZE_GATE_AUDIT_REPORT.md
+	P10A_NATIVE_P4_DOWNSTREAM_REBUILD.md
+	P10B_WEEK10_FREEZE_REPORT.md
+	P10R2_DOWNSTREAM_METHODOLOGY_DEVIATION.md
+	P10R_PREDICTION_REGIME_LINEAGE.md
+	P11R_FINAL_REPORT.md
+	P12_1_LEGACY_GUARD_RECONCILIATION.md
+	R38_NATIVE_DOWNSTREAM_PREFLIGHT.md
+	R39_P5_RECONSTRUCTION_FEASIBILITY.md
+	SCOPED_REPRODUCIBILITY_AUDIT.md
+	TEST_SCOPE_RECONCILIATION.md
+	THESIS_EVIDENCE_NORMALIZATION_REPORT.md
+	artifacts/audit/
+	artifacts/development_end_to_end/
+	artifacts/downstream_model_comparison/
+	artifacts/downstream_model_comparison_v3/
+	artifacts/end_to_end/
+	artifacts/end_to_end_smoke/
+	artifacts/evaluation/
+	artifacts/final_code_audit/
+	artifacts/model_benchmark/
+	artifacts/model_benchmark_v2/
+	artifacts/monte_carlo_model_comparison/
+	artifacts/monte_carlo_model_comparison_v2/
+	artifacts/native_downstream_v1/
+	artifacts/paired_comparison/
+	artifacts/post_holdout/
+	artifacts/post_holdout_re_evaluation_v1/
+	artifacts/post_holdout_v2/
+	artifacts/probabilistic_benchmark/
+	artifacts/stability/
+	artifacts/week10_robustness/
+	pytest.ini
+	scripts/run_native_p4_downstream.py
+	scripts/run_p11r_post_holdout_reevaluation.py
+	scripts/run_week10_completion_and_freeze.py
+	src/evaluation/native_downstream_p4.py
+	src/evaluation/week10_robustness_recourse.py
+	system_freeze_manifest.json
+	tests/downstream/test_native_p4_downstream.py
+	tests/downstream/test_p11r_post_holdout.py
+	tests/downstream/test_week10_robustness_freeze.py
+
+no changes added to commit (use "git add" and/or "git commit -a")

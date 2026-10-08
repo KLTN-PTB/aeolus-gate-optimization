@@ -1,0 +1,104 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v1",
+  "candidate_id": "P3_ngboost_normal",
+  "fold_id": "fold_1",
+  "validation_year": 2019,
+  "train_years": [
+    2016,
+    2017,
+    2018
+  ],
+  "train_rows": 10500,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 1.384,
+  "memory_mb": 0.91,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true
+  },
+  "metrics": {
+    "brier_score_delay_ge_15": 0.17928,
+    "pinball_losses": {
+      "alpha_0.025": 2.2239,
+      "alpha_0.050": 3.7142,
+      "alpha_0.100": 5.7369,
+      "alpha_0.250": 7.4629,
+      "alpha_0.500": 10.0596,
+      "alpha_0.750": 13.1871,
+      "alpha_0.900": 9.3459,
+      "alpha_0.950": 6.4873,
+      "alpha_0.975": 4.48
+    },
+    "mean_pinball_loss": 6.9664,
+    "crps_quantile_approx": 17.2391,
+    "crps": 17.7095,
+    "nll": 5.1162,
+    "empirical_coverage": {
+      "interval_50": 0.8862,
+      "interval_80": 0.9575,
+      "interval_90": 0.9688,
+      "interval_95": 0.9755
+    },
+    "interval_widths": {
+      "interval_50": 62.81,
+      "interval_80": 119.34,
+      "interval_90": 153.17,
+      "interval_95": 182.51
+    },
+    "pit": {
+      "ks_statistic": 0.2682,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.1055
+    },
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.2486,
+      "maximum_calibration_error": 0.4497,
+      "reliability_table": [
+        {
+          "bin": 3,
+          "bin_range": "[0.3, 0.4]",
+          "count": 3083,
+          "mean_pred": 0.3727,
+          "observed_freq": 0.1135,
+          "abs_gap": 0.2592
+        },
+        {
+          "bin": 4,
+          "bin_range": "[0.4, 0.5]",
+          "count": 882,
+          "mean_pred": 0.4284,
+          "observed_freq": 0.2234,
+          "abs_gap": 0.2051
+        },
+        {
+          "bin": 5,
+          "bin_range": "[0.5, 0.6]",
+          "count": 19,
+          "mean_pred": 0.5537,
+          "observed_freq": 0.1579,
+          "abs_gap": 0.3958
+        },
+        {
+          "bin": 6,
+          "bin_range": "[0.6, 0.7]",
+          "count": 16,
+          "mean_pred": 0.6372,
+          "observed_freq": 0.1875,
+          "abs_gap": 0.4497
+        }
+      ]
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P3_ngboost_normal_fold_1.parquet"
+}

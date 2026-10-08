@@ -1,0 +1,89 @@
+{
+  "manifest_version": "development_end_to_end_run_manifest_v1",
+  "phase": "STEP_7_BROADER_DEVELOPMENT_END_TO_END_BENCHMARK",
+  "status": "PASS",
+  "timestamp_utc": "2026-09-30T10:22:49.009533+00:00",
+  "total_wall_seconds": 87.44453120231628,
+  "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+  "protocol_reference": "docs/Aeolus_Probabilistic_Core_Arrival_Protocol.md - Section 19",
+  "post_holdout_status": "POST_HOLDOUT_STABILIZED",
+  "evaluation_label": "DEVELOPMENT_END_TO_END_BENCHMARK",
+  "prerequisites_status": {
+    "step_1_monte_carlo": "PASS",
+    "step_2_cp_sat_objective": "PASS",
+    "step_3_sa_benchmark": "PASS",
+    "step_4_temporal_guards": "PASS",
+    "step_5_dependence_contract": "PASS",
+    "step_6_timeline_semantics": "PASS"
+  },
+  "benchmark_days": [
+    {
+      "day_id": "DAY_LOW",
+      "date_str": "2023-11-23",
+      "demand_level": "LOW",
+      "description": "Thanksgiving Day off-peak morning bank (light operational demand)",
+      "n_flights": 40,
+      "n_contact_gates": 12,
+      "bank_time_range": [
+        360,
+        720
+      ]
+    },
+    {
+      "day_id": "DAY_MEDIUM",
+      "date_str": "2023-07-03",
+      "demand_level": "MEDIUM",
+      "description": "Summer pre-holiday midday bank (moderate operational demand)",
+      "n_flights": 70,
+      "n_contact_gates": 18,
+      "bank_time_range": [
+        660,
+        1020
+      ]
+    },
+    {
+      "day_id": "DAY_HIGH",
+      "date_str": "2023-07-13",
+      "demand_level": "HIGH",
+      "description": "Peak summer weekday bank (maximum throughput demand)",
+      "n_flights": 100,
+      "n_contact_gates": 24,
+      "bank_time_range": [
+        780,
+        1260
+      ]
+    },
+    {
+      "day_id": "DAY_WEATHER_DISRUPTED",
+      "date_str": "2023-08-07",
+      "demand_level": "WEATHER_DISRUPTED",
+      "description": "Severe convective weather disruption bank (heavy tail-delay volatility)",
+      "n_flights": 70,
+      "n_contact_gates": 18,
+      "bank_time_range": [
+        840,
+        1260
+      ]
+    }
+  ],
+  "scenario_count_total": 40,
+  "methods_evaluated": [
+    "Greedy",
+    "CP-SAT",
+    "SA"
+  ],
+  "artifact_inventory": {
+    "run_manifest": "D:/Study/Code/Python/Aelous/artifacts/development_end_to_end/run_manifest.json",
+    "scenario_registry": "D:/Study/Code/Python/Aelous/artifacts/development_end_to_end/scenario_registry.parquet",
+    "greedy_results": "D:/Study/Code/Python/Aelous/artifacts/development_end_to_end/greedy_results.parquet",
+    "cp_sat_results": "D:/Study/Code/Python/Aelous/artifacts/development_end_to_end/cp_sat_results.parquet",
+    "sa_results": "D:/Study/Code/Python/Aelous/artifacts/development_end_to_end/sa_results.parquet",
+    "aggregate_metrics": "D:/Study/Code/Python/Aelous/artifacts/development_end_to_end/aggregate_metrics.json",
+    "failures": "D:/Study/Code/Python/Aelous/artifacts/development_end_to_end/failures.json"
+  },
+  "all_hard_feasibility_satisfied": true,
+  "zero_contact_conflicts_across_all_solvers": true,
+  "failures_count": 0,
+  "deterministic_repetition_confirmed": true,
+  "non_real_world_caveat": "This benchmark evaluates optimization performance across synthetic Monte Carlo scenarios generated from historical 2023 development schedules at KATL. It does NOT claim real-world airport ground truth, complete operational optimality, or universal superiority of any single method."
+}

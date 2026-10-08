@@ -1,0 +1,81 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v1",
+  "candidate_id": "P4_ngboost_student_t",
+  "fold_id": "fold_2",
+  "validation_year": 2020,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019
+  ],
+  "train_rows": 14000,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 12.094,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true
+  },
+  "metrics": {
+    "brier_score_delay_ge_15": 0.0584,
+    "pinball_losses": {
+      "alpha_0.025": 1.0856,
+      "alpha_0.050": 1.6221,
+      "alpha_0.100": 2.42,
+      "alpha_0.250": 4.224,
+      "alpha_0.500": 6.2613,
+      "alpha_0.750": 6.6196,
+      "alpha_0.900": 5.4353,
+      "alpha_0.950": 4.4497,
+      "alpha_0.975": 3.5842
+    },
+    "mean_pinball_loss": 3.9669,
+    "crps_quantile_approx": 9.6113,
+    "crps": 9.6113,
+    "nll": 4.1135,
+    "empirical_coverage": {
+      "interval_50": 0.5925,
+      "interval_80": 0.8935,
+      "interval_90": 0.9477,
+      "interval_95": 0.9653
+    },
+    "interval_widths": {
+      "interval_50": 18.55,
+      "interval_80": 40.59,
+      "interval_90": 59.58,
+      "interval_95": 82.57
+    },
+    "pit": {
+      "ks_statistic": 0.1152,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.0361
+    },
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.0167,
+      "maximum_calibration_error": 0.0167,
+      "reliability_table": [
+        {
+          "bin": 0,
+          "bin_range": "[0.0, 0.1]",
+          "count": 4000,
+          "mean_pred": 0.0787,
+          "observed_freq": 0.062,
+          "abs_gap": 0.0167
+        }
+      ]
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P4_ngboost_student_t_fold_2.parquet"
+}

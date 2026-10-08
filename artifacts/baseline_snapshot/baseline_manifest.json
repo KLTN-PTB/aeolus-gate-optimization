@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "manifest_id": "aeolus_baseline_snapshot_v1_phase0",
+  "generated_at_utc": "2026-10-05T03:10:00Z",
+  "phase": "Phase 0 — Baseline Freeze & Environment Reconciliation",
+  "target_experiment": "1500-flight x 50-gate Scalability & Stress Benchmark",
+  "governing_protocol": "AEOLUS_V4_PHASE14_FINAL_CERTIFICATION",
+  "system_lifecycle_state": "CERTIFIED_WITH_LIMITATIONS",
+  "rebuild_decision": "REBUILD_REQUIRED = NO",
+  "git": {
+    "head_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+    "base_branch": "v4-final-forensic-certification",
+    "active_branch": "development/scalability-1500x50",
+    "status_file": "artifacts/baseline_snapshot/git_status.txt",
+    "commit_file": "artifacts/baseline_snapshot/git_commit.txt"
+  },
+  "runtime_environment": {
+    "python_version": "3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "system": "Windows",
+    "release": "10",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+    "environment_file": "artifacts/baseline_snapshot/environment.txt",
+    "core_packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.17.1",
+      "pandas": "2.3.3",
+      "pyarrow": "25.0.1",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0",
+      "lightgbm": "4.7.0",
+      "ngboost": "0.5.11",
+      "optuna": "5.0.0",
+      "ortools": "9.15.6755",
+      "joblib": "1.5.3",
+      "pytest": "9.1.1",
+      "PyYAML": "6.0.3",
+      "psutil": "7.2.2"
+    }
+  },
+  "test_execution": {
+    "framework": "pytest 9.1.1",
+    "test_command": "& \"D:\\Study\\Code\\Python\\Aelous\\.venv\\Scripts\\python.exe\" -m pytest",
+    "summary_file": "artifacts/baseline_snapshot/test_summary.txt",
+    "tests_collected": 1216,
+    "tests_passed": 1216,
+    "tests_failed": 0,
+    "duration_seconds": 86.44,
+    "exit_code": 0,
+    "status": "PASS_100_PERCENT",
+    "retired_historical_guards_quarantined": 3
+  },
+  "authoritative_model_artifacts": {
+    "p4_continuous_stochastic_engine": {
+      "model_id": "P4_ngboost_student_t",
+      "checkpoint_path": "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+      "sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "verified_bit_for_bit": true,
+      "role": "Role C: Continuous Downstream Stochastic Simulation Champion"
+    },
+    "p5_marginal_quantile_champion": {
+      "model_id": "P5_quantile_regression",
+      "checkpoint_path": "NO_SERIALIZED_CHECKPOINT",
+      "role": "Role B: Marginal Quantile Forecast Champion (FORECAST_ONLY)",
+      "continuous_sampling_authorized": false
+    },
+    "point_baseline": {
+      "model_id": "arrival_linear_baseline_v1",
+      "implementation": "RidgeArrivalModel",
+      "role": "Point Reference Baseline"
+    }
+  },
+  "configuration_and_code_hashes": {
+    "system_freeze_manifest.json": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+    "configs/model_catalog_v2.yaml": "782a59f639d9c1a1b4626e9920ebd8469ac9edf04121fa164f5952778421be8f",
+    "configs/current_state.yaml": "c8113bc6108ea0cc6ec7c783857b5a05a0eda1638e4e8e47a9acecf8f3fc69b4",
+    "configs/model_selection_protocol_v2.yaml": "425cdc64ea2a20e016ec619dd677198cb68e8282640e3923bd52ad0d91c9bd61",
+    "configs/monte_carlo_protocol_v2.yaml": "85a1a360dc6dc59bcea0eb957462a9730258e47239a60e6801529f4d453a3dfc",
+    "configs/seed_registry.yaml": "798ecc5abfebb1fb11e0ab6db76962f5e9f78bf516d2f5e64edded6d895f0ff9",
+    "src/models/registry.py": "0a07a9237fdfa9bc1aaccf5fdfd4eab0b2e82acb90b2ecd49450c6c99174df30",
+    "src/features/tabular_features.py": "33d2e08b37058032764cd6968021542aeca3aa68268bf9525bf878e217234418",
+    "src/audit/protocol_guards.py": "7671fb9bb473e564e814b9ef5f54e665a171c27485b509b124fbb2c61cb9527a",
+    "pytest.ini": "bb0d9e947642a46c2588b785d1032caadc34b78c24188e0c28504c9e3f3a76fc"
+  },
+  "scientific_safety_invariants": {
+    "core_arrival_predictors_count": 11,
+    "core_arrival_weather": "PROHIBITED_100_PERCENT_ABSENT",
+    "core_arrival_flight_chain": "PROHIBITED_100_PERCENT_ABSENT",
+    "auxiliary_departure_downstream": "ISOLATED_PROHIBITED_FROM_OPTIMIZER",
+    "temporal_holdout_2024_status": "POST_HOLDOUT_REEVALUATION_AFTER_METHODOLOGY_REPAIR",
+    "simulation_boundary": "SYNTHETIC_RESEARCH_SIMULATION_ONLY",
+    "reproducibility_tier": "CONTAINED_SPECIFICATION_REPRODUCIBILITY"
+  }
+}

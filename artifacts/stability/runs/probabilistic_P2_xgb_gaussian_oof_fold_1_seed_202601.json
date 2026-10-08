@@ -1,0 +1,90 @@
+{
+  "model_id": "P2_xgb_gaussian_oof",
+  "family": "probabilistic",
+  "fold_id": "fold_1",
+  "validation_year": 2019,
+  "seed": 202601,
+  "data_seed": 202601,
+  "status": "COMPLETED",
+  "runtime_seconds": 2.296,
+  "memory_mb": 96.87,
+  "failure_reason": null,
+  "error_category": null,
+  "model_version": "core_probabilistic_v1",
+  "data_version": "aeolus_canonical_v1",
+  "feature_version": "v1",
+  "metrics": {
+    "brier_score_delay_ge_15": 0.15398,
+    "pinball_losses": {
+      "alpha_0.025": 2.552,
+      "alpha_0.050": 4.3372,
+      "alpha_0.100": 6.9063,
+      "alpha_0.250": 9.8889,
+      "alpha_0.500": 8.6998,
+      "alpha_0.750": 11.9313,
+      "alpha_0.900": 8.9535,
+      "alpha_0.950": 6.3465,
+      "alpha_0.975": 4.463
+    },
+    "mean_pinball_loss": 7.1198,
+    "crps_quantile_approx": 17.2266,
+    "crps": 17.819,
+    "nll": 5.1539,
+    "empirical_coverage": {
+      "interval_50": 0.9022,
+      "interval_80": 0.952,
+      "interval_90": 0.966,
+      "interval_95": 0.9755
+    },
+    "interval_widths": {
+      "interval_50": 65.65,
+      "interval_80": 124.74,
+      "interval_90": 160.1,
+      "interval_95": 190.77
+    },
+    "pit": {
+      "ks_statistic": 0.2952,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.0993
+    },
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.1886,
+      "maximum_calibration_error": 0.5584,
+      "reliability_table": [
+        {
+          "bin": 2,
+          "bin_range": "[0.2, 0.3]",
+          "count": 542,
+          "mean_pred": 0.2871,
+          "observed_freq": 0.1255,
+          "abs_gap": 0.1616
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.3, 0.4]",
+          "count": 3361,
+          "mean_pred": 0.3305,
+          "observed_freq": 0.1384,
+          "abs_gap": 0.1922
+        },
+        {
+          "bin": 4,
+          "bin_range": "[0.4, 0.5]",
+          "count": 95,
+          "mean_pred": 0.4189,
+          "observed_freq": 0.2105,
+          "abs_gap": 0.2083
+        },
+        {
+          "bin": 5,
+          "bin_range": "[0.5, 0.6]",
+          "count": 2,
+          "mean_pred": 0.5584,
+          "observed_freq": 0.0,
+          "abs_gap": 0.5584
+        }
+      ]
+    }
+  },
+  "created_at_utc": "2026-09-30T14:16:26.522865+00:00"
+}

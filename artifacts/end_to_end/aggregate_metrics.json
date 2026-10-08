@@ -1,0 +1,98 @@
+{
+  "evaluation_scope": {
+    "target_day": "2023-06-01",
+    "n_flights": 50,
+    "n_contact_gates": 20,
+    "n_scenarios_evaluated": 20
+  },
+  "greedy_aggregate": {
+    "mean_objective": 113.11000000000001,
+    "mean_reassignments": 9.3,
+    "mean_overflows": 0.0,
+    "mean_runtime_ms": 0.4913399998258683,
+    "total_conflicts": 0,
+    "all_feasible": true
+  },
+  "cpsat_aggregate": {
+    "mean_objective": 98.61,
+    "mean_reassignments": 7.85,
+    "mean_overflows": 0.0,
+    "mean_runtime_ms": 158.8275700005397,
+    "total_conflicts": 0,
+    "all_feasible": true
+  },
+  "cpsat_plus_sa_aggregate": {
+    "mean_objective": 98.61,
+    "mean_reassignments": 7.85,
+    "mean_overflows": 0.0,
+    "mean_runtime_ms": 561.3102850007635,
+    "total_conflicts": 0,
+    "all_feasible": true
+  },
+  "relative_performance": {
+    "cpsat_vs_greedy_improvement_pct": 12.819379365219707,
+    "sa_vs_cpsat_improvement_pct": 0.0
+  },
+  "mc_convergence_stability": [
+    {
+      "sample_size_N": 100,
+      "scenarios_evaluated": 100,
+      "scenario_matrix_hash": "7526e42007c65cc87d34729b00bbcefb993b6c1bf9453186748f6793984f1e39",
+      "number_of_unique_scenarios": 100,
+      "conflict_probability": 1.0,
+      "p95_conflict_duration_min": 660.25,
+      "expected_objective": 108.74933333333334,
+      "objective_variance": 313.49431622222227,
+      "conflict_duration_variance": 6975.869999999999,
+      "mean_utilization": 0.1482045138888889
+    },
+    {
+      "sample_size_N": 250,
+      "scenarios_evaluated": 250,
+      "scenario_matrix_hash": "6b1b52a570585dbe45a1a79e44aa81574ad4c931ffef52c2647b7814d6161d87",
+      "number_of_unique_scenarios": 250,
+      "conflict_probability": 1.0,
+      "p95_conflict_duration_min": 656.55,
+      "expected_objective": 109.1302,
+      "objective_variance": 370.3431735155556,
+      "conflict_duration_variance": 6381.458,
+      "mean_utilization": 0.14855083333333335
+    },
+    {
+      "sample_size_N": 500,
+      "scenarios_evaluated": 500,
+      "scenario_matrix_hash": "810dc86447ecd483f761fcf6c5493e333d68716b31633eea35bcd5ac98eb8de7",
+      "number_of_unique_scenarios": 500,
+      "conflict_probability": 1.0,
+      "p95_conflict_duration_min": 658.0999999999999,
+      "expected_objective": 108.8338,
+      "objective_variance": 344.60312756,
+      "conflict_duration_variance": 7031.2384,
+      "mean_utilization": 0.14879444444444445
+    },
+    {
+      "sample_size_N": 1000,
+      "scenarios_evaluated": 1000,
+      "scenario_matrix_hash": "27c1493f656bab556b6ecdf388158c0309c8fc160a2e47c38efc4c9dcd6a500a",
+      "number_of_unique_scenarios": 1000,
+      "conflict_probability": 1.0,
+      "p95_conflict_duration_min": 665.0,
+      "expected_objective": 109.81286666666666,
+      "objective_variance": 395.14755278222225,
+      "conflict_duration_variance": 9779.120878999998,
+      "mean_utilization": 0.14852968750000003
+    },
+    {
+      "sample_size_N": 2500,
+      "scenarios_evaluated": 2500,
+      "scenario_matrix_hash": "22d78f6d7af781926df976e342041b79b3a161f8e97e7fdf56da3c4579de26e1",
+      "number_of_unique_scenarios": 2500,
+      "conflict_probability": 1.0,
+      "p95_conflict_duration_min": 664.0,
+      "expected_objective": 110.27939333333333,
+      "objective_variance": 392.98151458751107,
+      "conflict_duration_variance": 9980.77321536,
+      "mean_utilization": 0.14822656944444443
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+[
+  {
+    "solver_name": "DeterministicGreedy",
+    "model_a": "schedule_only",
+    "model_b": "arrival_linear_baseline_v1",
+    "delta_objective": -10.0,
+    "delta_reassignments": -1,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "DeterministicGreedy",
+    "model_a": "schedule_only",
+    "model_b": "P4_ngboost_student_t",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "DeterministicGreedy",
+    "model_a": "schedule_only",
+    "model_b": "oracle_actual",
+    "delta_objective": -20.0,
+    "delta_reassignments": -2,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "DeterministicGreedy",
+    "model_a": "arrival_linear_baseline_v1",
+    "model_b": "P4_ngboost_student_t",
+    "delta_objective": 10.0,
+    "delta_reassignments": 1,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "DeterministicGreedy",
+    "model_a": "arrival_linear_baseline_v1",
+    "model_b": "oracle_actual",
+    "delta_objective": -10.0,
+    "delta_reassignments": -1,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "DeterministicGreedy",
+    "model_a": "P4_ngboost_student_t",
+    "model_b": "oracle_actual",
+    "delta_objective": -20.0,
+    "delta_reassignments": -2,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "CPSat",
+    "model_a": "schedule_only",
+    "model_b": "arrival_linear_baseline_v1",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "CPSat",
+    "model_a": "schedule_only",
+    "model_b": "P4_ngboost_student_t",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "CPSat",
+    "model_a": "schedule_only",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "CPSat",
+    "model_a": "arrival_linear_baseline_v1",
+    "model_b": "P4_ngboost_student_t",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "CPSat",
+    "model_a": "arrival_linear_baseline_v1",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "CPSat",
+    "model_a": "P4_ngboost_student_t",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "SimulatedAnnealing",
+    "model_a": "schedule_only",
+    "model_b": "arrival_linear_baseline_v1",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "SimulatedAnnealing",
+    "model_a": "schedule_only",
+    "model_b": "P4_ngboost_student_t",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "SimulatedAnnealing",
+    "model_a": "schedule_only",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "SimulatedAnnealing",
+    "model_a": "arrival_linear_baseline_v1",
+    "model_b": "P4_ngboost_student_t",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "SimulatedAnnealing",
+    "model_a": "arrival_linear_baseline_v1",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "SimulatedAnnealing",
+    "model_a": "P4_ngboost_student_t",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "HybridCPSatSA",
+    "model_a": "schedule_only",
+    "model_b": "arrival_linear_baseline_v1",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "HybridCPSatSA",
+    "model_a": "schedule_only",
+    "model_b": "P4_ngboost_student_t",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "HybridCPSatSA",
+    "model_a": "schedule_only",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "HybridCPSatSA",
+    "model_a": "arrival_linear_baseline_v1",
+    "model_b": "P4_ngboost_student_t",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "HybridCPSatSA",
+    "model_a": "arrival_linear_baseline_v1",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  },
+  {
+    "solver_name": "HybridCPSatSA",
+    "model_a": "P4_ngboost_student_t",
+    "model_b": "oracle_actual",
+    "delta_objective": 0.0,
+    "delta_reassignments": 0,
+    "delta_remote": 0,
+    "delta_unassigned": 0,
+    "delta_conflicts": 0
+  }
+]

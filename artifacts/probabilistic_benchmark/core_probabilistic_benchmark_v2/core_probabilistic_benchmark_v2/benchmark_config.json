@@ -1,0 +1,18 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v2",
+  "task": "core_arrival",
+  "cutoff": "CRS_DEP_TIME - 2h",
+  "seed": 202601,
+  "data_seed": null,
+  "sample_train_per_year": 3500,
+  "sample_val": 4000,
+  "output_dir": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v2",
+  "candidates": [
+    "P1_empirical",
+    "P2_xgb_gaussian_oof",
+    "P3_ngboost_normal",
+    "P4_ngboost_student_t",
+    "P5_quantile_regression"
+  ],
+  "config_hash": "9c1ca6d3ebf73061e5387e93651249b401411ea7ac90e5d23a581f31b1384d62"
+}

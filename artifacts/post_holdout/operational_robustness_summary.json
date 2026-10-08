@@ -1,0 +1,40 @@
+{
+  "evaluation_role": "POST_HOLDOUT",
+  "holdout_year": 2024,
+  "created_at_utc": "2026-10-01T17:29:42.917469+00:00",
+  "manifest_sha256": "edca98f0c3c59828b1478d1b3439b357290e2da1cd5b1a0e69d047e3e98acd66",
+  "robustness": {
+    "SCEN_2024_WINTER": {
+      "n_realizations": 100,
+      "mean_simulated_delay": 47.089095107933524,
+      "std_simulated_delay": 139.67055804089554,
+      "p90_simulated_delay": 206.71223531201636,
+      "var_95": 265.37921734131646,
+      "cvar_95": 542.3800697990928
+    },
+    "SCEN_2024_SPRING": {
+      "n_realizations": 100,
+      "mean_simulated_delay": -10.537729366416045,
+      "std_simulated_delay": 25.864731522939902,
+      "p90_simulated_delay": 19.839115573748728,
+      "var_95": 35.2918300709583,
+      "cvar_95": 55.841141968038535
+    },
+    "SCEN_2024_SUMMER": {
+      "n_realizations": 100,
+      "mean_simulated_delay": 5.9157104437896875,
+      "std_simulated_delay": 55.912619796851544,
+      "p90_simulated_delay": 39.25402409997162,
+      "var_95": 72.15993343638065,
+      "cvar_95": 202.18249010840097
+    },
+    "SCEN_2024_FALL_DISRUPTED": {
+      "n_realizations": 100,
+      "mean_simulated_delay": -5.0753836969397,
+      "std_simulated_delay": 28.49013701483328,
+      "p90_simulated_delay": 29.329382574288235,
+      "var_95": 51.886122558235385,
+      "cvar_95": 73.0439011831447
+    }
+  }
+}

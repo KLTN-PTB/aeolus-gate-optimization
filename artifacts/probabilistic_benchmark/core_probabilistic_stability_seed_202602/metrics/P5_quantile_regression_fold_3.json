@@ -1,0 +1,72 @@
+{
+  "experiment_id": "core_probabilistic_stability_seed_202602",
+  "candidate_id": "P5_quantile_regression",
+  "fold_id": "fold_3",
+  "validation_year": 2021,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "train_rows": 17500,
+  "validation_rows": 4000,
+  "seed": 202602,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 1.12,
+  "memory_mb": 2.12,
+  "capabilities": {
+    "has_mean": false,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": false,
+    "has_probability_ge": false,
+    "has_p_delay_ge_15": false,
+    "has_sampler": false,
+    "has_nll": false,
+    "has_crps": true
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 0.758,
+      "alpha_0.050": 1.3876,
+      "alpha_0.100": 2.4961,
+      "alpha_0.250": 5.1572,
+      "alpha_0.500": 8.0798,
+      "alpha_0.750": 9.0961,
+      "alpha_0.900": 7.9914,
+      "alpha_0.950": 6.5634,
+      "alpha_0.975": 5.0087
+    },
+    "mean_pinball_loss": 5.1709,
+    "crps_quantile_approx": 12.5792,
+    "crps": 12.5792,
+    "nll": "NOT_AVAILABLE",
+    "empirical_coverage": {
+      "interval_50": 0.4587,
+      "interval_80": 0.7372,
+      "interval_90": 0.8545,
+      "interval_95": 0.922
+    },
+    "interval_widths": {
+      "interval_50": 14.4,
+      "interval_80": 32.31,
+      "interval_90": 50.64,
+      "interval_95": 79.27
+    },
+    "brier_score_delay_ge_15": "NOT_AVAILABLE",
+    "calibration_diagnostics": {
+      "status": "NOT_AVAILABLE",
+      "reason": "Event probability is not supported"
+    },
+    "pit": {
+      "status": "NOT_AVAILABLE",
+      "reason": "Candidate does not support continuous CDF"
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_stability_seed_202602\\oof\\P5_quantile_regression_fold_3.parquet"
+}

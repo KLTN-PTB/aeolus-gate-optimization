@@ -1,0 +1,35 @@
+{
+  "run_id": "P11R_POST_HOLDOUT_REEVALUATION_20261004T121356Z",
+  "status": "COMPLETED",
+  "classification": "POST_HOLDOUT_REEVALUATION_AFTER_METHODOLOGY_REPAIR",
+  "created_at_utc": "2026-10-04T12:13:56.266348+00:00",
+  "total_runtime_seconds": 95.72,
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "freeze_manifest_sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+  "p4_checkpoint_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+  "n_holdout_samples": 5000,
+  "n_scenarios_evaluated": 4,
+  "solvers_evaluated": [
+    "DeterministicGreedy",
+    "CPSat",
+    "SimulatedAnnealing",
+    "HybridCPSatSA"
+  ],
+  "models_evaluated": [
+    "schedule_only",
+    "arrival_linear_baseline_v1",
+    "P4_ngboost_student_t",
+    "oracle_actual"
+  ],
+  "artifacts_generated": [
+    "run_manifest.json",
+    "forecast_metrics.json",
+    "downstream_results.parquet",
+    "downstream_results.csv",
+    "downstream_results.json",
+    "robustness_results.json",
+    "failure_accounting.json",
+    "protocol_compliance.json",
+    "reproducibility_manifest.json"
+  ]
+}

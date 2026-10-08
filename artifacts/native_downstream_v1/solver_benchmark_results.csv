@@ -1,0 +1,17 @@
+model_id,scenario_id,solver_name,seed,budget_seconds,runtime_ms,status,feasible,objective_value,reassignment_count,contact_count,remote_count,unassigned_count,planned_conflicts,realized_conflicts,iterations,gap
+schedule_only,SCEN_2023_LOW,DeterministicGreedy,202601,2.0,0.65,FEASIBLE,True,4200.0,20,10,20,0,0,0,,
+schedule_only,SCEN_2023_LOW,CPSat,202601,2.0,94.73,OPTIMAL,True,4200.0,20,10,20,0,0,0,,0.0
+schedule_only,SCEN_2023_LOW,SimulatedAnnealing,202601,2.0,2000.54,FEASIBLE,True,4200.0,20,10,20,0,0,0,3546.0,
+schedule_only,SCEN_2023_LOW,HybridCPSatSA,202601,2.0,1096.12,FEASIBLE,True,4200.0,20,10,20,0,0,0,1692.0,0.0
+arrival_linear_baseline_v1,SCEN_2023_LOW,DeterministicGreedy,202601,2.0,0.5,FEASIBLE,True,4210.0,21,10,20,0,0,0,,
+arrival_linear_baseline_v1,SCEN_2023_LOW,CPSat,202601,2.0,93.82,OPTIMAL,True,4200.0,20,10,20,0,0,0,,0.0
+arrival_linear_baseline_v1,SCEN_2023_LOW,SimulatedAnnealing,202601,2.0,2000.67,FEASIBLE,True,4200.0,20,10,20,0,0,0,3415.0,
+arrival_linear_baseline_v1,SCEN_2023_LOW,HybridCPSatSA,202601,2.0,1093.6,FEASIBLE,True,4200.0,20,10,20,0,0,0,1707.0,0.0
+P4_ngboost_student_t,SCEN_2023_LOW,DeterministicGreedy,202601,2.0,0.54,FEASIBLE,True,4200.0,20,10,20,0,0,0,,
+P4_ngboost_student_t,SCEN_2023_LOW,CPSat,202601,2.0,94.27,OPTIMAL,True,4200.0,20,10,20,0,0,0,,0.0
+P4_ngboost_student_t,SCEN_2023_LOW,SimulatedAnnealing,202601,2.0,2000.64,FEASIBLE,True,4200.0,20,10,20,0,0,0,3441.0,
+P4_ngboost_student_t,SCEN_2023_LOW,HybridCPSatSA,202601,2.0,1095.68,FEASIBLE,True,4200.0,20,10,20,0,0,0,1745.0,0.0
+oracle_actual,SCEN_2023_LOW,DeterministicGreedy,202601,2.0,0.54,FEASIBLE,True,4220.0,22,10,20,0,0,0,,
+oracle_actual,SCEN_2023_LOW,CPSat,202601,2.0,93.22,OPTIMAL,True,4200.0,20,10,20,0,0,0,,0.0
+oracle_actual,SCEN_2023_LOW,SimulatedAnnealing,202601,2.0,2000.75,FEASIBLE,True,4200.0,20,10,20,0,0,0,3545.0,
+oracle_actual,SCEN_2023_LOW,HybridCPSatSA,202601,2.0,1092.92,FEASIBLE,True,4200.0,20,10,20,0,0,0,1757.0,0.0

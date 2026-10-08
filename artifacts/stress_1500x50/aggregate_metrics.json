@@ -1,0 +1,125 @@
+{
+  "primary_1500x50_mode_a": {
+    "DeterministicGreedy": {
+      "objective_value": 182760.0,
+      "status": "FEASIBLE",
+      "feasible": true,
+      "reassignment_count": 1336,
+      "remote_count": 847,
+      "total_runtime_ms": 164.97,
+      "model_construction_ms": 0.05,
+      "solver_execution_ms": 164.97,
+      "num_variables": 1500,
+      "num_constraints": 1500,
+      "iterations": null
+    },
+    "CPSat": {
+      "objective_value": 600000.0,
+      "status": "UNKNOWN",
+      "feasible": false,
+      "reassignment_count": 0,
+      "remote_count": 0,
+      "total_runtime_ms": 192034.4,
+      "model_construction_ms": 190034.4,
+      "solver_execution_ms": 2000.0,
+      "num_variables": 76500,
+      "num_constraints": 8704850,
+      "iterations": null
+    },
+    "SimulatedAnnealing": {
+      "objective_value": 182760.0,
+      "status": "FEASIBLE",
+      "feasible": true,
+      "reassignment_count": 1336,
+      "remote_count": 847,
+      "total_runtime_ms": 2060.77,
+      "model_construction_ms": 0.1,
+      "solver_execution_ms": 2060.77,
+      "num_variables": 1500,
+      "num_constraints": 1500,
+      "iterations": 29
+    },
+    "HybridCPSatSA": {
+      "objective_value": 182760.0,
+      "status": "FEASIBLE",
+      "feasible": true,
+      "reassignment_count": 1336,
+      "remote_count": 847,
+      "total_runtime_ms": 1078.96,
+      "model_construction_ms": 0.1,
+      "solver_execution_ms": 1078.96,
+      "num_variables": 1500,
+      "num_constraints": 1500,
+      "iterations": 15
+    }
+  },
+  "monte_carlo_n500_summary": {
+    "n_requested": 500,
+    "n_actual": 500,
+    "n_success": 500,
+    "n_failed": 0,
+    "mean_objective": 179468.12,
+    "median_objective": 179885.0,
+    "std_objective": 11747.7529,
+    "variance_objective": 138009697.8613,
+    "mc_se_objective": 525.3755,
+    "ci_95_lower": 178438.3841,
+    "ci_95_upper": 180497.8559,
+    "matrix_sha256": "1229b272e8ccb6a2391412103a8b0f1ff7e1da6918dd887e91b5ebd36de4563f",
+    "unique_scenarios_count": 500,
+    "positive_variance_audited": true,
+    "delta_from_previous_n": 284.84,
+    "rel_change_from_previous_n": 0.00159
+  },
+  "reproducibility_audit": {
+    "stochastic_matrix_match": true,
+    "stochastic_matrix_sha256": "1229b272e8ccb6a2391412103a8b0f1ff7e1da6918dd887e91b5ebd36de4563f",
+    "solver_comparisons": {
+      "DeterministicGreedy": {
+        "objective_match": true,
+        "feasible_match": true,
+        "status_match": true,
+        "remote_count_match": true,
+        "reassignment_count_match": true,
+        "run1_runtime_ms": 164.97,
+        "run2_runtime_ms": 172.54,
+        "runtime_delta_ms": 7.57,
+        "runtime_variance_pct": 4.59
+      },
+      "CPSat": {
+        "objective_match": true,
+        "feasible_match": true,
+        "status_match": true,
+        "remote_count_match": true,
+        "reassignment_count_match": true,
+        "run1_runtime_ms": 192034.4,
+        "run2_runtime_ms": 148934.71,
+        "runtime_delta_ms": -43099.69,
+        "runtime_variance_pct": 22.44
+      },
+      "SimulatedAnnealing": {
+        "objective_match": true,
+        "feasible_match": true,
+        "status_match": true,
+        "remote_count_match": true,
+        "reassignment_count_match": true,
+        "run1_runtime_ms": 2060.77,
+        "run2_runtime_ms": 2045.68,
+        "runtime_delta_ms": -15.09,
+        "runtime_variance_pct": 0.73
+      },
+      "HybridCPSatSA": {
+        "objective_match": true,
+        "feasible_match": true,
+        "status_match": true,
+        "remote_count_match": true,
+        "reassignment_count_match": true,
+        "run1_runtime_ms": 1078.96,
+        "run2_runtime_ms": 1084.04,
+        "runtime_delta_ms": 5.08,
+        "runtime_variance_pct": 0.47
+      }
+    }
+  },
+  "total_benchmark_wall_clock_seconds": 955.65
+}

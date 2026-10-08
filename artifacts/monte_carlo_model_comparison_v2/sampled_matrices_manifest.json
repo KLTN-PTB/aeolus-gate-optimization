@@ -1,0 +1,452 @@
+[
+  {
+    "model_id": "schedule_only",
+    "requested_n": 100,
+    "matrix_shape": [
+      100,
+      30
+    ],
+    "matrix_sha256": "151ff79f29e96d211576b9a2e3e78f518b26109916616945d50cdee82dd2ba8b",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_linear_baseline_v1",
+    "requested_n": 100,
+    "matrix_shape": [
+      100,
+      30
+    ],
+    "matrix_sha256": "e6d2dc3abad023145717a8036f487f46332551c2da4e2e93ba048c699a0e406f",
+    "number_of_unique_scenarios": 100,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 186.33289972028015,
+    "per_flight_variance_mean": 256.30925919998793,
+    "per_flight_variance_max": 328.02156129997536,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_xgboost_baseline_v1",
+    "requested_n": 100,
+    "matrix_shape": [
+      100,
+      30
+    ],
+    "matrix_sha256": "75b2d0002ee17aae4e06b97c02f0186b173a5c23a0901927ce52f34d04e4bb54",
+    "number_of_unique_scenarios": 100,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 186.33289972028015,
+    "per_flight_variance_mean": 256.30925919998793,
+    "per_flight_variance_max": 328.02156129997536,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P4_ngboost_student_t",
+    "requested_n": 100,
+    "matrix_shape": [
+      100,
+      30
+    ],
+    "matrix_sha256": "2fa4f08155838ab5de4fc51b446c67af7d42c6c1ae9fed096a168df7eaf6f601",
+    "number_of_unique_scenarios": 100,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 278.0018348004742,
+    "per_flight_variance_mean": 453.42938315057626,
+    "per_flight_variance_max": 644.2550691133584,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P5_quantile_regression",
+    "requested_n": 100,
+    "matrix_shape": [
+      100,
+      30
+    ],
+    "matrix_sha256": "98533918b01bb816049cbe0420860f70a88851231c28f414f7c3001c95f2abea",
+    "number_of_unique_scenarios": 100,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 429.23057915731283,
+    "per_flight_variance_mean": 581.749348809189,
+    "per_flight_variance_max": 724.8043954827136,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "oracle_actual",
+    "requested_n": 100,
+    "matrix_shape": [
+      100,
+      30
+    ],
+    "matrix_sha256": "de771f86a94a36336fe0cfc9f1594d40bff6d754cf70484c1317243978c73e35",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "schedule_only",
+    "requested_n": 250,
+    "matrix_shape": [
+      250,
+      30
+    ],
+    "matrix_sha256": "0946e2eb0fb9ea7ddd935efd1922bc7d1f27101c69ce6d2f5145c7ee28f1b6ba",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_linear_baseline_v1",
+    "requested_n": 250,
+    "matrix_shape": [
+      250,
+      30
+    ],
+    "matrix_sha256": "41e31b90cad74e0c2d9ed4bdb775283fd1dea45dd4588d9906f46ee907b50055",
+    "number_of_unique_scenarios": 250,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 214.5789790528152,
+    "per_flight_variance_mean": 260.7740867689665,
+    "per_flight_variance_max": 297.202557505452,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_xgboost_baseline_v1",
+    "requested_n": 250,
+    "matrix_shape": [
+      250,
+      30
+    ],
+    "matrix_sha256": "2f49138b742dba3bed068c3fd1fffe466448233ef906f5fa0cdc803d70b3c5c3",
+    "number_of_unique_scenarios": 250,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 214.5789790528152,
+    "per_flight_variance_mean": 260.7740867689665,
+    "per_flight_variance_max": 297.202557505452,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P4_ngboost_student_t",
+    "requested_n": 250,
+    "matrix_shape": [
+      250,
+      30
+    ],
+    "matrix_sha256": "41a0397fa1f48c1409bbf5d9125002d51431781c5945ad21b8de6cfb5776c2ef",
+    "number_of_unique_scenarios": 250,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 368.13472172022665,
+    "per_flight_variance_mean": 470.42018684085826,
+    "per_flight_variance_max": 588.5914123597657,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P5_quantile_regression",
+    "requested_n": 250,
+    "matrix_shape": [
+      250,
+      30
+    ],
+    "matrix_sha256": "841244b9cca1fcfa76f4db8b3ebbb3e6be9369727ec3a0e06792a73458c90a7e",
+    "number_of_unique_scenarios": 250,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 488.20113781549026,
+    "per_flight_variance_mean": 594.843114465566,
+    "per_flight_variance_max": 665.863233450135,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "oracle_actual",
+    "requested_n": 250,
+    "matrix_shape": [
+      250,
+      30
+    ],
+    "matrix_sha256": "4ae50b144a99eb784f89b2b2b94ba95338f3bc681f90943d707f072be5432b72",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "schedule_only",
+    "requested_n": 500,
+    "matrix_shape": [
+      500,
+      30
+    ],
+    "matrix_sha256": "9a413b131ecf0ccfb02a837ddb33766d8604cc00da7937b79bd363b53c8d7d86",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_linear_baseline_v1",
+    "requested_n": 500,
+    "matrix_shape": [
+      500,
+      30
+    ],
+    "matrix_sha256": "5a047b562a43e351ad3be89a67676000e86b23da625d7d35adc9f52376c49423",
+    "number_of_unique_scenarios": 500,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 234.78445977985794,
+    "per_flight_variance_mean": 264.23008994980063,
+    "per_flight_variance_max": 300.46337028585873,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_xgboost_baseline_v1",
+    "requested_n": 500,
+    "matrix_shape": [
+      500,
+      30
+    ],
+    "matrix_sha256": "ffac0b402c1be518f33fc694cd0d0864bc2838cd1769061883014a212602a8a5",
+    "number_of_unique_scenarios": 500,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 234.78445977985794,
+    "per_flight_variance_mean": 264.2300899498007,
+    "per_flight_variance_max": 300.46337028585873,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P4_ngboost_student_t",
+    "requested_n": 500,
+    "matrix_shape": [
+      500,
+      30
+    ],
+    "matrix_sha256": "26bb040dce92e4d0070ad02576e4588c75254fdc6b021141847c576a0113e989",
+    "number_of_unique_scenarios": 500,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 396.37973410506356,
+    "per_flight_variance_mean": 482.31029707875194,
+    "per_flight_variance_max": 591.926743396221,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P5_quantile_regression",
+    "requested_n": 500,
+    "matrix_shape": [
+      500,
+      30
+    ],
+    "matrix_sha256": "d92e54c4d4606217119c02bfefdc32460d16a41a20686458d89e87c5c1804363",
+    "number_of_unique_scenarios": 500,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 528.1579951887473,
+    "per_flight_variance_mean": 602.1089398789613,
+    "per_flight_variance_max": 687.37685524728,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "oracle_actual",
+    "requested_n": 500,
+    "matrix_shape": [
+      500,
+      30
+    ],
+    "matrix_sha256": "17c4078e44fab7e7349271a07fbe90fdbfe99bb400fe29c98da0af59da4e8a95",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "schedule_only",
+    "requested_n": 1000,
+    "matrix_shape": [
+      1000,
+      30
+    ],
+    "matrix_sha256": "dd046ccaee01de364ee5306b48d1dde4b8d06ba484eb66c2123f92f1211c30ad",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_linear_baseline_v1",
+    "requested_n": 1000,
+    "matrix_shape": [
+      1000,
+      30
+    ],
+    "matrix_sha256": "ed535dfc0eaf7cbac6745fb8a0c38c70c07ea0eaf6d8a8d0687c9403a305643c",
+    "number_of_unique_scenarios": 1000,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 241.20766298950284,
+    "per_flight_variance_mean": 265.3792149236012,
+    "per_flight_variance_max": 289.1590756035741,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_xgboost_baseline_v1",
+    "requested_n": 1000,
+    "matrix_shape": [
+      1000,
+      30
+    ],
+    "matrix_sha256": "1669fa020bbe10427062d6150d3d1803f351b4e8a0a0451bf9f8a3e7a96734b7",
+    "number_of_unique_scenarios": 1000,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 241.20766298950275,
+    "per_flight_variance_mean": 265.37921492360124,
+    "per_flight_variance_max": 289.1590756035741,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P4_ngboost_student_t",
+    "requested_n": 1000,
+    "matrix_shape": [
+      1000,
+      30
+    ],
+    "matrix_sha256": "f0a89f4472993081d211a2414711f79c15d2a4a95de6af8f5637885d0155809c",
+    "number_of_unique_scenarios": 1000,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 415.0080608409276,
+    "per_flight_variance_mean": 483.7740244274667,
+    "per_flight_variance_max": 566.2626901165683,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P5_quantile_regression",
+    "requested_n": 1000,
+    "matrix_shape": [
+      1000,
+      30
+    ],
+    "matrix_sha256": "64935db9d1a3002126c85ca10c9c0c975d95ae372cc4f1e50af9e4654bac3e38",
+    "number_of_unique_scenarios": 1000,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 545.5717629513728,
+    "per_flight_variance_mean": 606.2492141395992,
+    "per_flight_variance_max": 663.9930629929501,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "oracle_actual",
+    "requested_n": 1000,
+    "matrix_shape": [
+      1000,
+      30
+    ],
+    "matrix_sha256": "8f52c95aaedd698a29f07516aa66fe99aa525e69bcf08f0ccfaa1bdbba8e5869",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "schedule_only",
+    "requested_n": 2500,
+    "matrix_shape": [
+      2500,
+      30
+    ],
+    "matrix_sha256": "1358f4ce65f0d1ed482d572e4eac6ea90d465c0ab878f477297474f8f23226c3",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_linear_baseline_v1",
+    "requested_n": 2500,
+    "matrix_shape": [
+      2500,
+      30
+    ],
+    "matrix_sha256": "b40a4090324e056430391204e89f648de95b4b39d5126112d6f704969ca8bbf9",
+    "number_of_unique_scenarios": 2500,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 254.00229611273855,
+    "per_flight_variance_mean": 267.348916101988,
+    "per_flight_variance_max": 279.7327697035453,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "arrival_xgboost_baseline_v1",
+    "requested_n": 2500,
+    "matrix_shape": [
+      2500,
+      30
+    ],
+    "matrix_sha256": "25eb5c452a981c9b88c2fdc90b1a817c9d700202cd9503d462dabe20c84d30c9",
+    "number_of_unique_scenarios": 2500,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 254.0022961127385,
+    "per_flight_variance_mean": 267.348916101988,
+    "per_flight_variance_max": 279.7327697035454,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P4_ngboost_student_t",
+    "requested_n": 2500,
+    "matrix_shape": [
+      2500,
+      30
+    ],
+    "matrix_sha256": "832af6c8eb4ffd42da70354f64549bc6df010eeb19c2444d9248497355580e4d",
+    "number_of_unique_scenarios": 2500,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 447.896471485712,
+    "per_flight_variance_mean": 488.8761918339397,
+    "per_flight_variance_max": 533.5804189927434,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "P5_quantile_regression",
+    "requested_n": 2500,
+    "matrix_shape": [
+      2500,
+      30
+    ],
+    "matrix_sha256": "ee9c74a60e71bd425d7b2f1634445b54a1110dd28e595e59fb3db5c50b8bfa88",
+    "number_of_unique_scenarios": 2500,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 576.1338806870767,
+    "per_flight_variance_mean": 611.1467570147754,
+    "per_flight_variance_max": 646.2211082513483,
+    "is_variance_positive": true
+  },
+  {
+    "model_id": "oracle_actual",
+    "requested_n": 2500,
+    "matrix_shape": [
+      2500,
+      30
+    ],
+    "matrix_sha256": "08793f8f0b3e57f805cccfbe4047ec8d16836b338eefa54dab7b5488e79a61f9",
+    "number_of_unique_scenarios": 1,
+    "is_all_scenarios_unique": true,
+    "per_flight_variance_min": 0.0,
+    "per_flight_variance_mean": 0.0,
+    "per_flight_variance_max": 0.0,
+    "is_variance_positive": true
+  }
+]

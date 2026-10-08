@@ -1,0 +1,67 @@
+{
+  "model_id": "P4_ngboost_student_t",
+  "family": "probabilistic",
+  "fold_id": "fold_4",
+  "validation_year": 2022,
+  "seed": 202603,
+  "data_seed": 202601,
+  "status": "COMPLETED",
+  "runtime_seconds": 17.22,
+  "memory_mb": 0.0,
+  "failure_reason": null,
+  "error_category": null,
+  "model_version": "core_probabilistic_v1",
+  "data_version": "aeolus_canonical_v1",
+  "feature_version": "v1",
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 1.3006,
+      "alpha_0.050": 2.0774,
+      "alpha_0.100": 3.3606,
+      "alpha_0.250": 6.5672,
+      "alpha_0.500": 10.6309,
+      "alpha_0.750": 12.5932,
+      "alpha_0.900": 11.7965,
+      "alpha_0.950": 10.5222,
+      "alpha_0.975": 9.1513
+    },
+    "mean_pinball_loss": 7.5555,
+    "crps_quantile_approx": 17.2173,
+    "crps": 17.2173,
+    "nll": 4.543,
+    "empirical_coverage": {
+      "interval_50": 0.4945,
+      "interval_80": 0.7823,
+      "interval_90": 0.8575,
+      "interval_95": 0.898
+    },
+    "interval_widths": {
+      "interval_50": 17.36,
+      "interval_80": 37.88,
+      "interval_90": 55.45,
+      "interval_95": 76.61
+    },
+    "brier_score_delay_ge_15": 0.14268,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.0948,
+      "maximum_calibration_error": 0.0948,
+      "reliability_table": [
+        {
+          "bin": 0,
+          "bin_range": "[0.00, 0.10]",
+          "count": 4000,
+          "mean_pred": 0.0645,
+          "observed_freq": 0.1593,
+          "abs_gap": 0.0948
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.0965,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.0367
+    }
+  },
+  "created_at_utc": "2026-09-30T14:20:34.540957+00:00"
+}

@@ -1,0 +1,19 @@
+{
+  "run_id": "P10A_NATIVE_P4_1791113940",
+  "timestamp_utc": "2026-10-04T11:39:00.765048+00:00",
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "p4_checkpoint_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+  "scenario_id": "SCEN_2023_LOW",
+  "scenario_seed": 202601,
+  "solver_seed": 202601,
+  "monte_carlo_counts": [
+    100,
+    250,
+    500,
+    1000,
+    2500
+  ],
+  "total_runtime_seconds": 25.86,
+  "system_status": "P10A_PASS",
+  "python_version": "3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]"
+}

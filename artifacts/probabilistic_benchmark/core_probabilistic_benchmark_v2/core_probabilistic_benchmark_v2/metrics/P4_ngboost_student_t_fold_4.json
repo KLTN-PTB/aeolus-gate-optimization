@@ -1,0 +1,217 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v2",
+  "candidate_id": "P4_ngboost_student_t",
+  "fold_id": "fold_4",
+  "validation_year": 2022,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "train_rows": 21000,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 17.49,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_probability_ge": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true,
+    "has_pit": true
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 1.2989,
+      "alpha_0.050": 2.0759,
+      "alpha_0.100": 3.3596,
+      "alpha_0.250": 6.5671,
+      "alpha_0.500": 10.6305,
+      "alpha_0.750": 12.592,
+      "alpha_0.900": 11.7937,
+      "alpha_0.950": 10.5222,
+      "alpha_0.975": 9.155
+    },
+    "mean_pinball_loss": 7.555,
+    "crps_quantile_approx": 17.2158,
+    "crps": 17.2158,
+    "nll": 4.5433,
+    "empirical_coverage": {
+      "interval_50": 0.4958,
+      "interval_80": 0.783,
+      "interval_90": 0.858,
+      "interval_95": 0.8975
+    },
+    "interval_widths": {
+      "interval_50": 17.37,
+      "interval_80": 37.88,
+      "interval_90": 55.41,
+      "interval_95": 76.49
+    },
+    "brier_score_delay_ge_15": 0.14266,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.0948,
+      "maximum_calibration_error": 0.0948,
+      "reliability_table": [
+        {
+          "bin": 0,
+          "bin_range": "[0.00, 0.10]",
+          "count": 4000,
+          "mean_pred": 0.0645,
+          "observed_freq": 0.1593,
+          "abs_gap": 0.0948
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.0958,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.0368
+    },
+    "metric_details": {
+      "mean": {
+        "metric_value": -9.326490129728455,
+        "metric_status": "SUPPORTED",
+        "metric_method": "conditional_expectation",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "median": {
+        "metric_value": -9.326490129728455,
+        "metric_status": "SUPPORTED",
+        "metric_method": "median_quantile_0_50",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "quantile": {
+        "metric_value": {
+          "0.025": -47.57255147084142,
+          "0.05": -37.0334130984171,
+          "0.1": -28.266525147603797,
+          "0.25": -18.012954976571947,
+          "0.5": -9.326490129728455,
+          "0.75": -0.6400252828849707,
+          "0.9": 9.613544888146885,
+          "0.95": 18.38043283896017,
+          "0.975": 28.91957121138449
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "pre_registered_9_quantiles",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "cdf": {
+        "metric_value": null,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_cdf",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "event_probability": {
+        "metric_value": 0.14266,
+        "metric_status": "SUPPORTED",
+        "metric_method": "tail_probability_p_ge_15",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "sampling": {
+        "metric_value": null,
+        "metric_status": "SUPPORTED",
+        "metric_method": "pseudorandom_generative_sampling",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "crps": {
+        "metric_value": 17.2158,
+        "metric_status": "APPROXIMATE",
+        "metric_method": "trapezoidal_pinball_integration_9q",
+        "is_exact": false,
+        "is_approximate": true,
+        "unsupported_reason": null
+      },
+      "exact_crps": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Analytical closed-form CRPS is only supported for Gaussian families."
+      },
+      "approximate_crps": {
+        "metric_value": 17.2158,
+        "metric_status": "SUPPORTED",
+        "metric_method": "trapezoidal_pinball_integration_9q",
+        "is_exact": false,
+        "is_approximate": true,
+        "unsupported_reason": null
+      },
+      "nll": {
+        "metric_value": 4.5433,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_student_t_nll",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "pit": {
+        "metric_value": {
+          "status": "AVAILABLE",
+          "ks_statistic": 0.0958,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.0368
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "continuous_cdf_ks_test",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "coverage": {
+        "metric_value": {
+          "interval_50": 0.4958,
+          "interval_80": 0.783,
+          "interval_90": 0.858,
+          "interval_95": 0.8975
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_coverage",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "interval_width": {
+        "metric_value": {
+          "interval_50": 17.37,
+          "interval_80": 37.88,
+          "interval_90": 55.41,
+          "interval_95": 76.49
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_width",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      }
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v2\\core_probabilistic_benchmark_v2\\oof\\P4_ngboost_student_t_fold_4.parquet"
+}

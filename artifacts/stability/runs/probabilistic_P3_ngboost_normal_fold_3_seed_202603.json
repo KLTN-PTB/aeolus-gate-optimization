@@ -1,0 +1,83 @@
+{
+  "model_id": "P3_ngboost_normal",
+  "family": "probabilistic",
+  "fold_id": "fold_3",
+  "validation_year": 2021,
+  "seed": 202603,
+  "data_seed": 202601,
+  "status": "COMPLETED",
+  "runtime_seconds": 2.061,
+  "memory_mb": 0.0,
+  "failure_reason": null,
+  "error_category": null,
+  "model_version": "core_probabilistic_v1",
+  "data_version": "aeolus_canonical_v1",
+  "feature_version": "v1",
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 2.0098,
+      "alpha_0.050": 3.3812,
+      "alpha_0.100": 5.2914,
+      "alpha_0.250": 7.2126,
+      "alpha_0.500": 8.9293,
+      "alpha_0.750": 11.8953,
+      "alpha_0.900": 8.916,
+      "alpha_0.950": 6.5334,
+      "alpha_0.975": 4.8452
+    },
+    "mean_pinball_loss": 6.5571,
+    "crps_quantile_approx": 15.8643,
+    "crps": 16.3307,
+    "nll": 5.2743,
+    "empirical_coverage": {
+      "interval_50": 0.8868,
+      "interval_80": 0.9535,
+      "interval_90": 0.9663,
+      "interval_95": 0.9745
+    },
+    "interval_widths": {
+      "interval_50": 54.66,
+      "interval_80": 103.86,
+      "interval_90": 133.3,
+      "interval_95": 158.84
+    },
+    "brier_score_delay_ge_15": 0.14864,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.2074,
+      "maximum_calibration_error": 0.3077,
+      "reliability_table": [
+        {
+          "bin": 2,
+          "bin_range": "[0.20, 0.30]",
+          "count": 408,
+          "mean_pred": 0.2943,
+          "observed_freq": 0.1324,
+          "abs_gap": 0.1619
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.30, 0.40]",
+          "count": 3504,
+          "mean_pred": 0.3275,
+          "observed_freq": 0.1173,
+          "abs_gap": 0.2102
+        },
+        {
+          "bin": 4,
+          "bin_range": "[0.40, 0.50]",
+          "count": 88,
+          "mean_pred": 0.41,
+          "observed_freq": 0.1023,
+          "abs_gap": 0.3077
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.2418,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.1044
+    }
+  },
+  "created_at_utc": "2026-09-30T14:20:34.540957+00:00"
+}

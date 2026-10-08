@@ -1,0 +1,92 @@
+{
+  "benchmark": "Phase 8 Downstream Model Gate Assignment Evaluation",
+  "created_at_utc": "2026-10-02T10:49:49.221076+00:00",
+  "total_evaluations": 84,
+  "total_completed": 84,
+  "total_paired_comparisons": 252,
+  "models_evaluated": [
+    "P4_ngboost_student_t",
+    "P5_quantile_regression",
+    "arrival_linear_baseline_v1",
+    "arrival_weighted_ensemble_v1",
+    "arrival_xgboost_baseline_v1",
+    "oracle_actual",
+    "schedule_only"
+  ],
+  "scenarios_evaluated": [
+    "SCEN_2023_DISRUPTED",
+    "SCEN_2023_HIGH",
+    "SCEN_2023_LOW",
+    "SCEN_2023_MEDIUM"
+  ],
+  "solvers_evaluated": [
+    "CPSat",
+    "DeterministicGreedy",
+    "SimulatedAnnealing"
+  ],
+  "model_summary": {
+    "P4_ngboost_student_t": {
+      "completed_runs": 12,
+      "feasible_runs": 12,
+      "mean_objective": 7382.583358333332,
+      "total_conflicts": 0,
+      "mean_reassignments": 35.083333333333336,
+      "mean_remote_count": 35.0,
+      "mean_runtime_ms": 378.7525
+    },
+    "P5_quantile_regression": {
+      "completed_runs": 12,
+      "feasible_runs": 12,
+      "mean_objective": 7382.583358333332,
+      "total_conflicts": 0,
+      "mean_reassignments": 35.083333333333336,
+      "mean_remote_count": 35.0,
+      "mean_runtime_ms": 379.10583333333335
+    },
+    "arrival_linear_baseline_v1": {
+      "completed_runs": 12,
+      "feasible_runs": 12,
+      "mean_objective": 8051.7500249999985,
+      "total_conflicts": 11,
+      "mean_reassignments": 35.333333333333336,
+      "mean_remote_count": 33.75,
+      "mean_runtime_ms": 382.3233333333333
+    },
+    "arrival_weighted_ensemble_v1": {
+      "completed_runs": 12,
+      "feasible_runs": 12,
+      "mean_objective": 8132.583358333332,
+      "total_conflicts": 12,
+      "mean_reassignments": 35.083333333333336,
+      "mean_remote_count": 33.75,
+      "mean_runtime_ms": 378.5433333333333
+    },
+    "arrival_xgboost_baseline_v1": {
+      "completed_runs": 12,
+      "feasible_runs": 12,
+      "mean_objective": 8610.916691666665,
+      "total_conflicts": 19,
+      "mean_reassignments": 34.583333333333336,
+      "mean_remote_count": 33.25,
+      "mean_runtime_ms": 381.67333333333335
+    },
+    "oracle_actual": {
+      "completed_runs": 12,
+      "feasible_runs": 12,
+      "mean_objective": 6255.916691666666,
+      "total_conflicts": 0,
+      "mean_reassignments": 32.416666666666664,
+      "mean_remote_count": 29.5,
+      "mean_runtime_ms": 366.3475
+    },
+    "schedule_only": {
+      "completed_runs": 12,
+      "feasible_runs": 12,
+      "mean_objective": 7782.583358333332,
+      "total_conflicts": 6,
+      "mean_reassignments": 35.083333333333336,
+      "mean_remote_count": 34.5,
+      "mean_runtime_ms": 384.67916666666673
+    }
+  }
+}

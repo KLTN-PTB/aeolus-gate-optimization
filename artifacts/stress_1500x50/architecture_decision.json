@@ -1,0 +1,261 @@
+{
+  "decision_id": "AEOLUS-ARCH-DECISION-PHASE3-1500X50",
+  "generated_at_utc": "2026-10-05T04:35:00Z",
+  "branch": "development/scalability-1500x50",
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "primary_scenario": {
+    "n_flights": 1500,
+    "n_contact_gates": 50,
+    "n_remote_stands": 1,
+    "target_budget_seconds": 2.0,
+    "monte_carlo_draws": 500,
+    "random_seed": 202601
+  },
+  "executive_verdicts": {
+    "interactive_use_practical": true,
+    "interactive_rationale": "DeterministicGreedy achieves 100% feasibility at 1500 flights x 50 gates in 165 ms solve time (287 ms total end-to-end), making real-time interactive dispatching highly practical.",
+    "recommended_default_solver": "DeterministicGreedy",
+    "secondary_optional_solver": "SimulatedAnnealing",
+    "solver_exclusion_policy": "Disable CP-SAT for instances with N > 250 flights in production and demo environments.",
+    "dominant_bottleneck_category": "G",
+    "dominant_bottleneck_name": "CP-SAT model construction & pairwise constraint explosion",
+    "api_architecture": "DUAL_MODE",
+    "sync_dispatch_capable": true,
+    "async_stochastic_required": true
+  },
+  "solver_comparison_mode_a_2s": {
+    "DeterministicGreedy": {
+      "status": "FEASIBLE",
+      "feasible": true,
+      "objective_value": 182760.0,
+      "hard_constraint_violations": 0,
+      "reassignment_count": 1336,
+      "remote_count": 847,
+      "contact_count": 653,
+      "model_construction_ms": 0.05,
+      "solver_execution_ms": 164.95,
+      "total_runtime_ms": 165.0,
+      "variables": 1500,
+      "constraints": 1500,
+      "iterations": null,
+      "runtime_variance_pct": 4.59,
+      "memory_delta_mb": 0.02
+    },
+    "SimulatedAnnealing": {
+      "status": "FEASIBLE",
+      "feasible": true,
+      "objective_value": 182760.0,
+      "hard_constraint_violations": 0,
+      "reassignment_count": 1336,
+      "remote_count": 847,
+      "contact_count": 653,
+      "model_construction_ms": 0.1,
+      "solver_execution_ms": 2060.77,
+      "total_runtime_ms": 2060.77,
+      "variables": 1500,
+      "constraints": 1500,
+      "iterations": 29,
+      "runtime_variance_pct": 0.73,
+      "memory_delta_mb": 0.02
+    },
+    "CPSat": {
+      "status": "UNKNOWN",
+      "feasible": false,
+      "objective_value": 600000.0,
+      "hard_constraint_violations": 0,
+      "reassignment_count": 0,
+      "remote_count": 0,
+      "contact_count": 0,
+      "model_construction_ms": 190034.4,
+      "solver_execution_ms": 2000.0,
+      "total_runtime_ms": 192034.4,
+      "variables": 76500,
+      "constraints": 8704850,
+      "iterations": null,
+      "runtime_variance_pct": 22.44,
+      "memory_delta_mb": 2200.0
+    },
+    "HybridCPSatSA": {
+      "status": "FEASIBLE",
+      "feasible": true,
+      "objective_value": 182760.0,
+      "hard_constraint_violations": 0,
+      "reassignment_count": 1336,
+      "remote_count": 847,
+      "contact_count": 653,
+      "model_construction_ms": 0.1,
+      "solver_execution_ms": 1078.96,
+      "total_runtime_ms": 1079.0,
+      "variables": 1500,
+      "constraints": 1500,
+      "iterations": 15,
+      "runtime_variance_pct": 0.47,
+      "memory_delta_mb": 0.02
+    }
+  },
+  "bottleneck_breakdown": {
+    "dominant_category": "G",
+    "dominant_description": "CP-SAT pairwise interval constraints generate 8,704,850 constraint objects taking 190.0 seconds to construct in Python memory, completely saturating the solver pipeline.",
+    "pipeline_stage_timings_ms": {
+      "input_loading": 0.28,
+      "preprocessing": 0.39,
+      "p4_probabilistic_inference": 60.05,
+      "dependence_construction": 81.59,
+      "psd_validation_repair": 969.42,
+      "monte_carlo_sampling_500": 1443.36,
+      "aircraft_turn_synthesis": 47.22,
+      "gate_domain_construction": 2.53,
+      "deterministic_greedy_solve": 164.40,
+      "result_validation": 10.80,
+      "result_serialization": 0.08
+    }
+  },
+  "api_architecture_specification": {
+    "mode": "DUAL_MODE",
+    "synchronous_endpoint": {
+      "method": "POST",
+      "path": "/api/v1/optimize/dispatch",
+      "default_solver": "DeterministicGreedy",
+      "target_sla_p50_ms": 280,
+      "target_sla_p95_ms": 350,
+      "http_status_success": 200,
+      "request_timeout_seconds": 5.0,
+      "use_case": "Interactive UI dispatching, real-time replanning, live gate drag-and-drop verification"
+    },
+    "asynchronous_endpoint": {
+      "method": "POST",
+      "path": "/api/v1/optimize/stochastic-batch",
+      "polling_path": "/api/v1/jobs/{job_id}",
+      "default_workload": "Monte Carlo N_MC=500 with Greedy evaluation",
+      "expected_duration_seconds": 99.4,
+      "http_status_initial": 202,
+      "http_status_poll_done": 200,
+      "use_case": "Deep stochastic robustness assessment, 95% confidence interval estimation, risk-tail profiling"
+    }
+  },
+  "dashboard_metric_requirements": [
+    {
+      "key": "flight_count",
+      "category": "Scale",
+      "type": "integer",
+      "description": "Total inbound flights in schedule"
+    },
+    {
+      "key": "contact_gate_count",
+      "category": "Scale",
+      "type": "integer",
+      "description": "Available physical contact gates"
+    },
+    {
+      "key": "peak_concurrent_demand",
+      "category": "Scale",
+      "type": "integer",
+      "description": "Maximum overlapping flight occupancy"
+    },
+    {
+      "key": "capacity_saturation_ratio",
+      "category": "Scale",
+      "type": "float",
+      "description": "Ratio of peak concurrent demand to contact gates"
+    },
+    {
+      "key": "solver_selected",
+      "category": "Execution",
+      "type": "string",
+      "description": "Active solver name"
+    },
+    {
+      "key": "solver_status",
+      "category": "Execution",
+      "type": "string",
+      "description": "Solver status (FEASIBLE, OPTIMAL, UNKNOWN)"
+    },
+    {
+      "key": "solver_runtime_ms",
+      "category": "Execution",
+      "type": "float",
+      "description": "Solver execution wall-clock time in milliseconds"
+    },
+    {
+      "key": "total_pipeline_latency_ms",
+      "category": "Execution",
+      "type": "float",
+      "description": "End-to-end processing latency in milliseconds"
+    },
+    {
+      "key": "hard_constraint_violations",
+      "category": "Quality",
+      "type": "integer",
+      "description": "Hard gate conflicts (must be 0)"
+    },
+    {
+      "key": "reassignment_count",
+      "category": "Quality",
+      "type": "integer",
+      "description": "Flights displaced from preferred terminal gates"
+    },
+    {
+      "key": "remote_overflow_count",
+      "category": "Quality",
+      "type": "integer",
+      "description": "Flights sent to overflow remote apron"
+    },
+    {
+      "key": "total_objective_cost",
+      "category": "Cost",
+      "type": "float",
+      "description": "Total evaluated assignment penalty cost"
+    },
+    {
+      "key": "mc_mean_objective",
+      "category": "Uncertainty",
+      "type": "float",
+      "description": "Empirical mean cost across Monte Carlo draws"
+    },
+    {
+      "key": "mc_ci_95_lower",
+      "category": "Uncertainty",
+      "type": "float",
+      "description": "Lower bound of 95% Confidence Interval"
+    },
+    {
+      "key": "mc_ci_95_upper",
+      "category": "Uncertainty",
+      "type": "float",
+      "description": "Upper bound of 95% Confidence Interval"
+    },
+    {
+      "key": "mc_standard_error",
+      "category": "Uncertainty",
+      "type": "float",
+      "description": "Standard error of Monte Carlo estimator"
+    }
+  ],
+  "scientific_safety_boundaries": {
+    "frozen_models": [
+      {
+        "model": "P4_Student_T",
+        "checkpoint_sha256": "e7e74659f939e6a96489370df16e25642a84b06734107142469a531e21b066be",
+        "retrained": false
+      }
+    ],
+    "year_2024_status": "POST_HOLDOUT_REEVALUATION_AFTER_METHODOLOGY_REPAIR",
+    "year_2024_used_for_tuning": false,
+    "scope_limitations": [
+      "DEST = 'ATL' core inbound arrivals only",
+      "No outbound departure flight linkage",
+      "No aircraft tail tracking or multi-leg flight chain",
+      "No convective weather features",
+      "No MARS gates or pushback/towing models"
+    ]
+  },
+  "recommended_next_phase": {
+    "phase_number": 4,
+    "phase_name": "API & Interactive Web Dashboard Implementation",
+    "deliverables": [
+      "FastAPI service with /api/v1/optimize/dispatch and /api/v1/optimize/stochastic-batch",
+      "Interactive Web Dashboard featuring Gantt gate view and Monte Carlo risk distribution",
+      "End-to-end integration and latency benchmark tests"
+    ]
+  }
+}

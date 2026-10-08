@@ -1,0 +1,63 @@
+{
+  "manifest_version": "end_to_end_run_manifest_v1",
+  "run_id": "E2E_20260928_174403_c99b3e8",
+  "timestamp_utc": "2026-09-28T17:44:17.304435+00:00",
+  "mode": "smoke",
+  "evaluation_label": "DEVELOPMENT_END_TO_END_EVALUATION",
+  "status": "PASS",
+  "total_wall_seconds": 14.018895626068115,
+  "provenance": {
+    "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+    "config_hash": "07fb4d6b7a0ca5d8925b90f19d85739e6a82b9f8de3a16dfe4fbc65ac5bce0d5",
+    "model_hash": "daf4bb84a7ecc32338b39056b277ae0ab470f7f01d54a8553ff4950b338e6506",
+    "preprocessing_hash": "b1c417750b5c9067c58fc1933e097bf8d4cd795266ed1168f680079d83594d2b",
+    "feature_manifest_hash": "cb352a56d194e9f39ee9477fdbc5da7929ba03b5ba089100cbd88b01dec09e85",
+    "seed": 202601,
+    "distribution_version": "Student-T (B5)",
+    "dependence_version": "Gaussian Copula (DEP_D2)",
+    "simulation_configuration": {
+      "turn_model": "AircraftTurnModel",
+      "min_turnaround_min": 45,
+      "default_dwell_min": 60,
+      "separation_buffer_min": 15
+    },
+    "optimization_configuration": {
+      "reassignment_weight": 10.0,
+      "overflow_weight": 200.0,
+      "delay_weight": 1.0,
+      "conflict_weight": 1000.0,
+      "risk_weight": 2.0,
+      "min_turnaround_minutes": 45,
+      "default_dwell_minutes": 60,
+      "separation_buffer_minutes": 15,
+      "time_limit_seconds": 10.0,
+      "num_search_workers": 1,
+      "random_seed": 202601,
+      "log_search_progress": false,
+      "scale_factor": 100
+    },
+    "scenario_count": 5,
+    "input_artifact_references": {
+      "feature_manifest": {
+        "path": "D:/Study/Code/Python/Aelous/artifacts/manifests/feature_manifest_arrival_v1.json",
+        "sha256": "cb352a56d194e9f39ee9477fdbc5da7929ba03b5ba089100cbd88b01dec09e85"
+      },
+      "selected_system_manifest": {
+        "path": "D:/Study/Code/Python/Aelous/artifacts/manifests/selected_system_manifest_v1.json",
+        "sha256": "1b35863b17fb90a7d30cfc09315ab092cfa38a6fef18aa54e1735143ddb29f9b"
+      }
+    }
+  },
+  "post_holdout_metadata": {
+    "codebase_contains_post_holdout_changes": true,
+    "historical_2024_holdout_preserved": true
+  },
+  "aggregate_summary": {
+    "greedy_mean_objective": 0.8300000000000001,
+    "cpsat_mean_objective": 0.8300000000000001,
+    "sa_mean_objective": 0.8300000000000001,
+    "cpsat_vs_greedy_improvement_pct": 0.0
+  },
+  "all_hard_feasibility_satisfied": true,
+  "zero_contact_conflicts_across_all_solvers": true
+}

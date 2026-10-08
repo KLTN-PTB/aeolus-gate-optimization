@@ -1,0 +1,10 @@
+{
+  "benchmark_label": "DEVELOPMENT_END_TO_END_BENCHMARK",
+  "timestamp_utc": "2026-09-30T10:22:48.951081+00:00",
+  "total_scenarios_evaluated": 40,
+  "failures_count": 0,
+  "status": "ALL_SCENARIOS_SUCCEEDED",
+  "failed_scenarios": [],
+  "silently_dropped_scenarios_count": 0,
+  "error_handling_policy": "FAIL_CLOSED_TRANSPARENT"
+}

@@ -1,0 +1,21 @@
+{
+  "experiment_id": "core_point_stability_seed_202602",
+  "task": "core_arrival",
+  "target_classification": "1[ARR_DELAY >= 15]",
+  "target_regression": "ARR_DELAY",
+  "cutoff": "CRS_DEP_TIME - 2h",
+  "random_seed": 202602,
+  "data_seed": 202601,
+  "feature_version": "v1",
+  "sample_train_per_year": 3500,
+  "sample_val": 4000,
+  "output_dir": "artifacts\\model_benchmark\\core_point",
+  "methods": [
+    "arrival_linear_baseline_v1",
+    "arrival_random_forest_baseline_v1",
+    "arrival_hist_gradient_boosting_baseline_v1",
+    "arrival_xgboost_baseline_v1",
+    "arrival_weighted_ensemble_v1"
+  ],
+  "config_hash": "6a26dd156e0968fa98e04b491153e88c99bda5a08809a0d19db3267352bdd4ca"
+}

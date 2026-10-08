@@ -1,0 +1,47 @@
+{
+  "benchmark_protocol": "Aeolus Phase 2 Scalability Benchmark (1500 Flights x 50 Gates)",
+  "created_at_utc": "2026-10-05T04:27:18.756583+00:00",
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "environment": {
+    "os": "win32",
+    "python_version": "3.11.15",
+    "cpu_count": 16,
+    "ram_total_gb": 15.71
+  },
+  "experiment_parameters": {
+    "seed": 202601,
+    "primary_flights": 1500,
+    "contact_gates": 50,
+    "overflow_gates": 1,
+    "monte_carlo_samples": 500,
+    "mode_a_time_limit_seconds": 2.0,
+    "scaling_ladder": [
+      250,
+      500,
+      750,
+      1000,
+      1250,
+      1500
+    ]
+  },
+  "model_artifact": {
+    "model_id": "P4_ngboost_student_t",
+    "checkpoint_path": "artifacts\\probabilistic\\ngboost_student_t\\model_weights_frozen_v1.joblib",
+    "sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+    "status": "CERTIFIED_FROZEN"
+  },
+  "dependence_mechanism": {
+    "family_id": "DEP_D2_gaussian_copula",
+    "temporal_length_scale_minutes": 120.0,
+    "carrier_correlation": 0.15,
+    "min_psd_eigenvalue": 1e-06,
+    "stochastic_matrix_sha256": "1229b272e8ccb6a2391412103a8b0f1ff7e1da6918dd887e91b5ebd36de4563f"
+  },
+  "fairness_contract": {
+    "equal_wall_clock_budget": "PROVEN",
+    "equal_computational_work": "NOT_PROVEN",
+    "shared_scenario_matrix": true,
+    "shared_flight_windows": true,
+    "shared_independent_verifier": true
+  }
+}

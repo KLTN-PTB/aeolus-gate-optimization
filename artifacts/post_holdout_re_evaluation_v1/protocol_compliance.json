@@ -1,0 +1,21 @@
+{
+  "evaluation_role": "POST_HOLDOUT_REEVALUATION_AFTER_METHODOLOGY_REPAIR",
+  "protocol_compliance_status": "FULLY_COMPLIANT",
+  "timestamp_utc": "2026-10-04T12:13:56.214863+00:00",
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "freeze_manifest_sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+  "p4_checkpoint_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+  "assertions": {
+    "zero_2024_training": true,
+    "zero_2024_hpo": true,
+    "zero_weather_features": true,
+    "zero_departure_delay_leakage": true,
+    "p5_reconstruction_excluded": true,
+    "p5_continuous_sampling_excluded": true,
+    "equal_wall_clock_budget_enforced": true,
+    "shared_verifier_enforced": true,
+    "zero_dropped_failures": true,
+    "historical_artifacts_preserved": true,
+    "scientific_claim_bounded_to_simulation": true
+  }
+}

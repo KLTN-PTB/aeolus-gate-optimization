@@ -1,0 +1,91 @@
+{
+  "model_id": "P1_empirical",
+  "family": "probabilistic",
+  "fold_id": "fold_3",
+  "validation_year": 2021,
+  "seed": 202602,
+  "data_seed": 202601,
+  "status": "COMPLETED",
+  "runtime_seconds": 0.653,
+  "memory_mb": 0.0,
+  "failure_reason": null,
+  "error_category": null,
+  "model_version": "core_probabilistic_v1",
+  "data_version": "aeolus_canonical_v1",
+  "feature_version": "v1",
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 0.8179,
+      "alpha_0.050": 1.4673,
+      "alpha_0.100": 2.582,
+      "alpha_0.250": 5.2116,
+      "alpha_0.500": 8.0694,
+      "alpha_0.750": 9.0236,
+      "alpha_0.900": 7.6404,
+      "alpha_0.950": 6.2188,
+      "alpha_0.975": 4.8416
+    },
+    "mean_pinball_loss": 5.097,
+    "crps_quantile_approx": 12.4912,
+    "crps": 12.4912,
+    "nll": "NOT_AVAILABLE",
+    "empirical_coverage": {
+      "interval_50": 0.534,
+      "interval_80": 0.8115,
+      "interval_90": 0.9002,
+      "interval_95": 0.9497
+    },
+    "interval_widths": {
+      "interval_50": 17.52,
+      "interval_80": 43.06,
+      "interval_90": 71.1,
+      "interval_95": 116.7
+    },
+    "brier_score_delay_ge_15": 0.10302,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.004,
+      "maximum_calibration_error": 0.1352,
+      "reliability_table": [
+        {
+          "bin": 0,
+          "bin_range": "[0.00, 0.10]",
+          "count": 1567,
+          "mean_pred": 0.0775,
+          "observed_freq": 0.0772,
+          "abs_gap": 0.0003
+        },
+        {
+          "bin": 1,
+          "bin_range": "[0.10, 0.20]",
+          "count": 2183,
+          "mean_pred": 0.1391,
+          "observed_freq": 0.1393,
+          "abs_gap": 0.0002
+        },
+        {
+          "bin": 2,
+          "bin_range": "[0.20, 0.30]",
+          "count": 185,
+          "mean_pred": 0.2397,
+          "observed_freq": 0.2054,
+          "abs_gap": 0.0343
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.30, 0.40]",
+          "count": 65,
+          "mean_pred": 0.3044,
+          "observed_freq": 0.1692,
+          "abs_gap": 0.1352
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.0189,
+      "ks_pvalue": 0.112743,
+      "uniformity_dev": 0.0074
+    }
+  },
+  "created_at_utc": "2026-09-30T14:18:44.082925+00:00"
+}

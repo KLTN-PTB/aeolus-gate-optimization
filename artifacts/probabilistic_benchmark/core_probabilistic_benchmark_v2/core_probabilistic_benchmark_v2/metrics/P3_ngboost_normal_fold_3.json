@@ -1,0 +1,232 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v2",
+  "candidate_id": "P3_ngboost_normal",
+  "fold_id": "fold_3",
+  "validation_year": 2021,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "train_rows": 17500,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 2.078,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_probability_ge": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true,
+    "has_pit": true
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 2.0098,
+      "alpha_0.050": 3.3812,
+      "alpha_0.100": 5.2914,
+      "alpha_0.250": 7.2126,
+      "alpha_0.500": 8.9293,
+      "alpha_0.750": 11.8953,
+      "alpha_0.900": 8.916,
+      "alpha_0.950": 6.5334,
+      "alpha_0.975": 4.8452
+    },
+    "mean_pinball_loss": 6.5571,
+    "crps_quantile_approx": 15.8643,
+    "crps": 16.3307,
+    "nll": 5.2743,
+    "empirical_coverage": {
+      "interval_50": 0.8868,
+      "interval_80": 0.9535,
+      "interval_90": 0.9663,
+      "interval_95": 0.9745
+    },
+    "interval_widths": {
+      "interval_50": 54.66,
+      "interval_80": 103.86,
+      "interval_90": 133.3,
+      "interval_95": 158.84
+    },
+    "brier_score_delay_ge_15": 0.14864,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.2074,
+      "maximum_calibration_error": 0.3077,
+      "reliability_table": [
+        {
+          "bin": 2,
+          "bin_range": "[0.20, 0.30]",
+          "count": 408,
+          "mean_pred": 0.2943,
+          "observed_freq": 0.1324,
+          "abs_gap": 0.1619
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.30, 0.40]",
+          "count": 3504,
+          "mean_pred": 0.3275,
+          "observed_freq": 0.1173,
+          "abs_gap": 0.2102
+        },
+        {
+          "bin": 4,
+          "bin_range": "[0.40, 0.50]",
+          "count": 88,
+          "mean_pred": 0.41,
+          "observed_freq": 0.1023,
+          "abs_gap": 0.3077
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.2418,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.1044
+    },
+    "metric_details": {
+      "mean": {
+        "metric_value": -2.917973509408385,
+        "metric_status": "SUPPORTED",
+        "metric_method": "conditional_expectation",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "median": {
+        "metric_value": -2.917973509408385,
+        "metric_status": "SUPPORTED",
+        "metric_method": "median_quantile_0_50",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "quantile": {
+        "metric_value": {
+          "0.025": -82.3359845907861,
+          "0.05": -69.56766942365836,
+          "0.1": -54.846619768519304,
+          "0.25": -30.24839125069081,
+          "0.5": -2.917973509408385,
+          "0.75": 24.41244423187404,
+          "0.9": 49.01067274970253,
+          "0.95": 63.73172240484157,
+          "0.975": 76.50003757196932
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "pre_registered_9_quantiles",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "cdf": {
+        "metric_value": null,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_cdf",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "event_probability": {
+        "metric_value": 0.14864,
+        "metric_status": "SUPPORTED",
+        "metric_method": "tail_probability_p_ge_15",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "sampling": {
+        "metric_value": null,
+        "metric_status": "SUPPORTED",
+        "metric_method": "pseudorandom_generative_sampling",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "crps": {
+        "metric_value": 16.3307,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_gaussian_crps",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "exact_crps": {
+        "metric_value": 16.3307,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_gaussian_crps",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "approximate_crps": {
+        "metric_value": 15.8643,
+        "metric_status": "SUPPORTED",
+        "metric_method": "trapezoidal_pinball_integration_9q",
+        "is_exact": false,
+        "is_approximate": true,
+        "unsupported_reason": null
+      },
+      "nll": {
+        "metric_value": 5.2743,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_gaussian_nll",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "pit": {
+        "metric_value": {
+          "status": "AVAILABLE",
+          "ks_statistic": 0.2418,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.1044
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "continuous_cdf_ks_test",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "coverage": {
+        "metric_value": {
+          "interval_50": 0.8868,
+          "interval_80": 0.9535,
+          "interval_90": 0.9663,
+          "interval_95": 0.9745
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_coverage",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "interval_width": {
+        "metric_value": {
+          "interval_50": 54.66,
+          "interval_80": 103.86,
+          "interval_90": 133.3,
+          "interval_95": 158.84
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_width",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      }
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v2\\core_probabilistic_benchmark_v2\\oof\\P3_ngboost_normal_fold_3.parquet"
+}

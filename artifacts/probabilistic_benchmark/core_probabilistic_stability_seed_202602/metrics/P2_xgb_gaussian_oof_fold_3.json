@@ -1,0 +1,92 @@
+{
+  "experiment_id": "core_probabilistic_stability_seed_202602",
+  "candidate_id": "P2_xgb_gaussian_oof",
+  "fold_id": "fold_3",
+  "validation_year": 2021,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "train_rows": 17500,
+  "validation_rows": 4000,
+  "seed": 202602,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 1.386,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_probability_ge": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 2.5339,
+      "alpha_0.050": 4.3226,
+      "alpha_0.100": 6.9267,
+      "alpha_0.250": 10.1451,
+      "alpha_0.500": 8.0836,
+      "alpha_0.750": 11.3064,
+      "alpha_0.900": 8.9064,
+      "alpha_0.950": 6.5306,
+      "alpha_0.975": 4.7748
+    },
+    "mean_pinball_loss": 7.0589,
+    "crps_quantile_approx": 16.7857,
+    "crps": 17.446,
+    "nll": 5.2371,
+    "empirical_coverage": {
+      "interval_50": 0.9083,
+      "interval_80": 0.9573,
+      "interval_90": 0.9695,
+      "interval_95": 0.977
+    },
+    "interval_widths": {
+      "interval_50": 63.81,
+      "interval_80": 121.24,
+      "interval_90": 155.6,
+      "interval_95": 185.41
+    },
+    "brier_score_delay_ge_15": 0.13483,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.176,
+      "maximum_calibration_error": 0.1813,
+      "reliability_table": [
+        {
+          "bin": 2,
+          "bin_range": "[0.20, 0.30]",
+          "count": 2433,
+          "mean_pred": 0.2824,
+          "observed_freq": 0.1011,
+          "abs_gap": 0.1813
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.30, 0.40]",
+          "count": 1567,
+          "mean_pred": 0.3133,
+          "observed_freq": 0.1455,
+          "abs_gap": 0.1678
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.3219,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.1091
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_stability_seed_202602\\oof\\P2_xgb_gaussian_oof_fold_3.parquet"
+}

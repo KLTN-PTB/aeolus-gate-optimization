@@ -1,0 +1,33 @@
+{
+  "manifest_version": "phase_g_e2e_pipeline_manifest_v1",
+  "created_at_utc": "2026-09-28T16:15:13.212698+00:00",
+  "phase": "PHASE_G",
+  "status": "PASS",
+  "protocol_reference": "docs/roadmap/01_Roadmap_12_tuan_Aeolus_Gate_Optimization_V4_DONG_BO.md",
+  "total_wall_seconds": 29.580453634262085,
+  "models": {
+    "marginal": "B5_ngboost_student_t",
+    "dependence": "DEP_D2_gaussian_copula",
+    "turn_model": "AircraftTurnModel",
+    "conflict_detector": "ConflictDetector",
+    "solvers_compared": [
+      "Greedy",
+      "CP-SAT",
+      "CP-SAT+SA"
+    ]
+  },
+  "artifacts_generated": [
+    "run_manifest.json",
+    "scenario_summary.parquet",
+    "greedy_results.parquet",
+    "cp_sat_results.parquet",
+    "sa_results.parquet",
+    "aggregate_metrics.json"
+  ],
+  "aggregate_summary": {
+    "cpsat_vs_greedy_improvement_pct": 12.819379365219707,
+    "sa_vs_cpsat_improvement_pct": 0.0
+  },
+  "all_hard_feasibility_satisfied": true,
+  "zero_contact_conflicts_across_all_solvers": true
+}

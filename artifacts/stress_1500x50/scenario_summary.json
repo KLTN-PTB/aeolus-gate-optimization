@@ -1,0 +1,87 @@
+{
+  "generator_version": "scalability_scenario_generator_v1",
+  "seed": 202601,
+  "n_contact_gates": 50,
+  "ladder_counts": [
+    250,
+    500,
+    750,
+    1000,
+    1250,
+    1500
+  ],
+  "rungs": {
+    "250": {
+      "scenario_id": "SCEN_0250_50_LADDER",
+      "n_flights": 250,
+      "scenario_hash": "dc9a846716bc30ffed56a8908bf5e2c8c5a85a5c628604ebdbc5a59ff252f32d",
+      "peak_concurrent_demand": 37,
+      "over_capacity_flights": 0,
+      "capacity_ratio": 0.74,
+      "flights_per_gate": 5.0,
+      "flights_per_hour_mean": 10.42,
+      "flights_per_hour_peak": 30,
+      "nominal_utilization_ratio": 0.2604
+    },
+    "500": {
+      "scenario_id": "SCEN_0500_50_LADDER",
+      "n_flights": 500,
+      "scenario_hash": "ce855ddec3649837ec3afbc6d856c8f2bef7793c3dd1726dc36958e204b6df2f",
+      "peak_concurrent_demand": 71,
+      "over_capacity_flights": 21,
+      "capacity_ratio": 1.42,
+      "flights_per_gate": 10.0,
+      "flights_per_hour_mean": 20.83,
+      "flights_per_hour_peak": 58,
+      "nominal_utilization_ratio": 0.5208
+    },
+    "750": {
+      "scenario_id": "SCEN_0750_50_LADDER",
+      "n_flights": 750,
+      "scenario_hash": "aabcdf3c68d7ffc6012bc8273250f2bf3060132837347938f47e84cffc1d9a13",
+      "peak_concurrent_demand": 102,
+      "over_capacity_flights": 52,
+      "capacity_ratio": 2.04,
+      "flights_per_gate": 15.0,
+      "flights_per_hour_mean": 31.25,
+      "flights_per_hour_peak": 79,
+      "nominal_utilization_ratio": 0.7812
+    },
+    "1000": {
+      "scenario_id": "SCEN_1000_50_LADDER",
+      "n_flights": 1000,
+      "scenario_hash": "9329d6381b7ac75dd51f01a8d7fcc0d30a59e7501b9683d141cb8ed44285271d",
+      "peak_concurrent_demand": 129,
+      "over_capacity_flights": 79,
+      "capacity_ratio": 2.58,
+      "flights_per_gate": 20.0,
+      "flights_per_hour_mean": 41.67,
+      "flights_per_hour_peak": 101,
+      "nominal_utilization_ratio": 1.0417
+    },
+    "1250": {
+      "scenario_id": "SCEN_1250_50_LADDER",
+      "n_flights": 1250,
+      "scenario_hash": "734c64851183251da445794029589cd24bd232f4944e6104255daebda7edd0bf",
+      "peak_concurrent_demand": 158,
+      "over_capacity_flights": 108,
+      "capacity_ratio": 3.16,
+      "flights_per_gate": 25.0,
+      "flights_per_hour_mean": 52.08,
+      "flights_per_hour_peak": 126,
+      "nominal_utilization_ratio": 1.3021
+    },
+    "1500": {
+      "scenario_id": "SCEN_1500_50_LADDER",
+      "n_flights": 1500,
+      "scenario_hash": "112f4c8244496ef53edc430be63488ab82dc3dda6c131daa14c54352be787739",
+      "peak_concurrent_demand": 186,
+      "over_capacity_flights": 136,
+      "capacity_ratio": 3.72,
+      "flights_per_gate": 30.0,
+      "flights_per_hour_mean": 62.5,
+      "flights_per_hour_peak": 150,
+      "nominal_utilization_ratio": 1.5625
+    }
+  }
+}

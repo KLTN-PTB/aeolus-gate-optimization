@@ -1,0 +1,83 @@
+{
+  "experiment_id": "core_probabilistic_stability_seed_202602",
+  "candidate_id": "P4_ngboost_student_t",
+  "fold_id": "fold_2",
+  "validation_year": 2020,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019
+  ],
+  "train_rows": 14000,
+  "validation_rows": 4000,
+  "seed": 202602,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 15.784,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_probability_ge": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 1.0865,
+      "alpha_0.050": 1.6239,
+      "alpha_0.100": 2.422,
+      "alpha_0.250": 4.2238,
+      "alpha_0.500": 6.2613,
+      "alpha_0.750": 6.6204,
+      "alpha_0.900": 5.435,
+      "alpha_0.950": 4.4487,
+      "alpha_0.975": 3.5838
+    },
+    "mean_pinball_loss": 3.9673,
+    "crps_quantile_approx": 9.6119,
+    "crps": 9.6119,
+    "nll": 4.1137,
+    "empirical_coverage": {
+      "interval_50": 0.5925,
+      "interval_80": 0.894,
+      "interval_90": 0.9477,
+      "interval_95": 0.9653
+    },
+    "interval_widths": {
+      "interval_50": 18.58,
+      "interval_80": 40.64,
+      "interval_90": 59.65,
+      "interval_95": 82.67
+    },
+    "brier_score_delay_ge_15": 0.05839,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.0168,
+      "maximum_calibration_error": 0.0168,
+      "reliability_table": [
+        {
+          "bin": 0,
+          "bin_range": "[0.00, 0.10]",
+          "count": 4000,
+          "mean_pred": 0.0788,
+          "observed_freq": 0.062,
+          "abs_gap": 0.0168
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.1157,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.036
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_stability_seed_202602\\oof\\P4_ngboost_student_t_fold_2.parquet"
+}

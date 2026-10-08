@@ -1,0 +1,233 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v2",
+  "candidate_id": "P2_xgb_gaussian_oof",
+  "fold_id": "fold_4",
+  "validation_year": 2022,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "train_rows": 21000,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 1.541,
+  "memory_mb": 0.0,
+  "capabilities": {
+    "has_mean": true,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_probability_ge": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": true,
+    "has_crps": true,
+    "has_pit": true
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 2.6314,
+      "alpha_0.050": 4.5329,
+      "alpha_0.100": 7.3829,
+      "alpha_0.250": 11.4313,
+      "alpha_0.500": 10.6619,
+      "alpha_0.750": 13.6232,
+      "alpha_0.900": 11.3169,
+      "alpha_0.950": 8.9256,
+      "alpha_0.975": 7.0805
+    },
+    "mean_pinball_loss": 8.6207,
+    "crps_quantile_approx": 20.3449,
+    "crps": 21.1272,
+    "nll": 5.5983,
+    "empirical_coverage": {
+      "interval_50": 0.8715,
+      "interval_80": 0.9323,
+      "interval_90": 0.949,
+      "interval_95": 0.959
+    },
+    "interval_widths": {
+      "interval_50": 62.49,
+      "interval_80": 118.73,
+      "interval_90": 152.38,
+      "interval_95": 181.58
+    },
+    "brier_score_delay_ge_15": 0.15134,
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.1351,
+      "maximum_calibration_error": 0.4265,
+      "reliability_table": [
+        {
+          "bin": 2,
+          "bin_range": "[0.20, 0.30]",
+          "count": 2614,
+          "mean_pred": 0.2832,
+          "observed_freq": 0.1435,
+          "abs_gap": 0.1397
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.30, 0.40]",
+          "count": 1385,
+          "mean_pred": 0.3154,
+          "observed_freq": 0.1892,
+          "abs_gap": 0.1263
+        },
+        {
+          "bin": 4,
+          "bin_range": "[0.40, 0.50]",
+          "count": 1,
+          "mean_pred": 0.4265,
+          "observed_freq": 0.0,
+          "abs_gap": 0.4265
+        }
+      ]
+    },
+    "pit": {
+      "status": "AVAILABLE",
+      "ks_statistic": 0.3246,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.094
+    },
+    "metric_details": {
+      "mean": {
+        "metric_value": -10.08426294592116,
+        "metric_status": "SUPPORTED",
+        "metric_method": "conditional_expectation",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "median": {
+        "metric_value": -10.08426294592116,
+        "metric_status": "SUPPORTED",
+        "metric_method": "median_quantile_0_50",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "quantile": {
+        "metric_value": {
+          "0.025": -100.87313205541004,
+          "0.05": -86.27668373502546,
+          "0.1": -69.44791363493798,
+          "0.25": -41.32777666824819,
+          "0.5": -10.08426294592116,
+          "0.75": 21.159250776405855,
+          "0.9": 49.279387743095654,
+          "0.95": 66.10815784318312,
+          "0.975": 80.70460616356772
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "pre_registered_9_quantiles",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "cdf": {
+        "metric_value": null,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_cdf",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "event_probability": {
+        "metric_value": 0.15134,
+        "metric_status": "SUPPORTED",
+        "metric_method": "tail_probability_p_ge_15",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "sampling": {
+        "metric_value": null,
+        "metric_status": "SUPPORTED",
+        "metric_method": "pseudorandom_generative_sampling",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "crps": {
+        "metric_value": 21.1272,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_gaussian_crps",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "exact_crps": {
+        "metric_value": 21.1272,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_gaussian_crps",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "approximate_crps": {
+        "metric_value": 20.3449,
+        "metric_status": "SUPPORTED",
+        "metric_method": "trapezoidal_pinball_integration_9q",
+        "is_exact": false,
+        "is_approximate": true,
+        "unsupported_reason": null
+      },
+      "nll": {
+        "metric_value": 5.5983,
+        "metric_status": "SUPPORTED",
+        "metric_method": "analytical_gaussian_nll",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "pit": {
+        "metric_value": {
+          "status": "AVAILABLE",
+          "ks_statistic": 0.3246,
+          "ks_pvalue": 0.0,
+          "uniformity_dev": 0.094
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "continuous_cdf_ks_test",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "coverage": {
+        "metric_value": {
+          "interval_50": 0.8715,
+          "interval_80": 0.9323,
+          "interval_90": 0.949,
+          "interval_95": 0.959
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_coverage",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "interval_width": {
+        "metric_value": {
+          "interval_50": 62.49,
+          "interval_80": 118.73,
+          "interval_90": 152.38,
+          "interval_95": 181.58
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_width",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      }
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v2\\core_probabilistic_benchmark_v2\\oof\\P2_xgb_gaussian_oof_fold_4.parquet"
+}

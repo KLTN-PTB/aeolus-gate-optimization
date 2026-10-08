@@ -1,0 +1,23 @@
+{
+  "run_id": "E2E_20260928_174403_c99b3e8",
+  "timestamp_utc": "2026-09-28T17:44:17.304435+00:00",
+  "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701",
+  "config_hash": "07fb4d6b7a0ca5d8925b90f19d85739e6a82b9f8de3a16dfe4fbc65ac5bce0d5",
+  "evaluation_label": "DEVELOPMENT_END_TO_END_EVALUATION",
+  "evaluation_scope": {
+    "mode": "smoke",
+    "target_year": 2023,
+    "target_day": "2023-06-05",
+    "n_flights": 4,
+    "n_contact_gates": 5,
+    "scenarios_evaluated": 5
+  },
+  "performance_summary": {
+    "greedy_mean_objective": 0.8300000000000001,
+    "cpsat_mean_objective": 0.8300000000000001,
+    "sa_mean_objective": 0.8300000000000001,
+    "cpsat_vs_greedy_improvement_pct": 0.0
+  },
+  "all_hard_feasibility_satisfied": true,
+  "zero_contact_conflicts_across_all_solvers": true
+}

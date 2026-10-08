@@ -1,0 +1,53 @@
+{
+  "evaluation_role": "POST_HOLDOUT",
+  "holdout_year": 2024,
+  "stage": "PHASE_11_FINAL_POST_HOLDOUT_EVALUATION",
+  "evaluated_at_utc": "2026-10-01T17:29:42.918468+00:00",
+  "manifest_version": "v1.0",
+  "frozen_system": {
+    "system_id": "SYS_B5_ngboost_student_t__DEP_D2_gaussian_copula",
+    "selected_point_regression_model": "arrival_linear_baseline_v1",
+    "selected_point_regression_comparator": "arrival_weighted_ensemble_v1",
+    "selected_probabilistic_model": "P5_quantile_regression",
+    "historical_probabilistic_comparator": "P4_ngboost_student_t",
+    "nominal_schedule_baseline": "schedule_only",
+    "non_deployable_reference": "oracle_actual"
+  },
+  "freeze_manifest_sha256": "edca98f0c3c59828b1478d1b3439b357290e2da1cd5b1a0e69d047e3e98acd66",
+  "evaluation_governance": {
+    "evaluation_role": "POST_HOLDOUT",
+    "zero_post_holdout_retraining_verified": true,
+    "zero_post_holdout_hpo_verified": true,
+    "zero_post_holdout_tuning_verified": true,
+    "data_access_guard_authorized": true
+  },
+  "evaluation_scope": {
+    "n_operational_scenarios": 4,
+    "n_candidates": 7,
+    "n_solvers": 3,
+    "total_downstream_cases": 84,
+    "marginal_holdout_samples": 5000
+  },
+  "summary_findings": {
+    "marginal_mae": {
+      "schedule_only": 23.3776,
+      "arrival_linear_baseline_v1": 22.912481767357463,
+      "arrival_xgboost_baseline_v1": 24.288587903246096,
+      "arrival_weighted_ensemble_v1": 23.317525803458786,
+      "P5_quantile_regression": 21.687863817433566,
+      "P4_ngboost_student_t": 21.965313168923995
+    },
+    "total_failures": 9,
+    "overall_status": "PASS_WITH_ACCOUNTED_FAILURES"
+  },
+  "artifacts_generated": [
+    "post_holdout_evaluation_manifest.json",
+    "downstream_operational_evaluations.parquet",
+    "downstream_operational_evaluations.csv",
+    "paired_downstream_deltas.parquet",
+    "paired_downstream_deltas.csv",
+    "marginal_forecast_metrics_2024.json",
+    "operational_robustness_summary.json",
+    "failures_accounting.json"
+  ]
+}

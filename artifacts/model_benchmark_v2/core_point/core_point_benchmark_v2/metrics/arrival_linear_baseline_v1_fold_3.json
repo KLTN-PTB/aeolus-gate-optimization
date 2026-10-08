@@ -1,0 +1,38 @@
+{
+  "experiment_id": "core_point_benchmark_v2",
+  "model_id": "arrival_linear_baseline_v1",
+  "fold_id": "fold_3",
+  "validation_year": 2021,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "train_rows": 17500,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "runtime_seconds": 0.259,
+  "memory_mb": 7.73,
+  "metrics": {
+    "n_total": 4000,
+    "n_valid": 4000,
+    "n_missing": 0,
+    "n_failures": 0,
+    "mae": 17.7958,
+    "rmse": 44.967,
+    "r2": -0.0108,
+    "severe_delay_count": 148,
+    "severe_delay_mae_ge_60": 151.8842,
+    "pr_auc": 0.17797,
+    "roc_auc": 0.61249,
+    "brier_score": 0.17667,
+    "probability_semantics": "VALID_AUDITED_ESTIMATOR",
+    "probability_estimator": "dual_head_classifier"
+  },
+  "oof_artifact": "artifacts\\model_benchmark_v2\\core_point\\core_point_benchmark_v2\\oof\\arrival_linear_baseline_v1_fold_3.parquet",
+  "weights": null
+}

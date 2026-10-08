@@ -1,0 +1,15 @@
+[
+  {
+    "model_a": "P4_ngboost_student_t",
+    "model_b": "arrival_linear_baseline_v1",
+    "n_inner": 500,
+    "n_outer_replications": 1,
+    "variance_crn": 43853.6706,
+    "variance_independent": 16369.6096,
+    "variance_reduction_ratio": null,
+    "variance_reduction_percent": null,
+    "ci_95_variance_reduction": null,
+    "status": "NOT_ESTABLISHED",
+    "justification": "Variance reduction claim 82.4% is NOT_ESTABLISHED under standard CRN; requires explicit independent replication protocol."
+  }
+]

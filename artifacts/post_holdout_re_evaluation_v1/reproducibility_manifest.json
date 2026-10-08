@@ -1,0 +1,46 @@
+{
+  "manifest_name": "reproducibility_manifest_p11r",
+  "created_at_utc": "2026-10-04T12:13:56.246149+00:00",
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "git_branch": "v4-final-forensic-certification",
+  "freeze_manifest_sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+  "runtime_environment": {
+    "python_version": "3.11.15 (main, Mar 10 2026, 18:12:25) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "system": "Windows",
+    "machine": "AMD64",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.17.1",
+      "pandas": "2.3.3",
+      "scikit_learn": "1.9.0",
+      "xgboost": "3.2.0",
+      "lightgbm": "4.7.0",
+      "ngboost": "0.5.11",
+      "ortools": "9.15.6755",
+      "joblib": "1.5.3",
+      "pytest": "9.1.1"
+    }
+  },
+  "seed_registry": {
+    "deployment_seed": 202601,
+    "screening_seeds": [
+      202601,
+      202602,
+      202603
+    ],
+    "scenario_seeds": [
+      202601,
+      202602,
+      202603,
+      202604
+    ]
+  },
+  "artifact_hashes": {
+    "forecast_metrics.json": "38f28c6fe1a9e87091b92e758fa10338fe770f799e3dd7f00687a88f750f4503",
+    "downstream_results.parquet": "eb5187e6420129209fd753a488641aef8372651fbbb9100c66d2735f053271f7",
+    "robustness_results.json": "a9ca9eba54aa6dbb802f4a44a9674e4bca6185aac0ad5320595676307201bf01",
+    "failure_accounting.json": "4bba299abd3613c2939a648a517a46344290b0bab1cc7012d1cea445fb61bea4",
+    "protocol_compliance.json": "31db36b67521beb4f4abf1cd5f9f26abfbc6fab066bba4b5244af475ddcccff0"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "experiment_id": "core_point_benchmark_v2",
+  "model_id": "arrival_hist_gradient_boosting_baseline_v1",
+  "fold_id": "fold_4",
+  "validation_year": 2022,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "train_rows": 21000,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "runtime_seconds": 0.363,
+  "memory_mb": 0.0,
+  "metrics": {
+    "n_total": 4000,
+    "n_valid": 4000,
+    "n_missing": 0,
+    "n_failures": 0,
+    "mae": 22.1141,
+    "rmse": 58.7536,
+    "r2": -0.0116,
+    "severe_delay_count": 227,
+    "severe_delay_mae_ge_60": 170.6292,
+    "pr_auc": 0.26137,
+    "roc_auc": 0.61057,
+    "brier_score": 0.20133,
+    "probability_semantics": "VALID_AUDITED_ESTIMATOR",
+    "probability_estimator": "dual_head_classifier"
+  },
+  "oof_artifact": "artifacts\\model_benchmark_v2\\core_point\\core_point_benchmark_v2\\oof\\arrival_hist_gradient_boosting_baseline_v1_fold_4.parquet",
+  "weights": null
+}

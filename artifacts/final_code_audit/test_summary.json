@@ -1,0 +1,59 @@
+{
+  "hierarchy_status": "PASS",
+  "total_suites_evaluated": 6,
+  "total_tests_passed": 115,
+  "suites_failed": 0,
+  "total_test_duration_seconds": 21.142216444015503,
+  "suite_details": [
+    {
+      "suite_name": "Unit Tests (Simulation & Turn)",
+      "command": "pytest tests/test_simulation_pipeline.py tests/test_timeline_semantics.py -q",
+      "passed": true,
+      "tests_passed": 19,
+      "duration_seconds": 3.5478532314300537,
+      "exit_code": 0
+    },
+    {
+      "suite_name": "Probabilistic Tests",
+      "command": "pytest tests/test_student_t_correctness.py tests/test_unified_evaluation.py -q",
+      "passed": true,
+      "tests_passed": 12,
+      "duration_seconds": 3.492420196533203,
+      "exit_code": 0
+    },
+    {
+      "suite_name": "Dependence Tests",
+      "command": "pytest tests/test_dependence_hardening.py tests/test_dependence_contract_consistency.py -q",
+      "passed": true,
+      "tests_passed": 39,
+      "duration_seconds": 5.760784387588501,
+      "exit_code": 0
+    },
+    {
+      "suite_name": "CP-SAT Tests",
+      "command": "pytest tests/test_cp_sat_solver.py tests/test_greedy_and_adversarial.py -q",
+      "passed": true,
+      "tests_passed": 19,
+      "duration_seconds": 0.8453502655029297,
+      "exit_code": 0
+    },
+    {
+      "suite_name": "Simulated Annealing Tests",
+      "command": "pytest tests/test_simulated_annealing.py -q",
+      "passed": true,
+      "tests_passed": 15,
+      "duration_seconds": 4.070208311080933,
+      "exit_code": 0
+    },
+    {
+      "suite_name": "End-to-End & Development Benchmark Tests",
+      "command": "pytest tests/test_end_to_end_pipeline.py tests/test_development_end_to_end_benchmark.py -q",
+      "passed": true,
+      "tests_passed": 11,
+      "duration_seconds": 3.425600051879883,
+      "exit_code": 0
+    }
+  ],
+  "timestamp_utc": "2026-09-30T12:27:03.159281+00:00",
+  "git_commit": "c99b3e84b403527bcfb0f9612a1e2737c9f63701"
+}

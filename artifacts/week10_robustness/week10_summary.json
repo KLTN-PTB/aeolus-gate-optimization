@@ -1,0 +1,183 @@
+{
+  "experiment_name": "P10-B Week 10 Completion, Robustness, Recourse, Sensitivity, and Freeze",
+  "status": "COMPLETED",
+  "created_at_utc": "2026-10-04T11:56:14.026184+00:00",
+  "total_runtime_seconds": 35.46,
+  "git_commit": "7ba0aba92d366f712977faaaa5a73cba65a32a55",
+  "git_branch": "v4-final-forensic-certification",
+  "system_freeze_manifest_sha256": "9e6693dafae3ba439c0b6b9a5f3038ec87f0dd63f75dbcad5752ff8da0f98214",
+  "p4_checkpoint_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+  "pilot_summaries": {
+    "pilot_20": {
+      "pilot_count": 20,
+      "total_runtime_seconds": 1.957,
+      "mean_runtime_per_realization_ms": 97.87,
+      "mode_a_fixed_plan": {
+        "feasibility_rate": 1.0,
+        "mean_conflicts": 0.0,
+        "mean_objective": 4200.0
+      },
+      "mode_b_greedy_recourse": {
+        "feasibility_rate": 1.0,
+        "mean_resolved_conflicts": 0.0,
+        "mean_reassignments": 22.85,
+        "mean_objective": 4158.5,
+        "mean_recovery_runtime_ms": 0.6
+      },
+      "mode_b_cpsat_recourse": {
+        "feasibility_rate": 1.0,
+        "mean_resolved_conflicts": 0.0,
+        "mean_reassignments": 19.95,
+        "mean_objective": 4129.5,
+        "mean_recovery_runtime_ms": 95.37
+      },
+      "failures_retained_count": 60,
+      "zero_truncation_verified": true
+    },
+    "pilot_50": {
+      "pilot_count": 50,
+      "total_runtime_seconds": 4.831,
+      "mean_runtime_per_realization_ms": 96.62,
+      "mode_a_fixed_plan": {
+        "feasibility_rate": 1.0,
+        "mean_conflicts": 0.0,
+        "mean_objective": 4200.0
+      },
+      "mode_b_greedy_recourse": {
+        "feasibility_rate": 1.0,
+        "mean_resolved_conflicts": 0.0,
+        "mean_reassignments": 23.02,
+        "mean_objective": 4162.2,
+        "mean_recovery_runtime_ms": 0.59
+      },
+      "mode_b_cpsat_recourse": {
+        "feasibility_rate": 1.0,
+        "mean_resolved_conflicts": 0.0,
+        "mean_reassignments": 19.9,
+        "mean_objective": 4131.0,
+        "mean_recovery_runtime_ms": 94.2
+      },
+      "failures_retained_count": 150,
+      "zero_truncation_verified": true
+    }
+  },
+  "sensitivity_summary": {
+    "total_cells_evaluated": 19,
+    "dimensions": [
+      "arrival_risk_buffer",
+      "compute_budget",
+      "gate_mix",
+      "objective_weights",
+      "pairing",
+      "robustness_distribution",
+      "turnaround_parameters"
+    ]
+  },
+  "canonical_n_metrics": {
+    "P4_ngboost_student_t": {
+      "mode_a_fixed_plan": {
+        "mean_objective": 4200.0,
+        "std_objective": 0.0,
+        "mc_se_objective": 0.0,
+        "ci_95": [
+          4200.0,
+          4200.0
+        ],
+        "mean_conflicts": 0.0,
+        "feasibility_rate": 1.0
+      },
+      "mode_b_recourse": {
+        "mean_objective": 4138.76,
+        "std_objective": 135.94,
+        "mc_se_objective": 6.08,
+        "ci_95": [
+          4126.84,
+          4150.68
+        ],
+        "mean_post_conflicts": 0.0,
+        "feasibility_rate": 1.0,
+        "mean_recourse_reassignments": 22.96
+      }
+    },
+    "schedule_only": {
+      "mode_a_fixed_plan": {
+        "mean_objective": 4200.0,
+        "std_objective": 0.0,
+        "mc_se_objective": 0.0,
+        "ci_95": [
+          4200.0,
+          4200.0
+        ],
+        "mean_conflicts": 0.0,
+        "feasibility_rate": 1.0
+      },
+      "mode_b_recourse": {
+        "mean_objective": 4138.76,
+        "std_objective": 135.94,
+        "mc_se_objective": 6.08,
+        "ci_95": [
+          4126.84,
+          4150.68
+        ],
+        "mean_post_conflicts": 0.0,
+        "feasibility_rate": 1.0,
+        "mean_recourse_reassignments": 22.96
+      }
+    },
+    "arrival_linear_baseline_v1": {
+      "mode_a_fixed_plan": {
+        "mean_objective": 4210.0,
+        "std_objective": 0.0,
+        "mc_se_objective": 0.0,
+        "ci_95": [
+          4210.0,
+          4210.0
+        ],
+        "mean_conflicts": 0.0,
+        "feasibility_rate": 1.0
+      },
+      "mode_b_recourse": {
+        "mean_objective": 4138.76,
+        "std_objective": 135.94,
+        "mc_se_objective": 6.08,
+        "ci_95": [
+          4126.84,
+          4150.68
+        ],
+        "mean_post_conflicts": 0.0,
+        "feasibility_rate": 1.0,
+        "mean_recourse_reassignments": 22.96
+      }
+    },
+    "oracle_actual": {
+      "mode_a_fixed_plan": {
+        "mean_objective": 4220.0,
+        "std_objective": 0.0,
+        "mc_se_objective": 0.0,
+        "ci_95": [
+          4220.0,
+          4220.0
+        ],
+        "mean_conflicts": 0.0,
+        "feasibility_rate": 1.0
+      },
+      "mode_b_recourse": {
+        "mean_objective": 4138.76,
+        "std_objective": 135.94,
+        "mc_se_objective": 6.08,
+        "ci_95": [
+          4126.84,
+          4150.68
+        ],
+        "mean_post_conflicts": 0.0,
+        "feasibility_rate": 1.0,
+        "mean_recourse_reassignments": 22.96
+      }
+    }
+  },
+  "failure_accounting_summary": {
+    "total_evaluations": 20000,
+    "retained_failures": 0,
+    "zero_dropped_cases": true
+  }
+}

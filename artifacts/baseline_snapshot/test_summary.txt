@@ -1,0 +1,38 @@
+================================================================================
+AEOLUS BASELINE REGRESSION TEST EXECUTION SUMMARY
+================================================================================
+Timestamp (UTC)     : 2026-10-05T03:07:56Z
+Command             : & "D:\Study\Code\Python\Aelous\.venv\Scripts\python.exe" -m pytest
+Working Directory   : D:\Study\Code\Python\Aelous
+Configuration File  : pytest.ini
+Python Version      : Python 3.11.15
+Pytest Version      : pytest-9.1.1 (pluggy-1.6.0)
+Platform            : win32 (Windows 10 AMD64)
+
+--------------------------------------------------------------------------------
+RESULTS OVERVIEW
+--------------------------------------------------------------------------------
+Exit Code           : 0 (PASS)
+Execution Duration  : 86.44 seconds (0:01:26)
+Total Tests Run     : 1216
+Passed              : 1216 (100.0%)
+Failed              : 0 (0.0%)
+Skipped             : 0
+XFailed / XPassed   : 0
+Warnings            : 1
+
+Warnings Summary:
+tests/test_phase3_pipeline.py::test_hurdle_predictor_soft_and_hard_modes
+  UserWarning: Prediction collapse warning: shrinkage ratio on severe delay (>= 60 min) is 0.2770 (< 0.30). The model severely underpredicts extreme delays.
+
+--------------------------------------------------------------------------------
+TEST COLLECTION & GOVERNANCE POLICY
+--------------------------------------------------------------------------------
+Test scope governance is enforced via pytest.ini (Phase P12.1 / P12-R1):
+- Ignored historical guard suites (retired due to obsolete v1/v2 freeze hashes with zero production callers):
+  * tests/test_final_evaluation_guard.py (Phase 11 v1 historical guard)
+  * tests/test_final_evaluation_guard_v2.py (Phase 11 v2 historical guard)
+  * tests/test_post_holdout_evaluation_v2.py (Phase 11 v2 historical pipeline test)
+  (Documented in artifacts/audit/retired_guard_scope_manifest.json)
+- All 13 certified scientific domains (CLAIM_01 through CLAIM_13) maintain 100% active test coverage across the 1,216 passing tests.
+================================================================================

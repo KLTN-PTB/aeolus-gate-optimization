@@ -1,0 +1,54 @@
+{
+  "pilot_20": {
+    "pilot_count": 20,
+    "total_runtime_seconds": 1.957,
+    "mean_runtime_per_realization_ms": 97.87,
+    "mode_a_fixed_plan": {
+      "feasibility_rate": 1.0,
+      "mean_conflicts": 0.0,
+      "mean_objective": 4200.0
+    },
+    "mode_b_greedy_recourse": {
+      "feasibility_rate": 1.0,
+      "mean_resolved_conflicts": 0.0,
+      "mean_reassignments": 22.85,
+      "mean_objective": 4158.5,
+      "mean_recovery_runtime_ms": 0.6
+    },
+    "mode_b_cpsat_recourse": {
+      "feasibility_rate": 1.0,
+      "mean_resolved_conflicts": 0.0,
+      "mean_reassignments": 19.95,
+      "mean_objective": 4129.5,
+      "mean_recovery_runtime_ms": 95.37
+    },
+    "failures_retained_count": 60,
+    "zero_truncation_verified": true
+  },
+  "pilot_50": {
+    "pilot_count": 50,
+    "total_runtime_seconds": 4.831,
+    "mean_runtime_per_realization_ms": 96.62,
+    "mode_a_fixed_plan": {
+      "feasibility_rate": 1.0,
+      "mean_conflicts": 0.0,
+      "mean_objective": 4200.0
+    },
+    "mode_b_greedy_recourse": {
+      "feasibility_rate": 1.0,
+      "mean_resolved_conflicts": 0.0,
+      "mean_reassignments": 23.02,
+      "mean_objective": 4162.2,
+      "mean_recovery_runtime_ms": 0.59
+    },
+    "mode_b_cpsat_recourse": {
+      "feasibility_rate": 1.0,
+      "mean_resolved_conflicts": 0.0,
+      "mean_reassignments": 19.9,
+      "mean_objective": 4131.0,
+      "mean_recovery_runtime_ms": 94.2
+    },
+    "failures_retained_count": 150,
+    "zero_truncation_verified": true
+  }
+}

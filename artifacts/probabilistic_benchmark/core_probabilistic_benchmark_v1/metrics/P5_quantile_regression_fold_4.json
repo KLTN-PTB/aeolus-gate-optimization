@@ -1,0 +1,107 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v1",
+  "candidate_id": "P5_quantile_regression",
+  "fold_id": "fold_4",
+  "validation_year": 2022,
+  "train_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "train_rows": 21000,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 1.641,
+  "memory_mb": 2.76,
+  "capabilities": {
+    "has_mean": false,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": true,
+    "has_p_delay_ge_15": true,
+    "has_sampler": true,
+    "has_nll": false,
+    "has_crps": true
+  },
+  "metrics": {
+    "brier_score_delay_ge_15": 0.13173,
+    "pinball_losses": {
+      "alpha_0.025": 0.8855,
+      "alpha_0.050": 1.6475,
+      "alpha_0.100": 3.0245,
+      "alpha_0.250": 6.4848,
+      "alpha_0.500": 10.6574,
+      "alpha_0.750": 12.4261,
+      "alpha_0.900": 11.0552,
+      "alpha_0.950": 9.1972,
+      "alpha_0.975": 7.2844
+    },
+    "mean_pinball_loss": 6.9625,
+    "crps_quantile_approx": 16.7266,
+    "crps": 16.7266,
+    "nll": "NOT_AVAILABLE",
+    "empirical_coverage": {
+      "interval_50": 0.446,
+      "interval_80": 0.7498,
+      "interval_90": 0.8665,
+      "interval_95": 0.9237
+    },
+    "interval_widths": {
+      "interval_50": 16.24,
+      "interval_80": 37.85,
+      "interval_90": 60.88,
+      "interval_95": 94.8
+    },
+    "pit": {
+      "ks_statistic": 0.0842,
+      "ks_pvalue": 0.0,
+      "uniformity_dev": 0.0214
+    },
+    "calibration_diagnostics": {
+      "expected_calibration_error": 0.0447,
+      "maximum_calibration_error": 0.692,
+      "reliability_table": [
+        {
+          "bin": 0,
+          "bin_range": "[0.0, 0.1]",
+          "count": 2324,
+          "mean_pred": 0.084,
+          "observed_freq": 0.1239,
+          "abs_gap": 0.0399
+        },
+        {
+          "bin": 1,
+          "bin_range": "[0.1, 0.2]",
+          "count": 1407,
+          "mean_pred": 0.1421,
+          "observed_freq": 0.1798,
+          "abs_gap": 0.0377
+        },
+        {
+          "bin": 2,
+          "bin_range": "[0.2, 0.3]",
+          "count": 261,
+          "mean_pred": 0.2325,
+          "observed_freq": 0.3372,
+          "abs_gap": 0.1047
+        },
+        {
+          "bin": 3,
+          "bin_range": "[0.3, 0.4]",
+          "count": 8,
+          "mean_pred": 0.308,
+          "observed_freq": 1.0,
+          "abs_gap": 0.692
+        }
+      ]
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v1\\oof\\P5_quantile_regression_fold_4.parquet"
+}

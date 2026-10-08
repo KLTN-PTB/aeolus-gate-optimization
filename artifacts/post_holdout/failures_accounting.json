@@ -1,0 +1,85 @@
+{
+  "evaluation_role": "POST_HOLDOUT",
+  "holdout_year": 2024,
+  "created_at_utc": "2026-10-01T17:29:42.917970+00:00",
+  "total_evaluated_cases": 84,
+  "total_failures_count": 9,
+  "solver_timeouts_count": 0,
+  "infeasible_instances_count": 9,
+  "simulation_divergence_count": 0,
+  "prediction_anomalies_count": 0,
+  "failures_log": [
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_linear_baseline_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "DeterministicGreedy",
+      "status": "COMPLETED",
+      "failure_reason": null
+    },
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_linear_baseline_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "CPSat",
+      "status": "COMPLETED",
+      "failure_reason": null
+    },
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_linear_baseline_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "SimulatedAnnealing",
+      "status": "COMPLETED",
+      "failure_reason": null
+    },
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "DeterministicGreedy",
+      "status": "COMPLETED",
+      "failure_reason": null
+    },
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "CPSat",
+      "status": "COMPLETED",
+      "failure_reason": null
+    },
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_xgboost_baseline_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "SimulatedAnnealing",
+      "status": "COMPLETED",
+      "failure_reason": null
+    },
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "DeterministicGreedy",
+      "status": "COMPLETED",
+      "failure_reason": null
+    },
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "CPSat",
+      "status": "COMPLETED",
+      "failure_reason": null
+    },
+    {
+      "failure_type": "solver_infeasible_or_failed",
+      "model_id": "arrival_weighted_ensemble_v1",
+      "scenario_id": "SCEN_2024_SUMMER",
+      "solver_name": "SimulatedAnnealing",
+      "status": "COMPLETED",
+      "failure_reason": null
+    }
+  ]
+}

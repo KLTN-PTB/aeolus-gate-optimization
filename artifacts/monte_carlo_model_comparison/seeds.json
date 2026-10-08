@@ -1,0 +1,5 @@
+{
+  "predetermined_deployment_seed": 202601,
+  "common_random_numbers_policy": "STRICT_CRN_LATENT_UNIFORM",
+  "description": "Latent uniform U is generated once with fixed seed and shared across all models."
+}

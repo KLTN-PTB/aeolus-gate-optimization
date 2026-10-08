@@ -1,0 +1,197 @@
+{
+  "experiment_id": "core_probabilistic_benchmark_v2",
+  "candidate_id": "P5_quantile_regression",
+  "fold_id": "fold_1",
+  "validation_year": 2019,
+  "train_years": [
+    2016,
+    2017,
+    2018
+  ],
+  "train_rows": 10500,
+  "validation_rows": 4000,
+  "seed": 202601,
+  "status": "COMPLETED",
+  "failure_reason": null,
+  "correctness_status": "PASSED",
+  "correctness_issues": [],
+  "runtime_seconds": 0.839,
+  "memory_mb": 6.63,
+  "capabilities": {
+    "has_mean": false,
+    "has_median": true,
+    "has_quantiles": true,
+    "has_cdf": false,
+    "has_probability_ge": false,
+    "has_p_delay_ge_15": false,
+    "has_sampler": false,
+    "has_nll": false,
+    "has_crps": true,
+    "has_pit": false
+  },
+  "metrics": {
+    "pinball_losses": {
+      "alpha_0.025": 0.8188,
+      "alpha_0.050": 1.4965,
+      "alpha_0.100": 2.6943,
+      "alpha_0.250": 5.5383,
+      "alpha_0.500": 8.6566,
+      "alpha_0.750": 9.4734,
+      "alpha_0.900": 7.8913,
+      "alpha_0.950": 6.2228,
+      "alpha_0.975": 4.6339
+    },
+    "mean_pinball_loss": 5.2695,
+    "crps_quantile_approx": 13.1654,
+    "crps": 13.1654,
+    "nll": "NOT_AVAILABLE",
+    "empirical_coverage": {
+      "interval_50": 0.4693,
+      "interval_80": 0.7548,
+      "interval_90": 0.8622,
+      "interval_95": 0.9287
+    },
+    "interval_widths": {
+      "interval_50": 18.93,
+      "interval_80": 43.13,
+      "interval_90": 68.54,
+      "interval_95": 109.37
+    },
+    "brier_score_delay_ge_15": "NOT_AVAILABLE",
+    "calibration_diagnostics": {
+      "status": "NOT_AVAILABLE",
+      "reason": "Event probability is not supported"
+    },
+    "pit": {
+      "status": "NOT_AVAILABLE",
+      "reason": "Candidate does not support continuous CDF"
+    },
+    "metric_details": {
+      "mean": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Quantile/non-parametric models do not estimate conditional mean."
+      },
+      "median": {
+        "metric_value": -7.211688553128866,
+        "metric_status": "SUPPORTED",
+        "metric_method": "median_quantile_0_50",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "quantile": {
+        "metric_value": {
+          "0.025": -26.80135954420825,
+          "0.05": -23.6782072672829,
+          "0.1": -20.403708613988922,
+          "0.25": -14.997325008897223,
+          "0.5": -7.211688553128866,
+          "0.75": 3.936135039380287,
+          "0.9": 22.72758524510133,
+          "0.95": 44.864420818460786,
+          "0.975": 82.57250963611116
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "pre_registered_9_quantiles",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "cdf": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Quantile regression candidates do not provide a continuous CDF. Heuristic synthesis prohibited."
+      },
+      "event_probability": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Binary event probability is unsupported without full CDF or classification head."
+      },
+      "sampling": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Generative sampling requires inverse CDF transform; unsupported for quantile regression."
+      },
+      "crps": {
+        "metric_value": 13.1654,
+        "metric_status": "APPROXIMATE",
+        "metric_method": "trapezoidal_pinball_integration_9q",
+        "is_exact": false,
+        "is_approximate": true,
+        "unsupported_reason": null
+      },
+      "exact_crps": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Analytical closed-form CRPS is only supported for Gaussian families."
+      },
+      "approximate_crps": {
+        "metric_value": 13.1654,
+        "metric_status": "SUPPORTED",
+        "metric_method": "trapezoidal_pinball_integration_9q",
+        "is_exact": false,
+        "is_approximate": true,
+        "unsupported_reason": null
+      },
+      "nll": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Quantile regression models do not possess continuous density; NLL synthesis prohibited."
+      },
+      "pit": {
+        "metric_value": null,
+        "metric_status": "NOT_SUPPORTED",
+        "metric_method": "none",
+        "is_exact": false,
+        "is_approximate": false,
+        "unsupported_reason": "Candidate does not support continuous CDF"
+      },
+      "coverage": {
+        "metric_value": {
+          "interval_50": 0.4693,
+          "interval_80": 0.7548,
+          "interval_90": 0.8622,
+          "interval_95": 0.9287
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_coverage",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      },
+      "interval_width": {
+        "metric_value": {
+          "interval_50": 18.93,
+          "interval_80": 43.13,
+          "interval_90": 68.54,
+          "interval_95": 109.37
+        },
+        "metric_status": "SUPPORTED",
+        "metric_method": "symmetric_interval_width",
+        "is_exact": true,
+        "is_approximate": false,
+        "unsupported_reason": null
+      }
+    }
+  },
+  "oof_artifact": "artifacts\\probabilistic_benchmark\\core_probabilistic_benchmark_v2\\core_probabilistic_benchmark_v2\\oof\\P5_quantile_regression_fold_1.parquet"
+}

@@ -1,0 +1,520 @@
+{
+  "canonical_n": 500,
+  "grid": [
+    100,
+    250,
+    500,
+    1000,
+    2500
+  ],
+  "models": {
+    "P4_ngboost_student_t": {
+      "N_100": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4151.4,
+          "std_objective": 125.26,
+          "mc_se_objective": 12.53,
+          "ci_95": [
+            4126.85,
+            4175.95
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.94
+        }
+      },
+      "N_250": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4140.12,
+          "std_objective": 126.54,
+          "mc_se_objective": 8.0,
+          "ci_95": [
+            4124.43,
+            4155.81
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.89
+        }
+      },
+      "N_500": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4138.76,
+          "std_objective": 135.94,
+          "mc_se_objective": 6.08,
+          "ci_95": [
+            4126.84,
+            4150.68
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.96
+        }
+      },
+      "N_1000": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4137.31,
+          "std_objective": 133.47,
+          "mc_se_objective": 4.22,
+          "ci_95": [
+            4129.04,
+            4145.58
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.07
+        }
+      },
+      "N_2500": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4137.67,
+          "std_objective": 134.99,
+          "mc_se_objective": 2.7,
+          "ci_95": [
+            4132.38,
+            4142.96
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.08
+        }
+      }
+    },
+    "schedule_only": {
+      "N_100": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4151.4,
+          "std_objective": 125.26,
+          "mc_se_objective": 12.53,
+          "ci_95": [
+            4126.85,
+            4175.95
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.94
+        }
+      },
+      "N_250": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4140.12,
+          "std_objective": 126.54,
+          "mc_se_objective": 8.0,
+          "ci_95": [
+            4124.43,
+            4155.81
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.89
+        }
+      },
+      "N_500": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4138.76,
+          "std_objective": 135.94,
+          "mc_se_objective": 6.08,
+          "ci_95": [
+            4126.84,
+            4150.68
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.96
+        }
+      },
+      "N_1000": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4137.31,
+          "std_objective": 133.47,
+          "mc_se_objective": 4.22,
+          "ci_95": [
+            4129.04,
+            4145.58
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.07
+        }
+      },
+      "N_2500": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4200.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4200.0,
+            4200.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4137.67,
+          "std_objective": 134.99,
+          "mc_se_objective": 2.7,
+          "ci_95": [
+            4132.38,
+            4142.96
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.08
+        }
+      }
+    },
+    "arrival_linear_baseline_v1": {
+      "N_100": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4210.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4210.0,
+            4210.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4151.4,
+          "std_objective": 125.26,
+          "mc_se_objective": 12.53,
+          "ci_95": [
+            4126.85,
+            4175.95
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.94
+        }
+      },
+      "N_250": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4210.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4210.0,
+            4210.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4140.12,
+          "std_objective": 126.54,
+          "mc_se_objective": 8.0,
+          "ci_95": [
+            4124.43,
+            4155.81
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.89
+        }
+      },
+      "N_500": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4210.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4210.0,
+            4210.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4138.76,
+          "std_objective": 135.94,
+          "mc_se_objective": 6.08,
+          "ci_95": [
+            4126.84,
+            4150.68
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.96
+        }
+      },
+      "N_1000": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4210.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4210.0,
+            4210.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4137.31,
+          "std_objective": 133.47,
+          "mc_se_objective": 4.22,
+          "ci_95": [
+            4129.04,
+            4145.58
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.07
+        }
+      },
+      "N_2500": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4210.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4210.0,
+            4210.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4137.67,
+          "std_objective": 134.99,
+          "mc_se_objective": 2.7,
+          "ci_95": [
+            4132.38,
+            4142.96
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.08
+        }
+      }
+    },
+    "oracle_actual": {
+      "N_100": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4220.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4220.0,
+            4220.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4151.4,
+          "std_objective": 125.26,
+          "mc_se_objective": 12.53,
+          "ci_95": [
+            4126.85,
+            4175.95
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.94
+        }
+      },
+      "N_250": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4220.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4220.0,
+            4220.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4140.12,
+          "std_objective": 126.54,
+          "mc_se_objective": 8.0,
+          "ci_95": [
+            4124.43,
+            4155.81
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.89
+        }
+      },
+      "N_500": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4220.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4220.0,
+            4220.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4138.76,
+          "std_objective": 135.94,
+          "mc_se_objective": 6.08,
+          "ci_95": [
+            4126.84,
+            4150.68
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 22.96
+        }
+      },
+      "N_1000": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4220.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4220.0,
+            4220.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4137.31,
+          "std_objective": 133.47,
+          "mc_se_objective": 4.22,
+          "ci_95": [
+            4129.04,
+            4145.58
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.07
+        }
+      },
+      "N_2500": {
+        "mode_a_fixed_plan": {
+          "mean_objective": 4220.0,
+          "std_objective": 0.0,
+          "mc_se_objective": 0.0,
+          "ci_95": [
+            4220.0,
+            4220.0
+          ],
+          "mean_conflicts": 0.0,
+          "feasibility_rate": 1.0
+        },
+        "mode_b_recourse": {
+          "mean_objective": 4137.67,
+          "std_objective": 134.99,
+          "mc_se_objective": 2.7,
+          "ci_95": [
+            4132.38,
+            4142.96
+          ],
+          "mean_post_conflicts": 0.0,
+          "feasibility_rate": 1.0,
+          "mean_recourse_reassignments": 23.08
+        }
+      }
+    }
+  }
+}
