@@ -56,3 +56,6 @@ results/**
 *.log
 logs/
 
+# Temporary backups
+backup/
+

@@ -1,0 +1,83 @@
+[
+  {
+    "flight_id": "LEG_ARR_0001",
+    "flight_direction": "ARR",
+    "airport": "ATL",
+    "prediction_cutoff_utc": "2023-11-23 10:52:00",
+    "model_id": "b5_ngboost_student_t",
+    "model_role": "core_arrival",
+    "model_version": "stage10_frozen_v1",
+    "model_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+    "feature_schema_version": "stage10_frozen",
+    "target_name": "ARR_DELAY",
+    "target_semantics": "ARRIVAL_DELAY_SIGNED",
+    "predicted_delay_min": -9.06,
+    "prediction_timestamp_utc": "2026-10-08T20:47:00.048946+00:00",
+    "provenance_mode": "NATIVE_INFERENCE",
+    "probability_delay_15": 0.0659,
+    "predictive_quantiles": {
+      "q10": -28.06,
+      "q50": -9.06,
+      "q90": 9.94
+    },
+    "distribution_parameters": {
+      "mu": -9.06,
+      "sigma": 11.3,
+      "df": 2.74
+    }
+  },
+  {
+    "flight_id": "LEG_ARR_0002",
+    "flight_direction": "ARR",
+    "airport": "ATL",
+    "prediction_cutoff_utc": "2023-11-23 04:25:00",
+    "model_id": "b5_ngboost_student_t",
+    "model_role": "core_arrival",
+    "model_version": "stage10_frozen_v1",
+    "model_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+    "feature_schema_version": "stage10_frozen",
+    "target_name": "ARR_DELAY",
+    "target_semantics": "ARRIVAL_DELAY_SIGNED",
+    "predicted_delay_min": -9.06,
+    "prediction_timestamp_utc": "2026-10-08T20:47:00.048946+00:00",
+    "provenance_mode": "NATIVE_INFERENCE",
+    "probability_delay_15": 0.0649,
+    "predictive_quantiles": {
+      "q10": -27.93,
+      "q50": -9.06,
+      "q90": 9.8
+    },
+    "distribution_parameters": {
+      "mu": -9.06,
+      "sigma": 11.24,
+      "df": 2.75
+    }
+  },
+  {
+    "flight_id": "LEG_ARR_0003",
+    "flight_direction": "ARR",
+    "airport": "ATL",
+    "prediction_cutoff_utc": "2023-11-23 06:05:00",
+    "model_id": "b5_ngboost_student_t",
+    "model_role": "core_arrival",
+    "model_version": "stage10_frozen_v1",
+    "model_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+    "feature_schema_version": "stage10_frozen",
+    "target_name": "ARR_DELAY",
+    "target_semantics": "ARRIVAL_DELAY_SIGNED",
+    "predicted_delay_min": -9.06,
+    "prediction_timestamp_utc": "2026-10-08T20:47:00.048946+00:00",
+    "provenance_mode": "NATIVE_INFERENCE",
+    "probability_delay_15": 0.0653,
+    "predictive_quantiles": {
+      "q10": -27.98,
+      "q50": -9.06,
+      "q90": 9.86
+    },
+    "distribution_parameters": {
+      "mu": -9.06,
+      "sigma": 11.26,
+      "df": 2.74
+    }
+  }
+]

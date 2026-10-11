@@ -1,0 +1,73 @@
+{
+  "pipeline": "NativeDualCorePredictThenOptimizePipeline",
+  "phase": "P07",
+  "timestamp_utc": "2026-10-08T20:47:00.230697+00:00",
+  "elapsed_seconds": 2.7314,
+  "config": {
+    "airport": "ATL",
+    "simulation_mode": "DUAL_POINT",
+    "solver_name": "CPSat",
+    "time_limit_seconds": 5.0,
+    "random_seed": 202601,
+    "n_contact_gates": 20,
+    "max_overflow": 5,
+    "arrival_model_id": "b5_ngboost_student_t",
+    "departure_model_id": "departure_certified_point_v1",
+    "provenance_mode": "NATIVE_INFERENCE"
+  },
+  "model_provenance": {
+    "arrival": {
+      "checkpoint_path": "D:/Study/Code/Python/Aelous/artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+      "sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "expected_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "file_size_bytes": 243595,
+      "object_type": "src.models.probabilistic.baselines.B5NGBoostStudentT",
+      "verified_at_utc": "2026-10-08T20:46:58.635798+00:00",
+      "verification_status": "VERIFIED_VALID"
+    },
+    "departure": {
+      "checkpoint_path": "D:/Study/Code/Python/Aelous/artifacts/dual_core/models/departure_xgboost_baseline_v1.joblib",
+      "sha256": "e483df5fd03ce4d0eefe7b431fc289b6804589c62eda17b48fb8051849f4f6e1",
+      "expected_sha256": "e483df5fd03ce4d0eefe7b431fc289b6804589c62eda17b48fb8051849f4f6e1",
+      "file_size_bytes": 498135,
+      "object_type": "xgboost.sklearn.XGBRegressor",
+      "verified_at_utc": "2026-10-08T20:47:00.019804+00:00",
+      "verification_status": "VERIFIED_VALID"
+    }
+  },
+  "pairing_summary": {
+    "total_legs": 60,
+    "total_pairs": 30,
+    "valid_pairs_count": 30,
+    "invalid_pairs_count": 0,
+    "quarantined_pairs_count": 0,
+    "review_required_count": 0,
+    "synthetic_pairs_count": 30,
+    "verified_pairs_count": 0,
+    "unmatched_arr_count": 0,
+    "unmatched_dep_count": 0,
+    "rejection_reasons_tally": {}
+  },
+  "counts": {
+    "inbound_legs": 30,
+    "outbound_legs": 30,
+    "predictions_generated": 60,
+    "turns_synthesized": 30,
+    "flights_optimized": 30,
+    "gates_available": 25
+  },
+  "optimization": {
+    "status": "OPTIMAL",
+    "feasible": true,
+    "objective_value": 0.0,
+    "re_evaluated_objective": 0.0,
+    "runtime_ms": 91.76,
+    "independent_verifier_valid": true,
+    "hard_constraint_violations": 0,
+    "conflicts_count": 0,
+    "reassignments_count": 0,
+    "contact_count": 30,
+    "remote_count": 0,
+    "unassigned_count": 0
+  }
+}

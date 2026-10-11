@@ -20,7 +20,7 @@ Enforces:
 from __future__ import annotations
 
 import logging
-from typing import Any, Mapping, Sequence
+from typing import TYPE_CHECKING, Any, Mapping, Sequence
 
 from src.models.interfaces import ModelCategory, ModelSpec, ModelStatus, ModelTask
 from src.models.registry import _MODEL_CATALOG, get_model_spec, is_downstream_eligible
@@ -34,7 +34,9 @@ from src.optimization.domain import (
     verify_hard_constraints_independently,
 )
 from src.optimization.evaluation import evaluate_gate_assignment
-from src.simulation.dual_prediction_turn import DualAircraftTurn, SimulationMode
+
+if TYPE_CHECKING:
+    from src.simulation.dual_prediction_turn import DualAircraftTurn
 
 LOGGER = logging.getLogger(__name__)
 

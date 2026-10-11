@@ -1,0 +1,60 @@
+{
+  "protocol_version": "V4.0",
+  "phase": "P08",
+  "audit_timestamp_utc": "2026-10-08T22:00:00Z",
+  "temporal_split_contract": {
+    "development_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "development_model_selection_year": 2023,
+    "final_holdout_year": 2024,
+    "strict_non_overlap": true,
+    "lookahead_into_2024_allowed": false,
+    "holdout_protection_status": "SEALED_FAIL_CLOSED"
+  },
+  "feature_availability_contract": {
+    "prediction_cutoff": "CRS_DEP_TIME - 2 hours",
+    "timezone": "America/New_York",
+    "approved_features_count_arrival": 11,
+    "approved_features_count_departure": 10,
+    "weather_policy": "DROP (Raw METAR observations at scheduled departure/arrival time lack NWP forecast provenance)",
+    "flight_chain_policy": "BLOCKED_PENDING_NEW_EVIDENCE (Missing schedule publication snapshot timestamps)",
+    "actual_operations_policy": "DROP_LEAKAGE (All post-cutoff operations strictly forbidden as predictors)"
+  },
+  "preprocessing_isolation": {
+    "cross_fold_fit_permitted": false,
+    "transformers_scope": "EACH_FOLD_TRAINING_ROWS_ONLY",
+    "target_encoding_leakage_prevented": true
+  },
+  "target_contracts": {
+    "arrival_classification": "I[ARR_DELAY >= 15.0]",
+    "arrival_regression": "Signed ARR_DELAY minutes (no negative clipping)",
+    "departure_classification": "I[DEP_DELAY >= 15.0]",
+    "departure_regression": "Signed DEP_DELAY minutes (no negative clipping)",
+    "missing_target_handling": "DROP_ROW (Zero imputation)"
+  },
+  "optuna_hpo_isolation": {
+    "sampler": "TPESampler (Tree-structured Parzen Estimator, seed=202601)",
+    "pruner": "NopPruner",
+    "allowed_years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "forbidden_years": [
+      2023,
+      2024
+    ],
+    "retuning_on_holdout": false
+  }
+}

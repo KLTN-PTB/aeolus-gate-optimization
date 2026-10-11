@@ -1,0 +1,12 @@
+task,model_id,family,evaluation_split,mae,rmse,bias,tail_mae_ge_15,tail_mae_ge_60,error_p10,error_p25,error_p50,error_p75,error_p90
+core_arrival,baseline_zero,constant_zero,oof_4_fold_macro,19.4179,44.8685,1.0134,70.6956,151.3521,-19.0,-0.0,10.0,17.0,22.0
+core_arrival,baseline_median,constant_median,oof_4_fold_macro,16.7576,45.7483,-8.9866,80.6956,161.3521,-29.0,-10.0,0.0,7.0,12.0
+core_arrival,arrival_linear_baseline_v1,linear,oof_4_fold_macro,20.2421,45.5664,0.9551,70.5936,150.7783,-20.8,-2.57,8.16,17.41,25.78
+core_arrival,arrival_random_forest_baseline_v1,random_forest,oof_4_fold_macro,19.743,45.1968,0.9295,70.1505,150.7189,-20.07,-1.53,8.56,16.95,24.55
+core_arrival,arrival_hist_gradient_boosting_baseline_v1,hist_gradient_boosting,oof_4_fold_macro,19.432,45.1183,0.5628,70.8923,151.5012,-20.16,-1.39,8.49,16.32,23.33
+core_arrival,arrival_xgboost_baseline_v1,xgboost,oof_4_fold_macro,20.218,45.5967,0.9084,70.1053,150.4197,-20.44,-2.74,7.77,17.13,26.03
+core_arrival,arrival_weighted_ensemble_v1,ensemble,oof_4_fold_macro,19.62,45.1638,0.8864,70.5716,151.2261,-19.89,-1.09,8.79,16.56,23.7
+core_departure,baseline_zero,constant_zero,development_selection_2023,15.6172,45.2127,-11.4883,60.3314,130.5412,-38.0,-9.0,1.0,4.0,6.0
+core_departure,baseline_median,constant_median,development_selection_2023,15.6028,45.7618,-13.4883,62.3314,132.5412,-40.0,-11.0,-1.0,2.0,4.0
+core_departure,departure_ridge_baseline_v1,linear,development_selection_2023,17.9446,43.3079,-3.0923,49.8292,118.954,-28.37,-1.18,6.58,12.18,16.73
+core_departure,departure_xgboost_baseline_v1,xgboost,development_selection_2023,17.6017,43.0005,-3.0063,48.9086,117.1839,-27.5,-0.97,6.23,11.17,16.92
