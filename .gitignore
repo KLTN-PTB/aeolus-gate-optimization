@@ -68,3 +68,10 @@ remediation_evidence/**/*_log.txt
 artifacts/remediation/monte_carlo_mc500/pilot_*/
 artifacts/remediation/monte_carlo_mc500/topology_corrected/
 
+# Whitelist verified trained model checkpoints and preprocessors
+!artifacts/dual_core/models/*.joblib
+!artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib
+!artifacts/models/refactored/
+!artifacts/models/refactored/**
+!artifacts/remediation/outbound_classification/models/*.joblib
+
