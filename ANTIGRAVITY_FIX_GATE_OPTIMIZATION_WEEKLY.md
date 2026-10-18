@@ -8,7 +8,7 @@ Branch làm việc: `CP-SAT`
 Dataset cần chạy được ở giai đoạn hiện tại:
 
 ```text
-src/artifacts/predictions/atl_2024_01_01_full_day_1500_flights_turnaround_sessions.parquet
+src/artifacts/predictions/atl_2024_01_01_full_day_1500_flights_turnaround_sessions.parquet 
 ```
 
 Dataset này hiện là artifact mới nhất do pipeline ML của nhóm sinh ra. Nó có các cửa sổ:
