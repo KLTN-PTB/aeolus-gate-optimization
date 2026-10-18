@@ -1,0 +1,39 @@
+{
+  "run_id": "mc500_20261012_153434_c44d72",
+  "accounting": {
+    "n_requested": 5,
+    "n_generated": 5,
+    "n_generation_failures": 0,
+    "n_evaluated": 55,
+    "n_evaluation_failures": 0,
+    "n_timeouts": 0,
+    "n_feasible": 40,
+    "n_infeasible": 15,
+    "n_requested_realizations": 5,
+    "n_generated_realizations": 5,
+    "n_expected_evaluations": 55,
+    "n_completed_evaluations": 55,
+    "n_feasible_evaluations": 40,
+    "n_infeasible_evaluations": 15,
+    "n_missing_evaluations": 0
+  },
+  "rates": {
+    "generation_failure_rate": {
+      "numerator": 0,
+      "denominator": 5,
+      "rate": 0.0
+    },
+    "evaluation_failure_rate": {
+      "numerator": 0,
+      "denominator": 55,
+      "rate": 0.0
+    },
+    "composite_feasible_rate": {
+      "numerator": 40,
+      "denominator": 55,
+      "rate": 0.7272727272727273
+    }
+  },
+  "total_generation_records": 5,
+  "total_evaluation_records": 55
+}

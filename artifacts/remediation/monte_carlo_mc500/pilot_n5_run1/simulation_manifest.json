@@ -1,0 +1,88 @@
+{
+  "pipeline": "RemediatedMonteCarloEngineG2",
+  "schema_version": "v2.1",
+  "status": "COMPLETE",
+  "run_id": "mc500_20261012_131952_091695",
+  "created_at_utc": "2026-10-12T13:19:57.137764+00:00",
+  "n_scenarios": 5,
+  "n_evaluations": 55,
+  "seed": 202601,
+  "source_hash": "49a78ecbac8313240c54713d7c30e11da9ce1b15243a959e6c314ee045208cf4",
+  "config_hash": "f44be71f5ad599b5d8fbf005b3b3f54d4e0246f6bcfe73be7142f2c527b37d93",
+  "timing_breakdown": {
+    "mode_a_seconds": 0.0244,
+    "mode_b1_seconds": 0.0669,
+    "mode_b2_seconds": 0.0891,
+    "mode_c1_seconds": 0.0243,
+    "mode_c2_seconds": 2.1058,
+    "total_pipeline_seconds": 4.5444
+  },
+  "copula": {
+    "family": "Gaussian",
+    "rho": 0.45,
+    "is_positive_definite": true,
+    "eigenvalues": [
+      0.55,
+      1.45
+    ]
+  },
+  "marginal_distributions": {
+    "arrival": {
+      "family": "Student-t",
+      "df": 4.5,
+      "loc": 5.0,
+      "scale": 18.0
+    },
+    "departure": {
+      "family": "Student-t",
+      "df": 4.0,
+      "loc": 8.0,
+      "scale": 22.0
+    }
+  },
+  "modes": {
+    "MODE_A_FIXED_PLAN": {
+      "information_regime": "PRE_OPERATIONAL",
+      "reoptimizations": 0,
+      "deployable": true
+    },
+    "MODE_B1_RETROSPECTIVE_RECOURSE": {
+      "information_regime": "RETROSPECTIVE",
+      "recourse_policy": "FULL_INFORMATION_RETROSPECTIVE",
+      "deployable": false,
+      "scientific_status": "RETROSPECTIVE_BENCHMARK"
+    },
+    "MODE_B2_ONLINE_RECOURSE": {
+      "information_regime": "ONLINE_RECOURSE",
+      "recourse_policy": "ONLINE_NON_ANTICIPATIVE_EVENT_DRIVEN",
+      "deployable": true,
+      "scientific_status": "CAUSAL_ONLINE_RECOURSE"
+    },
+    "MODE_C_GREEDY_FORESIGHT": {
+      "information_regime": "FULL_FORESIGHT",
+      "recourse_policy": "HEURISTIC_FULL_FORESIGHT_BENCHMARK",
+      "deployable": false,
+      "scientific_status": "HEURISTIC_FORESIGHT_BASELINE"
+    },
+    "MODE_C_OPTIMAL_ORACLE": {
+      "information_regime": "FULL_FORESIGHT",
+      "recourse_policy": "PROVEN_MATHEMATICAL_OPTIMAL_FORESIGHT",
+      "deployable": false,
+      "scientific_status": "PROVEN_MATHEMATICAL_OPTIMAL_LOWER_BOUND"
+    }
+  },
+  "artifacts_generated": [
+    "scenario_index.csv",
+    "fixed_plan_results.csv",
+    "recourse_b1_retrospective_results.csv",
+    "recourse_b2_online_results.csv",
+    "foresight_c1_greedy_results.csv",
+    "foresight_c2_optimal_results.csv",
+    "paired_comparison.csv",
+    "execution_ledger_entries.csv",
+    "execution_ledger_generation.csv",
+    "execution_ledger_summary.json",
+    "statistical_summary.json",
+    "failures.json"
+  ]
+}

@@ -1,0 +1,268 @@
+{
+  "n_contact_gates": 25,
+  "total_finite_remote_capacity": 5,
+  "n_unbounded_overflow_aprons": 0,
+  "allow_unbounded_overflow": false,
+  "gates": [
+    {
+      "gate_id": "G_01",
+      "gate_index": 0,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_02",
+      "gate_index": 1,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_03",
+      "gate_index": 2,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_04",
+      "gate_index": 3,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_05",
+      "gate_index": 4,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_06",
+      "gate_index": 5,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_07",
+      "gate_index": 6,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_08",
+      "gate_index": 7,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_09",
+      "gate_index": 8,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_10",
+      "gate_index": 9,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_11",
+      "gate_index": 10,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_12",
+      "gate_index": 11,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_13",
+      "gate_index": 12,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_14",
+      "gate_index": 13,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_15",
+      "gate_index": 14,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_16",
+      "gate_index": 15,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_17",
+      "gate_index": 16,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_18",
+      "gate_index": 17,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_19",
+      "gate_index": 18,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_20",
+      "gate_index": 19,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_21",
+      "gate_index": 20,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_22",
+      "gate_index": 21,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_23",
+      "gate_index": 22,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_24",
+      "gate_index": 23,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "G_25",
+      "gate_index": 24,
+      "resource_type": "CONTACT_GATE",
+      "capacity": 1.0,
+      "is_overflow": false,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    },
+    {
+      "gate_id": "REMOTE_STAND_01",
+      "gate_index": 25,
+      "resource_type": "FINITE_REMOTE_STAND",
+      "capacity": 5.0,
+      "is_overflow": true,
+      "allowed_carriers": null,
+      "allowed_aircraft_types": null,
+      "available_windows": null
+    }
+  ]
+}

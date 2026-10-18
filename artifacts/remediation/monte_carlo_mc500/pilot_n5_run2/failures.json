@@ -1,0 +1,17 @@
+{
+  "pipeline": "RemediatedMonteCarloEngineG2",
+  "run_id": "mc500_20261012_132002_b2b48b",
+  "timestamp_utc": "2026-10-12T13:20:07.700844+00:00",
+  "total_requested_realizations": 5,
+  "total_generated_realizations": 5,
+  "total_expected_evaluations": 55,
+  "total_completed_evaluations": 55,
+  "total_evaluation_failures": 0,
+  "total_timeouts": 0,
+  "failed_evaluations": [],
+  "silent_drop_audit": {
+    "silent_drops_detected": false,
+    "missing_evaluations_count": 0,
+    "accounting_verified": true
+  }
+}
