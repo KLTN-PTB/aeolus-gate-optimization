@@ -184,7 +184,12 @@ class ArtifactLoader:
 
     def load_stress_1500_results(self) -> pd.DataFrame:
         """Load mega-hub 1,500 flights scalability results."""
-        return self.load_parquet(
+        df = self.load_parquet(
             "artifacts/stress_1500x50/solver_results.parquet",
-            required_columns={"solver", "solve_time_sec", "objective_value"},
+            required_columns={"objective_value"},
         )
+        if "solver" not in df.columns and "solver_name" in df.columns:
+            df["solver"] = df["solver_name"]
+        if "solve_time_sec" not in df.columns and "total_runtime_ms" in df.columns:
+            df["solve_time_sec"] = df["total_runtime_ms"] / 1000.0
+        return df
