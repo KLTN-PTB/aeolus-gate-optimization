@@ -1,0 +1,720 @@
+diff --git a/dashboard/adapters/export_adapter.py b/dashboard/adapters/export_adapter.py
+index 1bcf858..11e1262 100644
+--- a/dashboard/adapters/export_adapter.py
++++ b/dashboard/adapters/export_adapter.py
+@@ -11,12 +11,16 @@ import pandas as pd
+ 
+ from dashboard.core.contracts import GateTimelineView, SolverRunView
+ from dashboard.core.validation import ScientificValidator
++from src.contracts.provenance import ProvenanceMismatchError
+ 
+ 
+ def export_assignments_to_csv(
+     assignments: Sequence[GateTimelineView],
+-    scenario_id: str,
++    scenario_id: Optional[str] = None,
+     config_hash: str = "",
++    *,
++    data_origin: Optional[str] = None,
++    claimed_origin: Optional[str] = None,
+ ) -> str:
+     """Serialize verified gate assignments to a clean, leakage-free CSV string.
+ 
+@@ -24,10 +28,28 @@ def export_assignments_to_csv(
+         assignments: List of GateTimelineView objects.
+         scenario_id: Active scenario identifier.
+         config_hash: Hash fingerprint of solver execution config.
++        data_origin: Explicit data origin tag.
++        claimed_origin: Claimed data origin for validation (must match evidence).
+ 
+     Returns:
+         str: CSV formatted string ready for file download.
+     """
++    effective_scenario_id = scenario_id or (assignments[0].scenario_id if assignments else "SCEN_DEFAULT")
++
++    # Guard against misrepresenting synthetic scenarios as REAL_AEOLUS
++    is_scenario_synthetic = (
++        "SCEN_" in effective_scenario_id
++        or any("S1500" in a.flight_id or "FL_" in a.flight_id or a.flight_id.startswith("S") for a in assignments)
++    )
++    effective_claim = claimed_origin or data_origin
++    if effective_claim == "REAL_AEOLUS" and is_scenario_synthetic:
++        raise ProvenanceMismatchError(
++            f"PROVENANCE VIOLATION: Cannot export synthetic scenario '{effective_scenario_id}' "
++            f"under claimed real data origin '{effective_claim}'."
++        )
++
++    resolved_origin = data_origin or ("SYNTHETIC" if is_scenario_synthetic else "REAL_AEOLUS")
++
+     rows = []
+     for a in assignments:
+         row = {
+@@ -46,8 +68,10 @@ def export_assignments_to_csv(
+             "is_remote": a.is_remote,
+             "has_conflict": a.has_conflict,
+             "resource_type": a.resource_type,
+-            "scenario_id": scenario_id or a.scenario_id,
++            "scenario_id": effective_scenario_id or a.scenario_id,
+             "config_hash": config_hash,
++            "provenance": a.provenance.value if hasattr(a.provenance, "value") else str(a.provenance),
++            "data_origin": resolved_origin,
+         }
+         rows.append(row)
+ 
+@@ -72,7 +96,11 @@ def export_run_manifest_to_json(run_view: SolverRunView) -> str:
+         str: Indented JSON string formatted for audit export.
+     """
+     manifest: Dict[str, Any] = {
++        "run_id": run_view.run_id or "",
+         "solver_name": run_view.solver_name,
++        "requested_solver": run_view.requested_solver,
++        "effective_solver": run_view.effective_solver,
++        "fallback_used": run_view.fallback_used,
+         "scenario_id": run_view.scenario_id,
+         "status": run_view.status,
+         "termination_reason": run_view.termination_reason,
+@@ -88,11 +116,16 @@ def export_run_manifest_to_json(run_view: SolverRunView) -> str:
+         "total_assignments": len(run_view.assignments),
+         "solver_config": run_view.solver_config,
+         "provenance": run_view.provenance.value,
++        "data_origin": run_view.data_origin,
++        "scenario_generation": run_view.scenario_generation,
++        "pairing_source": run_view.pairing_source,
++        "is_synthetic": run_view.is_synthetic,
+         "schema_version": run_view.schema_version,
+     }
+     return json.dumps(manifest, indent=2, default=str)
+ 
+ 
++
+ def export_benchmark_to_csv(
+     benchmark_df: pd.DataFrame,
+     experiment_id: str = "BENCH_MULTI_SOLVER",
+diff --git a/dashboard/core/config.py b/dashboard/core/config.py
+index bde0eb0..782ba66 100644
+--- a/dashboard/core/config.py
++++ b/dashboard/core/config.py
+@@ -59,7 +59,13 @@ class DashboardConfig:
+             "year": "2023",
+             "flights": "120",
+             "gates": "25+1",
+-            "provenance": "BTS_OTP_2023_CURATED",
++            "provenance": "SCALABILITY_GENERATOR_BTS_2023_DERIVED",
++            "legacy_provenance": "BTS_OTP_2023_CURATED",
++            "data_origin": "REAL_DERIVED",
++            "scenario_generation": "SCALABILITY_GENERATOR",
++            "pairing_source": "UNPAIRED",
++            "prediction_source": "NONE",
++            "is_synthetic": "True",
+         },
+         {
+             "id": "SCEN_2023_PEAK_01",
+@@ -68,7 +74,13 @@ class DashboardConfig:
+             "year": "2023",
+             "flights": "85",
+             "gates": "15+1",
+-            "provenance": "BTS_OTP_2023_CURATED",
++            "provenance": "SCALABILITY_GENERATOR_BTS_2023_DERIVED",
++            "legacy_provenance": "BTS_OTP_2023_CURATED",
++            "data_origin": "REAL_DERIVED",
++            "scenario_generation": "SCALABILITY_GENERATOR",
++            "pairing_source": "UNPAIRED",
++            "prediction_source": "NONE",
++            "is_synthetic": "True",
+         },
+         {
+             "id": "SCEN_P07_DUAL_CORE_30",
+@@ -78,40 +90,53 @@ class DashboardConfig:
+             "flights": "60",
+             "gates": "15+1",
+             "provenance": "NATIVE_DUAL_CORE_SYNTHESIS",
++            "legacy_provenance": "NATIVE_DUAL_CORE_SYNTHESIS",
++            "data_origin": "REAL_DERIVED",
++            "scenario_generation": "PARAMETRIC_SIMULATION",
++            "pairing_source": "SYNTHETIC_PAIR",
++            "prediction_source": "NATIVE_INFERENCE",
++            "is_synthetic": "True",
+         },
+     )
+ 
++
+     def is_path_allowlisted(self, target_path: Path | str) -> bool:
+         """Verify that a path is strictly inside the project root and within allowlisted directories."""
+-        resolved = Path(target_path).resolve()
+-        # Must be within project root
+         try:
++            p = Path(target_path)
++            resolved = p.resolve() if p.is_absolute() else (self.project_root / p).resolve()
+             rel = resolved.relative_to(self.project_root)
+-        except ValueError:
++        except (ValueError, RuntimeError):
+             return False
+ 
+-        # Must not contain path traversal components
++        # Must not contain path traversal components in relative representation
+         if ".." in rel.parts:
+             return False
+ 
+-        rel_posix = rel.as_posix()
+-        return any(
+-            rel_posix.startswith(allowed) or rel_posix == allowed
+-            for allowed in self.allowed_artifact_dirs
+-        )
++        # Canonical containment check: path must equal or be child of an allowlisted directory
++        for allowed in self.allowed_artifact_dirs:
++            allowed_path = (self.project_root / allowed).resolve()
++            if resolved == allowed_path or allowed_path in resolved.parents:
++                return True
++        return False
+ 
+     def is_model_dir_allowlisted(self, model_path: Path | str) -> bool:
+         """Verify that a model directory is within allowlisted model locations."""
+-        resolved = Path(model_path).resolve()
+         try:
++            p = Path(model_path)
++            resolved = p.resolve() if p.is_absolute() else (self.project_root / p).resolve()
+             rel = resolved.relative_to(self.project_root)
+-        except ValueError:
++        except (ValueError, RuntimeError):
+             return False
+-        rel_posix = rel.as_posix()
+-        return any(
+-            rel_posix.startswith(allowed) or rel_posix == allowed
+-            for allowed in self.allowed_model_dirs
+-        )
++
++        if ".." in rel.parts:
++            return False
++
++        for allowed in self.allowed_model_dirs:
++            allowed_path = (self.project_root / allowed).resolve()
++            if resolved == allowed_path or allowed_path in resolved.parents:
++                return True
++        return False
+ 
+ 
+ # Global default configuration instance
+diff --git a/dashboard/core/contracts.py b/dashboard/core/contracts.py
+index e6773a9..65ca5b6 100644
+--- a/dashboard/core/contracts.py
++++ b/dashboard/core/contracts.py
+@@ -8,6 +8,14 @@ from dataclasses import asdict, dataclass, field
+ from enum import Enum
+ from typing import Any, Dict, List, Optional, Tuple
+ 
++from src.contracts.provenance import (
++    DataOrigin,
++    EvidenceProvenance,
++    PairingSource,
++    PredictionSource,
++    ScenarioGeneration,
++)
++
+ 
+ class ProvenanceType(str, Enum):
+     """Data provenance classification (strictly preserved across layers)."""
+@@ -159,6 +167,12 @@ class ScenarioContext:
+     scenario_digest: Optional[str] = None
+     provenance: ProvenanceType = ProvenanceType.SCHEDULE_BASELINE
+     schema_version: str = "1.0"
++    data_origin: str = "UNKNOWN"
++    scenario_generation: str = "UNKNOWN"
++    pairing_source: str = "UNKNOWN"
++    prediction_source: str = "NONE"
++    is_synthetic: bool = False
++    evidence_provenance: Optional[EvidenceProvenance] = None
+ 
+     def __post_init__(self) -> None:
+         if not self.scenario_id:
+@@ -169,7 +183,10 @@ class ScenarioContext:
+             raise ValueError(f"gate_count must be non-negative: {self.gate_count}")
+ 
+     def to_dict(self) -> Dict[str, Any]:
+-        return asdict(self)
++        d = asdict(self)
++        if self.evidence_provenance is not None:
++            d["evidence_provenance"] = self.evidence_provenance.to_dict()
++        return d
+ 
+ 
+ @dataclass(frozen=True)
+@@ -200,6 +217,9 @@ class FlightPredictionView:
+     predictive_quantiles: Dict[str, float] = field(default_factory=dict)
+     scheduled_time_min: Optional[int] = None
+     predicted_time_min: Optional[int] = None
++    data_origin: str = "UNKNOWN"
++    is_synthetic: bool = False
++    evidence_provenance: Optional[EvidenceProvenance] = None
+ 
+     def __post_init__(self) -> None:
+         if not self.flight_id:
+@@ -237,9 +257,12 @@ class FlightPredictionView:
+         d = asdict(self)
+         d["risk_category"] = self.risk_category.value
+         d["provenance"] = self.provenance.value
++        if self.evidence_provenance is not None:
++            d["evidence_provenance"] = self.evidence_provenance.to_dict()
+         return d
+ 
+ 
++
+ @dataclass(frozen=True)
+ class AircraftTurnView:
+     """View model for an aircraft turnaround connecting an inbound leg to an outbound leg."""
+@@ -367,6 +390,11 @@ class SolverRunView:
+     execution_digest: Optional[str] = None
+     run_id: Optional[str] = None
+     verifier_diagnostics: Optional[Dict[str, Any]] = None
++    data_origin: str = "UNKNOWN"
++    scenario_generation: str = "UNKNOWN"
++    pairing_source: str = "UNKNOWN"
++    is_synthetic: bool = False
++    evidence_provenance: Optional[EvidenceProvenance] = None
+ 
+     def __post_init__(self) -> None:
+         if not self.solver_name:
+@@ -382,9 +410,12 @@ class SolverRunView:
+         d = asdict(self)
+         d["provenance"] = self.provenance.value
+         d["assignments"] = [a.to_dict() for a in self.assignments]
++        if self.evidence_provenance is not None:
++            d["evidence_provenance"] = self.evidence_provenance.to_dict()
+         return d
+ 
+ 
++
+ @dataclass(frozen=True)
+ class RobustnessView:
+     """View model for Monte Carlo robustness mode evaluations (Mode A, B, C)."""
+diff --git a/dashboard/services/scenario_service.py b/dashboard/services/scenario_service.py
+index 0ce59cc..10e377f 100644
+--- a/dashboard/services/scenario_service.py
++++ b/dashboard/services/scenario_service.py
+@@ -15,6 +15,17 @@ from dashboard.core.contracts import (
+     ScenarioContext,
+     ScenarioDataIdentity,
+ )
++from src.contracts.provenance import (
++    DataLineageError,
++    DataOrigin,
++    EvaluationRegime,
++    EvidenceProvenance,
++    InformationRegime,
++    PairingSource,
++    PredictionSource,
++    ScenarioGeneration,
++    SilentFallbackError,
++)
+ from src.optimization.domain import Flight, Gate
+ from src.simulation.scalability_scenario import (
+     generate_scalability_scenario,
+@@ -23,6 +34,7 @@ from src.simulation.scalability_scenario import (
+ )
+ 
+ 
++
+ def compute_canonical_scenario_digest(
+     flights: Sequence[Flight],
+     gates: Sequence[Gate],
+@@ -104,6 +116,22 @@ class ScenarioService:
+                 digest = self.compute_scenario_hash(scenario_id)
+                 gate_count = 25 if "120" in scenario_id else 15
+ 
++                data_origin_str = scen_meta.get("data_origin", "UNKNOWN")
++                scen_gen_str = scen_meta.get("scenario_generation", "UNKNOWN")
++                pairing_source_str = scen_meta.get("pairing_source", "UNKNOWN")
++                prediction_source_str = scen_meta.get("prediction_source", "NONE")
++                is_synthetic_val = str(scen_meta.get("is_synthetic", "True")).lower() == "true"
++
++                evidence = EvidenceProvenance(
++                    data_origin=DataOrigin(data_origin_str) if data_origin_str in DataOrigin.__members__ else DataOrigin.UNKNOWN,
++                    prediction_source=PredictionSource(prediction_source_str) if prediction_source_str in PredictionSource.__members__ else PredictionSource.UNKNOWN,
++                    pairing_source=PairingSource(pairing_source_str) if pairing_source_str in PairingSource.__members__ else PairingSource.UNKNOWN,
++                    scenario_generation=ScenarioGeneration(scen_gen_str) if scen_gen_str in ScenarioGeneration.__members__ else ScenarioGeneration.UNKNOWN,
++                    information_regime=InformationRegime.PRE_OPERATIONAL,
++                    evaluation_regime=EvaluationRegime.SELECTION_2023,
++                    notes=f"Registered scenario {scenario_id}",
++                )
++
+                 return ScenarioContext(
+                     scenario_id=scen_meta["id"],
+                     hub_iata=scen_meta["hub"],
+@@ -113,23 +141,48 @@ class ScenarioService:
+                     scenario_hash=digest,
+                     scenario_digest=digest,
+                     provenance=ProvenanceType.SCHEDULE_BASELINE,
++                    data_origin=data_origin_str,
++                    scenario_generation=scen_gen_str,
++                    pairing_source=pairing_source_str,
++                    prediction_source=prediction_source_str,
++                    is_synthetic=is_synthetic_val,
++                    evidence_provenance=evidence,
+                 )
+ 
+         raise ValueError(f"Unknown scenario ID: {scenario_id}")
+ 
+     def load_scenario(
+-        self, scenario_id: str
++        self, scenario_id: str, *, require_real: bool = False
+     ) -> Tuple[List[Flight], List[Gate]]:
+-        """Load concrete Flight and Gate domain objects for the specified scenario."""
++        """Load concrete Flight and Gate domain objects for the specified scenario.
++        
++        Args:
++            scenario_id: Identifier of the registered operational scenario.
++            require_real: If True, strictly fails closed if scenario is synthetic.
++        """
+         if "2024" in scenario_id:
+             raise PermissionError(
+                 f"Access denied: Scenario {scenario_id} contains 2024 data sealed under Protocol V4."
+             )
+ 
++        # Fail-closed check: forbid silent fallback to synthetic data when real data is requested
++        if require_real:
++            for s in self.config.registered_scenarios:
++                if s["id"] == scenario_id:
++                    is_syn = str(s.get("is_synthetic", "True")).lower() == "true"
++                    if is_syn:
++                        raise SilentFallbackError(
++                            f"REAL_ONLY mode active: Cannot load synthetic scenario '{scenario_id}' "
++                            f"(data_origin={s.get('data_origin')}, scenario_generation={s.get('scenario_generation')})."
++                        )
++                    break
++
++
+         if scenario_id in self._cached_scenarios:
+             cached_flights, cached_gates = self._cached_scenarios[scenario_id]
+             return list(cached_flights), list(cached_gates)
+ 
++
+         if scenario_id == "SCEN_P09_CANONICAL_120":
+             scen = generate_scalability_scenario(
+                 n_flights=120,
+diff --git a/scripts/run_native_dual_core_pipeline.py b/scripts/run_native_dual_core_pipeline.py
+index 3ec51b6..a98c60e 100644
+--- a/scripts/run_native_dual_core_pipeline.py
++++ b/scripts/run_native_dual_core_pipeline.py
+@@ -46,6 +46,14 @@ from src.contracts.turn_contracts import (
+     TurnPair,
+     ValidationStatus,
+ )
++from src.data.real_data_loader import (
++    DataLoaderMode,
++    DataLoadError,
++    EmptyDateRangeError,
++    MissingPartitionError,
++    RealDataLoader,
++    SchemaContractViolation,
++)
+ from src.simulation.dual_prediction_turn import CouplingAssumption, SimulationMode
+ from src.simulation.native_dual_core_pipeline import (
+     DEP_TREE_PREPROCESSOR_PATH,
+@@ -59,6 +67,10 @@ from src.simulation.native_dual_core_pipeline import (
+     P4_ARRIVAL_SHA256,
+     ProvenanceMode,
+ )
++from src.simulation.verified_pairing import (
++    DeterministicPairingEngine,
++    VerifiedPairingResult,
++)
+ 
+ logging.basicConfig(
+     level=logging.INFO,
+@@ -160,6 +172,25 @@ def parse_arguments() -> argparse.Namespace:
+         default=5.0,
+         help="Ceiling solver time limit in seconds (default: 5.0).",
+     )
++    parser.add_argument(
++        "--loader-mode",
++        type=str,
++        default="REAL_ONLY",
++        choices=["REAL_ONLY", "ALLOW_SYNTHETIC"],
++        help="Data loader mode: REAL_ONLY fails on missing data/synthetic; ALLOW_SYNTHETIC enables test fixtures (default: REAL_ONLY).",
++    )
++    parser.add_argument(
++        "--limit-flights",
++        type=int,
++        default=50,
++        help="Maximum flights to load per direction (default: 50).",
++    )
++    parser.add_argument(
++        "--allow-inferred-pairing",
++        action="store_true",
++        default=False,
++        help="Allow heuristic schedule inference when physical tail is missing (default: False).",
++    )
+     parser.add_argument(
+         "--output-dir",
+         type=Path,
+@@ -175,48 +206,39 @@ def load_canonical_data_slices(
+     start_date: str,
+     end_date: str,
+     limit_flights: int = 50,
++    loader_mode: str = "REAL_ONLY",
++    allow_inferred_pairing: bool = False,
+ ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, FlightLeg], list[TurnPair]]:
+-    """Load canonical inbound and outbound flight slices and pair them into turns."""
+-    LOGGER.info(f"Loading canonical flight data for {airport} ({start_date} to {end_date})...")
+-
+-    # Locate canonical processed parquet directories
+-    inbound_dir = ROOT / "data" / "processed" / "inbound_atl" / "year=2023"
+-    outbound_dir = ROOT / "data" / "processed" / "outbound_atl" / "year=2023"
+-
+-    if data_path is not None and data_path.exists():
+-        if (data_path / "inbound_atl").exists():
+-            inbound_dir = data_path / "inbound_atl" / "year=2023"
+-            outbound_dir = data_path / "outbound_atl" / "year=2023"
+-        elif data_path.suffix == ".parquet":
+-            df_custom = pd.read_parquet(data_path)
+-            inbound_df = df_custom[df_custom["DEST"] == airport].copy().head(limit_flights)
+-            outbound_df = df_custom[df_custom["ORIGIN"] == airport].copy().head(limit_flights)
+-            return build_legs_and_pairs_from_frames(inbound_df, outbound_df, airport)
+-
+-    # Read native 2023 parquet files
+-    if not inbound_dir.exists() or not outbound_dir.exists():
+-        LOGGER.warning("Processed parquet partitions not found, building synthetic canonical slice...")
+-        return build_synthetic_canonical_data(limit_flights, airport)
+-
+-    df_in = pd.read_parquet(inbound_dir)
+-    df_out = pd.read_parquet(outbound_dir)
+-
+-    # Filter date
+-    df_in["FL_DATE_STR"] = df_in["FL_DATE"].astype(str).str.slice(0, 10)
+-    df_out["FL_DATE_STR"] = df_out["FL_DATE"].astype(str).str.slice(0, 10)
++    """Load canonical inbound and outbound flight slices and pair them deterministically."""
++    LOGGER.info(f"Loading canonical flight data for {airport} ({start_date} to {end_date}) in mode={loader_mode}...")
++
++    base_dir = data_path if (data_path is not None and data_path.is_dir()) else (ROOT / "data" / "processed")
++    loader = RealDataLoader(mode=DataLoaderMode(loader_mode), base_dir=base_dir)
++
++    loaded = loader.load_atl_data(
++        year=2023,
++        start_date=start_date,
++        end_date=end_date,
++        limit_legs=limit_flights,
++        hub_airport=airport,
++    )
+ 
+-    in_slice = df_in[(df_in["FL_DATE_STR"] >= start_date) & (df_in["FL_DATE_STR"] <= end_date)]
+-    out_slice = df_out[(df_out["FL_DATE_STR"] >= start_date) & (df_out["FL_DATE_STR"] <= end_date)]
++    # Deterministic pairing engine
++    pairing_engine = DeterministicPairingEngine(hub_airport=airport)
++    pairing_res = pairing_engine.pair_flights(
++        legs=loaded.legs,
++        scenario_id=f"SCEN_{airport}_{start_date}",
++        allow_inferred_pairing=allow_inferred_pairing,
++    )
+ 
+-    if in_slice.empty or out_slice.empty:
+-        LOGGER.warning("No records found in date window, taking first available slice...")
+-        in_slice = df_in.head(limit_flights)
+-        out_slice = df_out.head(limit_flights)
+-    else:
+-        in_slice = in_slice.head(limit_flights)
+-        out_slice = out_slice.head(limit_flights)
++    LOGGER.info(
++        f"Pairing Complete: {pairing_res.metrics['verified_turns_count']} verified turns, "
++        f"{pairing_res.metrics['inferred_turns_count']} inferred turns, "
++        f"{pairing_res.metrics['unmatched_arr_count']} unmatched ARR, "
++        f"{pairing_res.metrics['unmatched_dep_count']} unmatched DEP"
++    )
+ 
+-    return build_legs_and_pairs_from_frames(in_slice, out_slice, airport)
++    return loaded.inbound_df, loaded.outbound_df, loaded.legs, pairing_res.all_pairs
+ 
+ 
+ def build_legs_and_pairs_from_frames(
+@@ -224,83 +246,61 @@ def build_legs_and_pairs_from_frames(
+     outbound_df: pd.DataFrame,
+     airport: str,
+ ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, FlightLeg], list[TurnPair]]:
+-    """Synthesize flight legs and TurnPairs from inbound and outbound dataframes."""
+-    legs: dict[str, FlightLeg] = {}
+-    pairs: list[TurnPair] = []
++    """Synthesize flight legs and TurnPairs from inbound and outbound dataframes using deterministic pairing."""
++    from src.data.canonical_time import build_canonical_scheduled_datetime
+ 
++    legs: dict[str, FlightLeg] = {}
+     inbound_df = inbound_df.reset_index(drop=True)
+     outbound_df = outbound_df.reset_index(drop=True)
+ 
+-    n_pairs = min(len(inbound_df), len(outbound_df))
+-
+-    # Match turns by pairing index
+-    for i in range(n_pairs):
+-        in_row = inbound_df.iloc[i]
+-        out_row = outbound_df.iloc[i]
+-
+-        arr_id = f"LEG_ARR_{i+1:04d}"
+-        dep_id = f"LEG_DEP_{i+1:04d}"
+-        pair_id = f"TURN_{i+1:04d}"
+-
+-        # Parse schedule clock
+-        dep_ts_in = pd.to_datetime(in_row["CRS_DEP_TIME"])
+-        arr_ts_in = dep_ts_in + pd.Timedelta(minutes=float(in_row.get("CRS_ELAPSED_TIME", 120.0)))
+-        arr_clock_min = arr_ts_in.hour * 60 + arr_ts_in.minute
+-
+-        dep_ts_out = pd.to_datetime(out_row["CRS_DEP_TIME"])
+-        dep_clock_min = dep_ts_out.hour * 60 + dep_ts_out.minute
+-        # Ensure chronological feasibility for matched turn
+-        turnaround_slack = 75
+-        if dep_clock_min <= arr_clock_min + 45:
+-            dep_clock_min = arr_clock_min + turnaround_slack
+-        dep_event_local = arr_ts_in + pd.Timedelta(minutes=dep_clock_min - arr_clock_min)
+-
+-        # Check for matching tail number if present
+-        tail_in = in_row.get("TAIL_NUM") or in_row.get("OP_CARRIER_FL_NUM")
+-        tail_out = out_row.get("TAIL_NUM") or out_row.get("OP_CARRIER_FL_NUM")
+-        is_same_airframe = (tail_in == tail_out) and pd.notna(tail_in)
+-
+-        arr_leg = FlightLeg(
+-            flight_id=arr_id,
++    if "flight_key" not in inbound_df.columns:
++        inbound_df["flight_key"] = [f"LEG_ARR_{i+1:04d}" for i in range(len(inbound_df))]
++    if "flight_key" not in outbound_df.columns:
++        outbound_df["flight_key"] = [f"LEG_DEP_{i+1:04d}" for i in range(len(outbound_df))]
++
++    for i, row in inbound_df.iterrows():
++        fid = str(row["flight_key"])
++        t_obj = build_canonical_scheduled_datetime(row["FL_DATE"], row.get("CRS_ARR_TIME", row.get("CRS_DEP_TIME")), airport)
++        tail = row.get("TAIL_NUM")
++        tail_str = str(tail).strip().upper() if pd.notna(tail) and str(tail).strip() else None
++        legs[fid] = FlightLeg(
++            flight_id=fid,
+             direction=LegDirection.ARR,
+-            carrier=str(in_row["OP_CARRIER"]),
+-            flight_number=str(in_row["OP_CARRIER_FL_NUM"]),
+-            origin=str(in_row["ORIGIN"]),
++            carrier=str(row["OP_CARRIER"]).strip().upper(),
++            flight_number=str(row["OP_CARRIER_FL_NUM"]),
++            origin=str(row["ORIGIN"]).strip().upper(),
+             destination=airport,
+-            scheduled_event_local=arr_ts_in.to_pydatetime(),
+-            scheduled_elapsed_min=float(in_row.get("CRS_ELAPSED_TIME", 120.0)),
+-            normalized_timeline_min=arr_clock_min,
+-            tail_number=str(tail_in) if pd.notna(tail_in) else None,
++            scheduled_event_local=t_obj.local_datetime,
++            scheduled_event_utc=t_obj.utc_datetime,
++            event_timezone=t_obj.timezone_name,
++            scheduled_elapsed_min=float(row.get("CRS_ELAPSED_TIME", 120.0)),
++            normalized_timeline_min=t_obj.timeline_minute,
++            tail_number=tail_str,
+         )
+-        dep_leg = FlightLeg(
+-            flight_id=dep_id,
++
++    for i, row in outbound_df.iterrows():
++        fid = str(row["flight_key"])
++        t_obj = build_canonical_scheduled_datetime(row["FL_DATE"], row.get("CRS_DEP_TIME"), airport)
++        tail = row.get("TAIL_NUM")
++        tail_str = str(tail).strip().upper() if pd.notna(tail) and str(tail).strip() else None
++        legs[fid] = FlightLeg(
++            flight_id=fid,
+             direction=LegDirection.DEP,
+-            carrier=str(out_row["OP_CARRIER"]),
+-            flight_number=str(out_row["OP_CARRIER_FL_NUM"]),
++            carrier=str(row["OP_CARRIER"]).strip().upper(),
++            flight_number=str(row["OP_CARRIER_FL_NUM"]),
+             origin=airport,
+-            destination=str(out_row["DEST"]),
+-            scheduled_event_local=dep_event_local.to_pydatetime(),
+-            scheduled_elapsed_min=float(out_row.get("CRS_ELAPSED_TIME", 120.0)),
+-            normalized_timeline_min=dep_clock_min,
+-            tail_number=str(tail_out) if pd.notna(tail_out) else None,
++            destination=str(row["DEST"]).strip().upper(),
++            scheduled_event_local=t_obj.local_datetime,
++            scheduled_event_utc=t_obj.utc_datetime,
++            event_timezone=t_obj.timezone_name,
++            scheduled_elapsed_min=float(row.get("CRS_ELAPSED_TIME", 120.0)),
++            normalized_timeline_min=t_obj.timeline_minute,
++            tail_number=tail_str,
+         )
+ 
+-        legs[arr_id] = arr_leg
+-        legs[dep_id] = dep_leg
+-
+-        pair_type = PairType.VERIFIED_PAIR if is_same_airframe else PairType.SYNTHETIC_PAIR
+-        pairs.append(
+-            TurnPair(
+-                pair_id=pair_id,
+-                arrival_leg_id=arr_id,
+-                departure_leg_id=dep_id,
+-                pair_type=pair_type,
+-                linkage_source=LinkageSource.VERIFIED_ROTATION if is_same_airframe else LinkageSource.SIMULATION_SESSION,
+-                validation_status=ValidationStatus.VALID,
+-                scheduled_turnaround_min=float(dep_clock_min - arr_clock_min),
+-                scenario_id="SCEN_2023_CANONICAL",
+-            )
+-        )
++    engine = DeterministicPairingEngine(hub_airport=airport)
++    res = engine.pair_flights(legs, scenario_id="CANONICAL_MATCHED")
++    return inbound_df, outbound_df, legs, res.all_pairs
+ 
+     # Attach flight_key to dataframes for alignment
+     inbound_df["flight_key"] = [f"LEG_ARR_{i+1:04d}" for i in range(len(inbound_df))]
+@@ -438,7 +438,9 @@ def main() -> int:
+         airport=args.airport,
+         start_date=args.start_date,
+         end_date=args.end_date,
+-        limit_flights=30,
++        limit_flights=args.limit_flights,
++        loader_mode=args.loader_mode,
++        allow_inferred_pairing=args.allow_inferred_pairing,
+     )
+ 
+     LOGGER.info(
+diff --git a/src/contracts/turn_contracts.py b/src/contracts/turn_contracts.py
+index 4ff15d6..9292071 100644
+--- a/src/contracts/turn_contracts.py
++++ b/src/contracts/turn_contracts.py
+@@ -32,6 +32,7 @@ class PairType(str, Enum):
+     """
+ 
+     VERIFIED_PAIR = "VERIFIED_PAIR"
++    INFERRED_PAIR = "INFERRED_PAIR"
+     SYNTHETIC_PAIR = "SYNTHETIC_PAIR"
+     UNMATCHED_ARR = "UNMATCHED_ARR"
+     UNMATCHED_DEP = "UNMATCHED_DEP"
+@@ -117,7 +118,7 @@ class TurnPair:
+ 
+     @property
+     def is_paired(self) -> bool:
+-        return self.pair_type in (PairType.VERIFIED_PAIR, PairType.SYNTHETIC_PAIR)
++        return self.pair_type in (PairType.VERIFIED_PAIR, PairType.SYNTHETIC_PAIR, PairType.INFERRED_PAIR)
+ 
+     @property
+     def is_valid(self) -> bool:
+diff --git a/src/data/pairing_validator.py b/src/data/pairing_validator.py
+index 645d57a..7803480 100644
+--- a/src/data/pairing_validator.py
++++ b/src/data/pairing_validator.py
+@@ -44,6 +44,7 @@ class PairingValidationSummary:
+     review_required_count: int = 0
+     synthetic_pairs_count: int = 0
+     verified_pairs_count: int = 0
++    inferred_pairs_count: int = 0
+     unmatched_arr_count: int = 0
+     unmatched_dep_count: int = 0
+     rejection_reasons_tally: dict[str, int] = field(default_factory=dict)
+@@ -261,6 +262,8 @@ class PairingValidator:
+                 summary.synthetic_pairs_count += 1
+             elif pair.pair_type == PairType.VERIFIED_PAIR:
+                 summary.verified_pairs_count += 1
++            elif pair.pair_type == PairType.INFERRED_PAIR:
++                summary.inferred_pairs_count += 1
+             elif pair.pair_type == PairType.UNMATCHED_ARR:
+                 summary.unmatched_arr_count += 1
+             elif pair.pair_type == PairType.UNMATCHED_DEP:
+diff --git a/src/simulation/dual_prediction_turn.py b/src/simulation/dual_prediction_turn.py
+index 9480e54..9cd29ab 100644
+--- a/src/simulation/dual_prediction_turn.py
++++ b/src/simulation/dual_prediction_turn.py
+@@ -196,7 +196,7 @@ class DualAircraftTurn:
+             min_turnaround_min=self.min_turnaround_min,
+             default_dwell_min=self.default_dwell_min,
+             buffer_min=self.separation_buffer_min,
+-            is_paired=self.pair_type in (PairType.VERIFIED_PAIR, PairType.SYNTHETIC_PAIR),
++            is_paired=self.pair_type in (PairType.VERIFIED_PAIR, PairType.SYNTHETIC_PAIR, PairType.INFERRED_PAIR),
+             precomputed_gate_out_min=gate_out,
+         )
+ 

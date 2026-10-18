@@ -1,0 +1,82 @@
+{
+  "arr_b_enabled": false,
+  "chain_used": false,
+  "classification_adopted_existing_completed_study": true,
+  "classification_evidence_hashes": {
+    "guard_journal_sha256": "1b04ec9606ef2b8a2dfbc06f302258743ea88f1af215f3a6f7891e5f70e0b230",
+    "heartbeat_sha256": "207669331cf5650e4820f47d3fbfc69c9d14aa1e17c4ab782b6b7c3f872ccdc4",
+    "sqlite_sha256": "663f6c81d55ed53b46900c67ebd8fec066d3789612deecb61fc1cd3f2cce12f4"
+  },
+  "classification_guard_journal": "artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_classification.guard.jsonl",
+  "classification_heartbeat": "D:\\Study\\Code\\Python\\Aelous\\artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_classification.execution.jsonl",
+  "classification_new_trials": 0,
+  "classification_rerun": false,
+  "classification_result_manifest": "artifacts\\manifests\\week5_hpo_protocol_v1_1__hist_gradient_boosting_classification_result_v1.json",
+  "classification_result_manifest_sha256": "aa1c91aa7adec6875300642d07796e9c1e40ccafc083c0a029c318057cc89951",
+  "created_at_utc": "2026-09-17T09:46:12.989241+00:00",
+  "departure_prediction_used": false,
+  "environment_valid": true,
+  "guard_cleanup_explicit": "PASS",
+  "incident_type": "POST_STUDY_ARTIFACT_MATERIALIZATION_FAILURE",
+  "method": "hist_gradient_boosting",
+  "new_training_performed": true,
+  "optuna_parallelism": 1,
+  "production_hpo": true,
+  "protocol_hash": "b987c0489c5d18b02500f34c786c01359f45e50b2b32bdea3de4332a161556e5",
+  "protocol_version": "week5_hpo_protocol_v1_1",
+  "pruner": "NopPruner",
+  "recovery_amendment": "artifacts\\manifests\\week5_hgb_poststudy_recovery_amendment_v1.json",
+  "recovery_amendment_sha256": "7c287a647323b572cfacd6feef4c63f40870f14aca10914bedc1b98e309bf28b",
+  "regression_guard_journal": "artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression.guard.jsonl",
+  "regression_heartbeat": "D:\\Study\\Code\\Python\\Aelous\\artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression.execution.jsonl",
+  "regression_result_manifest": "artifacts\\manifests\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression_result_v1.json",
+  "regression_result_manifest_sha256": "358b6ccb42d8e15214a3fd0bf669420575d3885b630020c4d9ead7ca63a4206e",
+  "result_manifests": "PASS",
+  "root_cause": "OPTUNA_SQLITE_SCHEMA_ASSUMPTION",
+  "row_level_2023_accessed": false,
+  "row_level_2024_accessed": false,
+  "sampler": "TPESampler",
+  "schema_version": "1.0.0",
+  "seed": 202601,
+  "status": "COMPLETED",
+  "studies": {
+    "hist_gradient_boosting_classification": {
+      "best_objective": 0.19206058881695232,
+      "best_params": {
+        "l2_regularization": 1.0,
+        "learning_rate": 0.05589991383688294,
+        "max_depth": 6,
+        "max_features": 0.6,
+        "max_iter": 150,
+        "max_leaf_nodes": 39,
+        "min_samples_leaf": 20
+      },
+      "best_trial": 7,
+      "complete_trials": 10,
+      "heartbeat": "D:\\Study\\Code\\Python\\Aelous\\artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_classification.execution.jsonl",
+      "result_manifest": "artifacts\\manifests\\week5_hpo_protocol_v1_1__hist_gradient_boosting_classification_result_v1.json",
+      "result_manifest_sha256": "aa1c91aa7adec6875300642d07796e9c1e40ccafc083c0a029c318057cc89951"
+    },
+    "hist_gradient_boosting_regression": {
+      "best_objective": 19.25819001384582,
+      "best_params": {
+        "l2_regularization": 4.0,
+        "learning_rate": 0.07954536476970449,
+        "max_depth": 4,
+        "max_features": 0.6,
+        "max_iter": 250,
+        "max_leaf_nodes": 55,
+        "min_samples_leaf": 60
+      },
+      "best_trial": 3,
+      "complete_trials": 10,
+      "heartbeat": "D:\\Study\\Code\\Python\\Aelous\\artifacts\\optuna_studies\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression.execution.jsonl",
+      "result_manifest": "artifacts\\manifests\\week5_hpo_protocol_v1_1__hist_gradient_boosting_regression_result_v1.json",
+      "result_manifest_sha256": "358b6ccb42d8e15214a3fd0bf669420575d3885b630020c4d9ead7ca63a4206e"
+    }
+  },
+  "summary_version": "week5_hist_gradient_boosting_hpo_v1_1_summary_v1",
+  "suspend_detected": false,
+  "timeout_seconds_per_study": 14400,
+  "weather_used": false
+}

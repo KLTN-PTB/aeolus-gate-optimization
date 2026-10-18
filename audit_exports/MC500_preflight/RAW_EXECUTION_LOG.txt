@@ -1,0 +1,84 @@
+================================================================================
+AEOLUS-MC500 PREFLIGHT: SMALL DRY-RUN EXECUTION (N=5)
+================================================================================
+Platform: Windows 10 | Python: 3.11.15
+Timestamp: 2026-10-12T19:14:47+0700
+Requested Scenarios: 5 | Base Seed: 202601
+Config Hash: ece76deff94d3ad58737bb4e37443b56ca43372126a76229db03699964ee9cdb
+
+[Step 2] Solving Initial Plans at T-2h Cutoff...
+  Greedy:   Obj=0.00 | Feas=True | Time=1.4ms
+  CP-SAT:   Obj=0.00 | Feas=True | Time=511.8ms
+  Hybrid:   Obj=0.00 | Feas=True | Time=1519.0ms
+
+[Step 3] Generating 5 Stochastic Realizations (Copula rho=0.45)...
+  Scenario 0: ID=MC_PREFLIGHT_S0000 | Hash=74a58874ae85968e... | Seed=202601
+  Scenario 1: ID=MC_PREFLIGHT_S0001 | Hash=756631a8ad50de7f... | Seed=202602
+  Scenario 2: ID=MC_PREFLIGHT_S0002 | Hash=d4283cc3e6afd326... | Seed=202603
+  Scenario 3: ID=MC_PREFLIGHT_S0003 | Hash=bb4fcc306f47f41d... | Seed=202604
+  Scenario 4: ID=MC_PREFLIGHT_S0004 | Hash=7cd1bf76f7558575... | Seed=202605
+
+[Step 4] Evaluating MODE A (Fixed Plan)...
+  Mode A completed: 15 evaluations in 27.90ms
+
+[Step 5] Evaluating MODE B1 (Retrospective Recourse)...
+  Mode B1 completed: 15 evaluations in 71.82ms
+
+[Step 6] Evaluating MODE B2 (Causal Online Recourse) with Ledger Accounting...
+    Recorded Ledger: MC_PREFLIGHT_S0000 [Greedy] | Status=ONLINE_FEASIBLE | Obj=160.67 | Time=4.40ms
+    Recorded Ledger: MC_PREFLIGHT_S0000 [CPSat] | Status=ONLINE_FEASIBLE | Obj=160.67 | Time=4.47ms
+    Recorded Ledger: MC_PREFLIGHT_S0000 [Hybrid] | Status=ONLINE_FEASIBLE | Obj=160.67 | Time=4.33ms
+    Recorded Ledger: MC_PREFLIGHT_S0001 [Greedy] | Status=ONLINE_FEASIBLE | Obj=137.92 | Time=4.30ms
+    Recorded Ledger: MC_PREFLIGHT_S0001 [CPSat] | Status=ONLINE_FEASIBLE | Obj=137.92 | Time=4.23ms
+    Recorded Ledger: MC_PREFLIGHT_S0001 [Hybrid] | Status=ONLINE_FEASIBLE | Obj=137.92 | Time=5.42ms
+    Recorded Ledger: MC_PREFLIGHT_S0002 [Greedy] | Status=ONLINE_FEASIBLE | Obj=111.00 | Time=4.72ms
+    Recorded Ledger: MC_PREFLIGHT_S0002 [CPSat] | Status=ONLINE_FEASIBLE | Obj=111.00 | Time=5.94ms
+    Recorded Ledger: MC_PREFLIGHT_S0002 [Hybrid] | Status=ONLINE_FEASIBLE | Obj=111.00 | Time=5.45ms
+    Recorded Ledger: MC_PREFLIGHT_S0003 [Greedy] | Status=ONLINE_FEASIBLE | Obj=115.55 | Time=8.17ms
+    Recorded Ledger: MC_PREFLIGHT_S0003 [CPSat] | Status=ONLINE_FEASIBLE | Obj=115.55 | Time=8.04ms
+    Recorded Ledger: MC_PREFLIGHT_S0003 [Hybrid] | Status=ONLINE_FEASIBLE | Obj=115.55 | Time=4.96ms
+    Recorded Ledger: MC_PREFLIGHT_S0004 [Greedy] | Status=ONLINE_FEASIBLE | Obj=141.47 | Time=5.02ms
+    Recorded Ledger: MC_PREFLIGHT_S0004 [CPSat] | Status=ONLINE_FEASIBLE | Obj=141.47 | Time=5.71ms
+    Recorded Ledger: MC_PREFLIGHT_S0004 [Hybrid] | Status=ONLINE_FEASIBLE | Obj=141.47 | Time=4.96ms
+  Mode B2 completed: 15 evaluations in 115.77ms
+
+[Step 7] Evaluating MODE C1 & C2 Foresight Baselines...
+  Mode C1 & C2 completed: 10 evaluations in 2300.10ms
+
+[Step 8] Validating Execution Ledger Invariants...
+  [PASS] validate_ledger(): All requested scenarios strictly accounted for (0 missing)
+  [PASS] validate_paired_crn(): Bit-exact realization hashes match across all 3 solvers
+  Ledger Accounting Summary: {
+  "n_requested": 5,
+  "n_generated": 15,
+  "n_generation_failures": 0,
+  "n_evaluated": 15,
+  "n_evaluation_failures": 0,
+  "n_timeouts": 0,
+  "n_feasible": 15,
+  "n_infeasible": 0
+}
+  Ledger Rates: {
+  "generation_failure_rate": {
+    "numerator": 0,
+    "denominator": 5,
+    "rate": 0.0
+  },
+  "evaluation_failure_rate": {
+    "numerator": 0,
+    "denominator": 15,
+    "rate": 0.0
+  },
+  "composite_feasible_rate": {
+    "numerator": 15,
+    "denominator": 15,
+    "rate": 1.0
+  }
+}
+
+[Step 9] Verifying Deterministic Replay (Scenario 0 Re-run)...
+  [PASS] Deterministic replay exact match: obj=160.6667
+
+Total Program Wall-Clock: 4861.69ms (4.86s)
+Saved: audit_exports\MC500_preflight\dry_run_ledger_entries.csv (15 entries)
+Saved: audit_exports\MC500_preflight\dry_run_ledger_summary.json

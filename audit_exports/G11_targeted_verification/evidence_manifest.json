@@ -1,0 +1,50 @@
+{
+  "gate": "AEOLUS-G11",
+  "description": "Targeted Causality, Hybrid Invariant & Snapshot Verification Package",
+  "timestamp_utc": "2026-10-12T09:41:00Z",
+  "auditor_role": "Independent Scientific Software Verification Engineer",
+  "deliverables": {
+    "01_MODE_B2_INFORMATION_AUDIT.md": {
+      "size_bytes": 9558,
+      "sha256": "25b785ab86121dc43a9c4d1160238d20afb5c32e32705f73858dabdc05c4d666"
+    },
+    "02_MODE_B2_COUNTEREXAMPLE_TESTS.md": {
+      "size_bytes": 9177,
+      "sha256": "d5607deaddb06015d15564973e0e079d3e9cc26eb8d3dd673687f710ea3d5770"
+    },
+    "03_HYBRID_BEST_SO_FAR_AUDIT.md": {
+      "size_bytes": 8790,
+      "sha256": "824119de27426cedc442827dcee0dc3873eb306dfce00d3fad4cbafc6fb14f20"
+    },
+    "04_WALL_CLOCK_BUDGET_AUDIT.md": {
+      "size_bytes": 7677,
+      "sha256": "7e90784ae29f2a5cc0772b3606d8a4102d811c509969b9afb61d2849af2606df"
+    },
+    "05_SOURCE_HASH_RECONCILIATION.md": {
+      "size_bytes": 7704,
+      "sha256": "e74568bf0ed845852a20ac5e0df019a5b3bcf5ee3cb53e7d99a208c572a461a0"
+    },
+    "06_RAW_TEST_AND_COMMAND_LOG.md": {
+      "size_bytes": 10441,
+      "sha256": "fd605aab33c75b4afe5bb09593873a5fb23c525454f652b2277581bdf5f42f6d"
+    },
+    "07_FINAL_TARGETED_VERDICT.md": {
+      "size_bytes": 7104,
+      "sha256": "b806fb62899980157b2efc4ff6c4a4dc0504188f8fe9ac52466abef7890ac07d"
+    }
+  },
+  "test_scripts": {
+    "test_counterexample_b2_leakage.py": {
+      "size_bytes": 9965,
+      "sha256": "6bd6caba436ef49fe5c24fd73329a10e40725ed00aa78150fb08dbd9b79024a5"
+    },
+    "test_hybrid_monotonicity_micro.py": {
+      "size_bytes": 7757,
+      "sha256": "caf982bdebac686e4b018d35416bc6d129658f26082c79257de6cf0f4784b338"
+    },
+    "verify_source_hashes.py": {
+      "size_bytes": 5404,
+      "sha256": "46b6115c6ab5a9069431d1b9cc279e295672fc987733f82c9abbb696b7adf5e4"
+    }
+  }
+}

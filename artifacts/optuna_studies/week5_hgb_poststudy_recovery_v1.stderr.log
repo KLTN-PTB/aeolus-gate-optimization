@@ -1,0 +1,678 @@
+2026-09-17 16:30:27,655 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:27,656 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:27,657 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:27,657 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:27,658 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:27,658 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:27,658 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+[I 2026-09-17 16:30:28,564] A new study created in RDB with name: week5_hpo_protocol_v1_1__hist_gradient_boosting_regression
+2026-09-17 16:30:28,606 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,606 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,607 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,608 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,641 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,641 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,641 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,642 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:28,642 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:30:30,220 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:30:31,674 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:30:33,252 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:30:47,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:47,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:47,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:47,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:47,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:30:47,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:30:48,737 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:30:50,224 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:30:51,808 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:30:53,449 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:08,052 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:08,055 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:08,055 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:08,056 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:08,056 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:08,056 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:08,056 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:09,573 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:11,023 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:12,546 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:14,122 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:15,089 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:33,342 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:33,343 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:33,343 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:33,344 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:33,344 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:33,344 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:33,344 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:31:33,344 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:34,894 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:36,339 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:37,907 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:39,518 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:40,466 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:31:41,638 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:32:02,482] Trial 0 finished with value: 19.469960840396638 and parameters: {'learning_rate': 0.08879694703955916, 'max_iter': 150, 'max_leaf_nodes': 23, 'max_depth': 10, 'min_samples_leaf': 40, 'l2_regularization': 5.0, 'max_features': 0.9}. Best is trial 0 with value: 19.469960840396638.
+2026-09-17 16:32:02,500 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,501 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,501 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,501 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,501 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,501 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,501 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,501 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,501 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,502 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,503 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,503 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,503 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,531 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,531 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,531 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,531 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:02,531 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:04,021 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:05,398 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:06,886 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:17,884 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:17,884 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:17,884 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:17,884 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:17,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:17,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:19,362 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:20,749 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:22,267 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:23,850 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:36,516 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:36,519 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:36,519 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:36,519 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:36,520 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:36,520 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:36,520 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:38,003 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:39,380 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:40,924 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:42,479 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:43,423 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:32:59,855 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:59,858 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:59,858 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:59,858 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:59,858 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:59,859 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:59,859 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:32:59,859 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:01,340 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:02,728 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:04,243 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:05,782 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:06,724 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:07,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:33:26,999] Trial 1 finished with value: 19.264931074104325 and parameters: {'learning_rate': 0.08920317147402633, 'max_iter': 100, 'max_leaf_nodes': 15, 'max_depth': 8, 'min_samples_leaf': 60, 'l2_regularization': 3.5, 'max_features': 0.5}. Best is trial 1 with value: 19.264931074104325.
+2026-09-17 16:33:27,016 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,017 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,018 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,018 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,018 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,018 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,018 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,018 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,018 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,019 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,019 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,050 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,050 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,050 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,050 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:27,050 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:28,536 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:29,968 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:31,492 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:44,060 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:44,063 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:44,064 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:44,064 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:44,064 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:33:44,064 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:45,548 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:46,960 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:48,587 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:33:50,116 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:05,183 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:05,187 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:05,187 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:05,187 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:05,187 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:05,187 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:05,188 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:06,676 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:08,082 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:09,586 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:11,114 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:12,078 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:30,749 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:30,750 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:30,750 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:30,750 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:30,750 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:30,751 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:30,751 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:34:30,751 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:32,243 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:33,627 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:35,104 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:36,646 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:37,623 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:34:38,810 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:35:00,341] Trial 2 finished with value: 19.674962392612613 and parameters: {'learning_rate': 0.1223038214133949, 'max_iter': 150, 'max_leaf_nodes': 55, 'max_depth': 8, 'min_samples_leaf': 40, 'l2_regularization': 0.0, 'max_features': 0.8}. Best is trial 1 with value: 19.264931074104325.
+2026-09-17 16:35:00,358 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,358 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,358 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,358 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,359 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,360 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,361 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,361 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,361 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,361 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,361 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,389 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,389 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,389 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,389 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:00,389 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:01,865 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:03,246 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:04,754 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:18,928 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:18,932 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:18,932 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:18,932 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:18,932 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:18,932 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:20,413 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:21,785 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:23,275 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:24,823 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:41,399 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:41,399 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:41,399 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:41,399 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:41,399 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:41,399 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:35:41,400 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:42,892 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:44,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:45,804 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:47,356 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:35:48,313 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:09,343 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:09,346 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:09,346 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:09,346 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:09,346 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:09,346 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:09,347 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:09,348 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:10,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:12,275 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:13,798 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:15,351 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:16,318 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:17,520 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:36:41,859] Trial 3 finished with value: 19.25819001384582 and parameters: {'learning_rate': 0.07954536476970449, 'max_iter': 250, 'max_leaf_nodes': 55, 'max_depth': 4, 'min_samples_leaf': 60, 'l2_regularization': 4.0, 'max_features': 0.6}. Best is trial 3 with value: 19.25819001384582.
+2026-09-17 16:36:41,876 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,876 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,876 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,876 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,876 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,877 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,877 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,877 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,877 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,877 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,877 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,877 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,877 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,878 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,907 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,907 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,907 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,907 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:41,907 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:43,406 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:44,815 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:46,318 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:57,995 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:57,998 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:57,998 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:57,998 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:57,998 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:36:57,999 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:36:59,495 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:00,872 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:02,350 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:03,873 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:18,035 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:18,038 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:18,039 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:18,039 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:18,039 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:18,039 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:18,039 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:19,508 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:20,948 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:22,531 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:24,113 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:25,057 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:42,769 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:42,770 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:42,770 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:42,770 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:42,770 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:42,771 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:42,771 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:37:42,771 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:44,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:45,704 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:47,215 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:48,750 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:49,695 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:37:50,863 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:38:11,179] Trial 4 finished with value: 19.47640761680078 and parameters: {'learning_rate': 0.09380355954530502, 'max_iter': 100, 'max_leaf_nodes': 63, 'max_depth': 8, 'min_samples_leaf': 40, 'l2_regularization': 3.5, 'max_features': 0.8}. Best is trial 3 with value: 19.25819001384582.
+2026-09-17 16:38:11,196 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,197 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,199 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,227 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,227 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,227 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,227 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:11,227 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:12,720 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:14,110 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:15,602 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:27,342 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:27,345 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:27,345 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:27,346 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:27,346 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:27,346 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:28,839 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:30,233 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:31,731 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:33,261 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:46,884 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:46,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:46,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:46,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:46,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:46,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:38:46,885 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:48,366 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:49,773 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:51,278 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:52,806 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:38:53,746 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:11,290 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:11,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:11,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:11,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:11,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:11,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:11,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:11,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:12,784 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:14,171 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:15,649 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:17,164 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:18,087 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:19,251 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:39:39,504] Trial 5 finished with value: 19.514679734949123 and parameters: {'learning_rate': 0.0619422979517792, 'max_iter': 100, 'max_leaf_nodes': 63, 'max_depth': 10, 'min_samples_leaf': 60, 'l2_regularization': 1.0, 'max_features': 1.0}. Best is trial 3 with value: 19.25819001384582.
+2026-09-17 16:39:39,520 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,520 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,521 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,521 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,521 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,521 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,521 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,521 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,521 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,522 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,522 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,522 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,522 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,522 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,522 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,522 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,522 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,523 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,523 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,523 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,523 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,523 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,561 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,561 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,561 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,562 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:39,562 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:41,046 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:42,432 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:43,940 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:56,989 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:56,992 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:56,993 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:56,993 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:56,993 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:39:56,993 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:58,509 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:39:59,899 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:01,391 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:02,963 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:18,049 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:18,053 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:18,053 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:18,053 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:18,053 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:18,053 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:18,053 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:19,541 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:20,914 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:22,401 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:23,933 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:24,888 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:44,198 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:44,201 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:44,201 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:44,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:44,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:44,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:44,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:40:44,202 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:45,717 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:47,101 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:48,601 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:50,102 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:51,061 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:40:52,217 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:41:15,275] Trial 6 finished with value: 19.556263045559277 and parameters: {'learning_rate': 0.13565254232591137, 'max_iter': 200, 'max_leaf_nodes': 23, 'max_depth': 8, 'min_samples_leaf': 80, 'l2_regularization': 5.0, 'max_features': 0.7}. Best is trial 3 with value: 19.25819001384582.
+2026-09-17 16:41:15,292 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,292 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,293 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,294 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,322 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,323 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,323 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,323 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:15,323 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:16,812 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:18,295 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:19,795 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:32,703 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:32,706 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:32,706 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:32,706 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:32,706 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:32,706 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:34,203 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:35,588 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:37,064 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:38,580 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:53,825 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:53,828 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:53,828 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:53,828 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:53,828 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:53,828 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:41:53,828 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:55,331 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:56,719 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:58,203 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:41:59,722 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:00,672 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:19,968 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:19,969 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:19,969 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:19,969 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:19,969 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:19,970 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:19,970 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:19,970 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:21,479 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:22,859 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:24,360 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:25,893 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:26,935 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:28,095 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:42:50,190] Trial 7 finished with value: 19.28829348263966 and parameters: {'learning_rate': 0.05589991383688294, 'max_iter': 150, 'max_leaf_nodes': 39, 'max_depth': 6, 'min_samples_leaf': 20, 'l2_regularization': 1.0, 'max_features': 0.6}. Best is trial 3 with value: 19.25819001384582.
+2026-09-17 16:42:50,206 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,207 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,208 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,209 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,237 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,237 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,237 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,237 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:42:50,237 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:51,735 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:53,107 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:42:54,645 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:09,039 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:09,042 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:09,042 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:09,042 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:09,042 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:09,042 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:10,530 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:11,900 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:13,414 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:14,993 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:31,956 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:31,957 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:31,957 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:31,957 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:31,958 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:31,958 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:43:31,958 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:33,460 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:34,873 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:36,393 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:37,939 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:43:38,882 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:00,395 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:00,395 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:00,395 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:00,395 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:00,395 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:00,395 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:00,395 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:00,397 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:01,891 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:03,286 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:04,804 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:06,323 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:07,257 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:08,433 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:44:33,769] Trial 8 finished with value: 19.35983983236376 and parameters: {'learning_rate': 0.05794522865933138, 'max_iter': 200, 'max_leaf_nodes': 47, 'max_depth': 6, 'min_samples_leaf': 40, 'l2_regularization': 4.0, 'max_features': 0.8}. Best is trial 3 with value: 19.25819001384582.
+2026-09-17 16:44:33,786 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,786 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,786 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,786 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,786 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,786 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,787 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,787 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,787 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,787 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,787 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,787 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,787 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,788 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,816 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,816 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,816 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,816 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:33,816 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:35,308 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:36,697 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:38,187 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:52,050 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:52,051 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:52,051 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:52,051 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:52,051 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:44:52,051 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:53,520 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:54,924 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:56,384 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:44:57,858 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:13,568 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:13,594 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:13,594 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:13,594 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:13,595 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:13,595 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:13,595 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:15,176 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:16,581 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:18,097 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:19,621 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:20,559 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:41,224 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:41,225 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:41,225 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:41,225 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:41,225 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:41,225 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:41,226 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=hpo access=allowed message=HPO is allowed only within rolling-development years 2016-2022
+2026-09-17 16:45:41,226 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2016 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:42,710 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2017 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:44,095 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2018 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:45,589 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2019 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:47,109 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2020 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:48,064 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2021 purpose=development access=allowed message=development access is allowed for 2016-2023
+2026-09-17 16:45:49,347 INFO operation=assert_data_access_allowed config_version=0.1.0 year=2022 purpose=development access=allowed message=development access is allowed for 2016-2023
+[I 2026-09-17 16:46:12,738] Trial 9 finished with value: 19.690301422496933 and parameters: {'learning_rate': 0.13790680431816987, 'max_iter': 200, 'max_leaf_nodes': 39, 'max_depth': 6, 'min_samples_leaf': 40, 'l2_regularization': 0.0, 'max_features': 0.8}. Best is trial 3 with value: 19.25819001384582.

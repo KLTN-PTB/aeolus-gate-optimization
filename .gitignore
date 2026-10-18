@@ -31,47 +31,5 @@ Thumbs.db
 # Aeolus raw / generated datasets
 /data/
 
-
-# Generated artifacts/results
-# Large/generated artifacts
-artifacts/models/**
-artifacts/predictions/**
-artifacts/optuna_studies/**
-
-# Reproducibility manifests SHOULD be version controlled
-!artifacts/manifests/
-!artifacts/manifests/**
-# Ignore temporary schema audit working directories
+# Temporary schema audit working directories
 artifacts/manifests/schema_audit/.temporary/
-
-results/**
-
-# Model / data artifacts
-*.joblib
-*.pkl
-*.pickle
-*.parquet
-
-# Logs
-*.log
-logs/
-
-# Temporary backups
-backup/
-
-# Review packages, patches, and temporary audit/backup directories
-*.zip
-*.patch
-audit_exports/
-remediation_evidence/**/safety_backup/
-remediation_evidence/**/*_log.txt
-# Whitelist verified trained model checkpoints and preprocessors
-!artifacts/dual_core/models/*.joblib
-!artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib
-!artifacts/models/refactored/
-!artifacts/models/refactored/**
-!artifacts/remediation/outbound_classification/models/*.joblib
-
-# Whitelist scenario parquet files
-!artifacts/stress_1500x50/scenario_1500x50.parquet
-

@@ -1,0 +1,27 @@
+[2026-10-10 23:15:45] CMD: git status --porcelain=v1 | EXIT: 0
+[2026-10-10 23:15:54] CMD: git branch --show-current; git log -n 5 --oneline | EXIT: 0
+[2026-10-10 23:16:09] CMD: python.exe -c "import streamlit, ortools, plotly, pandas, pytest..." | EXIT: 0
+  - Python: 3.11.15
+  - Streamlit: 1.65.0
+  - Plotly: 7.1.0
+  - OR-Tools: 9.15.6755
+[2026-10-10 23:16:35] CMD: pytest tests/dashboard/ -v | EXIT: 0
+  - Passed: 123
+  - Failed: 0
+  - Warnings: 3
+  - Runtime: 19.13s
+[2026-10-10 23:17:03] CMD: pytest tests/test_native_dual_core_pipeline_p07.py tests/test_ml_research_validation_p08.py tests/test_monte_carlo_robustness_p09.py -v | EXIT: 0
+  - Passed: 89
+  - Failed: 0
+  - Warnings: 3
+  - Runtime: 7.88s
+[2026-10-10 23:17:39] CMD: python.exe (AppTest 5 pages x 2 modes) | EXIT: 0
+  - Runs: 10/10 clean
+  - Unhandled exceptions: 0
+[2026-10-10 23:22:10] CMD: python.exe (Performance baseline instrumentation) | EXIT: 0
+  - Initial RSS: 196.82 MB
+  - Final RSS: 373.91 MB
+  - Artifact Benchmarks Load: 3.16 ms
+  - Scenario Generation (120 flights): 246.64 ms
+  - Gantt Figure Render: 45.99 ms
+  - Page 03 Navigation: 850.46 ms (includes unsolicited CP-SAT solve)
