@@ -59,7 +59,13 @@ class DashboardConfig:
             "year": "2023",
             "flights": "120",
             "gates": "25+1",
-            "provenance": "BTS_OTP_2023_CURATED",
+            "provenance": "SCALABILITY_GENERATOR_BTS_2023_DERIVED",
+            "legacy_provenance": "BTS_OTP_2023_CURATED",
+            "data_origin": "REAL_DERIVED",
+            "scenario_generation": "SCALABILITY_GENERATOR",
+            "pairing_source": "UNPAIRED",
+            "prediction_source": "NONE",
+            "is_synthetic": "True",
         },
         {
             "id": "SCEN_2023_PEAK_01",
@@ -68,7 +74,13 @@ class DashboardConfig:
             "year": "2023",
             "flights": "85",
             "gates": "15+1",
-            "provenance": "BTS_OTP_2023_CURATED",
+            "provenance": "SCALABILITY_GENERATOR_BTS_2023_DERIVED",
+            "legacy_provenance": "BTS_OTP_2023_CURATED",
+            "data_origin": "REAL_DERIVED",
+            "scenario_generation": "SCALABILITY_GENERATOR",
+            "pairing_source": "UNPAIRED",
+            "prediction_source": "NONE",
+            "is_synthetic": "True",
         },
         {
             "id": "SCEN_P07_DUAL_CORE_30",
@@ -78,40 +90,53 @@ class DashboardConfig:
             "flights": "60",
             "gates": "15+1",
             "provenance": "NATIVE_DUAL_CORE_SYNTHESIS",
+            "legacy_provenance": "NATIVE_DUAL_CORE_SYNTHESIS",
+            "data_origin": "REAL_DERIVED",
+            "scenario_generation": "PARAMETRIC_SIMULATION",
+            "pairing_source": "SYNTHETIC_PAIR",
+            "prediction_source": "NATIVE_INFERENCE",
+            "is_synthetic": "True",
         },
     )
 
+
     def is_path_allowlisted(self, target_path: Path | str) -> bool:
         """Verify that a path is strictly inside the project root and within allowlisted directories."""
-        resolved = Path(target_path).resolve()
-        # Must be within project root
         try:
+            p = Path(target_path)
+            resolved = p.resolve() if p.is_absolute() else (self.project_root / p).resolve()
             rel = resolved.relative_to(self.project_root)
-        except ValueError:
+        except (ValueError, RuntimeError):
             return False
 
-        # Must not contain path traversal components
+        # Must not contain path traversal components in relative representation
         if ".." in rel.parts:
             return False
 
-        rel_posix = rel.as_posix()
-        return any(
-            rel_posix.startswith(allowed) or rel_posix == allowed
-            for allowed in self.allowed_artifact_dirs
-        )
+        # Canonical containment check: path must equal or be child of an allowlisted directory
+        for allowed in self.allowed_artifact_dirs:
+            allowed_path = (self.project_root / allowed).resolve()
+            if resolved == allowed_path or allowed_path in resolved.parents:
+                return True
+        return False
 
     def is_model_dir_allowlisted(self, model_path: Path | str) -> bool:
         """Verify that a model directory is within allowlisted model locations."""
-        resolved = Path(model_path).resolve()
         try:
+            p = Path(model_path)
+            resolved = p.resolve() if p.is_absolute() else (self.project_root / p).resolve()
             rel = resolved.relative_to(self.project_root)
-        except ValueError:
+        except (ValueError, RuntimeError):
             return False
-        rel_posix = rel.as_posix()
-        return any(
-            rel_posix.startswith(allowed) or rel_posix == allowed
-            for allowed in self.allowed_model_dirs
-        )
+
+        if ".." in rel.parts:
+            return False
+
+        for allowed in self.allowed_model_dirs:
+            allowed_path = (self.project_root / allowed).resolve()
+            if resolved == allowed_path or allowed_path in resolved.parents:
+                return True
+        return False
 
 
 # Global default configuration instance

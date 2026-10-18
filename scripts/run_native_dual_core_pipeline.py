@@ -46,6 +46,14 @@ from src.contracts.turn_contracts import (
     TurnPair,
     ValidationStatus,
 )
+from src.data.real_data_loader import (
+    DataLoaderMode,
+    DataLoadError,
+    EmptyDateRangeError,
+    MissingPartitionError,
+    RealDataLoader,
+    SchemaContractViolation,
+)
 from src.simulation.dual_prediction_turn import CouplingAssumption, SimulationMode
 from src.simulation.native_dual_core_pipeline import (
     DEP_TREE_PREPROCESSOR_PATH,
@@ -58,6 +66,10 @@ from src.simulation.native_dual_core_pipeline import (
     P4_ARRIVAL_CHECKPOINT_PATH,
     P4_ARRIVAL_SHA256,
     ProvenanceMode,
+)
+from src.simulation.verified_pairing import (
+    DeterministicPairingEngine,
+    VerifiedPairingResult,
 )
 
 logging.basicConfig(
@@ -161,6 +173,25 @@ def parse_arguments() -> argparse.Namespace:
         help="Ceiling solver time limit in seconds (default: 5.0).",
     )
     parser.add_argument(
+        "--loader-mode",
+        type=str,
+        default="REAL_ONLY",
+        choices=["REAL_ONLY", "ALLOW_SYNTHETIC"],
+        help="Data loader mode: REAL_ONLY fails on missing data/synthetic; ALLOW_SYNTHETIC enables test fixtures (default: REAL_ONLY).",
+    )
+    parser.add_argument(
+        "--limit-flights",
+        type=int,
+        default=50,
+        help="Maximum flights to load per direction (default: 50).",
+    )
+    parser.add_argument(
+        "--allow-inferred-pairing",
+        action="store_true",
+        default=False,
+        help="Allow heuristic schedule inference when physical tail is missing (default: False).",
+    )
+    parser.add_argument(
         "--output-dir",
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
@@ -175,48 +206,39 @@ def load_canonical_data_slices(
     start_date: str,
     end_date: str,
     limit_flights: int = 50,
+    loader_mode: str = "REAL_ONLY",
+    allow_inferred_pairing: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, FlightLeg], list[TurnPair]]:
-    """Load canonical inbound and outbound flight slices and pair them into turns."""
-    LOGGER.info(f"Loading canonical flight data for {airport} ({start_date} to {end_date})...")
+    """Load canonical inbound and outbound flight slices and pair them deterministically."""
+    LOGGER.info(f"Loading canonical flight data for {airport} ({start_date} to {end_date}) in mode={loader_mode}...")
 
-    # Locate canonical processed parquet directories
-    inbound_dir = ROOT / "data" / "processed" / "inbound_atl" / "year=2023"
-    outbound_dir = ROOT / "data" / "processed" / "outbound_atl" / "year=2023"
+    base_dir = data_path if (data_path is not None and data_path.is_dir()) else (ROOT / "data" / "processed")
+    loader = RealDataLoader(mode=DataLoaderMode(loader_mode), base_dir=base_dir)
 
-    if data_path is not None and data_path.exists():
-        if (data_path / "inbound_atl").exists():
-            inbound_dir = data_path / "inbound_atl" / "year=2023"
-            outbound_dir = data_path / "outbound_atl" / "year=2023"
-        elif data_path.suffix == ".parquet":
-            df_custom = pd.read_parquet(data_path)
-            inbound_df = df_custom[df_custom["DEST"] == airport].copy().head(limit_flights)
-            outbound_df = df_custom[df_custom["ORIGIN"] == airport].copy().head(limit_flights)
-            return build_legs_and_pairs_from_frames(inbound_df, outbound_df, airport)
+    loaded = loader.load_atl_data(
+        year=2023,
+        start_date=start_date,
+        end_date=end_date,
+        limit_legs=limit_flights,
+        hub_airport=airport,
+    )
 
-    # Read native 2023 parquet files
-    if not inbound_dir.exists() or not outbound_dir.exists():
-        LOGGER.warning("Processed parquet partitions not found, building synthetic canonical slice...")
-        return build_synthetic_canonical_data(limit_flights, airport)
+    # Deterministic pairing engine
+    pairing_engine = DeterministicPairingEngine(hub_airport=airport)
+    pairing_res = pairing_engine.pair_flights(
+        legs=loaded.legs,
+        scenario_id=f"SCEN_{airport}_{start_date}",
+        allow_inferred_pairing=allow_inferred_pairing,
+    )
 
-    df_in = pd.read_parquet(inbound_dir)
-    df_out = pd.read_parquet(outbound_dir)
+    LOGGER.info(
+        f"Pairing Complete: {pairing_res.metrics['verified_turns_count']} verified turns, "
+        f"{pairing_res.metrics['inferred_turns_count']} inferred turns, "
+        f"{pairing_res.metrics['unmatched_arr_count']} unmatched ARR, "
+        f"{pairing_res.metrics['unmatched_dep_count']} unmatched DEP"
+    )
 
-    # Filter date
-    df_in["FL_DATE_STR"] = df_in["FL_DATE"].astype(str).str.slice(0, 10)
-    df_out["FL_DATE_STR"] = df_out["FL_DATE"].astype(str).str.slice(0, 10)
-
-    in_slice = df_in[(df_in["FL_DATE_STR"] >= start_date) & (df_in["FL_DATE_STR"] <= end_date)]
-    out_slice = df_out[(df_out["FL_DATE_STR"] >= start_date) & (df_out["FL_DATE_STR"] <= end_date)]
-
-    if in_slice.empty or out_slice.empty:
-        LOGGER.warning("No records found in date window, taking first available slice...")
-        in_slice = df_in.head(limit_flights)
-        out_slice = df_out.head(limit_flights)
-    else:
-        in_slice = in_slice.head(limit_flights)
-        out_slice = out_slice.head(limit_flights)
-
-    return build_legs_and_pairs_from_frames(in_slice, out_slice, airport)
+    return loaded.inbound_df, loaded.outbound_df, loaded.legs, pairing_res.all_pairs
 
 
 def build_legs_and_pairs_from_frames(
@@ -224,83 +246,61 @@ def build_legs_and_pairs_from_frames(
     outbound_df: pd.DataFrame,
     airport: str,
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, FlightLeg], list[TurnPair]]:
-    """Synthesize flight legs and TurnPairs from inbound and outbound dataframes."""
-    legs: dict[str, FlightLeg] = {}
-    pairs: list[TurnPair] = []
+    """Synthesize flight legs and TurnPairs from inbound and outbound dataframes using deterministic pairing."""
+    from src.data.canonical_time import build_canonical_scheduled_datetime
 
+    legs: dict[str, FlightLeg] = {}
     inbound_df = inbound_df.reset_index(drop=True)
     outbound_df = outbound_df.reset_index(drop=True)
 
-    n_pairs = min(len(inbound_df), len(outbound_df))
+    if "flight_key" not in inbound_df.columns:
+        inbound_df["flight_key"] = [f"LEG_ARR_{i+1:04d}" for i in range(len(inbound_df))]
+    if "flight_key" not in outbound_df.columns:
+        outbound_df["flight_key"] = [f"LEG_DEP_{i+1:04d}" for i in range(len(outbound_df))]
 
-    # Match turns by pairing index
-    for i in range(n_pairs):
-        in_row = inbound_df.iloc[i]
-        out_row = outbound_df.iloc[i]
-
-        arr_id = f"LEG_ARR_{i+1:04d}"
-        dep_id = f"LEG_DEP_{i+1:04d}"
-        pair_id = f"TURN_{i+1:04d}"
-
-        # Parse schedule clock
-        dep_ts_in = pd.to_datetime(in_row["CRS_DEP_TIME"])
-        arr_ts_in = dep_ts_in + pd.Timedelta(minutes=float(in_row.get("CRS_ELAPSED_TIME", 120.0)))
-        arr_clock_min = arr_ts_in.hour * 60 + arr_ts_in.minute
-
-        dep_ts_out = pd.to_datetime(out_row["CRS_DEP_TIME"])
-        dep_clock_min = dep_ts_out.hour * 60 + dep_ts_out.minute
-        # Ensure chronological feasibility for matched turn
-        turnaround_slack = 75
-        if dep_clock_min <= arr_clock_min + 45:
-            dep_clock_min = arr_clock_min + turnaround_slack
-        dep_event_local = arr_ts_in + pd.Timedelta(minutes=dep_clock_min - arr_clock_min)
-
-        # Check for matching tail number if present
-        tail_in = in_row.get("TAIL_NUM") or in_row.get("OP_CARRIER_FL_NUM")
-        tail_out = out_row.get("TAIL_NUM") or out_row.get("OP_CARRIER_FL_NUM")
-        is_same_airframe = (tail_in == tail_out) and pd.notna(tail_in)
-
-        arr_leg = FlightLeg(
-            flight_id=arr_id,
+    for i, row in inbound_df.iterrows():
+        fid = str(row["flight_key"])
+        t_obj = build_canonical_scheduled_datetime(row["FL_DATE"], row.get("CRS_ARR_TIME", row.get("CRS_DEP_TIME")), airport)
+        tail = row.get("TAIL_NUM")
+        tail_str = str(tail).strip().upper() if pd.notna(tail) and str(tail).strip() else None
+        legs[fid] = FlightLeg(
+            flight_id=fid,
             direction=LegDirection.ARR,
-            carrier=str(in_row["OP_CARRIER"]),
-            flight_number=str(in_row["OP_CARRIER_FL_NUM"]),
-            origin=str(in_row["ORIGIN"]),
+            carrier=str(row["OP_CARRIER"]).strip().upper(),
+            flight_number=str(row["OP_CARRIER_FL_NUM"]),
+            origin=str(row["ORIGIN"]).strip().upper(),
             destination=airport,
-            scheduled_event_local=arr_ts_in.to_pydatetime(),
-            scheduled_elapsed_min=float(in_row.get("CRS_ELAPSED_TIME", 120.0)),
-            normalized_timeline_min=arr_clock_min,
-            tail_number=str(tail_in) if pd.notna(tail_in) else None,
+            scheduled_event_local=t_obj.local_datetime,
+            scheduled_event_utc=t_obj.utc_datetime,
+            event_timezone=t_obj.timezone_name,
+            scheduled_elapsed_min=float(row.get("CRS_ELAPSED_TIME", 120.0)),
+            normalized_timeline_min=t_obj.timeline_minute,
+            tail_number=tail_str,
         )
-        dep_leg = FlightLeg(
-            flight_id=dep_id,
+
+    for i, row in outbound_df.iterrows():
+        fid = str(row["flight_key"])
+        t_obj = build_canonical_scheduled_datetime(row["FL_DATE"], row.get("CRS_DEP_TIME"), airport)
+        tail = row.get("TAIL_NUM")
+        tail_str = str(tail).strip().upper() if pd.notna(tail) and str(tail).strip() else None
+        legs[fid] = FlightLeg(
+            flight_id=fid,
             direction=LegDirection.DEP,
-            carrier=str(out_row["OP_CARRIER"]),
-            flight_number=str(out_row["OP_CARRIER_FL_NUM"]),
+            carrier=str(row["OP_CARRIER"]).strip().upper(),
+            flight_number=str(row["OP_CARRIER_FL_NUM"]),
             origin=airport,
-            destination=str(out_row["DEST"]),
-            scheduled_event_local=dep_event_local.to_pydatetime(),
-            scheduled_elapsed_min=float(out_row.get("CRS_ELAPSED_TIME", 120.0)),
-            normalized_timeline_min=dep_clock_min,
-            tail_number=str(tail_out) if pd.notna(tail_out) else None,
+            destination=str(row["DEST"]).strip().upper(),
+            scheduled_event_local=t_obj.local_datetime,
+            scheduled_event_utc=t_obj.utc_datetime,
+            event_timezone=t_obj.timezone_name,
+            scheduled_elapsed_min=float(row.get("CRS_ELAPSED_TIME", 120.0)),
+            normalized_timeline_min=t_obj.timeline_minute,
+            tail_number=tail_str,
         )
 
-        legs[arr_id] = arr_leg
-        legs[dep_id] = dep_leg
-
-        pair_type = PairType.VERIFIED_PAIR if is_same_airframe else PairType.SYNTHETIC_PAIR
-        pairs.append(
-            TurnPair(
-                pair_id=pair_id,
-                arrival_leg_id=arr_id,
-                departure_leg_id=dep_id,
-                pair_type=pair_type,
-                linkage_source=LinkageSource.VERIFIED_ROTATION if is_same_airframe else LinkageSource.SIMULATION_SESSION,
-                validation_status=ValidationStatus.VALID,
-                scheduled_turnaround_min=float(dep_clock_min - arr_clock_min),
-                scenario_id="SCEN_2023_CANONICAL",
-            )
-        )
+    engine = DeterministicPairingEngine(hub_airport=airport)
+    res = engine.pair_flights(legs, scenario_id="CANONICAL_MATCHED")
+    return inbound_df, outbound_df, legs, res.all_pairs
 
     # Attach flight_key to dataframes for alignment
     inbound_df["flight_key"] = [f"LEG_ARR_{i+1:04d}" for i in range(len(inbound_df))]
@@ -438,7 +438,9 @@ def main() -> int:
         airport=args.airport,
         start_date=args.start_date,
         end_date=args.end_date,
-        limit_flights=30,
+        limit_flights=args.limit_flights,
+        loader_mode=args.loader_mode,
+        allow_inferred_pairing=args.allow_inferred_pairing,
     )
 
     LOGGER.info(

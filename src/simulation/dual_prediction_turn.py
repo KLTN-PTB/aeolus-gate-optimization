@@ -196,7 +196,7 @@ class DualAircraftTurn:
             min_turnaround_min=self.min_turnaround_min,
             default_dwell_min=self.default_dwell_min,
             buffer_min=self.separation_buffer_min,
-            is_paired=self.pair_type in (PairType.VERIFIED_PAIR, PairType.SYNTHETIC_PAIR),
+            is_paired=self.pair_type in (PairType.VERIFIED_PAIR, PairType.SYNTHETIC_PAIR, PairType.INFERRED_PAIR),
             precomputed_gate_out_min=gate_out,
         )
 

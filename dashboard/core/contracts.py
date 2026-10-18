@@ -8,6 +8,14 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 
+from src.contracts.provenance import (
+    DataOrigin,
+    EvidenceProvenance,
+    PairingSource,
+    PredictionSource,
+    ScenarioGeneration,
+)
+
 
 class ProvenanceType(str, Enum):
     """Data provenance classification (strictly preserved across layers)."""
@@ -159,6 +167,12 @@ class ScenarioContext:
     scenario_digest: Optional[str] = None
     provenance: ProvenanceType = ProvenanceType.SCHEDULE_BASELINE
     schema_version: str = "1.0"
+    data_origin: str = "UNKNOWN"
+    scenario_generation: str = "UNKNOWN"
+    pairing_source: str = "UNKNOWN"
+    prediction_source: str = "NONE"
+    is_synthetic: bool = False
+    evidence_provenance: Optional[EvidenceProvenance] = None
 
     def __post_init__(self) -> None:
         if not self.scenario_id:
@@ -169,7 +183,10 @@ class ScenarioContext:
             raise ValueError(f"gate_count must be non-negative: {self.gate_count}")
 
     def to_dict(self) -> Dict[str, Any]:
-        return asdict(self)
+        d = asdict(self)
+        if self.evidence_provenance is not None:
+            d["evidence_provenance"] = self.evidence_provenance.to_dict()
+        return d
 
 
 @dataclass(frozen=True)
@@ -200,6 +217,9 @@ class FlightPredictionView:
     predictive_quantiles: Dict[str, float] = field(default_factory=dict)
     scheduled_time_min: Optional[int] = None
     predicted_time_min: Optional[int] = None
+    data_origin: str = "UNKNOWN"
+    is_synthetic: bool = False
+    evidence_provenance: Optional[EvidenceProvenance] = None
 
     def __post_init__(self) -> None:
         if not self.flight_id:
@@ -237,7 +257,10 @@ class FlightPredictionView:
         d = asdict(self)
         d["risk_category"] = self.risk_category.value
         d["provenance"] = self.provenance.value
+        if self.evidence_provenance is not None:
+            d["evidence_provenance"] = self.evidence_provenance.to_dict()
         return d
+
 
 
 @dataclass(frozen=True)
@@ -367,6 +390,11 @@ class SolverRunView:
     execution_digest: Optional[str] = None
     run_id: Optional[str] = None
     verifier_diagnostics: Optional[Dict[str, Any]] = None
+    data_origin: str = "UNKNOWN"
+    scenario_generation: str = "UNKNOWN"
+    pairing_source: str = "UNKNOWN"
+    is_synthetic: bool = False
+    evidence_provenance: Optional[EvidenceProvenance] = None
 
     def __post_init__(self) -> None:
         if not self.solver_name:
@@ -382,7 +410,10 @@ class SolverRunView:
         d = asdict(self)
         d["provenance"] = self.provenance.value
         d["assignments"] = [a.to_dict() for a in self.assignments]
+        if self.evidence_provenance is not None:
+            d["evidence_provenance"] = self.evidence_provenance.to_dict()
         return d
+
 
 
 @dataclass(frozen=True)

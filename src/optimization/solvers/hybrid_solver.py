@@ -118,7 +118,12 @@ class HybridGateSolver:
         # ---------------------------------------------------------------------
         # Step 2 & 3: Run Stage 1 CP-SAT within configured budget
         # ---------------------------------------------------------------------
-        cp_budget_seconds = max(0.01, self.config.time_limit_seconds * self.cp_ratio)
+        total_budget_s = getattr(self.config, "total_wall_clock_budget_seconds", None)
+        if total_budget_s is None or total_budget_s <= 0:
+            total_budget_s = getattr(self.config, "time_limit_seconds", 30.0)
+        global_deadline = t0 + total_budget_s
+
+        cp_budget_seconds = max(0.01, min(total_budget_s * self.cp_ratio, total_budget_s))
         cp_config = replace(self.config, time_limit_seconds=cp_budget_seconds)
         cp_solver = CPSatGateSolver(config=cp_config)
         t_cp0 = time.perf_counter()
@@ -217,6 +222,13 @@ class HybridGateSolver:
             if not fallback_used:
                 # Both CP-SAT and fallback failed
                 total_wall_clock_ms = (time.perf_counter() - t0) * 1000.0
+                if cp_solver_status in ("TIMEOUT_NO_SOLUTION", "TIME_LIMIT"):
+                    fallback_status = "TIMEOUT_NO_SOLUTION"
+                    term_reason = TerminationReason.TIME_LIMIT
+                else:
+                    fallback_status = "UNKNOWN"
+                    term_reason = TerminationReason.NO_FEASIBLE_SOLUTION
+
                 hybrid_trace = {
                     "cp_solver_status": cp_solver_status,
                     "cp_incumbent_found": False,
@@ -236,10 +248,10 @@ class HybridGateSolver:
                     "total_wall_clock_ms": total_wall_clock_ms,
                     "stage1_wall_clock_ms": cp_wall_clock_ms,
                     "stage2_wall_clock_ms": 0.0,
-                    "termination_reason": TerminationReason.NO_FEASIBLE_SOLUTION.value,
+                    "termination_reason": term_reason.value,
                 }
                 return OptimizationResult(
-                    status="INFEASIBLE",
+                    status=fallback_status,
                     objective_value=float("inf"),
                     objective_breakdown=greedy_result.objective_breakdown,
                     feasible=False,
@@ -251,53 +263,115 @@ class HybridGateSolver:
                         **self.config.to_dict(),
                         **hybrid_trace,
                     },
-                    termination_reason=TerminationReason.NO_FEASIBLE_SOLUTION,
+                    termination_reason=term_reason,
                 )
 
         # ---------------------------------------------------------------------
-        # Step 7: Run SA refinement starting from validated incumbent
+        # Step 7: Evaluate Incumbent & Run SA refinement with Incumbent Guard
         # ---------------------------------------------------------------------
-        sa_solver = SimulatedAnnealingGateSolver(
+        incumbent_diag = verify_hard_constraints_independently(
+            flights=flights,
+            gates=gate_list,
+            assignments=incumbent_assignments,
+        )
+        incumbent_eval = evaluate_gate_assignment(
+            assignments=incumbent_assignments,
+            flights=flights,
+            gates=gate_list,
             config=self.config,
-            sa_config=self.sa_config,
+            runtime_ms=(time.perf_counter() - t0) * 1000.0,
+            solver_status="FEASIBLE" if incumbent_diag.is_valid else "INFEASIBLE",
+            solver_name="IncumbentStage1",
         )
-        t_sa0 = time.perf_counter()
-        sa_result = sa_solver.solve(
-            flights=flights,
-            gates=gate_list,
-            initial_assignments=incumbent_assignments,
-            allow_overflow=allow_overflow,
-        )
-        sa_wall_clock_ms = (time.perf_counter() - t_sa0) * 1000.0
+        initial_cost = float(incumbent_eval.objective_value)
 
-        # Step 8: Validate final assignment independently
-        final_diag = verify_hard_constraints_independently(
-            flights=flights,
-            gates=gate_list,
-            assignments=sa_result.assignments,
-        )
-        final_feasible = bool(final_diag.is_valid and len(sa_result.assignments) == len(flights))
+        # Initialize final solution with the certified incumbent
+        final_assignments = dict(incumbent_assignments)
+        final_diag = incumbent_diag
+        final_eval = incumbent_eval
+
+        now = time.perf_counter()
+        remaining_budget_s = global_deadline - now
+        sa_executed = False
+        sa_accepted = False
+        sa_improved = False
+        sa_rejection_reason: str | None = None
+        sa_accepted_moves = 0
+        sa_best_cost = initial_cost
+        sa_wall_clock_ms = 0.0
+
+        if remaining_budget_s > 0.005:
+            sa_solver = SimulatedAnnealingGateSolver(
+                config=self.config,
+                sa_config=self.sa_config,
+            )
+            t_sa0 = time.perf_counter()
+            try:
+                sa_result = sa_solver.solve(
+                    flights=flights,
+                    gates=gate_list,
+                    initial_assignments=incumbent_assignments,
+                    allow_overflow=allow_overflow,
+                    deadline_perf_counter=global_deadline,
+                )
+                sa_wall_clock_ms = (time.perf_counter() - t_sa0) * 1000.0
+                sa_executed = True
+                sa_accepted_moves = sa_result.solver_configuration.get("accepted_moves", 0)
+                sa_best_cost = float(sa_result.objective_value)
+
+                # Step 8: Validate candidate independently
+                sa_candidate_diag = verify_hard_constraints_independently(
+                    flights=flights,
+                    gates=gate_list,
+                    assignments=sa_result.assignments,
+                )
+                sa_candidate_eval = evaluate_gate_assignment(
+                    assignments=sa_result.assignments,
+                    flights=flights,
+                    gates=gate_list,
+                    config=self.config,
+                    runtime_ms=(time.perf_counter() - t0) * 1000.0,
+                    solver_status="FEASIBLE" if sa_candidate_diag.is_valid else "INFEASIBLE",
+                    solver_name="HybridCPSatSA",
+                )
+
+                # OUTER INCUMBENT GUARD
+                # 1) Hard feasibility certified
+                candidate_feasible = bool(
+                    sa_candidate_diag.is_valid and len(sa_result.assignments) == len(flights)
+                )
+                tol = 1e-6
+                if not candidate_feasible:
+                    sa_accepted = False
+                    sa_rejection_reason = "SA_PRODUCED_INFEASIBLE_SOLUTION"
+                elif sa_candidate_eval.objective_value > incumbent_eval.objective_value + tol:
+                    sa_accepted = False
+                    sa_rejection_reason = "SA_DEGRADED_INCUMBENT_OBJECTIVE"
+                else:
+                    sa_accepted = True
+                    final_assignments = dict(sa_result.assignments)
+                    final_diag = sa_candidate_diag
+                    final_eval = sa_candidate_eval
+                    if sa_candidate_eval.objective_value < incumbent_eval.objective_value - tol:
+                        sa_improved = True
+            except Exception as e:
+                sa_wall_clock_ms = (time.perf_counter() - t_sa0) * 1000.0
+                sa_executed = True
+                sa_accepted = False
+                sa_rejection_reason = f"SA_EXCEPTION_{type(e).__name__}"
+        else:
+            sa_rejection_reason = "BUDGET_EXHAUSTED_BEFORE_STAGE2"
 
         total_wall_clock_ms = (time.perf_counter() - t0) * 1000.0
+        final_feasible = bool(final_diag.is_valid and len(final_assignments) == len(flights))
 
-        # Step 9: Compute objective independently
-        final_eval = evaluate_gate_assignment(
-            assignments=sa_result.assignments,
-            flights=flights,
-            gates=gate_list,
-            config=self.config,
-            runtime_ms=total_wall_clock_ms,
-            solver_status="FEASIBLE" if final_feasible else "INFEASIBLE",
-            solver_name="HybridCPSatSA",
-        )
-
-        # Step 10: Determine status, optimality inheritance, and trace contract
-        # Proof inheritance: ONLY if Stage 1 CP-SAT proved OPTIMAL and SA preserved the cost
         has_optimality_proof = (
             final_feasible
             and cp_optimality_proven
             and abs(final_eval.objective_value - initial_cost) < 1e-9
         )
+
+        hit_time_limit = (time.perf_counter() >= global_deadline - 0.001)
 
         if has_optimality_proof:
             hybrid_status = "OPTIMAL"
@@ -305,7 +379,7 @@ class HybridGateSolver:
             opt_gap = 0.0
         elif final_feasible:
             hybrid_status = "FEASIBLE"
-            term_reason = TerminationReason.FEASIBLE_FOUND
+            term_reason = TerminationReason.TIME_LIMIT if hit_time_limit else TerminationReason.FEASIBLE_FOUND
             opt_gap = None
         else:
             hybrid_status = "INFEASIBLE"
@@ -323,8 +397,12 @@ class HybridGateSolver:
             "initial_solution_source": initial_solution_source,
             "initial_cost": initial_cost,
             "sa_iterations": self.sa_config.iterations,
-            "sa_accepted_moves": sa_result.solver_configuration.get("accepted_moves", 0),
-            "sa_best_cost": float(sa_result.objective_value),
+            "sa_executed": sa_executed,
+            "sa_accepted": sa_accepted,
+            "sa_improved": sa_improved,
+            "sa_rejection_reason": sa_rejection_reason,
+            "sa_accepted_moves": sa_accepted_moves,
+            "sa_best_cost": sa_best_cost,
             "final_cost": float(final_eval.objective_value),
             "final_feasible": final_feasible,
             "final_verifier_violations": final_diag.hard_constraint_violations_count,
@@ -341,7 +419,7 @@ class HybridGateSolver:
             feasible=final_feasible,
             runtime_ms=total_wall_clock_ms,
             optimality_gap=opt_gap,
-            assignments=dict(sa_result.assignments),
+            assignments=final_assignments,
             constraint_diagnostics=final_diag,
             solver_configuration={
                 **self.config.to_dict(),

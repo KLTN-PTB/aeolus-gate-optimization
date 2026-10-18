@@ -104,6 +104,7 @@ class SimulatedAnnealingGateSolver:
         *,
         initial_assignments: Mapping[str, GateAssignment] | None = None,
         allow_overflow: bool = True,
+        deadline_perf_counter: float | None = None,
     ) -> OptimizationResult:
         """Execute Simulated Annealing starting from a validated feasible initial assignment.
 
@@ -112,11 +113,19 @@ class SimulatedAnnealingGateSolver:
             gates: Sequence of Gate entities.
             initial_assignments: Optional pre-existing assignments. If None, generated via greedy.
             allow_overflow: Allow remote stand fallback.
+            deadline_perf_counter: Optional wall-clock perf_counter deadline for early termination.
 
         Returns:
             OptimizationResult evaluated by the authoritative common evaluator.
         """
         t0 = time.perf_counter()
+
+        if deadline_perf_counter is None:
+            budget_s = getattr(self.config, "total_wall_clock_budget_seconds", None)
+            if budget_s is None or budget_s <= 0:
+                budget_s = getattr(self.config, "time_limit_seconds", None)
+            if budget_s is not None and budget_s > 0:
+                deadline_perf_counter = t0 + budget_s
 
         # Handle trivial zero-flight case
         if len(flights) == 0:
@@ -198,7 +207,12 @@ class SimulatedAnnealingGateSolver:
         ]
 
         # Simulated Annealing Loop
+        term_reason = TerminationReason.ITERATION_LIMIT
         for k in range(1, self.sa_config.iterations + 1):
+            if deadline_perf_counter is not None and time.perf_counter() >= deadline_perf_counter:
+                term_reason = TerminationReason.TIME_LIMIT
+                break
+
             # Geometric cooling schedule
             temp = max(
                 self.sa_config.Tmin,
@@ -287,7 +301,7 @@ class SimulatedAnnealingGateSolver:
             runtime_ms=elapsed_ms,
             solver_status="FEASIBLE",
             solver_name="SimulatedAnnealing",
-            termination_reason=TerminationReason.ITERATION_LIMIT,
+            termination_reason=term_reason,
         )
 
         # Augment solver configuration with SA-specific execution metadata
@@ -303,6 +317,7 @@ class SimulatedAnnealingGateSolver:
             "accepted_moves": accepted_moves,
             "trace_length": len(trace),
             "trace_sample": [trace[i].to_dict() for i in [0, len(trace) // 2, -1]] if trace else [],
+            "termination_reason": term_reason.value if hasattr(term_reason, "value") else str(term_reason),
         }
 
         # Store in solver configuration for transparent reporting

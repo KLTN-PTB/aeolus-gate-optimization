@@ -1,0 +1,379 @@
+{
+  "pipeline": "RemediatedMonteCarloEngineG2",
+  "timestamp_utc": "2026-10-11T10:08:04.544043+00:00",
+  "n_requested": 100,
+  "n_generated": 100,
+  "n_evaluated": 100,
+  "n_failed": 0,
+  "scenarios_seed": 202601,
+  "canonical_scenario_id": "SCEN_P09_CANONICAL_120",
+  "mode_a_fixed_plan": {
+    "Greedy": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 1606.434,
+      "median_cost": 1120.5667,
+      "cost_std": 1251.0052,
+      "monte_carlo_se": 125.1005,
+      "ci_95_lower": 1361.237,
+      "ci_95_upper": 1851.631,
+      "cost_quantiles": {
+        "p10": 105.0367,
+        "p25": 1090.7333,
+        "p50": 1120.5667,
+        "p75": 2114.7667,
+        "p90": 3109.7467,
+        "p95": 3165.0817,
+        "p99": 5116.858
+      },
+      "cvar_90": 3909.1383,
+      "cvar_95": 4703.7867,
+      "feasibility_rates": {
+        "composite_feasible_rate": 0.24,
+        "physical_contact_conflict_rate": 0.76,
+        "mean_physical_conflict_count": 1.5,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 0.0,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.531
+    },
+    "CPSat": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 1606.434,
+      "median_cost": 1120.5667,
+      "cost_std": 1251.0052,
+      "monte_carlo_se": 125.1005,
+      "ci_95_lower": 1361.237,
+      "ci_95_upper": 1851.631,
+      "cost_quantiles": {
+        "p10": 105.0367,
+        "p25": 1090.7333,
+        "p50": 1120.5667,
+        "p75": 2114.7667,
+        "p90": 3109.7467,
+        "p95": 3165.0817,
+        "p99": 5116.858
+      },
+      "cvar_90": 3909.1383,
+      "cvar_95": 4703.7867,
+      "feasibility_rates": {
+        "composite_feasible_rate": 0.24,
+        "physical_contact_conflict_rate": 0.76,
+        "mean_physical_conflict_count": 1.5,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 0.0,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.528
+    },
+    "Hybrid": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 1606.434,
+      "median_cost": 1120.5667,
+      "cost_std": 1251.0052,
+      "monte_carlo_se": 125.1005,
+      "ci_95_lower": 1361.237,
+      "ci_95_upper": 1851.631,
+      "cost_quantiles": {
+        "p10": 105.0367,
+        "p25": 1090.7333,
+        "p50": 1120.5667,
+        "p75": 2114.7667,
+        "p90": 3109.7467,
+        "p95": 3165.0817,
+        "p99": 5116.858
+      },
+      "cvar_90": 3909.1383,
+      "cvar_95": 4703.7867,
+      "feasibility_rates": {
+        "composite_feasible_rate": 0.24,
+        "physical_contact_conflict_rate": 0.76,
+        "mean_physical_conflict_count": 1.5,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 0.0,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.534
+    }
+  },
+  "mode_b1_retrospective": {
+    "Greedy": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 134.834,
+      "median_cost": 131.025,
+      "cost_std": 26.7956,
+      "monte_carlo_se": 2.6796,
+      "ci_95_lower": 129.5821,
+      "ci_95_upper": 140.0859,
+      "cost_quantiles": {
+        "p10": 103.6033,
+        "p25": 115.1583,
+        "p50": 131.025,
+        "p75": 155.3,
+        "p90": 172.6183,
+        "p95": 184.1908,
+        "p99": 192.8298
+      },
+      "cvar_90": 183.9317,
+      "cvar_95": 190.1867,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 1.0
+      },
+      "mean_reassignment_count": 2.84,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 2.985
+    },
+    "CPSat": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 134.834,
+      "median_cost": 131.025,
+      "cost_std": 26.7956,
+      "monte_carlo_se": 2.6796,
+      "ci_95_lower": 129.5821,
+      "ci_95_upper": 140.0859,
+      "cost_quantiles": {
+        "p10": 103.6033,
+        "p25": 115.1583,
+        "p50": 131.025,
+        "p75": 155.3,
+        "p90": 172.6183,
+        "p95": 184.1908,
+        "p99": 192.8298
+      },
+      "cvar_90": 183.9317,
+      "cvar_95": 190.1867,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 1.0
+      },
+      "mean_reassignment_count": 2.84,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 2.989
+    },
+    "Hybrid": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 134.834,
+      "median_cost": 131.025,
+      "cost_std": 26.7956,
+      "monte_carlo_se": 2.6796,
+      "ci_95_lower": 129.5821,
+      "ci_95_upper": 140.0859,
+      "cost_quantiles": {
+        "p10": 103.6033,
+        "p25": 115.1583,
+        "p50": 131.025,
+        "p75": 155.3,
+        "p90": 172.6183,
+        "p95": 184.1908,
+        "p99": 192.8298
+      },
+      "cvar_90": 183.9317,
+      "cvar_95": 190.1867,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 1.0
+      },
+      "mean_reassignment_count": 2.84,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 2.985
+    }
+  },
+  "mode_b2_online_recourse": {
+    "Greedy": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 147.434,
+      "median_cost": 146.7167,
+      "cost_std": 35.7314,
+      "monte_carlo_se": 3.5731,
+      "ci_95_lower": 140.4307,
+      "ci_95_upper": 154.4373,
+      "cost_quantiles": {
+        "p10": 103.6033,
+        "p25": 117.3292,
+        "p50": 146.7167,
+        "p75": 172.0458,
+        "p90": 191.68,
+        "p95": 203.2792,
+        "p99": 232.8217
+      },
+      "cvar_90": 210.3433,
+      "cvar_95": 222.5333,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 4.1,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.772
+    },
+    "CPSat": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 147.434,
+      "median_cost": 146.7167,
+      "cost_std": 35.7314,
+      "monte_carlo_se": 3.5731,
+      "ci_95_lower": 140.4307,
+      "ci_95_upper": 154.4373,
+      "cost_quantiles": {
+        "p10": 103.6033,
+        "p25": 117.3292,
+        "p50": 146.7167,
+        "p75": 172.0458,
+        "p90": 191.68,
+        "p95": 203.2792,
+        "p99": 232.8217
+      },
+      "cvar_90": 210.3433,
+      "cvar_95": 222.5333,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 4.1,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.774
+    },
+    "Hybrid": {
+      "n_requested": 100,
+      "n_generated": 100,
+      "n_evaluated": 100,
+      "n_failed": 0,
+      "mean_cost": 147.434,
+      "median_cost": 146.7167,
+      "cost_std": 35.7314,
+      "monte_carlo_se": 3.5731,
+      "ci_95_lower": 140.4307,
+      "ci_95_upper": 154.4373,
+      "cost_quantiles": {
+        "p10": 103.6033,
+        "p25": 117.3292,
+        "p50": 146.7167,
+        "p75": 172.0458,
+        "p90": 191.68,
+        "p95": 203.2792,
+        "p99": 232.8217
+      },
+      "cvar_90": 210.3433,
+      "cvar_95": 222.5333,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 4.1,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.77
+    }
+  },
+  "mode_c1_greedy_foresight": {
+    "n_requested": 100,
+    "n_generated": 100,
+    "n_evaluated": 100,
+    "n_failed": 0,
+    "mean_cost": 134.834,
+    "median_cost": 131.025,
+    "cost_std": 26.7956,
+    "monte_carlo_se": 2.6796,
+    "ci_95_lower": 129.5821,
+    "ci_95_upper": 140.0859,
+    "cost_quantiles": {
+      "p10": 103.6033,
+      "p25": 115.1583,
+      "p50": 131.025,
+      "p75": 155.3,
+      "p90": 172.6183,
+      "p95": 184.1908,
+      "p99": 192.8298
+    },
+    "cvar_90": 183.9317,
+    "cvar_95": 190.1867,
+    "feasibility_rates": {
+      "composite_feasible_rate": 1.0,
+      "physical_contact_conflict_rate": 0.0,
+      "mean_physical_conflict_count": 0.0,
+      "remote_capacity_violation_rate": 0.0,
+      "static_slot_consistency_rate": 1.0
+    },
+    "mean_reassignment_count": 2.84,
+    "mean_remote_stand_usage": 0.0,
+    "mean_runtime_ms": 2.665
+  },
+  "mode_c2_optimal_oracle": {
+    "n_requested": 100,
+    "n_generated": 100,
+    "n_evaluated": 100,
+    "n_failed": 0,
+    "mean_cost": 122.434,
+    "median_cost": 123.0333,
+    "cost_std": 16.9655,
+    "monte_carlo_se": 1.6966,
+    "ci_95_lower": 119.1088,
+    "ci_95_upper": 125.7592,
+    "cost_quantiles": {
+      "p10": 100.9467,
+      "p25": 110.5542,
+      "p50": 123.0333,
+      "p75": 133.6,
+      "p90": 144.18,
+      "p95": 145.8367,
+      "p99": 162.8298
+    },
+    "cvar_90": 151.3917,
+    "cvar_95": 157.7033,
+    "feasibility_rates": {
+      "composite_feasible_rate": 1.0,
+      "physical_contact_conflict_rate": 0.0,
+      "mean_physical_conflict_count": 0.0,
+      "remote_capacity_violation_rate": 0.0,
+      "static_slot_consistency_rate": 1.0
+    },
+    "mean_reassignment_count": 1.6,
+    "mean_remote_stand_usage": 0.0,
+    "mean_runtime_ms": 418.509
+  }
+}

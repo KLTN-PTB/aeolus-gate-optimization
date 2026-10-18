@@ -1,0 +1,166 @@
+{
+  "manifest_name": "AEOLUS_MC500_FINAL_EVIDENCE_MANIFEST",
+  "created_at": "2026-10-13T00:44:00+07:00",
+  "run_id": "mc500_20261012_173538_afa5db",
+  "git_commit": "c95caef53808a561b1a7d3a5a09399cc52f754f5",
+  "git_branch": "remediation/g7-regression",
+  "verdict": "MC500_EXPERIMENT_COMPLETE_VERIFIED",
+  "evidence_reports": {
+    "01_EXECUTION_BASELINE_AND_PROVENANCE.md": {
+      "sha256": "f2850e49520dc6bc67ad2f329cea4ce9b040cac99962a84091762bfa1a292bc1",
+      "size_bytes": 5162,
+      "rel_path": "remediation_evidence/MC500_official_experiment/01_EXECUTION_BASELINE_AND_PROVENANCE.md"
+    },
+    "02_TOPOLOGY_AND_SCENARIO_CONFIG.md": {
+      "sha256": "5a4db6d7d211f49bf5af92caedc502847d7082fb7bfe1c4837809f0895569be0",
+      "size_bytes": 4169,
+      "rel_path": "remediation_evidence/MC500_official_experiment/02_TOPOLOGY_AND_SCENARIO_CONFIG.md"
+    },
+    "03_RAW_LEDGER_ACCOUNTING_AUDIT.md": {
+      "sha256": "3ee7c29613ece72513871560eaaf4b359881f6c8707bfe96ca23bd58e53a8fe3",
+      "size_bytes": 3944,
+      "rel_path": "remediation_evidence/MC500_official_experiment/03_RAW_LEDGER_ACCOUNTING_AUDIT.md"
+    },
+    "04_MODE_COMPARISON_RESULTS.md": {
+      "sha256": "6a5852ed469ffd9489a3b7508ad8d1ed33ee1d7f676cf0dac97e4f12eda243de",
+      "size_bytes": 3947,
+      "rel_path": "remediation_evidence/MC500_official_experiment/04_MODE_COMPARISON_RESULTS.md"
+    },
+    "05_STATISTICAL_SIGNIFICANCE_AND_RISK.md": {
+      "sha256": "602edb6db52d93bf7ace2a21ce20661e8846ecb1687c4c9913bda10d8ed26f51",
+      "size_bytes": 4182,
+      "rel_path": "remediation_evidence/MC500_official_experiment/05_STATISTICAL_SIGNIFICANCE_AND_RISK.md"
+    },
+    "06_FAILURES_TIMEOUTS_AND_FEASIBILITY.md": {
+      "sha256": "b330f0e5509bb9c9f9a05ac85da5a5bde4c7c2c1b0efd80e2e6f2cb159d52b60",
+      "size_bytes": 6610,
+      "rel_path": "remediation_evidence/MC500_official_experiment/06_FAILURES_TIMEOUTS_AND_FEASIBILITY.md"
+    },
+    "07_REPRODUCIBILITY_LIMITATIONS.md": {
+      "sha256": "05d34315b39050a95fc9ac86aeb63fb5c5afa2e37a4c1d1e73e1301bde6cf7ff",
+      "size_bytes": 6151,
+      "rel_path": "remediation_evidence/MC500_official_experiment/07_REPRODUCIBILITY_LIMITATIONS.md"
+    },
+    "08_FINAL_EXPERIMENT_GATE.md": {
+      "sha256": "966cfa5a607c9333c4f95f9e8f1ce6c10014086a70a176e332886a8d49184eb8",
+      "size_bytes": 4344,
+      "rel_path": "remediation_evidence/MC500_official_experiment/08_FINAL_EXPERIMENT_GATE.md"
+    }
+  },
+  "production_artifacts": {
+    "execution_ledger_entries.csv": {
+      "sha256": "6b186e3c950af416bd66ef1b5e42c48c4d74aa5692fb06228cec18125eb0c108",
+      "size_bytes": 1499490,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/execution_ledger_entries.csv"
+    },
+    "execution_ledger_generation.csv": {
+      "sha256": "b567fe8a78daf070472927135c38a104434dac05c6796c1531027fd1b43671a9",
+      "size_bytes": 138525,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/execution_ledger_generation.csv"
+    },
+    "execution_ledger_summary.json": {
+      "sha256": "ee10fd9544121e8e26ac7276c7c80b96d5e11ba20a509e9bb739b8cf63a99a60",
+      "size_bytes": 980,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/execution_ledger_summary.json"
+    },
+    "failures.json": {
+      "sha256": "f4510833b209a6f5fde617e09d81cdd21c84fc16bd2bf0c6a5c3ad5ae0b10972",
+      "size_bytes": 537,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/failures.json"
+    },
+    "fixed_plan_results.csv": {
+      "sha256": "0654921e65b0cd75f9b6fb8eacca91014ceacd72c76d7cd5f21e8bc56efd72cf",
+      "size_bytes": 338107,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/fixed_plan_results.csv"
+    },
+    "foresight_c1_greedy_results.csv": {
+      "sha256": "2d6b957f959bddde258f2f3e62b03f6e692283d1089ed928e48ae948a715c398",
+      "size_bytes": 126159,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/foresight_c1_greedy_results.csv"
+    },
+    "foresight_c2_optimal_results.csv": {
+      "sha256": "9256da975e606f5f5dadcf1ab2d2978f53f96616599389e7d3455a53b7fa644b",
+      "size_bytes": 124653,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/foresight_c2_optimal_results.csv"
+    },
+    "gate_inventory.json": {
+      "sha256": "362728e8b70ab6258de9b6486588cfecf279dc5242f7fd2dd8674f20107421ab",
+      "size_bytes": 7032,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/gate_inventory.json"
+    },
+    "paired_comparison.csv": {
+      "sha256": "3b47fb04ce04fe744d63be75090cb9acdd43f07cba4bd863fb17a249d21ea7d2",
+      "size_bytes": 1207,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/paired_comparison.csv"
+    },
+    "recourse_b1_retrospective_results.csv": {
+      "sha256": "d2e8f051f5d6032f04e17f6189d1b4e141cacdaccf3f302d9cde3353ac13354f",
+      "size_bytes": 383111,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/recourse_b1_retrospective_results.csv"
+    },
+    "recourse_b2_online_results.csv": {
+      "sha256": "f091254a89888e02db928c870acf7ad6f90959ec26489678beb10d71fb65cb5c",
+      "size_bytes": 396683,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/recourse_b2_online_results.csv"
+    },
+    "scenario_index.csv": {
+      "sha256": "fcd9a5d7cf4055ff1c5744944e798c82996a6537248edb807f369e005669d1ce",
+      "size_bytes": 55797,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/scenario_index.csv"
+    },
+    "simulation_manifest.json": {
+      "sha256": "76ef322030e6366f7d125f1d59754c8bf4b078e9fdb89407658f850456281237",
+      "size_bytes": 2707,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/simulation_manifest.json"
+    },
+    "statistical_summary.json": {
+      "sha256": "533b214cc6e72f20bc5c95514594c9c37a32102af8de327b574095ffd7620e36",
+      "size_bytes": 15651,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/statistical_summary.json"
+    }
+  },
+  "provenance_and_audit_files": {
+    "detailed_statistical_metrics.json": {
+      "sha256": "8b5519814bd2700524e599a5aff28b61efc8dd6478a8815d613ade796d114062",
+      "size_bytes": 10995,
+      "rel_path": "remediation_evidence/MC500_official_experiment/detailed_statistical_metrics.json"
+    },
+    "preflight_pytest_log.txt": {
+      "sha256": "91ef3b27f5943fe284684fa28b40f7dcd4c30adc8c68cad67b36ad887a8a8fd5",
+      "size_bytes": 26025,
+      "rel_path": "remediation_evidence/MC500_official_experiment/preflight_pytest_log.txt"
+    },
+    "SOURCE_AND_TOPOLOGY_MANIFEST.json": {
+      "sha256": "cb63f158e6c8a176dcb47a3435b61db2c301030b122d0fdf47296a38627c85b3",
+      "size_bytes": 5568,
+      "rel_path": "remediation_evidence/MC500_official_experiment/SOURCE_AND_TOPOLOGY_MANIFEST.json"
+    },
+    "working_tree_pre_n500.patch": {
+      "sha256": "e70f92c8a3c9c990bff950d8174ef38a2e02530258e2edadab3bab7cae3a8f8f",
+      "size_bytes": 48582,
+      "rel_path": "remediation_evidence/MC500_official_experiment/working_tree_pre_n500.patch"
+    }
+  },
+  "source_code_components": {
+    "run_g2_monte_carlo_remediation.py": {
+      "sha256": "c1ca2bdeb0d87d49e1cda52c407e1c5bf36012b5b0c710f4cd55405880a4a324",
+      "size_bytes": 34475,
+      "rel_path": "scripts/run_g2_monte_carlo_remediation.py"
+    },
+    "monte_carlo_engine_v2.py": {
+      "sha256": "49a78ecbac8313240c54713d7c30e11da9ce1b15243a959e6c314ee045208cf4",
+      "size_bytes": 69029,
+      "rel_path": "src/simulation/monte_carlo_engine_v2.py"
+    },
+    "scalability_scenario.py": {
+      "sha256": "4654a04adca65596e00fad0c4065a2bacb47f5b22f5d36ced6d5a3b8c55138c0",
+      "size_bytes": 30212,
+      "rel_path": "src/simulation/scalability_scenario.py"
+    },
+    "downstream_comparison_v2.py": {
+      "sha256": "a258616b25f29a79b3922171c9ce670e3a0b87315471ae3ea0f77a4397d64da7",
+      "size_bytes": 28910,
+      "rel_path": "src/evaluation/downstream_comparison_v2.py"
+    }
+  }
+}

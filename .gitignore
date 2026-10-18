@@ -59,3 +59,12 @@ logs/
 # Temporary backups
 backup/
 
+# Review packages, patches, and temporary audit/backup directories
+*.zip
+*.patch
+audit_exports/
+remediation_evidence/**/safety_backup/
+remediation_evidence/**/*_log.txt
+artifacts/remediation/monte_carlo_mc500/pilot_*/
+artifacts/remediation/monte_carlo_mc500/topology_corrected/
+

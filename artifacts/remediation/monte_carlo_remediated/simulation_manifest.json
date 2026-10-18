@@ -1,0 +1,72 @@
+{
+  "pipeline": "RemediatedMonteCarloEngineG2",
+  "schema_version": "v2.0",
+  "created_at_utc": "2026-10-11T10:08:04.547368+00:00",
+  "n_scenarios": 100,
+  "seed": 202601,
+  "copula": {
+    "family": "Gaussian",
+    "rho": 0.45,
+    "is_positive_definite": true,
+    "eigenvalues": [
+      0.55,
+      1.45
+    ]
+  },
+  "marginal_distributions": {
+    "arrival": {
+      "family": "Student-t",
+      "df": 4.5,
+      "loc": 5.0,
+      "scale": 18.0
+    },
+    "departure": {
+      "family": "Student-t",
+      "df": 4.0,
+      "loc": 8.0,
+      "scale": 22.0
+    }
+  },
+  "modes": {
+    "MODE_A_FIXED_PLAN": {
+      "information_regime": "PRE_OPERATIONAL",
+      "reoptimizations": 0,
+      "deployable": true
+    },
+    "MODE_B1_RETROSPECTIVE_RECOURSE": {
+      "information_regime": "RETROSPECTIVE",
+      "recourse_policy": "FULL_INFORMATION_RETROSPECTIVE",
+      "deployable": false,
+      "scientific_status": "RETROSPECTIVE_BENCHMARK"
+    },
+    "MODE_B2_ONLINE_RECOURSE": {
+      "information_regime": "ONLINE_RECOURSE",
+      "recourse_policy": "ONLINE_NON_ANTICIPATIVE_EVENT_DRIVEN",
+      "deployable": true,
+      "scientific_status": "CAUSAL_ONLINE_RECOURSE"
+    },
+    "MODE_C_GREEDY_FORESIGHT": {
+      "information_regime": "FULL_FORESIGHT",
+      "recourse_policy": "HEURISTIC_FULL_FORESIGHT_BENCHMARK",
+      "deployable": false,
+      "scientific_status": "HEURISTIC_FORESIGHT_BASELINE"
+    },
+    "MODE_C_OPTIMAL_ORACLE": {
+      "information_regime": "FULL_FORESIGHT",
+      "recourse_policy": "PROVEN_MATHEMATICAL_OPTIMAL_FORESIGHT",
+      "deployable": false,
+      "scientific_status": "PROVEN_MATHEMATICAL_OPTIMAL_LOWER_BOUND"
+    }
+  },
+  "artifacts_generated": [
+    "scenario_index.csv",
+    "fixed_plan_results.csv",
+    "recourse_b1_retrospective_results.csv",
+    "recourse_b2_online_results.csv",
+    "foresight_c1_greedy_results.csv",
+    "foresight_c2_optimal_results.csv",
+    "paired_comparison.csv",
+    "statistical_summary.json",
+    "failures.json"
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "gate": "AEOLUS-G2",
+  "name": "Monte Carlo Scientific Correctness & Causality Remediation",
+  "generated_at_utc": "2026-10-11T10:10:00Z",
+  "environment": {
+    "os": "Windows 11 AMD64",
+    "python_version": "3.11.15",
+    "ortools_version": "9.15.1",
+    "xgboost_version": "3.2.0",
+    "ngboost_version": "0.5.3",
+    "pytest_version": "9.1.1",
+    "branch": "remediation/g2-monte-carlo-causality",
+    "base_commit": "c95caef53808a561b1a7d3a5a09399cc52f754f5"
+  },
+  "simulation_configuration": {
+    "canonical_scenario": "SCEN_P09_CANONICAL_120",
+    "n_flights": 120,
+    "n_contact_gates": 25,
+    "n_remote_stands": 5,
+    "n_scenarios_evaluated": 100,
+    "copula_rho": 0.45,
+    "random_seed": 202601
+  },
+  "remediated_artifacts": {
+    "directory": "artifacts/remediation/monte_carlo_remediated/",
+    "files": {
+      "failures.json": {
+        "size_bytes": 311,
+        "sha256": "55c8539d1b9e680c696e2b858fa83a34fac7d829dde5b06b43f9e829a94865ed",
+        "description": "Accounting of failed scenarios and audit confirming zero silent drops."
+      },
+      "fixed_plan_results.csv": {
+        "size_bytes": 67606,
+        "sha256": "73f5bda5093cf02ef3166aa8b64ce10f5179c62666c38f1954f909c00eb9f4e5",
+        "description": "Raw realization results for Mode A (Fixed Plan) across Greedy, CP-SAT, and Hybrid."
+      },
+      "recourse_b1_retrospective_results.csv": {
+        "size_bytes": 76608,
+        "sha256": "2250947e806ceed7bab7aa951ee9d6764af4f71ecaf67deafb3cda77065ad2b3",
+        "description": "Raw realization results for Mode B1 (Retrospective Full-Information Recourse)."
+      },
+      "recourse_b2_online_results.csv": {
+        "size_bytes": 78742,
+        "sha256": "959cc723a88726dc74ddaedc7b55bc28fdc52897064c8965be44a1d7d80dfee7",
+        "description": "Raw realization results for Mode B2 (Online Non-Anticipative Event-Driven Recourse)."
+      },
+      "foresight_c1_greedy_results.csv": {
+        "size_bytes": 25449,
+        "sha256": "4bb64a8592e27ffa0cb96d1c00ee8ccc98bda2993cb82bc3cabcdc0325dc5c28",
+        "description": "Raw realization results for Mode C1 (Greedy Full-Foresight Heuristic Benchmark)."
+      },
+      "foresight_c2_optimal_results.csv": {
+        "size_bytes": 25148,
+        "sha256": "0b17f67602821646ad0a2a98bd2f41ec69d49ca5763d7f37aa8e1a559c9357e0",
+        "description": "Raw realization results for Mode C2 (CP-SAT Mathematically Proven Optimal Oracle)."
+      },
+      "paired_comparison.csv": {
+        "size_bytes": 1196,
+        "sha256": "925f2411724c756517c1514c5bc83182c1d1ad276e888d48148537132de82140",
+        "description": "Rigorous paired CRN statistical delta tests (Mode B2 vs A, B1 vs B2, C1 vs C2, B2 vs C2)."
+      },
+      "scenario_index.csv": {
+        "size_bytes": 11164,
+        "sha256": "aa7f24434f197b34d4c5c446b2674c958a308df2db45b1de1eeab30737bcf614",
+        "description": "Index of all generated stochastic scenarios with delay means, maxima, and realization hashes."
+      },
+      "simulation_manifest.json": {
+        "size_bytes": 2064,
+        "sha256": "e115a61a60eeb91eb9a21c32440f0998ed4fd53ed4a333e76b2379c5dbb00906",
+        "description": "Simulation manifest detailing distribution parameters, copula eigenvalues, and information regimes."
+      },
+      "statistical_summary.json": {
+        "size_bytes": 10923,
+        "sha256": "f0337842c8f67830c287918100715828e77e85f33045264a11ffb86f55bd7c46",
+        "description": "Aggregated statistical metrics including quantiles, CVaR, SE, CI, and decomposed feasibility rates."
+      }
+    }
+  },
+  "source_code_artifacts": {
+    "src/simulation/monte_carlo_engine_v2.py": {
+      "role": "Authoritative Remediated Simulation Engine",
+      "status": "IMPLEMENTED_AND_VERIFIED"
+    },
+    "scripts/run_g2_monte_carlo_remediation.py": {
+      "role": "Deterministic Pipeline Execution Script",
+      "status": "EXECUTED_SUCCESSFULLY"
+    },
+    "tests/test_g2_monte_carlo_causality.py": {
+      "role": "Causality and Non-Anticipativity Verification Suite",
+      "status": "14_TESTS_PASSED"
+    }
+  },
+  "safety_invariants": {
+    "legacy_artifacts_preserved": true,
+    "legacy_artifacts_path": "artifacts/remediation/monte_carlo/",
+    "zero_git_commits_executed": true,
+    "zero_git_pushes_executed": true
+  }
+}

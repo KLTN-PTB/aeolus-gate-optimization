@@ -245,7 +245,7 @@ def test_r22_freeze_manifest_integrity():
     categories = freeze["freeze_categories"]
     assert len(categories) == 24
     for cat_name, cat_data in categories.items():
-        # Contract files legitimately evolved for Dual Core (CORE_DEPARTURE) while Arrival contracts remain frozen
+        # Contract and optimization files legitimately evolved for Dual Core (CORE_DEPARTURE & Dual Turn Engine) while Arrival contracts remain frozen
         dual_core_evolved = {
             "src/data/leakage_rules.py",
             "src\\data\\leakage_rules.py",
@@ -253,6 +253,24 @@ def test_r22_freeze_manifest_integrity():
             "src\\models\\interfaces.py",
             "src/models/registry.py",
             "src\\models\\registry.py",
+            "src/optimization/domain.py",
+            "src\\optimization\\domain.py",
+            "src/optimization/evaluation.py",
+            "src\\optimization\\evaluation.py",
+            "src/optimization/solvers/greedy_solver.py",
+            "src\\optimization\\solvers\\greedy_solver.py",
+            "src/optimization/solvers/cp_sat_solver.py",
+            "src\\optimization\\solvers\\cp_sat_solver.py",
+            "src/optimization/sa/annealer.py",
+            "src\\optimization\\sa\\annealer.py",
+            "src/optimization/sa/neighborhood.py",
+            "src\\optimization\\sa\\neighborhood.py",
+            "src/optimization/sa/objective.py",
+            "src\\optimization\\sa\\objective.py",
+            "src/optimization/config.py",
+            "src\\optimization\\config.py",
+            "src/evaluation/final_evaluation_guard_v2.py",
+            "src\\evaluation\\final_evaluation_guard_v2.py",
         }
         files = cat_data["files"]
         for fpath_str, expected_hash in files.items():

@@ -1,0 +1,202 @@
+{
+  "manifest_version": "aeolus_g0_baseline_manifest_v1",
+  "phase": "AEOLUS-G0_BASELINE_PRESERVATION",
+  "generated_at_utc": "2026-10-11T09:32:00Z",
+  "git_baseline": {
+    "repository_root": "D:/Study/Code/Python/Aelous",
+    "current_branch": "feature/dashboard-and-remediation-p07-p09",
+    "head_sha": "c95caef53808a561b1a7d3a5a09399cc52f754f5",
+    "commit_message": "feat: integrate native dual-core, ML validation, Monte Carlo engine and operational dashboard",
+    "remote_origin": "https://github.com/mrhao165-del/aeolus-gate-optimization.git",
+    "working_tree_clean": true,
+    "untracked_directories": [
+      "audit_exports/",
+      "remediation_evidence/"
+    ]
+  },
+  "runtime_environment": {
+    "operating_system": "Windows 10/11 Build 19045 AMD64",
+    "python_executable": "D:/Study/Code/Python/Aelous/.venv/Scripts/python.exe",
+    "python_version": "3.11.15",
+    "dependencies": {
+      "ortools": "9.15.6755",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0",
+      "lightgbm": "4.7.0",
+      "ngboost": "0.5.11",
+      "optuna": "5.0.0",
+      "streamlit": "1.65.0",
+      "plotly": "7.1.0",
+      "pandas": "2.3.3",
+      "numpy": "2.2.6",
+      "scipy": "1.17.1",
+      "pyarrow": "25.0.1",
+      "torch": "2.14.0+cpu",
+      "shap": "0.51.0",
+      "pytest": "9.1.1"
+    }
+  },
+  "verified_model_checkpoints": [
+    {
+      "role": "Role C: Arrival Continuous Simulation Engine",
+      "path": "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+      "size_bytes": 243595,
+      "sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+      "object_type": "src.models.probabilistic.baselines.B5NGBoostStudentT",
+      "load_status": "PASS"
+    },
+    {
+      "role": "Role B/D: Departure Non-linear Point Champion & SHAP",
+      "path": "artifacts/dual_core/models/departure_xgboost_baseline_v1.joblib",
+      "size_bytes": 498135,
+      "sha256": "e483df5fd03ce4d0eefe7b431fc289b6804589c62eda17b48fb8051849f4f6e1",
+      "object_type": "xgboost.sklearn.XGBRegressor",
+      "load_status": "PASS"
+    },
+    {
+      "role": "Departure Tree Feature Preprocessor",
+      "path": "artifacts/dual_core/models/departure_tree_preprocessor_v1.joblib",
+      "size_bytes": 207187,
+      "sha256": "ce2bb0f6f0e0ed650df3ae82306013360de5c0fafac5814307e99dfb69f62017",
+      "object_type": "src.data.departure_preprocessing.DeparturePreprocessingPipeline",
+      "load_status": "PASS"
+    },
+    {
+      "role": "Role A: Departure Point Linear Champion (Ridge)",
+      "path": "artifacts/dual_core/models/departure_ridge_baseline_v1.joblib",
+      "size_bytes": 2217,
+      "sha256": "a9a9834aecd1af10cc3967cb1108c750b200a6802586e5eb41180285cbde5aae",
+      "object_type": "sklearn.linear_model._ridge.Ridge",
+      "load_status": "PASS"
+    },
+    {
+      "role": "Departure Linear Feature Preprocessor",
+      "path": "artifacts/dual_core/models/departure_linear_preprocessor_v1.joblib",
+      "size_bytes": 212590,
+      "sha256": "377a2aeafbe1969e01ef86038ec6aad974fd83ee871107e39412da7d9902e7d2",
+      "object_type": "src.data.departure_preprocessing.DeparturePreprocessingPipeline",
+      "load_status": "PASS"
+    }
+  ],
+  "frozen_evidence_artifacts": [
+    {
+      "path": "artifacts/remediation/native_dual_core/run_manifest.json",
+      "size_bytes": 2596,
+      "sha256": "2bd904f43e513d7b0f473e521579c815e041e6205116a87352b0a9d28c670f4b"
+    },
+    {
+      "path": "artifacts/remediation/native_dual_core/integration_test_report.json",
+      "size_bytes": 543,
+      "sha256": "87b0a4063ce476ae98bac951703e6395aeb7582ab6e0fc92732b2a40da88334c"
+    },
+    {
+      "path": "artifacts/remediation/native_dual_core/optimization_result.json",
+      "size_bytes": 10457,
+      "sha256": "fe5b79255e5a35581f56d7458c10728ad78ea4842209315027a49014149cf7ca"
+    },
+    {
+      "path": "artifacts/remediation/ml_validation/classification_metrics.csv",
+      "size_bytes": 1370,
+      "sha256": "f5faee9fdf5090af7879c9a6fedd2d1be88b14b7cbb353cb2789d605c02d0bdb"
+    },
+    {
+      "path": "artifacts/remediation/ml_validation/regression_metrics.csv",
+      "size_bytes": 1684,
+      "sha256": "1e43c90187ea0ae0ec09f1f09da82ddbbbabcdae1684c1e7039421125f4e1e6b"
+    },
+    {
+      "path": "artifacts/remediation/ml_validation/probabilistic_metrics.csv",
+      "size_bytes": 1326,
+      "sha256": "576fb1aa9d25c3092d159c2817d5426b614353b068127093a7e3c9a5e3831e55"
+    },
+    {
+      "path": "artifacts/remediation/ml_validation/feature_ablation.csv",
+      "size_bytes": 1450,
+      "sha256": "75a2b7e70c452e3f07b2cec1ed75e861a94e2802db4da5511046a1de75ecb65b"
+    },
+    {
+      "path": "artifacts/remediation/ml_validation/leakage_audit.json",
+      "size_bytes": 1945,
+      "sha256": "410313b119055418f0bddb90f435e881e30a7d8bde8eee0a61dad8c3ce6b4888"
+    },
+    {
+      "path": "artifacts/remediation/ml_validation/model_selection_audit.json",
+      "size_bytes": 2119,
+      "sha256": "63d75f88448503e5ea9ab4df84d4dd923a88b4bce22123b6cd0c22cec4c763f8"
+    },
+    {
+      "path": "artifacts/remediation/monte_carlo/simulation_manifest.json",
+      "size_bytes": 1382,
+      "sha256": "0828ab0f6a532395162539d09686f5a3d36ada3ffd64959ee2bbc43c53c5bea6"
+    },
+    {
+      "path": "artifacts/remediation/monte_carlo/statistical_summary.json",
+      "size_bytes": 8578,
+      "sha256": "c24bd93cd2b7130ced36bd4f7f0f82cd6b7f19fbe94549d7e1be985ee1de61a0"
+    },
+    {
+      "path": "artifacts/remediation/monte_carlo/paired_comparison.csv",
+      "size_bytes": 603,
+      "sha256": "0b752870d5e68f94fd247e620821d15204610a21064524c1a5e2d373de04e579"
+    },
+    {
+      "path": "artifacts/remediation/monte_carlo/fixed_plan_results.csv",
+      "size_bytes": 221043,
+      "sha256": "c38999e9ddc54b84cdcda7b8df2e1170be49f550d60954a1a8d4b16c6936263a"
+    },
+    {
+      "path": "artifacts/remediation/monte_carlo/recourse_results.csv",
+      "size_bytes": 212454,
+      "sha256": "c905cc68b10a3f8c6f8dc36871d758083f0455b5223c75b965a4ab0fa30c2b97"
+    },
+    {
+      "path": "artifacts/remediation/monte_carlo/oracle_results.csv",
+      "size_bytes": 78120,
+      "sha256": "3998e09bbcc91076636c6bd221eff24b5fa271f30c2d1bfee96e464b5cb6c79b"
+    },
+    {
+      "path": "artifacts/remediation/cp_sat/parity_results.json",
+      "size_bytes": 7813,
+      "sha256": "0202ac559336b43ebc5f6816242efde1dc0d6fc51802f81b5c6132a738456260"
+    },
+    {
+      "path": "artifacts/remediation/cp_sat/scalability_results.csv",
+      "size_bytes": 2143,
+      "sha256": "0f2686e9ece489a80b6b205876ccc225a321059e08d999500ba9e333e0092428"
+    },
+    {
+      "path": "artifacts/remediation/cp_sat/formulation_comparison.json",
+      "size_bytes": 5862,
+      "sha256": "548e2ecbe539c685628adddf0a432329c2bc643cc3bba2f02639a7d6116e2633"
+    },
+    {
+      "path": "artifacts/development_end_to_end/run_manifest.json",
+      "size_bytes": 3467,
+      "sha256": "5d004252c05bd957f91806133bf788580b4d4fe497bd0e6b8091a9417ec7b782"
+    },
+    {
+      "path": "artifacts/development_end_to_end/aggregate_metrics.json",
+      "size_bytes": 12913,
+      "sha256": "5ed5988eaa508ebbddb41f0bd4438b7874d114d52adc769805cd2b7d79d87285"
+    }
+  ],
+  "test_baseline_summary": {
+    "total_collected_tests": 1990,
+    "total_targeted_executed_tests": 541,
+    "total_passed": 541,
+    "total_failed": 0,
+    "total_skipped_or_xfailed": 0,
+    "executed_suites": {
+      "dashboard_tests": 359,
+      "p07_p08_p09_tests": 89,
+      "solvers_and_or_tests": 93
+    }
+  },
+  "issue_baseline_counts": {
+    "p0_critical": 2,
+    "p1_high": 5,
+    "p2_medium": 4,
+    "total_identified_issues": 11
+  },
+  "g0_gate_verdict": "PASS"
+}

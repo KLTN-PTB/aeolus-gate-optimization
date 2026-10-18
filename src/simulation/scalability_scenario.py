@@ -30,7 +30,7 @@ from src.features.tabular_features import (
     APPROVED_PREDICTOR_COLUMNS,
     APPROVED_PREDICTOR_COLUMNS_V1_1,
 )
-from src.optimization.domain import Flight, Gate
+from src.optimization.domain import Flight, Gate, GateResourceType
 from src.simulation.aircraft_turn import AircraftTurn, AircraftTurnModel
 from src.evaluation.downstream_comparison_v2 import (
     DownstreamScenario,
@@ -472,8 +472,35 @@ def scenario_to_flights(
 
 def scenario_to_gates(
     scenario: DownstreamScenario,
+    finite_remote_capacity: int | None = None,
+    remote_gate_id: str = "REMOTE_STAND_01",
 ) -> tuple[list[Gate], Gate]:
-    """Return contact gates and remote overflow apron for the scenario."""
+    """Return contact gates and remote stand/overflow apron for the scenario.
+
+    If finite_remote_capacity is provided (> 0), constructs explicit GateResourceType.CONTACT_GATE
+    for all contact gates and an explicit GateResourceType.FINITE_REMOTE_STAND with the requested
+    finite capacity.
+    Otherwise, falls back to legacy build_scenario_gates() returning REMOTE_APRON_01.
+    """
+    if finite_remote_capacity is not None and finite_remote_capacity > 0:
+        contact_gates = [
+            Gate(
+                gate_id=f"G_{i+1:02d}",
+                gate_index=i,
+                resource_type=GateResourceType.CONTACT_GATE,
+                capacity=1,
+                is_overflow=False,
+            )
+            for i in range(scenario.n_contact_gates)
+        ]
+        remote_gate = Gate(
+            gate_id=remote_gate_id,
+            gate_index=scenario.n_contact_gates,
+            resource_type=GateResourceType.FINITE_REMOTE_STAND,
+            capacity=finite_remote_capacity,
+            is_overflow=True,
+        )
+        return contact_gates, remote_gate
     return build_scenario_gates(scenario.n_contact_gates)
 
 

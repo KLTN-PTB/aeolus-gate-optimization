@@ -1,0 +1,20 @@
+{
+  "report_id": "P07_NATIVE_DUAL_CORE_INTEGRATION_REPORT",
+  "generated_at_utc": "2026-10-11T10:40:16.781495+00:00",
+  "status": "PASS",
+  "provenance_mode": "NATIVE_INFERENCE",
+  "solver": "CPSat",
+  "feasible": true,
+  "hard_constraints_valid": true,
+  "objective_value": 0.0,
+  "re_evaluated_objective": 0.0,
+  "runtime_ms": 987.6643,
+  "summary": {
+    "flights_assigned": 141,
+    "contact_assignments": 141,
+    "remote_assignments": 0,
+    "unassigned_count": 0,
+    "planned_conflicts": 0,
+    "reassignments": 0
+  }
+}

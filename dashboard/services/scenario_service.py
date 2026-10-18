@@ -15,12 +15,24 @@ from dashboard.core.contracts import (
     ScenarioContext,
     ScenarioDataIdentity,
 )
+from src.contracts.provenance import (
+    DataLineageError,
+    DataOrigin,
+    EvaluationRegime,
+    EvidenceProvenance,
+    InformationRegime,
+    PairingSource,
+    PredictionSource,
+    ScenarioGeneration,
+    SilentFallbackError,
+)
 from src.optimization.domain import Flight, Gate
 from src.simulation.scalability_scenario import (
     generate_scalability_scenario,
     scenario_to_flights,
     scenario_to_gates,
 )
+
 
 
 def compute_canonical_scenario_digest(
@@ -104,6 +116,22 @@ class ScenarioService:
                 digest = self.compute_scenario_hash(scenario_id)
                 gate_count = 25 if "120" in scenario_id else 15
 
+                data_origin_str = scen_meta.get("data_origin", "UNKNOWN")
+                scen_gen_str = scen_meta.get("scenario_generation", "UNKNOWN")
+                pairing_source_str = scen_meta.get("pairing_source", "UNKNOWN")
+                prediction_source_str = scen_meta.get("prediction_source", "NONE")
+                is_synthetic_val = str(scen_meta.get("is_synthetic", "True")).lower() == "true"
+
+                evidence = EvidenceProvenance(
+                    data_origin=DataOrigin(data_origin_str) if data_origin_str in DataOrigin.__members__ else DataOrigin.UNKNOWN,
+                    prediction_source=PredictionSource(prediction_source_str) if prediction_source_str in PredictionSource.__members__ else PredictionSource.UNKNOWN,
+                    pairing_source=PairingSource(pairing_source_str) if pairing_source_str in PairingSource.__members__ else PairingSource.UNKNOWN,
+                    scenario_generation=ScenarioGeneration(scen_gen_str) if scen_gen_str in ScenarioGeneration.__members__ else ScenarioGeneration.UNKNOWN,
+                    information_regime=InformationRegime.PRE_OPERATIONAL,
+                    evaluation_regime=EvaluationRegime.SELECTION_2023,
+                    notes=f"Registered scenario {scenario_id}",
+                )
+
                 return ScenarioContext(
                     scenario_id=scen_meta["id"],
                     hub_iata=scen_meta["hub"],
@@ -113,22 +141,47 @@ class ScenarioService:
                     scenario_hash=digest,
                     scenario_digest=digest,
                     provenance=ProvenanceType.SCHEDULE_BASELINE,
+                    data_origin=data_origin_str,
+                    scenario_generation=scen_gen_str,
+                    pairing_source=pairing_source_str,
+                    prediction_source=prediction_source_str,
+                    is_synthetic=is_synthetic_val,
+                    evidence_provenance=evidence,
                 )
 
         raise ValueError(f"Unknown scenario ID: {scenario_id}")
 
     def load_scenario(
-        self, scenario_id: str
+        self, scenario_id: str, *, require_real: bool = False
     ) -> Tuple[List[Flight], List[Gate]]:
-        """Load concrete Flight and Gate domain objects for the specified scenario."""
+        """Load concrete Flight and Gate domain objects for the specified scenario.
+        
+        Args:
+            scenario_id: Identifier of the registered operational scenario.
+            require_real: If True, strictly fails closed if scenario is synthetic.
+        """
         if "2024" in scenario_id:
             raise PermissionError(
                 f"Access denied: Scenario {scenario_id} contains 2024 data sealed under Protocol V4."
             )
 
+        # Fail-closed check: forbid silent fallback to synthetic data when real data is requested
+        if require_real:
+            for s in self.config.registered_scenarios:
+                if s["id"] == scenario_id:
+                    is_syn = str(s.get("is_synthetic", "True")).lower() == "true"
+                    if is_syn:
+                        raise SilentFallbackError(
+                            f"REAL_ONLY mode active: Cannot load synthetic scenario '{scenario_id}' "
+                            f"(data_origin={s.get('data_origin')}, scenario_generation={s.get('scenario_generation')})."
+                        )
+                    break
+
+
         if scenario_id in self._cached_scenarios:
             cached_flights, cached_gates = self._cached_scenarios[scenario_id]
             return list(cached_flights), list(cached_gates)
+
 
         if scenario_id == "SCEN_P09_CANONICAL_120":
             scen = generate_scalability_scenario(

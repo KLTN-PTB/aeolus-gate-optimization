@@ -1,0 +1,94 @@
+{
+  "gate": "AEOLUS-G3",
+  "name": "Machine Learning Evidence, Outbound Probability & Scientific Validation",
+  "generated_at_utc": "2026-10-11T10:25:00Z",
+  "environment": {
+    "os": "Windows 11 AMD64",
+    "python_version": "3.11.15",
+    "sklearn_version": "1.9.0",
+    "xgboost_version": "3.2.0",
+    "ngboost_version": "0.5.3",
+    "pytest_version": "9.1.1",
+    "branch": "remediation/g3-ml-evidence",
+    "base_commit": "c95caef53808a561b1a7d3a5a09399cc52f754f5"
+  },
+  "temporal_protocol": {
+    "task": "ModelTask.CORE_DEPARTURE_CLASSIFICATION",
+    "prediction_cutoff": "CRS_DEP_TIME - 2 hours",
+    "approved_features_count": 10,
+    "training_partition": "Year 2021 (N=309,488)",
+    "calibration_partition": "Year 2022 (N=311,746)",
+    "evaluation_selection_partition": "Year 2023 (N=332,734)",
+    "holdout_partition": "Year 2024 (N=334,000+ - STRICTLY UNTOUCHED)"
+  },
+  "remediated_artifacts": {
+    "directory": "artifacts/remediation/outbound_classification/",
+    "files": {
+      "models/outbound_logistic_classifier_v1.joblib": {
+        "size_bytes": 2431,
+        "sha256": "1de111ed658dbdc7a21a1b7f36a0e87b1ece2dacf6734ae12d9399b5643bd6b1",
+        "description": "Fitted Logistic Regression baseline classifier."
+      },
+      "models/outbound_logistic_calibrated_v1.joblib": {
+        "size_bytes": 5714,
+        "sha256": "389a8ef595e64a2dc440d365069f3f154b30b3181d4530ac45793667b8dfdae7",
+        "description": "Isotonically calibrated Logistic Regression predictor (fitted on 2022 dev split)."
+      },
+      "models/outbound_xgboost_classifier_v1.joblib": {
+        "size_bytes": 497335,
+        "sha256": "945e99b765990acc88dabf544e16b9c4e35b7a9f12f4c073e47b1ce388a12bb2",
+        "description": "Fitted XGBoost Classifier (tree_method=hist, depth=6)."
+      },
+      "models/outbound_xgboost_calibrated_v1.joblib": {
+        "size_bytes": 498237,
+        "sha256": "cd2bea80f04ca5095f5ac057d0ae49508c2bbac78f477bc9458c3304a17322ad",
+        "description": "Platt-calibrated XGBoost predictor (fitted on 2022 dev split)."
+      },
+      "predictions/outbound_classification_selection_2023.parquet": {
+        "size_bytes": 13971264,
+        "sha256": "bc8511740993123f41ae9d41c5b4cce06da4ba29b60fd4349aa2cf611d34e283",
+        "description": "Prediction-level parquet containing 332,734 rows of 2023 Outbound ATL flights with actuals and calibrated probabilities."
+      },
+      "metrics/outbound_classification_metrics_2023.csv": {
+        "size_bytes": 1317,
+        "sha256": "90d31af3b52f410fe9d04430a1250711b14175a1bfaf2f06003f0d20d286891c",
+        "description": "Benchmark metrics CSV: ROC-AUC, PR-AUC, Brier score, Log loss, ECE, Precision, Recall, F1 across models."
+      },
+      "metrics/reliability_diagrams_2023.json": {
+        "size_bytes": 11696,
+        "sha256": "6779dd699bdedebc7be8cdc93031058bd47d97a38b3e6032a9d5f87c044d85e9",
+        "description": "Reliability diagram bin distributions across 10 probability buckets for all evaluated models."
+      }
+    }
+  },
+  "source_code_artifacts": {
+    "scripts/train_outbound_classifiers_g3.py": {
+      "role": "Deterministic Outbound Classifier & Probability Pipeline",
+      "status": "EXECUTED_SUCCESSFULLY"
+    },
+    "tests/test_g3_ml_validation.py": {
+      "role": "Verification Test Suite for Gate G3",
+      "status": "15_TESTS_PASSED"
+    }
+  },
+  "deliverables": [
+    "01_SCOPE_AND_BASELINE.md",
+    "02_IMPLEMENTATION_REPORT.md",
+    "03_TEST_RESULTS.md",
+    "04_EVIDENCE_MANIFEST.json",
+    "05_LIMITATIONS_AND_RISKS.md",
+    "06_GATE_REPORT.md",
+    "07_METRIC_LINEAGE_MATRIX.md",
+    "08_OUTBOUND_CLASSIFIER_REPORT.md",
+    "09_BASELINE_COMPARISON.md",
+    "10_PROBABILISTIC_MODEL_CAPABILITIES.md",
+    "11_FEATURE_ABLATION_STATUS.md"
+  ],
+  "safety_invariants": {
+    "frozen_dual_core_checkpoints_preserved": true,
+    "frozen_probabilistic_checkpoints_preserved": true,
+    "holdout_2024_untouched": true,
+    "zero_git_commits_executed": true,
+    "zero_git_pushes_executed": true
+  }
+}

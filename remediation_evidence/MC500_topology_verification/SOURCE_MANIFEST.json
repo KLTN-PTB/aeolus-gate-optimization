@@ -1,0 +1,62 @@
+{
+  "task": "AEOLUS-MC500-TOPOLOGY-GATE",
+  "timestamp_utc": "2026-10-12T15:37:38.066970+00:00",
+  "files": {
+    "src/simulation/scalability_scenario.py": {
+      "sha256": "4654a04adca65596e00fad0c4065a2bacb47f5b22f5d36ced6d5a3b8c55138c0",
+      "size_bytes": 30212
+    },
+    "scripts/run_g2_monte_carlo_remediation.py": {
+      "sha256": "c1ca2bdeb0d87d49e1cda52c407e1c5bf36012b5b0c710f4cd55405880a4a324",
+      "size_bytes": 34475
+    },
+    "src/simulation/monte_carlo_engine_v2.py": {
+      "sha256": "49a78ecbac8313240c54713d7c30e11da9ce1b15243a959e6c314ee045208cf4",
+      "size_bytes": 69029
+    },
+    "src/optimization/domain.py": {
+      "sha256": "7e2101388729ee48f1f4555c6ee859a0525b4a7a901c76e33c6b3adde78ea580",
+      "size_bytes": 61431
+    },
+    "src/optimization/config.py": {
+      "sha256": "7d0b06102cd900ef13c16d40c7728bca251b0f7027ef43ea452d936edc0b1669",
+      "size_bytes": 5953
+    },
+    "src/evaluation/downstream_comparison_v2.py": {
+      "sha256": "a258616b25f29a79b3922171c9ce670e3a0b87315471ae3ea0f77a4397d64da7",
+      "size_bytes": 28910
+    },
+    "src/simulation/aircraft_turn.py": {
+      "sha256": "d5d1675d1b87702258b39410b37e8355de1c0b5df1fc9fc38b3f638d0f405ccd",
+      "size_bytes": 10186
+    },
+    "src/data/access_guard.py": {
+      "sha256": "c4a387696e86deedc6dd95c32f683a69734bb30f8a27d8cc09a45b080776b806",
+      "size_bytes": 3704
+    },
+    "src/features/tabular_features.py": {
+      "sha256": "33d2e08b37058032764cd6968021542aeca3aa68268bf9525bf878e217234418",
+      "size_bytes": 17242
+    },
+    "tests/test_mc500_topology_verification.py": {
+      "sha256": "b7101e15df31140f9a858acc070ed335228a48b48b4ea23d1a5432bdf7234a3b",
+      "size_bytes": 22978
+    },
+    "tests/test_mc500_ledger_runner_integration.py": {
+      "sha256": "b9adebec36364a8eba9a843ec4956f38ea6856da3789bcdba1736b95ac8f5737",
+      "size_bytes": 19965
+    },
+    "remediation_evidence/MC500_topology_verification/GATE_INVENTORY.json": {
+      "sha256": "362728e8b70ab6258de9b6486588cfecf279dc5242f7fd2dd8674f20107421ab",
+      "size_bytes": 7032
+    },
+    "remediation_evidence/MC500_topology_verification/raw_pytest_log.txt": {
+      "sha256": "0d0fdfb022f6cb09b397515cc37e7e5ca4a43aa2617fdfb6dbd836b78e85e7e0",
+      "size_bytes": 4237
+    },
+    "remediation_evidence/MC500_topology_verification/git_diff.patch": {
+      "sha256": "fc9e1097ed5fe1bde872fdc73b34f855e59f9242645fa3d2adbabf1e2c444d02",
+      "size_bytes": 2155
+    }
+  }
+}

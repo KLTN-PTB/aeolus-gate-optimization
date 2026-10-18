@@ -44,6 +44,7 @@ class PairingValidationSummary:
     review_required_count: int = 0
     synthetic_pairs_count: int = 0
     verified_pairs_count: int = 0
+    inferred_pairs_count: int = 0
     unmatched_arr_count: int = 0
     unmatched_dep_count: int = 0
     rejection_reasons_tally: dict[str, int] = field(default_factory=dict)
@@ -261,6 +262,8 @@ class PairingValidator:
                 summary.synthetic_pairs_count += 1
             elif pair.pair_type == PairType.VERIFIED_PAIR:
                 summary.verified_pairs_count += 1
+            elif pair.pair_type == PairType.INFERRED_PAIR:
+                summary.inferred_pairs_count += 1
             elif pair.pair_type == PairType.UNMATCHED_ARR:
                 summary.unmatched_arr_count += 1
             elif pair.pair_type == PairType.UNMATCHED_DEP:

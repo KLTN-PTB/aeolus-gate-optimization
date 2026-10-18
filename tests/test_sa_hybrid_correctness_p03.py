@@ -460,7 +460,8 @@ class TestHybridSolverPipelineAndProvenance:
                 res = solver.solve(flights, gates, allow_overflow=False)
 
                 assert res.feasible is False
-                assert res.status == "INFEASIBLE"
+                # G12B-R1 Task 3: CP-SAT UNKNOWN without proof of infeasibility reports UNKNOWN/TIMEOUT_NO_SOLUTION, not INFEASIBLE
+                assert res.status in ("UNKNOWN", "TIMEOUT_NO_SOLUTION")
                 assert res.solver_configuration["fallback_attempted"] is True
                 assert res.solver_configuration["fallback_used"] is False
                 assert len(res.assignments) == 0

@@ -11,12 +11,16 @@ import pandas as pd
 
 from dashboard.core.contracts import GateTimelineView, SolverRunView
 from dashboard.core.validation import ScientificValidator
+from src.contracts.provenance import ProvenanceMismatchError
 
 
 def export_assignments_to_csv(
     assignments: Sequence[GateTimelineView],
-    scenario_id: str,
+    scenario_id: Optional[str] = None,
     config_hash: str = "",
+    *,
+    data_origin: Optional[str] = None,
+    claimed_origin: Optional[str] = None,
 ) -> str:
     """Serialize verified gate assignments to a clean, leakage-free CSV string.
 
@@ -24,10 +28,28 @@ def export_assignments_to_csv(
         assignments: List of GateTimelineView objects.
         scenario_id: Active scenario identifier.
         config_hash: Hash fingerprint of solver execution config.
+        data_origin: Explicit data origin tag.
+        claimed_origin: Claimed data origin for validation (must match evidence).
 
     Returns:
         str: CSV formatted string ready for file download.
     """
+    effective_scenario_id = scenario_id or (assignments[0].scenario_id if assignments else "SCEN_DEFAULT")
+
+    # Guard against misrepresenting synthetic scenarios as REAL_AEOLUS
+    is_scenario_synthetic = (
+        "SCEN_" in effective_scenario_id
+        or any("S1500" in a.flight_id or "FL_" in a.flight_id or a.flight_id.startswith("S") for a in assignments)
+    )
+    effective_claim = claimed_origin or data_origin
+    if effective_claim == "REAL_AEOLUS" and is_scenario_synthetic:
+        raise ProvenanceMismatchError(
+            f"PROVENANCE VIOLATION: Cannot export synthetic scenario '{effective_scenario_id}' "
+            f"under claimed real data origin '{effective_claim}'."
+        )
+
+    resolved_origin = data_origin or ("SYNTHETIC" if is_scenario_synthetic else "REAL_AEOLUS")
+
     rows = []
     for a in assignments:
         row = {
@@ -46,8 +68,10 @@ def export_assignments_to_csv(
             "is_remote": a.is_remote,
             "has_conflict": a.has_conflict,
             "resource_type": a.resource_type,
-            "scenario_id": scenario_id or a.scenario_id,
+            "scenario_id": effective_scenario_id or a.scenario_id,
             "config_hash": config_hash,
+            "provenance": a.provenance.value if hasattr(a.provenance, "value") else str(a.provenance),
+            "data_origin": resolved_origin,
         }
         rows.append(row)
 
@@ -72,7 +96,11 @@ def export_run_manifest_to_json(run_view: SolverRunView) -> str:
         str: Indented JSON string formatted for audit export.
     """
     manifest: Dict[str, Any] = {
+        "run_id": run_view.run_id or "",
         "solver_name": run_view.solver_name,
+        "requested_solver": run_view.requested_solver,
+        "effective_solver": run_view.effective_solver,
+        "fallback_used": run_view.fallback_used,
         "scenario_id": run_view.scenario_id,
         "status": run_view.status,
         "termination_reason": run_view.termination_reason,
@@ -88,9 +116,14 @@ def export_run_manifest_to_json(run_view: SolverRunView) -> str:
         "total_assignments": len(run_view.assignments),
         "solver_config": run_view.solver_config,
         "provenance": run_view.provenance.value,
+        "data_origin": run_view.data_origin,
+        "scenario_generation": run_view.scenario_generation,
+        "pairing_source": run_view.pairing_source,
+        "is_synthetic": run_view.is_synthetic,
         "schema_version": run_view.schema_version,
     }
     return json.dumps(manifest, indent=2, default=str)
+
 
 
 def export_benchmark_to_csv(

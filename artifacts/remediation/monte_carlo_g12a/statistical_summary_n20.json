@@ -1,0 +1,522 @@
+{
+  "n_scenarios": 20,
+  "seed": 202601,
+  "timestamp_utc": "2026-10-12T10:17:30Z",
+  "statistics": {
+    "ModeA_Greedy": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 1707.27,
+      "median_cost": 1122.1833,
+      "cost_std": 1144.4072,
+      "monte_carlo_se": 255.8972,
+      "ci_95_lower": 1205.7114,
+      "ci_95_upper": 2208.8286,
+      "cost_quantiles": {
+        "p10": 112.6633,
+        "p25": 1099.6375,
+        "p50": 1122.1833,
+        "p75": 2361.0583,
+        "p90": 3115.6483,
+        "p95": 3165.2017,
+        "p99": 3916.3603
+      },
+      "cvar_90": 3609.9667,
+      "cvar_95": 4104.15,
+      "feasibility_rates": {
+        "composite_feasible_rate": 0.15,
+        "physical_contact_conflict_rate": 0.85,
+        "mean_physical_conflict_count": 1.6,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 0.0,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.496
+    },
+    "ModeB1_Greedy": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 139.77,
+      "median_cost": 137.0917,
+      "cost_std": 31.0021,
+      "monte_carlo_se": 6.9323,
+      "ci_95_lower": 126.1827,
+      "ci_95_upper": 153.3573,
+      "cost_quantiles": {
+        "p10": 101.2067,
+        "p25": 117.325,
+        "p50": 137.0917,
+        "p75": 156.8958,
+        "p90": 185.0333,
+        "p95": 186.1408,
+        "p99": 193.8548
+      },
+      "cvar_90": 190.7083,
+      "cvar_95": 195.7833,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 1.0
+      },
+      "mean_reassignment_count": 3.25,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 3.008
+    },
+    "ModeB2_Greedy": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 153.27,
+      "median_cost": 138.7917,
+      "cost_std": 62.9581,
+      "monte_carlo_se": 14.0779,
+      "ci_95_lower": 125.6774,
+      "ci_95_upper": 180.8626,
+      "cost_quantiles": {
+        "p10": 101.2067,
+        "p25": 115.1458,
+        "p50": 138.7917,
+        "p75": 161.9083,
+        "p90": 197.62,
+        "p95": 222.6908,
+        "p99": 352.5115
+      },
+      "cvar_90": 299.5583,
+      "cvar_95": 384.9667,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 3.6,
+      "mean_remote_stand_usage": 0.05,
+      "mean_runtime_ms": 3.643
+    },
+    "ModeA_CPSat": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 1707.27,
+      "median_cost": 1122.1833,
+      "cost_std": 1144.4072,
+      "monte_carlo_se": 255.8972,
+      "ci_95_lower": 1205.7114,
+      "ci_95_upper": 2208.8286,
+      "cost_quantiles": {
+        "p10": 112.6633,
+        "p25": 1099.6375,
+        "p50": 1122.1833,
+        "p75": 2361.0583,
+        "p90": 3115.6483,
+        "p95": 3165.2017,
+        "p99": 3916.3603
+      },
+      "cvar_90": 3609.9667,
+      "cvar_95": 4104.15,
+      "feasibility_rates": {
+        "composite_feasible_rate": 0.15,
+        "physical_contact_conflict_rate": 0.85,
+        "mean_physical_conflict_count": 1.6,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 0.0,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.49
+    },
+    "ModeB1_CPSat": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 139.77,
+      "median_cost": 137.0917,
+      "cost_std": 31.0021,
+      "monte_carlo_se": 6.9323,
+      "ci_95_lower": 126.1827,
+      "ci_95_upper": 153.3573,
+      "cost_quantiles": {
+        "p10": 101.2067,
+        "p25": 117.325,
+        "p50": 137.0917,
+        "p75": 156.8958,
+        "p90": 185.0333,
+        "p95": 186.1408,
+        "p99": 193.8548
+      },
+      "cvar_90": 190.7083,
+      "cvar_95": 195.7833,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 1.0
+      },
+      "mean_reassignment_count": 3.25,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 3.023
+    },
+    "ModeB2_CPSat": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 153.27,
+      "median_cost": 138.7917,
+      "cost_std": 62.9581,
+      "monte_carlo_se": 14.0779,
+      "ci_95_lower": 125.6774,
+      "ci_95_upper": 180.8626,
+      "cost_quantiles": {
+        "p10": 101.2067,
+        "p25": 115.1458,
+        "p50": 138.7917,
+        "p75": 161.9083,
+        "p90": 197.62,
+        "p95": 222.6908,
+        "p99": 352.5115
+      },
+      "cvar_90": 299.5583,
+      "cvar_95": 384.9667,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 3.6,
+      "mean_remote_stand_usage": 0.05,
+      "mean_runtime_ms": 3.666
+    },
+    "ModeA_Hybrid": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 1707.27,
+      "median_cost": 1122.1833,
+      "cost_std": 1144.4072,
+      "monte_carlo_se": 255.8972,
+      "ci_95_lower": 1205.7114,
+      "ci_95_upper": 2208.8286,
+      "cost_quantiles": {
+        "p10": 112.6633,
+        "p25": 1099.6375,
+        "p50": 1122.1833,
+        "p75": 2361.0583,
+        "p90": 3115.6483,
+        "p95": 3165.2017,
+        "p99": 3916.3603
+      },
+      "cvar_90": 3609.9667,
+      "cvar_95": 4104.15,
+      "feasibility_rates": {
+        "composite_feasible_rate": 0.15,
+        "physical_contact_conflict_rate": 0.85,
+        "mean_physical_conflict_count": 1.6,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 0.0,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 1.497
+    },
+    "ModeB1_Hybrid": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 139.77,
+      "median_cost": 137.0917,
+      "cost_std": 31.0021,
+      "monte_carlo_se": 6.9323,
+      "ci_95_lower": 126.1827,
+      "ci_95_upper": 153.3573,
+      "cost_quantiles": {
+        "p10": 101.2067,
+        "p25": 117.325,
+        "p50": 137.0917,
+        "p75": 156.8958,
+        "p90": 185.0333,
+        "p95": 186.1408,
+        "p99": 193.8548
+      },
+      "cvar_90": 190.7083,
+      "cvar_95": 195.7833,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 1.0
+      },
+      "mean_reassignment_count": 3.25,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 3.035
+    },
+    "ModeB2_Hybrid": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 153.27,
+      "median_cost": 138.7917,
+      "cost_std": 62.9581,
+      "monte_carlo_se": 14.0779,
+      "ci_95_lower": 125.6774,
+      "ci_95_upper": 180.8626,
+      "cost_quantiles": {
+        "p10": 101.2067,
+        "p25": 115.1458,
+        "p50": 138.7917,
+        "p75": 161.9083,
+        "p90": 197.62,
+        "p95": 222.6908,
+        "p99": 352.5115
+      },
+      "cvar_90": 299.5583,
+      "cvar_95": 384.9667,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 0.0
+      },
+      "mean_reassignment_count": 3.6,
+      "mean_remote_stand_usage": 0.05,
+      "mean_runtime_ms": 3.649
+    },
+    "ModeC1_Greedy": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 139.77,
+      "median_cost": 137.0917,
+      "cost_std": 31.0021,
+      "monte_carlo_se": 6.9323,
+      "ci_95_lower": 126.1827,
+      "ci_95_upper": 153.3573,
+      "cost_quantiles": {
+        "p10": 101.2067,
+        "p25": 117.325,
+        "p50": 137.0917,
+        "p75": 156.8958,
+        "p90": 185.0333,
+        "p95": 186.1408,
+        "p99": 193.8548
+      },
+      "cvar_90": 190.7083,
+      "cvar_95": 195.7833,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 1.0
+      },
+      "mean_reassignment_count": 3.25,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 2.646
+    },
+    "ModeC2_CPSat": {
+      "n_requested": 20,
+      "n_generated": 20,
+      "n_evaluated": 20,
+      "n_failed": 0,
+      "mean_cost": 124.27,
+      "median_cost": 123.9583,
+      "cost_std": 18.2822,
+      "monte_carlo_se": 4.088,
+      "ci_95_lower": 116.2575,
+      "ci_95_upper": 132.2825,
+      "cost_quantiles": {
+        "p10": 101.2067,
+        "p25": 113.2,
+        "p50": 123.9583,
+        "p75": 134.1,
+        "p90": 145.0333,
+        "p95": 146.6408,
+        "p99": 161.9548
+      },
+      "cvar_90": 155.7083,
+      "cvar_95": 165.7833,
+      "feasibility_rates": {
+        "composite_feasible_rate": 1.0,
+        "physical_contact_conflict_rate": 0.0,
+        "mean_physical_conflict_count": 0.0,
+        "remote_capacity_violation_rate": 0.0,
+        "static_slot_consistency_rate": 1.0
+      },
+      "mean_reassignment_count": 1.7,
+      "mean_remote_stand_usage": 0.0,
+      "mean_runtime_ms": 435.373
+    }
+  },
+  "paired_comparisons": {
+    "B2_vs_A_Greedy": {
+      "model_a": "ModeB2_Greedy",
+      "model_b": "ModeA_Greedy",
+      "n_scenarios": 20,
+      "mean_delta_cost": -1554.0,
+      "median_delta_cost": -990.0,
+      "std_delta_cost": 1105.2668,
+      "mc_se_delta": 247.1452,
+      "ci_95_lower": -2038.4045,
+      "ci_95_upper": -1069.5955,
+      "t_statistic": -6.2878,
+      "p_value": 4.9000714703939406e-06,
+      "statistical_significance": true,
+      "mean_delta_physical_conflicts": -1.6,
+      "counts": {
+        "improved": 0,
+        "worsened": 17,
+        "tied": 3
+      },
+      "proportions": {
+        "improved_pct": 0.0,
+        "worsened_pct": 85.0,
+        "tied_pct": 15.0
+      }
+    },
+    "B1_vs_A_Greedy": {
+      "model_a": "ModeB1_Greedy",
+      "model_b": "ModeA_Greedy",
+      "n_scenarios": 20,
+      "mean_delta_cost": -1567.5,
+      "median_delta_cost": -990.0,
+      "std_delta_cost": 1117.1763,
+      "mc_se_delta": 249.8082,
+      "ci_95_lower": -2057.1241,
+      "ci_95_upper": -1077.8759,
+      "t_statistic": -6.2748,
+      "p_value": 5.034701014639178e-06,
+      "statistical_significance": true,
+      "mean_delta_physical_conflicts": -1.6,
+      "counts": {
+        "improved": 0,
+        "worsened": 17,
+        "tied": 3
+      },
+      "proportions": {
+        "improved_pct": 0.0,
+        "worsened_pct": 85.0,
+        "tied_pct": 15.0
+      }
+    },
+    "B2_vs_A_CPSat": {
+      "model_a": "ModeB2_CPSat",
+      "model_b": "ModeA_CPSat",
+      "n_scenarios": 20,
+      "mean_delta_cost": -1554.0,
+      "median_delta_cost": -990.0,
+      "std_delta_cost": 1105.2668,
+      "mc_se_delta": 247.1452,
+      "ci_95_lower": -2038.4045,
+      "ci_95_upper": -1069.5955,
+      "t_statistic": -6.2878,
+      "p_value": 4.9000714703939406e-06,
+      "statistical_significance": true,
+      "mean_delta_physical_conflicts": -1.6,
+      "counts": {
+        "improved": 0,
+        "worsened": 17,
+        "tied": 3
+      },
+      "proportions": {
+        "improved_pct": 0.0,
+        "worsened_pct": 85.0,
+        "tied_pct": 15.0
+      }
+    },
+    "B1_vs_A_CPSat": {
+      "model_a": "ModeB1_CPSat",
+      "model_b": "ModeA_CPSat",
+      "n_scenarios": 20,
+      "mean_delta_cost": -1567.5,
+      "median_delta_cost": -990.0,
+      "std_delta_cost": 1117.1763,
+      "mc_se_delta": 249.8082,
+      "ci_95_lower": -2057.1241,
+      "ci_95_upper": -1077.8759,
+      "t_statistic": -6.2748,
+      "p_value": 5.034701014639178e-06,
+      "statistical_significance": true,
+      "mean_delta_physical_conflicts": -1.6,
+      "counts": {
+        "improved": 0,
+        "worsened": 17,
+        "tied": 3
+      },
+      "proportions": {
+        "improved_pct": 0.0,
+        "worsened_pct": 85.0,
+        "tied_pct": 15.0
+      }
+    },
+    "B2_vs_A_Hybrid": {
+      "model_a": "ModeB2_Hybrid",
+      "model_b": "ModeA_Hybrid",
+      "n_scenarios": 20,
+      "mean_delta_cost": -1554.0,
+      "median_delta_cost": -990.0,
+      "std_delta_cost": 1105.2668,
+      "mc_se_delta": 247.1452,
+      "ci_95_lower": -2038.4045,
+      "ci_95_upper": -1069.5955,
+      "t_statistic": -6.2878,
+      "p_value": 4.9000714703939406e-06,
+      "statistical_significance": true,
+      "mean_delta_physical_conflicts": -1.6,
+      "counts": {
+        "improved": 0,
+        "worsened": 17,
+        "tied": 3
+      },
+      "proportions": {
+        "improved_pct": 0.0,
+        "worsened_pct": 85.0,
+        "tied_pct": 15.0
+      }
+    },
+    "B1_vs_A_Hybrid": {
+      "model_a": "ModeB1_Hybrid",
+      "model_b": "ModeA_Hybrid",
+      "n_scenarios": 20,
+      "mean_delta_cost": -1567.5,
+      "median_delta_cost": -990.0,
+      "std_delta_cost": 1117.1763,
+      "mc_se_delta": 249.8082,
+      "ci_95_lower": -2057.1241,
+      "ci_95_upper": -1077.8759,
+      "t_statistic": -6.2748,
+      "p_value": 5.034701014639178e-06,
+      "statistical_significance": true,
+      "mean_delta_physical_conflicts": -1.6,
+      "counts": {
+        "improved": 0,
+        "worsened": 17,
+        "tied": 3
+      },
+      "proportions": {
+        "improved_pct": 0.0,
+        "worsened_pct": 85.0,
+        "tied_pct": 15.0
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "manifest_name": "AEOLUS_G12C_SCIENTIFIC_RECONCILIATION_MANIFEST",
+  "created_at": "2026-10-13T01:21:00+07:00",
+  "milestone": "G12C",
+  "verdict": "G12C_PASS",
+  "git_commit": "c95caef53808a561b1a7d3a5a09399cc52f754f5",
+  "git_branch": "remediation/g7-regression",
+  "official_mc500_run_id": "mc500_20261012_173538_afa5db",
+  "full_pytest_summary": {
+    "pre_fix": {
+      "passed": 2217,
+      "failed": 4,
+      "warnings": 4,
+      "duration_seconds": 163.95,
+      "log_file": "full_pytest_raw_pre_fix.log"
+    },
+    "post_fix": {
+      "passed": 2221,
+      "failed": 0,
+      "warnings": 4,
+      "duration_seconds": 154.01,
+      "pass_rate_percent": 100.0,
+      "log_file": "full_pytest_raw_post_fix.log"
+    }
+  },
+  "evidence_reports": {
+    "01_MC500_RAW_DATA_VERIFICATION.md": {
+      "sha256": "61c83b174a23f411d44349fa747d6f02fd6122a65dcac69cc0381e8b5537eede",
+      "size_bytes": 10324,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/01_MC500_RAW_DATA_VERIFICATION.md"
+    },
+    "02_MC500_REPORTING_ERRATA.md": {
+      "sha256": "2b53c8841dc06f0299b6b55614549a3afb72f0887b6288c35c78d0b79abf280d",
+      "size_bytes": 7968,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/02_MC500_REPORTING_ERRATA.md"
+    },
+    "03_OPTIMALITY_AND_EVPI_CORRECTIONS.md": {
+      "sha256": "a3b5185c91f2a14471ceff233914c0cfec688ba3ccff232389c74cb66fa896e4",
+      "size_bytes": 10390,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/03_OPTIMALITY_AND_EVPI_CORRECTIONS.md"
+    },
+    "04_G3_G4_G9_SCIENTIFIC_RECONCILIATION.md": {
+      "sha256": "21d55706f9fe762a45ca4b8dad22cbeb818885640c42ac6b47daa32ff15a6bce",
+      "size_bytes": 7380,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/04_G3_G4_G9_SCIENTIFIC_RECONCILIATION.md"
+    },
+    "05_HISTORICAL_REGRESSION_RESULTS.md": {
+      "sha256": "38ebb7676728c3fd132491303271ae19edb1cd91d6ecf1539d09d809563c3ea8",
+      "size_bytes": 8630,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/05_HISTORICAL_REGRESSION_RESULTS.md"
+    },
+    "06_DASHBOARD_AND_EXPORT_VERIFICATION.md": {
+      "sha256": "4700aca25da892343afff15429bf41d33dd6ca609b62d6089bb7748adc39e1be",
+      "size_bytes": 4723,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/06_DASHBOARD_AND_EXPORT_VERIFICATION.md"
+    },
+    "07_REPRODUCIBILITY_AND_SOURCE_CLOSURE.md": {
+      "sha256": "3aeb0db051718f405a1d580ada2bbba55853201456089a0c69896d0911161fa3",
+      "size_bytes": 4767,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/07_REPRODUCIBILITY_AND_SOURCE_CLOSURE.md"
+    },
+    "08_G13_READINESS_REPORT.md": {
+      "sha256": "8c7f8dd62c18b4554456ea6fece7d439f3fd09945256982823fca8a9cd9c0f8e",
+      "size_bytes": 5820,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/08_G13_READINESS_REPORT.md"
+    }
+  },
+  "audit_artifacts_and_logs": {
+    "verified_mc500_raw_values.json": {
+      "sha256": "9257ba1781ab630bf922f094c01d7c06ec342909b7ae06e85fb4cbcee27c59af",
+      "size_bytes": 2491,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/verified_mc500_raw_values.json"
+    },
+    "full_pytest_raw_pre_fix.log": {
+      "sha256": "81c3fad28904662bc7dbf84a2585400f68a6e60b7bf2055418e69524f53495ea",
+      "size_bytes": 23326,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/full_pytest_raw_pre_fix.log"
+    },
+    "full_pytest_raw_post_fix.log": {
+      "sha256": "0e20ad9eb3cf213e036a30f0c3888759b7090a4df9e81de553f52c8e05a113f8",
+      "size_bytes": 19885,
+      "rel_path": "remediation_evidence/G12C_scientific_reconciliation/full_pytest_raw_post_fix.log"
+    }
+  },
+  "reconciled_source_and_test_components": {
+    "final_evaluation_guard_v2.py": {
+      "sha256": "a990bb9559fd5c0e4131f6654d5cdcae5468eb7cc4a6fd65906485067d42024a",
+      "size_bytes": 12276,
+      "rel_path": "src/evaluation/final_evaluation_guard_v2.py"
+    },
+    "test_model_registry.py": {
+      "sha256": "118a6d1b3efbcf17fadf9c7a5bf53e03129574f9ee73f84a115f2f8010bc9495",
+      "size_bytes": 3534,
+      "rel_path": "tests/benchmark/test_model_registry.py"
+    },
+    "test_r27_certification_hardening.py": {
+      "sha256": "bae33048a6c8eb70aabdf2310d3f0a607501faabcb697325084da4a8c8cad8c6",
+      "size_bytes": 20673,
+      "rel_path": "tests/test_r27_certification_hardening.py"
+    },
+    "verify_g12c_mc500_raw.py": {
+      "sha256": "71299728f247b2ef0d2bce56e77c39c978c35a320b003f874e9c7651a1706c5c",
+      "size_bytes": 5626,
+      "rel_path": "scripts/verify_g12c_mc500_raw.py"
+    }
+  },
+  "immutable_mc500_references": {
+    "execution_ledger_entries.csv": {
+      "sha256": "6b186e3c950af416bd66ef1b5e42c48c4d74aa5692fb06228cec18125eb0c108",
+      "size_bytes": 1499490,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/execution_ledger_entries.csv"
+    },
+    "execution_ledger_summary.json": {
+      "sha256": "ee10fd9544121e8e26ac7276c7c80b96d5e11ba20a509e9bb739b8cf63a99a60",
+      "size_bytes": 980,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/execution_ledger_summary.json"
+    },
+    "gate_inventory.json": {
+      "sha256": "362728e8b70ab6258de9b6486588cfecf279dc5242f7fd2dd8674f20107421ab",
+      "size_bytes": 7032,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/gate_inventory.json"
+    },
+    "statistical_summary.json": {
+      "sha256": "533b214cc6e72f20bc5c95514594c9c37a32102af8de327b574095ffd7620e36",
+      "size_bytes": 15651,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/statistical_summary.json"
+    },
+    "failures.json": {
+      "sha256": "f4510833b209a6f5fde617e09d81cdd21c84fc16bd2bf0c6a5c3ad5ae0b10972",
+      "size_bytes": 537,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/failures.json"
+    },
+    "simulation_manifest.json": {
+      "sha256": "76ef322030e6366f7d125f1d59754c8bf4b078e9fdb89407658f850456281237",
+      "size_bytes": 2707,
+      "rel_path": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/simulation_manifest.json"
+    }
+  }
+}

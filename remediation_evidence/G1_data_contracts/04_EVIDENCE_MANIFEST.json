@@ -1,0 +1,131 @@
+{
+  "manifest_version": "1.0.0",
+  "phase": "AEOLUS-G1",
+  "task_description": "Data Provenance, Temporal Contracts & Evidence Lineage",
+  "generated_at_utc": "2026-10-11T09:52:30Z",
+  "git_state": {
+    "branch": "remediation/g1-data-provenance-and-temporal-contracts",
+    "base_head_sha": "c95caef53808a561b1a7d3a5a09399cc52f754f5",
+    "uncommitted_changes_staged": false,
+    "committed": false,
+    "pushed": false
+  },
+  "runtime_environment": {
+    "os": "Windows 11 x64",
+    "python_version": "3.11.15",
+    "pytest_version": "9.1.1",
+    "ortools_version": "9.15.1",
+    "xgboost_version": "3.2.0-dev",
+    "ngboost_version": "0.5.3"
+  },
+  "g1_created_contracts_and_tests": [
+    {
+      "path": "src/contracts/provenance.py",
+      "sha256": "9c055d300c863b8a9b7eea4245c19feac41b34a7662ca42583fad8e24ae46c68",
+      "bytes": 10272,
+      "role": "Multi-dimensional provenance contract and lineage validation"
+    },
+    {
+      "path": "src/contracts/temporal.py",
+      "sha256": "802861490aba826a28b3f908fc50bcf4a8ac3065c2e975b49e31142cacec76d5",
+      "bytes": 7798,
+      "role": "Temporal information contract, T-2h cutoff enforcement and timezone normalization"
+    },
+    {
+      "path": "tests/test_g1_provenance_and_temporal_contracts.py",
+      "sha256": "e19df4cfc6402012a502408babb008f7d6dfc9b0c349c8b52f30eabc8c78c50c",
+      "bytes": 15111,
+      "role": "G1 test matrix covering PROV-01..06, TIME-01..05, COMPAT-01..02, FAILCLOSED-01..02"
+    }
+  ],
+  "g1_modified_dashboard_components": [
+    {
+      "path": "dashboard/core/config.py",
+      "sha256": "cbef9ea4b5e5adb739247ddb78682c920072a328a6e8e32297c9df1e3c4bf3e7",
+      "bytes": 4890,
+      "role": "Standardized truthful provenance tags for registered scenarios"
+    },
+    {
+      "path": "dashboard/core/contracts.py",
+      "sha256": "812a912172bff4abc75cbda65fbc2d9bab046d60d2a6616ad15ad3930bef5466",
+      "bytes": 16753,
+      "role": "Enriched ScenarioContext, FlightPredictionView, SolverRunView with optional provenance dimensions"
+    },
+    {
+      "path": "dashboard/services/scenario_service.py",
+      "sha256": "a8a033ff1ccd3719e7d1bdf038354048c260e94e9c08ce4f69fc87bb393aeac9",
+      "bytes": 20472,
+      "role": "Populate EvidenceProvenance and enforce require_real fail-closed check"
+    },
+    {
+      "path": "dashboard/adapters/export_adapter.py",
+      "sha256": "713323f838b3e866bf3b9e3adf2a6ac5ba61b25a10909263a61d28bee6a9f99b",
+      "bytes": 6441,
+      "role": "Include provenance in export manifests and block false REAL_AEOLUS exports on synthetic scenarios"
+    }
+  ],
+  "verified_model_checkpoints": [
+    {
+      "role": "Inbound Arrival XGBoost Regressor (P4)",
+      "path": "artifacts/models/inbound_arrival/best_xgboost_regressor.joblib",
+      "sha256": "fc9a399f6aa6e2cc762953258bd5f7c3c54d3885d564cefc3a516082e666a70e",
+      "status": "VERIFIED_UNTOUCHED"
+    },
+    {
+      "role": "Inbound Arrival XGBoost Classifier (P4)",
+      "path": "artifacts/models/inbound_arrival/best_xgboost_classifier.joblib",
+      "sha256": "84a7eefcfffe9560f64c892b189748fa73fe7399880d68f7f5a9b706c9a9d20c",
+      "status": "VERIFIED_UNTOUCHED"
+    },
+    {
+      "role": "Inbound Arrival NGBoost Normal (P4)",
+      "path": "artifacts/models/inbound_arrival/best_ngboost_normal.joblib",
+      "sha256": "0a2c0bc37ec6dd143891d4e76d5e1ffccfc0a3a7894a4f8936dd8e4ef7c03882",
+      "status": "VERIFIED_UNTOUCHED"
+    },
+    {
+      "role": "Outbound Departure XGBoost Regressor (P4)",
+      "path": "artifacts/models/outbound_departure/best_core_departure_xgboost_regressor.joblib",
+      "sha256": "79d40b9231f28b3ec48e0cbb7ee327173e13d183d25642a8b9eef8ba3f00dd99",
+      "status": "VERIFIED_UNTOUCHED"
+    },
+    {
+      "role": "Outbound Departure XGBoost Classifier (P4)",
+      "path": "artifacts/models/outbound_departure/best_core_departure_xgboost_classifier.joblib",
+      "sha256": "921867c42738740c061795c694a0d937085ef71d50c76cb3673f8dbe8f754fc3",
+      "status": "VERIFIED_UNTOUCHED"
+    }
+  ],
+  "frozen_evidence_artifacts_verification": {
+    "total_verified": 25,
+    "mismatches": 0,
+    "status": "100% VERIFIED_UNTOUCHED"
+  },
+  "test_execution_summary": {
+    "g1_targeted_tests": {
+      "collected": 15,
+      "passed": 15,
+      "failed": 0
+    },
+    "dashboard_regression_tests": {
+      "collected": 359,
+      "passed": 359,
+      "failed": 0
+    },
+    "remediation_p07_p09_tests": {
+      "collected": 67,
+      "passed": 67,
+      "failed": 0
+    },
+    "solver_reproducibility_tests": {
+      "collected": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "total_tests_executed": 447,
+    "total_passed": 447,
+    "total_failed": 0,
+    "pass_rate_percentage": 100.0
+  },
+  "g1_gate_verdict": "PASS"
+}

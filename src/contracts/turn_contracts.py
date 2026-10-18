@@ -32,6 +32,7 @@ class PairType(str, Enum):
     """
 
     VERIFIED_PAIR = "VERIFIED_PAIR"
+    INFERRED_PAIR = "INFERRED_PAIR"
     SYNTHETIC_PAIR = "SYNTHETIC_PAIR"
     UNMATCHED_ARR = "UNMATCHED_ARR"
     UNMATCHED_DEP = "UNMATCHED_DEP"
@@ -117,7 +118,7 @@ class TurnPair:
 
     @property
     def is_paired(self) -> bool:
-        return self.pair_type in (PairType.VERIFIED_PAIR, PairType.SYNTHETIC_PAIR)
+        return self.pair_type in (PairType.VERIFIED_PAIR, PairType.SYNTHETIC_PAIR, PairType.INFERRED_PAIR)
 
     @property
     def is_valid(self) -> bool:
