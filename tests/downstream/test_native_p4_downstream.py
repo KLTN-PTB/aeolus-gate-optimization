@@ -56,7 +56,10 @@ def p4_model():
 @pytest.fixture(scope="module")
 def scen_2023_low():
     """Extract canonical SCEN_2023_LOW."""
-    raw_df = pd.read_parquet("data/processed/inbound_atl/year=2023")
+    data_path = Path("data/processed/inbound_atl/year=2023")
+    if not data_path.exists():
+        data_path = Path(__file__).resolve().parent.parent.parent / "data" / "processed" / "inbound_atl" / "year=2023"
+    raw_df = pd.read_parquet(data_path)
     spec = DEFAULT_SCENARIO_SPECS[0]
     return extract_scenario_from_raw(spec, raw_df)
 

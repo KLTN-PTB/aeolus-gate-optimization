@@ -28,8 +28,18 @@ env/
 .DS_Store
 Thumbs.db
 
-# Aeolus raw / generated datasets
-/data/
+# Aeolus raw / generated datasets (only whitelisting lightweight 2023 processed partitions for scenario generation)
+/data/*
+!/data/processed/
+/data/processed/*
+!/data/processed/inbound_atl/
+/data/processed/inbound_atl/*
+!/data/processed/inbound_atl/year=2023/
+!/data/processed/inbound_atl/year=2023/**
+!/data/processed/outbound_atl/
+/data/processed/outbound_atl/*
+!/data/processed/outbound_atl/year=2023/
+!/data/processed/outbound_atl/year=2023/**
 
 # Temporary schema audit working directories
 artifacts/manifests/schema_audit/.temporary/

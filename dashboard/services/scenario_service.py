@@ -184,14 +184,39 @@ class ScenarioService:
 
 
         if scenario_id == "SCEN_P09_CANONICAL_120":
-            scen = generate_scalability_scenario(
-                n_flights=120,
-                n_contact_gates=25,
-                seed=42,
-                scenario_id=scenario_id,
-                date_str="2023-07-15",
-                day_id="2023-07-15",
-            )
+            try:
+                scen = generate_scalability_scenario(
+                    n_flights=120,
+                    n_contact_gates=25,
+                    seed=42,
+                    scenario_id=scenario_id,
+                    date_str="2023-07-15",
+                    day_id="2023-07-15",
+                )
+            except (FileNotFoundError, ValueError) as err:
+                fallback_file = (
+                    self.config.project_root
+                    / "artifacts"
+                    / "remediation"
+                    / "canonical_scenarios"
+                    / f"{scenario_id}.parquet"
+                )
+                if fallback_file.exists():
+                    import pandas as pd
+                    from src.evaluation.downstream_comparison_v2 import DownstreamScenario
+                    flights_df = pd.read_parquet(fallback_file)
+                    scen = DownstreamScenario(
+                        scenario_id=scenario_id,
+                        day_id="2023-07-15",
+                        date_str="2023-07-15",
+                        n_flights=len(flights_df),
+                        n_contact_gates=25,
+                        scenario_seed=42,
+                        flights_df=flights_df,
+                        scenario_hash="",
+                    )
+                else:
+                    raise err
             flights = scenario_to_flights(scen)
             contact_gates, remote_gate = scenario_to_gates(scen)
             all_gates = contact_gates + [remote_gate]
@@ -201,14 +226,39 @@ class ScenarioService:
             return list(flights), list(all_gates)
 
         elif scenario_id == "SCEN_2023_PEAK_01":
-            scen = generate_scalability_scenario(
-                n_flights=85,
-                n_contact_gates=15,
-                seed=202602,
-                scenario_id=scenario_id,
-                date_str="2023-07-15",
-                day_id="2023-07-15",
-            )
+            try:
+                scen = generate_scalability_scenario(
+                    n_flights=85,
+                    n_contact_gates=15,
+                    seed=202602,
+                    scenario_id=scenario_id,
+                    date_str="2023-07-15",
+                    day_id="2023-07-15",
+                )
+            except (FileNotFoundError, ValueError) as err:
+                fallback_file = (
+                    self.config.project_root
+                    / "artifacts"
+                    / "remediation"
+                    / "canonical_scenarios"
+                    / f"{scenario_id}.parquet"
+                )
+                if fallback_file.exists():
+                    import pandas as pd
+                    from src.evaluation.downstream_comparison_v2 import DownstreamScenario
+                    flights_df = pd.read_parquet(fallback_file)
+                    scen = DownstreamScenario(
+                        scenario_id=scenario_id,
+                        day_id="2023-07-15",
+                        date_str="2023-07-15",
+                        n_flights=len(flights_df),
+                        n_contact_gates=15,
+                        scenario_seed=202602,
+                        flights_df=flights_df,
+                        scenario_hash="",
+                    )
+                else:
+                    raise err
             flights = scenario_to_flights(scen)
             contact_gates, remote_gate = scenario_to_gates(scen)
             all_gates = contact_gates + [remote_gate]

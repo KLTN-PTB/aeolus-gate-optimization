@@ -40,7 +40,7 @@ from src.evaluation.downstream_comparison_v2 import (
 
 LOGGER = logging.getLogger("scalability_scenario")
 
-# Protocol Constants
+PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parent.parent.parent
 DEFAULT_SCALABILITY_SEED: Final[int] = 202601
 DEFAULT_PRIMARY_FLIGHT_COUNT: Final[int] = 1500
 DEFAULT_CONTACT_GATES: Final[int] = 50
@@ -101,6 +101,11 @@ def load_canonical_source_data(
         pd.DataFrame containing valid inbound flights.
     """
     path = Path(source_dir) if source_dir is not None else DEFAULT_SOURCE_DIR
+
+    # Resolve relative path dynamically against project root if needed
+    if not path.is_absolute():
+        if (PROJECT_ROOT / path).exists():
+            path = PROJECT_ROOT / path
 
     # Guard against 2024 access
     path_str = str(path).replace("\\", "/")
