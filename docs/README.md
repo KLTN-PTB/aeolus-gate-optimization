@@ -1,6 +1,12 @@
 # Aeolus V4 — Master Documentation Index & Navigation Map
 
-**Current Certified Status**: `CERTIFIED_WITH_LIMITATIONS` (Phase P14 Final Certification, `REBUILD_REQUIRED = NO`)  
+## Điểm đọc hiện tại
+
+[Đối chiếu đề CNTT-KLCN168 và bằng chứng](reconciliation/phase1_2/README.md) tập hợp trạng thái kỹ thuật, yêu cầu chờ GVHD, số liệu dùng cho luận văn và backlog. Chưa có G13 mới hoặc phê duyệt thay phạm vi trong hồ sơ này.
+
+Các bảng ưu tiên P14 bên dưới mô tả thứ bậc bằng chứng trong mốc lịch sử của chúng. Tài liệu CURRENT_STATE.md và configs/current_state.yaml giữ nguyên để bảo toàn lineage; trạng thái runtime hiện tại được đối chiếu trong bộ reconciliation.
+
+**Historical P14 Certified Status**: `CERTIFIED_WITH_LIMITATIONS` (Phase P14 Final Certification, `REBUILD_REQUIRED = NO`)
 **Total Documentation Artifacts**: 92 markdown files across specialized directories and root forensic package  
 **Authoritative Reading Priority**: P14 Scientific Certification Package $\gg$ P11-R Post-Holdout Report $\gg$ P12-R1 Test Reconciliation $\gg$ P13 Reproducibility Audit $\gg$ V5 Forensic Certification (R37) $\gg$ System State Registry (v4.0.0) $\gg$ Historical Artifacts  
 

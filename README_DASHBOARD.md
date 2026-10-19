@@ -1,4 +1,7 @@
 # AEOLUS FLIGHT OPERATIONS INTELLIGENCE DASHBOARD
+
+> **Nội dung khoa học hiện hành:** xem [bộ đối chiếu đề và bằng chứng](docs/reconciliation/phase1_2/README.md). Phân biệt số liệu MC500 chính thức, SHAP lưu sẵn, historical replay và thí nghiệm upload. Các quyết định thay phạm vi còn chờ GVHD.
+
 ## Hướng Dẫn Vận Hành & Trình Diễn Ứng Dụng Khóa Luận Tốt Nghiệp
 
 **Khóa luận:** Ứng dụng học máy và lập trình ràng buộc trong dự báo độ trễ chuyến bay và tối ưu tái phân bổ cổng đỗ tàu bay  
@@ -29,10 +32,10 @@ Dashboard Aeolus được thiết kế chuyên biệt cho việc bảo vệ khó
 ### Dashboard web mới — raw Parquet → dự báo ML → phân cổng
 
 ```powershell
-.\scripts\start_web_dashboard.ps1 -Setup  # Lần đầu; các lần sau bỏ -Setup
+.\scripts\start_web_dashboard.cmd -Setup  # Lần đầu; các lần sau bỏ -Setup
 ```
 
-Mở **http://127.0.0.1:8000**. Giao diện React theo wireframe, hỗ trợ upload
+Mở **http://127.0.0.1:8000** bằng cách tự nhập URL vào trình duyệt. Lệnh không tự mở trình duyệt hay trình soạn thảo. Có thể thêm -Check để chỉ kiểm tra cấu hình và thoát. Giao diện React theo wireframe, hỗ trợ upload
 raw Parquet, chọn ngày ATL, 150/50/20 hoặc số cổng tùy chỉnh, bãi xa hữu hạn,
 dự báo arrival/departure thật, Greedy/CP-SAT/Hybrid, Gantt và xuất kết quả.
 So sánh bốn thuật toán và Monte Carlo cho file mới có trong các trang thí nghiệm.

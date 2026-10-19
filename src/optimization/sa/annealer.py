@@ -105,6 +105,7 @@ class SimulatedAnnealingGateSolver:
         initial_assignments: Mapping[str, GateAssignment] | None = None,
         allow_overflow: bool = True,
         deadline_perf_counter: float | None = None,
+        progress_callback=None,
     ) -> OptimizationResult:
         """Execute Simulated Annealing starting from a validated feasible initial assignment.
 
@@ -191,6 +192,9 @@ class SimulatedAnnealingGateSolver:
         best_state = curr_state.copy()
         best_obj = curr_obj
 
+        if progress_callback:
+            progress_callback(best_state.to_gate_assignments(), {"solution_source": "SOLVER", "stage": "sa", "sa_iterations": 0})
+
         rng = random.Random(self.sa_config.seed)
         accepted_moves = 0
 
@@ -208,11 +212,13 @@ class SimulatedAnnealingGateSolver:
 
         # Simulated Annealing Loop
         term_reason = TerminationReason.ITERATION_LIMIT
+        iterations_executed = 0
         for k in range(1, self.sa_config.iterations + 1):
             if deadline_perf_counter is not None and time.perf_counter() >= deadline_perf_counter:
                 term_reason = TerminationReason.TIME_LIMIT
                 break
 
+            iterations_executed = k
             # Geometric cooling schedule
             temp = max(
                 self.sa_config.Tmin,
@@ -261,6 +267,8 @@ class SimulatedAnnealingGateSolver:
                     if curr_obj < best_obj:
                         best_state = curr_state.copy()
                         best_obj = curr_obj
+                        if progress_callback:
+                            progress_callback(best_state.to_gate_assignments(), {"solution_source": "SOLVER", "stage": "sa", "sa_iterations": k})
 
             trace.append(
                 SALogEntry(
@@ -310,6 +318,7 @@ class SimulatedAnnealingGateSolver:
 
         extra_metadata = {
             "sa_config": self.sa_config.to_dict(),
+            "sa_iterations": iterations_executed,
             "initial_objective": initial_obj,
             "best_objective": best_obj,
             "improvement": improvement,

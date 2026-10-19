@@ -168,3 +168,69 @@ def test_download_blocked_until_atomic_export_finishes(prepared, monkeypatch):
         assert observations == ['running']
         assert store.experiment(eid)['status'] == 'completed'
         assert client.get(f'/api/experiments/{eid}/exports/bundle').content[:2] == b'PK'
+
+
+def test_new_experiments_pin_profile_and_protocol_and_reject_unknown_profile(prepared):
+    app,store,rid=prepared
+    with TestClient(app) as client:
+        assert client.post(f'/api/runs/{rid}/experiments',json={'kind':'benchmark','solver_profile':'unknown'}).status_code==422
+        first=client.post(f'/api/runs/{rid}/experiments',json={'kind':'benchmark','algorithms':['greedy']}).json()
+        assert first['config']['solver_profile']=='optimized' and first['config']['solver_protocol_version']==2
+        execute(store.root,first['id'])
+        second=client.post(f'/api/runs/{rid}/experiments',json={'kind':'benchmark','algorithms':['greedy'],'solver_profile':'baseline'}).json()
+        execute(store.root,second['id'])
+        a=client.get(f"/api/experiments/{first['id']}/results").json()
+        b=client.get(f"/api/experiments/{second['id']}/results").json()
+        assert a['analysis_version']==b['analysis_version']==3
+        assert a['groups'][0]['key']!=b['groups'][0]['key']
+        assert a['groups'][0]['mean']==b['groups'][0]['mean']
+
+
+def test_legacy_exports_remain_identical_and_old_resume_is_rejected(prepared):
+    import hashlib
+    app,store,rid=prepared
+    snap=snapshot_for(store,rid)
+    cfg={'kind':'benchmark','algorithms':['greedy'],'mode':'quick','seed':202601,
+         'time_limit_sec':1,'snapshot_hash':snap['hash']}
+    # Incomplete historical experiment so this specifically tests protocol migration.
+    eid=store.create_experiment(rid,cfg,2)
+    execute(store.root,eid)
+    directory=store.root/'experiments'/eid
+    before={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.iterdir() if p.suffix in ('.json','.zip','.csv','.parquet')}
+    with TestClient(app) as client:
+        r=client.post(f'/api/experiments/{eid}/resume')
+        assert r.status_code==409 and 'protocol changed' in r.json()['detail']
+        assert client.get(f'/api/experiments/{eid}/results').json()['analysis_version']==2
+        for kind in ('bundle','manifest','results','cases.csv','cases.parquet'):
+            assert client.get(f'/api/experiments/{eid}/exports/{kind}').status_code==200
+    after={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.iterdir() if p.name in before}
+    assert before==after
+
+
+def test_initializer_plan_is_labeled_as_greedy_and_not_ranked_as_cp(prepared,monkeypatch):
+    from src.optimization.execution import SolverDeadlineExceeded
+    from src.optimization.solvers.cp_sat_solver import CPSatGateSolver
+    from web_dashboard.experiments import available_plans
+    app,store,rid=prepared
+    snap=snapshot_for(store,rid)
+    cfg={'kind':'benchmark','algorithms':['cpsat'],'mode':'quick','seed':202601,'time_limit_sec':1,
+         'snapshot_hash':snap['hash'],'solver_profile':'optimized','solver_protocol_version':2}
+    eid=store.create_experiment(rid,cfg,1);cid='b_cpsat_202601'
+    def expire(*a,**k):raise SolverDeadlineExceeded()
+    monkeypatch.setattr(CPSatGateSolver,'solve',expire)
+    p={**payload('cpsat'),'flights':snap['flights'],'gates':snap['gates'],'solver_config':snap['solver_config'],
+       'solver_protocol_version':2,'solver_profile':'optimized','snapshot_hash':snap['hash'],'case_id':cid}
+    case=solve_case(p)
+    assert case['feasible'] and case['solution_source']=='GREEDY_INITIALIZER'
+    directory=store.root/'experiments'/eid;directory.mkdir(parents=True)
+    json_write(directory/f'{cid}.json',case)
+    store.put_case(eid,{**case,'case_id':cid,'snapshot_hash':snap['hash']})
+    store.experiment_update(eid,status='completed',stage='done')
+    plan=next(p for p in available_plans(store,rid) if p['id']==f'{eid}.{cid}')
+    assert plan['algorithm']=='greedy' and 'GREEDY_INITIALIZER' in plan['label']
+    with TestClient(app) as client:
+        data=client.get(f'/api/experiments/{eid}/results').json()
+        assert data['groups'][0]['cost_sample_count']==0
+        view=client.get(f'/api/experiments/{eid}/plans/{cid}').json()
+        assert view['summary']['actual_solver']=='Deterministic Greedy'
+        assert view['summary']['solution_source']=='GREEDY_INITIALIZER'

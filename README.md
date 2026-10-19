@@ -1,5 +1,11 @@
 # Aeolus Probabilistic Core Arrival & Gate Optimization — V4
 
+## Trạng thái và nội dung hiện hành
+
+Bộ [đối chiếu đề cương và chuẩn hóa bằng chứng](docs/reconciliation/phase1_2/README.md) là điểm đọc hiện tại cho yêu cầu nghiệm thu, số liệu luận văn, slide và các mục còn chờ GVHD. Trạng thái: READY_FOR_ADVISOR_REVIEW; chưa có xác nhận thay phạm vi hoặc G13 mới.
+
+Phần chứng nhận P14 phía dưới giữ nội dung của mốc nghiên cứu lịch sử. Các số test, model role và kết quả của mốc đó cần đọc theo thời điểm và phạm vi riêng; kiến trúc đang chạy được đối chiếu trong bộ tài liệu mới.
+
 ## Chạy dashboard mới từ bản clone/pull
 
 Nhánh ứng dụng hiện tại: `remediation/g7-regression`. Cần **Python 3.11 64-bit**
@@ -8,13 +14,13 @@ và **Node.js 22+** (kèm npm). Từ PowerShell:
 ```powershell
 git clone --branch remediation/g7-regression https://github.com/KLTN-PTB/aeolus-gate-optimization.git
 cd aeolus-gate-optimization
-.\scripts\start_web_dashboard.ps1 -Setup
+.\scripts\start_web_dashboard.cmd -Setup
 ```
 
 Mở **http://127.0.0.1:8000**. `-Setup` tự tạo `.venv` nếu chưa có, cài đầy đủ
 thư viện ứng dụng, kiểm tra checkpoint và build frontend. Lần đầu cần Internet
 để cài thư viện; model và dữ liệu demo đã nằm trong Git, không phải tải riêng.
-Các lần chạy sau dùng `.\scripts\start_web_dashboard.ps1`; sau khi pull cập nhật,
+Các lần chạy sau dùng `.\scripts\start_web_dashboard.cmd`; sau khi pull cập nhật,
 chạy lại với `-Setup` để đồng bộ thư viện và giao diện.
 
 Repo chứa 19 checkpoint/preprocessor `.joblib` (khoảng 7,5 MB) bằng Git thông

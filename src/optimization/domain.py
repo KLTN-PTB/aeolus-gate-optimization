@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from enum import Enum
+from functools import cached_property
 import math
 from typing import Any, Mapping, Sequence
 
@@ -397,7 +398,7 @@ class Flight:
         """Gate release time including separation buffer."""
         return int(self.simulated_departure_min + self.buffer_min)
 
-    @property
+    @cached_property
     def time_window(self) -> FlightTimeWindow:
         """Exact occupancy window [predicted_arrival, gate_release)."""
         return FlightTimeWindow(

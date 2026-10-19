@@ -9,13 +9,13 @@ CDN, không tự đăng tải dữ liệu hoặc huấn luyện lại mô hình.
 Từ thư mục gốc dự án, lần đầu trên máy khác:
 
 ```powershell
-.\scripts\start_web_dashboard.ps1 -Setup
+.\scripts\start_web_dashboard.cmd -Setup
 ```
 
 Các lần sau:
 
 ```powershell
-.\scripts\start_web_dashboard.ps1
+.\scripts\start_web_dashboard.cmd
 ```
 
 Mở **http://127.0.0.1:8000**. Dừng bằng Ctrl+C. Sau khi sửa frontend, dùng `-Build`.
@@ -44,6 +44,33 @@ npm run dev
 
 Không thay thế dashboard Streamlit tại cổng 8501. Liên kết Historical Replay chỉ
 hoạt động khi Streamlit đã được khởi động riêng theo README_DASHBOARD.md.
+
+
+## Kiểm tra lệnh khởi động mà không mở ứng dụng
+
+Từ thư mục gốc, dùng cùng lệnh trong PowerShell hoặc Command Prompt:
+
+```powershell
+.\scripts\start_web_dashboard.cmd -Check
+```
+
+Chế độ này kiểm tra Python, dependency và frontend đã build rồi thoát. Không
+cài thư viện, build, chạy server hoặc mở trình duyệt/trình soạn thảo.
+
+Để tự chạy dashboard, bỏ -Check. Terminal giữ server hoạt động và in URL; người
+dùng tự nhập http://127.0.0.1:8000 vào trình duyệt. Dừng bằng Ctrl+C.
+Đổi cổng bằng -Port 8001 nếu cần.
+
+Nếu chạy file .ps1 qua thao tác mở file của Windows, ứng dụng được mở có thể là
+Notepad do file association. Launcher .cmd gọi powershell.exe với -NoProfile
+và -File để thực thi script trực tiếp. Không sửa file association hoặc execution
+policy của toàn máy. Bypass chỉ áp dụng cho tiến trình PowerShell của lần chạy đó.
+
+Có thể gọi PowerShell trực tiếp:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\start_web_dashboard.ps1
+```
 
 ## Luồng sử dụng
 
@@ -277,3 +304,32 @@ Khi backend đang chạy, kiểm tra HTTP + subprocess + checkpoint + xuất ZIP
 Kiểm thử UI chạy qua React Testing Library/jsdom; không thay thế nghiệm thu
 visual trên Chrome/Edge thật. Cần kiểm tra desktop/mobile và trình duyệt thực
 tế khi có kết nối browser automation hoặc người dùng trực tiếp mở ứng dụng.
+
+## Cấu hình solver và timeout từ giao thức v2
+
+Trang 4 có hai cấu hình: **Tối ưu** mặc định (CP-SAT warm-start đầy đủ) và
+**Baseline** (CP-SAT tìm từ đầu). Cả hai dùng một worker, cùng dữ liệu, seed và
+objective; chi phí Greedy khởi tạo được tính trong ngân sách. Không gộp số liệu
+hai cấu hình; manifest lưu `solver_profile` và `solver_protocol_version`.
+
+Khi solver chạm giới hạn tìm kiếm, lượt vẫn có thể hiển thị **FEASIBLE** và
+**Trong ngân sách**: đó là nghiệm đã kiểm chứng, tìm kiếm dừng ở deadline mềm
+để còn thời gian trả kết quả. Nghiệm trả muộn hoặc chỉ còn Greedy khởi tạo vẫn
+xem được qua Gantt nhưng không được dùng xếp hạng chi phí solver đúng hạn.
+Chi phí fixed-plan vẫn gồm rủi ro xung đột; không được loại kịch bản khỏi mẫu số.
+
+Để nhận bản cập nhật, người dùng tự dừng server bằng Ctrl+C ở terminal đang chạy,
+rồi chạy lại `.\scripts\start_web_dashboard.cmd` và tải lại trang. Tạo thí nghiệm
+mới để đo lại; kết quả lịch sử vẫn giữ nguyên. Thí nghiệm dùng giao thức cũ không
+resume vào engine mới vì sẽ trộn hai cách tính thời gian trong cùng một lượt.
+
+Không cần mở server để nghiệm thu bộ solver trên snapshot đã có:
+
+```powershell
+.\.venv\Scripts\python.exe -u -X utf8 scripts/validate_dashboard_solver_protocol.py artifacts/web_dashboard/runs/RUN_ID/snapshot.json --output artifacts/dashboard_runtime/acceptance_NEW_ID --budget 120
+```
+
+Thư mục output phải mới. Thêm `--profile baseline` nếu cần; kết quả gồm status,
+nguồn nghiệm, ngân sách, thời gian từng giai đoạn và checkpoint. Xem
+[SOLVER_PROTOCOL_V2_IMPLEMENTATION.md](SOLVER_PROTOCOL_V2_IMPLEMENTATION.md) để đọc
+bằng chứng nghiệm thu và giới hạn diễn giải.

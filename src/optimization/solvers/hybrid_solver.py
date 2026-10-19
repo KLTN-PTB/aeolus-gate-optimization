@@ -74,6 +74,10 @@ class HybridGateSolver:
         gates: Sequence[Gate],
         *,
         allow_overflow: bool = True,
+        deadline_perf_counter: float | None = None,
+        initial_assignments=None,
+        progress_callback=None,
+        complete_hints: bool = False,
     ) -> OptimizationResult:
         """Solve gate assignment problem using two-stage CP-SAT + SA metaheuristic.
 
@@ -85,6 +89,11 @@ class HybridGateSolver:
         Returns:
             OptimizationResult evaluated by authoritative common evaluator.
         """
+        if deadline_perf_counter is not None:
+            from src.optimization.solvers.budgeted_hybrid import solve_budgeted_hybrid
+            return solve_budgeted_hybrid(self, flights, gates, allow_overflow=allow_overflow,
+                deadline=deadline_perf_counter, initial_assignments=initial_assignments,
+                progress_callback=progress_callback, complete_hints=complete_hints)
         t0 = time.perf_counter()
 
         # Step 1: Handle trivial zero-flight case

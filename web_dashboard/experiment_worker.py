@@ -38,13 +38,36 @@ def stop_owned(process):
 
 
 def case_process(input_path, output_path, ready_path):
+    started = time.perf_counter()
     payload = read_json(input_path)
-    ready_path.write_text(str(time.perf_counter()), encoding='ascii')
-    json_write(output_path, solve_case(payload))
+    ready_path.write_text(str(started), encoding='ascii')
+    modern = payload.get('solver_protocol_version') == 2
+    checkpoint = output_path.with_suffix('.incumbent.json')
+    try:
+        result = solve_case(payload, started=started,
+                            publish=(lambda result: json_write(checkpoint, result)) if modern else None)
+    except Exception as exc:
+        if not modern:
+            raise
+        logging.exception('Versioned solver case failed')
+        from web_dashboard.solver_execution import empty_result, recover_artifact
+        result = empty_result(payload, time.perf_counter()-started, 'ERROR', str(exc))
+        if checkpoint.exists():
+            try:
+                result = recover_artifact(payload, read_json(checkpoint), time.perf_counter()-started, 'ERROR', str(exc))
+            except (ValueError, KeyError, TypeError):
+                logging.exception('Rejected checkpoint after worker exception')
+    if modern:
+        result['_case_started_perf'] = started
+    json_write(output_path, result)
+    if modern:
+        output_path.with_suffix('.done').write_text(str(time.perf_counter()), encoding='ascii')
 
 
 def supervised_case(store, eid, directory, cid, payload):
     global CASE_HOST
+    if payload.get('solver_protocol_version') == 2:
+        return supervised_case_v2(store, eid, directory, cid, payload)
     input_path, output_path, ready = [directory / f'{prefix}{cid}{ext}' for prefix, ext in
                                     [('input_', '.json'), ('', '.json'), ('ready_', '.txt')]]
     # A crash after atomic output but before the SQLite commit can be recovered.
@@ -102,6 +125,103 @@ def supervised_case(store, eid, directory, cid, payload):
             ready.unlink(missing_ok=True)
 
 
+def supervised_case_v2(store, eid, directory, cid, payload):
+    from web_dashboard.solver_execution import empty_result, verify_artifact, recover_artifact
+    global CASE_HOST
+    input_path = directory / f'input_{cid}.json'
+    output = directory / f'{cid}.json'
+    checkpoint = output.with_suffix('.incumbent.json')
+    ready = directory / f'ready_{cid}.txt'
+    done = output.with_suffix('.done')
+
+    def recover(runtime, reason, error=None):
+        if checkpoint.exists():
+            try:
+                return recover_artifact(payload, read_json(checkpoint), runtime, reason, error)
+            except (ValueError, KeyError, TypeError, OSError):
+                logging.exception('Rejected invalid incumbent checkpoint')
+        return empty_result(payload, runtime, reason, error)
+
+    def persist_recovery(result, case_start):
+        if case_start is not None:
+            result['_case_started_perf'] = case_start
+        json_write(output, result)
+        if case_start is not None:
+            finished = time.perf_counter()
+            done.write_text(str(finished), encoding='ascii')
+            result.update(runtime_sec=finished-case_start,
+                          budget_compliant=result.get('budget_compliant', False) and finished-case_start <= payload['budget'])
+            json_write(output, result)
+        return result
+
+    def completed():
+        result = verify_artifact(payload, read_json(output))
+        if not done.exists():
+            recovered = recover_artifact(payload, result, result.get('runtime_sec', 0), 'ERROR',
+                                         'Worker interrupted before completing output persistence; full runtime is unknown')
+            recovered.update(budget_compliant=False, timing_complete=False)
+            json_write(output, recovered)
+            return recovered
+        runtime = float(done.read_text(encoding='ascii')) - result['_case_started_perf']
+        result.update(runtime_sec=runtime, budget_compliant=runtime <= payload['budget'])
+        if runtime > payload['budget']:
+            result.update(termination_reason='TIME_LIMIT')
+        json_write(output, result)
+        return result
+
+    if output.exists():
+        return completed()
+    ready.unlink(missing_ok=True)
+    done.unlink(missing_ok=True)
+    checkpoint.unlink(missing_ok=True)
+    # Uncommitted attempts are recomputed; never inject an unpaid old initializer.
+    json_write(input_path, payload)
+    launched = time.perf_counter()
+    with (directory / 'cases.log').open('a', encoding='utf-8') as log:
+        if CASE_HOST is None or CASE_HOST.poll() is not None:
+            CASE_HOST = subprocess.Popen([sys.executable, '-m', 'web_dashboard.experiment_worker', 'host'], cwd=ROOT,
+                stdin=subprocess.PIPE, stdout=log, stderr=log, text=True, encoding='utf-8',
+                env={**os.environ, 'PYTHONUTF8': '1'},
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
+        process = CASE_HOST
+        process.stdin.write(json.dumps([str(input_path), str(output), str(ready)]) + '\n')
+        process.stdin.flush()
+        case_start = None
+        try:
+            while True:
+                if done.exists() and output.exists():
+                    return completed()
+                if store.experiment(eid)['cancel_requested']:
+                    stop_owned(process)
+                    # Cancelled cases are not committed; resume recomputes the whole case.
+                    for partial in (output, done, checkpoint):
+                        partial.unlink(missing_ok=True)
+                    return None
+                if ready.exists():
+                    try:
+                        case_start = float(ready.read_text(encoding='ascii'))
+                    except ValueError:
+                        time.sleep(.01)
+                        continue
+                    elapsed = time.perf_counter()-case_start
+                    if elapsed >= payload['budget']:
+                        stop_owned(process)
+                        result = recover(time.perf_counter()-case_start, 'TIME_LIMIT')
+                        result.update(budget_compliant=False)
+                        return persist_recovery(result, case_start)
+                elif time.perf_counter()-launched > 60:
+                    stop_owned(process)
+                    return empty_result(payload, 0, 'ERROR', 'Solver host did not start in 60 seconds')
+                if process.poll() is not None:
+                    result = recover(time.perf_counter()-case_start if case_start is not None else 0,
+                                     'ERROR', f'Worker exited with code {process.returncode}')
+                    return persist_recovery(result, case_start)
+                time.sleep(.02)
+        finally:
+            input_path.unlink(missing_ok=True)
+            ready.unlink(missing_ok=True)
+
+
 def execute(root, eid):
     store = Store(root)
     exp = store.experiment(eid)
@@ -123,7 +243,10 @@ def execute(root, eid):
             store.experiment_update(eid, stage=f'{mode} · {ALGORITHMS[algorithm]} · {meta.get("scenario", seed)}')
             payload = {'flights': flights, 'gates': snapshot['gates'], 'solver_config': snapshot['solver_config'],
                        'algorithm': algorithm, 'mode': mode, 'seed': seed, 'initial': initial,
-                       'budget': config['time_limit_sec']}
+                       'budget': config['time_limit_sec'],
+                       'solver_protocol_version': config.get('solver_protocol_version', 1),
+                       'solver_profile': config.get('solver_profile', 'baseline'),
+                       'snapshot_hash': snapshot['hash'], 'case_id': cid}
             result = supervised_case(store, eid, directory, cid, payload)
             if result is None:
                 return False
@@ -188,6 +311,9 @@ def execute(root, eid):
                             store.put_case(eid, {'case_id': f'm_{index:04d}_{pindex}_{mode}',
                                 'algorithm': plan['algorithm'], 'mode': mode, 'scenario': index,
                                 'source_plan_id': plan['id'], 'seed': config['seed']+index,
+                                'solver_protocol_version': config.get('solver_protocol_version', 1),
+                                'solver_profile': config.get('solver_profile', 'baseline'), 'budget_compliant': False,
+                                'termination_reason': 'GENERATION_ERROR', 'solution_source': 'NONE',
                                 'status': 'GENERATION_ERROR', 'feasible': False, 'decision_cost': None,
                                 'risk_cost': None, 'conflicts': None, 'runtime_sec': 0, 'error': str(exc),
                                 'snapshot_hash': snapshot['hash'], 'realization_hash': hashlib.sha256(sample.tobytes()).hexdigest()})

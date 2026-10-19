@@ -1,0 +1,63 @@
+﻿{
+  "proposal": "CNTT-KLCN168_PhungTheBao.docx",
+  "overall_status": "READY_FOR_ADVISOR_REVIEW",
+  "authorization_note": "Prepared for review only; no advisor approval or communication is inferred.",
+  "decisions": [
+    {
+      "id": "DEV-01",
+      "status": "PENDING",
+      "advisor_response": null,
+      "confirmed_by": null,
+      "confirmation_date": null,
+      "evidence_path": null
+    },
+    {
+      "id": "DEV-02",
+      "status": "PENDING",
+      "advisor_response": null,
+      "confirmed_by": null,
+      "confirmation_date": null,
+      "evidence_path": null
+    },
+    {
+      "id": "DEV-03",
+      "status": "PENDING",
+      "advisor_response": null,
+      "confirmed_by": null,
+      "confirmation_date": null,
+      "evidence_path": null
+    },
+    {
+      "id": "DEV-04",
+      "status": "PENDING",
+      "advisor_response": null,
+      "confirmed_by": null,
+      "confirmation_date": null,
+      "evidence_path": null
+    },
+    {
+      "id": "DEV-05",
+      "status": "PENDING",
+      "advisor_response": null,
+      "confirmed_by": null,
+      "confirmation_date": null,
+      "evidence_path": null
+    },
+    {
+      "id": "DEV-06",
+      "status": "PENDING",
+      "advisor_response": null,
+      "confirmed_by": null,
+      "confirmation_date": null,
+      "evidence_path": null
+    },
+    {
+      "id": "DEV-07",
+      "status": "PENDING",
+      "advisor_response": null,
+      "confirmed_by": null,
+      "confirmation_date": null,
+      "evidence_path": null
+    }
+  ]
+}

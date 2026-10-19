@@ -35,11 +35,13 @@ from dataclasses import replace
 import logging
 import math
 import time
+import threading
 from typing import Any, Mapping, Sequence
 
 import numpy as np
 from ortools.sat.python import cp_model
 
+from src.optimization.execution import check_deadline
 from src.optimization.config import GateOptimizationConfig
 from src.optimization.domain import (
     ConstraintDiagnostic,
@@ -72,6 +74,9 @@ class CPSatGateSolver:
         *,
         allow_overflow: bool = True,
         initial_assignments: Mapping[str, GateAssignment] | None = None,
+        deadline_perf_counter: float | None = None,
+        progress_callback=None,
+        complete_hints: bool = False,
     ) -> OptimizationResult:
         """Solve optimal gate assignment problem for a batch of flights and gates.
 
@@ -145,8 +150,10 @@ class CPSatGateSolver:
         # =====================================================================
         eligible_candidates_map: dict[int, list[int]] = {}
         for f_idx, fl in enumerate(flights):
+            check_deadline(deadline_perf_counter)
             candidates: list[int] = []
             for g_idx, gate in enumerate(gate_list):
+                check_deadline(deadline_perf_counter)
                 if (
                     gate.is_compatible_carrier(fl.carrier)
                     and gate.is_compatible_aircraft(fl.aircraft_type)
@@ -205,12 +212,15 @@ class CPSatGateSolver:
         if formulation == "dense_pairwise":
             # Baseline dense allocation
             for f_idx in range(n_flights):
+                check_deadline(deadline_perf_counter)
                 for g_idx in range(n_gates):
                     x[f_idx, g_idx] = model.NewBoolVar(f"x_{f_idx}_{g_idx}")
 
             # Availability and compatibility constraints (equality cuts)
             for f_idx, fl in enumerate(flights):
+                check_deadline(deadline_perf_counter)
                 for g_idx, gate in enumerate(gate_list):
+                    check_deadline(deadline_perf_counter)
                     if (
                         not gate.is_available_during(fl.time_window)
                         or not gate.is_compatible_carrier(fl.carrier)
@@ -220,16 +230,19 @@ class CPSatGateSolver:
 
             # Exactly one gate per flight
             for f_idx in range(n_flights):
+                check_deadline(deadline_perf_counter)
                 model.Add(sum(x[f_idx, g_idx] for g_idx in range(n_gates)) == 1)
 
         else:
             # OPT-A Sparse variables: Only create variables for eligible candidates
             for f_idx in range(n_flights):
+                check_deadline(deadline_perf_counter)
                 for g_idx in eligible_candidates_map[f_idx]:
                     x[f_idx, g_idx] = model.NewBoolVar(f"x_{f_idx}_{g_idx}")
 
             # Exactly one gate per flight (CP03)
             for f_idx in range(n_flights):
+                check_deadline(deadline_perf_counter)
                 cand = eligible_candidates_map[f_idx]
                 model.Add(sum(x[f_idx, g_idx] for g_idx in cand) == 1)
 
@@ -239,11 +252,13 @@ class CPSatGateSolver:
         if formulation == "sparse_interval":
             # OPT-B: Native interval variables with AddNoOverlap & AddCumulative
             for g_idx, gate in enumerate(gate_list):
+                check_deadline(deadline_perf_counter)
                 if gate.resource_type == GateResourceType.UNBOUNDED_OVERFLOW_APRON or gate.is_unbounded:
                     continue  # Unbounded overflow apron has infinite capacity
 
                 gate_intervals: list[cp_model.IntervalVar] = []
                 for f_idx in range(n_flights):
+                    check_deadline(deadline_perf_counter)
                     if (f_idx, g_idx) in x:
                         fl = flights[f_idx]
                         start = int(fl.time_window.start_min)
@@ -278,6 +293,7 @@ class CPSatGateSolver:
                         overlapping_pairs.append((i, j))
 
             for g_idx, gate in enumerate(gate_list):
+                check_deadline(deadline_perf_counter)
                 if gate.resource_type == GateResourceType.UNBOUNDED_OVERFLOW_APRON or gate.is_unbounded:
                     continue
 
@@ -307,6 +323,7 @@ class CPSatGateSolver:
         objective_terms = []
 
         for f_idx, fl in enumerate(flights):
+            check_deadline(deadline_perf_counter)
             nom_gate_id = fl.nominal_gate_id
             cands = range(n_gates) if formulation == "dense_pairwise" else eligible_candidates_map[f_idx]
 
@@ -355,16 +372,20 @@ class CPSatGateSolver:
 
             if hint_assignments and len(hint_assignments) == n_flights:
                 gate_to_idx = {g.gate_id: idx for idx, g in enumerate(gate_list)}
-                for fl in flights:
+                for f_idx, fl in enumerate(flights):
+                    check_deadline(deadline_perf_counter)
                     asgn = hint_assignments.get(fl.flight_id)
                     if asgn is not None and asgn.gate_id in gate_to_idx:
                         g_idx = gate_to_idx[asgn.gate_id]
-                        if (fl.flight_index, g_idx) in x:
-                            model.AddHint(x[fl.flight_index, g_idx], 1)
+                        if complete_hints:
+                            for candidate in (range(n_gates) if formulation == "dense_pairwise" else eligible_candidates_map[f_idx]):
+                                model.AddHint(x[f_idx, candidate], int(candidate == g_idx))
+                        elif (f_idx, g_idx) in x:
+                            model.AddHint(x[f_idx, g_idx], 1)
                 warm_start_used = True
 
         t_build_end_ns = time.perf_counter_ns()
-        model_construction_ms = (t_build_end_ns - t_build_start_ns) / 1_000_000.0 + warm_start_time_ms
+        model_construction_ms = (t_build_end_ns - t_build_start_ns) / 1_000_000.0
         n_constraints = len(model.Proto().constraints)
 
         # =====================================================================
@@ -413,6 +434,10 @@ class CPSatGateSolver:
                 )
             search_budget_seconds = min(search_budget_seconds, remaining_sec)
 
+        if deadline_perf_counter is not None:
+            check_deadline(deadline_perf_counter)
+            search_budget_seconds = min(search_budget_seconds, deadline_perf_counter - time.perf_counter())
+
         # =====================================================================
         # STEP 7: SOLVER EXECUTION
         # =====================================================================
@@ -423,7 +448,37 @@ class CPSatGateSolver:
         solver.parameters.log_search_progress = bool(self.config.log_search_progress)
 
         t_search_start_ns = time.perf_counter_ns()
-        raw_status = solver.Solve(model)
+        class IncumbentCallback(cp_model.CpSolverSolutionCallback):
+            def on_solution_callback(callback_self):
+                assignments = {}
+                for f_idx, fl in enumerate(flights):
+                    for g_idx in eligible_candidates_map[f_idx]:
+                        if callback_self.BooleanValue(x[f_idx, g_idx]):
+                            gate = gate_list[g_idx]
+                            assignments[fl.flight_id] = GateAssignment(
+                                flight_id=fl.flight_id, gate_id=gate.gate_id,
+                                flight_index=f_idx, gate_index=g_idx, is_overflow=gate.is_overflow,
+                                is_reassignment=fl.nominal_gate_id is not None and gate.gate_id != fl.nominal_gate_id,
+                                occupancy_start_min=fl.time_window.start_min,
+                                occupancy_end_min=fl.time_window.end_min)
+                            break
+                progress_callback(assignments, {'solution_source': 'SOLVER', 'stage': 'cp',
+                    'best_bound': callback_self.BestObjectiveBound() / sf})
+                if deadline_perf_counter is not None and time.perf_counter() >= deadline_perf_counter:
+                    callback_self.StopSearch()
+
+        timer = None
+        if deadline_perf_counter is not None:
+            timer = threading.Timer(max(0, deadline_perf_counter-time.perf_counter()), solver.StopSearch)
+            timer.daemon = True
+            timer.start()
+        try:
+            raw_status = solver.Solve(model, IncumbentCallback() if progress_callback else None)
+        finally:
+            if timer is not None:
+                timer.cancel()
+                timer.join()
+
         t_search_end_ns = time.perf_counter_ns()
         search_time_ms = (t_search_end_ns - t_search_start_ns) / 1_000_000.0
 

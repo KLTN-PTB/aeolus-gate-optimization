@@ -1,5 +1,7 @@
 # Aeolus Gate Optimization — Tóm tắt toàn bộ dự án
 
+> **Cập nhật 19/10/2026:** [Bộ đối chiếu hiện hành](docs/reconciliation/phase1_2/README.md) ghi yêu cầu từ đề gốc, số liệu tính lại và trạng thái chờ GVHD. Phần bên dưới giữ mô tả mốc P14 lịch sử; chưa phản ánh toàn bộ dual-core, G12C và web hiện tại.
+
 > **Trạng thái cập nhật chính thức**: Đã hoàn thành toàn bộ chuỗi nghiên cứu, thực nghiệm, sửa chữa phương pháp luận và kiểm toán chứng nhận khoa học đến **Phase P14 — Final Scientific Certification & Conditional Rebuild Decision** (tháng 10/2026). Hệ thống đã đạt phán quyết tối hậu **`CERTIFIED_WITH_LIMITATIONS`** với kết luận **`REBUILD_REQUIRED = NO`**. Dữ liệu 2024 được quản trị chặt chẽ qua 2 thế hệ bằng chứng độc lập: dữ liệu lịch sử trước sửa chữa (`HISTORICAL_2024_RESULTS`) và đợt tái đánh giá hậu đóng băng sau sửa chữa (`P11R_POST_HOLDOUT_REEVALUATION_AFTER_METHODOLOGY_REPAIR`).
 
 ---

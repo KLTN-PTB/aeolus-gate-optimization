@@ -1,0 +1,247 @@
+{
+  "arrival_checkpoint": "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+  "arrival_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+  "checkpoint_inventory": [
+    {
+      "bytes": 375309,
+      "load_status": "LOADED",
+      "object_type": "src.models.probabilistic.departure_distributions.DepartureNGBoostStudentTModel",
+      "path": "artifacts/dual_core/models/departure_distribution_v1.joblib",
+      "sha256": "e07d9013ecf652efcc655a75572bda8d3f4a8304547fce5ccc101bb35fb1564f"
+    },
+    {
+      "bytes": 1243679,
+      "load_status": "LOADED",
+      "object_type": "src.models.probabilistic.departure_distributions.DepartureEmpiricalBaseline",
+      "path": "artifacts/dual_core/models/departure_empirical_residual_v1.joblib",
+      "sha256": "c4a683b85b2d7665d1e2bd2e333f4435f69efa37ee9931bb89cbb72e76717b3a"
+    },
+    {
+      "bytes": 646248,
+      "load_status": "LOADED",
+      "object_type": "src.models.probabilistic.departure_distributions.DepartureGaussianResidualModel",
+      "path": "artifacts/dual_core/models/departure_gaussian_residual_v1.joblib",
+      "sha256": "cbbd7dc26f7cdc15ae2c28d3e793cec09aca122265f5c519c32299174b68b3b0"
+    },
+    {
+      "bytes": 212590,
+      "load_status": "LOADED",
+      "object_type": "src.data.departure_preprocessing.DeparturePreprocessingPipeline",
+      "path": "artifacts/dual_core/models/departure_linear_preprocessor_v1.joblib",
+      "sha256": "377a2aeafbe1969e01ef86038ec6aad974fd83ee871107e39412da7d9902e7d2"
+    },
+    {
+      "bytes": 211949,
+      "load_status": "LOADED",
+      "object_type": "src.data.departure_preprocessing.DeparturePreprocessingPipeline",
+      "path": "artifacts/dual_core/models/departure_linear_preprocessor_v1_fold4.joblib",
+      "sha256": "06015671b7110b65d6a9fb53132b72de120e5d7625bfad54357230ebb6568392"
+    },
+    {
+      "bytes": 375309,
+      "load_status": "LOADED",
+      "object_type": "src.models.probabilistic.departure_distributions.DepartureNGBoostStudentTModel",
+      "path": "artifacts/dual_core/models/departure_ngboost_student_t_v1.joblib",
+      "sha256": "e07d9013ecf652efcc655a75572bda8d3f4a8304547fce5ccc101bb35fb1564f"
+    },
+    {
+      "bytes": 2217,
+      "load_status": "LOADED",
+      "object_type": "sklearn.linear_model._ridge.Ridge",
+      "path": "artifacts/dual_core/models/departure_ridge_baseline_v1.joblib",
+      "sha256": "a9a9834aecd1af10cc3967cb1108c750b200a6802586e5eb41180285cbde5aae"
+    },
+    {
+      "bytes": 2201,
+      "load_status": "LOADED",
+      "object_type": "sklearn.linear_model._ridge.Ridge",
+      "path": "artifacts/dual_core/models/departure_ridge_baseline_v1_fold4.joblib",
+      "sha256": "7539f1173d4d6afa9b5e0ee038aece524f30e6535b27ac1247071d5697cf344b"
+    },
+    {
+      "bytes": 207187,
+      "load_status": "LOADED",
+      "object_type": "src.data.departure_preprocessing.DeparturePreprocessingPipeline",
+      "path": "artifacts/dual_core/models/departure_tree_preprocessor_v1.joblib",
+      "sha256": "ce2bb0f6f0e0ed650df3ae82306013360de5c0fafac5814307e99dfb69f62017"
+    },
+    {
+      "bytes": 206594,
+      "load_status": "LOADED",
+      "object_type": "src.data.departure_preprocessing.DeparturePreprocessingPipeline",
+      "path": "artifacts/dual_core/models/departure_tree_preprocessor_v1_fold4.joblib",
+      "sha256": "fc4c376247eb910d4426aeb02b80a2a0bcb7df9552c3f33dcdf48a8c48d3e671"
+    },
+    {
+      "bytes": 498135,
+      "load_status": "LOADED",
+      "object_type": "xgboost.sklearn.XGBRegressor",
+      "path": "artifacts/dual_core/models/departure_xgboost_baseline_v1.joblib",
+      "sha256": "e483df5fd03ce4d0eefe7b431fc289b6804589c62eda17b48fb8051849f4f6e1"
+    },
+    {
+      "bytes": 497455,
+      "load_status": "LOADED",
+      "object_type": "xgboost.sklearn.XGBRegressor",
+      "path": "artifacts/dual_core/models/departure_xgboost_baseline_v1_fold4.joblib",
+      "sha256": "40013f154a6b3cfe88f7cdae0d4a8fc549e18a11deef6435e8832af77114998c"
+    },
+    {
+      "bytes": 550712,
+      "load_status": "LOADED",
+      "object_type": "sklearn.ensemble._hist_gradient_boosting.gradient_boosting.HistGradientBoostingRegressor",
+      "path": "artifacts/models/refactored/best_hgb_absolute_weighted.joblib",
+      "sha256": "4eaf6b005fe85decee042b2c02b0388b8e2b5d97cc91914bd668682b98e1fa15"
+    },
+    {
+      "bytes": 1189093,
+      "load_status": "LOADED",
+      "object_type": "src.models.hurdle_inference.HurdleDelayPredictor",
+      "path": "artifacts/models/refactored/best_hurdle_delay_predictor.joblib",
+      "sha256": "63c5b7c1b02c9dfc375af92b257ff0e8a867694e1f0817ebde907ece9d6182f1"
+    },
+    {
+      "bytes": 243595,
+      "load_status": "LOADED",
+      "object_type": "src.models.probabilistic.baselines.B5NGBoostStudentT",
+      "path": "artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+      "sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f"
+    },
+    {
+      "bytes": 5714,
+      "error": "Can't get attribute 'CalibratedPredictor'",
+      "error_type": "AttributeError",
+      "load_status": "LOAD_FAILED",
+      "path": "artifacts/remediation/outbound_classification/models/outbound_logistic_calibrated_v1.joblib",
+      "sha256": "389a8ef595e64a2dc440d365069f3f154b30b3181d4530ac45793667b8dfdae7"
+    },
+    {
+      "bytes": 2431,
+      "load_status": "LOADED",
+      "object_type": "sklearn.linear_model._logistic.LogisticRegression",
+      "path": "artifacts/remediation/outbound_classification/models/outbound_logistic_classifier_v1.joblib",
+      "sha256": "1de111ed658dbdc7a21a1b7f36a0e87b1ece2dacf6734ae12d9399b5643bd6b1"
+    },
+    {
+      "bytes": 498237,
+      "error": "Can't get attribute 'CalibratedPredictor'",
+      "error_type": "AttributeError",
+      "load_status": "LOAD_FAILED",
+      "path": "artifacts/remediation/outbound_classification/models/outbound_xgboost_calibrated_v1.joblib",
+      "sha256": "cd2bea80f04ca5095f5ac057d0ae49508c2bbac78f477bc9458c3304a17322ad"
+    },
+    {
+      "bytes": 497335,
+      "load_status": "LOADED",
+      "object_type": "xgboost.sklearn.XGBClassifier",
+      "path": "artifacts/remediation/outbound_classification/models/outbound_xgboost_classifier_v1.joblib",
+      "sha256": "945e99b765990acc88dabf544e16b9c4e35b7a9f12f4c073e47b1ce388a12bb2"
+    }
+  ],
+  "conclusion": "Serialized class B5NGBoostStudentT; native run model b5_ngboost_student_t. The historical P4 label does not change registry identity or model status.",
+  "loaded_class": "src.models.probabilistic.baselines.B5NGBoostStudentT",
+  "native_g4_manifest": {
+    "config": {
+      "airport": "ATL",
+      "arrival_model_id": "b5_ngboost_student_t",
+      "departure_model_id": "departure_certified_point_v1",
+      "max_overflow": 5,
+      "n_contact_gates": 30,
+      "provenance_mode": "NATIVE_INFERENCE",
+      "random_seed": 202601,
+      "simulation_mode": "DUAL_POINT",
+      "solver_name": "CPSat",
+      "time_limit_seconds": 10.0
+    },
+    "counts": {
+      "flights_optimized": 200,
+      "gates_available": 35,
+      "inbound_legs": 100,
+      "outbound_legs": 100,
+      "predictions_generated": 200,
+      "turns_synthesized": 200
+    },
+    "elapsed_seconds": 2.7736,
+    "model_provenance": {
+      "arrival": {
+        "checkpoint_path": "D:/Study/Code/Python/Aelous/artifacts/probabilistic/ngboost_student_t/model_weights_frozen_v1.joblib",
+        "expected_sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+        "file_size_bytes": 243595,
+        "object_type": "src.models.probabilistic.baselines.B5NGBoostStudentT",
+        "sha256": "e7e7462f17b65b276ebdee9c7beced15e090f69b088a18896d5a91aaa8cb062f",
+        "verification_status": "VERIFIED_VALID",
+        "verified_at_utc": "2026-10-11T10:38:59.553177+00:00"
+      },
+      "departure": {
+        "checkpoint_path": "D:/Study/Code/Python/Aelous/artifacts/dual_core/models/departure_xgboost_baseline_v1.joblib",
+        "expected_sha256": "e483df5fd03ce4d0eefe7b431fc289b6804589c62eda17b48fb8051849f4f6e1",
+        "file_size_bytes": 498135,
+        "object_type": "xgboost.sklearn.XGBRegressor",
+        "sha256": "e483df5fd03ce4d0eefe7b431fc289b6804589c62eda17b48fb8051849f4f6e1",
+        "verification_status": "VERIFIED_VALID",
+        "verified_at_utc": "2026-10-11T10:38:59.684485+00:00"
+      }
+    },
+    "optimization": {
+      "conflicts_count": 0,
+      "contact_count": 200,
+      "feasible": true,
+      "hard_constraint_violations": 0,
+      "independent_verifier_valid": true,
+      "objective_value": 0.0,
+      "re_evaluated_objective": 0.0,
+      "reassignments_count": 0,
+      "remote_count": 0,
+      "runtime_ms": 1280.88,
+      "status": "OPTIMAL",
+      "unassigned_count": 0
+    },
+    "pairing_summary": {
+      "inferred_pairs_count": 0,
+      "invalid_pairs_count": 0,
+      "quarantined_pairs_count": 0,
+      "rejection_reasons_tally": {},
+      "review_required_count": 0,
+      "synthetic_pairs_count": 0,
+      "total_legs": 200,
+      "total_pairs": 200,
+      "unmatched_arr_count": 100,
+      "unmatched_dep_count": 100,
+      "valid_pairs_count": 200,
+      "verified_pairs_count": 0
+    },
+    "phase": "P07",
+    "pipeline": "NativeDualCorePredictThenOptimizePipeline",
+    "timestamp_utc": "2026-10-11T10:39:01.114341+00:00"
+  },
+  "registry": {
+    "P4_ngboost_student_t": {
+      "downstream_eligible": false,
+      "implementation_class": "P4NGBoostStudentTCandidate",
+      "selection_role": "probabilistic_candidate_p4_heavy_tail",
+      "status": "research_candidate",
+      "task": "core_arrival"
+    },
+    "arrival_weighted_ensemble_v1": {
+      "downstream_eligible": true,
+      "implementation_class": "InverseVarianceWeightedEnsemble",
+      "selection_role": "core_point_ensemble",
+      "status": "current_core",
+      "task": "core_arrival"
+    },
+    "b5_ngboost_student_t": {
+      "downstream_eligible": true,
+      "implementation_class": "B5NGBoostStudentT",
+      "selection_role": "historical_probabilistic_comparator",
+      "status": "legacy_frozen",
+      "task": "core_arrival"
+    },
+    "departure_certified_point_v1": {
+      "downstream_eligible": true,
+      "implementation_class": "XGBoostDepartureModel",
+      "selection_role": "GATE_OUT_PREDICTION",
+      "status": "downstream_eligible",
+      "task": "core_departure"
+    }
+  }
+}

@@ -272,6 +272,7 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
 
     from web_dashboard.experiments import (ANALYSIS_VERSION, available_plans, experiment_results, export_experiment, load_plan,
         read_json, render_plan, snapshot_for)
+    from web_dashboard.solver_execution import PROTOCOL_VERSION, version_for
     experiment_export_lock = threading.Lock()
 
     def get_experiment(eid):
@@ -304,6 +305,7 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
             snapshot = snapshot_for(store, run_id)
             config = request.model_dump(mode='json')
             config['snapshot_hash'] = snapshot['hash']
+            config['solver_protocol_version'] = PROTOCOL_VERSION
             if request.kind == 'montecarlo':
                 if not snapshot['marginals']:
                     raise ValueError('Không có phân phối chuyến đến để lấy mẫu Monte Carlo.')
@@ -340,7 +342,7 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         path = store.root / 'experiments' / eid / 'results.json'
         if exp['status'] not in ('queued', 'running') and path.exists():
             cached = read_json(path)
-            if cached.get('analysis_version') == ANALYSIS_VERSION and cached['experiment']['completed'] == exp['completed'] and cached['experiment']['status'] == exp['status']:
+            if cached.get('analysis_version') == version_for(exp) and cached['experiment']['completed'] == exp['completed'] and cached['experiment']['status'] == exp['status']:
                 cached['experiment'] = exp
                 return cached
         return experiment_results(store, eid)
@@ -375,6 +377,8 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
     def resume_experiment(eid: str):
         exp = get_experiment(eid)
         try:
+            if exp['config'].get('solver_protocol_version') != PROTOCOL_VERSION:
+                raise RuntimeError('Solver protocol changed; create a new experiment instead of mixing historical results.')
             snapshot_for(store, exp['run_id'])
             if exp['completed'] == exp['total']:
                 raise RuntimeError('Mọi lượt đã được ghi nhận; tạo thí nghiệm mới nếu muốn chạy lại.')
@@ -397,7 +401,7 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         path = store.root / 'experiments' / eid / allowed[kind]
         with experiment_export_lock:
             state_path = path.parent / '.export_state.json'
-            expected = {'analysis_version': ANALYSIS_VERSION, 'completed': exp['completed'], 'status': exp['status']}
+            expected = {'analysis_version': version_for(exp), 'completed': exp['completed'], 'status': exp['status']}
             if not path.exists() or not state_path.exists() or read_json(state_path) != expected:
                 export_experiment(store, eid)
         return FileResponse(path, filename=f'aeolus_{eid[:8]}_{path.name}')

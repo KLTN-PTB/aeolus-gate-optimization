@@ -1,0 +1,390 @@
+{
+  "accounting": {
+    "duplicate_primary_keys": 0,
+    "evaluations": 5500,
+    "exception_rows": 0,
+    "feasible": 4378,
+    "generated": 500,
+    "infeasible": 1122,
+    "matches_saved_accounting": true,
+    "max_slots_per_scenario": 11,
+    "min_slots_per_scenario": 11,
+    "requested": 500,
+    "timeouts": 0,
+    "unique_scenarios": 500
+  },
+  "assumptions": {
+    "copula": {
+      "eigenvalues": [
+        0.55,
+        1.45
+      ],
+      "family": "Gaussian",
+      "is_positive_definite": true,
+      "rho": 0.45
+    },
+    "marginals": {
+      "arrival": {
+        "df": 4.5,
+        "family": "Student-t",
+        "loc": 5.0,
+        "scale": 18.0
+      },
+      "departure": {
+        "df": 4.0,
+        "family": "Student-t",
+        "loc": 8.0,
+        "scale": 22.0
+      }
+    },
+    "scope": "Synthetic simulation with configured marginals; not native ML sampling on the uploaded 2026 day.",
+    "web_difference": "Web samples independent arrival Student-t marginals, holds departure point forecasts, and uses retrospective full-day recourse."
+  },
+  "groups": [
+    {
+      "buffer_violations": 0,
+      "cvar90": 3751.647004000001,
+      "cvar95": 4388.352,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 126,
+      "feasible_rate": 0.252,
+      "initial_plan_solver": "CPSat",
+      "mode": "A",
+      "n": 500,
+      "objective_mean": 1469.170234,
+      "objective_p90": 3106.27164,
+      "objective_p99": 5106.076033,
+      "physical_conflicts": 682,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 2.849,
+      "runtime_p95_ms": 1.573,
+      "solver_statuses": {
+        "FIXED_PLAN": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/fixed_plan_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 3751.647004000001,
+      "cvar95": 4388.352,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 126,
+      "feasible_rate": 0.252,
+      "initial_plan_solver": "Greedy",
+      "mode": "A",
+      "n": 500,
+      "objective_mean": 1469.170234,
+      "objective_p90": 3106.27164,
+      "objective_p99": 5106.076033,
+      "physical_conflicts": 682,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 2.938,
+      "runtime_p95_ms": 1.5930499999999999,
+      "solver_statuses": {
+        "FIXED_PLAN": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/fixed_plan_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 3751.647004000001,
+      "cvar95": 4388.352,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 126,
+      "feasible_rate": 0.252,
+      "initial_plan_solver": "Hybrid",
+      "mode": "A",
+      "n": 500,
+      "objective_mean": 1469.170234,
+      "objective_p90": 3106.27164,
+      "objective_p99": 5106.076033,
+      "physical_conflicts": 682,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 2.818,
+      "runtime_p95_ms": 1.57005,
+      "solver_statuses": {
+        "FIXED_PLAN": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/fixed_plan_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 182.44733399999998,
+      "cvar95": 195.558668,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 500,
+      "feasible_rate": 1.0,
+      "initial_plan_solver": "CPSat",
+      "mode": "B1",
+      "n": 500,
+      "objective_mean": 130.73023400000002,
+      "objective_p90": 163.47833,
+      "objective_p99": 203.25213399999998,
+      "physical_conflicts": 0,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 6.449,
+      "runtime_p95_ms": 3.38725,
+      "solver_statuses": {
+        "FEASIBLE": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/recourse_b1_retrospective_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 182.44733399999998,
+      "cvar95": 195.558668,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 500,
+      "feasible_rate": 1.0,
+      "initial_plan_solver": "Greedy",
+      "mode": "B1",
+      "n": 500,
+      "objective_mean": 130.73023400000002,
+      "objective_p90": 163.47833,
+      "objective_p99": 203.25213399999998,
+      "physical_conflicts": 0,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 4.969,
+      "runtime_p95_ms": 3.39025,
+      "solver_statuses": {
+        "FEASIBLE": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/recourse_b1_retrospective_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 182.44733399999998,
+      "cvar95": 195.558668,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 500,
+      "feasible_rate": 1.0,
+      "initial_plan_solver": "Hybrid",
+      "mode": "B1",
+      "n": 500,
+      "objective_mean": 130.73023400000002,
+      "objective_p90": 163.47833,
+      "objective_p99": 203.25213399999998,
+      "physical_conflicts": 0,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 48.104,
+      "runtime_p95_ms": 3.4801499999999996,
+      "solver_statuses": {
+        "FEASIBLE": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/recourse_b1_retrospective_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 230.975004,
+      "cvar95": 275.67400399999997,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 500,
+      "feasible_rate": 1.0,
+      "initial_plan_solver": "CPSat",
+      "mode": "B2",
+      "n": 500,
+      "objective_mean": 139.490234,
+      "objective_p90": 175.66836,
+      "objective_p99": 356.0227,
+      "physical_conflicts": 0,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 7.504,
+      "runtime_p95_ms": 4.18135,
+      "solver_statuses": {
+        "ONLINE_FEASIBLE": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/recourse_b2_online_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 230.975004,
+      "cvar95": 275.67400399999997,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 500,
+      "feasible_rate": 1.0,
+      "initial_plan_solver": "Greedy",
+      "mode": "B2",
+      "n": 500,
+      "objective_mean": 139.490234,
+      "objective_p90": 175.66836,
+      "objective_p99": 356.0227,
+      "physical_conflicts": 0,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 6.918,
+      "runtime_p95_ms": 4.197299999999999,
+      "solver_statuses": {
+        "ONLINE_FEASIBLE": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/recourse_b2_online_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 230.975004,
+      "cvar95": 275.67400399999997,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 500,
+      "feasible_rate": 1.0,
+      "initial_plan_solver": "Hybrid",
+      "mode": "B2",
+      "n": 500,
+      "objective_mean": 139.490234,
+      "objective_p90": 175.66836,
+      "objective_p99": 356.0227,
+      "physical_conflicts": 0,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 7.099,
+      "runtime_p95_ms": 4.1914,
+      "solver_statuses": {
+        "ONLINE_FEASIBLE": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/recourse_b2_online_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 182.44733399999998,
+      "cvar95": 195.558668,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 500,
+      "feasible_rate": 1.0,
+      "initial_plan_solver": "NONE",
+      "mode": "C1",
+      "n": 500,
+      "objective_mean": 130.73023400000002,
+      "objective_p90": 163.47833,
+      "objective_p99": 203.25213399999998,
+      "physical_conflicts": 0,
+      "proven_optimal_count": 0,
+      "runtime_max_ms": 4.755,
+      "runtime_p95_ms": 2.9111,
+      "solver_statuses": {
+        "FEASIBLE": 500
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/foresight_c1_greedy_results.csv"
+    },
+    {
+      "buffer_violations": 0,
+      "cvar90": 153.273336,
+      "cvar95": 160.231336,
+      "cvar_convention": "mean(objective >= numpy percentile threshold), including ties; historical convention",
+      "feasible_count": 500,
+      "feasible_rate": 1.0,
+      "initial_plan_solver": "NONE",
+      "mode": "C2",
+      "n": 500,
+      "objective_mean": 120.39023399999999,
+      "objective_p90": 142.88664000000003,
+      "objective_p99": 165.786134,
+      "physical_conflicts": 0,
+      "proven_optimal_count": 499,
+      "runtime_max_ms": 1572.824,
+      "runtime_p95_ms": 443.2568,
+      "solver_statuses": {
+        "FEASIBLE": 1,
+        "OPTIMAL": 499
+      },
+      "source": "artifacts/remediation/monte_carlo_mc500/mc500_20261012_173538_afa5db/foresight_c2_optimal_results.csv"
+    }
+  ],
+  "mode_ledger_alignment": [
+    {
+      "key_mapping": "MODE_A",
+      "matches_ledger": true,
+      "max_rounding_error": 3.333333370392211e-05,
+      "mode": "A",
+      "none_solver_mapping": null,
+      "objective_tolerance": 5.00001e-05,
+      "rows": 1500
+    },
+    {
+      "key_mapping": "MODE_B1",
+      "matches_ledger": true,
+      "max_rounding_error": 3.3333333391283304e-05,
+      "mode": "B1",
+      "none_solver_mapping": null,
+      "objective_tolerance": 5.00001e-05,
+      "rows": 1500
+    },
+    {
+      "key_mapping": "MODE_B2",
+      "matches_ledger": true,
+      "max_rounding_error": 3.3333333391283304e-05,
+      "mode": "B2",
+      "none_solver_mapping": null,
+      "objective_tolerance": 5.00001e-05,
+      "rows": 1500
+    },
+    {
+      "key_mapping": "MODE_C1",
+      "matches_ledger": true,
+      "max_rounding_error": 3.3333333391283304e-05,
+      "mode": "C1",
+      "none_solver_mapping": "ForesightGreedy",
+      "objective_tolerance": 5.00001e-05,
+      "rows": 500
+    },
+    {
+      "key_mapping": "MODE_C2",
+      "matches_ledger": true,
+      "max_rounding_error": 3.3333333391283304e-05,
+      "mode": "C2",
+      "none_solver_mapping": "ForesightCPSat",
+      "objective_tolerance": 5.00001e-05,
+      "rows": 500
+    }
+  ],
+  "paired": {
+    "A-B2": {
+      "ci95_t": [
+        1229.9124873702458,
+        1429.4475126297543
+      ],
+      "formula": "paired left minus right; Student t 95% interval; no EVPI identity asserted",
+      "left_initial_solver": "Greedy",
+      "mean_delta": 1329.68,
+      "n": 500,
+      "p_value": 9.625161129721318e-96,
+      "right_initial_solver": "Greedy",
+      "se": 50.779264099876926
+    },
+    "B1-B2": {
+      "ci95_t": [
+        -11.632808478119191,
+        -5.887191521880808
+      ],
+      "formula": "paired left minus right; Student t 95% interval; no EVPI identity asserted",
+      "left_initial_solver": "Greedy",
+      "mean_delta": -8.76,
+      "n": 500,
+      "p_value": 3.99612481224031e-09,
+      "right_initial_solver": "Greedy",
+      "se": 1.4621904122251677
+    },
+    "B2-C2": {
+      "ci95_t": [
+        15.931981258016185,
+        22.268018741983816
+      ],
+      "formula": "paired left minus right; Student t 95% interval; no EVPI identity asserted",
+      "left_initial_solver": "Greedy",
+      "mean_delta": 19.1,
+      "n": 500,
+      "p_value": 1.0704680297000203e-28,
+      "right_initial_solver": "NONE",
+      "se": 1.6124453354826758
+    },
+    "C1-C2": {
+      "ci95_t": [
+        9.184879263529087,
+        11.495120736470913
+      ],
+      "formula": "paired left minus right; Student t 95% interval; no EVPI identity asserted",
+      "left_initial_solver": "NONE",
+      "mean_delta": 10.34,
+      "n": 500,
+      "p_value": 3.129470378485346e-54,
+      "right_initial_solver": "NONE",
+      "se": 0.587928669347295
+    }
+  },
+  "run_id": "mc500_20261012_173538_afa5db"
+}

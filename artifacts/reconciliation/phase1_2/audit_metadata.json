@@ -1,0 +1,17 @@
+{
+  "baseline_commit": "aed54a13fc330b387c303ecc488fc1280cfa1129",
+  "generator_sha256": "134c593615838276568ffcb7f11acb76e4ab275863d3ad4f22f8b41e1e467b63",
+  "packages": {
+    "joblib": "1.5.3",
+    "numpy": "2.2.6",
+    "optuna": "5.0.0",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.17.1",
+    "shap": "0.51.0",
+    "xgboost": "3.2.0"
+  },
+  "python": "3.11.15",
+  "report_renderer_sha256": "4772a10a543e5702892a4aca89c343ca9f3be531fb7b2c62baf7ed9dbc1d6072",
+  "verification_scope": "Read-only stored evidence arithmetic and source inventory, not G13 or advisor signoff"
+}

@@ -90,3 +90,36 @@ describe('experiment pages', () => {
     expect(screen.getByRole('button', {name: 'Sau →'})).toBeTruthy();
   });
 });
+
+it('submits a separate baseline profile without changing the budget', async () => {
+  render(<LabPage kind="benchmark" runId={rid} result={output} onOpen={vi.fn()}/>);
+  await waitFor(() => expect((screen.getByRole('button', {name: /Chạy benchmark/}) as HTMLButtonElement).disabled).toBe(false));
+  expect((screen.getByLabelText('Cấu hình solver') as HTMLSelectElement).value).toBe('optimized');
+  fireEvent.change(screen.getByLabelText('Cấu hình solver'), {target:{value:'baseline'}});
+  fireEvent.change(screen.getByLabelText('Ngân sách thí nghiệm'), {target:{value:'120'}});
+  call.mockResolvedValueOnce(experiment);
+  fireEvent.click(screen.getByRole('button', {name:/Chạy benchmark/}));
+  await waitFor(() => {
+    const post=call.mock.calls.find(([,options]) => options?.method==='POST');
+    expect(JSON.parse(String(post?.[1]?.body))).toMatchObject({solver_profile:'baseline',time_limit_sec:120});
+  });
+});
+
+it('keeps a late initializer visible and opens its Gantt without claiming CP optimality', async () => {
+  const late={...result.cases[0],algorithm:'cpsat',solver_protocol_version:2,solver_profile:'optimized',
+    solution_source:'GREEDY_INITIALIZER',termination_reason:'TIME_LIMIT',budget_compliant:false,runtime_sec:120.2};
+  call.mockImplementation(async path => {
+    if (path.endsWith('/experiments')) return [{...experiment,config:{...experiment.config,solver_profile:'optimized',solver_protocol_version:2}}];
+    if (path.endsWith('/plans')) return {ready:true,plans:[]};
+    if (path.endsWith('/results')) return {...result,cases:[late]};
+    if (path.includes('/plans/')) return output;
+    throw Error(path);
+  });
+  const open=vi.fn();
+  render(<LabPage kind="benchmark" runId={rid} result={output} onOpen={open}/>);
+  expect(await screen.findByText('Chỉ có nghiệm Greedy khởi tạo')).toBeTruthy();
+  expect(screen.getByText('TIME_LIMIT · Vượt ngân sách')).toBeTruthy();
+  expect(screen.queryByText('Đã chứng minh tối ưu')).toBeNull();
+  fireEvent.click(screen.getByRole('button',{name:'Xem Gantt'}));
+  await waitFor(() => expect(open).toHaveBeenCalled());
+});

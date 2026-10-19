@@ -14,6 +14,7 @@ class ExperimentRequest(BaseModel):
     kind: Literal["benchmark", "montecarlo"]
     mode: Literal["quick", "research"] = "quick"
     algorithms: list[Literal["greedy", "cpsat", "sa", "hybrid"]] = Field(default_factory=lambda: ["greedy", "cpsat", "sa", "hybrid"], min_length=1, max_length=4)
+    solver_profile: Literal["optimized", "baseline"] = "optimized"
     seed: int = Field(default=202601, ge=0, le=2147483640)
     scenarios: int | None = Field(default=None, ge=10, le=1000)
     time_limit_sec: float | None = Field(default=None, ge=1, le=120)
