@@ -26,6 +26,24 @@ Dashboard Aeolus được thiết kế chuyên biệt cho việc bảo vệ khó
 
 ## 2. HƯỚNG DẪN KHỞI CHẠY NHANH (1-CLICK STARTUP)
 
+### Dashboard web mới — raw Parquet → dự báo ML → phân cổng
+
+```powershell
+.\scripts\start_web_dashboard.ps1 -Setup  # Lần đầu; các lần sau bỏ -Setup
+```
+
+Mở **http://127.0.0.1:8000**. Giao diện React theo wireframe, hỗ trợ upload
+raw Parquet, chọn ngày ATL, 150/50/20 hoặc số cổng tùy chỉnh, bãi xa hữu hạn,
+dự báo arrival/departure thật, Greedy/CP-SAT/Hybrid, Gantt và xuất kết quả.
+So sánh bốn thuật toán và Monte Carlo cho file mới có trong các trang thí nghiệm.
+Xem [hướng dẫn, schema và giả định](docs/dashboard/WEB_END_TO_END.md).
+Dashboard Streamlit bên dưới vẫn được giữ độc lập cho các kịch bản đã đăng ký.
+
+Trên máy mới cần Python 3.11 64-bit và Node.js 22+ (kèm npm). `-Setup` tự tạo
+`.venv`, cài thư viện cho cả hai dashboard, kiểm tra model và build giao diện.
+Model và dữ liệu demo đã được đóng gói trong Git; không cần tải file riêng.
+Sau khi pull bản mới, chạy lại `-Setup` để cập nhật thư viện và frontend.
+
 ### Trên Windows (PowerShell / Command Prompt):
 ```powershell
 # 1. Di chuyển vào thư mục dự án
@@ -35,6 +53,24 @@ cd D:\Study\Code\Python\Aelous
 .\.venv\Scripts\streamlit.exe run dashboard/app.py
 ```
 Ứng dụng sẽ tự động mở trên trình duyệt tại địa chỉ: **`http://localhost:8501`**.
+
+### Chạy kịch bản BTS 1.500 lượt đến–đi / 150 cổng
+
+Kịch bản **1.500 lượt đến–đi / 150 cổng** từ BTS ngày 01/07/2026 cũng đã có trên thanh bên:
+chọn **ATL 01/07/2026 — 750 đến + 750 đi, 150 cổng**.
+Mã kịch bản là `SCEN_2026_07_01_1500_MOVEMENTS_150_GATES`. Gồm 750 lượt đến và 750 lượt đi,
+ghép thành 750 lượt quay đầu, dùng đúng 150 cổng hữu hạn. Xem
+[mô tả dữ liệu và giả định](docs/dashboard/ATL_20260701_1500_MOVEMENTS_150_GATES.md).
+
+### Chạy kịch bản stress 1.500 chuyến / 50 cổng
+
+Chọn `SCEN_2023_STRESS_1500_50` tại **KỊCH BẢN VẬN HÀNH (ATL)** ở thanh bên,
+mở **Gate Operations**, chọn bộ giải rồi nhấn **TỐI ƯU HÓA NGAY (RUN SOLVER)**.
+Dashboard nạp trực tiếp `data/simulation/SCEN_2023_STRESS_1500_50.parquet`,
+giữ các thời điểm dự báo đã lưu và dựng 50 cổng `G_01`–`G_50` cùng bãi tràn
+theo cấu hình hiện có. Kịch bản này được phép giải trực tiếp đến 1.500 chuyến;
+ngân sách tìm kiếm CP-SAT mặc định là 30 giây, ngoài thời gian dựng mô hình.
+Kết quả được hiển thị trên Gantt và có thể tải xuống bằng CSV/JSON.
 
 ---
 
@@ -87,3 +123,11 @@ Tham khảo chi tiết kịch bản và lời thoại tại:
   `.\.venv\Scripts\streamlit.exe run dashboard/app.py --server.port 8502`
 - **Trình duyệt hiển thị cache cũ:** Nhấn tổ hợp phím `Ctrl + F5` để làm mới hoàn toàn.
 - **Màn hình hiển thị cảnh báo stale:** Nhấn nút **🚀 THỰC THI TỐI ƯU CỔNG** trên trang Gate Operations để đồng bộ hóa cấu hình mới nhất.
+
+## Các trang thí nghiệm trên dashboard web
+
+Lịch phân cổng có Gantt, bảng chi tiết và chẩn đoán sức chứa. So sánh thuật toán
+chạy Greedy/CP-SAT/SA/Hybrid trên cùng snapshot; Monte Carlo hỗ trợ lịch cố định
+và phân cổng lại, chế độ nghiên cứu mặc định 500 kịch bản, dừng và tiếp tục.
+Với lần chạy cũ, hãy chạy end-to-end lại một lần để tạo snapshot thí nghiệm.
+Xem hướng dẫn đầy đủ tại [WEB_END_TO_END.md](docs/dashboard/WEB_END_TO_END.md).

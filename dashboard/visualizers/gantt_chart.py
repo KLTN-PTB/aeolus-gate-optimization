@@ -102,6 +102,8 @@ def create_gate_gantt_figure(
                 c = "T"
             elif clean.startswith("A"):
                 c = "A"
+            elif clean[:1] in ("B", "C", "D", "E", "F"):
+                c = clean[0]
             elif clean.startswith("G_") or clean.startswith("G"):
                 digits = "".join([ch for ch in clean if ch.isdigit()])
                 if digits:

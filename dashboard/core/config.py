@@ -24,6 +24,7 @@ class DashboardConfig:
         "artifacts/models",
         "artifacts/simulation",
         "data/processed",
+        "data/simulation",
         "docs/dashboard_discovery/samples",
     )
 
@@ -68,6 +69,23 @@ class DashboardConfig:
             "is_synthetic": "True",
         },
         {
+            "id": "SCEN_2026_07_01_1500_MOVEMENTS_150_GATES",
+            "name": "ATL 01/07/2026 — 750 đến + 750 đi, 150 cổng",
+            "hub": "ATL", "year": "2026", "service_date": "2026-07-01",
+            "flights": "1500", "optimization_flights": "750",
+            "arrival_count": "750", "departure_count": "750", "gates": "150",
+            "artifact_path": "data/simulation/SCEN_2026_07_01_1500_MOVEMENTS_150_GATES.parquet",
+            "movements_path": "data/simulation/SCEN_2026_07_01_1500_MOVEMENTS_150_GATES_movements.parquet",
+            "gates_path": "data/simulation/SCEN_2026_07_01_1500_MOVEMENTS_150_GATES_gates.json",
+            "manifest_path": "data/simulation/SCEN_2026_07_01_1500_MOVEMENTS_150_GATES_manifest.json",
+            "max_live_solving_flights": "750", "remote_capacity": "0", "allow_overflow": "False",
+            "cp_sat_use_warm_start": "True",
+            "provenance": "BTS_20260701_HISTORICAL_REPLAY",
+            "time_basis": "HISTORICAL_REPLAY", "information_regime": "RETROSPECTIVE",
+            "data_origin": "REAL_DERIVED", "scenario_generation": "HISTORICAL_REPLAY",
+            "pairing_source": "INFERRED", "prediction_source": "NONE", "is_synthetic": "True",
+        },
+        {
             "id": "SCEN_2023_PEAK_01",
             "name": "Atlanta Concourse T Stress (85 Chuyến, 15 Cổng)",
             "hub": "ATL",
@@ -97,7 +115,36 @@ class DashboardConfig:
             "prediction_source": "NATIVE_INFERENCE",
             "is_synthetic": "True",
         },
+        {
+            "id": "SCEN_2023_STRESS_1500_50",
+            "name": "Atlanta Stress (1.500 Chuyến, 50 Cổng)",
+            "hub": "ATL",
+            "year": "2023",
+            "flights": "1500",
+            "gates": "50+1",
+            "artifact_path": "data/simulation/SCEN_2023_STRESS_1500_50.parquet",
+            "max_live_solving_flights": "1500",
+            "provenance": "PRECOMPUTED_PARQUET_STRESS_SCENARIO",
+            "data_origin": "UNKNOWN",
+            "scenario_generation": "UNKNOWN",
+            "pairing_source": "UNPAIRED",
+            "prediction_source": "PRECOMPUTED",
+            "is_synthetic": "True",
+        },
     )
+
+    def live_solving_limit(self, scenario_id: str) -> int:
+        """Apply explicit execution limits for registered large scenarios."""
+        for scenario in self.registered_scenarios:
+            if scenario["id"] == scenario_id:
+                return int(scenario.get("max_live_solving_flights", self.max_live_solving_flights))
+        return self.max_live_solving_flights
+
+    def scenario_metadata(self, scenario_id: str) -> Dict[str, str]:
+        return next((s for s in self.registered_scenarios if s["id"] == scenario_id), {})
+
+    def allows_overflow(self, scenario_id: str) -> bool:
+        return self.scenario_metadata(scenario_id).get("allow_overflow", "True").lower() == "true"
 
 
     def is_path_allowlisted(self, target_path: Path | str) -> bool:

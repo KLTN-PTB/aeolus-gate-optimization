@@ -174,6 +174,13 @@ class ScenarioContext:
     is_synthetic: bool = False
     evidence_provenance: Optional[EvidenceProvenance] = None
 
+    service_date: str = "2023-07-15"
+    time_basis: str = "PLANNING"
+    arrival_count: Optional[int] = None
+    departure_count: Optional[int] = None
+    optimization_count: Optional[int] = None
+    allow_overflow: bool = True
+
     def __post_init__(self) -> None:
         if not self.scenario_id:
             raise ValueError("scenario_id cannot be empty")

@@ -55,6 +55,8 @@ def render_page() -> None:
         solver_status_text="BENCHMARK SO SÁNH 4 THUẬT TOÁN (AUDITED)",
         is_optimal=False,
     )
+    if scenario_context is not None and scenario_context.time_basis == "HISTORICAL_REPLAY":
+        st.info("Các bảng dưới đây là benchmark lịch sử của các bài toán được chọn tại Workload. Kết quả chạy kịch bản BTS 01/07/2026 nằm tại Gate Operations.")
 
     st.markdown("### ⚡ PHÒNG THÍ NGHIỆM TỐI ƯU TOÁN HỌC (OPTIMIZATION LAB)")
     st.markdown(

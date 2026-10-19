@@ -51,6 +51,10 @@ def render_page() -> None:
         scenario_context = scenario_service.get_scenario_context(active_scenario_id)
     except Exception:
         scenario_context = None
+    if scenario_context is not None and scenario_context.time_basis == "HISTORICAL_REPLAY":
+        render_context_bar(context=scenario_context, solver_status_text="CHƯA CÓ MONTE CARLO CHO KỊCH BẢN NÀY")
+        st.info("Kịch bản BTS 01/07/2026 hiện hỗ trợ thử nghiệm phân cổng tại Gate Operations. Chưa có kết quả Monte Carlo riêng cho kịch bản này.")
+        return
 
     render_context_bar(
         context=scenario_context,

@@ -41,5 +41,24 @@ Thumbs.db
 !/data/processed/outbound_atl/year=2023/
 !/data/processed/outbound_atl/year=2023/**
 
+# Small runnable dashboard inputs shipped with the repository.
+!/data/raw/
+/data/raw/*
+!/data/raw/ATL_20260701_02_schedule_raw.parquet
+!/data/simulation/
+/data/simulation/*
+!/data/simulation/SCEN_2023_STRESS_1500_50.parquet
+!/data/simulation/SCEN_2026_07_01_1500_MOVEMENTS_150_GATES.parquet
+!/data/simulation/SCEN_2026_07_01_1500_MOVEMENTS_150_GATES_gates.json
+!/data/simulation/SCEN_2026_07_01_1500_MOVEMENTS_150_GATES_manifest.json
+!/data/simulation/SCEN_2026_07_01_1500_MOVEMENTS_150_GATES_movements.parquet
+
 # Temporary schema audit working directories
 artifacts/manifests/schema_audit/.temporary/
+
+# Local web dashboard runtime and frontend build output
+artifacts/web_dashboard/
+artifacts/dashboard_runtime/
+web_dashboard/frontend/node_modules/
+web_dashboard/frontend/dist/
+*.tsbuildinfo

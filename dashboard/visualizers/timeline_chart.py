@@ -3,7 +3,7 @@
 Binned flight arrival and departure movements across 15-minute intervals.
 """
 
-from typing import List, Sequence
+from typing import List, Sequence, Optional
 import numpy as np
 import plotly.graph_objects as go
 
@@ -19,6 +19,7 @@ from src.optimization.domain import Flight
 def create_activity_timeline_figure(
     flights: Sequence[Flight],
     bin_size_minutes: int = 15,
+    movements: Optional[Sequence[dict]] = None,
 ) -> go.Figure:
     """Generate interactive 15-minute binned activity timeline figure (CHART-01).
 
@@ -58,6 +59,11 @@ def create_activity_timeline_figure(
         for f in flights
         if f.scheduled_departure_min is not None and f.scheduled_departure_min >= 0
     ]
+    if movements is not None:
+        arr_times = [m["actual_event_min"] for m in movements if m["direction"] == "ARR"]
+        dep_times = [m["actual_event_min"] for m in movements if m["direction"] == "DEP"]
+    arrival_label = "Đến vị trí đỗ (ARR)" if movements is not None else "Hạ cánh (Inbound)"
+    departure_label = "Rời vị trí đỗ (DEP)" if movements is not None else "Cất cánh (Outbound)"
 
     all_times = arr_times + dep_times
     if not all_times:
@@ -80,8 +86,8 @@ def create_activity_timeline_figure(
     # Hover templates
     arr_hover = [
         f"Khung giờ: {bin_labels[i]} - {bins[i+1]//60:02d}:{bins[i+1]%60:02d}<br>"
-        f"Hạ cánh dự kiến: {arr_counts[i]} chuyến<br>"
-        f"Cất cánh dự kiến: {dep_counts[i]} chuyến<br>"
+        f"{arrival_label}: {arr_counts[i]} chuyến<br>"
+        f"{departure_label}: {dep_counts[i]} chuyến<br>"
         f"Tổng lưu lượng: {arr_counts[i] + dep_counts[i]} lượt tàu bay"
         for i in range(len(bin_labels))
     ]
@@ -93,7 +99,7 @@ def create_activity_timeline_figure(
         go.Bar(
             y=arr_counts,
             x=bin_labels,
-            name="Hạ cánh (Inbound)",
+            name=arrival_label,
             marker_color=COLOR_ACCENT_PRIMARY,
             hovertext=arr_hover,
             hoverinfo="text",
@@ -105,7 +111,7 @@ def create_activity_timeline_figure(
         go.Bar(
             y=dep_counts,
             x=bin_labels,
-            name="Cất cánh (Outbound)",
+            name=departure_label,
             marker_color=COLOR_ACCENT_GLOW,
             hovertext=dep_hover,
             hoverinfo="text",

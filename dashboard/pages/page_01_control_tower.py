@@ -53,6 +53,14 @@ def render_page() -> None:
         solver_status_text=solver_status_text,
         is_optimal=is_optimal,
     )
+    movements = scenario_service.load_scenario_movements(active_scenario_id)
+    if scenario_context.time_basis == "HISTORICAL_REPLAY":
+        st.info(
+            f"Tái hiện BTS ngày {scenario_context.service_date}: {scenario_context.arrival_count} lượt đến + "
+            f"{scenario_context.departure_count} lượt đi = {scenario_context.flight_count} lượt; "
+            f"{len(flights)} khoảng chiếm dụng cổng. Thời gian thực tế dùng để thử nghiệm phân cổng hậu nghiệm; "
+            "vị trí cổng được mô phỏng. Không phải kết quả dự báo ML hay toàn bộ hoạt động của ATL."
+        )
 
     # 4. Scenario Launcher Banner
     st.markdown(
@@ -64,7 +72,7 @@ def render_page() -> None:
                         ✈️ CẢNG HÀNG KHÔNG QUỐC TẾ ATLANTA (ATL) — {scenario_context.scenario_id}
                     </span>
                     <div style="font-size: 12px; color: #94A3B8; margin-top: 3px;">
-                        Quy mô: <b>{scenario_context.flight_count} Lượt bay</b> | Hạ tầng: <b>{scenario_context.gate_count} Cổng ống lồng + {scenario_context.remote_capacity} Bãi đỗ xa</b> | Ngày khai thác: <b>2023-07-15</b>
+                        Quy mô: <b>{scenario_context.flight_count} Lượt bay</b> | Hạ tầng: <b>{scenario_context.gate_count} Cổng ống lồng + {scenario_context.remote_capacity} Bãi đỗ xa</b> | Ngày khai thác: <b>{scenario_context.service_date}</b>
                     </div>
                 </div>
                 <div style="text-align: right;">
@@ -84,6 +92,8 @@ def render_page() -> None:
     # 5. Authoritative Data Loading (Zero Shortcut, Zero Fabrication)
     turns = scenario_service.load_scenario_turns(active_scenario_id)
     turn_count_str = f"{len(turns)} Cặp quay vòng" if len(turns) > 0 else "N/A (Chưa ghép cặp)"
+    if movements:
+        turn_count_str = f"{len(turns)} cặp ghép theo đăng ký tàu bay; {scenario_context.arrival_count} đến / {scenario_context.departure_count} đi"
     inventory = scenario_service.get_scenario_gate_inventory(active_scenario_id)
     contact_count = inventory["contact_count"]
     remote_count = inventory["remote_count"]
@@ -117,7 +127,7 @@ def render_page() -> None:
     with col1:
         render_kpi_card(
             title="LƯỢT TÀU BAY & QUAY VÒNG",
-            value=f"{len(flights)} Lượt bay",
+            value=f"{scenario_context.flight_count if movements else len(flights)} Lượt bay",
             subtitle=turn_count_str,
             badge_text="[ATL ĐIỀU HÀNH]",
             badge_type="info",
@@ -129,7 +139,7 @@ def render_page() -> None:
         render_kpi_card(
             title="TÀI NGUYÊN CỔNG ĐỖ",
             value=f"{contact_count} Ống lồng + {remote_count} Đỗ xa",
-            subtitle="Sức chứa đỗ xa: 1 tàu bay | Bãi tràn: Cho phép",
+            subtitle=f"Sức chứa đỗ xa: {inventory['remote_capacity']} tàu bay | Bãi tràn: {'Cho phép' if inventory['overflow_allowed'] else 'Không cho phép'}",
             badge_text=f"[TỔNG {len(gates)} VỊ TRÍ]",
             badge_type="info",
             icon="🏢",
@@ -184,7 +194,7 @@ def render_page() -> None:
     chart_col1, chart_col2 = st.columns([7, 5])
 
     with chart_col1:
-        timeline_fig = create_activity_timeline_figure(flights)
+        timeline_fig = create_activity_timeline_figure(flights, movements=movements or None)
         st.plotly_chart(timeline_fig, width="stretch")
 
     with chart_col2:
@@ -271,7 +281,8 @@ def render_page() -> None:
         },
         raw_data={
             "scenario_id": active_scenario_id,
-            "flight_count": len(flights),
+            "flight_count": scenario_context.flight_count if movements else len(flights),
+            "occupancy_count": len(flights),
             "gate_count": len(gates),
             "hub": "ATL",
             "nominal_conflicts": nominal_conflicts,

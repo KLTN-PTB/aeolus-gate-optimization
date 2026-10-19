@@ -17,6 +17,7 @@ from dashboard.components.context_bar import render_context_bar
 from dashboard.components.flight_inspector import render_flight_inspector
 from dashboard.components.research_inspector import render_research_inspector
 from dashboard.core.contracts import GateTimelineView, ProvenanceType, SolverRunView, UIJobState
+from dashboard.core.config import DEFAULT_CONFIG
 from dashboard.core.state import SessionStateKeys
 from dashboard.core.status_mapping import map_solver_status_to_badge
 from dashboard.services.experiment_service import ExperimentService
@@ -51,6 +52,8 @@ def _get_gate_concourse(gate_obj: Any) -> str:
         return "T"
     if clean.startswith("A"):
         return "A"
+    if clean[:1] in ("B", "C", "D", "E", "F"):
+        return clean[0]
     if clean.startswith("G_") or clean.startswith("G"):
         digits = "".join([ch for ch in clean if ch.isdigit()])
         if digits:
@@ -154,6 +157,13 @@ def render_page() -> None:
         solver_status_text=context_status_text,
         is_optimal=is_optimal,
     )
+    if scenario_context.time_basis == "HISTORICAL_REPLAY":
+        st.info(
+            f"{scenario_context.arrival_count} lượt đến + {scenario_context.departure_count} lượt đi "
+            f"được ghép thành {len(flights)} lượt chiếm dụng cổng trong ngày {scenario_context.service_date}. "
+            "Gantt dùng giờ vào/rời vị trí đỗ đã ghi nhận; cổng danh định được mô phỏng. "
+            "Chỉ sử dụng 150 cổng hữu hạn, không có bãi tràn bổ sung."
+        )
 
     # View Mode Selector: Default to Nominal when no optimization run exists
     is_research = st.session_state.get(SessionStateKeys.IS_RESEARCH_MODE, False)
@@ -195,6 +205,10 @@ def render_page() -> None:
     # -------------------------------------------------------------
     count_t = sum(1 for g in gates if _get_gate_concourse(g) == "T")
     count_a = sum(1 for g in gates if _get_gate_concourse(g) == "A")
+    other_concourse_counts = {
+        code: sum(1 for g in gates if _get_gate_concourse(g) == code)
+        for code in ("B", "C", "D", "E", "F")
+    }
     count_remote = sum(1 for g in gates if _get_gate_concourse(g) == "REMOTE")
     count_overflow = sum(1 for g in gates if _get_gate_concourse(g) == "OVERFLOW")
     count_unknown = sum(1 for g in gates if _get_gate_concourse(g) == "UNKNOWN_GROUP")
@@ -218,6 +232,9 @@ def render_page() -> None:
                 if count_a > 0:
                     if st.checkbox(f"Concourse A ({count_a})", value=True, key=f"cb_a_{active_scenario_id}"):
                         active_concourses.append("A")
+                for code, count in other_concourse_counts.items():
+                    if count and st.checkbox(f"Concourse {code} ({count})", value=True, key=f"cb_{code.lower()}_{active_scenario_id}"):
+                        active_concourses.append(code)
             with cb_c2:
                 if count_remote > 0:
                     if st.checkbox(f"Bãi đỗ từ xa ({count_remote})", value=True, key=f"cb_rem_{active_scenario_id}"):
@@ -363,25 +380,28 @@ def render_page() -> None:
                 )
                 allow_overflow = st.checkbox(
                     "Cho phép bãi đỗ xa (Overflow)",
-                    value=True,
-                    key="allow_overflow_cb",
+                    value=scenario_context.allow_overflow,
+                    key=f"allow_overflow_cb_{active_scenario_id}",
+                    disabled=not scenario_context.allow_overflow,
                 )
+                allow_overflow = allow_overflow and scenario_context.allow_overflow
             else:
                 # Presentation Mode: Clean thesis defaults
                 w_pref = 10.0
                 w_remote = 200.0
                 buf_min = 15
-                allow_overflow = True
+                allow_overflow = scenario_context.allow_overflow
                 st.caption(
                     "ℹ️ Cấu hình chuẩn luận văn: w_pref=10, w_remote=200, buffer=15m. "
                     "Bật 'Chế độ Nghiên cứu' ở thanh bên để tinh chỉnh tham số."
                 )
 
             # Check parameter staleness (Task R02-C / ISSUE-R00-08)
-            canonical_solver_name = (
-                "cpsat" if "CP-SAT" in solver_choice
-                else ("greedy" if "Greedy" in solver_choice else "hybrid")
-            )
+            canonical_solver_name = {
+                "CP-SAT (Sparse Interval)": "cpsat",
+                "Deterministic Greedy": "greedy",
+                "Hybrid (Greedy+CP-SAT)": "hybrid",
+            }[solver_choice]
             draft_config = {
                 "scenario_id": active_scenario_id,
                 "solver_name": canonical_solver_name,
@@ -415,10 +435,15 @@ def render_page() -> None:
 
             # Scenario size guard (Task R05-G)
             n_fl = len(flights)
-            if n_fl > 150:
+            live_limit = DEFAULT_CONFIG.live_solving_limit(active_scenario_id)
+            if n_fl > live_limit:
                 st.warning(
-                    f"⚠️ Quy mô kịch bản ({n_fl} chuyến) vượt ngưỡng an toàn giải trực tiếp (<= 150). "
-                    "CP-SAT có thể tốn nhiều thời gian hoặc chạm giới hạn tài nguyên."
+                    f"Quy mô kịch bản ({n_fl} chuyến) vượt giới hạn giải trực tiếp ({live_limit})."
+                )
+            elif n_fl > DEFAULT_CONFIG.max_live_solving_flights:
+                st.info(
+                    f"Bài toán: {n_fl:,} khoảng chiếm dụng, {scenario_context.gate_count} cổng. "
+                    "Bạn có thể chạy Greedy, CP-SAT hoặc Hybrid. CP-SAT có ngân sách tìm kiếm 30 giây."
                 )
 
             # Explicit Run Button (Task R02-D / Task R03-H / Task R05-G)

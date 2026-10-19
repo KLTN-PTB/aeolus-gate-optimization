@@ -38,6 +38,19 @@ def render_page() -> None:
     except Exception as exc:
         st.error(f"Lỗi khi tải kịch bản {active_scenario_id}: {exc}")
         return
+    if scenario_context.time_basis == "HISTORICAL_REPLAY":
+        render_context_bar(context=scenario_context, solver_status_text="TÁI HIỆN LỊCH SỬ", show_solver_status=True)
+        st.info("Kịch bản này sử dụng thời gian thực tế BTS để tái hiện lịch sử, chưa có dự báo ML cho các chuyến năm 2026.")
+        movements = scenario_service.load_scenario_movements(active_scenario_id)
+        st.dataframe(pd.DataFrame(movements)[[
+            "direction", "carrier", "flight_number", "origin", "destination", "tail_number",
+            "scheduled_event_local", "actual_event_local", "actual_delay_min", "turn_id",
+        ]], hide_index=True, width="stretch")
+        st.download_button(
+            "Tải 1.500 lượt đến–đi (CSV)", pd.DataFrame(movements).to_csv(index=False),
+            file_name=f"movements_{active_scenario_id}.csv", mime="text/csv",
+        )
+        return
 
     # Render Context Bar
     render_context_bar(

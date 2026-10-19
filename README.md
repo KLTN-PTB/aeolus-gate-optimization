@@ -1,5 +1,37 @@
 # Aeolus Probabilistic Core Arrival & Gate Optimization — V4
 
+## Chạy dashboard mới từ bản clone/pull
+
+Nhánh ứng dụng hiện tại: `remediation/g7-regression`. Cần **Python 3.11 64-bit**
+và **Node.js 22+** (kèm npm). Từ PowerShell:
+
+```powershell
+git clone --branch remediation/g7-regression https://github.com/mrhao165-del/aeolus-gate-optimization.git
+cd aeolus-gate-optimization
+.\scripts\start_web_dashboard.ps1 -Setup
+```
+
+Mở **http://127.0.0.1:8000**. `-Setup` tự tạo `.venv` nếu chưa có, cài đầy đủ
+thư viện ứng dụng, kiểm tra checkpoint và build frontend. Lần đầu cần Internet
+để cài thư viện; model và dữ liệu demo đã nằm trong Git, không phải tải riêng.
+Các lần chạy sau dùng `.\scripts\start_web_dashboard.ps1`; sau khi pull cập nhật,
+chạy lại với `-Setup` để đồng bộ thư viện và giao diện.
+
+Repo chứa 19 checkpoint/preprocessor `.joblib` (khoảng 7,5 MB) bằng Git thông
+thường; không cần Git LFS hay huấn luyện lại. Upload trực tiếp file có sẵn
+`data/raw/ATL_20260701_02_schedule_raw.parquet`, chọn ngày `2026-07-01`.
+Để thử cả ngày này, dùng 150 cổng + 30 bãi xa và Greedy trước; nghiệm khả thi
+còn phụ thuộc cấu hình và thời gian giải. Giao diện cũng có file lịch minh họa.
+
+Dashboard Streamlit vẫn chạy riêng bằng
+`.\.venv\Scripts\streamlit.exe run dashboard/app.py`. Bộ cài trên hỗ trợ cả hai
+dashboard. Toàn bộ dữ liệu huấn luyện thô nhiều năm không được đóng gói; chúng
+không cần thiết để chạy demo và suy luận bằng các model đã lưu.
+
+Chi tiết: [hướng dẫn web](docs/dashboard/WEB_END_TO_END.md),
+[hướng dẫn Streamlit](README_DASHBOARD.md). Các báo cáo chứng nhận phía dưới
+mô tả mốc nghiên cứu lịch sử và có phạm vi riêng.
+
 [![Certification Status](https://img.shields.io/badge/Certification-CERTIFIED__WITH__LIMITATIONS-blue.svg)](FINAL_SCIENTIFIC_CERTIFICATION_REPORT.md)
 [![Active Tests](https://img.shields.io/badge/Active%20Tests-1%2C216%20PASSED%20(exit%200)-success.svg)](pytest.ini)
 [![Certification Suite](https://img.shields.io/badge/Certification%20Suite-75%2F75%20PASSED-brightgreen.svg)](tests/test_r24_final_certification.py)

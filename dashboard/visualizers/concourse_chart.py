@@ -5,8 +5,11 @@ across concourses (Concourse T, Concourse A, Remote Apron).
 """
 
 from typing import Any, Dict, List, Optional, Sequence
+from collections import defaultdict
+from collections.abc import Mapping
 import plotly.graph_objects as go
 
+from dashboard.adapters.assignment_adapter import determine_gate_concourse
 from dashboard.core.contracts import GateTimelineView
 from dashboard.visualizers.theme import (
     COLOR_ACCENT_PRIMARY,
@@ -24,7 +27,7 @@ from src.optimization.domain import Gate
 def create_concourse_utilization_figure(
     concourse_stats: Optional[Dict[str, Dict[str, int]]] = None,
     gates: Optional[Sequence[Gate]] = None,
-    assignments: Optional[Dict[str, Any]] = None,
+    assignments: Optional[Dict[str, Any] | Sequence[Any]] = None,
 ) -> go.Figure:
     """Generate horizontal bar chart for concourse inventory & utilization (CHART-08).
 
@@ -41,16 +44,16 @@ def create_concourse_utilization_figure(
 
     if concourse_stats is None and gates is not None:
         stats: Dict[str, Dict[str, int]] = {}
+        zones = {}
         for g in gates:
             gid = str(g.gate_id)
-            if getattr(g, "is_overflow", False):
+            if g.is_unbounded:
                 cname = "Bãi đỗ tràn"
-            elif getattr(g.resource_type, "value", str(g.resource_type)) in ("REMOTE", "FINITE_REMOTE_STAND"):
+            elif g.is_remote_stand:
                 cname = "Remote Apron"
-            elif gid.startswith("T") or (hasattr(g, "gate_index") and g.gate_index < 10):
-                cname = "Concourse T"
             else:
-                cname = "Concourse A"
+                cname = f"Concourse {determine_gate_concourse(gid)}"
+            zones[gid] = cname
 
             if cname not in stats:
                 stats[cname] = {"capacity": 0, "occupied": 0}
@@ -58,22 +61,23 @@ def create_concourse_utilization_figure(
             stats[cname]["capacity"] += cap
 
         if assignments:
-            for flight_id, assign in assignments.items():
-                gid = getattr(assign, "gate_id", None) or (assign.get("gate_id") if isinstance(assign, dict) else None)
-                if gid:
-                    for g in gates:
-                        if str(g.gate_id) == str(gid):
-                            if getattr(g, "is_overflow", False):
-                                cname = "Bãi đỗ tràn"
-                            elif getattr(g.resource_type, "value", str(g.resource_type)) in ("REMOTE", "FINITE_REMOTE_STAND"):
-                                cname = "Remote Apron"
-                            elif str(gid).startswith("T") or (hasattr(g, "gate_index") and g.gate_index < 10):
-                                cname = "Concourse T"
-                            else:
-                                cname = "Concourse A"
-                            if cname in stats:
-                                stats[cname]["occupied"] += 1
-                            break
+            zone_events = defaultdict(list)
+            values = assignments.values() if isinstance(assignments, Mapping) else assignments
+            for assign in values:
+                def field(name, default=None):
+                    return assign.get(name, default) if isinstance(assign, dict) else getattr(assign, name, default)
+                gid = field("gate_id")
+                if gid not in zones:
+                    continue
+                start = field("start_min", field("occupancy_start_min", 0))
+                end = field("end_min", field("occupancy_end_min", start + 1))
+                zone_events[zones[gid]].extend([(start, 1), (end, -1)])
+            for cname, events in zone_events.items():
+                current = peak = 0
+                for _, delta in sorted(events):
+                    current += delta
+                    peak = max(peak, current)
+                stats[cname]["occupied"] = peak
 
         concourse_stats = stats
 
@@ -106,7 +110,7 @@ def create_concourse_utilization_figure(
     # Hover templates
     hover_texts = [
         f"<b>{c}</b><br>"
-        f"Cổng đang sử dụng: {occ}/{cap}<br>"
+        f"Đỉnh sử dụng đồng thời trong khu vực: {occ}/{cap}<br>"
         f"Tỷ lệ chiếm dụng: {u:.1f}%<br>"
         f"Trạng thái: {'Áp lực chạm trần' if u >= 100 else ('Tải cao' if u >= 80 else 'Thông thoáng')}"
         for c, occ, cap, u in zip(concourses, occupied, capacities, utilizations)

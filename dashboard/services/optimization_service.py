@@ -42,11 +42,11 @@ class OptimizationService:
             Tuple[SolverRunView, bool, List[str]]: (solution_view, is_valid, violation_reasons)
         """
         # 1. Size guard enforcement
-        if len(flights) > self.config.max_live_solving_flights:
+        live_limit = self.config.live_solving_limit(scenario_id)
+        if len(flights) > live_limit:
             raise ScenarioSizeLimitExceeded(
                 f"Scenario size {len(flights)} exceeds live interactive safety limit "
-                f"({self.config.max_live_solving_flights} flights). "
-                "Large mega-hub batches must be served via precomputed artifacts."
+                f"({live_limit} flights for {scenario_id})."
             )
 
         clean_params = params or {}
@@ -57,8 +57,11 @@ class OptimizationService:
             clean_params.get("time_limit_sec", self.config.default_cp_sat_time_limit_sec)
         )
         allow_overflow = bool(
-            clean_params.get("allow_overflow", self.config.default_allow_unbounded_overflow)
+            clean_params.get("allow_overflow", self.config.default_allow_unbounded_overflow and self.config.allows_overflow(scenario_id))
         )
+        if allow_overflow and not self.config.allows_overflow(scenario_id):
+            raise ValueError("Kịch bản này chỉ sử dụng 150 cổng hữu hạn; không cho phép tự thêm bãi tràn.")
+        warm_start = self.config.scenario_metadata(scenario_id).get("cp_sat_use_warm_start", "False").lower() == "true"
 
         # 2. Build authoritative GateOptimizationConfig
         opt_config = GateOptimizationConfig(
@@ -71,6 +74,7 @@ class OptimizationService:
             num_search_workers=self.config.default_cp_sat_num_workers,
             cp_sat_formulation="sparse_interval",
             cp_sat_fallback_to_greedy=True,
+            cp_sat_use_warm_start=warm_start,
         )
 
         # 3. Instantiate solver according to audited contract (Task R02-E)
@@ -147,8 +151,8 @@ class OptimizationService:
             effective_solver=effective_solver_name,
             formulation="sparse_interval",
             time_limit_sec=time_limit,
-            warm_start=False,
-            solver_seed=42,
+            warm_start=warm_start,
+            solver_seed=opt_config.random_seed,
             fallback_policy="greedy_fallback",
             run_id=run_id,
             schema_version="2.0",
@@ -169,6 +173,7 @@ class OptimizationService:
                 "time_limit_sec": time_limit,
                 "solver_name": requested_solver_canonical,
                 "scenario_id": scenario_id,
+                "warm_start": warm_start,
             },
             conflicts=[v.split()[0] for v in violations] if not is_valid else [],
             provenance=provenance,

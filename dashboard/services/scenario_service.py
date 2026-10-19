@@ -5,6 +5,7 @@ import json
 import math
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
+from dashboard.adapters.artifact_loader import ArtifactLoader, ArtifactValidationError
 from dashboard.adapters.prediction_adapter import adapt_prediction_row_to_view
 from dashboard.adapters.turn_adapter import adapt_turn_to_view
 from dashboard.core.config import DEFAULT_CONFIG, DashboardConfig
@@ -26,7 +27,8 @@ from src.contracts.provenance import (
     ScenarioGeneration,
     SilentFallbackError,
 )
-from src.optimization.domain import Flight, Gate
+from src.optimization.domain import Flight, Gate, validate_flights_collection
+from src.evaluation.downstream_comparison_v2 import build_scenario_gates
 from src.simulation.scalability_scenario import (
     generate_scalability_scenario,
     scenario_to_flights,
@@ -95,6 +97,7 @@ class ScenarioService:
 
     _cached_scenarios: Dict[str, Tuple[List[Flight], List[Gate]]] = {}
     _cached_digests: Dict[str, str] = {}
+    _cached_file_signatures: Dict[str, tuple] = {}
 
     def __init__(self, config: Optional[DashboardConfig] = None) -> None:
         self.config = config or DEFAULT_CONFIG
@@ -114,7 +117,7 @@ class ScenarioService:
                     )
 
                 digest = self.compute_scenario_hash(scenario_id)
-                gate_count = 25 if "120" in scenario_id else 15
+                gate_count = int(scen_meta["gates"].split("+")[0])
 
                 data_origin_str = scen_meta.get("data_origin", "UNKNOWN")
                 scen_gen_str = scen_meta.get("scenario_generation", "UNKNOWN")
@@ -127,8 +130,12 @@ class ScenarioService:
                     prediction_source=PredictionSource(prediction_source_str) if prediction_source_str in PredictionSource.__members__ else PredictionSource.UNKNOWN,
                     pairing_source=PairingSource(pairing_source_str) if pairing_source_str in PairingSource.__members__ else PairingSource.UNKNOWN,
                     scenario_generation=ScenarioGeneration(scen_gen_str) if scen_gen_str in ScenarioGeneration.__members__ else ScenarioGeneration.UNKNOWN,
-                    information_regime=InformationRegime.PRE_OPERATIONAL,
-                    evaluation_regime=EvaluationRegime.SELECTION_2023,
+                    information_regime=InformationRegime(scen_meta.get("information_regime", "PRE_OPERATIONAL")),
+                    evaluation_regime=(
+                        EvaluationRegime.SYNTHETIC_TEST if scen_meta.get("artifact_path")
+                        else EvaluationRegime.SELECTION_2023
+                    ),
+                    source_artifact=scen_meta.get("artifact_path"),
                     notes=f"Registered scenario {scenario_id}",
                 )
 
@@ -137,16 +144,25 @@ class ScenarioService:
                     hub_iata=scen_meta["hub"],
                     flight_count=int(scen_meta["flights"]),
                     gate_count=gate_count,
-                    remote_capacity=1,
+                    remote_capacity=int(scen_meta.get("remote_capacity", "1")),
                     scenario_hash=digest,
                     scenario_digest=digest,
-                    provenance=ProvenanceType.SCHEDULE_BASELINE,
+                    provenance=(
+                        ProvenanceType.SYNTHETIC_SIMULATION if scen_meta.get("artifact_path")
+                        else ProvenanceType.SCHEDULE_BASELINE
+                    ),
                     data_origin=data_origin_str,
                     scenario_generation=scen_gen_str,
                     pairing_source=pairing_source_str,
                     prediction_source=prediction_source_str,
                     is_synthetic=is_synthetic_val,
                     evidence_provenance=evidence,
+                    service_date=scen_meta.get("service_date", "2023-07-15"),
+                    time_basis=scen_meta.get("time_basis", "PLANNING"),
+                    arrival_count=int(scen_meta["arrival_count"]) if "arrival_count" in scen_meta else None,
+                    departure_count=int(scen_meta["departure_count"]) if "departure_count" in scen_meta else None,
+                    optimization_count=int(scen_meta.get("optimization_flights", scen_meta["flights"])),
+                    allow_overflow=self.config.allows_overflow(scenario_id),
                 )
 
         raise ValueError(f"Unknown scenario ID: {scenario_id}")
@@ -177,6 +193,14 @@ class ScenarioService:
                         )
                     break
 
+
+        for scenario in self.config.registered_scenarios:
+            if scenario["id"] == scenario_id:
+                if scenario.get("year") in self.config.quarantined_years:
+                    raise PermissionError(f"Access denied: Scenario {scenario_id} references sealed data.")
+                if scenario.get("artifact_path"):
+                    return self._load_parquet_scenario(scenario)
+                break
 
         if scenario_id in self._cached_scenarios:
             cached_flights, cached_gates = self._cached_scenarios[scenario_id]
@@ -314,12 +338,101 @@ class ScenarioService:
 
         raise ValueError(f"Scenario not implemented in registry: {scenario_id}")
 
+    def _load_parquet_scenario(
+        self, metadata: Dict[str, str]
+    ) -> Tuple[List[Flight], List[Gate]]:
+        """Load saved Flight records verbatim, refreshing the cache when the file changes."""
+        scenario_id = metadata["id"]
+        relative_path = metadata["artifact_path"]
+        path = (self.config.project_root / relative_path).resolve()
+        if not self.config.is_path_allowlisted(path):
+            raise PermissionError(f"Unapproved scenario path: {relative_path}")
+        stat = path.stat()
+        signature = (str(path), stat.st_size, stat.st_mtime_ns)
+        if metadata.get("gates_path"):
+            gate_path = (self.config.project_root / metadata["gates_path"]).resolve()
+            if not self.config.is_path_allowlisted(gate_path):
+                raise PermissionError(f"Unapproved gate inventory path: {gate_path}")
+            gate_stat = gate_path.stat()
+            signature += (str(gate_path), gate_stat.st_size, gate_stat.st_mtime_ns)
+        if (
+            self._cached_file_signatures.get(scenario_id) == signature
+            and scenario_id in self._cached_scenarios
+        ):
+            flights, gates = self._cached_scenarios[scenario_id]
+            return list(flights), list(gates)
+
+        frame = ArtifactLoader(self.config).load_parquet(
+            relative_path,
+            required_columns={
+                "flight_id", "flight_index", "carrier", "flight_number",
+                "scheduled_arrival_min", "scheduled_departure_min",
+                "predicted_arrival_min", "nominal_gate_id",
+            },
+        )
+        expected_occupancies = int(metadata.get("optimization_flights", metadata["flights"]))
+        if len(frame) != expected_occupancies:
+            raise ArtifactValidationError(
+                f"Scenario {scenario_id} expects {expected_occupancies} occupancy records, found {len(frame)}"
+            )
+        records = frame.astype(object).where(frame.notna(), None).to_dict("records")
+        flights = [Flight.from_dict(row) for row in records]
+        validate_flights_collection(flights)
+        if metadata.get("gates_path"):
+            gates = [Gate.from_dict(row) for row in ArtifactLoader(self.config).load_json(metadata["gates_path"])]
+            if len(gates) != int(metadata["gates"]):
+                raise ArtifactValidationError("Gate inventory does not match the registered scenario capacity")
+            if not self.config.allows_overflow(scenario_id) and any(g.is_overflow or g.is_unbounded for g in gates):
+                raise ArtifactValidationError("This scenario requires exactly finite contact gates")
+        else:
+            contact_gates, overflow = build_scenario_gates(int(metadata["gates"].split("+")[0]))
+            gates = contact_gates + [overflow]
+        gate_ids = {gate.gate_id for gate in gates}
+        if any(flight.nominal_gate_id not in gate_ids for flight in flights):
+            raise ArtifactValidationError(f"Scenario {scenario_id} contains unknown nominal gates")
+
+        self._cached_scenarios[scenario_id] = (flights, gates)
+        self._cached_digests[scenario_id] = compute_canonical_scenario_digest(flights, gates, scenario_id)
+        self._cached_file_signatures[scenario_id] = signature
+        return list(flights), list(gates)
+
+    def load_scenario_movements(self, scenario_id: str) -> List[Dict[str, Any]]:
+        """Return physical ARR/DEP events separately from gate occupancy intervals."""
+        metadata = self.config.scenario_metadata(scenario_id)
+        if not metadata.get("movements_path"):
+            return []
+        frame = ArtifactLoader(self.config).load_parquet(
+            metadata["movements_path"],
+            required_columns={"movement_id", "turn_id", "direction", "actual_event_min", "tail_number"},
+        )
+        if len(frame) != int(metadata["flights"]) or frame.movement_id.duplicated().any():
+            raise ArtifactValidationError("Movement count or movement identity is inconsistent")
+        if frame.direction.value_counts().to_dict() != {"ARR": int(metadata["arrival_count"]), "DEP": int(metadata["departure_count"])}:
+            raise ArtifactValidationError("Arrival/departure counts are inconsistent")
+        return frame.to_dict("records")
+
+    def load_scenario_manifest(self, scenario_id: str) -> Dict[str, Any]:
+        metadata = self.config.scenario_metadata(scenario_id)
+        return ArtifactLoader(self.config).load_json(metadata["manifest_path"]) if metadata.get("manifest_path") else {}
+
     def load_scenario_turns(self, scenario_id: str) -> List[AircraftTurnView]:
         """Load authoritative aircraft turns for the specified scenario.
 
         Returns an empty list for unpaired scenarios (e.g., SCEN_P09_CANONICAL_120).
         Never estimates turns with len(flights) // 2.
         """
+        metadata = self.config.scenario_metadata(scenario_id)
+        if metadata.get("movements_path"):
+            frame = ArtifactLoader(self.config).load_parquet(metadata["artifact_path"])
+            return [
+                adapt_turn_to_view({
+                    **row, "turn_id": row["flight_id"], "aircraft_type": "UNKNOWN",
+                    "min_turn_time_min": row["min_turnaround_min"],
+                    "gate_occupancy_start_min": row["predicted_arrival_min"],
+                    "gate_occupancy_end_min": row["precomputed_gate_out_min"] + row["buffer_min"],
+                }, provenance=ProvenanceType.SYNTHETIC_SIMULATION, scenario_id=scenario_id)
+                for row in frame.to_dict("records")
+            ]
         if scenario_id != "SCEN_P07_DUAL_CORE_30":
             return []
 
@@ -396,6 +509,8 @@ class ScenarioService:
 
     def load_scenario_predictions(self, scenario_id: str) -> List[FlightPredictionView]:
         """Load authoritative flight predictions for the active scenario."""
+        if self.config.scenario_metadata(scenario_id).get("time_basis") == "HISTORICAL_REPLAY":
+            return []  # Observed gate times must not be presented as ML forecasts.
         if scenario_id == "SCEN_P07_DUAL_CORE_30":
             pred_path = self.config.project_root / "artifacts/remediation/native_dual_core/predictions_sample.csv"
             if pred_path.exists():
@@ -415,6 +530,10 @@ class ScenarioService:
                 return views
 
         flights, _ = self.load_scenario(scenario_id)
+        is_precomputed = any(
+            scenario["id"] == scenario_id and scenario.get("prediction_source") == "PRECOMPUTED"
+            for scenario in self.config.registered_scenarios
+        )
         views = []
         for fl in flights:
             arr_delay = float(fl.predicted_arrival_min - fl.scheduled_arrival_min)
@@ -426,7 +545,8 @@ class ScenarioService:
                     scheduled_time_min=fl.scheduled_arrival_min,
                     predicted_arr_delay_min=arr_delay,
                     predicted_time_min=fl.predicted_arrival_min,
-                    provenance=ProvenanceType.SCHEDULE_BASELINE,
+                    provenance=(ProvenanceType.PRECOMPUTED_PREDICTION if is_precomputed
+                                else ProvenanceType.SCHEDULE_BASELINE),
                     flight_direction="ARR",
                 )
             )
@@ -453,8 +573,8 @@ class ScenarioService:
             "contact_count": len(contact_gates),
             "remote_count": len(remote_gates),
             "overflow_count": len(overflow_gates),
-            "remote_capacity": 1,
-            "overflow_allowed": True,
+            "remote_capacity": int(self.config.scenario_metadata(scenario_id).get("remote_capacity", "1")),
+            "overflow_allowed": self.config.allows_overflow(scenario_id),
             "gates": gates,
         }
 
@@ -468,6 +588,12 @@ class ScenarioService:
         """Deterministic fingerprint of scenario parameters (Task R02-A / ISSUE-R00-06)."""
         if flights is not None and gates is not None:
             return compute_canonical_scenario_digest(flights, gates, scenario_id, generator_seed)
+        if any(
+            scenario["id"] == scenario_id and scenario.get("artifact_path")
+            for scenario in self.config.registered_scenarios
+        ):
+            self.load_scenario(scenario_id)
+            return self._cached_digests[scenario_id]
         if scenario_id in self._cached_digests:
             return self._cached_digests[scenario_id]
         fls, gts = self.load_scenario(scenario_id)
@@ -481,14 +607,18 @@ class ScenarioService:
         flights, gates = self.load_scenario(scenario_id)
         digest = self.compute_scenario_hash(scenario_id)
         seed = 42 if "120" in scenario_id else (202602 if "PEAK_01" in scenario_id else (202601 if "P07" in scenario_id else None))
+        file_backed = any(
+            scenario["id"] == scenario_id and scenario.get("artifact_path")
+            for scenario in self.config.registered_scenarios
+        )
         return ScenarioDataIdentity(
             scenario_id=scenario_id,
             scenario_digest=digest,
             flight_count=len(flights),
             gate_count=len(gates),
-            remote_capacity=1,
+            remote_capacity=int(self.config.scenario_metadata(scenario_id).get("remote_capacity", "1")),
             hub_iata="ATL",
-            dataset_version="BTS_2023_V1",
+            dataset_version="PARQUET_FLIGHTS_V1" if file_backed else "BTS_2023_V1",
             generator_seed=seed,
             schema_version="2.0",
         )

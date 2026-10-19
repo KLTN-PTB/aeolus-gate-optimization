@@ -1,0 +1,13 @@
+# Complete application environment, verified with Python 3.11 on Windows.
+# Keep the historical research requirement files unchanged.
+-r requirements.txt
+-r requirements-web.txt
+scipy==1.17.1
+joblib==1.5.3
+lightgbm==4.7.0
+ngboost==0.5.11
+ortools==9.15.6755
+streamlit==1.65.0
+plotly==7.1.0
+shap==0.51.0
+tzdata==2026.3

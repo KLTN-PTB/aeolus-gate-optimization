@@ -98,14 +98,19 @@ def render_sidebar(scenario_service: ScenarioService) -> str:
             else:
                 current_page_key = PageKeys.CONTROL_TOWER.value
 
+        navigation_key = "sidebar_page_navigation"
+        if navigation_key not in st.session_state or current_page_key != st.session_state.get("last_sidebar_page", current_page_key):
+            st.session_state[navigation_key] = current_page_key
         selected_key = st.radio(
             label="Chọn trang:",
             options=page_keys,
             index=page_keys.index(current_page_key),
             format_func=lambda k: PAGES[k]["title"],
             label_visibility="collapsed",
+            key=navigation_key,
         )
         st.session_state[SessionStateKeys.CURRENT_PAGE] = selected_key
+        st.session_state["last_sidebar_page"] = selected_key
 
         st.markdown("<hr style='border-color: #263B5C; margin: 16px 0;'>", unsafe_allow_html=True)
 
@@ -113,6 +118,10 @@ def render_sidebar(scenario_service: ScenarioService) -> str:
         st.markdown("<p style='font-size: 12px; font-weight: 600; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;'>KỊCH BẢN VẬN HÀNH (ATL)</p>", unsafe_allow_html=True)
         scenarios = scenario_service.list_scenarios()
         scen_options = [s["id"] for s in scenarios]
+        scen_labels = {
+            s["id"]: s.get("name") or f"{s['id']} ({s['flights']} chuyến, {s['gates']} vị trí đỗ)"
+            for s in scenarios
+        }
         
         current_scen = st.session_state.get(SessionStateKeys.ACTIVE_SCENARIO_ID, "SCEN_P09_CANONICAL_120")
         scen_index = scen_options.index(current_scen) if current_scen in scen_options else 0
@@ -122,7 +131,7 @@ def render_sidebar(scenario_service: ScenarioService) -> str:
             options=scen_options,
             index=scen_index,
             label_visibility="collapsed",
-            format_func=lambda sid: f"{sid} ({'120 chuyến' if '120' in sid else '85 chuyến'})",
+            format_func=lambda sid: scen_labels[sid],
         )
         if selected_scen != current_scen:
             st.session_state[SessionStateKeys.ACTIVE_SCENARIO_ID] = selected_scen
@@ -135,6 +144,7 @@ def render_sidebar(scenario_service: ScenarioService) -> str:
             st.session_state[SessionStateKeys.JOB_STATE] = UIJobState.IDLE.value
         else:
             st.session_state[SessionStateKeys.ACTIVE_SCENARIO_ID] = selected_scen
+        st.caption(f"Mã kịch bản: `{selected_scen}`")
 
         st.markdown("<hr style='border-color: #263B5C; margin: 16px 0;'>", unsafe_allow_html=True)
 
@@ -151,14 +161,15 @@ def render_sidebar(scenario_service: ScenarioService) -> str:
         st.markdown("<div style='margin-top: 32px;'></div>", unsafe_allow_html=True)
 
         # Footer Status Card
+        selected_year = next(s["year"] for s in scenarios if s["id"] == selected_scen)
         st.markdown(
-            """
+            f"""
             <div style="background-color: #101B2A; border: 1px solid #263B5C; border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.5; color: #94A3B8;">
                 <div style="color: #34C759; font-weight: 600; margin-bottom: 4px;">
                     ● HỆ THỐNG SẴN SÀNG (P10-C)
                 </div>
                 <div>Khóa luận Thạc sĩ / Kỹ sư</div>
-                <div>Hub: Atlanta (ATL) • Năm 2023</div>
+                <div>Hub: Atlanta (ATL) • Năm {selected_year}</div>
                 <div>Phiên bản: v1.0-frozen</div>
             </div>
             """,
