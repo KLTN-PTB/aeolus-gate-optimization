@@ -6,7 +6,7 @@ Nhánh ứng dụng hiện tại: `remediation/g7-regression`. Cần **Python 3.
 và **Node.js 22+** (kèm npm). Từ PowerShell:
 
 ```powershell
-git clone --branch remediation/g7-regression https://github.com/mrhao165-del/aeolus-gate-optimization.git
+git clone --branch remediation/g7-regression https://github.com/KLTN-PTB/aeolus-gate-optimization.git
 cd aeolus-gate-optimization
 .\scripts\start_web_dashboard.ps1 -Setup
 ```
