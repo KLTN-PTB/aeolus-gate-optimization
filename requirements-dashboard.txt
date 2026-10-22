@@ -1,5 +1,5 @@
-# Dashboard Dependencies for Aeolus Gate Optimization
-# Phase P10: Streamlit & Plotly Visualization Foundation
+# Streamlit and Plotly UI dependencies only; not the full model/solver environment.
+# Use scripts/start_web_dashboard.cmd -Setup for the complete application.
 # Tested against Python 3.11 with ortools 9.15, xgboost 3.2, pandas 2.3, numpy 2.2
 
 streamlit>=1.30.0,<2.0.0

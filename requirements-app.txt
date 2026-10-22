@@ -1,4 +1,5 @@
-# Complete application environment, verified with Python 3.11 on Windows.
+# Setup entry point for the web and Streamlit dashboards, models and solvers.
+# Installed by scripts/start_web_dashboard.cmd -Setup; verified on Python 3.11.
 # Keep the historical research requirement files unchanged.
 -r requirements.txt
 -r requirements-web.txt

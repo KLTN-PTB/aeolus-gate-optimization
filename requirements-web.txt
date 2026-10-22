@@ -1,4 +1,5 @@
-# Additive dependencies: do not upgrade the frozen ML stack.
+# Web dependencies included by requirements-app.txt; not a standalone ML environment.
+# Keep the frozen ML dependency versions unchanged.
 fastapi==0.143.5
 pydantic==2.14.1
 uvicorn==0.54.0
