@@ -1,9 +1,0 @@
-task,candidate_id,family,evaluation_split,crps,coverage_80,coverage_90,width_80,width_90,brier_ge_15,nll,calibration_status
-core_arrival,P1_empirical,empirical_residual,oof_4_fold_macro,13.1242,0.8031,0.8958,45.07,75.72,0.1052,NOT_AVAILABLE,CALIBRATED_EMPIRICAL
-core_arrival,P2_xgb_gaussian_oof,gaussian_residual,oof_4_fold_macro,17.9776,0.9544,0.9666,123.09,157.98,0.142,5.7306,OVERCONSERVATIVE
-core_arrival,P3_ngboost_normal,ngboost_gaussian,oof_4_fold_macro,17.5544,0.9571,0.9679,114.43,146.88,0.1661,5.7763,OVERCONSERVATIVE
-core_arrival,P4_ngboost_student_t,ngboost_student_t,oof_4_fold_macro,13.259,0.8295,0.8972,39.23,57.4,0.1076,4.5805,WELL_CALIBRATED_PARAMETRIC
-core_arrival,P5_quantile_regression,gradient_boosting_quantile,oof_4_fold_macro,13.1063,0.7607,0.8684,39.23,63.28,NOT_AVAILABLE,NOT_AVAILABLE,UNDERCOVERAGE_TAIL
-core_departure,departure_empirical_residual_v1,empirical_residual,development_selection_2023,10.2039,0.7945,0.8877,33.23,58.94,0.1594,NOT_AVAILABLE,EMPIRICALLY_CALIBRATED
-core_departure,departure_ngboost_student_t_v1,ngboost_student_t,development_selection_2023,14.2256,0.7305,0.7826,18.95,28.52,0.191,4.1803,SHARP_UNDERCOVERAGE
-core_departure,departure_gaussian_residual_v1,gaussian_residual,development_selection_2023,15.5805,0.9247,0.9425,84.09,107.93,0.1917,5.2687,OVERCONSERVATIVE

@@ -1,5 +1,0 @@
-model_a,model_b,n_scenarios,mean_delta_cost,median_delta_cost,std_delta_cost,mc_se_delta,ci_95_lower,ci_95_upper,t_statistic,p_value,statistical_significance,mean_delta_physical_conflicts,counts,proportions
-ModeA_FixedPlan,ModeB2_OnlineRecourse,5,974.0,970.0,11.4018,5.099,964.0059,983.9941,191.0171,4.505912694629799e-09,True,1.0,"{'improved': 5, 'worsened': 0, 'tied': 0}","{'improved_pct': 100.0, 'worsened_pct': 0.0, 'tied_pct': 0.0}"
-ModeB1_RetrospectiveRecourse,ModeB2_OnlineRecourse,5,-6.0,-10.0,16.7332,7.4833,-20.6673,8.6673,-0.8018,0.4676047546093972,False,0.0,"{'improved': 1, 'worsened': 3, 'tied': 1}","{'improved_pct': 20.0, 'worsened_pct': 60.0, 'tied_pct': 20.0}"
-ModeC1_GreedyForesightBenchmark,ModeC2_CPSatOptimalOracle,5,10.0,10.0,10.0,4.4721,1.2346,18.7654,2.2361,0.08900934250008567,False,0.0,"{'improved': 3, 'worsened': 0, 'tied': 2}","{'improved_pct': 60.0, 'worsened_pct': 0.0, 'tied_pct': 40.0}"
-ModeB2_OnlineRecourse,ModeC2_CPSatOptimalOracle,5,16.0,20.0,11.4018,5.099,6.0059,25.9941,3.1379,0.034919706674539024,True,0.0,"{'improved': 4, 'worsened': 0, 'tied': 1}","{'improved_pct': 80.0, 'worsened_pct': 0.0, 'tied_pct': 20.0}"

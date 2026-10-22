@@ -106,3 +106,23 @@ artifacts/optuna_studies/**
 !/artifacts/thesis_completion/full_20261022/models/departure_regression_xgboost.joblib
 !/artifacts/thesis_completion/full_20261022/models/arrival_residuals.joblib
 !/artifacts/thesis_completion/full_20261022/models/departure_residuals.joblib
+
+# This release tracks only its reviewed runtime artifacts. Keep local research
+# outputs and documentation backups outside the release commit.
+/artifacts/
+/data/processed/
+/audit_exports/
+/backup/
+/remediation_evidence/
+/docs/
+/notebooks/
+/reports/
+/results/
+/*.md
+!/README.md
+/*.json
+*.zip
+*.docx
+*.pptx
+*.xlsx
+*.patch

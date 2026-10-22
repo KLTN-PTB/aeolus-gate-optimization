@@ -1,6 +1,0 @@
-task,model_id,family,evaluation_split,sample_size,class_prevalence,roc_auc,pr_auc,brier_score,log_loss,ece,threshold,tp,fp,tn,fn,precision,recall,f1,is_calibrated,beats_constant_brier,meets_ece_target_0_05
-core_departure_classification,constant_prevalence_baseline,constant_baseline,development_selection_2023,332734,0.20625,0.5,0.20625,0.16776,0.52382,0.06361,0.5,0,0,264106,68628,0.0,0.0,0.0,False,False,False
-core_departure_classification,outbound_logistic_raw_v1,linear_logistic,development_selection_2023,332734,0.20625,0.61343,0.29708,0.16196,0.51062,0.05507,0.5,286,315,263791,68342,0.47587,0.00417,0.00826,False,True,False
-core_departure_classification,outbound_logistic_calibrated_v1,linear_logistic_isotonic,development_selection_2023,332734,0.20625,0.61336,0.29381,0.15892,0.49534,0.01047,0.5,2698,3265,260841,65930,0.45246,0.03931,0.07234,True,True,True
-core_departure_classification,outbound_xgboost_raw_v1,xgboost_tree,development_selection_2023,332734,0.20625,0.64289,0.32916,0.15891,0.50072,0.05643,0.5,2618,2423,261683,66010,0.51934,0.03815,0.07107,False,True,False
-core_departure_classification,outbound_xgboost_calibrated_v1,xgboost_tree_sigmoid,development_selection_2023,332734,0.20625,0.64289,0.32916,0.15637,0.488,0.01192,0.5,3337,3437,260669,65291,0.49262,0.04862,0.08851,True,True,True
