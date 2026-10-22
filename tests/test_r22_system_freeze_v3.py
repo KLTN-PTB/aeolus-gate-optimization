@@ -4,8 +4,8 @@ Verifies:
 1. system_freeze_manifest_v3.json and system_freeze_manifest_v3.sha256 exist and pass cryptographic verification.
 2. development_evidence_manifest_v3.json exists and links to system freeze v3.
 3. r22_freeze_audit.json reports PASS with 24 categories and 79 frozen files verified.
-4. FinalEvaluationGuardV2(freeze_version='v3') verifies all 79 frozen files without any hash mismatch.
-5. Guard strictly authorizes 'POST_HOLDOUT' for 2024 post_holdout_evaluation.
+4. A clean, isolated fixture verifies every file in all categories; mutation fails closed.
+5. Authorization succeeds only in the isolated fixture; the revised working tree stays blocked.
 6. Guard rejects all forbidden evaluation roles (untouched, development, tuning, calibration, etc.).
 7. Guard rejects non-2024 evaluation years and incorrect purposes.
 8. Historical freezes (v1, v2) remain preserved and unmodified.
@@ -33,6 +33,27 @@ ROOT = Path(__file__).resolve().parents[1]
 @pytest.fixture
 def guard_v3() -> FinalEvaluationGuardV2:
     return FinalEvaluationGuardV2(freeze_version="v3")
+
+
+@pytest.fixture
+def clean_guard_v3(tmp_path: Path) -> FinalEvaluationGuardV2:
+    """Synthetic frozen bytes exercise the guard without authorizing this working tree.
+
+    Preserve the real manifest's category/file structure, but use fixture contents and
+    checksums in a temporary root. No historical manifest or 2024 data is changed.
+    """
+    manifest = json.loads((ROOT / "artifacts/manifests/system_freeze_manifest_v3.json").read_text(encoding="utf-8"))
+    for category in manifest["freeze_categories"].values():
+        for name in category["files"]:
+            source = tmp_path / name
+            source.parent.mkdir(parents=True, exist_ok=True)
+            source.write_bytes(("Synthetic frozen fixture: " + name).encode("utf-8"))
+            category["files"][name] = compute_sha256(source)
+    guard = FinalEvaluationGuardV2(project_root=tmp_path, freeze_version="v3")
+    guard.manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    guard.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    guard.checksum_path.write_text(compute_sha256(guard.manifest_path), encoding="utf-8")
+    return guard
 
 
 def test_system_freeze_v3_manifest_and_checksum_integrity() -> None:
@@ -84,21 +105,37 @@ def test_r22_freeze_audit_completeness() -> None:
     assert audit["holdout_2024_status"]["row_level_access_in_r22"] is False
 
 
-def test_guard_v3_verifies_all_frozen_files(guard_v3: FinalEvaluationGuardV2) -> None:
-    """Verify that guard passes verification across all 24 categories in freeze manifest v3."""
-    payload = guard_v3.verify_freeze_manifest()
+def test_guard_v3_verifies_clean_fixture_files(clean_guard_v3: FinalEvaluationGuardV2) -> None:
+    """Verify all categories when the bytes actually match their frozen checksums."""
+    payload = clean_guard_v3.verify_freeze_manifest()
     assert payload["freeze_status"] == "FROZEN_V3"
     assert payload["manifest_version"] == "system_freeze_manifest_v3"
     assert payload["total_categories"] == 24
 
 
-def test_guard_v3_authorizes_clean_post_holdout_access(guard_v3: FinalEvaluationGuardV2) -> None:
-    """Verify that guard authorizes access under POST_HOLDOUT role for year 2024."""
-    guard_v3.assert_evaluation_authorized(
+def test_guard_v3_authorizes_only_clean_fixture(clean_guard_v3: FinalEvaluationGuardV2) -> None:
+    """Exercise the positive authorization branch in a temporary synthetic root."""
+    clean_guard_v3.assert_evaluation_authorized(
         evaluation_role="POST_HOLDOUT",
         year=2024,
         purpose="post_holdout_evaluation",
     )
+
+
+def test_guard_v3_blocks_current_revised_working_tree(guard_v3: FinalEvaluationGuardV2) -> None:
+    """Current code must never inherit the old freeze's authorization."""
+    for operation in (guard_v3.verify_freeze_manifest, lambda: guard_v3.assert_evaluation_authorized(
+        evaluation_role="POST_HOLDOUT", year=2024, purpose="post_holdout_evaluation"
+    )):
+        with pytest.raises(FinalEvaluationGuardV2Error, match=r"Integrity hash mismatch.*domain\.py"):
+            operation()
+
+
+def test_guard_v3_detects_fixture_source_mutation(clean_guard_v3: FinalEvaluationGuardV2) -> None:
+    source = clean_guard_v3.project_root / "src/optimization/domain.py"
+    source.write_bytes(source.read_bytes() + b"\nchanged after freeze")
+    with pytest.raises(FinalEvaluationGuardV2Error, match=r"Integrity hash mismatch.*domain\.py"):
+        clean_guard_v3.verify_freeze_manifest()
 
 
 @pytest.mark.parametrize("role", sorted(list(FORBIDDEN_EVALUATION_ROLES)))

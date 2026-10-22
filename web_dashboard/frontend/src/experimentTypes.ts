@@ -1,7 +1,7 @@
 import type { Result } from './types';
 export const algorithmNames: Record<string, string> = {greedy: 'Greedy', cpsat: 'CP-SAT', sa: 'SA độc lập', hybrid: 'Hybrid'};
 export interface Plan {id: string; label: string; algorithm: string; seed: number; snapshot_hash: string}
-export interface Plans {plans: Plan[]; ready: boolean; reason?: string; snapshot_hash?: string; has_arrivals?: boolean}
+export interface Plans {plans: Plan[]; ready: boolean; reason?: string; snapshot_hash?: string; has_arrivals?: boolean; has_uncertainty?: boolean}
 export interface Experiment {
   id: string; run_id: string; created_at: string; status: string; stage: string; error?: string;
   completed: number; total: number; cancel_requested: number;

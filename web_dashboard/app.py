@@ -177,6 +177,56 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         return Response(buffer.getvalue(), media_type="application/octet-stream",
                         headers={"Content-Disposition": 'attachment; filename="ILLUSTRATIVE_ONLY_ATL_schedule.parquet"'})
 
+    @app.get('/api/model-profiles')
+    def model_profiles():
+        from web_dashboard.thesis_profile import profiles
+        return profiles()
+
+    @app.get('/api/model-comparison')
+    def model_comparison():
+        from web_dashboard.thesis_profile import profile
+        try:
+            p = profile()
+            global_path = ROOT / p['model_run'] / 'shap_global.json'
+            return {'scope': p['evaluation_scope'], 'models': p['comparison'],
+                    'global_shap': json.loads(global_path.read_text()) if global_path.exists() else None}
+        except (ValueError, OSError) as exc:
+            raise HTTPException(409, str(exc)) from exc
+
+    @app.get('/api/runs/{run_id}/explanation/{flight_id}')
+    def explanation(run_id: str, flight_id: str, kind: str = 'regression'):
+        import pandas as pd
+        from web_dashboard.thesis_profile import profile, explain
+        get_run(run_id)
+        if kind not in ('regression', 'classification'):
+            raise HTTPException(422, 'Unknown explanation target')
+        directory = store.root / 'runs' / run_id
+        result_path = directory / 'result.json'
+        if not result_path.exists():
+            raise HTTPException(409, 'Run is not complete')
+        result = json.loads(result_path.read_text(encoding='utf-8'))
+        if result['manifest']['config'].get('model_profile') != 'thesis_xgboost':
+            raise HTTPException(409, 'SHAP này chỉ giải thích checkpoint XGBoost của profile đề cương.')
+        frame = pd.read_parquet(directory / 'normalized.parquet')
+        raw = frame.loc[frame.flight_key.eq(flight_id)]
+        if len(raw) != 1:
+            raise HTTPException(404, 'Flight not found')
+        task = 'arrival' if raw.direction.iloc[0] == 'ARR' else 'departure'
+        model_run = result['manifest']['models'][task]['version']
+        try:
+            active = profile()
+            if active['version'] != model_run:
+                raise ValueError('The checkpoint used by this run is no longer the active release')
+            record = active['models'][f'{task}_{kind}_xgboost']
+            import hashlib
+            key = hashlib.sha256(f'{flight_id}:{record["sha256"]}'.encode()).hexdigest()
+            cache = directory / f'shap_{key}.json'
+            if not cache.exists():
+                json_write(cache, explain(raw, task, kind, model_record=record))
+            return json.loads(cache.read_text())
+        except (ValueError, OSError, KeyError) as exc:
+            raise HTTPException(409, str(exc)) from exc
+
     @app.post("/api/datasets", status_code=201)
     async def upload(files: list[UploadFile] = File(...)):
         if not 1 <= len(files) <= 2:
@@ -225,6 +275,12 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
 
     @app.post("/api/runs", status_code=202)
     def start_run(request: RunRequest):
+        if request.model_profile == 'thesis_xgboost':
+            from web_dashboard.thesis_profile import profile
+            try:
+                profile()
+            except (ValueError, OSError) as exc:
+                raise HTTPException(409, str(exc)) from exc
         report = store.dataset(request.dataset_id)
         if report is None:
             raise HTTPException(404, "Không tìm thấy dữ liệu.")
@@ -271,7 +327,7 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         return FileResponse(path, filename=f"aeolus_{run_id[:8]}_{path.name}")
 
     from web_dashboard.experiments import (ANALYSIS_VERSION, available_plans, experiment_results, export_experiment, load_plan,
-        read_json, render_plan, snapshot_for)
+        read_json, render_plan, snapshot_for, has_predictive_uncertainty)
     from web_dashboard.solver_execution import PROTOCOL_VERSION, version_for
     experiment_export_lock = threading.Lock()
 
@@ -289,7 +345,8 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         try:
             snapshot = snapshot_for(store, run_id)
             return {'plans': available_plans(store, run_id), 'ready': True,
-                    'snapshot_hash': snapshot['hash'], 'has_arrivals': bool(snapshot['marginals'])}
+                    'snapshot_hash': snapshot['hash'], 'has_arrivals': any(p.get('arrival_leg_id') for p in snapshot['pairing']),
+                    'has_uncertainty':has_predictive_uncertainty(snapshot)}
         except ValueError as exc:
             return {'plans': [], 'ready': False, 'reason': str(exc)}
 
@@ -307,8 +364,8 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
             config['snapshot_hash'] = snapshot['hash']
             config['solver_protocol_version'] = PROTOCOL_VERSION
             if request.kind == 'montecarlo':
-                if not snapshot['marginals']:
-                    raise ValueError('Không có phân phối chuyến đến để lấy mẫu Monte Carlo.')
+                if not has_predictive_uncertainty(snapshot):
+                    raise ValueError('Không có nguồn bất định dự báo đã xác minh để lấy mẫu Monte Carlo.')
                 available = available_plans(store, run_id)
                 selected = [p for p in available if p['id'] in request.plan_ids]
                 if not selected or len(selected) != len(request.plan_ids):

@@ -6,6 +6,7 @@ import { Activity, AlertTriangle, ArrowDownToLine, ArrowRight, ArrowUpRight, Bar
 import { api } from './api';
 import { GatePage } from './GatePage';
 import { LabPage } from './LabPage';
+import {ModelComparison, FlightExplanation} from './ModelEvidence';
 import type { OpenPlan } from './experimentTypes';
 import { DelayChart, HourlyChart } from './charts';
 import { configMatches, defaults, fmt, isBusy, riskLevel, solverNames, stageNames, stages,
@@ -57,6 +58,7 @@ export default function App() {
   const [uploading, setUploading] = useState(false);
   const [starting, setStarting] = useState(false);
   const [online, setOnline] = useState(false);
+  const [modelProfiles,setModelProfiles]=useState<{id:string;label:string;ready:boolean;reason?:string}[]>([]);
   const [search, setSearch] = useState('');
   const [direction, setDirection] = useState('all');
   const [detail, setDetail] = useState<Prediction | Turn | null>(null);
@@ -66,12 +68,15 @@ export default function App() {
   const stale = !!run && !configMatches(config, run.config);
   const meta = pages.find(p => p.id === page)!;
   const s = result?.summary;
+  const proposalProfile = modelProfiles.find(p => p.id === 'thesis_xgboost');
+  const proposalResult = result?.manifest.config.model_profile === 'thesis_xgboost';
+  const classified = result?.predictions.filter(p => typeof p.predicted_delayed === 'boolean') || [];
 
   const update = <K extends keyof Config>(key: K, value: Config[K]) => setConfig(c => ({...c, [key]: value}));
   const refreshHistory = () => api<Run[]>('/runs').then(setHistory);
   async function openRun(item: Run) {
     const token = ++loadToken.current;
-    setError(''); setDetail(null); setResult(null); setRun(item); setConfig({...item.config});
+    setError(''); setDetail(null); setResult(null); setRun(item); setConfig({...defaults,...item.config});
     localStorage.setItem('aeolus-last-run', item.id);
     try {
       const [report, output] = await Promise.all([api<Dataset>(`/datasets/${item.config.dataset_id}`),
@@ -81,6 +86,9 @@ export default function App() {
   }
   useEffect(() => {
     api('/health').then(() => setOnline(true)).catch(() => setError('Chưa kết nối backend. Kiểm tra ứng dụng đang chạy trên localhost:8000.'));
+    api<typeof modelProfiles>('/model-profiles').then(p=>{if(Array.isArray(p))setModelProfiles(p);})
+      .catch(e=>setModelProfiles([{id:'thesis_xgboost',label:'Đề cương · XGBoost',ready:false,
+        reason:`Không kiểm tra được mô hình đề cương: ${(e as Error).message}`} ]));
     api<Run[]>('/runs').then(items => {setHistory(items); const saved = items.find(item => item.id === localStorage.getItem('aeolus-last-run')); if (saved) void openRun(saved);}).catch(e => setError(e.message));
   }, []);
   useEffect(() => {
@@ -172,6 +180,11 @@ export default function App() {
           </Panel>
           <Panel title="Cấu hình vận hành" subtitle="Thiết lập năng lực cho lần thử nghiệm" action={<Settings2 size={18}/>}>
             <fieldset className="config-form" disabled={busy || uploading || starting}>
+              <label>Mô hình dự báo<select aria-label="Mô hình dự báo" value={config.model_profile} onChange={e=>update('model_profile',e.target.value as Config['model_profile'])}><option value="legacy_native">Native hiện có (NGBoost / XGBoost)</option>{modelProfiles.filter(p=>p.id!=='legacy_native').map(p=><option key={p.id} value={p.id} disabled={!p.ready}>{p.label}{p.ready?'':' · chưa sẵn sàng'}</option>)}</select></label>
+              <button type="button" className="button secondary" disabled={!proposalProfile?.ready} onClick={() => setConfig(c => ({...c, model_profile: 'thesis_xgboost', gate_time_mode: 'bounded_wait'}))}>Chọn nhanh · Đề cương XGBoost + chờ cổng</button>
+              {!proposalProfile?.ready && <small>{proposalProfile?.reason || 'Đang kiểm tra mô hình đề cương.'}</small>}
+              <label>Thời gian vào cổng<select aria-label="Thời gian vào cổng" value={config.gate_time_mode} onChange={e=>update('gate_time_mode',e.target.value as Config['gate_time_mode'])}><option value="fixed">Khoảng cố định</option><option value="bounded_wait">Cho phép chờ cổng hữu hạn</option></select></label>
+              {config.gate_time_mode==='bounded_wait'&&<><label>Chờ tối đa mỗi lượt (phút)<input aria-label="Chờ cổng tối đa" type="number" min="0" max="120" value={config.max_gate_wait_min} onChange={e=>update('max_gate_wait_min',Number(e.target.value))}/></label><div className="form-row">{(['gate_wait_weight','reassignment_weight','remote_weight'] as const).map((k,i)=><label key={k}>{['Điểm / phút chờ','Điểm / đổi cổng','Điểm / bãi xa'][i]}<input type="number" min="0" max="1000000" step="0.01" value={config[k]} onChange={e=>update(k,Number(e.target.value))}/></label>)}</div><p className="footnote">Dịch cả giờ vào và ra cổng, giữ nguyên thời gian phục vụ và buffer. Chuyến chỉ có lượt đi không được chờ.</p></>}
               <label>Sân bay<select aria-label="Sân bay" value="ATL" disabled><option>ATL — Hartsfield–Jackson Atlanta</option></select></label>
               <label>Ngày vận hành<select aria-label="Ngày vận hành" value={config.service_date} onChange={e => update('service_date', e.target.value)} disabled={!dataset?.dates.length}><option value="">Chọn ngày từ file đã tải</option>{dataset?.dates.map(d => <option key={d.date} value={d.date}>{d.date} · {fmt(d.total)} lượt bay</option>)}</select></label>
               <div className="form-row"><label>Quy mô thử nghiệm<select aria-label="Quy mô thử nghiệm" value={config.preset} onChange={e => {const preset = e.target.value as Config['preset']; setConfig(c => ({...c, preset, contact_gates: preset === 'custom' ? c.contact_gates : {large: 150, medium: 50, small: 20}[preset]}));}}>{Object.entries(presetNames).map(([key, name]) => <option key={key} value={key}>{name}</option>)}</select></label>
@@ -191,16 +204,17 @@ export default function App() {
         </>}
 
         {page === 'predictions' && <>
+          <ModelComparison/>
           <div className="kpi-grid"><Kpi label="Lượt bay đã dự báo" value={fmt(s?.movement_count)} note="Dự báo trực tiếp từ checkpoint đã xác minh" icon={<Activity size={18}/>} accent/>
             <Kpi label="MAE đối chiếu" value={fmt(s?.mae, 2)} unit="phút" note={s?.comparison_count ? `${fmt(s.comparison_count)} lượt có nhãn thực tế` : 'Cần nhãn thực tế hợp lệ để tính'} icon={<BarChart3 size={18}/>}/>
             <Kpi label="RMSE đối chiếu" value={fmt(s?.rmse, 2)} unit="phút" note="Không phải kết quả kiểm định mô hình mới" icon={<Activity size={18}/>}/>
-            <Kpi label="Dự báo trễ ≥15 phút" value={result ? fmt(result.predictions.filter(p => p.predicted_delay_min >= 15).length) : '—'} note="Theo giá trị trễ dự báo, không phải xác suất" icon={<Clock3 size={18}/>}/></div>
+            <Kpi label={proposalResult ? 'Cảnh báo trễ ≥15 phút' : 'Trễ ≥15 phút theo số phút dự báo'} value={!result ? '—' : proposalResult ? (classified.length === result.predictions.length ? fmt(classified.filter(p => p.predicted_delayed).length) : '—') : fmt(result.predictions.filter(p => p.predicted_delay_min >= 15).length)} note={proposalResult ? 'Theo bộ phân loại và ngưỡng đã chọn từ OOF 2022' : 'Theo dự báo số phút; không phải kết quả bộ phân loại'} icon={<Clock3 size={18}/>}/></div>
           {!result ? <EmptyState title="Chưa có dự báo cho ngày vận hành" text="Tải raw Parquet và chạy end-to-end từ màn hình Tổng quan." onBack={() => setPage('overview')}/> : <>
             <div className="model-cards">{Object.entries(result.manifest.models).map(([key, model]) => <div className="model-card" key={key}><span className="model-icon">{key === 'arrival' ? <PlaneLanding size={20}/> : <PlaneTakeoff size={20}/>}</span><div><small>CORE {key.toUpperCase()}</small><strong>{model.model_id}</strong><span>{model.status} · {model.version}</span></div><ShieldCheck size={18}/></div>)}</div>
             <Panel title="Dự báo từng chuyến bay" subtitle="Thời gian thực tế chỉ dùng để đối chiếu, không làm đầu vào dự báo" action={<a className="text-button" href={exportLink('predictions.csv')}><ArrowDownToLine size={14}/>Tải CSV</a>}>
               <div className="filters"><label className="search-box"><Search size={16}/><input aria-label="Tìm chuyến bay" value={search} onChange={e => setSearch(e.target.value)} placeholder="Tìm số hiệu, hãng hoặc chặng bay…"/></label><select aria-label="Chiều bay" value={direction} onChange={e => setDirection(e.target.value)}><option value="all">Tất cả chiều bay</option><option value="ARR">Chuyến đến</option><option value="DEP">Chuyến đi</option></select><span className="chip"><ShieldCheck size={12}/>Schedule-only</span></div>
               <PredictTable rows={filtered} onSelect={setDetail}/></Panel>
-            <div className="chart-grid"><Panel title="Phân bố độ trễ dự báo" subtitle="Signed delay · giữ nguyên dự báo đến sớm"><DelayChart result={result}/></Panel><Panel title="Khả năng giải thích & giới hạn" subtitle="Thông tin đúng theo mô hình đang sử dụng"><div className="explanation"><ShieldCheck size={28}/><h3>Dự báo có nguồn gốc rõ ràng</h3><p>Mã mô hình, phiên bản, mã băm và thời điểm cutoff được lưu theo từng chuyến. Mở chi tiết chuyến để kiểm tra.</p><p>Chưa có SHAP cho file mới. Không dùng lại SHAP hoặc ROC-AUC của một thí nghiệm khác để đại diện dữ liệu này.</p><a className="text-button" href={exportLink('manifest')}>Tải manifest kiểm chứng<ArrowUpRight size={13}/></a></div></Panel></div>
+            <div className="chart-grid"><Panel title="Phân bố độ trễ dự báo" subtitle="Signed delay · giữ nguyên dự báo đến sớm"><DelayChart result={result}/></Panel><Panel title="Khả năng giải thích & giới hạn" subtitle="Thông tin đúng theo mô hình đang sử dụng"><div className="explanation"><ShieldCheck size={28}/><h3>Dự báo có nguồn gốc rõ ràng</h3><p>Mã mô hình, phiên bản, mã băm và thời điểm cutoff được lưu theo từng chuyến. Mở chi tiết chuyến để kiểm tra.</p><p>{proposalResult ? 'Có thể tính TreeSHAP riêng cho từng chuyến trong file này ở phần chi tiết. SHAP toàn cục và ROC-AUC lịch sử không phải điểm đánh giá của file mới.' : 'TreeSHAP của profile XGBoost đề cương không áp dụng cho mô hình Native đang dùng. Không dùng số liệu thí nghiệm khác làm điểm đánh giá file này.'}</p><a className="text-button" href={exportLink('manifest')}>Tải manifest kiểm chứng<ArrowUpRight size={13}/></a></div></Panel></div>
           </>}
         </>}
 
@@ -211,7 +225,8 @@ export default function App() {
       </div>
     </main>
     {detail && <div className="drawer-overlay" onClick={() => setDetail(null)}><aside className="detail-drawer" role="dialog" aria-modal="true" aria-label="Chi tiết chuyến bay" onClick={e => e.stopPropagation()}><header><span>CHI TIẾT VẬN HÀNH</span><button autoFocus aria-label="Đóng chi tiết" onClick={() => setDetail(null)}><X size={20}/></button></header>
-      {'flight_direction' in detail ? <><h2>{detail.carrier}{detail.flight_number}</h2><div className="detail-route">{detail.origin}<ArrowRight size={20}/>{detail.destination}</div><dl><dt>Chiều bay</dt><dd>{detail.flight_direction}</dd><dt>Giờ theo lịch tại ATL</dt><dd>{detail.scheduled_event_local}</dd><dt>Trễ dự báo</dt><dd>{fmt(detail.predicted_delay_min, 2)} phút</dd><dt>P(trễ ≥15 phút)</dt><dd>{detail.probability_delay_15 == null ? 'Mô hình không cung cấp' : `${fmt(detail.probability_delay_15 * 100, 2)}%`}</dd><dt>Trễ thực tế (chỉ đối chiếu)</dt><dd>{fmt(detail.actual_delay_min, 2)} phút</dd><dt>Mô hình</dt><dd>{detail.model_id}</dd><dt>Cutoff lịch bay (UTC)</dt><dd>{detail.prediction_cutoff_utc}</dd><dt>SHA-256 checkpoint</dt><dd className="mono">{detail.model_sha256}</dd></dl></> : <><h2>{detail.carrier}{detail.flight_number}</h2><span className="badge">{detail.is_estimated ? 'Dwell giả định' : 'Ghép cùng số đuôi từ lịch'}</span><dl><dt>Cổng phân bổ</dt><dd>{result?.assignments.find(a => a.flight_id === detail.turn_id)?.gate_id || 'Chưa có'}</dd><dt>Cổng tham chiếu mô phỏng</dt><dd>{detail.nominal_gate_id || 'Không có'}</dd><dt>Bắt đầu chiếm dụng</dt><dd>{timelineClock(detail.simulated_arrival_min, result!.manifest.reference_midnight_utc)}</dd><dt>Rời cổng</dt><dd>{timelineClock(detail.simulated_departure_min, result!.manifest.reference_midnight_utc)}</dd><dt>Giải phóng sau buffer</dt><dd>{timelineClock(detail.gate_release_min, result!.manifest.reference_midnight_utc)}</dd><dt>Loại lượt</dt><dd>{detail.pair_type}</dd><dt>Mã lượt đến / đi</dt><dd className="mono">{detail.arrival_leg_id || 'Không có'}<br/>{detail.departure_leg_id || 'Không có'}</dd></dl><p className="assumption-note">Không tự chuyển tàu từ bãi xa vào cổng.</p></>}
+      {'flight_direction' in detail ? <><h2>{detail.carrier}{detail.flight_number}</h2><div className="detail-route">{detail.origin}<ArrowRight size={20}/>{detail.destination}</div><dl><dt>Chiều bay</dt><dd>{detail.flight_direction}</dd><dt>Giờ theo lịch tại ATL</dt><dd>{detail.scheduled_event_local}</dd><dt>Trễ dự báo</dt><dd>{fmt(detail.predicted_delay_min, 2)} phút</dd><dt>P(trễ ≥15 phút)</dt><dd>{detail.probability_delay_15 == null ? 'Mô hình không cung cấp' : `${fmt(detail.probability_delay_15 * 100, 2)}%`}</dd>{typeof detail.predicted_delayed === 'boolean' && <><dt>Ngưỡng cảnh báo</dt><dd>{detail.decision_threshold == null ? '—' : `${fmt(detail.decision_threshold * 100, 2)}%`}</dd><dt>Kết quả phân loại</dt><dd>{detail.predicted_delayed ? 'Cảnh báo trễ ≥15 phút' : 'Không cảnh báo'}</dd></>}<dt>Trễ thực tế (chỉ đối chiếu)</dt><dd>{fmt(detail.actual_delay_min, 2)} phút</dd><dt>Mô hình</dt><dd>{detail.model_id}</dd><dt>Cutoff lịch bay (UTC)</dt><dd>{detail.prediction_cutoff_utc}</dd><dt>SHA-256 checkpoint</dt><dd className="mono">{detail.model_sha256}</dd></dl></> : <><h2>{detail.carrier}{detail.flight_number}</h2><span className="badge">{detail.is_estimated ? 'Dwell giả định' : 'Ghép cùng số đuôi từ lịch'}</span><dl><dt>Cổng phân bổ</dt><dd>{result?.assignments.find(a => a.flight_id === detail.turn_id)?.gate_id || 'Chưa có'}</dd><dt>Cổng tham chiếu mô phỏng</dt><dd>{detail.nominal_gate_id || 'Không có'}</dd><dt>Bắt đầu chiếm dụng</dt><dd>{timelineClock(detail.simulated_arrival_min, result!.manifest.reference_midnight_utc)}</dd><dt>Rời cổng</dt><dd>{timelineClock(detail.simulated_departure_min, result!.manifest.reference_midnight_utc)}</dd><dt>Giải phóng sau buffer</dt><dd>{timelineClock(detail.gate_release_min, result!.manifest.reference_midnight_utc)}</dd><dt>Loại lượt</dt><dd>{detail.pair_type}</dd><dt>Mã lượt đến / đi</dt><dd className="mono">{detail.arrival_leg_id || 'Không có'}<br/>{detail.departure_leg_id || 'Không có'}</dd></dl><p className="assumption-note">Không tự chuyển tàu từ bãi xa vào cổng.</p></>}
+      {'flight_direction' in detail && run && result?.manifest.config.model_profile==='thesis_xgboost' && <FlightExplanation runId={run.id} flightId={detail.flight_id}/>}
     </aside></div>}
   </div>;
 }

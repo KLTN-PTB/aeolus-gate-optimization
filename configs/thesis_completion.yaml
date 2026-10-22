@@ -1,0 +1,45 @@
+version: thesis_completion_v1
+seed: 202601
+training_years: [2016, 2017, 2018, 2019, 2020, 2021, 2022]
+validation_years: [2019, 2020, 2021, 2022]
+evaluation_year: 2023
+blocked_years: [2024]
+tasks: [arrival, departure]
+kinds: [classification, regression]
+families: [linear, random_forest, xgboost, stacking]
+features: schedule_only_F0
+cutoff_hours: 2
+delay_minutes: 15
+weather: false
+flight_chain: false
+budget:
+  total_hours: 24
+  hpo_hours: 8
+  model_hours: 16
+  experiment_hours: 20
+  trials_per_target: 16
+  train_cap: 500000
+  fit_timeout_seconds: 900
+  threads: 8
+  prefer_gpu: true
+baseline:
+  random_forest: {n_estimators: 100, max_depth: 12, min_samples_leaf: 10}
+  xgboost: {n_estimators: 300, max_depth: 6, learning_rate: 0.05, subsample: 0.8, colsample_bytree: 0.8}
+  linear: {C: 1.0, max_iter: 300, tol: 0.001, ridge_alpha: 1.0}
+waiting:
+  max_gate_wait_min: 30
+  wait_weight: 1.0
+  reassignment_weight: 10.0
+  remote_weight: 200.0
+benchmark:
+  dates: ['2023-01-15', '2023-07-15', '2023-12-15']
+  sizes: [100, 200, 300]
+  contact_gates: [20, 35, 50]
+  seeds: [202601, 202602, 202603]
+  algorithms: [greedy, cpsat, sa, hybrid]
+  time_limit_sec: 10
+monte_carlo:
+  scenarios: 500
+  seed: 202601
+  recourse_algorithm: hybrid
+  recourse_time_limit_sec: 2

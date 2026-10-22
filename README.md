@@ -8,11 +8,11 @@ Phần chứng nhận P14 phía dưới giữ nội dung của mốc nghiên c�
 
 ## Chạy dashboard mới từ bản clone/pull
 
-Nhánh ứng dụng hiện tại: `remediation/g7-regression`. Cần **Python 3.11 64-bit**
+Nhánh ứng dụng hiện tại: `release/dashboard-portable-20261022`. Cần **Python 3.11 64-bit**
 và **Node.js 22+** (kèm npm). Từ PowerShell:
 
 ```powershell
-git clone --branch remediation/g7-regression https://github.com/KLTN-PTB/aeolus-gate-optimization.git
+git clone --branch release/dashboard-portable-20261022 https://github.com/KLTN-PTB/aeolus-gate-optimization.git
 cd aeolus-gate-optimization
 .\scripts\start_web_dashboard.cmd -Setup
 ```
@@ -23,8 +23,10 @@ thư viện ứng dụng, kiểm tra checkpoint và build frontend. Lần đầu
 Các lần chạy sau dùng `.\scripts\start_web_dashboard.cmd`; sau khi pull cập nhật,
 chạy lại với `-Setup` để đồng bộ thư viện và giao diện.
 
-Repo chứa 19 checkpoint/preprocessor `.joblib` (khoảng 7,5 MB) bằng Git thông
-thường; không cần Git LFS hay huấn luyện lại. Upload trực tiếp file có sẵn
+Repo chứa 19 checkpoint/preprocessor legacy cùng 4 model XGBoost và 2 ngân hàng
+sai số cho profile đề cương. Các số liệu so sánh 16 model là bằng chứng lịch sử;
+chỉ 4 checkpoint XGBoost được dùng khi chạy dashboard. Không cần Git LFS hay
+huấn luyện lại. Upload trực tiếp file có sẵn
 `data/raw/ATL_20260701_02_schedule_raw.parquet`, chọn ngày `2026-07-01`.
 Để thử cả ngày này, dùng 150 cổng + 30 bãi xa và Greedy trước; nghiệm khả thi
 còn phụ thuộc cấu hình và thời gian giải. Giao diện cũng có file lịch minh họa.

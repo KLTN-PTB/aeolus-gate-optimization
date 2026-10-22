@@ -86,4 +86,67 @@ describe('workspace interactions', () => {
     await screen.findByText(/Sai giờ đến/);
     expect(screen.getByRole('button', {name: /Chạy end-to-end/}).hasAttribute('disabled')).toBe(true);
   });
+  it('applies the proposal profile without resetting operational inputs', async () => {
+    call.mockImplementation(async path => {
+      if (path === '/health') return {};
+      if (path === '/model-profiles') return [{id: 'legacy_native', ready: true}, {id: 'thesis_xgboost', ready: true, label: 'Đề cương'}];
+      if (path === '/runs') return [];
+      if (path === '/datasets') return dataset;
+      throw Error(path);
+    });
+    render(<App/>); await upload();
+    fireEvent.change(screen.getByLabelText('Số cổng tiếp xúc'), {target: {value: '33'}});
+    fireEvent.change(screen.getByLabelText('Giới hạn tìm kiếm (giây)'), {target: {value: '45'}});
+    const quick = await screen.findByRole('button', {name: /Chọn nhanh · Đề cương/});
+    fireEvent.click(quick);
+    expect((screen.getByLabelText('Mô hình dự báo') as HTMLSelectElement).value).toBe('thesis_xgboost');
+    expect((screen.getByLabelText('Thời gian vào cổng') as HTMLSelectElement).value).toBe('bounded_wait');
+    expect((screen.getByLabelText('Số cổng tiếp xúc') as HTMLInputElement).value).toBe('33');
+    expect((screen.getByLabelText('Giới hạn tìm kiếm (giây)') as HTMLInputElement).value).toBe('45');
+    expect((screen.getByLabelText('Ngày vận hành') as HTMLSelectElement).value).toBe('2026-07-01');
+  });
+  it('does not offer a quick preset for an unavailable model', async () => {
+    call.mockImplementation(async path => {
+      if (path === '/health') return {};
+      if (path === '/runs') return [];
+      if (path === '/model-profiles') return [{id: 'legacy_native', ready: true}, {id: 'thesis_xgboost', ready: false, reason: 'Thiếu mô hình'}];
+      throw Error(path);
+    });
+    render(<App/>);
+    await screen.findByText('Thiếu mô hình');
+    expect(screen.getByRole('button', {name: /Chọn nhanh · Đề cương/}).hasAttribute('disabled')).toBe(true);
+    expect((screen.getByLabelText('Mô hình dự báo') as HTMLSelectElement).value).toBe('legacy_native');
+  });
+  it('counts classification alerts independently from predicted minutes', async () => {
+    const proposal = {...config, model_profile: 'thesis_xgboost' as const};
+    const saved = {...run, status: 'completed' as const, stage: 'done', config: proposal};
+    const base = {flight_direction: 'ARR' as const, carrier: 'DL', flight_number: '100', origin: 'JFK', destination: 'ATL',
+      scheduled_event_local: '2023-01-15T10:00:00', actual_delay_min: null, model_id: 'thesis_arrival_xgboost',
+      model_version: 'full_20261022', model_sha256: 'a'.repeat(64), prediction_cutoff_utc: '2023-01-15T08:00:00Z',
+      decision_threshold: .2};
+    const proposalResult: Result = {...result, manifest: {...result.manifest, config: proposal}, predictions: [
+      {...base, flight_id: 'flight-1', predicted_delay_min: 5, probability_delay_15: .3, predicted_delayed: true},
+      {...base, flight_id: 'flight-2', flight_number: '101', predicted_delay_min: 10, probability_delay_15: .1, predicted_delayed: false},
+    ]};
+    localStorage.setItem('aeolus-last-run', saved.id);
+    call.mockImplementation(async path => {
+      if (path === '/health') return {};
+      if (path === '/model-profiles') return [{id: 'legacy_native', ready: true}, {id: 'thesis_xgboost', ready: true}];
+      if (path === '/runs') return [saved];
+      if (path === `/datasets/${id}`) return dataset;
+      if (path === `/runs/${saved.id}/results`) return proposalResult;
+      if (path === '/model-comparison') return {scope: 'historical_2023', models: {}};
+      throw Error(path);
+    });
+    render(<App/>);
+    fireEvent.click(screen.getByRole('button', {name: /Dự báo độ trễ/}));
+    const label = await screen.findByText('Cảnh báo trễ ≥15 phút');
+    expect(label.closest('article')?.querySelector('.kpi-value')?.textContent).toBe('1');
+    expect(screen.getByText(/Có thể tính TreeSHAP riêng cho từng chuyến/)).toBeTruthy();
+    expect(screen.getByText(/Bảng tham chiếu của profile đề cương/)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', {name: /DL\s*100/}));
+    const detail = screen.getByRole('dialog');
+    expect(detail.textContent).toContain('30%');
+    expect(detail.textContent).toContain('20%');
+  });
 });

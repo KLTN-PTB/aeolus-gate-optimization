@@ -1,0 +1,2 @@
+-r requirements-binary.txt
+lightgbm==4.7.0

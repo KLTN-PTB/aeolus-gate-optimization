@@ -17,14 +17,24 @@ Push-Location $dashboardRoot
 try {
     if (-not (Test-Path -LiteralPath $dashboardPython)) {
         if (-not $Setup) { throw 'Run .\scripts\start_web_dashboard.cmd -Setup once to create the application environment.' }
-        if (Get-Command py.exe -ErrorAction SilentlyContinue) {
-            & py.exe -3.11 -m venv .venv
-        } elseif (Get-Command python.exe -ErrorAction SilentlyContinue) {
-            & python.exe -m venv .venv
-        } else {
-            throw 'Install Python 3.11 (64-bit) and Node.js 22+ first, then run with -Setup.'
+        $candidates = @(
+            @{ Name = 'python3.11.exe'; Prefix = @() },
+            @{ Name = 'py.exe'; Prefix = @('-3.11') },
+            @{ Name = 'python.exe'; Prefix = @() }
+        )
+        $created = $false
+        foreach ($candidate in $candidates) {
+            $executable = Get-Command $candidate.Name -ErrorAction SilentlyContinue
+            if (-not $executable) { continue }
+            $version = & $executable.Source @($candidate.Prefix) -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')" 2>$null
+            if ($LASTEXITCODE -ne 0 -or $version -ne '3.11') { continue }
+            & $executable.Source @($candidate.Prefix) -m venv .venv
+            if ($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $dashboardPython)) {
+                $created = $true
+                break
+            }
         }
-        if ($LASTEXITCODE -ne 0) { throw 'Could not create .venv. Install Python 3.11 (64-bit) first.' }
+        if (-not $created) { throw 'Could not create .venv. Install a working Python 3.11 (64-bit) and retry.' }
     }
     $dashboardVersion = & $dashboardPython -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
     if ($LASTEXITCODE -ne 0 -or $dashboardVersion -ne '3.11') {
@@ -42,6 +52,8 @@ try {
     # Resolve packages without importing the application or starting a worker.
     & $dashboardPython -c "import importlib.util, sys; required = ('uvicorn', 'fastapi', 'multipart', 'numpy', 'pandas', 'pyarrow', 'scipy', 'sklearn', 'xgboost', 'joblib', 'lightgbm', 'ngboost', 'ortools', 'psutil', 'tzdata'); missing = [name for name in required if importlib.util.find_spec(name) is None]; print('Missing dependencies: ' + ', '.join(missing) if missing else 'Application dependencies: available.'); sys.exit(bool(missing))"
     if ($LASTEXITCODE -ne 0) { throw 'Missing dependencies. Run .\scripts\start_web_dashboard.cmd -Setup.' }
+    & $dashboardPython -c "from web_dashboard.thesis_profile import validate_release; print('Bundled proposal profile: ' + validate_release())"
+    if ($LASTEXITCODE -ne 0) { throw 'Bundled proposal profile is incomplete. Use the release branch with all model files.' }
 
     $dashboardIndex = Join-Path $dashboardRoot 'web_dashboard\frontend\dist\index.html'
     if ($Check) {

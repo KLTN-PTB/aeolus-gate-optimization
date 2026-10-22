@@ -8,8 +8,10 @@ import math
 import hashlib
 from pathlib import Path
 from typing import Callable
+from types import SimpleNamespace
 from zoneinfo import ZoneInfo
 import zipfile
+import time as time_module
 
 import numpy as np
 import pandas as pd
@@ -34,7 +36,14 @@ def json_write(path: Path, value) -> None:
     # allow_nan=False ensures invalid solver values never leak into HTTP JSON.
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
-    temporary.replace(path)
+    for attempt in range(61):
+        try:
+            temporary.replace(path)
+            return
+        except PermissionError:
+            if attempt == 60:
+                raise
+            time_module.sleep(.05)
 
 
 def finite_metadata(value):
@@ -125,7 +134,11 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
     config.arrival_checkpoint_path = ROOT / config.arrival_checkpoint_path
     config.departure_checkpoint_path = ROOT / config.departure_checkpoint_path
     config.departure_preprocessor_path = ROOT / config.departure_preprocessor_path
-    native = NativeDualCorePipeline(config)
+    if request.model_profile == 'thesis_xgboost':
+        from web_dashboard.thesis_profile import ThesisInference
+        native = ThesisInference()
+    else:
+        native = NativeDualCorePipeline(config)
     progress("models")
     models = native.load_and_verify_models()
     progress("prediction")
@@ -148,6 +161,13 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
             "origin": row["ORIGIN"], "destination": row["DEST"],
             "scheduled_event_local": row["scheduled_event_local"],
             "actual_delay_min": float(actual) if pd.notna(actual) else None})
+        if request.model_profile == 'thesis_xgboost':
+            task = 'arrival' if pred.flight_direction == 'ARR' else 'departure'
+            entry = models[task]
+            threshold = float(entry['classifier'].threshold)
+            prediction_rows[-1].update(classification_model_id=entry['meta']['classification_model_id'],
+                classification_model_sha256=entry['meta']['classification_model_sha256'],
+                decision_threshold=threshold, predicted_delayed=bool(pred.probability_delay_15 >= threshold))
 
     progress("pairing")
     legs = make_legs(features, service_date)
@@ -171,7 +191,7 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
 
     turns = build_turns(lookup)
     solver_config = GateOptimizationConfig(
-        reassignment_weight=10, overflow_weight=200, delay_weight=0, risk_weight=0,
+        reassignment_weight=request.reassignment_weight, overflow_weight=request.remote_weight, delay_weight=0, risk_weight=0,
         separation_buffer_minutes=request.buffer_min, min_turnaround_minutes=request.min_turnaround_min,
         default_dwell_minutes=request.default_dwell_min, dual_core_gate_enabled=True,
         allow_unbounded_overflow=False, enforce_remote_capacity=True,
@@ -181,8 +201,10 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
     adapter = DualCoreGateOptimizerAdapter(solver_config)
 
     def convert(items):
-        return adapter.turns_to_flights(items, departure_model_id=config.departure_model_id,
-                                       arrival_model_id=config.arrival_model_id)
+        if request.model_profile == 'thesis_xgboost':
+            return native.turns_to_flights(items, models)
+        return adapter.turns_to_flights(items, departure_model_id=models['departure']['spec'].model_id,
+                                       arrival_model_id=models['arrival']['spec'].model_id)
 
     gates = [Gate(gate_id=f"G{i + 1:03d}", gate_index=i, capacity=1,
                   resource_type=GateResourceType.CONTACT_GATE) for i in range(request.contact_gates)]
@@ -197,16 +219,36 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
     turns = [replace(turn, nominal_gate_id=nominal.get(turn.turn_id)) for turn in turns]
     flights = convert(turns)
     progress("optimization")
-    solver = {"cpsat": CPSatGateSolver, "greedy": DeterministicGreedyGateSolver,
-              "hybrid": HybridGateSolver}[request.solver](solver_config)
-    solved = solver.solve(flights, gates, allow_overflow=bool(request.remote_gates))
+    waiting_result, waiting_config = None, None
+    display_flights = flights
+    if request.gate_time_mode == 'bounded_wait':
+        from src.optimization.waiting import WaitingConfig, solve_waiting
+        from src.optimization.domain import Flight, GateAssignment
+        waiting_config = WaitingConfig(request.max_gate_wait_min, request.gate_wait_weight,
+            request.reassignment_weight, request.remote_weight,
+            tuple(p.pair_id for p in pairs if p.arrival_leg_id))
+        waiting_result = solve_waiting(flights, gates, waiting_config, algorithm=request.solver,
+                                      budget=request.time_limit_sec, greedy_fallback=request.greedy_fallback)
+        display_flights = [Flight.from_dict(row) for row in waiting_result['shifted_flights']]
+        solved = SimpleNamespace(assignments={r['flight_id']: GateAssignment.from_dict(r) for r in waiting_result['assignments']},
+            feasible=waiting_result['feasible'], status=waiting_result['status'],
+            optimality_proven=waiting_result['optimality_proven'], runtime_ms=waiting_result['runtime_sec'] * 1000,
+            solver_configuration={**waiting_result['trace'], 'solution_source': waiting_result['solution_source'],
+                'fallback_used': waiting_result['solution_source'] in ('GREEDY_FALLBACK','GREEDY_INITIALIZER')},
+            objective_breakdown=SimpleNamespace(decision_cost=waiting_result['decision_cost']))
+    else:
+        solver = {"cpsat": CPSatGateSolver, "greedy": DeterministicGreedyGateSolver,
+                  "hybrid": HybridGateSolver}[request.solver](solver_config)
+        solved = solver.solve(flights, gates, allow_overflow=bool(request.remote_gates))
     progress("verification")
-    diagnostic = verify_hard_constraints_independently(flights, gates, solved.assignments)
+    diagnostic = verify_hard_constraints_independently(display_flights, gates, solved.assignments)
     if solved.feasible and not diagnostic.is_valid:
         raise ValueError("Nghiệm bị loại vì không vượt qua kiểm tra ràng buộc độc lập.")
     finite_gates = {gate.gate_id for gate in gates}
     assignments = [assignment.to_dict() for assignment in solved.assignments.values()
                    if assignment.gate_id in finite_gates] if solved.feasible else []
+    if waiting_result and solved.feasible:
+        assignments = waiting_result['assignments']
     turns_rows = []
     for turn in turns:
         probs = [p["probability_delay_15"] for p in prediction_rows
@@ -218,8 +260,8 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
     comparisons = [(p["actual_delay_min"], p["predicted_delay_min"]) for p in prediction_rows
                    if p["actual_delay_min"] is not None]
     errors = np.array([pred - actual for actual, pred in comparisons])
-    events = sorted([(f.occupancy_start_min, 1) for f in flights]
-                    + [(f.occupancy_end_min, -1) for f in flights])
+    events = sorted([(f.occupancy_start_min, 1) for f in display_flights]
+                    + [(f.occupancy_end_min, -1) for f in display_flights])
     active = peak = 0
     for _, change in events:
         active += change
@@ -243,6 +285,8 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
     if request.solver == "cpsat" and fallback_used:
         actual_solver = "Deterministic Greedy (CP-SAT fallback)"
         warnings.append("CP-SAT chưa có nghiệm trong ngân sách: dùng Greedy đã xác minh theo tùy chọn fallback. Đây không phải nghiệm do CP-SAT chứng minh tối ưu.")
+    if waiting_result and fallback_used and request.solver == 'hybrid':
+        actual_solver = 'Deterministic Greedy (Hybrid initializer)'
     summary = {
         "movement_count": len(selected), "arrivals": int(selected.direction.eq("ARR").sum()),
         "departures": int(selected.direction.eq("DEP").sum()), "occupancy_count": len(turns),
@@ -261,6 +305,17 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
         "comparison_count": len(comparisons), "mae": float(np.abs(errors).mean()) if len(errors) else None,
         "rmse": float(np.sqrt((errors ** 2).mean())) if len(errors) else None,
     }
+    summary.update(model_profile=request.model_profile, gate_time_mode=request.gate_time_mode,
+                   objective_version='gate_wait_v1' if waiting_result else 'legacy_fixed')
+    if waiting_result:
+        summary.update({k: waiting_result[k] for k in ('total_gate_wait_min', 'mean_gate_wait_min', 'p95_gate_wait_min')})
+        summary['cost_components'] = waiting_result['breakdown']
+        waits = {r['flight_id']: r['gate_wait_min'] for r in assignments}
+        for row in turns_rows:
+            row['gate_wait_min'] = waits.get(row['turn_id'], 0)
+            for field in ('simulated_arrival_min', 'simulated_departure_min', 'gate_release_min'):
+                row[field] += row['gate_wait_min']
+        warnings.append('Chờ cổng dịch cả giờ vào và ra; chi phí tính bằng điểm mô phỏng. Dự báo trễ giữ nguyên.')
     model_metadata = {key: {"model_id": entry["spec"].model_id, "status": entry["spec"].status,
                            "version": entry["spec"].artifact_version, **entry["meta"]}
                       for key, entry in models.items()}
@@ -282,7 +337,7 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
     from src.simulation.native_dual_core_pipeline import prepare_arrival_features_for_inference
     arrival_frame = features.loc[features.direction.eq("ARR")].reset_index(drop=True)
     marginals = {}
-    if not arrival_frame.empty:
+    if not arrival_frame.empty and request.model_profile == 'legacy_native':
         arrival_x, _ = prepare_arrival_features_for_inference(arrival_frame)
         distribution = models['arrival']['model'].predict_distribution(arrival_x)
         for i, fid in enumerate(arrival_frame.flight_key):
@@ -292,6 +347,13 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
                 'marginals': marginals, 'pairing': manifest['pairing'],
                 'predictions': {fid: float(value) for fid, value in lookup.items()},
                 'config': request.model_dump(mode='json'), 'models': model_metadata}
+    if waiting_config:
+        snapshot['waiting_config'] = asdict(waiting_config)
+    if request.model_profile == 'thesis_xgboost':
+        snapshot['uncertainty'] = {'kind': 'EMPIRICAL_TEMPORAL_OOF_RESIDUALS',
+            'residuals': native.profile['residuals'],
+            'flights': {r['flight_key']: {'task': 'arrival' if r['direction'] == 'ARR' else 'departure',
+                                         'carrier': r['OP_CARRIER']} for r in features.to_dict('records')}}
     snapshot['hash'] = hashlib.sha256(json.dumps(snapshot, sort_keys=True, allow_nan=False).encode()).hexdigest()
     json_write(output / 'snapshot.json', snapshot)
     manifest['snapshot_hash'] = snapshot['hash']

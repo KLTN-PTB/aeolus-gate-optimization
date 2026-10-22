@@ -62,3 +62,47 @@ artifacts/dashboard_runtime/
 web_dashboard/frontend/node_modules/
 web_dashboard/frontend/dist/
 *.tsbuildinfo
+
+# Binary experiment working data; retain portable models and reviewable reports.
+/artifacts/binary_improvement_v2/**/cache/
+/artifacts/binary_improvement_v2/**/*.parquet
+/artifacts/binary_improvement_v2/**/*.npy
+/artifacts/binary_improvement_v2/**/*.sqlite3*
+/artifacts/binary_improvement_v2/**/events.jsonl
+/artifacts/binary_improvement_v2/smoke*/
+
+# V3 working matrices, study databases and row predictions.
+/artifacts/binary_improvement_v3/**/matrix_cache/
+/artifacts/binary_improvement_v3/**/data_cache/
+/artifacts/binary_improvement_v3/**/*.parquet
+/artifacts/binary_improvement_v3/**/*.npy
+/artifacts/binary_improvement_v3/**/*.sqlite3*
+/artifacts/binary_improvement_v3/**/events.jsonl
+/artifacts/binary_improvement_v3/smoke*/
+
+# Proposal-completion working data; ship CPU bundles and evidence only.
+artifacts/optuna_studies/**
+/artifacts/thesis_completion/**/data_cache/
+/artifacts/thesis_completion/**/matrix_cache/
+/artifacts/thesis_completion/**/*.parquet
+/artifacts/thesis_completion/**/*.npy
+/artifacts/thesis_completion/**/events.jsonl
+/artifacts/thesis_completion/**/training.lock.json
+/artifacts/thesis_completion/smoke*/
+/artifacts/thesis_completion/experiment_smoke/
+# Portable dashboard release only; research working artifacts stay local.
+/artifacts/binary_improvement_v2/
+/artifacts/binary_improvement_v3/
+/artifacts/thesis_completion/*
+!/artifacts/thesis_completion/active_profile.json
+!/artifacts/thesis_completion/full_20261022/
+/artifacts/thesis_completion/full_20261022/*
+!/artifacts/thesis_completion/full_20261022/shap_global.json
+!/artifacts/thesis_completion/full_20261022/models/
+/artifacts/thesis_completion/full_20261022/models/*
+!/artifacts/thesis_completion/full_20261022/models/arrival_classification_xgboost.joblib
+!/artifacts/thesis_completion/full_20261022/models/arrival_regression_xgboost.joblib
+!/artifacts/thesis_completion/full_20261022/models/departure_classification_xgboost.joblib
+!/artifacts/thesis_completion/full_20261022/models/departure_regression_xgboost.joblib
+!/artifacts/thesis_completion/full_20261022/models/arrival_residuals.joblib
+!/artifacts/thesis_completion/full_20261022/models/departure_residuals.joblib

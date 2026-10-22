@@ -45,9 +45,20 @@ class RunRequest(BaseModel):
     solver: Literal["cpsat", "greedy", "hybrid"] = "cpsat"
     time_limit_sec: float = Field(default=30, ge=1, le=120)
     greedy_fallback: bool = True
+    model_profile: Literal["legacy_native", "thesis_xgboost"] = "legacy_native"
+    gate_time_mode: Literal["fixed", "bounded_wait"] = "fixed"
+    max_gate_wait_min: int = Field(default=30, ge=0, le=120)
+    gate_wait_weight: float = Field(default=1, ge=0, le=1e6, allow_inf_nan=False)
+    reassignment_weight: float = Field(default=10, ge=0, le=1e6, allow_inf_nan=False)
+    remote_weight: float = Field(default=200, ge=0, le=1e6, allow_inf_nan=False)
 
     @model_validator(mode="after")
     def validate_assumptions(self):
+        if self.gate_time_mode == 'bounded_wait':
+            from decimal import Decimal
+            if any(Decimal(str(w)).normalize().as_tuple().exponent < -6
+                   for w in (self.gate_wait_weight, self.reassignment_weight, self.remote_weight)):
+                raise ValueError('Trọng số hỗ trợ tối đa sáu chữ số thập phân.')
         if self.service_date.year == 2024:
             raise ValueError("Năm 2024 được cách ly theo chính sách holdout của dự án.")
         if self.default_dwell_min < self.min_turnaround_min:

@@ -68,7 +68,7 @@ export function Gantt({result, filter, onSelect}: {result: Result; filter: strin
             const level = turn.probability_delay_15 == null ? 'unknown' : turn.probability_delay_15 >= .5 ? 'high' : turn.probability_delay_15 >= .25 ? 'medium' : 'low';
             return <button key={a.flight_id} className={`gantt-block ${level} ${turn.is_estimated ? 'assumed' : ''}`}
               style={{left: `${(blockStart - start) / (end - start) * 100}%`, width: `${(blockEnd-blockStart) / (end - start) * 100}%`}}
-              title={`${turn.carrier}${turn.flight_number} · ${g.gate_id} · ${timelineClock(a.occupancy_start_min, midnight)}–${timelineClock(a.occupancy_end_min, midnight)}${turn.is_estimated ? ' · khoảng chiếm dụng giả định' : ''}`}
+              title={`${turn.carrier}${turn.flight_number} · ${g.gate_id} · ${timelineClock(a.occupancy_start_min, midnight)}–${timelineClock(a.occupancy_end_min, midnight)} · chờ cổng ${a.gate_wait_min || 0} phút${turn.is_estimated ? ' · khoảng chiếm dụng giả định' : ''}`}
               onClick={() => onSelect(turn)}>{turn.carrier}{turn.flight_number}</button>;})}</div></div>)}
       {gates.length === 0 && <div className="empty-chart">Không có phân cổng phù hợp bộ lọc.</div>}
     </div></div>

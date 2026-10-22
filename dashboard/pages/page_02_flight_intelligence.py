@@ -26,6 +26,10 @@ from dashboard.visualizers.turn_dynamics_chart import create_turn_dynamics_figur
 
 
 def render_page() -> None:
+    if st.checkbox('Đề cương · XGBoost và chờ cổng', key='proposal_workflow'):
+        from dashboard.pages.page_06_thesis_profile import render_page as render_proposal
+        render_proposal()
+        return
     """Render Page 02: Flight Intelligence."""
     scenario_service = ScenarioService()
     active_scenario_id = st.session_state.get(

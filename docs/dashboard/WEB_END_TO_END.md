@@ -25,8 +25,9 @@ kiểm tra SHA-256/nạp checkpoint, rồi cài và build frontend. Sau mỗi l�
 cập nhật, chạy lại `-Setup` để đồng bộ thư viện và giao diện. Không dùng `--reload` hoặc nhiều
 Uvicorn worker: phiên bản local chỉ cho phép một job tính toán tại một thời điểm.
 
-Model/preprocessor được lưu trực tiếp trong Git, không cần Git LFS hoặc tải
-checkpoint riêng. Repo cũng đóng gói raw Parquet nhỏ
+Model/preprocessor legacy và 4 XGBoost cùng 2 ngân hàng sai số của profile đề
+cương được lưu trực tiếp trong Git; `-Setup` kiểm tra SHA-256 và nạp tất cả.
+Không cần Git LFS hoặc tải checkpoint riêng. Repo cũng đóng gói raw Parquet nhỏ
 `data/raw/ATL_20260701_02_schedule_raw.parquet` để upload và hai kịch bản
 Streamlit trong `data/simulation/`. Với raw mẫu, chọn `2026-07-01`, 150 cổng,
 30 bãi xa và Greedy để thử luồng đầy đủ. Dữ liệu chỉ chứa ngày khởi hành

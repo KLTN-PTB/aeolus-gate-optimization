@@ -62,6 +62,9 @@ def empty_result(payload, runtime, reason='TIME_LIMIT', error=None):
 
 
 def verify_artifact(payload, result):
+    if payload.get('waiting_config'):
+        from web_dashboard.waiting_execution import verify
+        return verify(payload, result)
     if result.get('case_fingerprint') != fingerprint(payload):
         raise ValueError('Case artifact does not match input/configuration/protocol')
     if result.get('assignments'):
@@ -97,6 +100,9 @@ def recover_artifact(payload, result, runtime, reason, error=None):
 
 
 def solve_case_v2(payload, *, started=None, publish=None):
+    if payload.get('waiting_config'):
+        from web_dashboard.waiting_execution import solve
+        return solve(payload, started=started, publish=publish)
     from web_dashboard.experiments import peak_demand, adjusted_assignments
     started=time.perf_counter() if started is None else started
     budget=payload['budget']

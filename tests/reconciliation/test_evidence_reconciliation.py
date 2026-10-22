@@ -152,10 +152,23 @@ def test_published_reports_are_generated_from_current_audit():
         assert (ROOT/"docs/reconciliation/phase1_2"/name).read_text(encoding="utf-8-sig")==content
 
 
-def test_frozen_inputs_still_match_published_inventory():
+def test_published_inventory_matches_original_inputs_or_exact_archived_sources():
+    """Later dashboard work must preserve the bytes used by the published audit."""
     inventory=json.loads((ROOT/OUT/"source_inventory.json").read_text(encoding="utf-8"))
+    profile=json.loads((ROOT/"artifacts/thesis_completion/active_profile.json").read_text(encoding="utf-8"))
+    run=(ROOT/profile["model_run"]).resolve()
+    assert run.is_relative_to(ROOT/"artifacts/thesis_completion")
+    audit=json.loads((run/"historical_audit_blocks.json").read_text(encoding="utf-8"))
+    revisions={r["path"]:r for r in audit["published_source_revisions"]}
     for path,info in inventory["inputs"].items():
-        assert sha256(ROOT/path)==info["sha256"],path
+        if sha256(ROOT/path)==info["sha256"]:
+            continue
+        revision=revisions[path]
+        archived=(ROOT/revision["historical_source_snapshot"]).resolve()
+        assert archived.is_relative_to(run/"historical_input_snapshot"),path
+        assert revision["published_sha256"]==info["sha256"],path
+        assert sha256(archived)==info["sha256"],path
+        assert sha256(ROOT/path)==revision["current_sha256"],path
 
 
 def test_current_claims_keep_population_and_probability_scope():

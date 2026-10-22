@@ -4,6 +4,9 @@ export interface Config {
   min_turnaround_min: number; default_dwell_min: number; buffer_min: number;
   solver: 'cpsat' | 'greedy' | 'hybrid'; time_limit_sec: number;
   greedy_fallback: boolean;
+  model_profile?: 'legacy_native' | 'thesis_xgboost';
+  gate_time_mode?: 'fixed' | 'bounded_wait'; max_gate_wait_min?: number;
+  gate_wait_weight?: number; reassignment_weight?: number; remote_weight?: number;
 }
 export interface Dataset {
   id: string; filenames: string[]; input_rows: number; valid_rows: number; invalid_rows: number;
@@ -17,22 +20,28 @@ export interface Run {
   stage: string; error: string | null; config: Config;
 }
 export interface Prediction {
+  decision_threshold?: number; predicted_delayed?: boolean;
+  classification_model_id?: string; classification_model_sha256?: string;
   flight_id: string; flight_direction: 'ARR' | 'DEP'; carrier: string; flight_number: string;
   origin: string; destination: string; scheduled_event_local: string;
   predicted_delay_min: number; probability_delay_15?: number | null; actual_delay_min: number | null;
   model_id: string; model_version: string; model_sha256: string; prediction_cutoff_utc: string;
 }
 export interface Turn {
+  gate_wait_min?: number;
   turn_id: string; arrival_leg_id: string | null; departure_leg_id: string | null;
   carrier: string; flight_number: string; pair_type: string; nominal_gate_id: string | null;
   simulated_arrival_min: number; simulated_departure_min: number; gate_release_min: number;
   is_estimated: boolean; unmatched_status: string | null; probability_delay_15: number | null;
 }
 export interface Assignment {
+  gate_wait_min?: number;
   flight_id: string; gate_id: string; occupancy_start_min: number; occupancy_end_min: number;
   is_overflow: boolean; is_reassignment: boolean;
 }
 export interface Summary {
+  gate_time_mode?: string; total_gate_wait_min?: number; mean_gate_wait_min?: number; p95_gate_wait_min?: number;
+  cost_components?: {waiting_cost: number; reassignment_cost: number; remote_cost: number};
   movement_count: number; arrivals: number; departures: number; occupancy_count: number;
   estimated_occupancies: number; paired_occupancies: number; peak_occupancy: number;
   contact_gates: number; remote_gates: number; assigned_count: number; remote_count: number;
@@ -51,6 +60,8 @@ export interface Result {
 export const defaults: Config = {
   dataset_id: '', service_date: '', airport: 'ATL', preset: 'large', contact_gates: 150, remote_gates: 0,
   min_turnaround_min: 45, default_dwell_min: 60, buffer_min: 15, solver: 'cpsat', time_limit_sec: 30, greedy_fallback: true,
+  model_profile: 'legacy_native', gate_time_mode: 'fixed', max_gate_wait_min: 30,
+  gate_wait_weight: 1, reassignment_weight: 10, remote_weight: 200,
 };
 export const solverNames = {greedy: 'Deterministic Greedy', cpsat: 'CP-SAT', hybrid: 'Hybrid (CP-SAT/Greedy → SA)'};
 export const stages = ['validation', 'models', 'prediction', 'pairing', 'optimization', 'verification', 'export', 'done'];
@@ -61,7 +72,7 @@ export const stageNames: Record<string, string> = {
 };
 export const fmt = (value: number | null | undefined, decimals = 0) => value == null ? '—' : value.toLocaleString('vi-VN', {maximumFractionDigits: decimals});
 export const isBusy = (run: Run | null) => !!run && ['queued', 'running'].includes(run.status);
-export const configMatches = (a: Config, b: Config) => Object.keys(defaults).every(key => a[key as keyof Config] === b[key as keyof Config]);
+export const configMatches = (a: Config, b: Config) => Object.keys(defaults).every(key => ({...defaults,...a})[key as keyof Config] === ({...defaults,...b})[key as keyof Config]);
 export const riskLevel = (p: Pick<Prediction, 'probability_delay_15' | 'predicted_delay_min'>) =>
   p.probability_delay_15 != null ? (p.probability_delay_15 >= .5 ? 'high' : p.probability_delay_15 >= .25 ? 'medium' : 'low')
     : p.predicted_delay_min >= 30 ? 'high' : p.predicted_delay_min >= 15 ? 'medium' : 'low';

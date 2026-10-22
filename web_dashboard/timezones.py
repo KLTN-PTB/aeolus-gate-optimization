@@ -12,6 +12,8 @@ from src.data.time_normalization import get_airport_timezone, normalize_local_to
 EXTRA_TIMEZONES = {
     "BGR": "America/New_York", "TVC": "America/New_York", "HHH": "America/New_York",
     "RNO": "America/Los_Angeles", "RAP": "America/Denver", "FAR": "America/Chicago",
+    # STX checked against the same primary airport dataset on 2026-10-22.
+    "STX": "America/St_Thomas",
 }
 
 

@@ -247,6 +247,8 @@ def execute(root, eid):
                        'solver_protocol_version': config.get('solver_protocol_version', 1),
                        'solver_profile': config.get('solver_profile', 'baseline'),
                        'snapshot_hash': snapshot['hash'], 'case_id': cid}
+            if snapshot.get('waiting_config'):
+                payload['waiting_config'] = snapshot['waiting_config']
             result = supervised_case(store, eid, directory, cid, payload)
             if result is None:
                 return False
@@ -276,13 +278,20 @@ def execute(root, eid):
                     break
         else:
             arrival_ids = sorted(snapshot['marginals'])
+            empirical = snapshot.get('uncertainty', {}).get('kind') == 'EMPIRICAL_TEMPORAL_OOF_RESIDUALS'
+            if empirical:
+                arrival_ids = sorted(snapshot['predictions'])
             matrix_path = directory / 'samples.npy'
             if matrix_path.exists():
                 samples = np.load(matrix_path)
             else:
-                rng = np.random.default_rng(config['seed'])
-                samples = np.column_stack([snapshot['marginals'][fid]['mu'] + snapshot['marginals'][fid]['sigma'] *
-                    rng.standard_t(snapshot['marginals'][fid]['df'], size=config['scenarios']) for fid in arrival_ids])
+                if empirical:
+                    from web_dashboard.thesis_profile import sample_residual_delays
+                    arrival_ids, samples = sample_residual_delays(snapshot, config['scenarios'], config['seed'])
+                else:
+                    rng = np.random.default_rng(config['seed'])
+                    samples = np.column_stack([snapshot['marginals'][fid]['mu'] + snapshot['marginals'][fid]['sigma'] *
+                        rng.standard_t(snapshot['marginals'][fid]['df'], size=config['scenarios']) for fid in arrival_ids])
                 if not np.isfinite(samples).all():
                     raise ValueError('Mẫu Student-t không hữu hạn; dừng thay vì cắt độ trễ.')
                 temporary = directory / 'samples.tmp'
@@ -293,6 +302,9 @@ def execute(root, eid):
             sampling = {'seed': config['seed'], 'arrival_ids': arrival_ids, 'shape': list(samples.shape),
                 'hash': digest, 'dependence': 'INDEPENDENT_ARRIVALS', 'departure': 'FIXED_POINT_WITH_TURNAROUND',
                 'unique_scenarios': int(np.unique(samples, axis=0).shape[0])}
+            if empirical:
+                sampling.update(dependence='INDEPENDENT_DUAL_OOF_RESIDUALS', departure='SAMPLED_WITH_TURNAROUND',
+                                uncertainty=snapshot['uncertainty'])
             if (directory / 'sampling.json').exists() and read_json(directory / 'sampling.json')['hash'] != digest:
                 raise ValueError('Ma trận mẫu đã thay đổi; không thể tiếp tục.')
             json_write(directory / 'sampling.json', sampling)

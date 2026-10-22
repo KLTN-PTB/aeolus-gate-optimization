@@ -65,34 +65,7 @@ for d in [OUTPUT_DIR, MODELS_DIR, PRED_DIR, METRICS_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 
 
-class CalibratedPredictor:
-    """Explicit probability calibrator fitted on held-out calibration partition."""
-
-    def __init__(self, base_estimator, method: str = "isotonic"):
-        self.base_estimator = base_estimator
-        self.method = method
-        if method == "isotonic":
-            from sklearn.isotonic import IsotonicRegression
-            self.calibrator = IsotonicRegression(out_of_bounds="clip")
-        else:
-            self.calibrator = LogisticRegression()
-
-    def fit_calibration(self, X_calib, y_calib):
-        raw_probs = self.base_estimator.predict_proba(X_calib)[:, 1]
-        if self.method == "isotonic":
-            self.calibrator.fit(raw_probs, y_calib)
-        else:
-            self.calibrator.fit(raw_probs.reshape(-1, 1), y_calib)
-        return self
-
-    def predict_proba(self, X) -> np.ndarray:
-        raw_probs = self.base_estimator.predict_proba(X)[:, 1]
-        if self.method == "isotonic":
-            cal_probs = self.calibrator.predict(raw_probs)
-        else:
-            cal_probs = self.calibrator.predict_proba(raw_probs.reshape(-1, 1))[:, 1]
-        cal_probs = np.clip(cal_probs, 0.0, 1.0)
-        return np.vstack([1.0 - cal_probs, cal_probs]).T
+from src.models.thesis_models import CalibratedPredictor
 
 
 def compute_expected_calibration_error(y_true: np.ndarray, probas: np.ndarray, n_bins: int = 10) -> tuple[float, list[dict]]:

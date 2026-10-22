@@ -55,8 +55,16 @@ def peak_demand(flights):
     return peak
 
 
+def has_predictive_uncertainty(snapshot):
+    return bool(snapshot.get('marginals') or
+        (snapshot.get('uncertainty',{}).get('kind') == 'EMPIRICAL_TEMPORAL_OOF_RESIDUALS' and snapshot.get('predictions')))
+
+
 def adjusted_assignments(initial, flights):
     """Freeze gate choices, NOT the obsolete occupancy timestamps."""
+    if any('gate_wait_min' in a for a in initial):
+        from web_dashboard.waiting_execution import frozen_assignments
+        return frozen_assignments(initial, flights)
     by_id = {f.flight_id: f for f in flights}
     return {a['flight_id']: replace(GateAssignment.from_dict(a),
             occupancy_start_min=by_id[a['flight_id']].occupancy_start_min,
@@ -125,10 +133,13 @@ def realized_flights(snapshot, arrivals, sample):
         if aid:
             start = int(round(f.scheduled_arrival_min + delay[aid]))
             if did:
-                end = max(int(round(f.scheduled_departure_min + snapshot['predictions'][did])), start + f.min_turnaround_min)
+                end = max(int(round(f.scheduled_departure_min + delay.get(did, snapshot['predictions'][did]))), start + f.min_turnaround_min)
             else:
                 end = max(f.scheduled_arrival_min + f.default_dwell_min, start + f.min_turnaround_min)
             f = replace(f, predicted_arrival_min=start, precomputed_gate_out_min=end)
+        elif did and did in delay:
+            end = max(int(round(f.scheduled_departure_min + delay[did])), f.occupancy_start_min + f.min_turnaround_min)
+            f = replace(f, precomputed_gate_out_min=end)
         result.append(f)
     return result
 
@@ -256,7 +267,9 @@ def experiment_results(store, eid, *, finalize=False):
     return {'analysis_version': version_for(exp), 'experiment': exp, 'cases': cases, 'groups': summarize(cases, exp['config']['seed'], terminal),
             'sampling': matrix_meta, 'paired': paired,
             'assumptions': ['Chi phí là điểm theo trọng số, không phải đơn vị tiền tệ.',
-                'Trễ đến độc lập; chuyến đi giữ dự báo điểm, có ràng buộc turnaround.',
+                ('Sai số đến/đi được lấy mẫu độc lập từ residual OOF theo thời gian; có ràng buộc turnaround.'
+                 if matrix_meta and matrix_meta.get('dependence') == 'INDEPENDENT_DUAL_OOF_RESIDUALS'
+                 else 'Trễ đến độc lập; chuyến đi giữ dự báo điểm, có ràng buộc turnaround.'),
                 'Phân cổng lại hồi cứu biết toàn bộ kịch bản, chưa phải điều hành trực tuyến.',
                 'Chi phí fixed là chỉ số rủi ro có phạt xung đột; recourse là chi phí sửa lịch khả thi.',
                 'Chi phí recourse chỉ trên nghiệm hợp lệ; tỷ lệ khả thi gồm cả timeout/lỗi trong mẫu số.',
@@ -281,12 +294,18 @@ def render_plan(store, eid, cid):
     output = read_json(store.root / 'experiments' / eid / f'{cid}.json') if case.get('feasible') or case['mode']=='fixed' else {'assignments': []}
     if case['mode'] == 'fixed':
         output['assignments'] = [a.to_dict() for a in adjusted_assignments(load_plan(store, exp['run_id'], case['source_plan_id']), flights).values()]
+        if snapshot.get('waiting_config'):
+            base = {f.flight_id:f for f in flights}
+            for row in output['assignments']:
+                row['gate_wait_min'] = row['occupancy_start_min'] - base[row['flight_id']].occupancy_start_min
     f_map = {f.flight_id: f for f in flights}
     initial_map = {a['flight_id']: a['gate_id'] for a in load_plan(store, exp['run_id'], case['source_plan_id'])} if case['mode'] != 'benchmark' else None
     for turn in result['turns']:
         f = f_map[turn['turn_id']]
-        turn.update(simulated_arrival_min=f.occupancy_start_min, simulated_departure_min=f.occupancy_end_min-f.buffer_min,
-                    gate_release_min=f.occupancy_end_min)
+        row = next((a for a in output['assignments'] if a['flight_id'] == f.flight_id), {})
+        wait = row.get('gate_wait_min', 0)
+        turn.update(simulated_arrival_min=f.occupancy_start_min+wait, simulated_departure_min=f.occupancy_end_min-f.buffer_min+wait,
+                    gate_release_min=f.occupancy_end_min+wait, gate_wait_min=wait)
         if initial_map is not None:
             turn['nominal_gate_id'] = initial_map.get(turn['turn_id'])
     result['assignments'] = output['assignments']
@@ -296,6 +315,10 @@ def render_plan(store, eid, cid):
         solver_runtime_sec=case.get('runtime_sec', 0), remote_count=case.get('remote_count', 0),
         reassignments=case.get('reassignments', 0), peak_occupancy=peak_demand(flights),
         decision_cost=case.get('decision_cost'), optimality_proven=case.get('optimality_proven', False))
+    if snapshot.get('waiting_config'):
+        result['summary'].update(total_gate_wait_min=case.get('total_gate_wait_min', 0),
+            mean_gate_wait_min=case.get('mean_gate_wait_min', 0), p95_gate_wait_min=case.get('p95_gate_wait_min', 0),
+            cost_components=case.get('breakdown'))
     if initial_map is not None:
         result['summary']['baseline_covered'] = len(initial_map)
         result['manifest']['warnings'].append('Mốc tái phân bổ là lịch ban đầu của thí nghiệm Monte Carlo.')

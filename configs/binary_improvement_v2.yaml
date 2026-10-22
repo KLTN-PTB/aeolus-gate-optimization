@@ -1,0 +1,38 @@
+protocol_version: binary_improvement_v2
+execution_revision: fixed_iteration_challengers_v1
+seed: 202601
+tasks: [arrival, departure]
+cutoff_hours: 2
+label_delay_minutes: 15
+allowed_training_years: [2016, 2017, 2018, 2019, 2020, 2021]
+rolling_validation_years: [2019, 2020, 2021]
+calibration_year: 2022
+historical_confirmation_year: 2023
+blocked_years: [2024]
+untouched_test_available: false
+feature_sets: [F0, F1, F2]
+budget:
+  total_hours: 12
+  screening_cutoff_hours: 5
+  verification_cutoff_hours: 9
+  screening_seconds_per_task: 5400
+  fit_timeout_seconds: 900
+  xgboost_trials_per_task: 12
+  hgb_trials_per_task: 6
+  screening_train_cap: 300000
+  threads: 8
+  prefer_gpu: true
+  fixed_iteration_challengers: true
+evaluation:
+  bootstrap_iterations: 1000
+  bootstrap_block_days: 7
+  precision_multiplier: 1.5
+  ap_min_gain: 0.005
+  f1_min_gain: 0.02
+  roc_max_drop: 0.005
+  brier_max_relative_increase: 0.02
+  calibration_indifference: 0.001
+promotion:
+  dashboard_auto_update: false
+  optimizer_auto_update: false
+  retain_existing_on_incomplete: true

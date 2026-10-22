@@ -43,6 +43,28 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe('experiment pages', () => {
+  it('shows fixed and recourse feasibility separately using the returned Monte Carlo groups', async () => {
+    const mc = {...experiment, config: {...experiment.config, kind: 'montecarlo' as const, scenarios: 500}};
+    const common = {count: 500, timeouts: 0, failures: 0, mean: 1, median: 1, std: 0, min: 1, max: 1,
+      p95: 1, cvar95: 1, mean_ci95: [1, 1], rate_ci95: [0, 1], cost_sample_count: 500,
+      runtime_median: .1, mean_conflicts: 0, mean_remote: 0, mean_reassignments: 0, convergence: []};
+    const groups: ExperimentResult['groups'] = [
+      {...common, key: 'greedy-fixed', algorithm: 'greedy', mode: 'fixed', feasible_count: 0, feasible_rate: 0},
+      {...common, key: 'hybrid-recourse', algorithm: 'hybrid', mode: 'recourse', feasible_count: 500, feasible_rate: 1,
+        on_time_feasible_count: 500, on_time_feasible_rate: 1},
+    ];
+    call.mockImplementation(async path => {
+      if (path.endsWith('/experiments')) return [mc];
+      if (path.endsWith('/plans')) return {ready: true, plans: []};
+      if (path.endsWith('/results')) return {...result, experiment: mc, groups};
+      throw Error(path);
+    });
+    render(<LabPage kind="montecarlo" runId={rid} result={output} onOpen={vi.fn()}/>);
+    await screen.findByText('Đọc riêng hai chế độ Monte Carlo.');
+    expect(screen.getByText(/Greedy 0\/500/)).toBeTruthy();
+    expect(screen.getByText(/Hybrid 500\/500/)).toBeTruthy();
+    expect(screen.getByText(/Chi phí rủi ro của lịch cố định và chi phí sửa lịch không cùng thước đo/)).toBeTruthy();
+  });
   it('submits research Monte Carlo defaults and chosen verified plans', async () => {
     render(<LabPage kind="montecarlo" runId={rid} result={output} onOpen={vi.fn()}/>);
     await waitFor(() => expect((screen.getByLabelText('Lịch Greedy') as HTMLSelectElement).value).toBe('pipeline'));
