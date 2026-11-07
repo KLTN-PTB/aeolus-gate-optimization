@@ -50,12 +50,20 @@ class GateAssignmentResult:
         wall_time: float,
         departure_times: Optional[dict[str, int]] = None,
         schedule_df: Optional[pd.DataFrame] = None,
+        objective_value: Optional[float] = None,
+        best_bound: Optional[float] = None,
+        gap: Optional[float] = None,
+        solver: Optional[Any] = None,
     ) -> None:
         self.assignment = assignment
         self.status = status
         self.wall_time = wall_time
         self.departure_times = departure_times or {}
         self.schedule_df = schedule_df if schedule_df is not None else pd.DataFrame()
+        self.objective_value = objective_value
+        self.best_bound = best_bound
+        self.gap = gap
+        self.solver = solver
 
     def __iter__(self):
         yield self.assignment
@@ -438,6 +446,8 @@ def solve_gate_assignment(
     use_turnaround: bool = False,
     default_turnaround_time_min: Optional[int] = None,
     return_schedule: bool = False,
+    log_search_progress: bool = False,
+    log_callback: Optional[Any] = None,
 ) -> tuple[dict[str, str], str, float] | GateAssignmentResult:
     """Solve the gate assignment problem using CP-SAT, supporting turnaround time to calculate departure time.
 
@@ -574,10 +584,24 @@ def solve_gate_assignment(
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = float(time_limit_sec)
     solver.parameters.num_search_workers = num_workers
+    if log_search_progress:
+        solver.parameters.log_search_progress = True
+    if log_callback is not None:
+        solver.log_callback = log_callback
     status = solver.Solve(model)
 
     status_name = solver.StatusName(status)
     wall_time = solver.WallTime()
+
+    best_bound = None
+    obj_val = None
+    gap = None
+    try:
+        best_bound = float(solver.BestObjectiveBound())
+        obj_val = float(solver.ObjectiveValue())
+        gap = abs(obj_val - best_bound) / max(1.0, abs(obj_val)) * 100.0
+    except Exception:
+        pass
 
     if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         logger.error("CP-SAT solver failed: status=%s, wall_time=%.2fs", status_name, wall_time)
@@ -619,6 +643,10 @@ def solve_gate_assignment(
         wall_time=wall_time,
         departure_times=departure_times,
         schedule_df=schedule_df,
+        objective_value=obj_val,
+        best_bound=best_bound,
+        gap=gap,
+        solver=solver,
     )
 
 
