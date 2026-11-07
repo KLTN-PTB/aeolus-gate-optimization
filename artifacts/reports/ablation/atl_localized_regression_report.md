@@ -1,0 +1,15 @@
+# BÁO CÁO ĐA MÔ HÌNH CHUYÊN BIỆT SÂN BAY ATLANTA (ATL REGRESSION)
+**Thời gian thực thi**: 2026-10-21 17:44:38  
+**Phương pháp**: Temporal Split (Train 2016–2022, Valid 2023, Test 2024 Out-of-Time)  
+**Đặc trưng**: 61 đặc trưng M4_Proposed_Full_Dynamics
+
+| Task              | Chiều bay            | Mô hình                          |   Số dòng Train |   Val MAE (m) |   Test MAE (m) |   Test RMSE (m) |   MedAE (m) | Sai số <= 15m   | Sai số <= 30m   |   R2-Score |   Fit Time (s) |
+|:------------------|:---------------------|:---------------------------------|----------------:|--------------:|---------------:|----------------:|------------:|:----------------|:----------------|-----------:|---------------:|
+| ATL Arrival Reg   | Inbound (Đến ATL)    | 1. Ridge Regression              |          633196 |         22.46 |          23.62 |           55.25 |       14.44 | 52.06%          | 86.99%          |     0.0055 |            7   |
+| ATL Arrival Reg   | Inbound (Đến ATL)    | 2. Random Forest Reg             |          633196 |         35.29 |          37.68 |           67.46 |       20.61 | 36.01%          | 66.56%          |    -0.483  |          152.4 |
+| ATL Arrival Reg   | Inbound (Đến ATL)    | 3. 🏆 XGBoost Reg Optuna (Champ) |          633196 |         28.03 |          30.09 |           57.3  |       20.04 | 36.45%          | 69.83%          |    -0.0699 |           64.3 |
+| ATL Arrival Reg   | Inbound (Đến ATL)    | 4. Stacking Reg Ensemble         |          633196 |         23.2  |          24.51 |           55.16 |       15.76 | 47.31%          | 85.26%          |     0.0085 |            0.1 |
+| ATL Departure Reg | Outbound (Đi từ ATL) | 1. Ridge Regression              |          241445 |         19.61 |          17.94 |           41.73 |       10.92 | 69.09%          | 91.02%          |     0.025  |            0.3 |
+| ATL Departure Reg | Outbound (Đi từ ATL) | 2. Random Forest Reg             |          241445 |         26.06 |          22.17 |           46.17 |       10.88 | 66.87%          | 83.68%          |    -0.1936 |           80.8 |
+| ATL Departure Reg | Outbound (Đi từ ATL) | 3. 🏆 XGBoost Reg Optuna (Champ) |          241445 |         34.3  |          29.24 |           51.55 |       15.78 | 47.74%          | 74.04%          |    -0.4878 |           25.9 |
+| ATL Departure Reg | Outbound (Đi từ ATL) | 4. Stacking Reg Ensemble         |          241445 |         20.82 |          18.69 |           41.7  |       11.79 | 63.43%          | 90.30%          |     0.0263 |            0   |

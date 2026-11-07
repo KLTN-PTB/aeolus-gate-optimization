@@ -60,3 +60,26 @@ logs/
 *.zip
 note.txt
 
+
+# Node / Frontend
+node_modules/
+dist/
+
+# Streamlit
+.streamlit/
+
+# Web dashboard local database & runs
+artifacts/web_dashboard/**
+*.sqlite3
+
+# Meteostat & local data caches
+data/cache/**
+
+# Temporary root files
+/*.csv
+
+# Temporary scratch directory
+scratch/
+
+# Word documents and thesis drafts
+*.docx

@@ -1,0 +1,9 @@
+Task,Cấu hình,Số Feat,ROC-AUC,PR-AUC,F1-Score,Brier Score,Thời gian (s)
+Arrival (Đến),M1_Schedule_Only,24,0.6562,0.3203,0.0001,0.1537,44.5
+Arrival (Đến),M2_Schedule_Network,38,0.6586,0.3246,0.0,0.1535,15.4
+Arrival (Đến),M3_Static_Weather_T2H,55,0.6586,0.3246,0.0,0.1535,46.5
+Arrival (Đến),M4_Proposed_Full_Dynamics,61,0.6586,0.3246,0.0,0.1535,27.4
+Departure (Đi),M1_Schedule_Only,24,0.6609,0.3199,0.0005,0.1542,22.9
+Departure (Đi),M2_Schedule_Network,38,0.6634,0.3234,0.0189,0.1537,40.6
+Departure (Đi),M3_Static_Weather_T2H,55,0.6634,0.3234,0.0189,0.1537,38.2
+Departure (Đi),M4_Proposed_Full_Dynamics,61,0.6634,0.3234,0.0189,0.1537,57.4

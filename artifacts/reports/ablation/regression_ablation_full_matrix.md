@@ -1,0 +1,37 @@
+# BÁO CÁO MULTI-MODEL ABLATION STUDY (REGRESSION)
+**Thời gian**: 2026-10-20 19:03:04
+
+| Task               | Cấu hình                  | Model         |   Số Feat |   Val MAE (m) |   Test MAE (m) |   Test RMSE (m) |   MedAE (m) |   R2-Score | Sai số <= 15m   | Sai số <= 30m   |   Fit (s) |
+|:-------------------|:--------------------------|:--------------|----------:|--------------:|---------------:|----------------:|------------:|-----------:|:----------------|:----------------|----------:|
+| Arrival Reg (Đến)  | M1_Schedule_Only          | RIDGE         |        24 |         25.4  |          25.37 |           44.33 |       17.47 |     0.0301 | 42.51%          | 79.42%          |       0.8 |
+| Arrival Reg (Đến)  | M1_Schedule_Only          | LGBM          |        24 |         24.9  |          24.93 |           44.37 |       16.69 |     0.0287 | 44.53%          | 80.98%          |      10.1 |
+| Arrival Reg (Đến)  | M1_Schedule_Only          | XGB           |        24 |         25.36 |          24.94 |           44.46 |       16.19 |     0.0247 | 46.59%          | 78.82%          |      52.1 |
+| Arrival Reg (Đến)  | M1_Schedule_Only          | FAST_BLENDING |        24 |         25.03 |          24.83 |           44.31 |       16.36 |     0.0312 | 45.73%          | 80.32%          |       0.1 |
+| Arrival Reg (Đến)  | M2_Schedule_Network       | RIDGE         |        38 |         25.3  |          25.36 |           44.34 |       17.45 |     0.0298 | 42.52%          | 79.48%          |       0.4 |
+| Arrival Reg (Đến)  | M2_Schedule_Network       | LGBM          |        38 |         25.05 |          25.06 |           44.48 |       16.85 |     0.0239 | 43.82%          | 81.28%          |       3.9 |
+| Arrival Reg (Đến)  | M2_Schedule_Network       | XGB           |        38 |         34.49 |          29.15 |           46.31 |       20.72 |    -0.0581 | 36.29%          | 68.13%          |      49.3 |
+| Arrival Reg (Đến)  | M2_Schedule_Network       | FAST_BLENDING |        38 |         29.25 |          26.82 |           44.83 |       18.94 |     0.0085 | 38.74%          | 74.89%          |       0.1 |
+| Arrival Reg (Đến)  | M3_Static_Weather_T2H     | RIDGE         |        55 |         25.3  |          25.36 |           44.34 |       17.45 |     0.0298 | 42.52%          | 79.48%          |       0.4 |
+| Arrival Reg (Đến)  | M3_Static_Weather_T2H     | LGBM          |        55 |         25.05 |          25.06 |           44.48 |       16.85 |     0.0239 | 43.82%          | 81.28%          |       2   |
+| Arrival Reg (Đến)  | M3_Static_Weather_T2H     | XGB           |        55 |         34.49 |          29.15 |           46.31 |       20.72 |    -0.0581 | 36.29%          | 68.13%          |      18.2 |
+| Arrival Reg (Đến)  | M3_Static_Weather_T2H     | FAST_BLENDING |        55 |         29.25 |          26.82 |           44.83 |       18.94 |     0.0085 | 38.74%          | 74.89%          |       0.1 |
+| Arrival Reg (Đến)  | M4_Proposed_Full_Dynamics | RIDGE         |        61 |         25.3  |          25.36 |           44.34 |       17.45 |     0.0298 | 42.52%          | 79.48%          |       0.6 |
+| Arrival Reg (Đến)  | M4_Proposed_Full_Dynamics | LGBM          |        61 |         25.05 |          25.06 |           44.48 |       16.85 |     0.0239 | 43.82%          | 81.28%          |       2   |
+| Arrival Reg (Đến)  | M4_Proposed_Full_Dynamics | XGB           |        61 |         34.49 |          29.15 |           46.31 |       20.72 |    -0.0581 | 36.29%          | 68.13%          |      20.3 |
+| Arrival Reg (Đến)  | M4_Proposed_Full_Dynamics | FAST_BLENDING |        61 |         29.25 |          26.82 |           44.83 |       18.94 |     0.0085 | 38.74%          | 74.89%          |       0.1 |
+| Departure Reg (Đi) | M1_Schedule_Only          | RIDGE         |        24 |         20.82 |          22.13 |           41.96 |       14.36 |     0.0278 | 52.79%          | 88.79%          |       0.9 |
+| Departure Reg (Đi) | M1_Schedule_Only          | LGBM          |        24 |         20.85 |          22    |           41.96 |       13.61 |     0.0279 | 57.18%          | 87.9%           |       7.4 |
+| Departure Reg (Đi) | M1_Schedule_Only          | XGB           |        24 |         20.65 |          21.78 |           42.1  |       12.96 |     0.0215 | 57.84%          | 85.84%          |      33.6 |
+| Departure Reg (Đi) | M1_Schedule_Only          | FAST_BLENDING |        24 |         20.69 |          21.83 |           41.96 |       13.23 |     0.0279 | 57.95%          | 87.12%          |       0.1 |
+| Departure Reg (Đi) | M2_Schedule_Network       | RIDGE         |        38 |         20.71 |          22.06 |           41.97 |       14.23 |     0.0273 | 53.34%          | 88.79%          |       0.4 |
+| Departure Reg (Đi) | M2_Schedule_Network       | LGBM          |        38 |         21.45 |          22.24 |           42.06 |       14.08 |     0.0231 | 55.44%          | 88.34%          |       1.6 |
+| Departure Reg (Đi) | M2_Schedule_Network       | XGB           |        38 |         23.96 |          23.59 |           42.61 |       15.05 |    -0.0025 | 49.84%          | 82.73%          |      14.2 |
+| Departure Reg (Đi) | M2_Schedule_Network       | FAST_BLENDING |        38 |         22.6  |          22.8  |           42.08 |       14.54 |     0.0224 | 52.18%          | 86.38%          |       0.1 |
+| Departure Reg (Đi) | M3_Static_Weather_T2H     | RIDGE         |        55 |         20.71 |          22.06 |           41.97 |       14.23 |     0.0273 | 53.34%          | 88.79%          |       0.4 |
+| Departure Reg (Đi) | M3_Static_Weather_T2H     | LGBM          |        55 |         21.45 |          22.24 |           42.06 |       14.08 |     0.0231 | 55.44%          | 88.34%          |       2.1 |
+| Departure Reg (Đi) | M3_Static_Weather_T2H     | XGB           |        55 |         23.96 |          23.59 |           42.61 |       15.05 |    -0.0025 | 49.84%          | 82.73%          |      17.2 |
+| Departure Reg (Đi) | M3_Static_Weather_T2H     | FAST_BLENDING |        55 |         22.6  |          22.8  |           42.08 |       14.54 |     0.0224 | 52.18%          | 86.38%          |       0.1 |
+| Departure Reg (Đi) | M4_Proposed_Full_Dynamics | RIDGE         |        61 |         20.71 |          22.06 |           41.97 |       14.23 |     0.0273 | 53.34%          | 88.79%          |       0.4 |
+| Departure Reg (Đi) | M4_Proposed_Full_Dynamics | LGBM          |        61 |         21.45 |          22.24 |           42.06 |       14.08 |     0.0231 | 55.44%          | 88.34%          |       1.8 |
+| Departure Reg (Đi) | M4_Proposed_Full_Dynamics | XGB           |        61 |         23.96 |          23.59 |           42.61 |       15.05 |    -0.0025 | 49.84%          | 82.73%          |      25   |
+| Departure Reg (Đi) | M4_Proposed_Full_Dynamics | FAST_BLENDING |        61 |         22.6  |          22.8  |           42.08 |       14.54 |     0.0224 | 52.18%          | 86.38%          |       0.1 |

@@ -1,0 +1,4 @@
+Mô hình,Quy mô Train,Số cây,Val MAE (m),Test MAE (m),Test RMSE (m),Sai số <= 15m,Sai số <= 30m,R2-Score,Fit (s)
+XGBoost Regressor Baseline (M1),"1,000,000 dòng",350,25.36,24.94,44.46,46.59%,78.82%,0.0247,52.1
+XGBoost Regressor Baseline (M4),"1,000,000 dòng",350,34.49,29.15,46.31,36.29%,68.13%,-0.0581,20.3
+🏆 XGBoost Regressor Optuna (5M dòng),"5,000,000 dòng",750,24.64,24.78,44.09,45.87%,79.61%,0.0409,380.5
