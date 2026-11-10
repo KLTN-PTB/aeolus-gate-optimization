@@ -6,6 +6,7 @@ import pytest
 from src.features.chain_feature_policy import ChainFeatureAvailabilityViolation
 from src.features.tabular_features import (
     APPROVED_PREDICTOR_COLUMNS,
+    APPROVED_PREDICTOR_COLUMNS_V1_1,
     ArrivalFeatureContractViolation,
     DROP_CONSTANT,
     DROP_IDENTIFIER,
@@ -14,6 +15,7 @@ from src.features.tabular_features import (
     REVIEW_REQUIRED,
     UNKNOWN_BLOCKED,
     prepare_arrival_features,
+    prepare_arrival_features_v1_1,
     status_for_arrival_feature,
 )
 
@@ -59,6 +61,22 @@ def test_prepare_arrival_features_builds_calendar_cutoff_and_aligned_labels() ->
         "flight_key_v1_a",
         "flight_key_v1_b",
     ]
+
+
+def test_v1_1_features_use_exact_scheduled_arrival_clock_without_rollover_derivation() -> None:
+    frame = _minimal_frame().assign(
+        CRS_ARR_TIME=["2016-01-02 11:35:00", "2016-01-04 01:55:00"]
+    )
+
+    prepared = prepare_arrival_features_v1_1(frame)
+
+    assert tuple(prepared.X.columns) == APPROVED_PREDICTOR_COLUMNS_V1_1
+    assert prepared.X["scheduled_arrival_hour"].tolist() == [11, 1]
+    assert prepared.X["scheduled_arrival_minute"].tolist() == [35, 55]
+    assert str(prepared.X["scheduled_arrival_hour"].dtype) == "int16"
+    assert str(prepared.X["scheduled_arrival_minute"].dtype) == "int16"
+    assert prepared.X["scheduled_arrival_hour"].between(0, 23).all()
+    assert prepared.X["scheduled_arrival_minute"].between(0, 59).all()
 
 
 def test_prepare_arrival_features_reports_flow_and_missing_target_filtering() -> None:

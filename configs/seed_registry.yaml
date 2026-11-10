@@ -1,0 +1,26 @@
+# Fixed Seed Registry for Algorithmic Stability Benchmark (Phase 6)
+# Governed by V4 Reproducibility Protocol and Immutable Seed Policy
+
+registry_version: "seed_registry_v1"
+created_at_utc: "2026-09-30T21:15:00Z"
+policy: "evaluation_only_with_predetermined_deployment_seed"
+
+# Single authoritative source of truth for deployment
+predetermined_deployment_seed: 202601
+screening_seed: 202601
+
+# Fixed dataset row sampling seed ensuring row-level fairness across all seeds
+data_sampling_seed: 202601
+
+# Registered finalist seeds evaluated for algorithmic stability
+registered_seeds:
+  - 202601
+  - 202602
+  - 202603
+
+seed_count: 3
+status: "LOCKED_IMMUTABLE"
+provenance:
+  manifest_path: "artifacts/manifests/seed_manifest_v1.json"
+  contracts_ref: "src.models.probabilistic.contracts.FINALIST_SEEDS"
+  base_config_ref: "configs/base.yaml:reproducibility.project_seed"

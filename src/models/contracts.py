@@ -28,10 +28,24 @@ from src.features.tabular_features import (
     APPROVED_PREDICTOR_COLUMNS,
     PreparedArrivalFeatures,
 )
+from src.models.metrics import (
+    EARLY_ON_TIME_DELAY_LIMIT,
+    MODERATE_DELAY_LIMIT,
+    PREDICTION_COLLAPSE_SHRINKAGE_THRESHOLD,
+    MetricContractViolation,
+    StratifiedRegressionMetrics,
+    StratifiedSliceMetrics,
+    compute_empirical_coverage,
+    compute_pinball_loss,
+    compute_stratified_regression_metrics,
+    evaluate_all,
+)
+
 
 
 WEEK4_FRAMEWORK_VERSION: Final = "week4_training_evaluation_v1"
 WEEK4_EXPERIMENT_CONTRACT_VERSION: Final = "arrival_week4_experiment_v1"
+STRATIFIED_EVALUATION_CONTRACT_VERSION: Final = "arrival_stratified_evaluation_v1"
 OOF_SCHEMA_VERSION: Final = "arrival_oof_prediction_v1"
 FEATURE_MANIFEST_VERSION: Final = "feature_manifest_arrival_v1"
 CLASSIFICATION_THRESHOLD: Final = 0.5
@@ -289,3 +303,17 @@ def _validate_prepared_partition(
         raise Week4ContractViolation(f"{partition_name} targets are malformed")
     if not np.array_equal(y_cls, (y_reg >= 15.0).astype(int)):
         raise Week4ContractViolation(f"{partition_name} Arrival target definitions disagree")
+
+
+def validate_stratified_evaluation_contract(
+    metrics: StratifiedRegressionMetrics,
+) -> None:
+    """Validate that stratified regression metrics satisfy evaluation contracts."""
+
+    if not isinstance(metrics, StratifiedRegressionMetrics):
+        raise Week4ContractViolation("metrics must be an instance of StratifiedRegressionMetrics")
+    if metrics.overall.count == 0:
+        raise Week4ContractViolation("stratified evaluation requires non-empty overall partition")
+    if not (0.0 <= metrics.shrinkage_ratio <= 10.0 or np.isnan(metrics.shrinkage_ratio)):
+        raise Week4ContractViolation("shrinkage ratio is outside admissible bounds")
+

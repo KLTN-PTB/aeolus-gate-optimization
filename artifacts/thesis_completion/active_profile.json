@@ -1,0 +1,1617 @@
+{
+  "profile": "thesis_xgboost",
+  "status": "READY",
+  "version": "full_20261022",
+  "model_run": "artifacts/thesis_completion/full_20261022",
+  "smoke": false,
+  "created_at": "2026-10-22T07:27:06.538836+00:00",
+  "models": {
+    "arrival_classification_xgboost": {
+      "path": "artifacts/thesis_completion/full_20261022/models/arrival_classification_xgboost.joblib",
+      "sha256": "293adacefb9178bb196e9ab9450556fd15eaccefab978dd72ee03e224f14efd1",
+      "task": "arrival",
+      "kind": "classification",
+      "family": "xgboost",
+      "threshold": 0.21200493212649468,
+      "folds": [
+        {
+          "year": 2019,
+          "metrics": {
+            "n": 391075,
+            "prevalence": 0.14184235760404015,
+            "threshold": 0.5,
+            "ap": 0.23568930808217933,
+            "roc_auc": 0.6433827633478801,
+            "brier_score": 0.11739917609947101,
+            "log_loss": 0.39217626877558137,
+            "ece_10": 0.011746164534646044,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "alert_rate": 0.0,
+            "tn": 335604,
+            "fp": 0,
+            "fn": 55471,
+            "tp": 0,
+            "recall_at_precision": {
+              "0.3": 0.20134845234446827,
+              "0.4": 0.01162769735537488,
+              "0.5": 0.0013700852697806061
+            },
+            "reliability": [
+              {
+                "count": 84036,
+                "mean_probability": 0.0849080370691049,
+                "observed_rate": 0.07682421819220334
+              },
+              {
+                "count": 224543,
+                "mean_probability": 0.13992781346223612,
+                "observed_rate": 0.12685320851685422
+              },
+              {
+                "count": 67085,
+                "mean_probability": 0.23959643338945963,
+                "observed_rate": 0.22647387642543043
+              },
+              {
+                "count": 13025,
+                "mean_probability": 0.33946791660762793,
+                "observed_rate": 0.3386564299424184
+              },
+              {
+                "count": 2386,
+                "mean_probability": 0.4252272113370775,
+                "observed_rate": 0.38851634534786256
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              }
+            ]
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2020,
+          "metrics": {
+            "n": 242121,
+            "prevalence": 0.08098843140413264,
+            "threshold": 0.5,
+            "ap": 0.10099881057086267,
+            "roc_auc": 0.5726692767968424,
+            "brier_score": 0.07924768495967202,
+            "log_loss": 0.2982327120274359,
+            "ece_10": 0.060746126922202257,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "alert_rate": 0.0,
+            "tn": 222512,
+            "fp": 0,
+            "fn": 19609,
+            "tp": 0,
+            "recall_at_precision": {
+              "0.3": 0.0,
+              "0.4": 0.0,
+              "0.5": 0.0
+            },
+            "reliability": [
+              {
+                "count": 57670,
+                "mean_probability": 0.08648986591416027,
+                "observed_rate": 0.055401421883128146
+              },
+              {
+                "count": 150388,
+                "mean_probability": 0.13815466165287954,
+                "observed_rate": 0.08230044950394978
+              },
+              {
+                "count": 29287,
+                "mean_probability": 0.2359697244425146,
+                "observed_rate": 0.11981425205722676
+              },
+              {
+                "count": 4435,
+                "mean_probability": 0.33794316881270126,
+                "observed_rate": 0.11273957158962795
+              },
+              {
+                "count": 341,
+                "mean_probability": 0.4182284433296349,
+                "observed_rate": 0.08211143695014662
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              }
+            ]
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2021,
+          "metrics": {
+            "n": 309621,
+            "prevalence": 0.11296714370149312,
+            "threshold": 0.5,
+            "ap": 0.1593302771497884,
+            "roc_auc": 0.6110851719365652,
+            "brier_score": 0.09981474008069739,
+            "log_loss": 0.35122790852295516,
+            "ece_10": 0.03165451571309763,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "alert_rate": 0.0,
+            "tn": 274644,
+            "fp": 0,
+            "fn": 34977,
+            "tp": 0,
+            "recall_at_precision": {
+              "0.3": 0.0,
+              "0.4": 0.0,
+              "0.5": 0.0
+            },
+            "reliability": [
+              {
+                "count": 243272,
+                "mean_probability": 0.07031329385664908,
+                "observed_rate": 0.09628728337005492
+              },
+              {
+                "count": 64309,
+                "mean_probability": 0.12400808626240395,
+                "observed_rate": 0.17527873237027478
+              },
+              {
+                "count": 2026,
+                "mean_probability": 0.22781725795636174,
+                "observed_rate": 0.1372161895360316
+              },
+              {
+                "count": 14,
+                "mean_probability": 0.3169062520776476,
+                "observed_rate": 0.21428571428571427
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              }
+            ]
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2022,
+          "metrics": {
+            "n": 311701,
+            "prevalence": 0.16130522519979082,
+            "threshold": 0.5,
+            "ap": 0.27827741974442805,
+            "roc_auc": 0.6544976814184557,
+            "brier_score": 0.13146225624794297,
+            "log_loss": 0.43004881740507517,
+            "ece_10": 0.04555625255053301,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "alert_rate": 0.0,
+            "tn": 261422,
+            "fp": 0,
+            "fn": 50279,
+            "tp": 0,
+            "recall_at_precision": {
+              "0.3": 0.3618608166431313,
+              "0.4": 0.10141410927027188,
+              "0.5": 0.028341852463255036
+            },
+            "reliability": [
+              {
+                "count": 160389,
+                "mean_probability": 0.07776868933429555,
+                "observed_rate": 0.10528776911134803
+              },
+              {
+                "count": 125458,
+                "mean_probability": 0.13277880490508204,
+                "observed_rate": 0.1939294425225972
+              },
+              {
+                "count": 18453,
+                "mean_probability": 0.2366556539911116,
+                "observed_rate": 0.31133149081450173
+              },
+              {
+                "count": 7331,
+                "mean_probability": 0.34814558812466506,
+                "observed_rate": 0.44659664438685037
+              },
+              {
+                "count": 70,
+                "mean_probability": 0.40575449551854814,
+                "observed_rate": 0.6142857142857143
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              }
+            ]
+          },
+          "role": "historical_development_raw_oof"
+        }
+      ],
+      "metadata": {
+        "train_end": "2022-12-31",
+        "train_rows": 500000,
+        "cutoff_hours": 2,
+        "delay_minutes": 15,
+        "seed": 202601,
+        "smoke": false,
+        "calibration_method": "sigmoid",
+        "threshold_selection": {
+          "status": "SELECTED",
+          "threshold": 0.21200493212649468,
+          "precision_floor": 0.0,
+          "f1": 0.3605379182618551,
+          "precision": 0.27757560280065546,
+          "recall": 0.5142327708563318
+        },
+        "calibration_period": [
+          "2022-01-01",
+          "2022-06-30"
+        ],
+        "threshold_period": [
+          "2022-07-01",
+          "2022-12-31"
+        ],
+        "model_id": "arrival_classification_xgboost",
+        "protocol": "thesis_completion_v1",
+        "inference_device": "cpu",
+        "untouched_test_available": false
+      }
+    },
+    "arrival_regression_xgboost": {
+      "path": "artifacts/thesis_completion/full_20261022/models/arrival_regression_xgboost.joblib",
+      "sha256": "ad374d46822fca8cfa13f1ec83a00639d1b850b1c6147201971a43d4b089bfb8",
+      "task": "arrival",
+      "kind": "regression",
+      "family": "xgboost",
+      "threshold": 0.5,
+      "folds": [
+        {
+          "year": 2019,
+          "metrics": {
+            "n": 391075,
+            "mae": 21.326538902922664,
+            "rmse": 45.11521685655181
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2020,
+          "metrics": {
+            "n": 242121,
+            "mae": 18.069478281173875,
+            "rmse": 37.25888491937121
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2021,
+          "metrics": {
+            "n": 309621,
+            "mae": 17.05052321635703,
+            "rmse": 42.06811549720166
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2022,
+          "metrics": {
+            "n": 311701,
+            "mae": 20.35207818494124,
+            "rmse": 51.33265739265102
+          },
+          "role": "historical_development_raw_oof"
+        }
+      ],
+      "metadata": {
+        "train_end": "2022-12-31",
+        "train_rows": 500000,
+        "cutoff_hours": 2,
+        "delay_minutes": 15,
+        "seed": 202601,
+        "smoke": false,
+        "model_id": "arrival_regression_xgboost",
+        "protocol": "thesis_completion_v1",
+        "inference_device": "cpu",
+        "untouched_test_available": false
+      }
+    },
+    "departure_classification_xgboost": {
+      "path": "artifacts/thesis_completion/full_20261022/models/departure_classification_xgboost.joblib",
+      "sha256": "47a842e53cf1e78465e62311a4f66d24212af49e042dc0834199501fa072c092",
+      "task": "departure",
+      "kind": "classification",
+      "family": "xgboost",
+      "threshold": 0.21241856789942537,
+      "folds": [
+        {
+          "year": 2019,
+          "metrics": {
+            "n": 391053,
+            "prevalence": 0.16747857707267302,
+            "threshold": 0.5,
+            "ap": 0.28766012154427845,
+            "roc_auc": 0.6565985161675836,
+            "brier_score": 0.1324911410953906,
+            "log_loss": 0.42896063194209133,
+            "ece_10": 0.004562987237933607,
+            "precision": 0.5,
+            "recall": 0.024384285343471822,
+            "f1": 0.04650079345436546,
+            "alert_rate": 0.008167690824517394,
+            "tn": 323963,
+            "fp": 1597,
+            "fn": 63896,
+            "tp": 1597,
+            "recall_at_precision": {
+              "0.3": 0.3742690058479532,
+              "0.4": 0.13386163406776297,
+              "0.5": 0.029636755073061242
+            },
+            "reliability": [
+              {
+                "count": 89381,
+                "mean_probability": 0.07732405514058498,
+                "observed_rate": 0.08346292836285117
+              },
+              {
+                "count": 192006,
+                "mean_probability": 0.1442384646779735,
+                "observed_rate": 0.14463610512171496
+              },
+              {
+                "count": 73836,
+                "mean_probability": 0.24188980127798948,
+                "observed_rate": 0.2333008288639688
+              },
+              {
+                "count": 26475,
+                "mean_probability": 0.3404287272292111,
+                "observed_rate": 0.32906515580736545
+              },
+              {
+                "count": 6161,
+                "mean_probability": 0.4393554515622688,
+                "observed_rate": 0.4426229508196721
+              },
+              {
+                "count": 2441,
+                "mean_probability": 0.5422731191835556,
+                "observed_rate": 0.5010241704219582
+              },
+              {
+                "count": 752,
+                "mean_probability": 0.6332147346532091,
+                "observed_rate": 0.49601063829787234
+              },
+              {
+                "count": 1,
+                "mean_probability": 0.701278030872345,
+                "observed_rate": 1.0
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              }
+            ]
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2020,
+          "metrics": {
+            "n": 242207,
+            "prevalence": 0.08414290255855529,
+            "threshold": 0.5,
+            "ap": 0.11367163123127917,
+            "roc_auc": 0.5972415017267189,
+            "brier_score": 0.08504244258136268,
+            "log_loss": 0.31256235379043756,
+            "ece_10": 0.07458387521461067,
+            "precision": 0.15915119363395225,
+            "recall": 0.008832188420019628,
+            "f1": 0.016735623634419602,
+            "alert_rate": 0.004669559509015016,
+            "tn": 220876,
+            "fp": 951,
+            "fn": 20200,
+            "tp": 180,
+            "recall_at_precision": {
+              "0.3": 0.0,
+              "0.4": 0.0,
+              "0.5": 0.0
+            },
+            "reliability": [
+              {
+                "count": 55985,
+                "mean_probability": 0.07854771601012735,
+                "observed_rate": 0.05099580244708404
+              },
+              {
+                "count": 132233,
+                "mean_probability": 0.14406366622388558,
+                "observed_rate": 0.0832016213804421
+              },
+              {
+                "count": 38443,
+                "mean_probability": 0.23975087171820428,
+                "observed_rate": 0.11214005150482532
+              },
+              {
+                "count": 11676,
+                "mean_probability": 0.3383658817800482,
+                "observed_rate": 0.14063035286056869
+              },
+              {
+                "count": 2739,
+                "mean_probability": 0.4415973260721267,
+                "observed_rate": 0.14238773274917854
+              },
+              {
+                "count": 1025,
+                "mean_probability": 0.5407468791124297,
+                "observed_rate": 0.1629268292682927
+              },
+              {
+                "count": 106,
+                "mean_probability": 0.6223451242132007,
+                "observed_rate": 0.12264150943396226
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              }
+            ]
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2021,
+          "metrics": {
+            "n": 309488,
+            "prevalence": 0.14264850333453963,
+            "threshold": 0.5,
+            "ap": 0.27669961901410045,
+            "roc_auc": 0.6590206441322557,
+            "brier_score": 0.11569597373974329,
+            "log_loss": 0.38731133640646737,
+            "ece_10": 0.012277438631639957,
+            "precision": 0.6445783132530121,
+            "recall": 0.009694663404910755,
+            "f1": 0.019102026242970634,
+            "alert_rate": 0.0021454789846456082,
+            "tn": 265104,
+            "fp": 236,
+            "fn": 43720,
+            "tp": 428,
+            "recall_at_precision": {
+              "0.3": 0.33036604149678356,
+              "0.4": 0.15787804657062607,
+              "0.5": 0.06802120141342756
+            },
+            "reliability": [
+              {
+                "count": 99105,
+                "mean_probability": 0.07521432180826505,
+                "observed_rate": 0.08094445285303466
+              },
+              {
+                "count": 148910,
+                "mean_probability": 0.1418679997003224,
+                "observed_rate": 0.12802363843932577
+              },
+              {
+                "count": 44196,
+                "mean_probability": 0.24161630084810456,
+                "observed_rate": 0.22938727486650376
+              },
+              {
+                "count": 13378,
+                "mean_probability": 0.33772374343615436,
+                "observed_rate": 0.35550904470025413
+              },
+              {
+                "count": 3235,
+                "mean_probability": 0.43994198500465204,
+                "observed_rate": 0.5378670788253478
+              },
+              {
+                "count": 651,
+                "mean_probability": 0.5297990496257483,
+                "observed_rate": 0.6436251920122887
+              },
+              {
+                "count": 13,
+                "mean_probability": 0.6171411642661462,
+                "observed_rate": 0.6923076923076923
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              }
+            ]
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2022,
+          "metrics": {
+            "n": 311746,
+            "prevalence": 0.19586778980323724,
+            "threshold": 0.5,
+            "ap": 0.3422801227131042,
+            "roc_auc": 0.662320876735577,
+            "brier_score": 0.15001390558529096,
+            "log_loss": 0.47447028168737876,
+            "ece_10": 0.04590929627622883,
+            "precision": 0.72,
+            "recall": 0.018866379522117227,
+            "f1": 0.03676928232872122,
+            "alert_rate": 0.005132383414702996,
+            "tn": 250237,
+            "fp": 448,
+            "fn": 59909,
+            "tp": 1152,
+            "recall_at_precision": {
+              "0.3": 0.5499418614172713,
+              "0.4": 0.25196115360049787,
+              "0.5": 0.0929234699726503
+            },
+            "reliability": [
+              {
+                "count": 98042,
+                "mean_probability": 0.07535983247935929,
+                "observed_rate": 0.11013647212419167
+              },
+              {
+                "count": 148780,
+                "mean_probability": 0.14126232891853202,
+                "observed_rate": 0.18308912488237666
+              },
+              {
+                "count": 44638,
+                "mean_probability": 0.24306713673598054,
+                "observed_rate": 0.311707513777499
+              },
+              {
+                "count": 15433,
+                "mean_probability": 0.33599162643992225,
+                "observed_rate": 0.40419879479038423
+              },
+              {
+                "count": 3253,
+                "mean_probability": 0.44281862835095476,
+                "observed_rate": 0.528435290501076
+              },
+              {
+                "count": 1537,
+                "mean_probability": 0.5393467095662963,
+                "observed_rate": 0.7169811320754716
+              },
+              {
+                "count": 63,
+                "mean_probability": 0.6137780878278944,
+                "observed_rate": 0.7936507936507936
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              },
+              {
+                "count": 0,
+                "mean_probability": null,
+                "observed_rate": null
+              }
+            ]
+          },
+          "role": "historical_development_raw_oof"
+        }
+      ],
+      "metadata": {
+        "train_end": "2022-12-31",
+        "train_rows": 500000,
+        "cutoff_hours": 2,
+        "delay_minutes": 15,
+        "seed": 202601,
+        "smoke": false,
+        "calibration_method": "sigmoid",
+        "threshold_selection": {
+          "status": "SELECTED",
+          "threshold": 0.21241856789942537,
+          "precision_floor": 0.0,
+          "f1": 0.3996502587612543,
+          "precision": 0.3131851851851852,
+          "recall": 0.5520663315270614
+        },
+        "calibration_period": [
+          "2022-01-01",
+          "2022-06-30"
+        ],
+        "threshold_period": [
+          "2022-07-01",
+          "2022-12-31"
+        ],
+        "model_id": "departure_classification_xgboost",
+        "protocol": "thesis_completion_v1",
+        "inference_device": "cpu",
+        "untouched_test_available": false
+      }
+    },
+    "departure_regression_xgboost": {
+      "path": "artifacts/thesis_completion/full_20261022/models/departure_regression_xgboost.joblib",
+      "sha256": "35dd3db7bb5f570ed798d9b18f9176ce6e1297e94977ccaf50e64a05c1d57e0c",
+      "task": "departure",
+      "kind": "regression",
+      "family": "xgboost",
+      "threshold": 0.5,
+      "folds": [
+        {
+          "year": 2019,
+          "metrics": {
+            "n": 391053,
+            "mae": 16.69081895620457,
+            "rmse": 37.30210867341688
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2020,
+          "metrics": {
+            "n": 242207,
+            "mae": 14.141852346312158,
+            "rmse": 27.591451111584043
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2021,
+          "metrics": {
+            "n": 309488,
+            "mae": 14.157792796630657,
+            "rmse": 33.72811923945085
+          },
+          "role": "historical_development_raw_oof"
+        },
+        {
+          "year": 2022,
+          "metrics": {
+            "n": 311746,
+            "mae": 16.521598761505064,
+            "rmse": 42.87475988770187
+          },
+          "role": "historical_development_raw_oof"
+        }
+      ],
+      "metadata": {
+        "train_end": "2022-12-31",
+        "train_rows": 500000,
+        "cutoff_hours": 2,
+        "delay_minutes": 15,
+        "seed": 202601,
+        "smoke": false,
+        "model_id": "departure_regression_xgboost",
+        "protocol": "thesis_completion_v1",
+        "inference_device": "cpu",
+        "untouched_test_available": false
+      }
+    }
+  },
+  "residuals": {
+    "arrival": {
+      "path": "artifacts/thesis_completion/full_20261022/models/arrival_residuals.joblib",
+      "sha256": "99fd96e0bfddfd5f63dc9b2f09dd35c181541f4df6c5e9ad82bd8fd969c5f8da"
+    },
+    "departure": {
+      "path": "artifacts/thesis_completion/full_20261022/models/departure_residuals.joblib",
+      "sha256": "8811a1861d7ccbfca5b3ec5356f6a831846cc25797487d0bcb0e4ba572accb50"
+    }
+  },
+  "comparison": {
+    "arrival_classification_linear": {
+      "metrics": {
+        "n": 332741,
+        "prevalence": 0.1670428351180047,
+        "threshold": 0.18301224681547137,
+        "ap": 0.2850508051840955,
+        "roc_auc": 0.6580110132702628,
+        "brier_score": 0.13318013144134003,
+        "log_loss": 0.4318631709572781,
+        "ece_10": 0.030298171675065596,
+        "precision": 0.23065290328900645,
+        "recall": 0.6777913713072578,
+        "f1": 0.3441808198653353,
+        "alert_rate": 0.49086827292098056,
+        "tn": 151500,
+        "fp": 125659,
+        "fn": 17909,
+        "tp": 37673,
+        "recall_at_precision": {
+          "0.3": 0.3989421035587061,
+          "0.4": 0.12271958547731279,
+          "0.5": 0.0
+        },
+        "reliability": [
+          {
+            "count": 23236,
+            "mean_probability": 0.0910276542261075,
+            "observed_rate": 0.07776725770356344
+          },
+          {
+            "count": 173137,
+            "mean_probability": 0.1490448324795237,
+            "observed_rate": 0.11661285571541612
+          },
+          {
+            "count": 96205,
+            "mean_probability": 0.23985284910841376,
+            "observed_rate": 0.20642378254768462
+          },
+          {
+            "count": 31831,
+            "mean_probability": 0.3414316466105453,
+            "observed_rate": 0.31563570104614996
+          },
+          {
+            "count": 6621,
+            "mean_probability": 0.43509368986577085,
+            "observed_rate": 0.4331671952877209
+          },
+          {
+            "count": 1629,
+            "mean_probability": 0.5324772650223063,
+            "observed_rate": 0.48373235113566604
+          },
+          {
+            "count": 82,
+            "mean_probability": 0.6321381667080052,
+            "observed_rate": 0.2804878048780488
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          }
+        ],
+        "accuracy": 0.5685292765243838
+      },
+      "prediction_sha256": "ffdeae355064c7daaae4d671384768005d9cf8f9a7b8fcccf3419be0bc1bfb6f",
+      "threshold": 0.18301224681547137,
+      "task": "arrival",
+      "kind": "classification",
+      "family": "linear"
+    },
+    "arrival_classification_random_forest": {
+      "metrics": {
+        "n": 332741,
+        "prevalence": 0.1670428351180047,
+        "threshold": 0.2245339319992586,
+        "ap": 0.312585852317955,
+        "roc_auc": 0.6764994042241937,
+        "brier_score": 0.13577305402020784,
+        "log_loss": 0.4394262761425576,
+        "ece_10": 0.0746863346360624,
+        "precision": 0.24293017326603883,
+        "recall": 0.671998128890648,
+        "f1": 0.35685555141544134,
+        "alert_rate": 0.46207711102629373,
+        "tn": 160758,
+        "fp": 116401,
+        "fn": 18231,
+        "tp": 37351,
+        "recall_at_precision": {
+          "0.3": 0.47814040516714046,
+          "0.4": 0.21296462883667375,
+          "0.5": 0.06973480623223345
+        },
+        "reliability": [
+          {
+            "count": 5212,
+            "mean_probability": 0.09227966813972323,
+            "observed_rate": 0.04873369148119724
+          },
+          {
+            "count": 141029,
+            "mean_probability": 0.15479017206782147,
+            "observed_rate": 0.09680278524275149
+          },
+          {
+            "count": 104369,
+            "mean_probability": 0.2436788050191336,
+            "observed_rate": 0.15682817694909407
+          },
+          {
+            "count": 50251,
+            "mean_probability": 0.34327903167390356,
+            "observed_rate": 0.253248691568327
+          },
+          {
+            "count": 20353,
+            "mean_probability": 0.4456450103922388,
+            "observed_rate": 0.34540362600108093
+          },
+          {
+            "count": 10064,
+            "mean_probability": 0.5423083101490092,
+            "observed_rate": 0.4719793322734499
+          },
+          {
+            "count": 1463,
+            "mean_probability": 0.623177932126359,
+            "observed_rate": 0.5481886534518113
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          }
+        ],
+        "accuracy": 0.595384999143478
+      },
+      "prediction_sha256": "46500f926ff1a939c2680d9942afad46be1a083c93c6d0be399191331c18fa7b",
+      "threshold": 0.2245339319992586,
+      "task": "arrival",
+      "kind": "classification",
+      "family": "random_forest"
+    },
+    "arrival_classification_xgboost": {
+      "metrics": {
+        "n": 332741,
+        "prevalence": 0.1670428351180047,
+        "threshold": 0.21200493212649468,
+        "ap": 0.31425384225388564,
+        "roc_auc": 0.6756927208470336,
+        "brier_score": 0.13584267497911445,
+        "log_loss": 0.4395961373103098,
+        "ece_10": 0.07458467708053715,
+        "precision": 0.23552793367502223,
+        "recall": 0.6961426361052139,
+        "f1": 0.35197212822472074,
+        "alert_rate": 0.49372334638652887,
+        "tn": 151570,
+        "fp": 125589,
+        "fn": 16889,
+        "tp": 38693,
+        "recall_at_precision": {
+          "0.3": 0.46721960346874886,
+          "0.4": 0.2031053218667914,
+          "0.5": 0.0752401856716203
+        },
+        "reliability": [
+          {
+            "count": 563,
+            "mean_probability": 0.09710955354148934,
+            "observed_rate": 0.0586145648312611
+          },
+          {
+            "count": 151954,
+            "mean_probability": 0.15580961305958096,
+            "observed_rate": 0.09662792687260618
+          },
+          {
+            "count": 102372,
+            "mean_probability": 0.24389457080789229,
+            "observed_rate": 0.16395108037353964
+          },
+          {
+            "count": 44194,
+            "mean_probability": 0.34406495384740254,
+            "observed_rate": 0.2505770014029054
+          },
+          {
+            "count": 20285,
+            "mean_probability": 0.4442816126127516,
+            "observed_rate": 0.3339413359625339
+          },
+          {
+            "count": 10985,
+            "mean_probability": 0.5453156917645946,
+            "observed_rate": 0.43978152025489303
+          },
+          {
+            "count": 2388,
+            "mean_probability": 0.6250780803995778,
+            "observed_rate": 0.5875209380234506
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          }
+        ],
+        "accuracy": 0.5718050976585393
+      },
+      "prediction_sha256": "46b3bbc45f281236239a0976254522d2f0737a4257b59bb841947b4e4db91112",
+      "threshold": 0.21200493212649468,
+      "task": "arrival",
+      "kind": "classification",
+      "family": "xgboost"
+    },
+    "arrival_classification_stacking": {
+      "metrics": {
+        "n": 332741,
+        "prevalence": 0.1670428351180047,
+        "threshold": 0.20911826978617964,
+        "ap": 0.32086879880251645,
+        "roc_auc": 0.6803245853574502,
+        "brier_score": 0.13617437870885085,
+        "log_loss": 0.43994889245894314,
+        "ece_10": 0.07930461903291854,
+        "precision": 0.23351717295514896,
+        "recall": 0.7198733402900219,
+        "f1": 0.352642039069833,
+        "alert_rate": 0.5149500662677579,
+        "tn": 145826,
+        "fp": 131333,
+        "fn": 15570,
+        "tp": 40012,
+        "recall_at_precision": {
+          "0.3": 0.48733402900219497,
+          "0.4": 0.23131589363462993,
+          "0.5": 0.10159763952358677
+        },
+        "reliability": [
+          {
+            "count": 1836,
+            "mean_probability": 0.09548355816774004,
+            "observed_rate": 0.058823529411764705
+          },
+          {
+            "count": 148469,
+            "mean_probability": 0.15197972739561674,
+            "observed_rate": 0.09470663909637703
+          },
+          {
+            "count": 96309,
+            "mean_probability": 0.24549699055233232,
+            "observed_rate": 0.1576072848851094
+          },
+          {
+            "count": 46742,
+            "mean_probability": 0.3423566225668477,
+            "observed_rate": 0.23972016601771426
+          },
+          {
+            "count": 22348,
+            "mean_probability": 0.4456891110709015,
+            "observed_rate": 0.31998389117594417
+          },
+          {
+            "count": 13177,
+            "mean_probability": 0.543824661395102,
+            "observed_rate": 0.43188889732108976
+          },
+          {
+            "count": 3703,
+            "mean_probability": 0.6335354494744764,
+            "observed_rate": 0.5641371860653525
+          },
+          {
+            "count": 157,
+            "mean_probability": 0.7139476445391316,
+            "observed_rate": 0.6242038216560509
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          }
+        ],
+        "accuracy": 0.5585064659900644
+      },
+      "prediction_sha256": "52f8aad922c9e68595e60510754ff11748481e7c985e50ed06ba1acb50e6f78e",
+      "threshold": 0.20911826978617964,
+      "task": "arrival",
+      "kind": "classification",
+      "family": "stacking"
+    },
+    "arrival_regression_linear": {
+      "metrics": {
+        "n": 332741,
+        "mae": 22.714419996442842,
+        "rmse": 55.03065291681926,
+        "r2": 0.0112457677450859
+      },
+      "prediction_sha256": "29b9243d2331c7a1805604ff0bc7af304fddf248d713aab15693c6a398770847",
+      "threshold": 0.5,
+      "task": "arrival",
+      "kind": "regression",
+      "family": "linear"
+    },
+    "arrival_regression_random_forest": {
+      "metrics": {
+        "n": 332741,
+        "mae": 24.515196422510837,
+        "rmse": 55.01140767257161,
+        "r2": 0.01193721835766004
+      },
+      "prediction_sha256": "733dee886f48c437ece24bb8dba05b9038105b475b288b17240f89ed94f3de02",
+      "threshold": 0.5,
+      "task": "arrival",
+      "kind": "regression",
+      "family": "random_forest"
+    },
+    "arrival_regression_xgboost": {
+      "metrics": {
+        "n": 332741,
+        "mae": 23.785418485107872,
+        "rmse": 54.73943922330663,
+        "r2": 0.021682747611159514
+      },
+      "prediction_sha256": "4e77975ae31622b4822abbf5aff813b0f01d2278c48d87eb7165c349fe78411f",
+      "threshold": 0.5,
+      "task": "arrival",
+      "kind": "regression",
+      "family": "xgboost"
+    },
+    "arrival_regression_stacking": {
+      "metrics": {
+        "n": 332741,
+        "mae": 22.959286274899224,
+        "rmse": 54.95901784638277,
+        "r2": 0.0138182750616197
+      },
+      "prediction_sha256": "18c68f7fee78b61da0afd8088db59a3ae0061d2a8f5c0ba04e97dfe366653775",
+      "threshold": 0.5,
+      "task": "arrival",
+      "kind": "regression",
+      "family": "stacking"
+    },
+    "departure_classification_linear": {
+      "metrics": {
+        "n": 332734,
+        "prevalence": 0.20625484621349185,
+        "threshold": 0.19037342843180355,
+        "ap": 0.322033367067069,
+        "roc_auc": 0.6414582972912588,
+        "brier_score": 0.15635898282723523,
+        "log_loss": 0.4876565552658023,
+        "ece_10": 0.00788424429002669,
+        "precision": 0.2671686937156698,
+        "recall": 0.678265431019409,
+        "f1": 0.38333985299870293,
+        "alert_rate": 0.5236224732068259,
+        "tn": 136427,
+        "fp": 127679,
+        "fn": 22080,
+        "tp": 46548,
+        "recall_at_precision": {
+          "0.3": 0.5064696625284141,
+          "0.4": 0.1988984088127295,
+          "0.5": 0.04856618289910824
+        },
+        "reliability": [
+          {
+            "count": 10421,
+            "mean_probability": 0.09359641562343755,
+            "observed_rate": 0.08933883504462144
+          },
+          {
+            "count": 164088,
+            "mean_probability": 0.15091509935898825,
+            "observed_rate": 0.146969918580274
+          },
+          {
+            "count": 116986,
+            "mean_probability": 0.24271039719151985,
+            "observed_rate": 0.23654112457900944
+          },
+          {
+            "count": 33543,
+            "mean_probability": 0.3400574856552181,
+            "observed_rate": 0.3609695018334675
+          },
+          {
+            "count": 7165,
+            "mean_probability": 0.42925174248765086,
+            "observed_rate": 0.4957431960921144
+          },
+          {
+            "count": 519,
+            "mean_probability": 0.527556138271102,
+            "observed_rate": 0.47591522157996147
+          },
+          {
+            "count": 12,
+            "mean_probability": 0.6039902846158639,
+            "observed_rate": 0.16666666666666666
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          }
+        ],
+        "accuracy": 0.5499137449133542
+      },
+      "prediction_sha256": "462d6db496cfa3847ee7e9b0b9c606ebdf36110f3e983b4a33b9181945389b1c",
+      "threshold": 0.19037342843180355,
+      "task": "departure",
+      "kind": "classification",
+      "family": "linear"
+    },
+    "departure_classification_random_forest": {
+      "metrics": {
+        "n": 332734,
+        "prevalence": 0.20625484621349185,
+        "threshold": 0.20196681740370312,
+        "ap": 0.35885867235220786,
+        "roc_auc": 0.6705034095960843,
+        "brier_score": 0.15271014727814813,
+        "log_loss": 0.47755072803652976,
+        "ece_10": 0.009477669234676854,
+        "precision": 0.3009533824044865,
+        "recall": 0.6255609955120359,
+        "f1": 0.406393472107839,
+        "alert_rate": 0.42872084007044664,
+        "tn": 164387,
+        "fp": 99719,
+        "fn": 25697,
+        "tp": 42931,
+        "recall_at_precision": {
+          "0.3": 0.6284024013522177,
+          "0.4": 0.3222299935886227,
+          "0.5": 0.1308795243923763
+        },
+        "reliability": [
+          {
+            "count": 28366,
+            "mean_probability": 0.08634540640128638,
+            "observed_rate": 0.08439681308608898
+          },
+          {
+            "count": 159195,
+            "mean_probability": 0.14985769262522208,
+            "observed_rate": 0.1436037563993844
+          },
+          {
+            "count": 89347,
+            "mean_probability": 0.24206629467850824,
+            "observed_rate": 0.2361131319462321
+          },
+          {
+            "count": 44009,
+            "mean_probability": 0.34514900240617064,
+            "observed_rate": 0.363607443931923
+          },
+          {
+            "count": 8684,
+            "mean_probability": 0.4315540106975564,
+            "observed_rate": 0.5051819438046983
+          },
+          {
+            "count": 2456,
+            "mean_probability": 0.5478477928948211,
+            "observed_rate": 0.5956840390879479
+          },
+          {
+            "count": 677,
+            "mean_probability": 0.6254534059385572,
+            "observed_rate": 0.6277695716395865
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          }
+        ],
+        "accuracy": 0.6230742875690491
+      },
+      "prediction_sha256": "daa67580cac84bd5c5bf1e5b4014ddaa19213f333a55f00fb1fb444368e3cf78",
+      "threshold": 0.20196681740370312,
+      "task": "departure",
+      "kind": "classification",
+      "family": "random_forest"
+    },
+    "departure_classification_xgboost": {
+      "metrics": {
+        "n": 332734,
+        "prevalence": 0.20625484621349185,
+        "threshold": 0.21241856789942537,
+        "ap": 0.36633567002845413,
+        "roc_auc": 0.6763138642007552,
+        "brier_score": 0.15181793387907144,
+        "log_loss": 0.47525661750418846,
+        "ece_10": 0.012522986227932827,
+        "precision": 0.3086943707633363,
+        "recall": 0.6104796875910707,
+        "f1": 0.4100456084718226,
+        "alert_rate": 0.40789339231939026,
+        "tn": 170282,
+        "fp": 93824,
+        "fn": 26732,
+        "tp": 41896,
+        "recall_at_precision": {
+          "0.3": 0.640015737016961,
+          "0.4": 0.3452526665500962,
+          "0.5": 0.15199335548172757
+        },
+        "reliability": [
+          {
+            "count": 20669,
+            "mean_probability": 0.0880990959873372,
+            "observed_rate": 0.07460448013933911
+          },
+          {
+            "count": 160227,
+            "mean_probability": 0.15017453347583562,
+            "observed_rate": 0.1383599518183577
+          },
+          {
+            "count": 91746,
+            "mean_probability": 0.242301939919399,
+            "observed_rate": 0.22865302029516274
+          },
+          {
+            "count": 40206,
+            "mean_probability": 0.3449036755944349,
+            "observed_rate": 0.34594339153360193
+          },
+          {
+            "count": 14530,
+            "mean_probability": 0.4365048078808632,
+            "observed_rate": 0.4735719201651755
+          },
+          {
+            "count": 3939,
+            "mean_probability": 0.5449586863600193,
+            "observed_rate": 0.5773038842345773
+          },
+          {
+            "count": 1385,
+            "mean_probability": 0.6343220041701572,
+            "observed_rate": 0.612274368231047
+          },
+          {
+            "count": 32,
+            "mean_probability": 0.7086669131226222,
+            "observed_rate": 0.84375
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          }
+        ],
+        "accuracy": 0.6376805496282315
+      },
+      "prediction_sha256": "005d2766f688ce77f1a3d28009c53b58448dc7219c5dbdea9e8cf211ff2f0d0f",
+      "threshold": 0.21241856789942537,
+      "task": "departure",
+      "kind": "classification",
+      "family": "xgboost"
+    },
+    "departure_classification_stacking": {
+      "metrics": {
+        "n": 332734,
+        "prevalence": 0.20625484621349185,
+        "threshold": 0.21967630048052034,
+        "ap": 0.3633481419040509,
+        "roc_auc": 0.670622718895826,
+        "brier_score": 0.15238508925244196,
+        "log_loss": 0.47724375199265334,
+        "ece_10": 0.015450772382854997,
+        "precision": 0.30915561453377466,
+        "recall": 0.5974675059742379,
+        "f1": 0.40746905697690017,
+        "alert_rate": 0.39860368943360164,
+        "tn": 172480,
+        "fp": 91626,
+        "fn": 27625,
+        "tp": 41003,
+        "recall_at_precision": {
+          "0.3": 0.6290726817042607,
+          "0.4": 0.3440723902780206,
+          "0.5": 0.14428513143323424
+        },
+        "reliability": [
+          {
+            "count": 13477,
+            "mean_probability": 0.0930548454571406,
+            "observed_rate": 0.07664910588409883
+          },
+          {
+            "count": 161007,
+            "mean_probability": 0.14878924928681103,
+            "observed_rate": 0.13609967268503853
+          },
+          {
+            "count": 95670,
+            "mean_probability": 0.24313289056991425,
+            "observed_rate": 0.21946273649001777
+          },
+          {
+            "count": 41734,
+            "mean_probability": 0.3426529198007024,
+            "observed_rate": 0.34382038625581063
+          },
+          {
+            "count": 15502,
+            "mean_probability": 0.4386872518368585,
+            "observed_rate": 0.46206941039865823
+          },
+          {
+            "count": 4354,
+            "mean_probability": 0.5429328732582707,
+            "observed_rate": 0.5877354157096922
+          },
+          {
+            "count": 990,
+            "mean_probability": 0.6272720284542569,
+            "observed_rate": 0.6212121212121212
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          },
+          {
+            "count": 0,
+            "mean_probability": null,
+            "observed_rate": null
+          }
+        ],
+        "accuracy": 0.6416026014774565
+      },
+      "prediction_sha256": "0a0bce7573b68d6f34da9af8376a63cc0a6e8caa731b39745e236f7e53c1cb36",
+      "threshold": 0.21967630048052034,
+      "task": "departure",
+      "kind": "classification",
+      "family": "stacking"
+    },
+    "departure_regression_linear": {
+      "metrics": {
+        "n": 332734,
+        "mae": 17.932002634622023,
+        "rmse": 43.313622457560406,
+        "r2": 0.018896392560409425
+      },
+      "prediction_sha256": "89ff364aab5ee088417506941c44ec17b99dc71e298d8bc6fe9e6d7b09eb11dc",
+      "threshold": 0.5,
+      "task": "departure",
+      "kind": "regression",
+      "family": "linear"
+    },
+    "departure_regression_random_forest": {
+      "metrics": {
+        "n": 332734,
+        "mae": 17.961805892543232,
+        "rmse": 43.3783902894521,
+        "r2": 0.015960066330604872
+      },
+      "prediction_sha256": "feea21da373f5e4d30001569a5d2ad094c74ca0be004253b2f68514288362eb8",
+      "threshold": 0.5,
+      "task": "departure",
+      "kind": "regression",
+      "family": "random_forest"
+    },
+    "departure_regression_xgboost": {
+      "metrics": {
+        "n": 332734,
+        "mae": 17.558530443609175,
+        "rmse": 43.00557240798925,
+        "r2": 0.0328021459469231
+      },
+      "prediction_sha256": "4d9e79244bb6c3af53dfca1bc74770ee06cc96fe7642cffe7088f39b474dc762",
+      "threshold": 0.5,
+      "task": "departure",
+      "kind": "regression",
+      "family": "xgboost"
+    },
+    "departure_regression_stacking": {
+      "metrics": {
+        "n": 332734,
+        "mae": 17.745271340730607,
+        "rmse": 43.21353144535224,
+        "r2": 0.02342550767749274
+      },
+      "prediction_sha256": "7a6fb318d22e6209bc28e9ae8c032c5e80e86e44060657595e2e84e1e2ed595f",
+      "threshold": 0.5,
+      "task": "departure",
+      "kind": "regression",
+      "family": "stacking"
+    }
+  },
+  "evaluation_scope": "historical_2023_already_seen"
+}

@@ -1,0 +1,51 @@
+{
+  "pipeline": "MonteCarloRobustnessEngineP09",
+  "phase": "P09",
+  "protocol_version": "v1.0",
+  "created_at_utc": "2026-10-08T21:35:22.367395+00:00",
+  "n_scenarios": 500,
+  "seed": 202601,
+  "dependence_model": {
+    "family": "GAUSSIAN_COPULA",
+    "rho": 0.45,
+    "eigenvalues": [
+      0.55,
+      1.45
+    ],
+    "is_positive_definite": true
+  },
+  "marginal_distributions": {
+    "arrival": {
+      "family": "Student-t",
+      "mu": 5.0,
+      "sigma": 18.0,
+      "df": 4.5
+    },
+    "departure": {
+      "family": "Student-t",
+      "mu": 8.0,
+      "sigma": 22.0,
+      "df": 4.0
+    }
+  },
+  "solvers_evaluated": [
+    "DeterministicGreedy",
+    "CPSat",
+    "HybridCPSatSA"
+  ],
+  "modes_evaluated": [
+    "FIXED_PLAN_ROBUSTNESS",
+    "REACTIVE_RECOURSE",
+    "PERFECT_FORESIGHT_ORACLE"
+  ],
+  "generated_files": [
+    "artifacts/remediation/monte_carlo/simulation_manifest.json",
+    "artifacts/remediation/monte_carlo/scenario_index.csv",
+    "artifacts/remediation/monte_carlo/fixed_plan_results.csv",
+    "artifacts/remediation/monte_carlo/recourse_results.csv",
+    "artifacts/remediation/monte_carlo/oracle_results.csv",
+    "artifacts/remediation/monte_carlo/paired_comparison.csv",
+    "artifacts/remediation/monte_carlo/statistical_summary.json",
+    "artifacts/remediation/monte_carlo/failures.json"
+  ]
+}

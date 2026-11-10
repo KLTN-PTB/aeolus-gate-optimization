@@ -1,0 +1,11 @@
+feature,mean_abs_shap_minutes,std_shap_minutes,min_shap_minutes,max_shap_minutes
+numeric__scheduled_departure_hour,3.4149,3.63434,-7.41488,7.61605
+numeric__CRS_ELAPSED_TIME,1.52923,0.30342,0.90055,2.64337
+categorical__OP_CARRIER,1.51953,1.85752,-1.82522,7.15636
+numeric__calendar_month,1.35373,1.37712,-4.00923,5.6406
+categorical__DEST,0.93696,0.25328,-1.5923,-0.22157
+numeric__calendar_day_of_month,0.81386,1.15391,-2.445,6.32912
+numeric__calendar_day_of_week,0.70597,0.92711,-2.01924,6.16954
+high_cardinality__OP_CARRIER_FL_NUM__frequency,0.14663,0.13192,-0.4416,0.28827
+numeric__scheduled_departure_minute,0.10949,0.14492,-0.31713,0.5075
+numeric__is_weekend,0.01427,0.04253,-0.10096,0.44167

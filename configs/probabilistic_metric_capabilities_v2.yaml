@@ -1,0 +1,229 @@
+# ==============================================================================
+# Aeolus V4 Probabilistic Forecast Metric Capability Matrix (V2)
+# ==============================================================================
+# Protocol: Task R4 Probabilistic Forecasting Methodology Audit & Repair
+# Governance: AEOLUS_V4_PROBABILISTIC_METRIC_CONTRACT_V2
+# Core Invariant: Finite quantiles != automatically full probability distribution.
+# Strict Rule: No metric fabrication. Unsupported metrics must be NOT_SUPPORTED.
+# ==============================================================================
+
+version: "v2.0"
+contract_name: "AEOLUS_V4_PROBABILISTIC_METRIC_CAPABILITY_MATRIX"
+created_at_utc: "2026-10-02T02:20:00Z"
+auditor: "Principal Operations Research & ML Uncertainty Engineer"
+
+allowed_statuses:
+  - SUPPORTED
+  - NOT_SUPPORTED
+  - APPROXIMATE
+  - UNKNOWN
+
+evaluated_candidates:
+  - P1_empirical
+  - P2_xgb_gaussian_oof
+  - P3_ngboost_normal
+  - P4_ngboost_student_t
+  - P5_quantile_regression
+
+# Pre-registered Quantile Grid for non-parametric evaluation
+pre_registered_quantiles:
+  - 0.025
+  - 0.05
+  - 0.10
+  - 0.25
+  - 0.50
+  - 0.75
+  - 0.90
+  - 0.95
+  - 0.975
+
+pre_registered_interval_pairs:
+  50: [0.25, 0.75]
+  80: [0.10, 0.90]
+  90: [0.05, 0.95]
+  95: [0.025, 0.975]
+
+candidates:
+  # ----------------------------------------------------------------------------
+  # P1: Empirical carrier x scheduled-hour baseline
+  # ----------------------------------------------------------------------------
+  P1_empirical:
+    candidate_id: "P1_empirical"
+    family: "empirical"
+    distribution_type: "non_parametric_empirical"
+    operational_role: "EMPIRICAL_RESIDUAL_BASELINE"
+    support: "finite_sample_pool"
+    parameters: ["sample_pool"]
+    capabilities:
+      mean: "SUPPORTED"
+      median: "SUPPORTED"
+      quantile: "SUPPORTED"
+      cdf: "SUPPORTED"
+      event_probability: "SUPPORTED"
+      sampling: "SUPPORTED"
+      nll: "NOT_SUPPORTED"
+      exact_crps: "NOT_SUPPORTED"
+      approximate_crps: "SUPPORTED"
+      pit: "NOT_SUPPORTED"
+      coverage: "SUPPORTED"
+      interval_width: "SUPPORTED"
+    provenance_details:
+      mean_method: "sample_mean_of_hierarchical_pool"
+      median_method: "sample_median_of_hierarchical_pool"
+      quantile_method: "empirical_quantile_with_linear_interpolation"
+      cdf_method: "empirical_step_function"
+      sampling_method: "bootstrap_sampling_with_replacement"
+      nll_unsupported_reason: "Discrete empirical step function has zero density almost everywhere; continuous likelihood is undefined."
+      pit_unsupported_reason: "Step CDF produces discrete atomic PIT distributions; classical KS test against continuous Uniform(0,1) is formally invalid."
+      crps_method: "trapezoidal_pinball_integration"
+      is_exact_crps: false
+      is_approximate_crps: true
+
+  # ----------------------------------------------------------------------------
+  # P2: XGBoost mean + OOF residual uncertainty (Fixed-sigma Gaussian)
+  # ----------------------------------------------------------------------------
+  P2_xgb_gaussian_oof:
+    candidate_id: "P2_xgb_gaussian_oof"
+    family: "xgb_gaussian_oof"
+    distribution_type: "parametric_gaussian_homoscedastic"
+    operational_role: "HOMOSCEDASTIC_PARAMETRIC_BASELINE"
+    support: "real_line_R"
+    parameters: ["mu", "sigma"]
+    capabilities:
+      mean: "SUPPORTED"
+      median: "SUPPORTED"
+      quantile: "SUPPORTED"
+      cdf: "SUPPORTED"
+      event_probability: "SUPPORTED"
+      sampling: "SUPPORTED"
+      nll: "SUPPORTED"
+      exact_crps: "SUPPORTED"
+      approximate_crps: "SUPPORTED"
+      pit: "SUPPORTED"
+      coverage: "SUPPORTED"
+      interval_width: "SUPPORTED"
+    provenance_details:
+      mean_method: "xgboost_point_prediction_mu"
+      median_method: "symmetric_gaussian_median_mu"
+      quantile_method: "analytical_gaussian_ppf"
+      cdf_method: "analytical_gaussian_cdf"
+      sampling_method: "pseudorandom_gaussian_generator"
+      nll_method: "analytical_gaussian_negative_log_likelihood"
+      crps_method: "analytical_closed_form_gaussian_crps"
+      is_exact_crps: true
+      is_approximate_crps: false
+      pit_method: "probability_integral_transform_via_standard_normal_cdf"
+
+  # ----------------------------------------------------------------------------
+  # P3: NGBoost Normal (Heteroscedastic Gaussian)
+  # ----------------------------------------------------------------------------
+  P3_ngboost_normal:
+    candidate_id: "P3_ngboost_normal"
+    family: "ngboost_normal"
+    distribution_type: "parametric_gaussian_heteroscedastic"
+    operational_role: "HETEROSCEDASTIC_PARAMETRIC_GAUSSIAN"
+    support: "real_line_R"
+    parameters: ["mu", "sigma"]
+    capabilities:
+      mean: "SUPPORTED"
+      median: "SUPPORTED"
+      quantile: "SUPPORTED"
+      cdf: "SUPPORTED"
+      event_probability: "SUPPORTED"
+      sampling: "SUPPORTED"
+      nll: "SUPPORTED"
+      exact_crps: "SUPPORTED"
+      approximate_crps: "SUPPORTED"
+      pit: "SUPPORTED"
+      coverage: "SUPPORTED"
+      interval_width: "SUPPORTED"
+    provenance_details:
+      mean_method: "ngboost_conditional_location_mu"
+      median_method: "symmetric_gaussian_median_mu"
+      quantile_method: "analytical_gaussian_ppf"
+      cdf_method: "analytical_gaussian_cdf"
+      sampling_method: "pseudorandom_gaussian_generator"
+      nll_method: "analytical_gaussian_negative_log_likelihood"
+      crps_method: "analytical_closed_form_gaussian_crps"
+      is_exact_crps: true
+      is_approximate_crps: false
+      pit_method: "probability_integral_transform_via_standard_normal_cdf"
+
+  # ----------------------------------------------------------------------------
+  # P4: NGBoost Student-T (Heteroscedastic Heavy-Tail)
+  # ----------------------------------------------------------------------------
+  P4_ngboost_student_t:
+    candidate_id: "P4_ngboost_student_t"
+    family: "ngboost_student_t"
+    distribution_type: "parametric_student_t_heteroscedastic"
+    operational_role: "HETEROSCEDASTIC_HEAVY_TAIL_RESEARCH_CANDIDATE"
+    support: "real_line_R"
+    parameters: ["mu", "sigma", "df"]
+    numerical_safety_constraints:
+      sigma_min: 0.1
+      df_min: 2.1  # Guaranteed > 2.0 for finite variance
+    capabilities:
+      mean: "SUPPORTED"
+      median: "SUPPORTED"
+      quantile: "SUPPORTED"
+      cdf: "SUPPORTED"
+      event_probability: "SUPPORTED"
+      sampling: "SUPPORTED"
+      nll: "SUPPORTED"
+      exact_crps: "NOT_SUPPORTED"
+      approximate_crps: "SUPPORTED"
+      pit: "SUPPORTED"
+      coverage: "SUPPORTED"
+      interval_width: "SUPPORTED"
+    provenance_details:
+      mean_method: "student_t_location_mu_finite_for_df_gt_1"
+      median_method: "symmetric_student_t_median_mu"
+      quantile_method: "scipy_student_t_ppf"
+      cdf_method: "scipy_student_t_cdf"
+      sampling_method: "scipy_standard_t_draws"
+      nll_method: "analytical_student_t_negative_log_likelihood"
+      crps_method: "trapezoidal_pinball_integration"
+      is_exact_crps: false
+      is_approximate_crps: true
+      pit_method: "probability_integral_transform_via_student_t_cdf"
+
+  # ----------------------------------------------------------------------------
+  # P5: Quantile Regression Research Comparator
+  # ----------------------------------------------------------------------------
+  P5_quantile_regression:
+    candidate_id: "P5_quantile_regression"
+    family: "quantile_regression"
+    distribution_type: "non_parametric_quantile_grid"
+    operational_role: "QUANTILE_FORECAST_ONLY"
+    support: "pre_registered_quantile_grid"
+    parameters: ["quantiles"]
+    capabilities:
+      mean: "NOT_SUPPORTED"
+      median: "SUPPORTED"
+      quantile: "SUPPORTED"
+      cdf: "NOT_SUPPORTED"
+      event_probability: "NOT_SUPPORTED"
+      sampling: "NOT_SUPPORTED"
+      nll: "NOT_SUPPORTED"
+      exact_crps: "NOT_SUPPORTED"
+      approximate_crps: "SUPPORTED"
+      pit: "NOT_SUPPORTED"
+      coverage: "SUPPORTED"
+      interval_width: "SUPPORTED"
+    provenance_details:
+      mean_unsupported_reason: "Pure quantile regression provides no conditional expectation without arbitrary tail extrapolation."
+      median_method: "direct_q_0_50_pinball_head"
+      quantile_method: "pinball_loss_direct_regression_with_rearrangement_sorting"
+      cdf_unsupported_reason: "Continuous cumulative distribution function cannot be mathematically synthesized from finite discrete quantiles."
+      event_probability_unsupported_reason: "Threshold event probability P(Y >= 15) is unavailable without continuous CDF or specialized binary head."
+      sampling_unsupported_reason: "Generative sampling requires continuous inverse CDF."
+      nll_unsupported_reason: "Quantile regression does not estimate a probability density function f(y); likelihood is undefined."
+      pit_unsupported_reason: "Probability Integral Transform u = F(y) requires a valid continuous CDF. Evaluating PIT on P5 is mathematically invalid."
+      crps_method: "trapezoidal_pinball_integration_over_grid"
+      is_exact_crps: false
+      is_approximate_crps: true
+      quantile_integration_specification:
+        grid: [0.025, 0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95, 0.975]
+        integration_rule: "trapezoidal_rule_sum_2_delta_alpha_mean_loss"
+        interpolation_rule: "linear_interpolation_strictly_within_grid"
+        tail_handling: "no_extrapolation_beyond_extreme_quantiles"

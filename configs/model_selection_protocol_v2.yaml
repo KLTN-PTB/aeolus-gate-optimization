@@ -1,0 +1,97 @@
+# Controlled Model Selection Protocol V2 (Phase R7 Repair)
+# Protocol: 2023 Controlled Academic Model Selection
+# Disentangles Pre-Registered Rules from Post-Hoc Reasoning and Establishes Three Distinct Roles:
+# Role A: Point Model Selection (Point Champion)
+# Role B: Probabilistic Forecast Selection (Forecast Champion)
+# Role C: Downstream-Eligible Probabilistic Candidate (Simulation Candidate)
+
+protocol_version: "model_selection_protocol_v2"
+created_at_utc: "2026-10-02T00:00:00Z"
+status: "REPAIRED_AUDITED"
+
+temporal_scope:
+  training_years: [2016, 2017, 2018, 2019, 2020, 2021, 2022]
+  evaluation_year: 2023
+  evaluation_role: "development_model_selection"
+  holdout_year: 2024
+  holdout_policy: "FAIL_CLOSED_SEALED"
+
+task:
+  name: "Core Arrival"
+  filter: "DEST=ATL"
+  cutoff: "CRS_DEP_TIME - 2h"
+  feature_set: "v1"
+  features_allowed: 11
+  weather_allowed: false
+  flight_chain_allowed: false
+
+sample_sizes:
+  sample_train_per_year: 3500
+  sample_val: 4000
+  random_seed: 202601
+
+roles_definition:
+  role_a_point_champion:
+    purpose: "Best conditional point prediction for arrival delay (regression) and delay >= 15 min (classification)."
+    candidate_pool:
+      - "arrival_linear_baseline_v1"
+      - "arrival_random_forest_baseline_v1"
+      - "arrival_hist_gradient_boosting_baseline_v1"
+      - "arrival_xgboost_baseline_v1"
+      - "arrival_weighted_ensemble_v1"
+    regression:
+      primary_metric: "mae"
+      direction: "minimize"
+      effect_size_delta: 0.10  # minutes (6 seconds)
+      secondary_metrics: ["rmse", "r2", "severe_delay_mae"]
+    classification:
+      primary_metric: "pr_auc"
+      direction: "maximize"
+      effect_size_delta: 0.0050
+      secondary_metrics: ["roc_auc", "brier_score", "log_loss"]
+    tie_break_policy: "effect_size_indifference_band"
+    force_single_selection: false
+    pre_registered_complexity_rule: false
+    complexity_tie_break_status: "POST_HOC_PARSIMONY"
+    audit_note: "Ridge and Weighted Ensemble tie on MAE (diff = 0.00 min < 0.10 min). Selecting Ridge is post-hoc parsimony, not a pre-registered rule."
+
+  role_b_probabilistic_forecast_champion:
+    purpose: "Best calibrated predictive interval and quantile risk forecast representation for operations."
+    candidate_pool:
+      - "P1_empirical"
+      - "P2_xgb_gaussian_oof"
+      - "P3_ngboost_normal"
+      - "P4_ngboost_student_t"
+      - "P5_quantile_regression"
+    primary_metric: "crps"
+    direction: "minimize"
+    effect_size_delta: 0.10  # minutes
+    secondary_metrics: ["mean_pinball_loss", "cov_80", "cov_90"]
+    required_capabilities:
+      - "quantile"
+    audit_note: "P5 achieves lowest CRPS (16.85m), outperforming P4 (17.79m) by 0.94m > 0.10m. P5 is the forecast champion for quantile risks."
+
+  role_c_downstream_candidate:
+    purpose: "Probabilistic distribution engine feeding stochastic Copula dependence modeling and Monte Carlo gate optimization."
+    candidate_pool:
+      - "P1_empirical"
+      - "P2_xgb_gaussian_oof"
+      - "P3_ngboost_normal"
+      - "P4_ngboost_student_t"
+      - "P5_quantile_regression"
+    mandatory_capabilities:
+      - "sample"
+      - "cdf"
+    downstream_eligibility:
+      P1_empirical: true
+      P2_xgb_gaussian_oof: true
+      P3_ngboost_normal: true
+      P4_ngboost_student_t: true
+      P5_quantile_regression: false
+    audit_note: "P5 lacks sample() and cdf() capabilities and is strictly ineligible for stochastic copula simulation. P4 is the best eligible candidate supporting full continuous sampling."
+
+joint_system_selection:
+  pre_registered_joint_rule_exists: false
+  pre_registration_status: "UNKNOWN"
+  joint_selection_status: "BLOCKED"
+  audit_note: "Historical protocol configs/academic_model_selection.yaml lacked an explicit pre-registered joint selection rule authorizing dual-model assignment (P5 for forecast, P4 for simulation). Under pure pre-registered protocol, joint selection status is BLOCKED and recorded as an architectural post-hoc accommodation."

@@ -1,0 +1,24 @@
+{
+  "artifact": "reconstructed_schedule_flight_chain",
+  "version": "v1",
+  "source": "canonical_tabular",
+  "chain_id_version": "schedule_chain_v1",
+  "flight_key_version": "flight_key_v1",
+  "datetime_storage_amendment_version": "canonical_datetime_storage_amendment_v1",
+  "physical_aircraft_identity": false,
+  "raw_chain_used_for_mapping": false,
+  "weather_policy": "DROP",
+  "overall_status": "FULL_DATA_PASS",
+  "evidence_manifest": "artifacts/manifests/flight_chain_reconstructed_manifest_v1.json",
+  "years": [
+    {"year": 2016, "status": "PASS", "source_rows": 5537987, "eligible_rows": 5537987, "mapped_rows": 5537987, "chain_count": 4153379, "inbound_target_count": 381166, "combined_fingerprint": "14b41224aafc3e89ad4011ca157adc7eef0dbd4a0e4fafc530b64bdd3148ceaf"},
+    {"year": 2017, "status": "PASS", "source_rows": 5575872, "eligible_rows": 5575872, "mapped_rows": 5575872, "chain_count": 4213097, "inbound_target_count": 358263, "combined_fingerprint": "8ddf8d47a08dace8e1573ea0f0bf6ff853848459a655afddaf6aaec76219567e"},
+    {"year": 2018, "status": "PASS", "source_rows": 6986842, "eligible_rows": 6986842, "mapped_rows": 6986842, "chain_count": 5370758, "inbound_target_count": 386580, "combined_fingerprint": "9d5185bd3fc1c8ebf9d0314b45e8fac322dcfdf3514525a258cf1e3ae425401b"},
+    {"year": 2019, "status": "PASS", "source_rows": 7161827, "eligible_rows": 7161827, "mapped_rows": 7161827, "chain_count": 5522884, "inbound_target_count": 391075, "combined_fingerprint": "656f9580be3ca8ff3421f249aedda094af5aaa1ff87b429e9dccd761ca7ab7a5"},
+    {"year": 2020, "status": "PASS", "source_rows": 4312091, "eligible_rows": 4312091, "mapped_rows": 4312091, "chain_count": 3476881, "inbound_target_count": 242121, "combined_fingerprint": "9cb6766b48697013df3514d1a7eddb11b02c5990aa6fa9ec38a19b2838e081dc"},
+    {"year": 2021, "status": "PASS", "source_rows": 5755666, "eligible_rows": 5755666, "mapped_rows": 5755666, "chain_count": 4734600, "inbound_target_count": 309621, "combined_fingerprint": "a51f823a52c041a7da311eb660ffbd9eb97ccab742fb005905ece9e05b79399c"},
+    {"year": 2022, "status": "PASS", "source_rows": 6413416, "eligible_rows": 6413416, "mapped_rows": 6413416, "chain_count": 5192960, "inbound_target_count": 311701, "combined_fingerprint": "c862f86ef98e83f946abe872ab12a6e37164f1354d86e301deb6af9d67db8b59"},
+    {"year": 2023, "status": "PASS", "source_rows": 6645461, "eligible_rows": 6645461, "mapped_rows": 6645461, "chain_count": 5339817, "inbound_target_count": 332741, "combined_fingerprint": "b0c58fa340a9f613bd7d4f25cb67b35c7002df57c60b0631e9c89e519e53770c"}
+  ],
+  "aggregate": {"source_rows": 48389162, "eligible_rows": 48389162, "mapped_rows": 48389162, "coverage": 1.0, "chain_count": 38004376, "inbound_target_count": 2713268, "output_bytes": 4056921478}
+}

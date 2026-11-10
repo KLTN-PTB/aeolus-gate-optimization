@@ -1,0 +1,111 @@
+# Authoritative Configuration for Core Departure V1 (Aeolus Dual Core Architecture)
+# Document Reference: docs/dual_core/decision_core_departure_v1.md
+# Governed by: ModelTask.CORE_DEPARTURE, ModelTarget.DEPARTURE_DELAY_SIGNED
+
+contract_version: "departure_core_v1"
+task: "core_departure"
+model_id: "departure_linear_baseline_v1"
+model_family: "linear"
+
+target:
+  name: "departure_delay_signed"
+  raw_field: "DEP_DELAY"
+  target_type: "signed_continuous_minutes"
+  clip_policy: "none"
+  imputation_policy: "none_drop_missing"
+  unit: "minutes"
+  signed_delays_preserved: true
+
+classification_label:
+  name: "departure_delay_binary_15"
+  formula: "1[DEP_DELAY >= 15]"
+  threshold_minutes: 15
+
+population:
+  origin: "ATL"
+  filter_rule: "ORIGIN == 'ATL'"
+  route_feature: "DEST"
+  constant_dropped: "ORIGIN"
+
+prediction_cutoff:
+  offset_hours: 2
+  rule: "CRS_DEP_TIME - 2 hours"
+  timezone: "America/New_York"
+
+features:
+  feature_manifest_version: "feature_manifest_departure_v1"
+  feature_count: 10
+  approved_predictors:
+    - "CRS_ELAPSED_TIME"
+    - "calendar_month"
+    - "calendar_day_of_month"
+    - "calendar_day_of_week"
+    - "is_weekend"
+    - "scheduled_departure_hour"
+    - "scheduled_departure_minute"
+    - "OP_CARRIER"
+    - "DEST"
+    - "OP_CARRIER_FL_NUM"
+  raw_source_fields:
+    - "FL_DATE"
+    - "CRS_DEP_TIME"
+    - "CRS_ELAPSED_TIME"
+    - "MONTH"
+    - "DAY_OF_MONTH"
+    - "DAY_OF_WEEK"
+    - "OP_CARRIER"
+    - "DEST"
+    - "OP_CARRIER_FL_NUM"
+  explicitly_excluded:
+    - "calendar_year"
+    - "weather"
+    - "chain"
+
+leakage_policy:
+  fail_closed_unknown_fields: true
+  forbidden_columns:
+    delay_targets:
+      - "DEP_DELAY"
+      - "ARR_DELAY"
+      - "y_dep_reg"
+      - "y_arr_reg"
+      - "y_dep_cls"
+      - "y_arr_cls"
+    actual_operations:
+      - "DEP_TIME"
+      - "ARR_TIME"
+      - "WHEELS_OFF"
+      - "WHEELS_ON"
+      - "TAXI_OUT"
+      - "TAXI_IN"
+      - "AIR_TIME"
+      - "ACTUAL_ELAPSED_TIME"
+    weather:
+      - "O_TEMP"
+      - "O_PRCP"
+      - "O_WSPD"
+      - "D_TEMP"
+      - "D_PRCP"
+      - "D_WSPD"
+    identifiers:
+      - "flight_key"
+      - "chain_id"
+      - "source_row_number"
+      - "source_year"
+    uncertain:
+      - "FLIGHTS"
+    dropped_constants:
+      - "ORIGIN"
+      - "ORIGIN_INDEX"
+      - "O_LATITUDE"
+      - "O_LONGITUDE"
+    simulation_outcomes:
+      - "p_delay"
+      - "actual_delay_min"
+      - "pred_time_min"
+
+downstream_policy:
+  downstream_eligible: false
+  certification_role_required: "GATE_OUT_PREDICTION"
+  optimizer_feature_flag_default: false
+  optimizer_dual_core_active: false

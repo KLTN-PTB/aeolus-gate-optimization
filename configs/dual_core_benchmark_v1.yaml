@@ -1,0 +1,148 @@
+# Aeolus Dual Core End-to-End Benchmark & Scalability Configuration
+# Protocol: Aeolus Dual Core Architecture Protocol V2 - Phase P9
+# Date: 2026-10-08
+
+benchmark_version: "1.0.0"
+benchmark_protocol: "AEOLUS_DUAL_CORE_E2E_BENCHMARK_V1"
+created_at_utc: "2026-10-08T12:00:00Z"
+random_seed: 202601
+
+hypotheses:
+  H1_forecast_accuracy:
+    description: >
+      Core Departure delay exhibits higher variance, heavier tail asymmetry, and higher RMSE
+      than Core Arrival delay due to ground pushback and taxi-out queue dynamics at ATL.
+  H2_conflict_reduction:
+    description: >
+      Expanding gate reservation intervals with validated Core Departure ML pushback
+      (D_gate_out = max(D_ml, A_pred + T_min)) reduces realized post-hoc contact gate conflicts
+      compared to SCHEDULE_ONLY and ARRIVAL_P4_ONLY_LEGACY under real-world delays.
+  H3_operational_tradeoff:
+    description: >
+      Expanded gate reservation intervals increase contact gate congestion under peak bank hours,
+      trading off higher remote apron assignments / reassignment costs for strictly reduced realized conflicts.
+  H4_computational_scalability:
+    description: >
+      Dual Core domain representation preserves 100% computational scalability parity
+      with legacy Arrival-only formulations across all four authorized solvers.
+
+branches:
+  branch_a_schedule_only:
+    branch_id: "SCHEDULE_ONLY"
+    description: "Nominal schedule baseline with physical minimum turnaround; zero ML predictions."
+    arrival_source: "scheduled"
+    departure_source: "scheduled"
+    dual_core_gate_enabled: false
+    turnaround_policy: "physical_min_turnaround_45m"
+    separation_buffer_min: 15
+
+  branch_b_arrival_only_legacy:
+    branch_id: "ARRIVAL_P4_ONLY_LEGACY"
+    description: "Core Arrival ML forecast with legacy turnaround; Departure ML ignored."
+    arrival_source: "ml_prediction"
+    departure_source: "legacy_scheduled_max"
+    dual_core_gate_enabled: false
+    turnaround_policy: "legacy_turnaround_45m"
+    separation_buffer_min: 15
+
+  branch_c_dual_point:
+    branch_id: "DUAL_POINT"
+    description: "Joint Core Arrival point ML + Core Departure point ML with validated physical pushback."
+    arrival_source: "ml_prediction"
+    departure_source: "ml_prediction"
+    dual_core_gate_enabled: true
+    departure_model_id: "departure_certified_point_v1"
+    turnaround_policy: "validated_physical_pushback"
+    separation_buffer_min: 15
+
+  branch_d_dual_probabilistic:
+    branch_id: "DUAL_PROBABILISTIC"
+    description: "Monte Carlo predictive distributions under sensitivity coupling assumptions."
+    arrival_source: "probabilistic_distribution"
+    departure_source: "probabilistic_distribution"
+    dual_core_gate_enabled: true
+    departure_model_id: "departure_certified_point_v1"
+    coupling_scenarios:
+      - "INDEPENDENT"
+      - "COMONOTONIC"
+      - "COUNTERMONOTONIC"
+    turnaround_policy: "validated_physical_pushback"
+    separation_buffer_min: 15
+
+pre_registered_primary_metrics:
+  forecast:
+    - "mae"
+    - "rmse"
+    - "bias"
+    - "medae"
+    - "tail_mae_15"
+    - "tail_mae_60"
+    - "crps"
+  optimization:
+    - "objective_value"
+    - "feasible"
+    - "status"
+    - "contact_gate_assignments"
+    - "remote_apron_assignments"
+    - "unassigned_turns"
+    - "reassignment_count"
+  robustness:
+    - "planned_hard_constraint_violations"
+    - "planned_conflicts"
+    - "realized_post_hoc_conflicts"
+    - "turnaround_violations"
+    - "separation_buffer_violations"
+  scalability_and_performance:
+    - "total_wall_clock_ms"
+    - "model_construction_ms"
+    - "solver_execution_ms"
+    - "peak_rss_mb"
+    - "cpu_time_ms"
+
+scenarios:
+  primary_schedule_fixture:
+    fixture_path: "src/artifacts/predictions/atl_1500_flights_cpsat_turnaround_schedule.csv"
+    total_records: 1500
+    total_turns: 851
+    paired_turns: 649
+    unmatched_arr: 96
+    unmatched_dep: 106
+    primary_contact_gates: 50
+    overflow_policy:
+      - "infinite_capacity"
+      - "finite_capacity_max_5"
+
+  scalability_ladder:
+    turn_counts:
+      - 50
+      - 100
+      - 250
+      - 500
+      - 1500
+    contact_gate_counts:
+      - 10
+      - 20
+      - 50
+
+solvers:
+  DeterministicGreedy:
+    solver_class: "DeterministicGreedyGateSolver"
+    order_stability: true
+  CPSat:
+    solver_class: "CPSatGateSolver"
+    time_limit_seconds: 2.0
+    num_search_workers: 1
+    random_seed: 202601
+  SimulatedAnnealing:
+    solver_class: "SimulatedAnnealingGateSolver"
+    iterations: 1000
+    T0: 100.0
+    Tmin: 0.01
+    cooling_rate: 0.95
+    seed: 202601
+  HybridCPSatSA:
+    solver_class: "HybridGateSolver"
+    cp_ratio: 0.5
+    time_limit_seconds: 2.0
+    iterations: 500
+    seed: 202601

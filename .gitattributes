@@ -1,0 +1,10 @@
+# Frozen training sources are evidence: preserve their exact bytes in Git.
+artifacts/thesis_completion/**/source_snapshot/** -text
+artifacts/thesis_completion/**/historical_input_snapshot/** -text
+web_dashboard/app.py -text
+web_dashboard/experiments.py -text
+web_dashboard/frontend/src/GatePage.tsx -text
+web_dashboard/pipeline.py -text
+web_dashboard/solver_execution.py -text
+*.joblib binary
+*.sqlite3 binary

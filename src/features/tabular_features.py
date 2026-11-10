@@ -54,6 +54,18 @@ RAW_SAFE_SOURCE_COLUMNS: Final = (
     "DAY_OF_WEEK",
 )
 
+# V1.1 keeps the scheduled-arrival clock as a safe source.  The raw
+# `CRS_ARR_TIME` value is never passed through as a predictor; only its hour
+# and minute are derived below.
+SCHEDULED_ARRIVAL_FEATURE_COLUMNS: Final = (
+    "scheduled_arrival_hour",
+    "scheduled_arrival_minute",
+)
+RAW_SAFE_SOURCE_COLUMNS_V1_1: Final = (
+    *RAW_SAFE_SOURCE_COLUMNS,
+    "CRS_ARR_TIME",
+)
+
 NUMERIC_FEATURE_COLUMNS: Final = (
     "CRS_ELAPSED_TIME",
     "calendar_year",
@@ -75,8 +87,21 @@ DERIVED_FEATURE_COLUMNS: Final = (
     "scheduled_departure_hour",
     "scheduled_departure_minute",
 )
+NUMERIC_FEATURE_COLUMNS_V1_1: Final = (
+    *NUMERIC_FEATURE_COLUMNS,
+    *SCHEDULED_ARRIVAL_FEATURE_COLUMNS,
+)
+DERIVED_FEATURE_COLUMNS_V1_1: Final = (
+    *DERIVED_FEATURE_COLUMNS,
+    *SCHEDULED_ARRIVAL_FEATURE_COLUMNS,
+)
 APPROVED_PREDICTOR_COLUMNS: Final = (
     *NUMERIC_FEATURE_COLUMNS,
+    *CATEGORICAL_FEATURE_COLUMNS,
+    *HIGH_CARDINALITY_FEATURE_COLUMNS,
+)
+APPROVED_PREDICTOR_COLUMNS_V1_1: Final = (
+    *NUMERIC_FEATURE_COLUMNS_V1_1,
     *CATEGORICAL_FEATURE_COLUMNS,
     *HIGH_CARDINALITY_FEATURE_COLUMNS,
 )
@@ -90,6 +115,10 @@ ARRIVAL_PROJECTED_SOURCE_COLUMNS: Final = (
     "flight_key",
     "source_year",
     "source_row_number",
+)
+ARRIVAL_PROJECTED_SOURCE_COLUMNS_V1_1: Final = (
+    *ARRIVAL_PROJECTED_SOURCE_COLUMNS,
+    "CRS_ARR_TIME",
 )
 
 
@@ -252,6 +281,49 @@ def _parse_schedule_sources(frame: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
     return flight_date, departure
 
 
+def _parse_scheduled_arrival_clock(
+    frame: pd.DataFrame,
+) -> tuple[pd.Series, pd.Series]:
+    """Parse only the scheduled arrival clock from canonical/raw schedule data.
+
+    Aeolus canonical partitions store ``CRS_ARR_TIME`` as a timestamp-like
+    string.  The HHMM fallback keeps the feature helper compatible with small
+    contract fixtures.  No date relation, rollover, duration, or actual
+    operation field is inferred.
+    """
+    values = frame["CRS_ARR_TIME"]
+    parsed = pd.to_datetime(
+        values,
+        format="%Y-%m-%d %H:%M:%S",
+        errors="coerce",
+    )
+    numeric = pd.to_numeric(values, errors="coerce")
+    numeric_valid = (
+        numeric.notna()
+        & np.isfinite(numeric)
+        & (numeric >= 0)
+        & (numeric <= 2359)
+        & (numeric == np.floor(numeric))
+        & ((numeric % 100) <= 59)
+    )
+    valid = parsed.notna() | numeric_valid
+    if bool((~valid).any()):
+        examples = values.loc[~valid].head(3).tolist()
+        raise ArrivalFeatureContractViolation(
+            f"CRS_ARR_TIME must be a canonical timestamp or valid HHMM value: {examples}"
+        )
+
+    hour = pd.Series(np.empty(len(values), dtype=np.int16), index=values.index)
+    minute = pd.Series(np.empty(len(values), dtype=np.int16), index=values.index)
+    if bool(parsed.notna().any()):
+        hour.loc[parsed.notna()] = parsed.loc[parsed.notna()].dt.hour.astype("int16")
+        minute.loc[parsed.notna()] = parsed.loc[parsed.notna()].dt.minute.astype("int16")
+    if bool(numeric_valid.any()):
+        hour.loc[numeric_valid] = (numeric.loc[numeric_valid] // 100).astype("int16")
+        minute.loc[numeric_valid] = (numeric.loc[numeric_valid] % 100).astype("int16")
+    return hour.astype("int16"), minute.astype("int16")
+
+
 def _validate_calendar_source(
     frame: pd.DataFrame, field: str, expected: pd.Series
 ) -> None:
@@ -301,6 +373,7 @@ def prepare_arrival_features(
     frame: pd.DataFrame,
     *,
     extra_approved_features: Iterable[str] | None = None,
+    include_scheduled_arrival_time: bool = False,
 ) -> PreparedArrivalFeatures:
     """Prepare one bounded Core Arrival batch without fitting learned state.
 
@@ -317,7 +390,12 @@ def prepare_arrival_features(
         # registry-first Arrival leakage classification is added.
         assert_candidate_predictors_allowed(extras, task=ARRIVAL_TASK)
 
-    required = set(RAW_SAFE_SOURCE_COLUMNS) | {"DEST", "ARR_DELAY"}
+    source_columns = (
+        RAW_SAFE_SOURCE_COLUMNS_V1_1
+        if include_scheduled_arrival_time
+        else RAW_SAFE_SOURCE_COLUMNS
+    )
+    required = set(source_columns) | {"DEST", "ARR_DELAY"}
     missing = required.difference(frame.columns)
     if missing:
         raise ArrivalFeatureContractViolation(
@@ -335,7 +413,7 @@ def prepare_arrival_features(
 
     # Confirm that every raw information source entering feature derivation is
     # independently allowed by the normal Arrival leakage contract.
-    assert_candidate_predictors_allowed(RAW_SAFE_SOURCE_COLUMNS, task=ARRIVAL_TASK)
+    assert_candidate_predictors_allowed(source_columns, task=ARRIVAL_TASK)
 
     flight_date, departure = _parse_schedule_sources(eligible)
     calendar_day_of_week = flight_date.dt.dayofweek + 1
@@ -356,10 +434,19 @@ def prepare_arrival_features(
     X["is_weekend"] = calendar_day_of_week.isin([6, 7]).astype("int8")
     X["scheduled_departure_hour"] = departure.dt.hour.astype("int64")
     X["scheduled_departure_minute"] = departure.dt.minute.astype("int64")
+    if include_scheduled_arrival_time:
+        arrival_hour, arrival_minute = _parse_scheduled_arrival_clock(eligible)
+        X["scheduled_arrival_hour"] = arrival_hour
+        X["scheduled_arrival_minute"] = arrival_minute
     X["OP_CARRIER"] = _categorical(eligible["OP_CARRIER"], field="OP_CARRIER")
     X["ORIGIN"] = _categorical(eligible["ORIGIN"], field="ORIGIN")
     X["OP_CARRIER_FL_NUM"] = _flight_number(eligible["OP_CARRIER_FL_NUM"])
-    X = X.loc[:, list(APPROVED_PREDICTOR_COLUMNS)]
+    approved_columns = (
+        APPROVED_PREDICTOR_COLUMNS_V1_1
+        if include_scheduled_arrival_time
+        else APPROVED_PREDICTOR_COLUMNS
+    )
+    X = X.loc[:, list(approved_columns)]
 
     identifier_names = [name for name in IDENTIFIER_COLUMNS if name in eligible]
     identifiers = eligible.loc[:, identifier_names].copy(deep=True)
@@ -379,6 +466,11 @@ def prepare_arrival_features(
         prediction_cutoff=cutoff,
         eligibility=eligibility,
     )
+
+
+def prepare_arrival_features_v1_1(frame: pd.DataFrame) -> PreparedArrivalFeatures:
+    """Prepare the V1.1 predictor contract with exact scheduled-arrival time."""
+    return prepare_arrival_features(frame, include_scheduled_arrival_time=True)
 
 
 assert not set(APPROVED_PREDICTOR_COLUMNS).intersection(WEATHER_COLUMNS)

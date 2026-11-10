@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from src.data.access_guard import DataAccessDenied, assert_data_access_allowed
@@ -27,4 +29,8 @@ def test_2024_canonicalize_holdout_is_allowed_without_unsealing_development() ->
 
 def test_2024_final_evaluation_is_blocked_without_freeze_manifest() -> None:
     with pytest.raises(DataAccessDenied, match="freeze manifest"):
-        assert_data_access_allowed(2024, "final_evaluation")
+        assert_data_access_allowed(
+            2024,
+            "final_evaluation",
+            freeze_manifest_path=Path("artifacts/manifests/nonexistent_freeze_manifest.json"),
+        )

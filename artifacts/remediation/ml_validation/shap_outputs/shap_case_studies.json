@@ -1,0 +1,212 @@
+[
+  {
+    "case_type": "On-Time Flight",
+    "flight_metadata": {
+      "flight_key": "flight_key_v1_a64db2bc2aff7321a65c1397cd878a41",
+      "carrier": "DL",
+      "flight_num": 466,
+      "destination": "MSP",
+      "flight_date": "2023-01-03 00:00:00",
+      "scheduled_departure_time": "2023-01-03 08:55:00"
+    },
+    "actual_departure_delay_minutes": -5.0,
+    "model_predicted_delay_minutes": 3.4432,
+    "base_expected_value_minutes": 8.3023,
+    "shap_attribution_sum_minutes": -4.8591,
+    "reconstructed_prediction_minutes": 3.4432,
+    "feature_attributions_ordered": [
+      {
+        "feature": "numeric__scheduled_departure_hour",
+        "attribution_minutes": -4.4266,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__CRS_ELAPSED_TIME",
+        "attribution_minutes": 1.3606,
+        "feature_value": "161.0"
+      },
+      {
+        "feature": "categorical__OP_CARRIER",
+        "attribution_minutes": -1.0507,
+        "feature_value": "DL"
+      },
+      {
+        "feature": "numeric__calendar_day_of_week",
+        "attribution_minutes": -1.0375,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "categorical__DEST",
+        "attribution_minutes": -0.7169,
+        "feature_value": "MSP"
+      },
+      {
+        "feature": "numeric__calendar_day_of_month",
+        "attribution_minutes": 0.5927,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__scheduled_departure_minute",
+        "attribution_minutes": 0.287,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__calendar_month",
+        "attribution_minutes": 0.2709,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "high_cardinality__OP_CARRIER_FL_NUM__frequency",
+        "attribution_minutes": -0.1418,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__is_weekend",
+        "attribution_minutes": 0.0034,
+        "feature_value": "N/A"
+      }
+    ],
+    "interpretation": "Actual departure was 5 minutes early. Morning scheduled departure (08:55 AM) carries negative congestion attribution (-4.43 min), pulling predicted delay down to 3.44 minutes.",
+    "causality_disclaimer": "SHAP represents predictive statistical attribution in model output space, NOT a counterfactual causal intervention."
+  },
+  {
+    "case_type": "Moderate Delay Flight",
+    "flight_metadata": {
+      "flight_key": "flight_key_v1_2bcfdc1308b382c734bb5fd7a1cc0be5",
+      "carrier": "DL",
+      "flight_num": 764,
+      "destination": "MSP",
+      "flight_date": "2023-01-01 00:00:00",
+      "scheduled_departure_time": "2023-01-01 22:25:00"
+    },
+    "actual_departure_delay_minutes": 18.0,
+    "model_predicted_delay_minutes": 13.255,
+    "base_expected_value_minutes": 8.3023,
+    "shap_attribution_sum_minutes": 4.9527,
+    "reconstructed_prediction_minutes": 13.255,
+    "feature_attributions_ordered": [
+      {
+        "feature": "numeric__scheduled_departure_hour",
+        "attribution_minutes": 3.9733,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "categorical__OP_CARRIER",
+        "attribution_minutes": -1.5059,
+        "feature_value": "DL"
+      },
+      {
+        "feature": "numeric__CRS_ELAPSED_TIME",
+        "attribution_minutes": 1.4215,
+        "feature_value": "156.0"
+      },
+      {
+        "feature": "categorical__DEST",
+        "attribution_minutes": -1.04,
+        "feature_value": "MSP"
+      },
+      {
+        "feature": "numeric__calendar_day_of_week",
+        "attribution_minutes": 0.7864,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__calendar_day_of_month",
+        "attribution_minutes": 0.7019,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__calendar_month",
+        "attribution_minutes": 0.5799,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "high_cardinality__OP_CARRIER_FL_NUM__frequency",
+        "attribution_minutes": 0.0926,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__is_weekend",
+        "attribution_minutes": -0.0375,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__scheduled_departure_minute",
+        "attribution_minutes": -0.0193,
+        "feature_value": "N/A"
+      }
+    ],
+    "interpretation": "Actual departure delayed 18 minutes. Late night departure (22:25 PM) carries strong positive congestion attribution (+3.97 min), predicting an elevated delay of 13.26 minutes.",
+    "causality_disclaimer": "SHAP represents predictive statistical attribution in model output space, NOT a counterfactual causal intervention."
+  },
+  {
+    "case_type": "Severe Delay Flight",
+    "flight_metadata": {
+      "flight_key": "flight_key_v1_267e45fdbd6b7cfa1a86b45fe82930ea",
+      "carrier": "NK",
+      "flight_num": 40,
+      "destination": "MSP",
+      "flight_date": "2023-01-02 00:00:00",
+      "scheduled_departure_time": "2023-01-02 16:00:00"
+    },
+    "actual_departure_delay_minutes": 91.0,
+    "model_predicted_delay_minutes": 25.7892,
+    "base_expected_value_minutes": 8.3023,
+    "shap_attribution_sum_minutes": 17.4869,
+    "reconstructed_prediction_minutes": 25.7892,
+    "feature_attributions_ordered": [
+      {
+        "feature": "categorical__OP_CARRIER",
+        "attribution_minutes": 7.1564,
+        "feature_value": "NK"
+      },
+      {
+        "feature": "numeric__calendar_day_of_month",
+        "attribution_minutes": 3.33,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__scheduled_departure_hour",
+        "attribution_minutes": 3.0236,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__calendar_day_of_week",
+        "attribution_minutes": 2.089,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__CRS_ELAPSED_TIME",
+        "attribution_minutes": 1.5639,
+        "feature_value": "160.0"
+      },
+      {
+        "feature": "numeric__calendar_month",
+        "attribution_minutes": 1.5242,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "categorical__DEST",
+        "attribution_minutes": -1.0578,
+        "feature_value": "MSP"
+      },
+      {
+        "feature": "high_cardinality__OP_CARRIER_FL_NUM__frequency",
+        "attribution_minutes": -0.1144,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__scheduled_departure_minute",
+        "attribution_minutes": -0.0357,
+        "feature_value": "N/A"
+      },
+      {
+        "feature": "numeric__is_weekend",
+        "attribution_minutes": 0.0077,
+        "feature_value": "N/A"
+      }
+    ],
+    "interpretation": "Actual departure delayed 91 minutes. Ultra-low-cost carrier (Spirit Airlines NK) and afternoon peak hour contribute +7.16 min and +3.02 min respectively. Model predicts 25.79 min, exhibiting characteristic conditional expectation shrinkage.",
+    "causality_disclaimer": "SHAP represents predictive statistical attribution in model output space, NOT a counterfactual causal intervention."
+  }
+]

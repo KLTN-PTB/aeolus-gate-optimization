@@ -1,0 +1,6 @@
+model_a,model_b,n_scenarios,mean_delta_cost,median_delta_cost,std_delta_cost,mc_se_delta,ci_95_lower,ci_95_upper,t_statistic,p_value,mean_delta_conflicts,statistical_significance
+ModeA_Greedy,ModeA_CPSat,500,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,False
+ModeA_CPSat,ModeA_Hybrid,500,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,False
+ModeB_Greedy,ModeB_CPSat,500,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,False
+ModeB_CPSat,ModeB_Hybrid,500,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,False
+ModeA_CPSat_Fixed,ModeB_CPSat_Recourse,500,1338.44,990.0,1141.4676,51.048,1238.386,1438.494,26.2193,6.6293038922360065e-96,1.364,True

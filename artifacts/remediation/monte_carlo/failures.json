@@ -1,0 +1,8 @@
+{
+  "total_requested": 3500,
+  "total_evaluated": 3500,
+  "total_successful": 3500,
+  "total_failed": 0,
+  "failed_scenarios": [],
+  "silent_drop_audit": "PASS (0 scenarios filtered or dropped)"
+}

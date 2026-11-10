@@ -1,0 +1,224 @@
+protocol_version: week5_hpo_protocol_v1_1
+status: FROZEN_PRE_PRODUCTION
+config_version: 0.1.0
+
+parent_protocol:
+  version: week5_hpo_protocol_v1
+  hash: b00ddf190776a12032b1e6b5b284beff8b48204017fe4c397140ac7a4da6844a
+
+amendment:
+  id: week5_hpo_execution_amendment_v1
+  type: EXECUTION_RELIABILITY_AMENDMENT
+  reason: ENVIRONMENTAL_WALL_CLOCK_INTERRUPTION
+  statistical_protocol_changed: false
+  execution_protocol_changed: true
+
+task_contract:
+  task: arrival_core
+  flow: inbound
+  population: DEST=ATL
+  classification_target: y_arr_cls = 1[ARR_DELAY >= 15]
+  regression_target: y_arr_reg = signed ARR_DELAY minutes
+  prediction_cutoff: CRS_DEP_TIME - 2 hours
+  feature_manifest_version: feature_manifest_arrival_v1
+  preprocessing_version: arrival_preprocessing_v1
+
+scope_guards:
+  weather_allowed: false
+  departure_target_allowed: false
+  predicted_departure_delay_allowed: false
+  actual_operational_outcomes_allowed: false
+  chain_features_allowed: false
+  arr_b_enabled: false
+  auxiliary_weather_enabled: false
+  shap_allowed: false
+  ensemble_allowed: false
+  champion_selection_allowed: false
+  production_hpo_allowed_in_this_step: false
+
+dependencies:
+  python: 3.11.15
+  xgboost: 3.2.0
+  optuna: 5.0.0
+  numpy: 2.2.6
+  pandas: 2.3.3
+  pyarrow: 25.0.1
+  scikit_learn: 1.9.0
+
+folds:
+  - id: fold_1
+    train_years: [2016, 2017, 2018]
+    validation_year: 2019
+  - id: fold_2
+    train_years: [2016, 2017, 2018, 2019]
+    validation_year: 2020
+  - id: fold_3
+    train_years: [2016, 2017, 2018, 2019, 2020]
+    validation_year: 2021
+  - id: fold_4
+    train_years: [2016, 2017, 2018, 2019, 2020, 2021]
+    validation_year: 2022
+
+data_contract:
+  allowed_hpo_years: [2016, 2017, 2018, 2019, 2020, 2021, 2022]
+  blocked_hpo_years: [2023, 2024]
+  access_guard_purpose: hpo
+  preprocessing_fit_scope: EACH_FOLD_TRAIN_ROWS_ONLY
+  exact_locked_folds_required: true
+  random_split_allowed: false
+
+budget:
+  n_trials_per_study: 10
+  execution_parallelism: 1
+  timeout_seconds_per_study: 14400
+  timeout_role: SAFETY_CEILING_ONLY
+  incomplete_timeout_status: BLOCKED_INCOMPLETE
+  completed_trials_required: 10
+  automatic_trial_reduction_allowed: false
+
+randomness:
+  sampler: TPESampler
+  sampler_seed: 202601
+  sampler_seed_source: configs/base.yaml:reproducibility.project_seed
+  pruner: NopPruner
+  model_random_state: 202601
+  model_random_state_source: configs/base.yaml:reproducibility.project_seed
+  parallel_optuna_trials: false
+
+objectives:
+  classification:
+    direction: maximize
+    metric: mean_pr_auc_across_locked_folds
+    fold_weighting: equal
+    prediction_method: predict_proba
+    positive_class: 1
+    fixed_threshold: 0.5
+    threshold_tuning_allowed: false
+    secondary_diagnostics: [roc_auc, pr_auc, brier_score, recall_at_0_5, f1_at_0_5, ece_10_bins]
+  regression:
+    direction: minimize
+    metric: mean_mae_across_locked_folds
+    fold_weighting: equal
+    signed_target: true
+    secondary_diagnostics: [mae, rmse, r2]
+
+studies:
+  random_forest_classification:
+    study_name: week5_hpo_protocol_v1_1__random_forest_classification
+    method: random_forest
+    task_type: classification
+    direction: maximize
+    objective_metric: mean_pr_auc_across_locked_folds
+    search_space:
+      n_estimators: {type: int, low: 64, high: 192, step: 32}
+      max_depth: {type: int, low: 6, high: 18, step: 4}
+      min_samples_split: {type: int, low: 20, high: 80, step: 20}
+      min_samples_leaf: {type: int, low: 10, high: 40, step: 10}
+      max_features: {type: categorical, choices: [sqrt, log2, 0.75]}
+      max_samples: {type: categorical, choices: [0.6, 0.8, 1.0]}
+    fixed_parameters: {n_jobs: 1, bootstrap: true, class_weight_policy: balanced_from_training_fold_only, random_state: 202601}
+  random_forest_regression:
+    study_name: week5_hpo_protocol_v1_1__random_forest_regression
+    method: random_forest
+    task_type: regression
+    direction: minimize
+    objective_metric: mean_mae_across_locked_folds
+    search_space:
+      n_estimators: {type: int, low: 64, high: 192, step: 32}
+      max_depth: {type: int, low: 6, high: 18, step: 4}
+      min_samples_split: {type: int, low: 20, high: 80, step: 20}
+      min_samples_leaf: {type: int, low: 10, high: 40, step: 10}
+      max_features: {type: categorical, choices: [sqrt, log2, 0.75]}
+      max_samples: {type: categorical, choices: [0.6, 0.8, 1.0]}
+    fixed_parameters: {n_jobs: 1, bootstrap: true, random_state: 202601}
+  hist_gradient_boosting_classification:
+    study_name: week5_hpo_protocol_v1_1__hist_gradient_boosting_classification
+    method: hist_gradient_boosting
+    task_type: classification
+    direction: maximize
+    objective_metric: mean_pr_auc_across_locked_folds
+    search_space:
+      learning_rate: {type: float, low: 0.03, high: 0.15, log: true}
+      max_iter: {type: int, low: 100, high: 300, step: 50}
+      max_leaf_nodes: {type: int, low: 15, high: 63, step: 8}
+      max_depth: {type: int, low: 4, high: 12, step: 2}
+      min_samples_leaf: {type: int, low: 20, high: 100, step: 20}
+      l2_regularization: {type: float, low: 0.0, high: 5.0, step: 0.5}
+      max_features: {type: float, low: 0.5, high: 1.0, step: 0.1}
+    fixed_parameters: {early_stopping: false, class_weight_policy: balanced_from_training_fold_only, random_state: 202601}
+  hist_gradient_boosting_regression:
+    study_name: week5_hpo_protocol_v1_1__hist_gradient_boosting_regression
+    method: hist_gradient_boosting
+    task_type: regression
+    direction: minimize
+    objective_metric: mean_mae_across_locked_folds
+    search_space:
+      learning_rate: {type: float, low: 0.03, high: 0.15, log: true}
+      max_iter: {type: int, low: 100, high: 300, step: 50}
+      max_leaf_nodes: {type: int, low: 15, high: 63, step: 8}
+      max_depth: {type: int, low: 4, high: 12, step: 2}
+      min_samples_leaf: {type: int, low: 20, high: 100, step: 20}
+      l2_regularization: {type: float, low: 0.0, high: 5.0, step: 0.5}
+      max_features: {type: float, low: 0.5, high: 1.0, step: 0.1}
+    fixed_parameters: {early_stopping: false, random_state: 202601}
+  xgboost_classification:
+    study_name: week5_hpo_protocol_v1_1__xgboost_classification
+    method: xgboost
+    task_type: classification
+    direction: maximize
+    objective_metric: mean_pr_auc_across_locked_folds
+    search_space:
+      n_estimators: {type: int, low: 100, high: 400, step: 50}
+      learning_rate: {type: float, low: 0.03, high: 0.2, log: true}
+      max_depth: {type: int, low: 3, high: 8, step: 1}
+      min_child_weight: {type: float, low: 1.0, high: 12.0, step: 1.0}
+      subsample: {type: float, low: 0.6, high: 1.0, step: 0.1}
+      colsample_bytree: {type: float, low: 0.6, high: 1.0, step: 0.1}
+      reg_alpha: {type: float, low: 0.0, high: 5.0, step: 0.5}
+      reg_lambda: {type: float, low: 0.1, high: 10.0, log: true}
+    fixed_parameters: {tree_method: hist, device: cpu, max_bin: 256, n_jobs: 1, objective: "binary:logistic", eval_metric: logloss, class_weight_policy: balanced_from_training_fold_only, random_state: 202601}
+  xgboost_regression:
+    study_name: week5_hpo_protocol_v1_1__xgboost_regression
+    method: xgboost
+    task_type: regression
+    direction: minimize
+    objective_metric: mean_mae_across_locked_folds
+    search_space:
+      n_estimators: {type: int, low: 100, high: 400, step: 50}
+      learning_rate: {type: float, low: 0.03, high: 0.2, log: true}
+      max_depth: {type: int, low: 3, high: 8, step: 1}
+      min_child_weight: {type: float, low: 1.0, high: 12.0, step: 1.0}
+      subsample: {type: float, low: 0.6, high: 1.0, step: 0.1}
+      colsample_bytree: {type: float, low: 0.6, high: 1.0, step: 0.1}
+      reg_alpha: {type: float, low: 0.0, high: 5.0, step: 0.5}
+      reg_lambda: {type: float, low: 0.1, high: 10.0, log: true}
+    fixed_parameters: {tree_method: hist, device: cpu, max_bin: 256, n_jobs: 1, objective: "reg:squarederror", eval_metric: mae, random_state: 202601}
+
+forbidden_tuning_dimensions: [feature_set, target_definition, rolling_folds, prediction_cutoff, classification_threshold, row_population, class_weight]
+
+storage:
+  directory: artifacts/optuna_studies
+  url_template: sqlite:///artifacts/optuna_studies/{study_name}.sqlite3
+  gitignored: true
+  overwrite_completed_study: false
+  resume_requires_matching_protocol_hash: true
+
+resume_policy:
+  resumable_statuses: []
+  completed_status: COMPLETED
+  protocol_hash_required: true
+  mismatch_action: FAIL_CLOSED
+
+execution:
+  production_platform: windows
+  prevent_system_sleep: true
+  heartbeat_interval_seconds: 30
+  suspend_gap_threshold_seconds: 120
+  suspend_detection:
+    enabled: true
+    state_on_detection: ENVIRONMENTAL_EXECUTION_INVALID
+    primary_active_time_source: QueryUnbiasedInterruptTime
+  fresh_study_required: true
+  parent_protocol_resume_forbidden: true
+  parent_trials_carry_forward_forbidden: true
+  non_windows_production_behavior: FAIL_CLOSED

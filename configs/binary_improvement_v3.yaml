@@ -1,0 +1,44 @@
+protocol_version: binary_improvement_v3
+seed: 202601
+stability_seeds: [202602, 202603]
+tasks: [arrival, departure]
+branches: [A, B]
+cutoff_hours: 2
+delay_minutes: 15
+baseline_run: artifacts/binary_improvement_v2/full_fixed_iterations_20261021
+development_quarters: [2019Q4, 2021Q4]
+verification_quarters: [2019Q4, 2021Q4, 2022Q2]
+stress_quarter: 2020Q4
+target_quarter: 2022Q4
+confirmation_year: 2023
+blocked_years: [2024]
+budget:
+  total_hours: 12
+  screening_cutoff_hours: 6
+  verification_cutoff_hours: 9
+  final_fit_cutoff_hours: 10.5
+  trials: {xgboost: 24, hgb: 12, lightgbm: 12}
+  screening_train_cap: 500000
+  fit_timeout_seconds: 900
+  threads: 8
+  prefer_gpu: true
+  matrix_cache_entries: 2
+selection:
+  include_matched_controls: true
+  verify_per_job: 3
+  finalists_per_job: 2
+  warmup_days: 90
+  precision_multiplier_internal: 1.5
+  calibration_indifference: 0.001
+  group_min_rows: 1000
+  group_min_positives: 100
+  expert_alphas: [0.25, 0.5, 0.75, 1.0]
+  bootstrap_iterations: 1000
+  bootstrap_block_days: 7
+  ap_gain: 0.005
+  f1_gain: 0.02
+  roc_max_drop: 0.005
+  brier_max_relative_increase: 0.02
+activation:
+  dashboard: false
+  optimizer: false

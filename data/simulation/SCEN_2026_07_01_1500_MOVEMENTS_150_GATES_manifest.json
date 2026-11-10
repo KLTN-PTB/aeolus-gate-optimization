@@ -1,0 +1,61 @@
+{
+  "scenario_id": "SCEN_2026_07_01_1500_MOVEMENTS_150_GATES",
+  "service_date": "2026-07-01",
+  "timezone": "America/New_York",
+  "source_path": "data/raw/ontime.td.202607.asc",
+  "source_sha256": "ded3be69eb763a8a27ddd8681529514b9350931516b89b87f2ce31ab3ef2e322",
+  "source_url": "https://www.bts.gov/browse-statistical-products-and-data/bts-publications/airline-service-quality-performance-234-time",
+  "seed": 202601,
+  "time_basis": "HISTORICAL_REPLAY",
+  "information_regime": "RETROSPECTIVE",
+  "prediction_source": "NONE",
+  "data_origin": "REAL_DERIVED",
+  "pairing_source": "INFERRED",
+  "source_audit": {
+    "source_atl_records": 3787,
+    "cancelled_or_diverted": 17,
+    "unknown_origin_timezone_BGR": 2,
+    "unknown_origin_timezone_TVC": 2,
+    "unknown_origin_timezone_RAP": 1,
+    "unknown_origin_timezone_RNO": 2,
+    "unknown_origin_timezone_FAR": 2,
+    "unknown_origin_timezone_HHH": 2,
+    "eligible_atl_events_in_local_day": 1821
+  },
+  "eligible_complete_turns": 769,
+  "selection": "largest-remainder quotas by operating carrier and actual arrival hour; sample complete turns without replacement",
+  "movement_count": 1500,
+  "arrival_count": 750,
+  "departure_count": 750,
+  "occupancy_count": 750,
+  "contact_gate_count": 150,
+  "concourse_capacities": {
+    "T": 21,
+    "A": 29,
+    "B": 32,
+    "C": 34,
+    "D": 34
+  },
+  "remote_capacity": 0,
+  "allow_unbounded_overflow": false,
+  "peak_concurrent_occupancy_with_buffer": 115,
+  "minimum_turn_minutes_assumption": 30,
+  "buffer_minutes_assumption": 15,
+  "nominal_gate_source": "generated from scheduled intervals; not observed BTS gate assignments",
+  "nominal_schedule_capacity_fallbacks": 0,
+  "limitations": [
+    "750 complete same-day turnarounds are a selected subset, not all ATL movements or overnight parking demand.",
+    "BTS domestic reporting coverage; no claim of complete international or cargo coverage.",
+    "Same-tail chronological linkage is inferred, not an airport-certified rotation record.",
+    "Gate inventory, nominal gates, 30-minute minimum and 15-minute buffer are scenario assumptions.",
+    "Gate arrival/departure events are not runway landing/takeoff events.",
+    "Actual gate times are hindsight replay inputs; not forecasts, causal decisions, or evidence of ML benefit.",
+    "No aircraft type compatibility, airline leasing, towing, or ground-service resource constraints.",
+    "June 30 source records are unavailable; only complete within-day turns are selected."
+  ],
+  "artifact_sha256": {
+    "occupancy": "934bbbff68add79c4b5a8eec91dae44e8ca5551ed20a1e1637a34d8f8d0277c0",
+    "movements": "e5310e4375c120a64e0c537939eb393af725271768d8600dec48eca0e345ab1b",
+    "gates": "6f429d9d5e64f7a0deccc9c4a3ec056c50aafaa263b8bdd85201c3762a99e264"
+  }
+}
