@@ -14,6 +14,9 @@ describe('auditable presentation contracts', () => {
   it('distinguishes a missing probability from low risk', () => {
     expect(riskLevel({predicted_delay_min: 35, probability_delay_15: null})).toBe('high');
     expect(riskLevel({predicted_delay_min: 2, probability_delay_15: .6})).toBe('high');
+    expect(riskLevel({predicted_delay_min: 12, probability_delay_15: .22, decision_threshold: .212, predicted_delayed: true})).toBe('medium');
+    expect(riskLevel({predicted_delay_min: 20, probability_delay_15: .20, decision_threshold: .212, predicted_delayed: false})).toBe('medium');
+    expect(riskLevel({predicted_delay_min: 5, probability_delay_15: .18, decision_threshold: .212, predicted_delayed: false})).toBe('low');
   });
   it('formats elapsed timeline minutes in the actual ATL timezone including rollover', () => {
     expect(timelineClock(0, '2026-07-01T04:00:00+00:00')).toBe('00:00');

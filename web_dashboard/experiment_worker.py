@@ -39,8 +39,10 @@ def stop_owned(process):
 
 def case_process(input_path, output_path, ready_path):
     started = time.perf_counter()
-    payload = read_json(input_path)
+
     ready_path.write_text(str(started), encoding='ascii')
+    payload = read_json(input_path)
+
     modern = payload.get('solver_protocol_version') == 2
     checkpoint = output_path.with_suffix('.incumbent.json')
     try:
@@ -163,9 +165,9 @@ def supervised_case_v2(store, eid, directory, cid, payload):
             json_write(output, recovered)
             return recovered
         runtime = float(done.read_text(encoding='ascii')) - result['_case_started_perf']
-        result.update(runtime_sec=runtime, budget_compliant=runtime <= payload['budget'])
-        if runtime > payload['budget']:
-            result.update(termination_reason='TIME_LIMIT')
+        from web_dashboard.result_integrity import finalized_timing
+        result = finalized_timing(result, runtime, payload['budget'])
+        result = verify_artifact(payload, result)
         json_write(output, result)
         return result
 
@@ -229,6 +231,9 @@ def execute(root, eid):
     directory.mkdir(parents=True, exist_ok=True)
     config = exp['config']
     try:
+        from web_dashboard.solver_execution import EXECUTION_REVISION
+        if config.get('solver_protocol_version') == 2 and config.get('execution_revision') != EXECUTION_REVISION:
+            raise ValueError('Thí nghiệm cũ thiếu phiên bản thực thi hiện tại; hãy tạo thí nghiệm mới, giữ kết quả cũ để đối chiếu.')
         snapshot = snapshot_for(store, exp['run_id'])
         if snapshot['hash'] != config['snapshot_hash']:
             raise ValueError('Snapshot không còn khớp cấu hình thí nghiệm.')
@@ -236,8 +241,6 @@ def execute(root, eid):
         done = {c['case_id'] for c in store.cases(eid)}
 
         def evaluate(cid, flights, algorithm, mode, seed, initial=None, **meta):
-            if cid in done:
-                return True
             if store.experiment(eid)['cancel_requested']:
                 return False
             store.experiment_update(eid, stage=f'{mode} · {ALGORITHMS[algorithm]} · {meta.get("scenario", seed)}')
@@ -247,8 +250,14 @@ def execute(root, eid):
                        'solver_protocol_version': config.get('solver_protocol_version', 1),
                        'solver_profile': config.get('solver_profile', 'baseline'),
                        'snapshot_hash': snapshot['hash'], 'case_id': cid}
+            payload['execution_revision'] = config.get('execution_revision')
+            payload.update(meta)
             if snapshot.get('waiting_config'):
                 payload['waiting_config'] = snapshot['waiting_config']
+            if cid in done:
+                from web_dashboard.solver_execution import verify_artifact
+                verify_artifact(payload, read_json(directory / f'{cid}.json'))
+                return True
             result = supervised_case(store, eid, directory, cid, payload)
             if result is None:
                 return False
@@ -284,6 +293,8 @@ def execute(root, eid):
             matrix_path = directory / 'samples.npy'
             if matrix_path.exists():
                 samples = np.load(matrix_path)
+                if not (directory / 'sampling.json').is_file():
+                    raise ValueError('Ma trận mẫu thiếu manifest; tạo thí nghiệm mới.')
             else:
                 if empirical:
                     from web_dashboard.thesis_profile import sample_residual_delays
@@ -299,14 +310,17 @@ def execute(root, eid):
                     np.save(stream, samples)
                 temporary.replace(matrix_path)
             digest = hashlib.sha256(samples.tobytes()).hexdigest()
+            if samples.shape != (config['scenarios'], len(arrival_ids)) or not np.isfinite(samples).all():
+                raise ValueError('Shape/giá trị ma trận mẫu không khớp cấu hình.')
             sampling = {'seed': config['seed'], 'arrival_ids': arrival_ids, 'shape': list(samples.shape),
+                'schema_version': 2, 'snapshot_hash': snapshot['hash'],
                 'hash': digest, 'dependence': 'INDEPENDENT_ARRIVALS', 'departure': 'FIXED_POINT_WITH_TURNAROUND',
                 'unique_scenarios': int(np.unique(samples, axis=0).shape[0])}
             if empirical:
                 sampling.update(dependence='INDEPENDENT_DUAL_OOF_RESIDUALS', departure='SAMPLED_WITH_TURNAROUND',
                                 uncertainty=snapshot['uncertainty'])
-            if (directory / 'sampling.json').exists() and read_json(directory / 'sampling.json')['hash'] != digest:
-                raise ValueError('Ma trận mẫu đã thay đổi; không thể tiếp tục.')
+            if (directory / 'sampling.json').exists() and read_json(directory / 'sampling.json') != sampling:
+                raise ValueError('Ma trận mẫu hoặc hợp đồng lấy mẫu đã thay đổi; không thể tiếp tục.')
             json_write(directory / 'sampling.json', sampling)
             initial_plans = [(p, load_plan(store, exp['run_id'], p['id'])) for p in config['plans']]
             for index, sample in enumerate(samples):
@@ -362,8 +376,18 @@ if __name__ == '__main__':
                 case_process(*paths)
             except Exception as exc:
                 logging.exception('Solver case failed')
-                json_write(paths[1], {'status': 'ERROR', 'feasible': False, 'decision_cost': None,
-                    'risk_cost': None, 'conflicts': None, 'runtime_sec': 0, 'error': str(exc)})
+                fallback = {'status': 'ERROR', 'feasible': False, 'decision_cost': None, 'risk_cost': None, 'conflicts': None, 'runtime_sec': 0, 'error': str(exc)}
+                try:
+                    payload = read_json(paths[0]) if paths[0].exists() else {}
+                    if payload.get('solver_protocol_version') == 2:
+                        from web_dashboard.solver_execution import empty_result
+                        fallback = empty_result(payload, 0.0, 'ERROR', str(exc))
+                        fallback['_case_started_perf'] = time.perf_counter()
+                except Exception:
+                    logging.exception('Fallback error formatting failed')
+                json_write(paths[1], fallback)
+                paths[1].with_suffix('.done').write_text(str(time.perf_counter()), encoding='ascii')
+
     elif sys.argv[1] == 'case':
         case_process(*map(Path, sys.argv[2:5]))
     else:

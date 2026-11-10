@@ -4,6 +4,7 @@ import time
 
 from src.optimization.domain import Flight, Gate, GateAssignment
 from src.optimization.waiting import WaitingConfig, check, solve_waiting
+from web_dashboard.result_integrity import ARTIFACT_SCHEMA_VERSION, verify_common, equal_number
 
 
 def problem(payload):
@@ -44,6 +45,7 @@ def solve(payload, *, started=None, publish=None):
             return
         runtime = time.perf_counter()-started
         publish({"status": "FEASIBLE", "feasible": True, "algorithm": payload["algorithm"], "mode": payload["mode"],
+            "artifact_schema_version": ARTIFACT_SCHEMA_VERSION,
             "seed": payload["seed"], "case_fingerprint": fingerprint(payload), "solver_protocol_version": 2,
             "solver_profile": payload.get("solver_profile", "optimized"), "objective_version": "gate_wait_v1",
             "solution_source": meta["solution_source"], "termination_reason": "FEASIBLE_FOUND", "optimality_proven": False,
@@ -59,11 +61,12 @@ def solve(payload, *, started=None, publish=None):
         warm_start=payload.get('solver_profile','optimized') == 'optimized')
     result.pop("shifted_flights", None)
     result.update(mode=payload["mode"], seed=payload["seed"], case_fingerprint=fingerprint(payload),
-                  solver_protocol_version=2, solver_profile=payload.get("solver_profile", "optimized"))
+                  solver_protocol_version=2, solver_profile=payload.get("solver_profile", "optimized"), artifact_schema_version=ARTIFACT_SCHEMA_VERSION)
     return result
 
 
 def verify(payload, result):
+    result = verify_common(payload, result)
     from web_dashboard.solver_execution import fingerprint
     if result.get("case_fingerprint") != fingerprint(payload):
         raise ValueError("Waiting artifact fingerprint changed")
@@ -84,8 +87,12 @@ def verify(payload, result):
     for row in rows:
         if row.get("gate_wait_min") != waits[row["flight_id"]]:
             raise ValueError("Waiting artifact reports a forged waiting time")
-    if d.is_valid and abs(cost["decision_cost"] - result["decision_cost"]) > 1e-6:
-        raise ValueError("Waiting artifact cost mismatch")
+    if d.is_valid:
+        equal_number(result.get('decision_cost'), cost['decision_cost'], 'waiting decision cost')
+    elif result.get('decision_cost') is not None:
+        raise ValueError('Infeasible waiting result reports decision cost')
+    if payload['mode'] == 'fixed':
+        equal_number(result.get('risk_cost'), cost['decision_cost'] + 1000*d.conflict_count, 'fixed-plan risk')
     if d.is_valid and result.get('breakdown'):
         for key in ('waiting_cost','reassignment_cost','remote_cost','decision_cost'):
             if abs(cost[key] - result['breakdown'][key]) > 1e-6:

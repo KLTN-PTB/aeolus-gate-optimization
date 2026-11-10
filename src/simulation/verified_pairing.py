@@ -209,14 +209,14 @@ class DeterministicPairingEngine:
             for arr_leg in arr_candidates:
                 if arr_leg.flight_id in used_arr_ids:
                     continue
-                arr_t = arr_leg.normalized_timeline_min or 0
+                arr_t = arr_leg.normalized_timeline_min if arr_leg.normalized_timeline_min is not None else 0
 
                 # Find earliest feasible outbound departure
                 best_dep: FlightLeg | None = None
                 for dep_leg in dep_candidates:
                     if dep_leg.flight_id in used_dep_ids:
                         continue
-                    dep_t = dep_leg.normalized_timeline_min or 0
+                    dep_t = dep_leg.normalized_timeline_min if dep_leg.normalized_timeline_min is not None else 0
                     dwell = dep_t - arr_t
 
                     # Prevent leapfrogging: If there is another arrival of the same tail
@@ -230,14 +230,14 @@ class DeterministicPairingEngine:
                     if intervening_arr:
                         break
 
-                    if 0 <= dwell <= self.max_turnaround_min:
+                    if self.min_turnaround_min <= dwell <= self.max_turnaround_min:
                         best_dep = dep_leg
                         break  # candidates already sorted chronologically
 
                 if best_dep is not None:
                     used_arr_ids.add(arr_leg.flight_id)
                     used_dep_ids.add(best_dep.flight_id)
-                    dwell = float((best_dep.normalized_timeline_min or 0) - arr_t)
+                    dwell = float((best_dep.normalized_timeline_min if best_dep.normalized_timeline_min is not None else 0) - arr_t)
                     pid = f"VERIFIED_TURN_{pair_counter:04d}"
                     pair_counter += 1
 
@@ -298,13 +298,13 @@ class DeterministicPairingEngine:
             for arr_leg in rem_arr:
                 if arr_leg.flight_id in used_arr_ids:
                     continue
-                arr_t = arr_leg.normalized_timeline_min or 0
+                arr_t = arr_leg.normalized_timeline_min if arr_leg.normalized_timeline_min is not None else 0
                 for dep_leg in rem_dep:
                     if dep_leg.flight_id in used_dep_ids:
                         continue
                     if dep_leg.carrier != arr_leg.carrier:
                         continue
-                    dep_t = dep_leg.normalized_timeline_min or 0
+                    dep_t = dep_leg.normalized_timeline_min if dep_leg.normalized_timeline_min is not None else 0
                     dwell = dep_t - arr_t
                     if self.min_turnaround_min <= dwell <= 180:  # conservative 3h inferred window
                         used_arr_ids.add(arr_leg.flight_id)

@@ -8,7 +8,7 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from src.features.binary_improvement import prepare_frame
+from web_dashboard.schedule_features import prepare_schedule_inference
 from src.models.binary_improvement_execution import digest
 from src.simulation.native_dual_core_pipeline import StandardizedPredictionRecord
 
@@ -51,8 +51,13 @@ def validate_release():
                 for kind in ('classification', 'regression')}
     if set(value['models']) != expected or set(value['residuals']) != {'arrival', 'departure'}:
         raise ValueError('Proposal release must contain four XGBoost bundles and two residual banks')
-    for record in (*value['models'].values(), *value['residuals'].values()):
-        joblib.load(artifact(record))
+    for name, record in value['models'].items():
+        task, kind, _ = name.split('_')
+        qualified_bundle(record, task, kind, full=True)
+    for record in value['residuals'].values():
+        bank = joblib.load(artifact(record))
+        if not isinstance(bank, dict) or 'global' not in bank or any(not len(v) or not np.isfinite(np.asarray(v, dtype=float)).all() for v in bank.values()):
+            raise ValueError('Residual bank is empty or non-finite')
     global_shap = ROOT / value['model_run'] / 'shap_global.json'
     if not global_shap.is_file():
         raise ValueError('Proposal global SHAP evidence is missing')
@@ -66,6 +71,24 @@ def validate_release():
     return value['version']
 
 
+def qualified_bundle(record, task, kind, *, full):
+    from src.models.thesis_models import ThesisBundle
+    bundle = joblib.load(artifact(record))
+    if not isinstance(bundle, ThesisBundle) or (bundle.task, bundle.kind, bundle.family) != (task, kind, 'xgboost'):
+        raise ValueError('Proposal bundle identity differs from profile')
+    names = bundle.encoder.feature_names()
+    if not names or len(names) != len(set(names)):
+        raise ValueError('Proposal encoder has invalid feature names')
+    if full and (bundle.metadata.get('smoke') or bundle.metadata.get('inference_device') != 'cpu'):
+        raise ValueError('Proposal bundle is not a full CPU inference model')
+    if kind == 'classification':
+        if not np.isfinite(bundle.threshold) or not 0 <= bundle.threshold <= 1 or bundle.calibrator is None:
+            raise ValueError('Proposal classifier calibration/threshold is invalid')
+        if bundle.threshold != record.get('threshold'):
+            raise ValueError('Proposal threshold differs from profile')
+    return bundle
+
+
 class ThesisInference:
     def __init__(self):
         self.profile = profile()
@@ -75,7 +98,8 @@ class ThesisInference:
         for task in ("arrival", "departure"):
             reg = self.profile["models"][f"{task}_regression_xgboost"]
             cls = self.profile["models"][f"{task}_classification_xgboost"]
-            models[task] = {"model": joblib.load(artifact(reg)), "classifier": joblib.load(artifact(cls)),
+            models[task] = {"model": qualified_bundle(reg, task, 'regression', full=self.profile.get('smoke') is False),
+                "classifier": qualified_bundle(cls, task, 'classification', full=self.profile.get('smoke') is False),
                 "spec": SimpleNamespace(model_id=f"thesis_{task}_xgboost", status="proposal_profile", artifact_version=self.profile["version"]),
                 "meta": {"sha256": reg["sha256"], "path": reg["path"], "classification_model_id": f"{task}_classification_xgboost",
                          "classification_model_sha256": cls["sha256"]}}
@@ -87,9 +111,9 @@ class ThesisInference:
             if raw.empty:
                 continue
             entry = models[task]
-            canonical = canonical_schedule(raw)
-            regression = entry["model"].predict_schedule(canonical)
-            classification = entry["classifier"].predict_schedule(canonical)
+            frame = prepare_schedule_inference(raw, task)
+            regression = entry["model"].predict_prepared_schedule(frame)
+            classification = entry["classifier"].predict_prepared_schedule(frame)
             if regression.flight_key.tolist() != raw.flight_key.astype(str).tolist() or classification.flight_key.tolist() != regression.flight_key.tolist():
                 raise ValueError("Proposal prediction keys differ from uploaded schedules")
             for i, row in enumerate(raw.to_dict("records")):
@@ -148,8 +172,8 @@ def explain(raw, task, kind, *, model_record=None):
     """Explain one exact XGBoost checkpoint before probability calibration."""
     import shap
     record = model_record or profile()["models"][f"{task}_{kind}_xgboost"]
-    bundle = joblib.load(artifact(record))
-    x = bundle.encoder.transform(prepare_frame(canonical_schedule(raw), task, inference=True))
+    bundle = qualified_bundle(record, task, kind, full=False)
+    x = bundle.encoder.transform(prepare_schedule_inference(raw, task))
     explainer = shap.TreeExplainer(bundle.estimator, model_output="raw")
     explanation = explainer(x)
     contributions = np.asarray(explanation.values)

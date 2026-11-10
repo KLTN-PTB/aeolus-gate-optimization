@@ -96,8 +96,14 @@ def infer_complete_turns(events: list[dict]) -> list[dict]:
         by_tail[event["tail_number"]].append(event)
     turns = []
     for tail in sorted(by_tail):
-        ordered = sorted(by_tail[tail], key=lambda e: (e["actual_event_min"], e["movement_id"]))
+        ordered = sorted(
+            by_tail[tail],
+            key=lambda e: (e["actual_event_min"], 0 if e["direction"] == "DEP" else 1, e["movement_id"]),
+        )
+        used_ids: set[str] = set()
         for arrival, departure in zip(ordered, ordered[1:]):
+            if arrival["movement_id"] in used_ids or departure["movement_id"] in used_ids:
+                continue
             dwell = departure["actual_event_min"] - arrival["actual_event_min"]
             if (
                 arrival["direction"] == "ARR" and departure["direction"] == "DEP"
@@ -105,6 +111,8 @@ def infer_complete_turns(events: list[dict]) -> list[dict]:
                 and 0 <= arrival["actual_event_min"] < departure["actual_event_min"] < 1440
                 and MIN_TURN_MINUTES <= dwell <= MAX_TURN_MINUTES
             ):
+                used_ids.add(arrival["movement_id"])
+                used_ids.add(departure["movement_id"])
                 turns.append({"arrival": arrival, "departure": departure, "tail_number": tail})
     return sorted(turns, key=lambda t: t["arrival"]["movement_id"])
 

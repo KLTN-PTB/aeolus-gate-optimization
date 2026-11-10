@@ -1247,10 +1247,14 @@ def evaluate_mode_b2_rolling_online_recourse(
                     )
 
         # 3. Build observable snapshot for current_flight at epoch t
+        required_curr_dwell = (
+            current_flight.min_turnaround_min
+            if current_flight.is_paired
+            else max(current_flight.min_turnaround_min, current_flight.default_dwell_min)
+        )
         causal_curr_est_dep = max(
             current_flight.scheduled_departure_min,
-            current_time + current_flight.min_turnaround_min,
-            current_time + current_flight.default_dwell_min,
+            current_time + required_curr_dwell,
         )
         curr_snapshot = ObservableFlightSnapshot(
             flight_id=current_flight.flight_id,

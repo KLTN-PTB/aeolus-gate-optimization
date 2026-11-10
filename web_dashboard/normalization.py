@@ -9,15 +9,12 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 from numbers import Real
 from pathlib import Path
-import re
 
 import numpy as np
 import pandas as pd
 import pyarrow.parquet as pq
 
-from src.data.canonical_time import parse_canonical_scheduled_time
-from src.data.time_normalization import normalize_local_to_utc
-from web_dashboard.timezones import airport_zone, departure_timestamp
+from web_dashboard.schedule_validation import validate_schedule
 
 REQUIRED = ("FL_DATE", "OP_CARRIER", "OP_CARRIER_FL_NUM", "ORIGIN", "DEST",
             "CRS_DEP_TIME", "CRS_ARR_TIME", "CRS_ELAPSED_TIME")
@@ -29,7 +26,7 @@ ALIASES = {
     "Tail_Number": "TAIL_NUM", "ArrDelay": "ARR_DELAY", "DepDelay": "DEP_DELAY",
 }
 OUTCOMES = ("ARR_DELAY", "DEP_DELAY")
-NORMALIZATION_VERSION = "bts_upload_schedule_v1"
+NORMALIZATION_VERSION = "bts_upload_schedule_v2"
 
 
 class InputError(ValueError):
@@ -48,7 +45,11 @@ def _rename(frame: pd.DataFrame) -> pd.DataFrame:
     return frame.rename(columns=renames)
 
 
-def normalize_files(paths: list[Path]) -> tuple[pd.DataFrame, dict]:
+def normalize_files(paths: list[Path], *, offline_evaluation: bool = False) -> tuple[pd.DataFrame, dict]:
+    # Research-only entry point. Upload callers retain the sealed-year rejection.
+    if offline_evaluation:
+        from src.data.access_guard import assert_data_access_allowed
+        assert_data_access_allowed(2024, 'final_evaluation')
     records, errors, sources = [], [], []
     total_rows = ignored_rows = 0
     seen: set[str] = set()
@@ -93,7 +94,7 @@ def normalize_files(paths: list[Path]) -> tuple[pd.DataFrame, dict]:
                 flight_date = pd.Timestamp(raw_date).date()
                 if pd.isna(flight_date):
                     raise InputError("Ngày bay không hợp lệ.")
-                if flight_date.year == 2024:
+                if flight_date.year == 2024 and not offline_evaluation:
                     raise InputError("Dữ liệu năm 2024 đang được cách ly; không được nạp cho demo.")
                 for name, expected in (("MONTH", flight_date.month), ("DAY_OF_MONTH", flight_date.day),
                                        ("DAY_OF_WEEK", flight_date.isoweekday())):
@@ -113,21 +114,8 @@ def normalize_files(paths: list[Path]) -> tuple[pd.DataFrame, dict]:
                 for value in (row.CRS_DEP_TIME, row.CRS_ARR_TIME):
                     if isinstance(value, Real) and (not np.isfinite(value) or value != int(value)):
                         raise InputError("Giờ HHMM phải là số nguyên hợp lệ, không tự làm tròn.")
-                dep = departure_timestamp(flight_date, row.CRS_DEP_TIME, origin)
-                if isinstance(row.CRS_DEP_TIME, (str, datetime)) and re.match(r"^\d{4}-\d{2}-\d{2}[ T]", str(row.CRS_DEP_TIME)):
-                    source_dt = pd.Timestamp(row.CRS_DEP_TIME)
-                    if source_dt.date() != dep.local_datetime.date():
-                        raise InputError("Ngày trong CRS_DEP_TIME mâu thuẫn với FL_DATE.")
-                    if source_dt.tzinfo is not None and source_dt.utcoffset() != dep.local_datetime.utcoffset():
-                        raise InputError("UTC offset trong CRS_DEP_TIME mâu thuẫn với múi giờ sân bay.")
-                _, dep_flags = normalize_local_to_utc(dep.local_datetime.replace(tzinfo=None), airport_zone(origin).key)
-                if dep_flags["is_dst_ambiguous"]:
-                    raise InputError("Giờ khởi hành mơ hồ do đổi DST; cần làm rõ nguồn thời gian trước khi nạp.")
-                arr_utc = dep.utc_datetime + timedelta(minutes=elapsed)
-                arr_local = arr_utc.astimezone(airport_zone(destination))
-                arr_h, arr_m, _ = parse_canonical_scheduled_time(row.CRS_ARR_TIME)
-                if (arr_local.hour, arr_local.minute) != (arr_h, arr_m):
-                    raise InputError("Giờ đến không khớp giờ đi + thời lượng + múi giờ; không tự đoán ngày đến.")
+                dep, arr_local = validate_schedule(flight_date, row.CRS_DEP_TIME, row.CRS_ARR_TIME,
+                                                 elapsed, origin, destination)
                 direction = "ARR" if destination == "ATL" else "DEP"
                 event = arr_local if direction == "ARR" else dep.local_datetime
                 identity = f"{flight_date}|{carrier}|{int(number)}|{origin}|{destination}|{dep.utc_datetime.isoformat()}"
@@ -137,6 +125,8 @@ def normalize_files(paths: list[Path]) -> tuple[pd.DataFrame, dict]:
                 seen.add(key)
                 tail = row.get("TAIL_NUM")
                 tail = str(tail).strip().upper() if pd.notna(tail) else None
+                if tail in ("", "<NA>", "NAN", "NONE", "NULL", "N/A", "UNK", "UNKNOWN"):
+                    tail = None
                 record = {
                     "flight_key": key, "FL_DATE": flight_date.isoformat(), "OP_CARRIER": carrier,
                     "OP_CARRIER_FL_NUM": int(number), "ORIGIN": origin, "DEST": destination,
@@ -162,7 +152,7 @@ def normalize_files(paths: list[Path]) -> tuple[pd.DataFrame, dict]:
         for day, group in result.groupby("service_date", sort=True):
             dates.append({"date": day, "arrivals": int(group.direction.eq("ARR").sum()),
                           "departures": int(group.direction.eq("DEP").sum()), "total": len(group)})
-    return result, {
+    report = {
         "normalization_version": NORMALIZATION_VERSION, "input_rows": total_rows,
         "non_atl_rows": ignored_rows, "valid_rows": len(records), "invalid_rows": len(errors),
         "errors": errors[:100], "dates": dates, "sources": sources,
@@ -171,3 +161,28 @@ def normalize_files(paths: list[Path]) -> tuple[pd.DataFrame, dict]:
         "warnings": ["Chỉ lịch bay liên quan ATL được giữ; dữ liệu thực tế không đi vào mô hình.",
                      "Số đuôi trong raw là bằng chứng lịch sử/giả định kế hoạch, không chứng minh đã biết tại thời điểm dự báo."],
     }
+    if offline_evaluation:
+        report['evaluation_regime'] = 'POST_HOLDOUT_REEVALUATION_NOT_NEW_INDEPENDENT_TEST'
+        return result, report
+    return result, dataset_eligibility(report)
+
+
+def dataset_eligibility(report: dict) -> dict:
+    """Upgrade saved reports as well as new uploads without a DB migration."""
+    report = {**report, "dates": [dict(day) for day in report.get("dates", [])]}
+    for day in report["dates"]:
+        day["eligible"] = datetime.fromisoformat(day["date"]).year != 2024
+        day["blocked_reason"] = None if day["eligible"] else "Ngày vận hành năm 2024 được cách ly theo chính sách holdout."
+    report["can_run"] = bool(report.get("valid_rows")) and not report.get("invalid_rows", 0) and any(d["eligible"] for d in report["dates"])
+    return report
+
+
+def validate_run_dates(frame: pd.DataFrame, service_date: str) -> None:
+    """Defense at the worker boundary, including datasets saved before v2."""
+    if datetime.fromisoformat(service_date).year == 2024:
+        raise InputError("Ngày vận hành năm 2024 được cách ly.")
+    selected = frame.loc[frame.service_date.eq(service_date)]
+    if selected.empty:
+        raise InputError("Ngày đã chọn không có lượt bay ATL.")
+    if pd.to_datetime(selected.FL_DATE).dt.year.eq(2024).any():
+        raise InputError("Dữ liệu nguồn năm 2024 được cách ly.")

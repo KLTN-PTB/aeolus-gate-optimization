@@ -14,9 +14,11 @@ from src.optimization.solvers.cp_sat_solver import CPSatGateSolver
 from src.optimization.solvers.greedy_solver import DeterministicGreedyGateSolver
 from src.optimization.solvers.hybrid_solver import HybridGateSolver
 from web_dashboard.pipeline import finite_metadata
+from web_dashboard.result_integrity import ARTIFACT_SCHEMA_VERSION, verify_common, equal_number, finalized_timing
 
 PROTOCOL_VERSION = 2
-ANALYSIS_VERSION = 3
+EXECUTION_REVISION = 'exact_objective_lineage_v2'
+ANALYSIS_VERSION = 4
 
 
 def fingerprint(payload):
@@ -31,7 +33,8 @@ def version_for(experiment):
 def cost_eligible(case):
     if case.get('solver_protocol_version') != PROTOCOL_VERSION:
         return bool(case.get('feasible'))
-    return bool(case.get('feasible') and case.get('budget_compliant') and case.get('solution_source') == 'SOLVER' and case.get('termination_reason') not in ('ERROR','CANCELLED'))
+    sources = ('SOLVER', 'FIXED_PLAN') if case.get('mode') == 'fixed' else ('SOLVER',)
+    return bool(case.get('feasible') and case.get('budget_compliant') and case.get('solution_source') in sources and case.get('termination_reason') not in ('ERROR','CANCELLED'))
 
 
 def actual_algorithm(case):
@@ -53,6 +56,7 @@ def problem(payload):
 
 def empty_result(payload, runtime, reason='TIME_LIMIT', error=None):
     return {'status':'TIMEOUT' if reason=='TIME_LIMIT' else 'ERROR', 'feasible':False,
+        'artifact_schema_version': ARTIFACT_SCHEMA_VERSION,
         'algorithm':payload['algorithm'], 'mode':payload['mode'], 'seed':payload['seed'],
         'solver_protocol_version':PROTOCOL_VERSION, 'solver_profile':payload.get('solver_profile','optimized'),
         'case_fingerprint':fingerprint(payload), 'termination_reason':reason, 'solution_source':'NONE',
@@ -62,6 +66,7 @@ def empty_result(payload, runtime, reason='TIME_LIMIT', error=None):
 
 
 def verify_artifact(payload, result):
+    result = verify_common(payload, result)
     if payload.get('waiting_config'):
         from web_dashboard.waiting_execution import verify
         return verify(payload, result)
@@ -73,21 +78,29 @@ def verify_artifact(payload, result):
         if len(assignments)!=len(result['assignments']):
             raise ValueError('Duplicate assignment in case artifact')
         checked=evaluate_gate_assignment(assignments,flights,gates,cfg)
+        if result.get('breakdown'):
+            expected = checked.objective_breakdown.to_dict()
+            for name in ('reassignment_cost', 'overflow_cost', 'delay_cost', 'risk_cost', 'conflict_cost', 'decision_cost', 'total_cost'):
+                equal_number(result['breakdown'].get(name), expected[name], f'cost component {name}')
         if bool(result.get('feasible')) != bool(checked.feasible and checked.constraint_diagnostics.is_valid):
             raise ValueError('Case artifact failed independent verification')
         if result.get('assigned_count') != len(assignments) or result.get('conflicts') != checked.constraint_diagnostics.conflict_count:
             raise ValueError('Case artifact diagnostics differ from independent evaluation')
-        if payload['mode']=='fixed' and abs(checked.objective_value-result['risk_cost'])>1e-6:
-            raise ValueError('Fixed-plan risk differs from independent evaluation')
+        if payload['mode']=='fixed':
+            equal_number(result.get('risk_cost'), checked.objective_value, 'fixed-plan risk')
         if payload['mode']!='fixed' and not checked.feasible:
             raise ValueError('Invalid optimization incumbent')
         cost=checked.objective_breakdown.decision_cost if checked.feasible else None
-        if cost is not None and abs(cost-result['decision_cost'])>1e-6:
-            raise ValueError('Case artifact cost differs from independent evaluation')
+        if cost is not None:
+            equal_number(result.get('decision_cost'), cost, 'decision cost')
+        elif result.get('decision_cost') is not None:
+            raise ValueError('Infeasible result cannot report a decision cost')
     elif result.get('feasible'):
         flights,_,_=problem(payload)
         if flights:
             raise ValueError('Feasible artifact is missing assignments')
+    elif result.get('decision_cost') is not None or result.get('assigned_count', 0) != 0:
+        raise ValueError('Empty result has a decision cost or assigned flights')
     return result
 
 
@@ -96,7 +109,7 @@ def recover_artifact(payload, result, runtime, reason, error=None):
     # Recovery never upgrades a checkpoint into an optimality proof.
     return {**result, 'runtime_sec':runtime, 'budget_compliant':runtime<=payload['budget'],
         'status':'FEASIBLE' if result.get('feasible') else 'TIMEOUT' if reason=='TIME_LIMIT' else 'ERROR',
-        'termination_reason':reason, 'optimality_proven':False, 'gap':None, 'error':error}
+        'termination_reason':reason, 'optimality_proven':False, 'gap':None, 'best_bound':None, 'error':error}
 
 
 def solve_case_v2(payload, *, started=None, publish=None):
@@ -132,11 +145,13 @@ def solve_case_v2(payload, *, started=None, publish=None):
         trace={**(solved.solver_configuration if solved is not None else {}),**meta}
         reason=solved.termination_reason if solved is not None else 'FEASIBLE_FOUND'
         reason=getattr(reason,'value',reason)
-        proven=bool(solved is not None and solved.optimality_proven and valid)
+        proven=bool(solved is not None and solved.optimality_proven and valid and
+                    (not flights or trace.get('objective_encoding', trace.get('cp_objective_encoding')) == 'exact_decimal_v1'))
         return finite_metadata({'status': 'FIXED_PLAN' if fixed else 'OPTIMAL' if proven else 'FEASIBLE',
+            'artifact_schema_version': ARTIFACT_SCHEMA_VERSION,
             'feasible':valid, 'algorithm':payload['algorithm'],'mode':payload['mode'],'seed':payload['seed'],
             'solver_protocol_version':PROTOCOL_VERSION,'solver_profile':payload.get('solver_profile','optimized'),
-            'case_fingerprint':fingerprint(payload),'solution_source':meta.get('solution_source','SOLVER'),
+            'case_fingerprint':fingerprint(payload),'solution_source':'FIXED_PLAN' if fixed else meta.get('solution_source','SOLVER'),
             'termination_reason':reason,'time_to_verified_incumbent_sec':verified_at,
             'runtime_sec':time.perf_counter()-started,'budget_compliant':False,'timings':dict(timings),
             'assigned_count':len(assignments),'assignments':[a.to_dict() for a in assignments.values()],
@@ -206,11 +221,12 @@ def solve_case_v2(payload, *, started=None, publish=None):
             timings['search_sec']=trace.get('search_time_ms',solved.runtime_ms)/1000
             if solved.feasible:
                 source='SOLVER'
-                if alg=='hybrid' and trace.get('initial_solution_source')=='GREEDY_FALLBACK' and not trace.get('sa_executed'):
+                if alg=='hybrid' and trace.get('initial_solution_source')=='GREEDY_FALLBACK' and not trace.get('sa_improved'):
                     source='GREEDY_FALLBACK'
                 candidate=pack(solved.assignments,{'solution_source':source},solved=solved)
                 if candidate and (best is None or candidate['decision_cost']<=best['decision_cost']+1e-9):
-                    best=candidate
+                    if best is None or candidate['decision_cost']<best['decision_cost']-1e-9 or {'GREEDY_INITIALIZER':0,'GREEDY_FALLBACK':1,'SOLVER':2}[candidate['solution_source']] >= {'GREEDY_INITIALIZER':0,'GREEDY_FALLBACK':1,'SOLVER':2}[best['solution_source']]:
+                        best=candidate
             elif solved.status=='INFEASIBLE' and alg in ('cpsat','hybrid'):
                 best={**empty_result(payload,time.perf_counter()-started,'PROVEN_INFEASIBLE'),
                       'status':'INFEASIBLE','termination_reason':'PROVEN_INFEASIBLE','trace':trace}
@@ -227,5 +243,6 @@ def solve_case_v2(payload, *, started=None, publish=None):
     elapsed=time.perf_counter()-started
     if elapsed>=soft_deadline-started and not best.get('optimality_proven') and payload['mode']!='fixed':
         best['termination_reason']='TIME_LIMIT'
-    best.update(runtime_sec=elapsed,budget_compliant=elapsed<=budget,timings=dict(timings))
+    best = finalized_timing(best, elapsed, budget)
+    best.update(timings=dict(timings))
     return finite_metadata(best)

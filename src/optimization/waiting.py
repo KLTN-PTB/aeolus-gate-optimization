@@ -190,6 +190,8 @@ def cp_solve(flights, gates, cfg, deadline, seed, initial=None):
                 model.add(sum(windows) == selected)
             if initial and flight.flight_id in initial:
                 model.add_hint(selected, int(initial[flight.flight_id].gate_id == gate.gate_id))
+        if not presence:
+            return None, "INFEASIBLE", None, None
         model.add_exactly_one(presence)
         if initial and flight.flight_id in initial:
             model.add_hint(waits[flight.flight_id], initial[flight.flight_id].occupancy_start_min - ready)
@@ -226,12 +228,12 @@ def anneal(flights, gates, cfg, deadline, seed, initial, *, iterations=1000):
     current, best = dict(initial), dict(initial)
     d, _, costs, _ = check(current, flights, gates, cfg)
     if not d.is_valid:
-        return best, {"sa_iterations": 0, "sa_accepted_moves": 0}
-    current_cost = best_cost = costs["decision_cost"]
+        return best, {"sa_iterations": 0, "sa_accepted_moves": 0, "sa_improved": False}
+    initial_cost = current_cost = best_cost = costs["decision_cost"]
     accepted, completed = 0, 0
     ids = [f.flight_id for f in flights]
     if not ids:
-        return best, {"sa_iterations": 0, "sa_accepted_moves": 0}
+        return best, {"sa_iterations": 0, "sa_accepted_moves": 0, "sa_improved": False}
     for step in range(iterations):
         if time.perf_counter() >= deadline:
             break
@@ -257,7 +259,12 @@ def anneal(flights, gates, cfg, deadline, seed, initial, *, iterations=1000):
             accepted += 1
             if value < best_cost:
                 best, best_cost = dict(neighbor), value
-    return best, {"sa_iterations": completed, "sa_accepted_moves": accepted, "sa_best_cost": best_cost}
+    return best, {
+        "sa_iterations": completed,
+        "sa_accepted_moves": accepted,
+        "sa_best_cost": best_cost,
+        "sa_improved": bool(best_cost < initial_cost - 1e-9),
+    }
 
 
 def solve_waiting(flights, gates, cfg=None, *, algorithm="cpsat", budget=10., seed=202601,
@@ -308,7 +315,7 @@ def solve_waiting(flights, gates, cfg=None, *, algorithm="cpsat", budget=10., se
         if algorithm in ("sa", "hybrid") and assignments and time.perf_counter() < deadline:
             sa_started = time.perf_counter()
             improved, sa_trace = anneal(flights, gates, cfg, deadline, seed, assignments)
-            if sa_trace.get("sa_accepted_moves", 0):
+            if sa_trace.get("sa_improved") or (algorithm == "sa" and sa_trace.get("sa_accepted_moves", 0) > 0):
                 source = "SOLVER"
             assignments = improved
             trace.update(sa_trace, stage2_wall_clock_ms=(time.perf_counter() - sa_started) * 1000)

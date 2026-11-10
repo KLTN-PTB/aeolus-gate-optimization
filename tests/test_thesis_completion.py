@@ -117,3 +117,113 @@ def test_wait_zero_matches_fixed_intervals_and_cross_midnight_capacity():
                            WaitingConfig(max_gate_wait_min=0), budget=2)
     assert result['feasible'] and result['total_gate_wait_min'] == 0
     assert result['assignments'][0]['occupancy_end_min'] > 1440
+
+
+def test_overflow_nominal_gate_does_not_incur_false_reassignment_cost():
+    from src.optimization.config import GateOptimizationConfig
+    from src.optimization.evaluation import evaluate_gate_assignment
+    from src.optimization.sa.objective import compute_state_objective
+    from src.optimization.sa.state import SAState
+    from src.optimization.solvers.cp_sat_solver import CPSatGateSolver
+
+    fl = Flight("f1", 0, "DL", "1", 100, 160, 100, nominal_gate_id="R1", precomputed_gate_out_min=160)
+    remote = Gate("R1", 0, resource_type=GateResourceType.FINITE_REMOTE_STAND, capacity=1.0, is_overflow=True)
+    cfg = GateOptimizationConfig(reassignment_weight=10.0, overflow_weight=200.0)
+    asgn = {"f1": GateAssignment("f1", "R1", 0, 0, is_overflow=True, is_reassignment=False, occupancy_start_min=100, occupancy_end_min=175)}
+
+    eval_res = evaluate_gate_assignment(asgn, [fl], [remote], cfg)
+    assert eval_res.objective_breakdown.reassignment_cost == 0.0
+    assert eval_res.objective_breakdown.overflow_cost == 200.0
+
+    sa_state = SAState(assignments={"f1": "R1"}, flights=[fl], gates=[remote])
+    assert compute_state_objective(sa_state, cfg) == eval_res.objective_value
+
+    cp_res = CPSatGateSolver(cfg).solve([fl], [remote], allow_overflow=True)
+    assert cp_res.feasible and cp_res.objective_breakdown.reassignment_cost == 0.0
+
+
+def test_sa_pooled_remote_conflict_parity_with_evaluator():
+    from src.optimization.config import GateOptimizationConfig
+    from src.optimization.evaluation import evaluate_gate_assignment
+    from src.optimization.sa.objective import compute_state_objective
+    from src.optimization.sa.state import SAState
+
+    fls = [
+        Flight(f"f{i}", i, "DL", str(i), 100, 160, 100, nominal_gate_id="R_POOL", precomputed_gate_out_min=160)
+        for i in range(3)
+    ]
+    pool = Gate("R_POOL", 0, resource_type=GateResourceType.FINITE_REMOTE_STAND, capacity=2.0, is_overflow=True)
+    cfg = GateOptimizationConfig(reassignment_weight=10.0, overflow_weight=200.0, conflict_weight=1000.0)
+    asgn = {
+        fl.flight_id: GateAssignment(fl.flight_id, "R_POOL", i, 0, is_overflow=True, is_reassignment=False, occupancy_start_min=100, occupancy_end_min=175)
+        for i, fl in enumerate(fls)
+    }
+    eval_res = evaluate_gate_assignment(asgn, fls, [pool], cfg)
+    sa_state = SAState(assignments={fl.flight_id: "R_POOL" for fl in fls}, flights=fls, gates=[pool])
+    assert compute_state_objective(sa_state, cfg) == pytest.approx(eval_res.objective_value)
+
+
+def test_adapter_fails_closed_when_solver_returns_invalid_assignment():
+    from types import SimpleNamespace
+    from src.optimization.adapter import DualCoreGateOptimizerAdapter
+    from src.optimization.domain import ConstraintDiagnostic, ObjectiveBreakdown, OptimizationResult
+    from src.simulation.dual_prediction_turn import DualAircraftTurn, PairType, SimulationMode
+
+    turn = DualAircraftTurn(
+        turn_id="T1",
+        arrival_leg_id="A1",
+        departure_leg_id="D1",
+        carrier="DL",
+        flight_number="1",
+        mode=SimulationMode.DUAL_POINT,
+        pair_type=PairType.INFERRED_PAIR,
+        scheduled_arrival_min=100,
+        scheduled_departure_min=160,
+        predicted_arrival_delay_min=0.0,
+        predicted_departure_delay_min=0.0,
+        simulated_arrival_min=100,
+        departure_ml_min=160,
+        earliest_physical_departure_min=145,
+        simulated_departure_min=160,
+        gate_release_min=175,
+    )
+    fake_solver = SimpleNamespace(
+        solve=lambda flights, gates, allow_overflow=True: OptimizationResult(
+            status="FEASIBLE",
+            objective_value=0.0,
+            objective_breakdown=ObjectiveBreakdown(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, {}),
+            feasible=True,
+            runtime_ms=1.0,
+            optimality_gap=0.0,
+            assignments={},  # Missing assignment for T1 -> invalid hard constraint
+            constraint_diagnostics=ConstraintDiagnostic(True, True, True, True, True, 0, [], [], []),
+            solver_configuration={},
+            optimality_proven=True,
+        )
+    )
+    adapter = DualCoreGateOptimizerAdapter()
+    res = adapter.solve(fake_solver, [turn], [Gate("G1", 0)])
+    assert not res.feasible
+    assert res.status == "INFEASIBLE"
+    assert not res.optimality_proven
+
+
+def test_optimization_service_applies_buffer_time_min_to_flights():
+    from dashboard.services.optimization_service import OptimizationService
+
+    fls = [
+        Flight("f1", 0, "DL", "1", 100, 160, 100, buffer_min=15, nominal_gate_id="G1", precomputed_gate_out_min=160),
+        Flight("f2", 1, "DL", "2", 180, 240, 180, buffer_min=15, nominal_gate_id="G1", precomputed_gate_out_min=240),
+    ]
+    gates = [Gate("G1", 0), Gate("G2", 1)]
+    svc = OptimizationService()
+
+    # With 15m buffer: f1 occupies [100, 175), f2 occupies [180, 255) -> both fit on G1 (0 reassignments)
+    view_15, valid_15, _ = svc.solve(fls, gates, solver_name="greedy", params={"buffer_time_min": 15, "allow_overflow": False})
+    assert valid_15 and view_15.reassignment_count == 0
+
+    # With 25m buffer: f1 occupies [100, 185), overlapping f2 [180, 265) -> f2 must reassign to G2 (1 reassignment)
+    view_25, valid_25, _ = svc.solve(fls, gates, solver_name="greedy", params={"buffer_time_min": 25, "allow_overflow": False})
+    assert valid_25 and view_25.reassignment_count == 1
+
+

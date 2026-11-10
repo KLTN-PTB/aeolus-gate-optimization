@@ -35,6 +35,7 @@ from src.models.binary_v3_execution import write_json
 from src.models.binary_improvement_v3 import fixed_precision_threshold
 from src.models.binary_v3_protocol import warmup_indices
 from src.models.thesis_models import ScheduleEncoder, ThesisBundle, temporal_meta_training
+from src.pipeline.verified_cache import VerifiedCache
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -50,6 +51,20 @@ class Training:
         if output.exists() and not resume:
             raise FileExistsError("Use --resume or a new output directory")
         output.mkdir(parents=True, exist_ok=True)
+        cache_sources = [Path(__file__), ROOT / "src/pipeline/verified_cache.py",
+            ROOT / "src/models/thesis_models.py", ROOT / "src/features/binary_improvement.py",
+            ROOT / "src/features/tabular_features.py", ROOT / "src/features/departure_features.py",
+            ROOT / "src/data/preprocessing.py", ROOT / "src/data/departure_preprocessing.py",
+            ROOT / "src/models/binary_v3_protocol.py"]
+        self.cache = VerifiedCache(ROOT, output, {"version": 2, "config": config, "smoke": smoke,
+            "sources": {str(p.relative_to(ROOT)): digest(p) for p in cache_sources}})
+        cache_contract = output / "cache_contract.json"
+        if resume:
+            if not cache_contract.exists():
+                self.cache.fail(output, "legacy run has no verified cache contract")
+            if json.loads(cache_contract.read_text()) != self.cache.contract:
+                self.cache.fail(output, "training cache contract changed")
+            self.cache.preflight()
         saved = output / "resolved_config.json"
         if saved.exists() and json.loads(saved.read_text()) != config:
             raise ValueError("Resume cannot change the frozen configuration")
@@ -71,6 +86,7 @@ class Training:
                         ROOT / "src/features/binary_improvement.py", ROOT / "src/models/binary_improvement.py",
                         ROOT / "src/data/preprocessing.py", ROOT / "src/data/departure_preprocessing.py",
                         ROOT / "src/features/tabular_features.py", ROOT / "src/features/departure_features.py"]
+        source_paths = list(dict.fromkeys(source_paths + cache_sources))
         hashes = {str(path.relative_to(ROOT)): digest(path) for path in source_paths}
         frozen = output / "source_hashes.json"
         if frozen.exists() and json.loads(frozen.read_text()) != hashes:
@@ -81,6 +97,7 @@ class Training:
             if not copy.exists():
                 copy.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(path, copy)
+        write_json(cache_contract, self.cache.contract)
 
     def elapsed(self):
         return self.previous_seconds + time.monotonic() - self.started
@@ -108,8 +125,10 @@ class Training:
             self.frames.move_to_end(key)
             return self.frames[key]
         cache = self.output / "data_cache" / f"{task}_{year}.parquet"
+        sources = self.cache.sources(task, year)
+        context = self.cache.context(task, year, sources_by_year=[{"year": year, "files": sources}])
         if cache.exists():
-            frame = pd.read_parquet(cache)
+            frame = self.cache.load(cache, context)
         else:
             folder = ROOT / "data/processed" / ("inbound_atl" if task == "arrival" else "outbound_atl") / f"year={year}"
             files = sorted(folder.glob("*.parquet"))
@@ -127,12 +146,33 @@ class Training:
                 frame = frame.groupby(frame["__date"].dt.month, group_keys=False).sample(
                     frac=min(1, 2400 / len(frame)), random_state=self.seed).reset_index(drop=True)
             cache.parent.mkdir(parents=True, exist_ok=True)
-            frame.to_parquet(cache, index=False)
-            self.state["data"][f"{task}_{year}"] = [{"path": str(path.relative_to(ROOT)), "sha256": digest(path)} for path in files]
+            self._validate_frame(frame, task, year)
+            self.cache.save(cache, frame, context)
+            self.state["data"][f"{task}_{year}"] = sources
+        self._validate_frame(frame, task, year)
         self.frames[key] = frame
         while len(self.frames) > 2:
             self.frames.popitem(last=False)
         return frame
+
+    def _validate_frame(self, frame, task, year):
+        required = {"__date", "__year", "__key", "__reg", "__target", "CRS_ELAPSED_TIME",
+            "calendar_month", "calendar_day_of_month", "calendar_day_of_week", "is_weekend",
+            "scheduled_departure_hour", "scheduled_departure_minute", "scheduled_arrival_hour",
+            "scheduled_arrival_minute", "OP_CARRIER", "OP_CARRIER_FL_NUM",
+            "ORIGIN" if task == "arrival" else "DEST"}
+        if task == "arrival":
+            required.add("calendar_year")
+        if (not required.issubset(frame.columns) or frame.empty or frame["__key"].isna().any()
+                or frame["__key"].duplicated().any()):
+            self.cache.fail(self.output, "invalid cached feature schema/keys")
+        # Bracket access avoids Python name mangling of double-underscore columns.
+        if (not np.isfinite(frame[["__reg", "__target"]].to_numpy(dtype=float)).all()
+                or not frame["__target"].isin([0, 1]).all()
+                or not frame["__year"].eq(year).all()
+                or not pd.to_datetime(frame["__date"]).dt.year.eq(year).all()
+                or not np.array_equal(frame["__target"].to_numpy(), (frame["__reg"].to_numpy() >= 15).astype(int))):
+            self.cache.fail(self.output, "invalid cached targets/year")
 
     def matrix(self, task, end_year, linear=False):
         key = (task, end_year, linear)
@@ -140,10 +180,15 @@ class Training:
             self.matrices.move_to_end(key)
             return self.matrices[key]
         path = self.output / "matrix_cache" / f"{task}_{end_year}_{linear}.joblib"
+        frames = [self.read_year(task, y) for y in range(2016, end_year + 1)]
+        dependencies = [{"year": y, "files": self.cache.sources(task, y),
+            "data_sha256": self.cache.metadata(self.output / "data_cache" / f"{task}_{y}.parquet")["sha256"]}
+            for y in range(2016, end_year + 1)]
+        context = self.cache.context(task, end_year, linear=linear, sources_by_year=dependencies)
         if path.exists():
-            value = joblib.load(path)
+            value = self.cache.load(path, context)
         else:
-            frame = pd.concat([self.read_year(task, y) for y in range(2016, end_year + 1)], ignore_index=True)
+            frame = pd.concat(frames, ignore_index=True)
             cap = 2500 if self.smoke else self.config["budget"]["train_cap"]
             indices = warmup_indices(frame, days=0, cap=cap, seed=self.seed)
             frame = frame.iloc[indices].reset_index(drop=True)
@@ -152,11 +197,28 @@ class Training:
             value = {"encoder": encoder, "x": x, "classification": frame["__target"].to_numpy(),
                      "regression": frame["__reg"].to_numpy(), "train_rows": len(frame), "train_end": f"{end_year}-12-31"}
             path.parent.mkdir(parents=True, exist_ok=True)
-            joblib.dump(value, path)
+            self._validate_matrix(value, path)
+            self.cache.save(path, value, context)
+        self._validate_matrix(value, path)
         self.matrices[key] = value
         while len(self.matrices) > 2:
             self.matrices.popitem(last=False)
         return value
+
+    def _validate_matrix(self, value, path):
+        try:
+            rows = value["train_rows"]
+            x = value["x"]
+            valid = (rows > 0 and x.shape[0] == rows and x.shape[1] > 0 and x.shape[1] == len(value["encoder"].feature_names())
+                and len(value["classification"]) == len(value["regression"]) == rows
+                and np.isfinite(value["regression"]).all()
+                and np.isin(value["classification"], [0, 1]).all()
+                and np.array_equal(value["classification"], (np.asarray(value["regression"]) >= 15).astype(int))
+                and np.isfinite(x.data if hasattr(x, "toarray") else x).all())
+        except (KeyError, AttributeError, TypeError, ValueError):
+            valid = False
+        if not valid:
+            self.cache.fail(path, "invalid cached matrix/encoder/targets")
 
     def fit(self, task, kind, family, end_year, params=None):
         self.check()
@@ -226,8 +288,11 @@ class Training:
         pieces = []
         for year in range(2017, 2023):
             path = self.output / "oof" / f"{task}_{kind}_{year}.parquet"
+            context = self._artifact_context(task, kind, year, "oof")
             if path.exists():
-                pieces.append(pd.read_parquet(path))
+                table = self.cache.load(path, context)
+                self._validate_oof(table, self.read_year(task, year), kind, year)
+                pieces.append(table)
                 continue
             frame = self.read_year(task, year)
             table = pd.DataFrame({"flight_key": frame["__key"], "date": frame["__date"], "year": year,
@@ -237,15 +302,46 @@ class Training:
                 bundle = self.fit(task, kind, "xgboost" if family == "xgboost_fixed" else family, year - 1)
                 table[family] = bundle.raw_predict(frame)
             path.parent.mkdir(parents=True, exist_ok=True)
-            table.to_parquet(path, index=False)
+            self._validate_oof(table, frame, kind, year)
+            self.cache.save(path, table, context)
             pieces.append(table)
-        return pd.concat(pieces, ignore_index=True)
+        output = pd.concat(pieces, ignore_index=True)
+        if output.flight_key.duplicated().any():
+            self.cache.fail(self.output / "oof", "duplicate OOF keys across folds")
+        return output
+
+    def _artifact_context(self, task, kind, year, stage):
+        return self.cache.context(task, year, kind=kind, stage=stage, sources_by_year=[
+            {"year": y, "files": self.cache.sources(task, y)} for y in range(2016, year+1)])
+
+    def _validate_oof(self, table, frame, kind, year):
+        required = {"flight_key", "date", "year", "carrier", "y", "linear", "random_forest", "xgboost_fixed"}
+        target = frame["__target" if kind == "classification" else "__reg"].to_numpy()
+        if (not required.issubset(table.columns) or table.empty or table.flight_key.duplicated().any()
+                or table.flight_key.tolist() != frame["__key"].tolist() or not table.year.eq(year).all()
+                or not np.array_equal(pd.to_datetime(table.date).to_numpy(), frame["__date"].to_numpy())
+                or not np.array_equal(table.y.to_numpy(), target)
+                or not np.array_equal(table.carrier.to_numpy(), frame.OP_CARRIER.to_numpy())
+                or not np.isfinite(table[["y", "linear", "random_forest", "xgboost_fixed"]].to_numpy(dtype=float)).all()):
+            self.cache.fail(self.output / "oof", "OOF population/labels/folds/predictions mismatch")
+        if kind == "classification" and not table[["linear", "random_forest", "xgboost_fixed"]].ge(0).all().all():
+            self.cache.fail(self.output / "oof", "invalid OOF probabilities")
+        if kind == "classification" and not table[["linear", "random_forest", "xgboost_fixed"]].le(1).all().all():
+            self.cache.fail(self.output / "oof", "invalid OOF probabilities")
 
     def tune(self, task, kind):
         self.check(8)
         path = self.output / "hpo" / f"{task}_{kind}.json"
+        context = self._artifact_context(task, kind, 2022, "hpo")
+        database = path.with_suffix('.sqlite3')
+        if database.exists():
+            self.cache.metadata(database, context)
         if path.exists():
-            return json.loads(path.read_text())["params"]
+            result = self.cache.load(path, context)
+            self._validate_hpo(result, kind)
+            if not database.exists() or result.get('study_sha256') != self.cache.metadata(database, context)['sha256']:
+                self.cache.fail(path, 'HPO JSON and SQLite lineage differ')
+            return result["params"]
         path.parent.mkdir(parents=True, exist_ok=True)
         study = optuna.create_study(study_name=f"{task}_{kind}", direction="maximize" if kind == "classification" else "minimize",
             storage=f"sqlite:///{(path.with_suffix('.sqlite3')).as_posix()}", load_if_exists=True,
@@ -275,14 +371,56 @@ class Training:
             if trial.state == optuna.trial.TrialState.RUNNING:
                 study.tell(trial.number, state=optuna.trial.TrialState.FAIL)
         remaining = wanted - sum(t.state == optuna.trial.TrialState.COMPLETE for t in study.trials)
-        if remaining > 0:
-            study.optimize(objective, n_trials=remaining)
+        def seal_study(*_):
+            study._storage.remove_session()
+            self.cache.seal(database, context)
+        try:
+            if remaining > 0:
+                study.optimize(objective, n_trials=remaining, callbacks=[seal_study])
+        finally:
+            seal_study()
         complete = [t for t in study.trials if t.state == optuna.trial.TrialState.COMPLETE]
         if len(complete) != wanted:
             raise FitIncomplete("Not all required HPO trials completed")
-        write_json(path, {"params": study.best_params, "best_value": study.best_value,
-                         "trials": [{"number": t.number, "params": t.params, "value": t.value, "folds": t.user_attrs["folds"]} for t in complete]})
+        result = {"params": study.best_params, "best_value": study.best_value,
+                  "trials": [{"number": t.number, "params": t.params, "value": t.value, "folds": t.user_attrs["folds"]} for t in complete]}
+        self._validate_hpo(result, kind)
+        study._storage.remove_session()
+        if hasattr(study._storage, '_backend'):
+            study._storage._backend.engine.dispose()
+        self.cache.seal(database, context)
+        result['study_sha256'] = self.cache.metadata(database, context)['sha256']
+        self.cache.save(path, result, context)
         return study.best_params
+
+    def _validate_hpo(self, result, kind):
+        try:
+            trials = result['trials']
+            wanted = 1 if self.smoke else self.config['budget']['trials_per_target']
+            if len(trials) != wanted or len({t['number'] for t in trials}) != wanted:
+                raise ValueError('trial count/identity mismatch')
+            for trial in trials:
+                if [f['year'] for f in trial['folds']] != self.config['validation_years']:
+                    raise ValueError('folds mismatch')
+                scores = []
+                for fold in trial['folds']:
+                    if fold['train_end'] != f"{fold['year']-1}-12-31":
+                        raise ValueError('future training fold')
+                    scores.append(fold['metrics']['ap' if kind == 'classification' else 'mae'])
+                if not np.isfinite(scores).all() or not np.isclose(trial['value'], np.mean(scores), rtol=0, atol=1e-12):
+                    raise ValueError('score mismatch')
+                p = trial['params']
+                if (set(p) != {'n_estimators','max_depth','learning_rate','min_child_weight','subsample','colsample_bytree','reg_lambda'}
+                        or p['n_estimators'] not in [100,300,600] or p['max_depth'] not in range(3,7)
+                        or not .03 <= p['learning_rate'] <= .15 or not 1 <= p['min_child_weight'] <= 20
+                        or not .7 <= p['subsample'] <= 1 or not .7 <= p['colsample_bytree'] <= 1
+                        or not .1 <= p['reg_lambda'] <= 10):
+                    raise ValueError('search space mismatch')
+            best = (max if kind == 'classification' else min)(t['value'] for t in trials)
+            if result['best_value'] != best or not any(t['value'] == best and t['params'] == result['params'] for t in trials):
+                raise ValueError('selected params differ from best trial')
+        except (KeyError, TypeError, ValueError) as exc:
+            self.cache.fail(self.output / 'hpo', str(exc))
 
     def target(self, task, kind, params):
         oof = self.fixed_oof(task, kind)
@@ -328,7 +466,8 @@ class Training:
                 model.metadata.update(calibration_method=model.calibrator.method, threshold_selection=selected,
                     calibration_period=["2022-01-01", "2022-06-30"], threshold_period=["2022-07-01", "2022-12-31"])
             tables[family] = table
-            table.to_parquet(self.output / "oof" / f"{task}_{kind}_{family}_full.parquet", index=False)
+            self.cache.save(self.output / "oof" / f"{task}_{kind}_{family}_full.parquet", table,
+                            self._artifact_context(task, kind, 2022, "full_oof"))
             folds = []
             for year, part in table.groupby("year"):
                 m = binary_metrics(part.y, part.raw_probability_or_delay) if kind == "classification" else regression_metrics(part.y, part.raw_probability_or_delay)
@@ -403,7 +542,7 @@ class Training:
         write_json(self.output / "model_results.json", records)
         summary = {"status": "SMOKE_COMPLETE" if self.smoke else "MODELS_COMPLETE", "models": len(records),
                    "elapsed_seconds": self.elapsed(), "config": self.config, "smoke": self.smoke,
-                   "historical_development_only": True, "v3_acceptance_not_claimed": True}
+                   "historical_development_only": True, "v3_acceptance_not_claimed": True, "lineage_version": 2}
         write_json(self.output / "summary.json", summary)
         self.event("models_complete", status=summary["status"])
 

@@ -27,7 +27,7 @@ from src.simulation.dual_prediction_turn import DualTurnEngine, SimulationMode
 from src.simulation.native_dual_core_pipeline import NativeDualCorePipeline, NativeDualCorePipelineConfig
 
 from web_dashboard.contracts import MAX_SELECTED_LEGS, RunRequest
-from web_dashboard.normalization import InputError, OUTCOMES
+from web_dashboard.normalization import InputError, OUTCOMES, validate_run_dates
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -96,7 +96,7 @@ def pair_schedule_legs(legs: dict[str, FlightLeg], minimum: int) -> list[TurnPai
             by_tail.setdefault(leg.tail_number, []).append(leg)
     pairs, used = [], set()
     for tail in sorted(by_tail):
-        events = sorted(by_tail[tail], key=lambda leg: (leg.normalized_timeline_min, leg.flight_id))
+        events = sorted(by_tail[tail], key=lambda leg: (leg.normalized_timeline_min, 0 if leg.direction == LegDirection.ARR else 1, leg.flight_id))
         i = 0
         while i < len(events) - 1:
             arrival = events[i]
@@ -152,6 +152,8 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
                  source_manifest: dict, progress: Callable[[str], None] = lambda _: None) -> dict:
     output.mkdir(parents=True, exist_ok=True)
     service_date = request.service_date.isoformat()
+
+    validate_run_dates(frame, service_date)
     selected = frame.loc[frame.service_date.eq(service_date)].copy().reset_index(drop=True)
     if selected.empty:
         raise InputError("Không có lượt bay ATL trong ngày đã chọn.")
@@ -286,7 +288,7 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
         turns_rows.append({**turn.to_dict(), "nominal_gate_id": turn.nominal_gate_id,
                            "is_estimated": not turn.pair_type in (PairType.INFERRED_PAIR, PairType.VERIFIED_PAIR),
                            "probability_delay_15": max(probs) if probs else None})
-    comparisons = [(p["actual_delay_min"], p["predicted_delay_min"]) for p in prediction_rows
+    comparisons = [(p["actual_delay_min"], float(lookup.get(p["flight_id"], p["predicted_delay_min"]))) for p in prediction_rows
                    if p["actual_delay_min"] is not None]
     errors = np.array([pred - actual for actual, pred in comparisons])
     events = sorted([(f.occupancy_start_min, 1) for f in display_flights]
@@ -365,8 +367,8 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
     # full precision distribution parameters independently of rounded UI values.
     from src.simulation.native_dual_core_pipeline import prepare_arrival_features_for_inference
     arrival_frame = features.loc[features.direction.eq("ARR")].reset_index(drop=True)
-    marginals = {}
-    if not arrival_frame.empty and request.model_profile == 'legacy_native':
+    marginals = dict(getattr(native, "last_arrival_marginals", None) or {})
+    if not marginals and not arrival_frame.empty and request.model_profile == 'legacy_native':
         arrival_x, _ = prepare_arrival_features_for_inference(arrival_frame)
         distribution = models['arrival']['model'].predict_distribution(arrival_x)
         for i, fid in enumerate(arrival_frame.flight_key):
@@ -388,13 +390,10 @@ def run_pipeline(frame: pd.DataFrame, request: RunRequest, output: Path,
     manifest['snapshot_hash'] = snapshot['hash']
     selected.to_parquet(output / "normalized.parquet", index=False)
     for name, data in (("predictions", prediction_rows), ("occupancies", turns_rows), ("assignments", assignments)):
-        table = pd.DataFrame(data)
+        from web_dashboard.exports import assignment_table        table = assignment_table(data, waiting=bool(waiting_config)) if name == 'assignments' else pd.DataFrame(data)
         table.to_csv(output / f"{name}.csv", index=False)
         table.to_parquet(output / f"{name}.parquet", index=False)
-    json_write(output / "manifest.json", manifest)
+    manifest['export_schema_version'] = 2    json_write(output / "manifest.json", manifest)
     json_write(output / "result.json", result)
-    with zipfile.ZipFile(output / "bundle.zip", "w", compression=zipfile.ZIP_DEFLATED) as archive:
-        for path in sorted(output.iterdir()):
-            if path.name != "bundle.zip" and path.suffix in (".json", ".csv", ".parquet"):
-                archive.write(path, path.name)
+    from web_dashboard.exports import write_bundle    write_bundle(output, ['snapshot.json', 'normalized.parquet', 'manifest.json', 'result.json'] +                 [f'{name}.{ext}' for name in ('predictions', 'occupancies', 'assignments') for ext in ('csv', 'parquet')])
     return result

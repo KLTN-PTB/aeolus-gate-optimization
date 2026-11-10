@@ -9,7 +9,7 @@ import { LabPage } from './LabPage';
 import {ModelComparison, FlightExplanation} from './ModelEvidence';
 import type { OpenPlan } from './experimentTypes';
 import { DelayChart, HourlyChart } from './charts';
-import { configMatches, defaults, fmt, isBusy, riskLevel, solverNames, stageNames, stages,
+import { configMatches, dateEligible, defaults, fmt, isBusy, riskLevel, solverNames, stageNames, stages,
   timelineClock, type Config, type Dataset, type Prediction, type Result, type Run, type Turn } from './types';
 
 const pages = [
@@ -123,7 +123,7 @@ export default function App() {
     try {
       const form = new FormData(); Array.from(files).forEach(file => form.append('files', file));
       const report = await api<Dataset>('/datasets', {method: 'POST', body: form});
-      setDataset(report); setConfig(c => ({...c, dataset_id: report.id, service_date: report.dates[0]?.date || ''}));
+      setDataset(report); setConfig(c => ({...c, dataset_id: report.id, service_date: report.dates.find(dateEligible)?.date || ''}));
     } catch (e) {setError((e as Error).message);}
     finally {setUploading(false); if (fileInput.current) fileInput.current.value = '';}
   }
@@ -138,7 +138,7 @@ export default function App() {
   const filtered = (result?.predictions || []).filter(p => (direction === 'all' || p.flight_direction === direction)
     && `${p.carrier}${p.flight_number} ${p.origin} ${p.destination}`.toLowerCase().includes(search.toLowerCase()));
   const exportLink = (kind: string) => `/api/runs/${run?.id}/exports/${kind}`;
-  const canRun = !!dataset?.can_run && !!config.service_date && !busy && !uploading && !starting;
+  const canRun = !!dataset?.can_run && !!dataset.dates.some(d => d.date === config.service_date && dateEligible(d)) && !busy && !uploading && !starting;
   const step = run?.status === 'completed' ? stages.length - 1 : Math.max(0, stages.indexOf(run?.stage || 'validation'));
 
   return <div className="app-shell">
@@ -170,9 +170,10 @@ export default function App() {
               <button className="button secondary" disabled={busy || uploading} onClick={() => fileInput.current?.click()}>{dataset ? 'Chọn dữ liệu khác' : 'Chọn file Parquet'}<ArrowUpRight size={14}/></button>
               <small>1 file tổng hợp hoặc 2 file đến/đi · Tối đa 500 MB</small>
             </div>
-            {dataset && <div className="validation"><div className="validation-heading"><FileCheck2 size={18}/><strong>{dataset.can_run ? 'Dữ liệu đã sẵn sàng' : 'Cần kiểm tra lại dữ liệu'}</strong><span className={`badge ${dataset.can_run ? 'success' : 'danger'}`}>{dataset.can_run ? 'Hợp lệ' : `${dataset.invalid_rows} lỗi`}</span></div>
+            {dataset && <div className="validation"><div className="validation-heading"><FileCheck2 size={18}/><strong>{dataset.can_run ? 'Dữ liệu đã sẵn sàng' : 'Cần kiểm tra lại dữ liệu'}</strong><span className={`badge ${dataset.can_run ? 'success' : 'danger'}`}>{dataset.can_run ? 'Hợp lệ' : dataset.invalid_rows ? `${dataset.invalid_rows} lỗi` : 'Không có ngày đủ điều kiện'}</span></div>
               <div className="data-stats"><span><b>{fmt(dataset.input_rows)}</b>Tổng dòng</span><span><b>{fmt(dataset.valid_rows)}</b>Lượt ATL hợp lệ</span><span><b>{fmt(dataset.non_atl_rows)}</b>Ngoài ATL</span></div>
               {!!dataset.errors.length && <div className="validation-errors">{dataset.errors.slice(0, 8).map((e, i) => <p key={i}>File {e.source_index + 1}, dòng {e.row}: {e.message}</p>)}{dataset.invalid_rows > 8 && <p>Và {dataset.invalid_rows - 8} dòng lỗi khác. Sửa file trước khi chạy.</p>}</div>}
+              {dataset.dates.filter(d => !dateEligible(d)).map(d => <p key={d.date}>{d.date}: {d.blocked_reason || 'Ngày vận hành năm 2024 được cách ly theo chính sách holdout.'}</p>)}
               <details><summary>Xem các cột và bản ghi chuẩn hóa</summary><div className="table-scroll"><table><thead><tr><th>Chuyến</th><th>Chặng</th><th>Ngày vận hành</th><th>Giờ tại ATL</th></tr></thead><tbody>{dataset.preview.map((r, i) => <tr key={i}><td>{String(r.OP_CARRIER)}{String(r.OP_CARRIER_FL_NUM)}</td><td>{String(r.ORIGIN)} → {String(r.DEST)}</td><td>{String(r.service_date)}</td><td>{String(r.scheduled_event_local).slice(11, 16)}</td></tr>)}</tbody></table></div></details>
             </div>}
             <div className="upload-help"><Info size={15}/><span>Chỉ dùng lịch bay để dự báo. Các cột độ trễ thực tế được tách riêng để đối chiếu.</span></div>
@@ -186,7 +187,7 @@ export default function App() {
               <label>Thời gian vào cổng<select aria-label="Thời gian vào cổng" value={config.gate_time_mode} onChange={e=>update('gate_time_mode',e.target.value as Config['gate_time_mode'])}><option value="fixed">Khoảng cố định</option><option value="bounded_wait">Cho phép chờ cổng hữu hạn</option></select></label>
               {config.gate_time_mode==='bounded_wait'&&<><label>Chờ tối đa mỗi lượt (phút)<input aria-label="Chờ cổng tối đa" type="number" min="0" max="120" value={config.max_gate_wait_min} onChange={e=>update('max_gate_wait_min',Number(e.target.value))}/></label><div className="form-row">{(['gate_wait_weight','reassignment_weight','remote_weight'] as const).map((k,i)=><label key={k}>{['Điểm / phút chờ','Điểm / đổi cổng','Điểm / bãi xa'][i]}<input type="number" min="0" max="1000000" step="0.01" value={config[k]} onChange={e=>update(k,Number(e.target.value))}/></label>)}</div><p className="footnote">Dịch cả giờ vào và ra cổng, giữ nguyên thời gian phục vụ và buffer. Chuyến chỉ có lượt đi không được chờ.</p></>}
               <label>Sân bay<select aria-label="Sân bay" value="ATL" disabled><option>ATL — Hartsfield–Jackson Atlanta</option></select></label>
-              <label>Ngày vận hành<select aria-label="Ngày vận hành" value={config.service_date} onChange={e => update('service_date', e.target.value)} disabled={!dataset?.dates.length}><option value="">Chọn ngày từ file đã tải</option>{dataset?.dates.map(d => <option key={d.date} value={d.date}>{d.date} · {fmt(d.total)} lượt bay</option>)}</select></label>
+              <label>Ngày vận hành<select aria-label="Ngày vận hành" value={config.service_date} onChange={e => update('service_date', e.target.value)} disabled={!dataset?.dates.some(dateEligible)}><option value="">Chọn ngày từ file đã tải</option>{dataset?.dates.map(d => <option key={d.date} value={d.date} disabled={!dateEligible(d)}>{d.date} · {fmt(d.total)} lượt bay{!dateEligible(d) ? ` · ${d.blocked_reason || 'Năm 2024 được cách ly'}` : ''}</option>)}</select></label>
               <div className="form-row"><label>Quy mô thử nghiệm<select aria-label="Quy mô thử nghiệm" value={config.preset} onChange={e => {const preset = e.target.value as Config['preset']; setConfig(c => ({...c, preset, contact_gates: preset === 'custom' ? c.contact_gates : {large: 150, medium: 50, small: 20}[preset]}));}}>{Object.entries(presetNames).map(([key, name]) => <option key={key} value={key}>{name}</option>)}</select></label>
                 <label>Số cổng tiếp xúc<input aria-label="Số cổng tiếp xúc" type="number" min="1" max="300" value={config.contact_gates} onChange={e => setConfig(c => ({...c, preset: 'custom', contact_gates: Number(e.target.value)}))}/></label></div>
               <label className="remote-toggle"><span>Bãi đỗ từ xa<small>Năng lực hữu hạn, không tự thêm bãi tràn</small></span><input aria-label="Bật bãi đỗ từ xa" type="checkbox" checked={config.remote_gates > 0} onChange={e => update('remote_gates', e.target.checked ? 5 : 0)}/></label>

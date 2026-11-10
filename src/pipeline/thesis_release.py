@@ -13,24 +13,86 @@ from src.models.binary_improvement import binary_metrics
 from src.models.binary_improvement_execution import digest
 from src.pipeline.thesis_training import ROOT, regression_metrics
 from web_dashboard.pipeline import json_write
+from src.pipeline.verified_cache import VerifiedCache
+
+
+def validate_lineage(output):
+    """Qualify new publications; existing active legacy checkpoints stay readable."""
+    path = output / 'cache_contract.json'
+    if not path.is_file():
+        raise ValueError('Legacy run lacks OOF/HPO lineage; create a new run for activation')
+    contract = json.loads(path.read_text())
+    if contract.get('version') != 2 or contract.get('smoke'):
+        raise ValueError('Activation requires a full version-2 lineage contract')
+    cache = VerifiedCache(ROOT, output, contract)
+    cache.preflight()
+    from src.pipeline.thesis_training import Training
+    checker = object.__new__(Training)
+    checker.config, checker.smoke, checker.output, checker.cache = contract['config'], False, output, cache
+    for task in ('arrival', 'departure'):
+        for kind in ('classification', 'regression'):
+            hpo_path = output / 'hpo' / f'{task}_{kind}.json'
+            context = checker._artifact_context(task, kind, 2022, 'hpo')
+            study = cache.load(hpo_path, context)
+            checker._validate_hpo(study, kind)
+            if study.get('study_sha256') != cache.metadata(hpo_path.with_suffix('.sqlite3'), context)['sha256']:
+                raise ValueError('HPO database differs from frozen selection')
+            for year in range(2017, 2023):
+                oof_context = checker._artifact_context(task, kind, year, 'oof')
+                table = cache.load(output / 'oof' / f'{task}_{kind}_{year}.parquet', oof_context)
+                data_path = output / 'data_cache' / f'{task}_{year}.parquet'
+                frame = cache.load(data_path, cache.context(task, year,
+                    sources_by_year=[{'year': year, 'files': cache.sources(task, year)}]))
+                checker._validate_oof(table, frame, kind, year)
+            reference = pd.concat([cache.load(output / 'oof' / f'{task}_{kind}_{year}.parquet',
+                checker._artifact_context(task, kind, year, 'oof')) for year in checker.config['validation_years']], ignore_index=True)
+            for family in ('linear', 'random_forest', 'xgboost', 'stacking'):
+                full = cache.load(output / 'oof' / f'{task}_{kind}_{family}_full.parquet',
+                                  checker._artifact_context(task, kind, 2022, 'full_oof'))
+                pd.testing.assert_frame_equal(full[['flight_key','date','year','carrier','y']],
+                                              reference[['flight_key','date','year','carrier','y']])
+                prediction = full.raw_probability_or_delay.to_numpy(dtype=float)
+                if not np.isfinite(prediction).all() or kind == 'classification' and not ((prediction >= 0) & (prediction <= 1)).all():
+                    raise ValueError('Full OOF predictions are malformed')
+    return {'version': 2, 'oof_hpo_verified': True}
+
+
+def verify_freeze_records(freeze, records):
+    if set(freeze['models']) != set(records):
+        raise ValueError('Frozen model identities differ from evaluated records')
+    for name, frozen in freeze['models'].items():
+        if any(records[name].get(key) != value for key, value in frozen.items()):
+            raise ValueError(f'Frozen/evaluated model provenance differs: {name}')
+
+
+def inspect_source_lineage(output, *, require_current=False):
+    hashes = json.loads((output / 'source_hashes.json').read_text())
+    matches = True
+    for name, sha in hashes.items():
+        name = name.replace('\\', '/')
+        snapshot = (output / 'source_snapshot' / name).resolve()
+        if not snapshot.is_relative_to((output / 'source_snapshot').resolve()) or digest(snapshot) != sha:
+            raise ValueError('Training snapshot integrity check failed')
+        current = ROOT / name
+        matches &= current.is_file() and current.read_bytes().replace(b'\r\n', b'\n') == snapshot.read_bytes().replace(b'\r\n', b'\n')
+    if not hashes or require_current and not matches:
+        raise ValueError('Training source lineage differs from current publication code')
+    return {'snapshot_integrity': True, 'matches_current_code': matches}
 
 
 def validate(output):
     summary = json.loads((output / 'summary.json').read_text())
     if summary['status'] != 'MODELS_COMPLETE' or summary['smoke']:
         raise ValueError('Only a completed full model run can be activated')
+    lineage = validate_lineage(output)
     records = json.loads((output / 'model_results.json').read_text())
     expected = {f'{t}_{k}_{f}' for t in ('arrival', 'departure') for k in ('classification', 'regression')
                 for f in ('linear', 'random_forest', 'xgboost', 'stacking')}
     if set(records) != expected:
         raise ValueError('The proposal requires all sixteen models')
-    for name, sha in json.loads((output / 'source_hashes.json').read_text()).items():
-        name = name.replace('\\','/')
-        frozen_source = output / 'source_snapshot' / name
-        same_source = (ROOT / name).read_bytes().replace(b'\r\n',b'\n') == frozen_source.read_bytes().replace(b'\r\n',b'\n')
-        if digest(frozen_source) != sha or not same_source:
-            raise ValueError('Training source lineage differs from frozen source')
+    sources = inspect_source_lineage(output, require_current=True)
     freeze = json.loads((output / 'selection_freeze.json').read_text())
+    verify_freeze_records(freeze, records)
     events = [json.loads(line) for line in (output / 'events.jsonl').read_text().splitlines()]
     first_eval = min(e['at'] for e in events if e['stage'] == 'historical_evaluated')
     if freeze['at'] >= first_eval or freeze['status'] != 'FROZEN_BEFORE_2023':
@@ -57,7 +119,7 @@ def validate(output):
         else:
             populations[key] = population
         measured = binary_metrics(table.y, table.prediction, rec['threshold']) if rec['kind'] == 'classification' else regression_metrics(table.y, table.prediction)
-        for field in ('ap', 'f1', 'precision', 'recall', 'roc_auc') if rec['kind'] == 'classification' else ('mae', 'rmse'):
+        for field in ('ap', 'f1', 'precision', 'recall', 'roc_auc', 'brier_score', 'log_loss', 'ece_10') if rec['kind'] == 'classification' else ('mae', 'rmse'):
             np.testing.assert_allclose(measured[field], rec['historical_2023'][field], atol=1e-12)
         if rec['kind'] == 'classification':
             measured['accuracy'] = (measured['tn']+measured['tp'])/measured['n']
@@ -82,6 +144,7 @@ def validate(output):
         if digest(output / rec['path'].replace('\\','/')) != rec['sha256']:
             raise ValueError('OOF residual bank hash mismatch')
     result = {'status': 'PASS', 'models': 16, 'completed_trials': trials, 'comparison': comparisons,
+              'lineage': lineage, 'sources': sources,
               'acceptance': 'proposal_functionality_and_measured_historical_metrics',
               'untouched_test_claimed': False, 'weather_required': False, 'flight_chain_required': False}
     json_write(output / 'validation.json', result)
@@ -95,6 +158,7 @@ def activate(output):
         path = output / rec['path'].replace('\\','/')
         return {**rec, 'path': path.relative_to(ROOT).as_posix()}
     value = {'profile': 'thesis_xgboost', 'status': 'READY', 'version': output.name,
+             'lineage_version': validation['lineage']['version'],
              'model_run': output.relative_to(ROOT).as_posix(), 'smoke': False,
              'created_at': datetime.now(timezone.utc).isoformat(),
              'models': {name: portable(rec) for name, rec in freeze['models'].items()

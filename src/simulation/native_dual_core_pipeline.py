@@ -368,9 +368,19 @@ def prepare_arrival_features_for_inference(
     X["scheduled_departure_minute"] = departure.dt.minute.astype("int64")
     X["OP_CARRIER"] = clean_frame["OP_CARRIER"].astype(str).str.strip()
     X["ORIGIN"] = clean_frame["ORIGIN"].astype(str).str.strip()
-    X["OP_CARRIER_FL_NUM"] = pd.to_numeric(
-        clean_frame["OP_CARRIER_FL_NUM"], errors="coerce"
-    ).fillna(0).astype(int).astype(str)
+    fl_num_numeric = pd.to_numeric(clean_frame["OP_CARRIER_FL_NUM"], errors="coerce")
+    if (
+        fl_num_numeric.isna().any()
+        or not np.all(np.isfinite(fl_num_numeric))
+        or not np.all(fl_num_numeric == np.floor(fl_num_numeric))
+    ):
+        raise FeatureContractViolation("OP_CARRIER_FL_NUM contains missing or non-integral values")
+    X["OP_CARRIER_FL_NUM"] = fl_num_numeric.astype(int).astype(str)
+    if (
+        X["OP_CARRIER"].str.upper().isin(["", "NAN", "NONE", "<NA>"]).any()
+        or X["ORIGIN"].str.upper().isin(["", "NAN", "NONE", "<NA>"]).any()
+    ):
+        raise FeatureContractViolation("OP_CARRIER or ORIGIN contains missing or invalid values")
 
     # Check for NaN in numeric
     if X["CRS_ELAPSED_TIME"].isna().any():
@@ -556,6 +566,7 @@ class NativeDualCorePipeline:
         """Run native model inference for inbound and outbound flights."""
         prediction_records: list[StandardizedPredictionRecord] = []
         delay_lookup: dict[str, float] = {}
+        self.last_arrival_marginals: dict[str, dict[str, float]] = {}
         now_utc = datetime.now(timezone.utc).isoformat()
 
         # A. Arrival Inference
@@ -617,6 +628,7 @@ class NativeDualCorePipeline:
                     )
                     prediction_records.append(rec)
                     delay_lookup[fid] = m_i
+                    self.last_arrival_marginals[fid] = {"mu": m_i, "sigma": s_i, "df": nu_i}
             else:
                 # Standard Point Regressor
                 preds = np.asarray(arr_model.predict(X_arr), dtype=float)
@@ -698,10 +710,23 @@ class NativeDualCorePipeline:
             separation_buffer_min=self.config.separation_buffer_min,
         )
 
+        if not summary.is_clean:
+            raise ValueError(
+                f"Turn pairing validation failed: {summary.invalid_pairs_count} invalid, "
+                f"{summary.quarantined_pairs_count} quarantined ({summary.rejection_reasons_tally})"
+            )
         turns: list[DualAircraftTurn] = []
         for pair in valid_pairs:
-            arr_delay = delay_lookup.get(pair.arrival_leg_id, 0.0) if pair.arrival_leg_id else 0.0
-            dep_delay = delay_lookup.get(pair.departure_leg_id, 0.0) if pair.departure_leg_id else 0.0
+            if pair.arrival_leg_id and pair.arrival_leg_id not in delay_lookup:
+                raise ValueError(f"Missing arrival delay prediction for leg '{pair.arrival_leg_id}'")
+            if (
+                pair.departure_leg_id
+                and self.config.simulation_mode != SimulationMode.ARRIVAL_ONLY_LEGACY
+                and pair.departure_leg_id not in delay_lookup
+            ):
+                raise ValueError(f"Missing departure delay prediction for leg '{pair.departure_leg_id}'")
+            arr_delay = delay_lookup[pair.arrival_leg_id] if pair.arrival_leg_id else 0.0
+            dep_delay = delay_lookup.get(pair.departure_leg_id) if pair.departure_leg_id else None
 
             turn = engine.synthesize_turn(
                 pair=pair,

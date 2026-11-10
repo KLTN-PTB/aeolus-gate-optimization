@@ -57,7 +57,7 @@ def compute_state_objective(
         # Overflow penalty (remote apron)
         if is_overflow:
             total_overflow_cost += config.overflow_weight
-            if fl.nominal_gate_id is not None:
+            if fl.nominal_gate_id is not None and g_id != fl.nominal_gate_id:
                 total_reassignment_cost += config.reassignment_weight
 
         # Delay cost (constant per flight)
@@ -89,11 +89,19 @@ def compute_state_objective(
                     if w1.overlaps(w2):
                         total_conflict_cost += config.conflict_weight
         elif cap > 1:
+            events: list[tuple[int, int, str]] = []
             for fl in sorted_fl:
-                t = fl.time_window.start_min
-                conc = sum(1 for o in sorted_fl if o.time_window.start_min <= t < o.time_window.end_min)
-                if conc > cap:
-                    total_conflict_cost += (conc - cap) * config.conflict_weight
+                events.append((fl.time_window.start_min, 1, fl.flight_id))
+                events.append((fl.time_window.end_min, -1, fl.flight_id))
+            events.sort(key=lambda e: (e[0], e[1]))
+            current_occupancy = 0
+            for _, delta, _ in events:
+                if delta == -1:
+                    current_occupancy -= 1
+                else:
+                    current_occupancy += 1
+                    if current_occupancy > cap:
+                        total_conflict_cost += config.conflict_weight
 
     return (
         total_reassignment_cost

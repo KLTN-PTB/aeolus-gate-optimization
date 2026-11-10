@@ -41,6 +41,31 @@ async function upload() {
 }
 
 describe('workspace interactions', () => {
+  it('selects the first eligible day and explains blocked dates', async () => {
+    call.mockImplementation(async path => {
+      if (path === '/health') return {status: 'ok'};
+      if (path === '/runs') return [];
+      if (path === '/datasets') return {...dataset, dates: [
+        {date: '2024-01-01', total: 1, arrivals: 1, departures: 0, eligible: false, blocked_reason: 'Holdout 2024'},
+        ...dataset.dates,
+      ]};
+      throw Error(path);
+    });
+    render(<App/>); await upload();
+    expect((screen.getByLabelText('Ngày vận hành') as HTMLSelectElement).value).toBe('2026-07-01');
+    expect(screen.getByRole('option', {name: /Holdout 2024/}).hasAttribute('disabled')).toBe(true);
+  });
+  it('keeps run disabled for old reports containing only 2024', async () => {
+    call.mockImplementation(async path => {
+      if (path === '/health') return {};
+      if (path === '/runs') return [];
+      if (path === '/datasets') return {...dataset, dates: [{date: '2024-01-01', total: 1, arrivals: 1, departures: 0}]};
+      throw Error(path);
+    });
+    render(<App/>); await upload();
+    expect((screen.getByLabelText('Ngày vận hành') as HTMLSelectElement).value).toBe('');
+    expect(screen.getByRole('button', {name: /Chạy end-to-end/}).hasAttribute('disabled')).toBe(true);
+  });
   it('shows empty honest metrics and all five wireframe screens', async () => {
     render(<App/>);
     expect(screen.getAllByText('—').length).toBe(4);

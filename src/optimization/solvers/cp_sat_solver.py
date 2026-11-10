@@ -319,8 +319,11 @@ class CPSatGateSolver:
         # =====================================================================
         # STEP 4: SOFT OBJECTIVE FUNCTION (CP11, CP12)
         # =====================================================================
-        sf = self.config.scale_factor
+        from src.optimization.objective_encoding import encode_objective, MAX_OBJECTIVE_INTEGER
+        sf, reassignment_coefficient, overflow_coefficient = encode_objective(
+            self.config.reassignment_weight, self.config.overflow_weight, self.config.scale_factor)
         objective_terms = []
+        coefficient_sum = 0
 
         for f_idx, fl in enumerate(flights):
             check_deadline(deadline_perf_counter)
@@ -332,20 +335,22 @@ class CPSatGateSolver:
                     continue
                 gate = gate_list[g_idx]
                 var = x[f_idx, g_idx]
-                cost = 0.0
+                int_coeff = 0
 
                 # Reassignment penalty (deviation from nominal plan)
                 if not gate.is_overflow:
                     if nom_gate_id is not None and gate.gate_id != nom_gate_id:
-                        cost += self.config.reassignment_weight
+                        int_coeff += reassignment_coefficient
 
                 # Overflow penalty (remote stand / apron)
                 if gate.is_overflow:
-                    cost += self.config.overflow_weight
-                    if nom_gate_id is not None:
-                        cost += self.config.reassignment_weight
+                    int_coeff += overflow_coefficient
+                    if nom_gate_id is not None and gate.gate_id != nom_gate_id:
+                        int_coeff += reassignment_coefficient
 
-                int_coeff = int(round(cost * sf))
+                coefficient_sum += int_coeff
+                if coefficient_sum > MAX_OBJECTIVE_INTEGER:
+                    raise ValueError("Objective expression exceeds the safe CP-SAT integer range")
                 if int_coeff != 0:
                     objective_terms.append(int_coeff * var)
 
@@ -635,6 +640,8 @@ class CPSatGateSolver:
                 "raw_solver_status": raw_status_str,
                 "formulation": formulation,
                 "scale_factor": sf,
+                "requested_scale_factor": self.config.scale_factor,
+                "objective_encoding": "exact_decimal_v1",
                 "scale_tolerance": 1.0 / sf,
                 "raw_decision_cost": raw_decision_cost,
                 "scaled_integer_objective": scaled_integer_objective,

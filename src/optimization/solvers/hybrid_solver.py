@@ -397,6 +397,7 @@ class HybridGateSolver:
 
         hybrid_trace = {
             "cp_solver_status": cp_solver_status,
+            "cp_objective_encoding": cp_result.solver_configuration.get("objective_encoding"),
             "cp_incumbent_found": cp_incumbent_found,
             "cp_incumbent_valid": cp_incumbent_valid,
             "cp_optimality_proven": cp_optimality_proven,
@@ -437,6 +438,7 @@ class HybridGateSolver:
                 **hybrid_trace,
             },
             raw_solver_status=cp_solver_status,
+            best_bound=final_eval.objective_value if has_optimality_proof else None,
             optimality_proven=has_optimality_proof,
             termination_reason=term_reason,
         )

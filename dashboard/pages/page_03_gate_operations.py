@@ -77,12 +77,12 @@ def _build_nominal_assignments(flights: list, gates: list) -> List[GateTimelineV
             assigned_by_gate[gid] = []
         assigned_by_gate[gid].append(f)
 
-    # Detect conflicts on contact gates
+    # Detect conflicts on finite unit-capacity gates (contact gates and discrete remote stands)
     conflict_flights = set()
     for gid, fl_list in assigned_by_gate.items():
         g_obj = gate_map.get(gid)
-        is_contact = (g_obj and not g_obj.is_overflow and g_obj.capacity == 1)
-        if is_contact and len(fl_list) > 1:
+        is_unit_capacity = (g_obj is not None and not g_obj.is_unbounded and g_obj.capacity == 1)
+        if is_unit_capacity and len(fl_list) > 1:
             sorted_fl = sorted(fl_list, key=lambda x: x.predicted_arrival_min)
             for i in range(len(sorted_fl) - 1):
                 f1 = sorted_fl[i]

@@ -293,13 +293,17 @@ class DualTurnEngine:
         aircraft_type = (arr_leg.aircraft_type if arr_leg else (dep_leg.aircraft_type if dep_leg else "NARROWBODY"))
 
         # Scheduled arrival clock (timeline minutes)
-        if arr_leg and arr_leg.normalized_timeline_min is not None:
+        if pair.arrival_leg_id is not None:
+            if arr_leg is None or arr_leg.normalized_timeline_min is None:
+                raise ValueError(f"Missing arrival leg or normalized_timeline_min for '{pair.arrival_leg_id}'")
             a_sched = int(arr_leg.normalized_timeline_min)
         else:
             a_sched = 0
 
         # Scheduled departure clock
-        if dep_leg and dep_leg.normalized_timeline_min is not None:
+        if pair.departure_leg_id is not None:
+            if dep_leg is None or dep_leg.normalized_timeline_min is None:
+                raise ValueError(f"Missing departure leg or normalized_timeline_min for '{pair.departure_leg_id}'")
             d_sched = int(dep_leg.normalized_timeline_min)
         else:
             d_sched = a_sched + self.default_dwell_min

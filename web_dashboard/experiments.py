@@ -24,7 +24,7 @@ from src.optimization.solvers.hybrid_solver import HybridGateSolver
 from web_dashboard.pipeline import finite_metadata, json_write
 
 ALGORITHMS = {'greedy': 'Deterministic Greedy', 'cpsat': 'CP-SAT', 'sa': 'SA độc lập', 'hybrid': 'Hybrid (CP-SAT/Greedy → SA)'}
-ANALYSIS_VERSION = 3
+ANALYSIS_VERSION = 4
 
 
 def read_json(path):
@@ -131,14 +131,17 @@ def realized_flights(snapshot, arrivals, sample):
         pair = pair_map[f.flight_id]
         aid, did = pair['arrival_leg_id'], pair['departure_leg_id']
         if aid:
-            start = int(round(f.scheduled_arrival_min + delay[aid]))
+            arr_delay = delay.get(aid, snapshot.get('predictions', {}).get(aid, 0.0))
+            start = int(round(f.scheduled_arrival_min + arr_delay))
             if did:
-                end = max(int(round(f.scheduled_departure_min + delay.get(did, snapshot['predictions'][did]))), start + f.min_turnaround_min)
+                dep_delay = delay.get(did, snapshot.get('predictions', {}).get(did, 0.0))
+                end = max(int(round(f.scheduled_departure_min + dep_delay)), start + f.min_turnaround_min)
             else:
                 end = max(f.scheduled_arrival_min + f.default_dwell_min, start + f.min_turnaround_min)
             f = replace(f, predicted_arrival_min=start, precomputed_gate_out_min=end)
-        elif did and did in delay:
-            end = max(int(round(f.scheduled_departure_min + delay[did])), f.occupancy_start_min + f.min_turnaround_min)
+        elif did and (did in delay or did in snapshot.get('predictions', {})):
+            dep_delay = delay.get(did, snapshot.get('predictions', {}).get(did, 0.0))
+            end = max(int(round(f.scheduled_departure_min + dep_delay)), f.occupancy_start_min + f.min_turnaround_min)
             f = replace(f, precomputed_gate_out_min=end)
         result.append(f)
     return result
@@ -146,7 +149,8 @@ def realized_flights(snapshot, arrivals, sample):
 
 def available_plans(store, run_id):
     from web_dashboard.solver_execution import actual_algorithm
-    result = read_json(store.root / 'runs' / run_id / 'result.json')
+    from web_dashboard.result_integrity import read_pipeline_result
+    result = read_pipeline_result(store, run_id)
     plans = []
     if result['summary']['feasible'] and result['summary']['independent_verifier_valid']:
         algorithm = 'greedy' if result['summary'].get('fallback_used') else result['manifest']['config']['solver']
@@ -166,7 +170,8 @@ def available_plans(store, run_id):
 
 def load_plan(store, run_id, plan_id):
     if plan_id == 'pipeline':
-        data = read_json(store.root / 'runs' / run_id / 'result.json')
+        from web_dashboard.result_integrity import read_pipeline_result
+        data = read_pipeline_result(store, run_id)
         if not data['summary']['feasible']:
             raise ValueError('Lịch pipeline chưa có nghiệm khả thi.')
         return data['assignments']
@@ -178,7 +183,67 @@ def load_plan(store, run_id, plan_id):
     case = next((c for c in store.cases(eid) if c['case_id'] == cid), None)
     if not exp or exp['run_id'] != run_id or not case or not case['feasible']:
         raise ValueError('Lịch không thuộc lần chạy hoặc chưa khả thi.')
-    return read_json(store.root / 'experiments' / eid / f'{cid}.json')['assignments']
+    return verified_case(store, exp, case, experiment_context(store, exp))['assignments']
+
+
+def experiment_context(store, exp):
+    snapshot = snapshot_for(store, exp['run_id'])
+    if snapshot['hash'] != exp['config']['snapshot_hash']:
+        raise ValueError('Experiment snapshot changed')
+    context = {'snapshot': snapshot, 'plans': {}}
+    if exp['config']['kind'] == 'montecarlo':
+        folder = store.root / 'experiments' / exp['id']
+        sampling = read_json(folder / 'sampling.json')
+        matrix = np.load(folder / 'samples.npy', mmap_mode='r')
+        empirical = snapshot.get('uncertainty', {}).get('kind') == 'EMPIRICAL_TEMPORAL_OOF_RESIDUALS'
+        expected_ids = sorted(snapshot['predictions'] if empirical else snapshot['marginals'])
+        if sampling['arrival_ids'] != expected_ids or sampling['seed'] != exp['config']['seed']:
+            raise ValueError('Sampling identities/seed differ from experiment')
+        if exp['config'].get('execution_revision') and (sampling.get('schema_version') != 2 or sampling.get('snapshot_hash') != snapshot['hash']):
+            raise ValueError('Sampling provenance is missing or changed')
+        if list(matrix.shape) != sampling['shape'] or hashlib.sha256(matrix.tobytes()).hexdigest() != sampling['hash']:
+            raise ValueError('Sampling artifact checksum/shape mismatch')
+        if matrix.shape != (exp['config']['scenarios'], len(sampling['arrival_ids'])) or not np.isfinite(matrix).all():
+            raise ValueError('Sampling artifact differs from requested scenarios')
+        context.update(sampling=sampling, matrix=matrix)
+    return context
+
+
+def verified_case(store, exp, case, context):
+    from web_dashboard.solver_execution import verify_artifact
+    snapshot = context['snapshot']
+    if case.get('snapshot_hash') != snapshot['hash']:
+        raise ValueError('Case snapshot differs from experiment')
+    flights, initial = snapshot['flights'], None
+    meta = {}
+    if case['mode'] != 'benchmark':
+        index = case['scenario']
+        sample = context['matrix'][index]
+        digest = hashlib.sha256(sample.tobytes()).hexdigest()
+        if digest != case['realization_hash']:
+            raise ValueError('Case realization differs from sampling matrix')
+        flights = [f.to_dict() for f in realized_flights(snapshot, context['sampling']['arrival_ids'], sample)]
+        pid = case['source_plan_id']
+        if pid not in context['plans']:
+            context['plans'][pid] = load_plan(store, exp['run_id'], pid)
+        initial = context['plans'][pid]
+        meta = dict(scenario=index, source_plan_id=pid, realization_hash=digest)
+    payload = dict(flights=flights, gates=snapshot['gates'], solver_config=snapshot['solver_config'],
+        algorithm=case['algorithm'], mode=case['mode'], seed=case['seed'], initial=initial,
+        budget=exp['config']['time_limit_sec'], solver_protocol_version=exp['config'].get('solver_protocol_version', 1),
+        solver_profile=exp['config'].get('solver_profile', 'baseline'), snapshot_hash=snapshot['hash'], case_id=case['case_id'])
+    if 'execution_revision' in exp['config']:
+        payload.update(execution_revision=exp['config']['execution_revision'], **meta)
+    if snapshot.get('waiting_config'):
+        payload['waiting_config'] = snapshot['waiting_config']
+    result = read_json(store.root / 'experiments' / exp['id'] / (case['case_id']+'.json'))
+    if payload['solver_protocol_version'] != 2:
+        raise ValueError('Legacy case lacks verifiable protocol; run a new experiment for plan reuse')
+    result = verify_artifact(payload, result)
+    for name in ('feasible', 'decision_cost', 'risk_cost', 'assigned_count', 'conflicts', 'solution_source'):
+        if result.get(name) != case.get(name):
+            raise ValueError(f'Saved case summary differs from verified artifact: {name}')
+    return result
 
 
 def bootstrap_mean(values, seed):
@@ -199,6 +264,17 @@ def wilson(success, n):
     return [max(0, mid-half), min(1, mid+half)]
 
 
+def cvar95(values):
+    """Mean of the worst 5% probability mass, including fractional samples."""
+    if not values:
+        return None
+    descending = sorted(values, reverse=True)
+    mass = len(descending) * .05
+    whole = int(math.floor(mass))
+    fraction = mass - whole
+    return (sum(descending[:whole]) + (fraction * descending[whole] if fraction > 0 else 0)) / mass
+
+
 def summarize(cases, seed=202601, intervals=True):
     from web_dashboard.solver_execution import cost_eligible
     groups = {}
@@ -216,7 +292,6 @@ def summarize(cases, seed=202601, intervals=True):
         costs = [c['decision_cost'] for c in eligible if c.get('decision_cost') is not None]
         risks = [c['risk_cost'] for c in rows if c.get('risk_cost') is not None and (not modern or c.get('budget_compliant'))]
         values = risks if rows[0]['mode'] == 'fixed' else costs
-        sorted_values = sorted(values)
         operational_rows = [c for c in rows if c.get('remote_count') is not None and (not modern or c.get('budget_compliant'))] if rows[0]['mode'] == 'fixed' else eligible
         metric = {'key': key, 'algorithm': rows[0]['algorithm'], 'mode': rows[0]['mode'],
             'source_plan_id': rows[0].get('source_plan_id'), 'count': len(rows), 'feasible_count': len(feasible),
@@ -228,12 +303,12 @@ def summarize(cases, seed=202601, intervals=True):
             'std': statistics.stdev(values) if len(values) > 1 else None,
             'min': min(values) if values else None, 'max': max(values) if values else None,
             'p95': float(np.quantile(values, .95)) if values else None,
-            'cvar95': statistics.mean(sorted_values[-max(1, math.ceil(.05*len(values))):]) if values else None,
+            'cvar95': cvar95(values),
             'mean_ci95': bootstrap_mean(values, seed) if intervals else None,
             'runtime_median': statistics.median(c.get('runtime_sec', 0) for c in rows),
             'mean_conflicts': statistics.mean(c['conflicts'] for c in rows if c.get('conflicts') is not None) if any(c.get('conflicts') is not None for c in rows) else None,
-            'mean_remote': statistics.mean(c['remote_count'] for c in operational_rows) if operational_rows else None,
-            'mean_reassignments': statistics.mean(c['reassignments'] for c in operational_rows) if operational_rows else None,
+            'mean_remote': statistics.mean(c['remote_count'] for c in operational_rows if c.get('remote_count') is not None) if any(c.get('remote_count') is not None for c in operational_rows) else None,
+            'mean_reassignments': statistics.mean(c['reassignments'] for c in operational_rows if c.get('reassignments') is not None) if any(c.get('reassignments') is not None for c in operational_rows) else None,
             'convergence': [{'n': i+1, 'feasible_rate': sum(bool(r.get('feasible')) for r in rows[:i+1])/(i+1), 'on_time_feasible_rate': sum(cost_eligible(r) for r in rows[:i+1])/(i+1) if modern else None} for i in range(len(rows))]}
         if modern:
             metric.update(on_time_feasible_count=len(on_time), on_time_feasible_rate=len(on_time)/len(rows),
@@ -261,11 +336,17 @@ def experiment_results(store, eid, *, finalize=False):
                 left = {c['scenario']: c for c in cases if c.get('source_plan_id') == a and c['mode'] == 'recourse' and cost_eligible(c)}
                 right = {c['scenario']: c for c in cases if c.get('source_plan_id') == b and c['mode'] == 'recourse' and cost_eligible(c)}
                 indices = sorted(set(left) & set(right))
-                values = [left[s]['decision_cost'] - right[s]['decision_cost'] for s in indices]
+                matched = [s for s in indices if left[s].get('snapshot_hash') and left[s].get('realization_hash')
+                    and left[s].get('snapshot_hash') == right[s].get('snapshot_hash')
+                    and left[s].get('realization_hash') == right[s].get('realization_hash')]
+                values = [left[s]['decision_cost'] - right[s]['decision_cost'] for s in matched]
                 paired.append({'a': a, 'b': b, 'pairs': len(values), 'mean_delta': statistics.mean(values) if values else None,
+                    'excluded_unmatched': len(indices)-len(matched),
                     'ci95': bootstrap_mean(values, exp['config']['seed'])})
     return {'analysis_version': version_for(exp), 'experiment': exp, 'cases': cases, 'groups': summarize(cases, exp['config']['seed'], terminal),
             'sampling': matrix_meta, 'paired': paired,
+            'completion': {'requested': exp['total'], 'completed': len(cases), 'pending': max(0, exp['total']-len(cases)),
+                           'rates_denominator': 'completed_cases', 'complete': len(cases) == exp['total']},
             'assumptions': ['Chi phí là điểm theo trọng số, không phải đơn vị tiền tệ.',
                 ('Sai số đến/đi được lấy mẫu độc lập từ residual OOF theo thời gian; có ràng buộc turnaround.'
                  if matrix_meta and matrix_meta.get('dependence') == 'INDEPENDENT_DUAL_OOF_RESIDUALS'
@@ -273,7 +354,8 @@ def experiment_results(store, eid, *, finalize=False):
                 'Phân cổng lại hồi cứu biết toàn bộ kịch bản, chưa phải điều hành trực tuyến.',
                 'Chi phí fixed là chỉ số rủi ro có phạt xung đột; recourse là chi phí sửa lịch khả thi.',
                 'Chi phí recourse chỉ trên nghiệm hợp lệ; tỷ lệ khả thi gồm cả timeout/lỗi trong mẫu số.',
-                'Khoảng tin cậy chi phí: bootstrap 2000; tỷ lệ: Wilson. N nhỏ có thể cho đuôi không ổn định.']}
+                'Khoảng tin cậy chi phí: bootstrap 2000; tỷ lệ: Wilson. N nhỏ có thể cho đuôi không ổn định.',
+                'CVaR95 lấy đúng 5% khối lượng đuôi, có trọng số mẫu biên; tỷ lệ trên các case đã hoàn tất, xem số case còn chờ.']}
 
 
 def render_plan(store, eid, cid):
@@ -283,7 +365,8 @@ def render_plan(store, eid, cid):
     if not case:
         raise ValueError('Không có lượt thí nghiệm này.')
     snapshot = snapshot_for(store, exp['run_id'])
-    result = read_json(store.root / 'runs' / exp['run_id'] / 'result.json')
+    from web_dashboard.result_integrity import read_pipeline_result
+    result = read_pipeline_result(store, exp['run_id'])
     if case['mode'] == 'benchmark':
         flights = [Flight.from_dict(f) for f in snapshot['flights']]
     else:
@@ -291,7 +374,7 @@ def render_plan(store, eid, cid):
         sampling = read_json(directory / 'sampling.json')
         matrix = np.load(directory / 'samples.npy', mmap_mode='r')
         flights = realized_flights(snapshot, sampling['arrival_ids'], matrix[case['scenario']])
-    output = read_json(store.root / 'experiments' / eid / f'{cid}.json') if case.get('feasible') or case['mode']=='fixed' else {'assignments': []}
+    output = verified_case(store, exp, case, experiment_context(store, exp)) if case.get('feasible') or case['mode']=='fixed' else {'assignments': []}
     if case['mode'] == 'fixed':
         output['assignments'] = [a.to_dict() for a in adjusted_assignments(load_plan(store, exp['run_id'], case['source_plan_id']), flights).values()]
         if snapshot.get('waiting_config'):
@@ -300,6 +383,7 @@ def render_plan(store, eid, cid):
                 row['gate_wait_min'] = row['occupancy_start_min'] - base[row['flight_id']].occupancy_start_min
     f_map = {f.flight_id: f for f in flights}
     initial_map = {a['flight_id']: a['gate_id'] for a in load_plan(store, exp['run_id'], case['source_plan_id'])} if case['mode'] != 'benchmark' else None
+    shifted_flights = []
     for turn in result['turns']:
         f = f_map[turn['turn_id']]
         row = next((a for a in output['assignments'] if a['flight_id'] == f.flight_id), {})
@@ -308,12 +392,17 @@ def render_plan(store, eid, cid):
                     gate_release_min=f.occupancy_end_min+wait, gate_wait_min=wait)
         if initial_map is not None:
             turn['nominal_gate_id'] = initial_map.get(turn['turn_id'])
+        shifted_flights.append(
+            replace(f, predicted_arrival_min=f.occupancy_start_min + wait,
+                    precomputed_gate_out_min=f.occupancy_end_min - f.buffer_min + wait)
+            if wait else f
+        )
     result['assignments'] = output['assignments']
     result['summary'].update(assigned_count=len(result['assignments']), feasible=case['feasible'],
         independent_verifier_valid=case['feasible'], conflicts=case.get('conflicts'),
         solver_status=case['status'], actual_solver=ALGORITHMS[actual_algorithm(case)],
         solver_runtime_sec=case.get('runtime_sec', 0), remote_count=case.get('remote_count', 0),
-        reassignments=case.get('reassignments', 0), peak_occupancy=peak_demand(flights),
+        reassignments=case.get('reassignments', 0), peak_occupancy=peak_demand(shifted_flights or flights),
         decision_cost=case.get('decision_cost'), optimality_proven=case.get('optimality_proven', False))
     if snapshot.get('waiting_config'):
         result['summary'].update(total_gate_wait_min=case.get('total_gate_wait_min', 0),
@@ -325,25 +414,35 @@ def render_plan(store, eid, cid):
     result['summary'].update(termination_reason=case.get('termination_reason'), budget_compliant=case.get('budget_compliant'), solution_source=case.get('solution_source'))
     result['manifest']['plan_label'] = f"{ALGORITHMS[case['algorithm']]} · {case['mode']} · {cid}"
     result['manifest']['warnings'].append('Lịch thí nghiệm: ' + result['manifest']['plan_label'])
+    result['manifest']['summary'] = dict(result['summary'])
     return result
 
 
 def export_experiment(store, eid, *, final_status=None):
+    exp = store.experiment(eid)
+    if exp['config'].get('execution_revision'):
+        cases = store.cases(eid)
+        if cases:
+            context = experiment_context(store, exp)
+            for case in cases:
+                if case.get('status') != 'GENERATION_ERROR':
+                    verified_case(store, exp, case, context)
     data = experiment_results(store, eid, finalize=True)
     if final_status:
         data['experiment'] = {**data['experiment'], 'status': final_status, 'stage': 'done'}
     directory = store.root / 'experiments' / eid
     json_write(directory / 'results.json', data)
-    pd.json_normalize(data['cases']).to_csv(directory / 'cases.csv', index=False)
-    pd.json_normalize(data['cases']).to_parquet(directory / 'cases.parquet', index=False)
+    table = pd.json_normalize(data['cases']) if data['cases'] else pd.DataFrame(columns=[
+        'case_id','algorithm','mode','seed','status','feasible','decision_cost','risk_cost','runtime_sec'])
+    table.to_csv(directory / 'cases.csv', index=False)
+    table.to_parquet(directory / 'cases.parquet', index=False)
     json_write(directory / 'manifest.json', {'analysis_version': data['analysis_version'], 'experiment': data['experiment'], 'sampling': data['sampling'],
         'assumptions': data['assumptions'], 'snapshot': snapshot_for(store, data['experiment']['run_id'])})
-    temporary_bundle = directory / 'bundle.zip.tmp'
-    with zipfile.ZipFile(temporary_bundle, 'w', zipfile.ZIP_DEFLATED) as archive:
-        for path in directory.iterdir():
-            if path.suffix in ('.json', '.csv', '.parquet', '.npy') and not path.name.startswith('input_') and path.name != '.export_state.json':
-                archive.write(path, path.name)
-    temporary_bundle.replace(directory / 'bundle.zip')
+    from web_dashboard.exports import write_bundle
+    names = ['results.json', 'cases.csv', 'cases.parquet', 'manifest.json']
+    names += [name for name in ('sampling.json', 'samples.npy') if (directory / name).exists()]
+    names += [c['case_id']+'.json' for c in data['cases'] if (directory / (c['case_id']+'.json')).exists()]
+    write_bundle(directory, names)
     json_write(directory / '.export_state.json', {'analysis_version': data['analysis_version'],
         'completed': data['experiment']['completed'], 'status': data['experiment']['status']})
     return directory

@@ -11,7 +11,7 @@ export interface Config {
 export interface Dataset {
   id: string; filenames: string[]; input_rows: number; valid_rows: number; invalid_rows: number;
   non_atl_rows: number; can_run: boolean; warnings: string[];
-  dates: {date: string; arrivals: number; departures: number; total: number}[];
+  dates: {date: string; arrivals: number; departures: number; total: number; eligible?: boolean; blocked_reason?: string | null}[];
   errors: {source_index: number; row: number; message: string}[];
   preview: Record<string, unknown>[];
 }
@@ -19,6 +19,7 @@ export interface Run {
   id: string; created_at: string; status: 'queued' | 'running' | 'completed' | 'failed' | 'interrupted';
   stage: string; error: string | null; config: Config;
 }
+export const dateEligible = (day: Dataset['dates'][number]) => day.eligible !== false && !day.date.startsWith('2024-');
 export interface Prediction {
   decision_threshold?: number; predicted_delayed?: boolean;
   classification_model_id?: string; classification_model_sha256?: string;
@@ -73,9 +74,19 @@ export const stageNames: Record<string, string> = {
 export const fmt = (value: number | null | undefined, decimals = 0) => value == null ? '—' : value.toLocaleString('vi-VN', {maximumFractionDigits: decimals});
 export const isBusy = (run: Run | null) => !!run && ['queued', 'running'].includes(run.status);
 export const configMatches = (a: Config, b: Config) => Object.keys(defaults).every(key => ({...defaults,...a})[key as keyof Config] === ({...defaults,...b})[key as keyof Config]);
-export const riskLevel = (p: Pick<Prediction, 'probability_delay_15' | 'predicted_delay_min'>) =>
-  p.probability_delay_15 != null ? (p.probability_delay_15 >= .5 ? 'high' : p.probability_delay_15 >= .25 ? 'medium' : 'low')
-    : p.predicted_delay_min >= 30 ? 'high' : p.predicted_delay_min >= 15 ? 'medium' : 'low';
+export const riskLevel = (
+  p: Pick<Prediction, 'probability_delay_15' | 'predicted_delay_min'> &
+    Partial<Pick<Prediction, 'predicted_delayed' | 'decision_threshold'>>,
+) => {
+  if (p.probability_delay_15 != null) {
+    const med = p.decision_threshold ?? 0.25;
+    const high = p.decision_threshold != null ? Math.max(0.5, p.decision_threshold * 1.5) : 0.5;
+    if (p.probability_delay_15 >= high || p.predicted_delay_min >= 30) return 'high';
+    if (p.predicted_delayed === true || p.probability_delay_15 >= med || p.predicted_delay_min >= 15) return 'medium';
+    return 'low';
+  }
+  return p.predicted_delay_min >= 30 ? 'high' : p.predicted_delay_min >= 15 ? 'medium' : 'low';
+};
 export function timelineClock(minute: number, midnight: string) {
   if (!midnight) return `${Math.floor(minute / 60)}:${String(Math.round(minute % 60)).padStart(2, '0')}`;
   const instant = new Date(new Date(midnight).getTime() + minute * 60_000);

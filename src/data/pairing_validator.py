@@ -10,7 +10,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Final
 from zoneinfo import ZoneInfo
@@ -195,9 +195,13 @@ class PairingValidator:
                     )
                 else:
                     calculated_turnaround = (dep_time - arr_time).total_seconds() / 60.0
-                    if calculated_turnaround < self.min_turnaround_min:
+                    if calculated_turnaround < 0:
                         reasons.append(
-                            f"NEGATIVE_TURNAROUND_TIME: turnaround {calculated_turnaround:.1f}m is below minimum {self.min_turnaround_min}m."
+                            f"NEGATIVE_TURNAROUND_TIME: turnaround {calculated_turnaround:.1f}m is negative."
+                        )
+                    elif calculated_turnaround < self.min_turnaround_min:
+                        reasons.append(
+                            f"BELOW_MIN_TURNAROUND_TIME: turnaround {calculated_turnaround:.1f}m is below minimum {self.min_turnaround_min}m."
                         )
                     if turnaround_min is None:
                         turnaround_min = calculated_turnaround
@@ -331,11 +335,9 @@ def validate_cpsat_turnaround_schedule_csv(
         flight_dt_local = datetime(
             ref_date.year,
             ref_date.month,
-            ref_date.day + day_offset,
-            h,
-            m,
+            ref_date.day,
             tzinfo=atl_tz,
-        )
+        ) + timedelta(days=day_offset, hours=h, minutes=m)
         flight_dt_utc = flight_dt_local.astimezone(timezone.utc)
 
         # Prediction cutoff T-2h

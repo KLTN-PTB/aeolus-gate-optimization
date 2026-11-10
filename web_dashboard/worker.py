@@ -10,6 +10,7 @@ import pandas as pd
 from web_dashboard.contracts import RunRequest
 from web_dashboard.pipeline import run_pipeline
 from web_dashboard.storage import Store
+from web_dashboard.normalization import validate_run_dates
 
 
 def execute(root: Path, run_id: str) -> None:
@@ -23,13 +24,15 @@ def execute(root: Path, run_id: str) -> None:
         if not report or not report["can_run"]:
             raise ValueError("Dữ liệu chưa vượt qua kiểm tra đầu vào.")
         table = pd.read_parquet(root / "datasets" / request.dataset_id / "normalized.parquet")
+        validate_run_dates(table, request.service_date.isoformat())
         def progress(stage):
             store.update(run_id, status="running", stage=stage)
         run_pipeline(table, request, root / "runs" / run_id, report, progress)
         store.update(run_id, status="completed", stage="done")
     except Exception as exc:
         logging.exception("End-to-end run failed")
-        store.update(run_id, status="failed", stage=store.run(run_id)["stage"], error=str(exc))
+        current = store.run(run_id)
+        store.update(run_id, status="failed", stage=(current or {}).get("stage", "worker"), error=str(exc))
 
 
 if __name__ == "__main__":

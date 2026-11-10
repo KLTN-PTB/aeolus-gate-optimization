@@ -111,11 +111,18 @@ class JobRunner:
                         self.stop_process_tree(self.process)
                         update(run_id, status="failed", stage="timeout", error="Tác vụ vượt ngân sách tổng 10 phút.")
                     current = get(run_id)
-                    if current["status"] in ("queued", "running"):
-                        update(run_id, status="failed", stage=current["stage"],
-                                          error="Tiến trình tính toán đã dừng bất thường; xem worker.log.")
+                    if current and current["status"] in ("queued", "running"):
+                        if self.closing:
+                            update(run_id, status="interrupted", stage="interrupted" if experiment else current["stage"], error="Tiến trình bị gián đoạn khi dịch vụ dừng.")
+                        else:
+                            update(run_id, status="failed", stage=current["stage"], error="Tiến trình tính toán đã dừng bất thường; xem worker.log.")
+
+
                 except Exception as exc:
-                    update(run_id, status="failed", stage="worker", error=str(exc))
+                    if self.closing:
+                        update(run_id, status="interrupted", stage="interrupted" if experiment else "worker", error="Tiến trình bị gián đoạn khi dịch vụ dừng.")
+                    else:
+                        update(run_id, status="failed", stage="worker", error=str(exc))
                 finally:
                     self.process = None
 
@@ -289,8 +296,19 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         day = next((d for d in report["dates"] if d["date"] == request.service_date.isoformat()), None)
         if day is None:
             raise HTTPException(422, "Ngày đã chọn không có lượt bay ATL.")
+        if not day["eligible"]:
+            raise HTTPException(422, day["blocked_reason"])
         if day["total"] > MAX_SELECTED_LEGS:
             raise HTTPException(422, f"Ngày đã chọn vượt {MAX_SELECTED_LEGS} lượt bay; không tự lấy mẫu.")
+        import pandas as pd
+        from web_dashboard.normalization import validate_run_dates
+        try:
+            dates = pd.read_parquet(
+                store.root / "datasets" / request.dataset_id / "normalized.parquet",
+                columns=["FL_DATE", "service_date"])
+            validate_run_dates(dates, request.service_date.isoformat())
+        except InputError as exc:
+            raise HTTPException(422, str(exc)) from exc
         try:
             run_id = store.create_run(request.model_dump(mode="json"))
         except RuntimeError as exc:
@@ -312,7 +330,11 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         run = get_run(run_id)
         if run["status"] != "completed":
             raise HTTPException(409, "Lần chạy chưa hoàn tất.")
-        return json.loads((store.root / "runs" / run_id / "result.json").read_text(encoding="utf-8"))
+        from web_dashboard.result_integrity import read_pipeline_result
+        try:
+            return read_pipeline_result(store, run_id)
+        except (ValueError, OSError, KeyError) as exc:
+            raise HTTPException(409, f"Kết quả không vượt kiểm tra: {exc}") from exc
 
     @app.get("/api/runs/{run_id}/exports/{kind}")
     def export(run_id: str, kind: str):
@@ -324,6 +346,11 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         path = store.root / "runs" / run_id / EXPORTS[kind]
         if not path.is_file():
             raise HTTPException(404, "Chưa có file kết quả.")
+        from web_dashboard.exports import verify_exports
+        try:
+            verify_exports(path.parent)
+        except (ValueError, OSError, KeyError) as exc:
+            raise HTTPException(409, f"Export chưa được xác minh; chạy lại pipeline: {exc}") from exc
         return FileResponse(path, filename=f"aeolus_{run_id[:8]}_{path.name}")
 
     from web_dashboard.experiments import (ANALYSIS_VERSION, available_plans, experiment_results, export_experiment, load_plan,
@@ -363,6 +390,8 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
             config = request.model_dump(mode='json')
             config['snapshot_hash'] = snapshot['hash']
             config['solver_protocol_version'] = PROTOCOL_VERSION
+            from web_dashboard.solver_execution import EXECUTION_REVISION
+            config['execution_revision'] = EXECUTION_REVISION
             if request.kind == 'montecarlo':
                 if not has_predictive_uncertainty(snapshot):
                     raise ValueError('Không có nguồn bất định dự báo đã xác minh để lấy mẫu Monte Carlo.')
@@ -400,6 +429,12 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
         if exp['status'] not in ('queued', 'running') and path.exists():
             cached = read_json(path)
             if cached.get('analysis_version') == version_for(exp) and cached['experiment']['completed'] == exp['completed'] and cached['experiment']['status'] == exp['status']:
+                from web_dashboard.exports import verify_exports
+                if exp['config'].get('execution_revision'):
+                    try:
+                        verify_exports(path.parent)
+                    except (ValueError, OSError, KeyError) as exc:
+                        raise HTTPException(409, f'Kết quả thí nghiệm không khớp checksum: {exc}') from exc
                 cached['experiment'] = exp
                 return cached
         return experiment_results(store, eid)
@@ -461,6 +496,11 @@ def create_app(storage_root: Path | None = None, *, launch_jobs: bool = True) ->
             expected = {'analysis_version': version_for(exp), 'completed': exp['completed'], 'status': exp['status']}
             if not path.exists() or not state_path.exists() or read_json(state_path) != expected:
                 export_experiment(store, eid)
+            from web_dashboard.exports import verify_exports
+            try:
+                verify_exports(path.parent)
+            except (ValueError, OSError, KeyError) as exc:
+                raise HTTPException(409, f"Export không khớp checksum: {exc}") from exc
         return FileResponse(path, filename=f'aeolus_{eid[:8]}_{path.name}')
 
     if (DIST / "assets").exists():

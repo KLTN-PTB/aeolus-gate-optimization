@@ -35,9 +35,10 @@ export interface Group {
   convergence: {n: number; feasible_rate: number; on_time_feasible_rate?: number | null}[];
 }
 export interface ExperimentResult {
+  completion?: {requested: number; completed: number; pending: number; complete: boolean; rates_denominator: string};
   experiment: Experiment; cases: Case[]; groups: Group[]; assumptions: string[];
   sampling?: {hash: string; shape: number[]; unique_scenarios: number; arrival_ids: string[]};
-  paired: {a: string; b: string; pairs: number; mean_delta: number | null; ci95: number[] | null}[];
+  paired: {a: string; b: string; pairs: number; mean_delta: number | null; ci95: number[] | null; excluded_unmatched?: number}[];
 }
 export interface OpenPlan {result: Result; label: string; experimentId: string; caseId: string}
 export const running = (e: Experiment | null) => !!e && ['queued', 'running'].includes(e.status);
@@ -47,5 +48,5 @@ export const experimentStatus: Record<string, string> = {queued: 'Đang chờ', 
 export const profileName = (p?: string) => p === 'optimized' ? 'Tối ưu · warm-start' : p === 'baseline' ? 'Baseline · CP-SAT thuần' : 'Lịch sử';
 export const timedOut = (c: Case) => c.status === 'TIMEOUT' || c.termination_reason === 'TIME_LIMIT';
 export const costEligible = (c: Case) => c.solver_protocol_version !== 2 ? c.feasible :
-  c.feasible && c.budget_compliant === true && c.solution_source === 'SOLVER' && !['ERROR', 'CANCELLED'].includes(c.termination_reason || '');
-export const sourceName = (s?: string) => ({SOLVER: 'Nghiệm solver', GREEDY_INITIALIZER: 'Chỉ có nghiệm Greedy khởi tạo', GREEDY_FALLBACK: 'Greedy fallback', NONE: 'Chưa có nghiệm'}[s || ''] || 'Không có dữ liệu');
+  c.feasible && c.budget_compliant === true && (c.solution_source === 'SOLVER' || c.mode === 'fixed' && c.solution_source === 'FIXED_PLAN') && !['ERROR', 'CANCELLED'].includes(c.termination_reason || '');
+export const sourceName = (s?: string) => ({SOLVER: 'Nghiệm solver', FIXED_PLAN: 'Lịch cố định', GREEDY_INITIALIZER: 'Chỉ có nghiệm Greedy khởi tạo', GREEDY_FALLBACK: 'Greedy fallback', NONE: 'Chưa có nghiệm'}[s || ''] || 'Không có dữ liệu');

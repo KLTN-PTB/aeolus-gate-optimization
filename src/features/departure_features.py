@@ -237,6 +237,12 @@ def _parse_schedule_sources(frame: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
             & (numeric == np.floor(numeric))
             & ((numeric % 100) <= 59)
         )
+        # Try general datetime parsing on non-numeric unparsed rows (e.g. ISO strings)
+        unparsed_non_numeric = raw_dep.notna() & departure.isna() & numeric.isna()
+        if bool(unparsed_non_numeric.any()):
+            departure.loc[unparsed_non_numeric] = pd.to_datetime(
+                raw_dep.loc[unparsed_non_numeric], errors="coerce"
+            )
         # Any non-missing that is neither valid timestamp nor valid HHMM is rejected
         invalid_numeric = raw_dep.notna() & departure.isna() & ~numeric_valid
         if bool(invalid_numeric.any()):

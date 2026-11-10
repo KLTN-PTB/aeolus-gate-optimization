@@ -50,8 +50,8 @@ class NativeScheduleEncoder:
             result["days_to_federal_holiday"] = np.minimum(distance, 14)
             result["holiday_window_3d"] = (distance <= 3).astype(np.int8)
         else:
-            result["days_to_federal_holiday"] = pd.Series(dtype=float)
-            result["holiday_window_3d"] = pd.Series(dtype=float)
+            result["days_to_federal_holiday"] = pd.Series(dtype=np.float32)
+            result["holiday_window_3d"] = pd.Series(dtype=np.int8)
         return result
 
     def _keys(self, X):

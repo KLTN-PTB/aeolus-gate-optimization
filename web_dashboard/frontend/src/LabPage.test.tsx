@@ -6,7 +6,7 @@ import { GatePage } from './GatePage';
 import { Gantt } from './charts';
 import { api } from './api';
 import { defaults, type Result } from './types';
-import type { Experiment, ExperimentResult } from './experimentTypes';
+import {costEligible, sourceName, type Experiment, type ExperimentResult} from './experimentTypes';
 
 vi.mock('./api', () => ({api: vi.fn()}));
 const call = vi.mocked(api);
@@ -39,6 +39,26 @@ beforeEach(() => {
     if (path.includes('/plans/')) return output;
     throw Error(path);
   });
+});
+
+it('distinguishes fixed-plan evaluation from solver output eligibility', () => {
+  const fixed = {...result.cases[0], mode: 'fixed', solver_protocol_version: 2, budget_compliant: true,
+    solution_source: 'FIXED_PLAN', termination_reason: 'FIXED_PLAN'};
+  expect(costEligible(fixed)).toBe(true);
+  expect(sourceName('FIXED_PLAN')).toBe('Lịch cố định');
+  expect(costEligible({...fixed, mode: 'recourse'})).toBe(false);
+  expect(costEligible({...fixed, budget_compliant: false})).toBe(false);
+});
+
+it('states the completed-case denominator for partial results', async () => {
+  call.mockImplementation(async path => {
+    if (path.endsWith('/plans')) return {ready: true, plans: []};
+    if (path.endsWith('/experiments')) return [experiment];
+    if (path.endsWith('/results')) return {...result, completion: {requested: 10, completed: 1, pending: 9, complete: false, rates_denominator: 'completed_cases'}};
+    throw Error(path);
+  });
+  render(<LabPage kind="benchmark" runId={rid} result={output}/>);
+  expect(await screen.findByText(/Thống kê trên 1\/10 lượt đã ghi nhận; còn 9/)).toBeTruthy();
 });
 afterEach(cleanup);
 

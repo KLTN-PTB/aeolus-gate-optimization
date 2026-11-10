@@ -39,7 +39,10 @@ class Store:
     def dataset(self, dataset_id: str):
         with self.connect() as db:
             row = db.execute("SELECT payload FROM datasets WHERE id=?", (dataset_id,)).fetchone()
-        return json.loads(row[0]) if row else None
+        if not row:
+            return None
+        from web_dashboard.normalization import dataset_eligibility
+        return dataset_eligibility(json.loads(row[0]))
 
     def create_run(self, config: dict):
         with self.connect() as db:
@@ -96,6 +99,10 @@ class Store:
         return [self.experiment(i) for i in ids]
 
     def create_experiment(self, run_id, config, total):
+        config = dict(config)
+        if config.get('solver_protocol_version') == 2:
+            from web_dashboard.solver_execution import EXECUTION_REVISION
+            config.setdefault('execution_revision', EXECUTION_REVISION)
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
             if self.busy(db):
@@ -123,8 +130,9 @@ class Store:
             db.execute("UPDATE experiments SET status='queued',cancel_requested=0,error=NULL WHERE id=?", (eid,))
 
     def cases(self, eid):
+        from web_dashboard.result_integrity import legacy_proof_view
         with self.connect() as db:
-            return [json.loads(r[0]) for r in db.execute('SELECT payload FROM experiment_cases WHERE experiment_id=? ORDER BY case_id', (eid,))]
+            return [legacy_proof_view(json.loads(r[0])) for r in db.execute('SELECT payload FROM experiment_cases WHERE experiment_id=? ORDER BY case_id', (eid,))]
 
     def put_case(self, eid, case):
         with self.connect() as db:

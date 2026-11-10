@@ -91,6 +91,10 @@ class ThesisBundle:
 
     def predict_schedule(self, raw):
         frame = prepare_frame(raw, self.task, inference=True)
+        return self.predict_prepared_schedule(frame)
+
+    def predict_prepared_schedule(self, frame):
+        """Predict from a validated, label-free frame in this bundle's contract."""
         result = pd.DataFrame({"flight_key": frame["__key"]})
         if self.kind == "classification":
             result["p_delay"] = self.predict_proba(frame)[:, 1]
@@ -117,12 +121,12 @@ class CalibratedPredictor:
         self.calibrator = IsotonicRegression(out_of_bounds="clip") if method == "isotonic" else LogisticRegression()
 
     def fit_calibration(self, x, y):
-        raw = self.base_estimator.predict_proba(x)[:, 1]
+        raw = positive_probability(self.base_estimator, x)
         self.calibrator.fit(raw if self.method == "isotonic" else raw.reshape(-1, 1), y)
         return self
 
     def predict_proba(self, x):
-        raw = self.base_estimator.predict_proba(x)[:, 1]
+        raw = positive_probability(self.base_estimator, x)
         if self.method == "isotonic":
             p = self.calibrator.predict(raw)
         else:

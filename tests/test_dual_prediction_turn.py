@@ -444,3 +444,65 @@ class TestInvariantsExhaustiveSweep:
         assert flight.min_turnaround_min == 45
         assert flight.buffer_min == 15
         assert flight.is_paired is True
+
+    def test_missing_leg_in_synthesize_turn_fails_closed(self, base_legs, paired_turn):
+        engine = DualTurnEngine(min_turnaround_min=45, separation_buffer_min=15)
+        with pytest.raises(ValueError, match="Missing departure leg"):
+            engine.synthesize_turn(
+                pair=paired_turn,
+                legs={"LEG_ARR_1": base_legs["LEG_ARR_1"]},
+                arrival_prediction=0.0,
+                departure_prediction=0.0,
+                mode=SimulationMode.DUAL_POINT,
+            )
+
+    def test_gate_simulator_overflow_monotonic_and_unclamped_peak(self):
+        from src.simulation.gate_simulator import GateSimulator
+        from src.simulation.turn_synthesis import SyntheticTurn
+
+        sim = GateSimulator(n_contact_gates=1, buffer_minutes=0.0)
+        turns = [
+            SyntheticTurn(
+                flight_key="T1",
+                carrier="DL",
+                flight_number="100",
+                scheduled_arrival_min=100.0,
+                scheduled_departure_min=300.0,
+                simulated_arrival_min=100.0,
+                simulated_departure_min=300.0,
+                gate_arrival_min=100.0,
+                gate_release_min=300.0,
+                nominal_dwell_min=200.0,
+                realized_turnaround_min=200.0,
+            ),
+            SyntheticTurn(
+                flight_key="T2",
+                carrier="DL",
+                flight_number="101",
+                scheduled_arrival_min=120.0,
+                scheduled_departure_min=180.0,
+                simulated_arrival_min=120.0,
+                simulated_departure_min=180.0,
+                gate_arrival_min=120.0,
+                gate_release_min=180.0,
+                nominal_dwell_min=60.0,
+                realized_turnaround_min=60.0,
+            ),
+        ]
+        nominal = sim.build_nominal_schedule_plan(turns)
+        res = sim.evaluate_nominal_plan_under_delays(turns, nominal, scenario_id=0)
+        assert res.peak_concurrent_occupancy == 2
+
+    def test_bts_daily_replay_infer_complete_turns_no_leg_reuse(self):
+        from src.simulation.bts_daily_replay import infer_complete_turns
+
+        events = [
+            {"tail_number": "N100DL", "actual_event_min": 500, "direction": "ARR", "carrier": "DL", "movement_id": "Z_ARR"},
+            {"tail_number": "N100DL", "actual_event_min": 560, "direction": "DEP", "carrier": "DL", "movement_id": "A_DEP"},
+            {"tail_number": "N100DL", "actual_event_min": 560, "direction": "ARR", "carrier": "DL", "movement_id": "B_ARR"},
+            {"tail_number": "N100DL", "actual_event_min": 620, "direction": "DEP", "carrier": "DL", "movement_id": "C_DEP"},
+        ]
+        turns = infer_complete_turns(events)
+        assert len(turns) == 2
+        used = [t["arrival"]["movement_id"] for t in turns] + [t["departure"]["movement_id"] for t in turns]
+        assert len(used) == len(set(used))

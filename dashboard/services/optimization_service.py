@@ -3,6 +3,7 @@
 Adheres strictly to the P10-00 concrete API signatures. Never executes on module import.
 """
 
+from dataclasses import replace
 import time
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -98,19 +99,35 @@ class OptimizationService:
                 "Silent fallback to CP-SAT is rejected under UI-R02 safety rules."
             )
 
+        # Apply user-configured separation buffer to flight occupancy windows
+        solve_flights = [
+            replace(f, buffer_min=buffer_min) if f.buffer_min != buffer_min else f
+            for f in flights
+        ]
+
         # 4. Timed execution
         t0 = time.perf_counter()
-        raw_result = solver.solve(flights, gates, allow_overflow=allow_overflow)
+        raw_result = solver.solve(solve_flights, gates, allow_overflow=allow_overflow)
         t_elapsed = time.perf_counter() - t0
 
-        # Check solver-level fallback (CP-SAT fallback to greedy)
+        # Check solver-level fallback (CP-SAT or Hybrid fallback to greedy)
         raw_cfg = getattr(raw_result, "solver_configuration", {})
-        fallback_used = bool(raw_cfg.get("fallback_used", False) if isinstance(raw_cfg, dict) else False)
+        fallback_used = bool(
+            (
+                raw_cfg.get("fallback_used", False)
+                or (
+                    raw_cfg.get("initial_solution_source") == "GREEDY_FALLBACK"
+                    and not raw_cfg.get("sa_improved", False)
+                )
+            )
+            if isinstance(raw_cfg, dict)
+            else False
+        )
         effective_solver_name = "Deterministic Greedy" if fallback_used else actual_solver_name
 
         # 5. Independent Hard Constraint Verification
         diag = verify_hard_constraints_independently(
-            flights=flights,
+            flights=solve_flights,
             gates=gates,
             assignments=raw_result.assignments,
         )

@@ -100,7 +100,7 @@ def evaluate_gate_assignment(
         # B. Overflow penalty (remote stand / apron)
         if is_overflow:
             total_overflow_cost += cfg.overflow_weight
-            if fl.nominal_gate_id is not None:
+            if fl.nominal_gate_id is not None and assign.gate_id != fl.nominal_gate_id:
                 total_reassignment_cost += cfg.reassignment_weight
 
         # C. Delay cost (exogenous flight reporting context)

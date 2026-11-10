@@ -43,19 +43,23 @@ def solve_budgeted_hybrid(solver, flights, gates, *, allow_overflow, deadline,
             'stage': 'hybrid', 'initial_solution_source': source})
     sa_started = time.perf_counter()
     sa_result = None
+    sa_improved = False
     if incumbent.feasible and sa_started < deadline:
         sa_result = SimulatedAnnealingGateSolver(cfg, solver.sa_config).solve(flights, gates,
             initial_assignments=incumbent.assignments, allow_overflow=allow_overflow,
             deadline_perf_counter=deadline, progress_callback=progress_callback)
         if sa_result.feasible and sa_result.objective_value <= incumbent.objective_value + 1e-9:
+            sa_improved = bool(sa_result.objective_value < incumbent.objective_value - 1e-9)
             incumbent = sa_result
     sa_ms = (time.perf_counter()-sa_started)*1000
+    sa_iters = sa_result.solver_configuration.get('sa_iterations', 0) if sa_result is not None else 0
     proven = bool(cp_result is not None and cp_result.optimality_proven and incumbent.feasible
                   and abs(incumbent.objective_value-cp_result.objective_value)<1e-9)
     timed_out = time.perf_counter() >= deadline
     reason = 'OPTIMAL_PROVEN' if proven else ('TIME_LIMIT' if timed_out else 'FEASIBLE_FOUND' if incumbent.feasible else 'NO_FEASIBLE_SOLUTION')
     cp_trace = cp_result.solver_configuration if cp_result is not None else {}
     trace = {**incumbent.solver_configuration, 'solver_name': 'HybridCPSatSA',
+        'cp_objective_encoding': cp_trace.get('objective_encoding'),
         'model_construction_ms': cp_trace.get('model_construction_ms'),
         'search_time_ms': cp_trace.get('search_time_ms', 0) + sa_ms,
         'warm_start_used': cp_trace.get('warm_start_used', False),
@@ -63,8 +67,10 @@ def solve_budgeted_hybrid(solver, flights, gates, *, allow_overflow, deadline,
         'initial_solution_source': source, 'cp_solver_status': cp_result.status if cp_result is not None else 'TIMEOUT_NO_SOLUTION',
         'stage1_wall_clock_ms': cp_ms, 'stage2_wall_clock_ms': sa_ms,
         'initial_cost': initial_cost, 'final_cost': incumbent.objective_value,
-        'sa_iterations': sa_result.solver_configuration.get('sa_iterations', 0) if sa_result is not None else 0,
-        'sa_executed': sa_result is not None, 'fallback_used': source == 'GREEDY_FALLBACK',
+        'sa_iterations': sa_iters,
+        'sa_executed': sa_result is not None and sa_iters > 0,
+        'sa_improved': sa_improved,
+        'fallback_used': source == 'GREEDY_FALLBACK',
         'termination_reason': reason}
     return replace(incumbent, status='OPTIMAL' if proven else 'FEASIBLE' if incumbent.feasible else 'UNKNOWN',
         normalized_status=None, raw_solver_status=trace['cp_solver_status'],

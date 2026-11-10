@@ -19,6 +19,7 @@ Enforces:
 
 from __future__ import annotations
 
+from dataclasses import replace
 import logging
 from typing import TYPE_CHECKING, Any, Mapping, Sequence
 
@@ -207,6 +208,13 @@ class DualCoreGateOptimizerAdapter:
                 "Independent hard constraint audit failed: violations=%d, conflicts=%d",
                 diag.hard_constraint_violations_count,
                 diag.conflict_count,
+            )
+            result = replace(
+                result,
+                feasible=False,
+                status="INFEASIBLE",
+                optimality_proven=False,
+                constraint_diagnostics=diag,
             )
 
         return result

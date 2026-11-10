@@ -129,7 +129,7 @@ class GateSimulator:
                 # Fallback: assign to gate with earliest release time
                 earliest_g = int(np.argmin(gate_available_at))
                 assigned_gate = earliest_g
-                gate_available_at[earliest_g] = end
+                gate_available_at[earliest_g] = max(gate_available_at[earliest_g], end)
 
             nominal_assignments[turn.flight_key] = assigned_gate
 
@@ -429,4 +429,4 @@ class GateSimulator:
         # Utilization: total occupied gate-minutes / (n_contact_gates * span_minutes)
         utilization = float(total_occupied_minutes / (self.n_contact_gates * span_minutes))
 
-        return int(min(peak_occ, self.n_contact_gates)), float(np.clip(utilization, 0.0, 1.0))
+        return int(peak_occ), float(np.clip(utilization, 0.0, 1.0))

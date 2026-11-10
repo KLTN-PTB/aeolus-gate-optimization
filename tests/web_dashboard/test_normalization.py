@@ -14,7 +14,8 @@ def normalize(tmp_path, table):
 
 def test_schedule_only_normalization_and_pairing(tmp_path, raw_table):
     table, report = normalize(tmp_path, raw_table)
-    assert report["can_run"] and report["dates"] == [{"date": "2026-07-01", "arrivals": 2, "departures": 2, "total": 4}]
+    assert report["can_run"] and report["dates"] == [{"date": "2026-07-01", "arrivals": 2, "departures": 2, "total": 4,
+                                                    "eligible": True, "blocked_reason": None}]
     pairs = pair_schedule_legs(make_legs(table, "2026-07-01"), 45)
     assert len(pairs) == 3
     assert sum(pair.is_paired for pair in pairs) == 1
@@ -58,6 +59,24 @@ def test_no_carrier_only_pairing(tmp_path, raw_table):
     raw_table["TAIL_NUM"] = None
     table, _ = normalize(tmp_path, raw_table)
     assert len(pair_schedule_legs(make_legs(table, "2026-07-01"), 45)) == 4
+    raw_table["TAIL_NUM"] = ["nan", "None", "<NA>", "   "]
+    table_nulls, _ = normalize(tmp_path, raw_table)
+    assert table_nulls["TAIL_NUM"].isna().all()
+    assert len(pair_schedule_legs(make_legs(table_nulls, "2026-07-01"), 45)) == 4
+
+
+def test_zero_dwell_same_tail_pairs_regardless_of_flight_id_order(tmp_path, raw_table):
+    from dataclasses import replace
+    table, _ = normalize(tmp_path, raw_table.head(2).copy())
+    legs = make_legs(table, "2026-07-01")
+    arr_leg = next(leg for leg in legs.values() if leg.direction.value == "ARR")
+    dep_leg = next(leg for leg in legs.values() if leg.direction.value == "DEP")
+    custom_legs = {
+        "zzz_arr": replace(arr_leg, flight_id="zzz_arr", normalized_timeline_min=600.0),
+        "aaa_dep": replace(dep_leg, flight_id="aaa_dep", normalized_timeline_min=600.0),
+    }
+    pairs = pair_schedule_legs(custom_legs, 45)
+    assert len(pairs) == 1 and pairs[0].is_paired
 
 
 def test_calendar_conflict_and_fractional_clock_fail(tmp_path, raw_table):

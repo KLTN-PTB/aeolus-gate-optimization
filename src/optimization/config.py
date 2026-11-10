@@ -75,6 +75,8 @@ class GateOptimizationConfig:
             raise ValueError(f"time_limit_seconds must be a positive finite float, got {self.time_limit_seconds}")
         if not isinstance(self.scale_factor, int) or self.scale_factor <= 0:
             raise ValueError(f"scale_factor must be a positive integer, got {self.scale_factor}")
+        from src.optimization.objective_encoding import encode_objective
+        encode_objective(self.reassignment_weight, self.overflow_weight, self.scale_factor)
         if self.min_turnaround_minutes < 0:
             raise ValueError(f"min_turnaround_minutes must be >= 0, got {self.min_turnaround_minutes}")
         if self.default_dwell_minutes < 0:

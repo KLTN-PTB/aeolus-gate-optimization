@@ -79,6 +79,8 @@ def prepared(tmp_path, raw_table):
     app = create_app(tmp_path / 'runtime', launch_jobs=False)
     store = app.state.store
     did = 'a'*32
+    (store.root / 'datasets' / did).mkdir(parents=True)
+    frame.to_parquet(store.root / 'datasets' / did / 'normalized.parquet', index=False)
     store.put_dataset(did, report)
     cfg = RunRequest(dataset_id=did, service_date='2026-07-01', preset='custom', contact_gates=3, solver='greedy')
     rid = store.create_run(cfg.model_dump(mode='json'))
@@ -181,7 +183,7 @@ def test_new_experiments_pin_profile_and_protocol_and_reject_unknown_profile(pre
         execute(store.root,second['id'])
         a=client.get(f"/api/experiments/{first['id']}/results").json()
         b=client.get(f"/api/experiments/{second['id']}/results").json()
-        assert a['analysis_version']==b['analysis_version']==3
+        assert a['analysis_version']==b['analysis_version']==4
         assert a['groups'][0]['key']!=b['groups'][0]['key']
         assert a['groups'][0]['mean']==b['groups'][0]['mean']
 
@@ -219,7 +221,8 @@ def test_initializer_plan_is_labeled_as_greedy_and_not_ranked_as_cp(prepared,mon
     def expire(*a,**k):raise SolverDeadlineExceeded()
     monkeypatch.setattr(CPSatGateSolver,'solve',expire)
     p={**payload('cpsat'),'flights':snap['flights'],'gates':snap['gates'],'solver_config':snap['solver_config'],
-       'solver_protocol_version':2,'solver_profile':'optimized','snapshot_hash':snap['hash'],'case_id':cid}
+       'solver_protocol_version':2,'solver_profile':'optimized','snapshot_hash':snap['hash'],'case_id':cid,
+       'initial':None,'execution_revision':store.experiment(eid)['config']['execution_revision']}
     case=solve_case(p)
     assert case['feasible'] and case['solution_source']=='GREEDY_INITIALIZER'
     directory=store.root/'experiments'/eid;directory.mkdir(parents=True)
